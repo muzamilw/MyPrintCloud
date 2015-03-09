@@ -88,6 +88,7 @@ namespace MPC.Implementation.MISServices
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ISmartFormDetailRepository smartFormDetailRepository;
+        private readonly IMediaLibraryRepository mediaLibraryRepository;
 
         #endregion
 
@@ -1005,7 +1006,7 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges();//todo third external savechanges
 
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
@@ -1173,7 +1174,7 @@ namespace MPC.Implementation.MISServices
         }
         private void UpdateStoreWorkflowImage(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            if (companySavingModel.Company.isTextWatermark == false )
+            if (companySavingModel.Company.isTextWatermark == false)
             {
                 companyDbVersion.WatermarkText = SaveStoreWorkflowImage(companySavingModel);
             }
@@ -1217,7 +1218,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-              //  companyRepository.SaveChanges();
+                //  companyRepository.SaveChanges();
             }
         }
 
@@ -1687,7 +1688,7 @@ namespace MPC.Implementation.MISServices
                     //cmsPageRepository.SaveChanges();
                 }
             }
-           // companyRepository.SaveChanges();
+            // companyRepository.SaveChanges();
 
             //Update Page Category List Items
             if (companySavingModel.PageCategories != null)
@@ -2159,9 +2160,9 @@ namespace MPC.Implementation.MISServices
                     {
                         fi.IsReadOnly = false;
                         fi.Delete();
-                    } 
+                    }
                 }
-                
+
                 string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_Watermark.png";
                 File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
@@ -2202,10 +2203,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            //fieldVariableRepository.SaveChanges();
-
-
-
+            
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
                 IEnumerable<CompanyContact> companyContacts =
@@ -2217,17 +2215,16 @@ namespace MPC.Implementation.MISServices
                         ScopeVariable scopeVariable = new ScopeVariable();
 
                         scopeVariable.ScopeVariableId = 0;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Scope = fieldVariable.Scope;
                         scopeVariable.Id = contact.ContactId;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
+                        fieldVariable.ScopeVariables.Add(scopeVariable);
                     }
-                   // scopeVariableRepository.SaveChanges();
                 }
             }
 
+            fieldVariableRepository.SaveChanges();
             return fieldVariable.VariableId;
         }
 
@@ -2295,12 +2292,11 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                //fieldVariableRepository.SaveChanges();
+                fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
@@ -2415,10 +2411,12 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
+            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
+            this.mediaLibraryRepository = mediaLibraryRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
             this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
@@ -2540,25 +2538,25 @@ namespace MPC.Implementation.MISServices
             smartFormRequest.CompanyId = storeId;
 
             return new CompanyBaseResponse
-                   {
-                       //SystemUsers = systemUserRepository.GetAll(),
-                       CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
-                       //CompanyContactRoles = companyContactRoleRepository.GetAll(),
-                      // PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
-                      // RegistrationQuestions = registrationQuestionRepository.GetAll(),
-                       Addresses = addressRepository.GetAllAddressByStoreId(storeId),
-                      // PaymentMethods = paymentMethodRepository.GetAll().ToList(),
-                       //EmailEvents = emailEventRepository.GetAll(),
-                       //Widgets = widgetRepository.GetAll(),
-                      // CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
-                      // States = stateRepository.GetAll(),
-                      // Countries = countryRepository.GetAll(),
-                       FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
-                       SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
-                       FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                      // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+            {
+                //SystemUsers = systemUserRepository.GetAll(),
+                CompanyTerritories = companyTerritoryRepository.GetAllCompanyTerritories(storeId),
+                //CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                // PageCategories = pageCategoryRepository.GetCmsSecondaryPageCategories(),
+                // RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                Addresses = addressRepository.GetAllAddressByStoreId(storeId),
+                // PaymentMethods = paymentMethodRepository.GetAll().ToList(),
+                //EmailEvents = emailEventRepository.GetAll(),
+                //Widgets = widgetRepository.GetAll(),
+                // CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId().ToList(),//GetAllCompanyCentersByCompanyId
+                // States = stateRepository.GetAll(),
+                // Countries = countryRepository.GetAll(),
+                FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
+                SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
+                FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
+                // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
 
-                   };
+            };
         }
 
         /// <summary>
@@ -2776,19 +2774,18 @@ namespace MPC.Implementation.MISServices
         #endregion
 
         #region ExportOrganisation
-        public ExportOrganisation exportRoutine1(long OrganisationID)
+        public void ExportOrganisationRoutine1(long OrganisationID, ExportSets sets)
         {
             string DPath = string.Empty;
+
             ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
             //  Organisation organisation = new Organisation();
             //  List<CostCentre> costCentre = new List<CostCentre>();
             List<CostCentreMatrixDetail> costCentreMatrixDetail = new List<CostCentreMatrixDetail>();
             List<CostCentreAnswer> CostCentreAnswers = new List<CostCentreAnswer>();
-            List<StockCategory> StockCategories = new List<StockCategory>();
-            List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
-            List<StockItem> StockItems = new List<StockItem>();
+
             List<CostCenterChoice> CostCenterChoice = new List<CostCenterChoice>();
-            List<PhraseField> PhraseField = new List<PhraseField>();
+
 
 
 
@@ -2902,12 +2899,37 @@ namespace MPC.Implementation.MISServices
 
             }
 
-            // cost centre choices is missing
+            // cost centre choices 
             ObjExportOrg.CostCenterChoice = CostCenterChoice;
+
+
+            string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            // export json file
+            string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson1.txt";
+            System.IO.File.WriteAllText(sOrgPath, Json);
+
+            Json = string.Empty;
+            sets.ExportOrganisationSet1 = ObjExportOrg;
+
+            ObjExportOrg = null;
+            GC.Collect();
+
+
+
+        }
+
+
+        public void ExportOrganisationRoutine2(long OrganisationID, ExportSets sets)
+        {
+            List<StockCategory> StockCategories = new List<StockCategory>();
+            List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
+
+
+            ExportOrganisation exOrg = new Models.Common.ExportOrganisation();
 
             // get stockcategories based on organisation ID
             StockCategories = StockCategoryRepository.GetStockCategoriesByOrganisationID(OrganisationID);
-            ObjExportOrg.StockCategory = StockCategories;
+            exOrg.StockCategory = StockCategories;
 
 
             List<StockSubCategory> lstSubCategory = new List<StockSubCategory>();
@@ -2923,24 +2945,121 @@ namespace MPC.Implementation.MISServices
 
                             lstSubCategory.Add(stockSubCat);
                         }
-                        ObjExportOrg.StockSubCategory = lstSubCategory;
+                        exOrg.StockSubCategory = lstSubCategory;
                     }
                 }
             }
 
 
+
+            // Delivery carriers structure is not defined yet
+
+
+            // reports 
+            exOrg.Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
+
+            exOrg.ReportNote = ReportRepository.GetReportNotesByOrganisationID(OrganisationID);
+
+
+            string Json2 = JsonConvert.SerializeObject(exOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            // export json file
+            string sOrgPath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson2.txt";
+            System.IO.File.WriteAllText(sOrgPath2, Json2);
+
+            Json2 = string.Empty;
+
+            StockCategories = null;
+            StockSubCategories = null;
+            sets.ExportOrganisationSet2 = exOrg;
+            exOrg = null;
+            GC.Collect();
+
+        }
+
+        public void ExportOrganisationRoutine3(long OrganisationID, ExportSets sets)
+        {
+            ExportOrganisation exOrg2 = new Models.Common.ExportOrganisation();
+
+            List<PhraseField> PhraseField = new List<PhraseField>();
+            // get prefixes based on organisationID
+            exOrg2.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
+
+            // get machines by organisation id
+            exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
+
+            // get lookupmethods by organisationid
+            exOrg2.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
+
+
+            // Phrases of organisation
+            exOrg2.PhraseField = PhraseFieldRepository.GetPhraseFieldsByOrganisationID(OrganisationID);
+
+
+            // organisationID in phrase fields
+            List<Phrase> lstPhrase = new List<Phrase>();
+            if (exOrg2.PhraseField != null)
+            {
+                foreach (var phrase in exOrg2.PhraseField)
+                {
+
+                    if (phrase.Phrases != null && phrase.Phrases.Count > 0)
+                    {
+                        foreach (var p in phrase.Phrases)
+                        {
+                            lstPhrase.Add(p);
+
+                        }
+                        exOrg2.Phrases = lstPhrase;
+                    }
+                }
+            }
+
+
+            // section flags of organisation
+            exOrg2.SectionFlags = sectionFlagRepository.GetSectionFlagsByOrganisationID(OrganisationID);
+
+            // organisation = null;
+            //  costCentre = null;
+
+
+            PhraseField = null;
+
+            string Json3 = JsonConvert.SerializeObject(exOrg2, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            // export json file
+            string sOrgPath3 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson3.txt";
+            System.IO.File.WriteAllText(sOrgPath3, Json3);
+            // Comapny Entities
+            Json3 = String.Empty;
+            GC.Collect();
+            sets.ExportOrganisationSet3 = exOrg2;
+            exOrg2 = null;
+
+
+        }
+
+        public void ExportOrganisationRoutine4(long OrganisationID, ExportSets sets)
+        {
+            ExportOrganisation exOrg = new Models.Common.ExportOrganisation();
+
             // get stockitems based on organisationID
-            StockItems = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
-            ObjExportOrg.StockItem = StockItems;
+            exOrg.StockItem = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
+            if (exOrg.StockItem != null)
+            {
+                exOrg.StockItem.ForEach(s => s.ItemSections = null);
+                exOrg.StockItem.ForEach(s => s.ItemStockOptions = null);
+                exOrg.StockItem.ForEach(s => s.SectionCostCentreDetails = null);
+                exOrg.StockItem.ForEach(s => s.StockCategory = null);
+                exOrg.StockItem.ForEach(s => s.StockSubCategory = null);
+            }
 
 
             // set stock sale and price]
             List<StockCostAndPrice> lstSCP = new List<StockCostAndPrice>();
-            if (StockItems != null)
+            if (exOrg.StockItem != null)
             {
-                if (StockItems.Count > 0)
+                if (exOrg.StockItem.Count > 0)
                 {
-                    foreach (var stock in StockItems)
+                    foreach (var stock in exOrg.StockItem)
                     {
 
                         if (stock.StockCostAndPrices != null)
@@ -2951,80 +3070,27 @@ namespace MPC.Implementation.MISServices
                                 {
                                     lstSCP.Add(costP);
                                 }
-                                ObjExportOrg.StockCostAndPrice = lstSCP;
+                                exOrg.StockCostAndPrice = lstSCP;
                             }
                         }
                     }
                 }
             }
 
-            // Delivery carriers structure is not defined yet
 
 
-            // reports 
-            ObjExportOrg.Reports = ReportRepository.GetReportsByOrganisationID(OrganisationID);
-
-            ObjExportOrg.ReportNote = ReportRepository.GetReportNotesByOrganisationID(OrganisationID);
-
-            // get prefixes based on organisationID
-            ObjExportOrg.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
-
-            // get machines by organisation id
-            ObjExportOrg.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
-
-            // get lookupmethods by organisationid
-            ObjExportOrg.LookupMethods = MachineRepository.getLookupmethodsbyOrganisationID(OrganisationID);
-
-
-            // Phrases of organisation
-            PhraseField = PhraseFieldRepository.GetPhraseFieldsByOrganisationID(OrganisationID);
-            ObjExportOrg.PhraseField = PhraseField;
-
-            // organisationID in phrase fields
-            List<Phrase> lstPhrase = new List<Phrase>();
-            if (PhraseField != null)
-            {
-                foreach (var phrase in PhraseField)
-                {
-
-                    if (phrase.Phrases != null && phrase.Phrases.Count > 0)
-                    {
-                        foreach (var p in phrase.Phrases)
-                        {
-                            lstPhrase.Add(p);
-
-                        }
-                        ObjExportOrg.Phrases = lstPhrase;
-                    }
-                }
-            }
-
-
-            // section flags of organisation
-            ObjExportOrg.SectionFlags = sectionFlagRepository.GetSectionFlagsByOrganisationID(OrganisationID);
-
-            // organisation = null;
-            //  costCentre = null;
-            costCentreMatrixDetail = null;
-            CostCentreAnswers = null;
-
-            StockCategories = null;
-            StockSubCategories = null;
-            StockItems = null;
-            CostCenterChoice = null;
-            PhraseField = null;
-
-            string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            string Json4 = JsonConvert.SerializeObject(exOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             // export json file
-            string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson.txt";
-            System.IO.File.WriteAllText(sOrgPath, Json);
-            // Comapny Entities
-            Json = String.Empty;
+            string sOrgPath4 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson4.txt";
+            System.IO.File.WriteAllText(sOrgPath4, Json4);
+
+            Json4 = string.Empty;
+
+            sets.ExportOrganisationSet4 = exOrg;
+            exOrg = null;
             GC.Collect();
-            return ObjExportOrg;
 
         }
-
         public void ExportOrganisation(long OrganisationID)
         {
             try
@@ -3032,8 +3098,15 @@ namespace MPC.Implementation.MISServices
                 #region OrganisationEntities
                 string DPath = string.Empty;
                 ExportOrganisation ObjExportOrg = new Models.Common.ExportOrganisation();
-                ObjExportOrg = exportRoutine1(OrganisationID);
+                ExportSets objSets = new ExportSets();
 
+                ExportOrganisationRoutine1(OrganisationID, objSets);
+
+                ExportOrganisationRoutine2(OrganisationID, objSets);
+
+                ExportOrganisationRoutine3(OrganisationID, objSets);
+
+                ExportOrganisationRoutine4(OrganisationID, objSets);
                 ExportOrganisation ObjExportCorporate = new Models.Common.ExportOrganisation();
                 // Set CompanyData
                 long CompanyID = companyRepository.GetCorporateCompanyIDbyOrganisationID(OrganisationID);
@@ -3041,7 +3114,11 @@ namespace MPC.Implementation.MISServices
                 long RetailCompanyID = companyRepository.GetRetailCompanyIDbyOrganisationID(OrganisationID);
 
                 // export corporate store
-                ObjExportCorporate = companyRepository.ExportCompany(CompanyID);
+                if (CompanyID > 0 && CompanyID != null)
+                {
+                    ObjExportCorporate = companyRepository.ExportCompany(CompanyID);
+                }
+
 
 
                 string JsonCorp = JsonConvert.SerializeObject(ObjExportCorporate, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
@@ -3049,9 +3126,13 @@ namespace MPC.Implementation.MISServices
                 string sCorpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson.txt";
                 System.IO.File.WriteAllText(sCorpPath, JsonCorp);
 
+                ExportSets ObjExportRetail = new Models.Common.ExportSets();
+                if (RetailCompanyID > 0 && RetailCompanyID != null)
+                {
 
-                ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
-                ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID, DPath, null);
+                    ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID);
+                }
+
 
 
                 #endregion
@@ -3059,7 +3140,7 @@ namespace MPC.Implementation.MISServices
 
                 #region ExportFiles
 
-                CopyFiles(ObjExportOrg, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID);
+                CopyFiles(objSets, ObjExportCorporate, ObjExportRetail, DPath, OrganisationID, CompanyID, RetailCompanyID);
 
                 #endregion
 
@@ -3073,16 +3154,34 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        public void CopyFiles(ExportOrganisation ObjExportOrg, ExportOrganisation ObjExportCorporate, ExportOrganisation ObjExportRetail, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID)
+        public void CopyFiles(ExportSets ExportSets, ExportOrganisation ObjExportCorporate, ExportSets ObjExportRetailSet, string DPath, long OrganisationID, long CompanyID, long RetailCompanyID)
         {
             try
             {
                 using (ZipFile zip = new ZipFile())
                 {
-                    string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson.txt";
+                    string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson1.txt";
                     if (File.Exists(sOrgPath))
                     {
                         ZipEntry r = zip.AddFile(sOrgPath, "");
+                        r.Comment = "Json File for an organisation";
+                    }
+                    string sOrgPath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson2.txt";
+                    if (File.Exists(sOrgPath2))
+                    {
+                        ZipEntry r = zip.AddFile(sOrgPath2, "");
+                        r.Comment = "Json File for an organisation";
+                    }
+                    string sOrgPath3 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson3.txt";
+                    if (File.Exists(sOrgPath3))
+                    {
+                        ZipEntry r = zip.AddFile(sOrgPath3, "");
+                        r.Comment = "Json File for an organisation";
+                    }
+                    string sOrgPath4 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson4.txt";
+                    if (File.Exists(sOrgPath4))
+                    {
+                        ZipEntry r = zip.AddFile(sOrgPath4, "");
                         r.Comment = "Json File for an organisation";
                     }
                     string sCorpPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson.txt";
@@ -3136,6 +3235,9 @@ namespace MPC.Implementation.MISServices
                     }
 
                     // export MIS logo in Organisation
+                    ExportOrganisation ObjExportOrg = new ExportOrganisation();
+                    ObjExportOrg = ExportSets.ExportOrganisationSet1;
+
                     if (ObjExportOrg.Organisation != null)
                     {
 
@@ -3195,11 +3297,14 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                    ObjExportOrg = null;
+                    ExportOrganisation ObExportOrg2 = new ExportOrganisation();
+                    ObExportOrg2 = ExportSets.ExportOrganisationSet2;
                     //// export report banner
-                    if (ObjExportOrg.ReportNote != null && ObjExportOrg.ReportNote.Count > 0)
+                    if (ObExportOrg2.ReportNote != null && ObExportOrg2.ReportNote.Count > 0)
                     {
 
-                        foreach (var report in ObjExportOrg.ReportNote)
+                        foreach (var report in ObExportOrg2.ReportNote)
                         {
                             if (report.ReportBanner != null)
                             {
@@ -3214,6 +3319,7 @@ namespace MPC.Implementation.MISServices
                             }
                         }
                     }
+                    ObExportOrg2 = null;
                     // export corporate company Flow
                     if (ObjExportCorporate.Company != null)
                     {
@@ -3382,21 +3488,88 @@ namespace MPC.Implementation.MISServices
 
                                         }
                                     }
-                                    if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
-                                    {
-                                        foreach (var itemAttach in item.ItemAttachments)
-                                        {
 
-                                            string FilePath = HttpContext.Current.Server.MapPath(itemAttach.FolderPath);
-                                            DPath = "/Attachments/" + OrganisationID + "/" + item.ItemId;
-                                            if (File.Exists(FilePath))
+                                    if (item.TemplateId != null && item.TemplateId > 0)
+                                    {
+                                        if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                        {
+                                            if (ObjExportCorporate.TemplateFonts != null && ObjExportCorporate.TemplateFonts.Count > 0)
                                             {
-                                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                                r.Comment = "Items image for Store";
+                                                foreach (var tempFont in ObjExportCorporate.TemplateFonts)
+                                                {
+                                                    if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                    {
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+                                                    }
+
+                                                }
 
                                             }
                                         }
-
+                                        //if(ObjExportRetail.TemplateBackgroundImage)
 
                                     }
                                 }
@@ -3441,7 +3614,8 @@ namespace MPC.Implementation.MISServices
 
                     }
 
-
+                    ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
+                    ObjExportRetail = ObjExportRetailSet.ExportRetailStore1;
 
                     if (ObjExportRetail.RetailCompany != null)
                     {
@@ -3480,10 +3654,12 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
                         }
-
-                        if (ObjExportRetail.RetailProductCategory != null)
+                        ObjExportRetail = null;
+                        ExportOrganisation objRetailEx = new ExportOrganisation();
+                        objRetailEx = ObjExportRetailSet.ExportRetailStore3;
+                        if (objRetailEx.RetailProductCategory != null)
                         {
-                            foreach (var cat in ObjExportRetail.RetailProductCategory)
+                            foreach (var cat in objRetailEx.RetailProductCategory)
                             {
                                 if (cat.ImagePath != null)
                                 {
@@ -3513,11 +3689,11 @@ namespace MPC.Implementation.MISServices
                             }
 
                         }
-                        if (ObjExportRetail.RetailItems != null)
+                        if (objRetailEx.RetailItems != null)
                         {
-                            if (ObjExportRetail.RetailItems.Count > 0)
+                            if (objRetailEx.RetailItems.Count > 0)
                             {
-                                foreach (var item in ObjExportRetail.RetailItems)
+                                foreach (var item in objRetailEx.RetailItems)
                                 {
                                     if (item.ImagePath != null)
                                     {
@@ -3613,9 +3789,9 @@ namespace MPC.Implementation.MISServices
                                     {
                                         if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                         {
-                                            if (ObjExportRetail.TemplateFonts != null && ObjExportRetail.TemplateFonts.Count > 0)
+                                            if (objRetailEx.TemplateFonts != null && objRetailEx.TemplateFonts.Count > 0)
                                             {
-                                                foreach (var tempFont in ObjExportRetail.TemplateFonts)
+                                                foreach (var tempFont in objRetailEx.TemplateFonts)
                                                 {
                                                     if (!string.IsNullOrEmpty(tempFont.FontPath))
                                                     {
@@ -3689,12 +3865,115 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
+                                        if (objRetailEx.TemplateBackgroundImage != null && objRetailEx.TemplateBackgroundImage.Count > 0)
+                                        {
+                                            foreach (var img in objRetailEx.TemplateBackgroundImage)
+                                            {
+
+                                                if (!string.IsNullOrEmpty(img.ImageName))
+                                                {
+                                                    DPath = "Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName;
+                                                    string FilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName);
+                                                    if (File.Exists(FilePath))
+                                                    {
+                                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                        r.Comment = "template font";
+                                                    }
+
+                                                }
+                                                if (item.TemplateId != null && item.TemplateId > 0)
+                                                {
+                                                    if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                                    {
+                                                        if (ObjExportRetail.TemplateFonts != null && ObjExportRetail.TemplateFonts.Count > 0)
+                                                        {
+                                                            foreach (var tempFont in ObjExportRetail.TemplateFonts)
+                                                            {
+                                                                if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                                {
+                                                                    string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+
+                                                                    string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                                    string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                                    string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                                    string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                                    if (File.Exists(F1))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F1, DPath);
+                                                                        r.Comment = "template font";
+                                                                    }
+
+                                                                    if (File.Exists(F2))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                                        r.Comment = "template font";
+                                                                    }
+
+                                                                    if (File.Exists(F3))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F3, DPath3);
+                                                                        r.Comment = "template font";
+                                                                    }
+
+
+                                                                }
+                                                                else
+                                                                {
+
+                                                                    string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                                    string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                                    string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                                    string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                                    string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                                    if (File.Exists(F1))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F1, DPath);
+                                                                        r.Comment = "template font";
+                                                                    }
+
+                                                                    if (File.Exists(F2))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                                        r.Comment = "template font";
+                                                                    }
+
+                                                                    if (File.Exists(F3))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(F3, DPath3);
+                                                                        r.Comment = "template font";
+                                                                    }
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                        }
 
                                     }
                                 }
 
                             }
                         }
+                        objRetailEx = null;
+                        ExportOrganisation RetailexOrg = new ExportOrganisation();
+                        RetailexOrg = ObjExportRetailSet.ExportRetailStore2;
                         if (ObjExportRetail.RetailCompany.CompanyContacts != null && ObjExportRetail.RetailCompany.CompanyContacts.Count > 0)
                         {
                             foreach (var contact in ObjExportRetail.RetailCompany.CompanyContacts)
@@ -3760,20 +4039,20 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        public ExportOrganisation ExportRetailStore(long RetailCompanyID, long OrganisationID, string DPath, ZipFile zip)
+        public ExportSets ExportRetailStore(long RetailCompanyID, long OrganisationID)
         {
             try
             {
-                ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
+                ExportSets ObjExportRetail = new Models.Common.ExportSets();
 
                 // export retail store
                 ObjExportRetail = companyRepository.ExportRetailCompany(RetailCompanyID);
 
                 //  GC.Collect();
-                string JsonRetail = JsonConvert.SerializeObject(ObjExportRetail, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
-                // export json file
-                string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson.txt";
-                System.IO.File.WriteAllText(sRetailPath, JsonRetail);
+                //string JsonRetail = JsonConvert.SerializeObject(ObjExportRetail, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                //// export json file
+                //string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson.txt";
+                //System.IO.File.WriteAllText(sRetailPath, JsonRetail);
 
                 return ObjExportRetail;
 
@@ -3791,6 +4070,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                ExportSets exportSets = new ExportSets();
                 ExportOrganisation objExpOrg = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpCorp = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
@@ -3810,12 +4090,39 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                     // deserialize organisation json file
-                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson.txt");
+                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson1.txt");
                     if (File.Exists(JsonFilePath))
                     {
                         string json = System.IO.File.ReadAllText(JsonFilePath);
 
-                        objExpOrg = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+                        exportSets.ExportOrganisationSet1 = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+
+                        json = string.Empty;
+                    }
+                    string JsonFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson2.txt");
+                    if (File.Exists(JsonFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonFilePath);
+
+                        exportSets.ExportOrganisationSet2 = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+
+                        json = string.Empty;
+                    }
+                    string JsonFilePath3 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson3.txt");
+                    if (File.Exists(JsonFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonFilePath);
+
+                        exportSets.ExportOrganisationSet3 = JsonConvert.DeserializeObject<ExportOrganisation>(json);
+
+                        json = string.Empty;
+                    }
+                    string JsonFilePath4 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson4.txt");
+                    if (File.Exists(JsonFilePath))
+                    {
+                        string json = System.IO.File.ReadAllText(JsonFilePath);
+
+                        exportSets.ExportOrganisationSet4 = JsonConvert.DeserializeObject<ExportOrganisation>(json);
 
                         json = string.Empty;
                     }
@@ -3840,7 +4147,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    organisationRepository.InsertOrganisation(OrganisationId, objExpOrg, objExpCorp, objExpRetail, isCorpStore);
+                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets);
                 }
 
             }
@@ -3853,10 +4160,21 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
+        /// <summary>
+        /// Apply Theme
+        /// </summary>
+
         public void ApplyTheme(string themeName, long companyId)
         {
             ApplyThemeCss(themeName, companyId);
             ApplyThemeSpriteImage(themeName, companyId);
+            ApplyThemeWidgets(themeName, companyId);
+            AddThemeBanners(themeName, companyId);
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
+            ApplyThemeFonts(source, target);
+
         }
 
         /// <summary>
@@ -3873,12 +4191,10 @@ namespace MPC.Implementation.MISServices
             }
             if (File.Exists(themeSpriteImagePath))
             {
-                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
+                File.Copy(themeSpriteImagePath, directoryPath, true);
+                //  File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
             }
-            else
-            {
-                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
-            }
+
         }
 
         /// <summary>
@@ -3892,10 +4208,14 @@ namespace MPC.Implementation.MISServices
             // Open the file to read from. 
             if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css")))
             {
-                string css = 
+                string css =
                   File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css"));
                 //Write CSS
                 if (File.Exists(path))
+                {
+                    File.WriteAllText(path, css);
+                }
+                else
                 {
                     File.WriteAllText(path, css);
                 }
@@ -3911,35 +4231,11 @@ namespace MPC.Implementation.MISServices
                  HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/widgets.txt");
                 if (File.Exists(widgetFilePath))
                 {
-
-                    var objects = JArray.Parse(widgetFilePath); // parse as array 
                     List<WidgetForTheme> widgetForThemes = new List<WidgetForTheme>();
-                    foreach (JObject root in objects)
+                    using (StreamReader r = new StreamReader(widgetFilePath))
                     {
-
-                        WidgetForTheme widgetTheme = new WidgetForTheme();
-                        foreach (KeyValuePair<String, JToken> app in root)
-                        {
-                            switch (app.Key)
-                            {
-                                case "PageName":
-                                    widgetTheme.PageName = (String)app.Value["PageName"];
-                                    break;
-                                case "WidgetId":
-                                    widgetTheme.WidgetId = (long)app.Value["WidgetId"];
-                                    break;
-                                case "SkinId":
-                                    widgetTheme.SkinId = (long)app.Value["SkinId"];
-                                    break;
-                                case "Sequence":
-                                    widgetTheme.Sequence = (short?)app.Value["Sequence"];
-                                    break;
-                                case "ParamValue":
-                                    widgetTheme.ParamValue = (String)app.Value["ParamValue"];
-                                    break;
-                            }
-                        }
-                        widgetForThemes.Add(widgetTheme);
+                        string json = r.ReadToEnd();
+                        widgetForThemes = JsonConvert.DeserializeObject<List<WidgetForTheme>>(json);
                     }
 
                     UpdateCmsPageWidgetFromApplyTheme(widgetForThemes, companyId);
@@ -3955,40 +4251,29 @@ namespace MPC.Implementation.MISServices
 
         private void UpdateCmsPageWidgetFromApplyTheme(List<WidgetForTheme> widgetForThemes, long companyId)
         {
-            List<CmsPage> cmsPages = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
+            List<CmsPage> cmsPagesDbVersion = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
 
 
-            var groups = from line in widgetForThemes
-                         group line by line.PageName
-                             into codeGroup
-                             select codeGroup;
+            var pageGroups = from page in widgetForThemes
+                             group page by page.PageName
+                                 into pageGroup
+                                 select pageGroup;
 
-
-            foreach (WidgetForTheme widgetTheme in widgetForThemes)
+            if (cmsPagesDbVersion != null)
             {
-                CmsPage cmsPageDbVersion = cmsPages.FirstOrDefault(cmsPage => cmsPage.PageName.ToLower() == widgetTheme.PageName.ToLower());
-                if (cmsPageDbVersion != null)
+                foreach (CmsPage cmsPage in cmsPagesDbVersion)
                 {
-                    List<CmsSkinPageWidget> removeCmsSkinPageWidgetItems = new List<CmsSkinPageWidget>();
-                    if (cmsPageDbVersion.CmsSkinPageWidgets != null)
-                    {
-                        //Remove Old Cms Skin Page Widget
-                        foreach (CmsSkinPageWidget widget in cmsPageDbVersion.CmsSkinPageWidgets)
-                        {
-                            removeCmsSkinPageWidgetItems.Add(widget);
-                        }
-                        foreach (CmsSkinPageWidget widget in removeCmsSkinPageWidgetItems)
-                        {
-                            cmsPageDbVersion.CmsSkinPageWidgets.Remove(widget);
-                        }
-
-
-                    }
-
+                    cmsPageRepository.Delete(cmsPage);
                 }
-                else
+                // cmsPageRepository.SaveChanges();
+            }
+
+            foreach (var group in pageGroups)
+            {
+                CmsPage newCmsPage = new CmsPage();
+                foreach (WidgetForTheme widgetTheme in group)
                 {
-                    CmsPage newCmsPage = new CmsPage();
+                    newCmsPage.PageId = 0;
                     newCmsPage.PageName = widgetTheme.PageName;
                     newCmsPage.CompanyId = companyId;
                     newCmsPage.OrganisationId = companyRepository.OrganisationId;
@@ -4006,17 +4291,105 @@ namespace MPC.Implementation.MISServices
                             CmsSkinPageWidgetParam cmsSkinPageWidgetParam = new CmsSkinPageWidgetParam();
                             cmsSkinPageWidgetParam.PageWidgetId = widget.WidgetId;
                             cmsSkinPageWidgetParam.ParamValue = widgetTheme.ParamValue;
+                            if (widget.CmsSkinPageWidgetParams == null)
+                            {
+                                List<CmsSkinPageWidgetParam> pageWidgetParams = new List<CmsSkinPageWidgetParam>();
+                                widget.CmsSkinPageWidgetParams = pageWidgetParams;
+                            }
                             widget.CmsSkinPageWidgetParams.Add(cmsSkinPageWidgetParam);
+                        }
+                        if (newCmsPage.CmsSkinPageWidgets == null)
+                        {
+                            List<CmsSkinPageWidget> cmsSkinPageWidgets = new List<CmsSkinPageWidget>();
+                            newCmsPage.CmsSkinPageWidgets = cmsSkinPageWidgets;
                         }
                         newCmsPage.CmsSkinPageWidgets.Add(widget);
                     }
-                    cmsPageRepository.Add(newCmsPage);
-                    cmsPageRepository.SaveChanges();
 
                 }
+                cmsPageRepository.Add(newCmsPage);
+            }
+            cmsPageRepository.SaveChanges();
 
+        }
+
+        /// <summary>
+        /// Update Media Library File Path
+        /// </summary>
+        private void AddThemeBanners(string themeName, long companyId)
+        {
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
+            Copy(source, target, companyId);
+
+        }
+
+        /// <summary>
+        /// Copy 
+        /// </summary>
+        public void Copy(string sourceDirectory, string targetDirectory, long companyId)
+        {
+            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
+
+            CopyThemeBanners(diSource, diTarget, companyId);
+        }
+
+        /// <summary>
+        /// Copy Banners From 
+        /// </summary>
+        public void CopyThemeBanners(DirectoryInfo source, DirectoryInfo target, long companyId)
+        {
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
             }
 
+            List<MediaLibrary> mediaLibraries = new List<MediaLibrary>();
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = new MediaLibrary();
+                mediaLibrary.MediaId = 0;
+                mediaLibrary.FileName = fi.Name;
+                mediaLibrary.FileType = "image/jpeg";
+                mediaLibrary.CompanyId = companyId;
+                mediaLibrary.FilePath = "temp";
+                mediaLibraries.Add(mediaLibrary);
+                mediaLibraryRepository.Add(mediaLibrary);
+            }
+            mediaLibraryRepository.SaveChanges();
+            int i = 0;
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = mediaLibraries[i];
+                i = (i + 1);
+                mediaLibrary.FilePath = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId + "/" + mediaLibrary.MediaId + "_" + fi.Name;
+                fi.CopyTo(Path.Combine(target.FullName, mediaLibrary.MediaId + "_" + fi.Name), true);
+            }
+            mediaLibraryRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Apply Theme Fonts
+        /// </summary>
+        private void ApplyThemeFonts(string sourceDirectory, string targetDirectory)
+        {
+            DirectoryInfo source = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo target = new DirectoryInfo(targetDirectory);
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            }
         }
     }
 }

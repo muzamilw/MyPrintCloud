@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms.VisualStyles;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -96,9 +97,11 @@ namespace MPC.Implementation.MISServices
         {
             if (address.AddressId == 0)
             {
-                return Create(address);
+                Create(address);
             }
-            return Update(address);
+            Update(address);
+            var addressToBeReturn = addressRepository.GetAddressById(address.AddressId);
+            return addressToBeReturn;
         }
     }
 }

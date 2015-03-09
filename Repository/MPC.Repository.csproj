@@ -193,6 +193,7 @@
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
+    <Compile Include="Repositories\MediaLibraryRepository.cs" />
     <Compile Include="Repositories\NABTransactionRepository.cs" />
     <Compile Include="Repositories\ScopeVariableRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
