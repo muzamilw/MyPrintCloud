@@ -3779,6 +3779,9 @@ define("stores/stores.viewModel",
                     addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     selectedCompanyDomainItem(undefined);
+                    _.each(costCentersList(), function(costCenter) {
+                        costCenter.isSelected(false);
+                    });
                     //companyTerritoryPager().totalCount(0);
                 },
                 //#endregion
@@ -4860,7 +4863,8 @@ define("stores/stores.viewModel",
                     newAddedSecondaryPage: newAddedSecondaryPage,
                     editedSecondaryPage: editedSecondaryPage,
                     deletedSecondaryPage: deletedSecondaryPage,
-                    pageSkinWidgets: pageSkinWidgets
+                    pageSkinWidgets: pageSkinWidgets,
+                    costCentersList: costCentersList
                 }),
                 // Has Changes
                 hasChangesOnStore = ko.computed(function () {
