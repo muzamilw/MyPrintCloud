@@ -5668,10 +5668,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Widget" EntitySet="Widgets" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" Association="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
-            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
-            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParams" />
-          </AssociationSet>
           <AssociationSet Name="FK_CompanyDomain_Company" Association="DomainModels.FK_CompanyDomain_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyDomain" EntitySet="CompanyDomains" />
@@ -6079,10 +6075,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="State" EntitySet="States" />
             <End Role="Organisation" EntitySet="Organisations" />
           </AssociationSet>
-          <AssociationSet Name="FK__CmsSkinPa__PageI__194E09EA" Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA">
-            <End Role="CmsPage" EntitySet="CmsPages" />
-            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
-          </AssociationSet>
           <EntitySet Name="TemplateColorStyles" EntityType="DomainModels.TemplateColorStyle" />
           <AssociationSet Name="FK_ColorStyles_Products" Association="DomainModels.FK_ColorStyles_Products">
             <End Role="Template" EntitySet="Templates" />
@@ -6333,6 +6325,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="CompanyContact" EntitySet="CompanyContacts" />
             <End Role="NewsLetterSubscriber" EntitySet="NewsLetterSubscribers" />
           </AssociationSet>
+          <AssociationSet Name="FK_CmsSkinPageWidget_CmsPage" Association="DomainModels.FK_CmsSkinPageWidget_CmsPage">
+            <End Role="CmsPage" EntitySet="CmsPages" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" Association="DomainModels.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget">
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidgets" />
+            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParams" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6500,8 +6500,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_Company_CmsSkinPageWidget" FromRole="CmsSkinPageWidget" ToRole="Company" />
           <NavigationProperty Name="Organisation" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" FromRole="CmsSkinPageWidget" ToRole="Organisation" />
           <NavigationProperty Name="Widget" Relationship="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" FromRole="CmsSkinPageWidget" ToRole="Widget" />
-          <NavigationProperty Name="CmsSkinPageWidgetParams" Relationship="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" FromRole="CmsSkinPageWidget" ToRole="CmsSkinPageWidgetParam" />
-          <NavigationProperty Name="CmsPage" Relationship="DomainModels.FK__CmsSkinPa__PageI__194E09EA" FromRole="CmsSkinPageWidget" ToRole="CmsPage" />
+          <NavigationProperty Name="CmsPage" Relationship="DomainModels.FK_CmsSkinPageWidget_CmsPage" FromRole="CmsSkinPageWidget" ToRole="CmsPage" />
+          <NavigationProperty Name="CmsSkinPageWidgetParams" Relationship="DomainModels.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" FromRole="CmsSkinPageWidget" ToRole="CmsSkinPageWidgetParam" />
         </EntityType>
         <EntityType Name="CmsSkinPageWidgetParam">
           <Key>
@@ -6511,7 +6511,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PageWidgetId" Type="Int64" />
           <Property Name="ParamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="ParamValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CmsSkinPageWidget" Relationship="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" FromRole="CmsSkinPageWidgetParam" ToRole="CmsSkinPageWidget" />
+          <NavigationProperty Name="CmsSkinPageWidget" Relationship="DomainModels.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" FromRole="CmsSkinPageWidgetParam" ToRole="CmsSkinPageWidget" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -6731,18 +6731,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
-          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="0..1" />
-          <End Type="DomainModels.CmsSkinPageWidgetParam" Role="CmsSkinPageWidgetParam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CmsSkinPageWidget">
-              <PropertyRef Name="PageWidgetId" />
-            </Principal>
-            <Dependent Role="CmsSkinPageWidgetParam">
-              <PropertyRef Name="PageWidgetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CompanyDomain_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
           <End Type="DomainModels.CompanyDomain" Role="CompanyDomain" Multiplicity="*" />
@@ -6838,7 +6826,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_webcmsPages_tbl_cmsPageCategory" FromRole="CmsPage" ToRole="Company" />
           <NavigationProperty Name="PageCategory" Relationship="DomainModels.FK_PageCategory_CmsPage" FromRole="CmsPage" ToRole="PageCategory" />
           <NavigationProperty Name="CmsPageTags" Relationship="DomainModels.FK_webcmsPageTags_webcmsPages" FromRole="CmsPage" ToRole="CmsPageTag" />
-          <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK__CmsSkinPa__PageI__194E09EA" FromRole="CmsPage" ToRole="CmsSkinPageWidget" />
+          <NavigationProperty Name="CmsSkinPageWidgets" Relationship="DomainModels.FK_CmsSkinPageWidget_CmsPage" FromRole="CmsPage" ToRole="CmsSkinPageWidget" />
         </EntityType>
         <EntityType Name="StockCategory">
           <Key>
@@ -10041,18 +10029,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CmsSkinPa__PageI__194E09EA">
-          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="0..1" />
-          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CmsPage">
-              <PropertyRef Name="PageId" />
-            </Principal>
-            <Dependent Role="CmsSkinPageWidget">
-              <PropertyRef Name="PageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="TemplateColorStyle">
           <Key>
             <PropertyRef Name="PelleteId" />
@@ -11462,6 +11438,34 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="NewsLetterSubscriber">
               <PropertyRef Name="ContactId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CmsSkinPageWidget_CmsPage">
+          <End Type="DomainModels.CmsPage" Role="CmsPage" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cmsSkinPageWidgetParam_cmsSkinPageWidget">
+          <End Type="DomainModels.CmsSkinPageWidget" Role="CmsSkinPageWidget" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DomainModels.CmsSkinPageWidgetParam" Role="CmsSkinPageWidgetParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageWidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidgetParam">
+              <PropertyRef Name="PageWidgetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
