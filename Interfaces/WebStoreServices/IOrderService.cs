@@ -87,5 +87,13 @@ namespace MPC.Interfaces.WebStoreServices
 
         long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null);
 
+        /// <summary>
+        /// gets cart order by company id
+        /// </summary>
+        /// <param name="ContactId"></param>
+        /// <param name="TemporaryCustomerId"></param>
+        /// <returns></returns>
+        long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus);
+
     }
 }
