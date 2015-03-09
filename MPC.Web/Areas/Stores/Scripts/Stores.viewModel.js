@@ -1831,6 +1831,17 @@ define("stores/stores.viewModel",
                                         }
                                     }
                                 });
+                                //saving state and country name on client side 
+                                _.each(states(), function(state) {
+                                    if (selectedAddress().state() == state.StateId) {
+                                        selectedAddress().stateName(state.StateName);
+                                    }
+                                });
+                                _.each(countries(), function(country) {
+                                    if (selectedAddress().country() == country.CountryId) {
+                                        selectedAddress().countryName(country.CountryName);
+                                    }
+                                });
                                 selectedStore().addresses.splice(0, 0, selectedAddress());
                                 //selectedAddress().territoryName(getTerritoryByTerritoryId(selectedAddress().territoryId()).territoryName());
                                 //selectedAddress().territory(getTerritoryByTerritoryId(selectedAddress().territoryId()));
@@ -3695,6 +3706,9 @@ define("stores/stores.viewModel",
                     selectedStore().addresses.removeAll();
                     selectedStore().mediaLibraries.removeAll();
                     //allCompanyAddressesList().removeAll();
+                    //bussinessAddresses().removeAll();
+                    //shippingAddresses().removeAll();
+                    
                     deletedAddresses.removeAll();
                     edittedAddresses.removeAll();
                     newAddresses.removeAll();
