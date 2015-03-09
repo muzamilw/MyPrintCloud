@@ -325,8 +325,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 customCSS: customCSS,
                 companyDomains: companyDomains,
                 isDeliveryTaxAble: isDeliveryTaxAble,
-                pickupAddressId: pickupAddressId,
-                storeLayoutChange: storeLayoutChange
+                pickupAddressId: pickupAddressId
+                //storeLayoutChange: storeLayoutChange
                 //#endregion
             }),
             // Has Changes
@@ -335,7 +335,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             }),
             //Convert To Server
             convertToServerData = function (source) {
-                debugger;
                 var result = {};
                 result.isDisplaySecondaryPages = source.isDidplayInFooter();
                 result.CompanyId = source.companyId();
@@ -1487,7 +1486,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.Address2,
             source.Address3,
             source.City,
-            source.State,
+            source.StateId,
             source.Country,
             source.StateName,
             source.CountryName,

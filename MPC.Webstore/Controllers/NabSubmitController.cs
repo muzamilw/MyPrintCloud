@@ -330,7 +330,7 @@ namespace MPC.Webstore.Controllers
 
                                         Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
                                         cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                                        SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
+                                        SystemUser EmailOFSM =  _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
                                         cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
                                         cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
@@ -351,7 +351,7 @@ namespace MPC.Webstore.Controllers
                                         _campaignService.emailBodyGenerator(OnlineOrderCampaign, cep, CustomrContact, StoreMode.Retail, Convert.ToInt32(CustomerCompany.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email);
                                         _IPrePaymentService.CreatePrePayment(PaymentMethods.NAB, model.OrderId, Convert.ToInt32(customerID), 0, transactionID, Convert.ToDouble(orderValue), modeOfStore, ResponseStatusCode + " " + statusResponseMessage);
 
-                                        return Redirect(Url.Action("Index", "Receipt", new { OrderId = model.OrderId.ToString() }));
+                                        return View("PartialViews/Receipt", OrderDetailModel(model.OrderId.ToString())); //Redirect(Url.Action("Index", "Receipt", new { OrderId = model.OrderId.ToString() }));
 
 
                                     }
@@ -397,7 +397,56 @@ namespace MPC.Webstore.Controllers
             }
 
         }
+        private OrderDetail OrderDetailModel(string OrderId)
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
 
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+
+
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            {
+                ViewBag.IsShowPrices = true;
+                //do nothing because pricing are already visible.
+            }
+            else
+            {
+                ViewBag.IsShowPrices = false;
+                //  cntRightPricing1.Visible = false;
+            }
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
+            {
+                ViewBag.Currency = StoreBaseResopnse.Currency;
+            }
+            else
+            {
+                ViewBag.Currency = "";
+            }
+
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
+            ViewBag.Organisation = StoreBaseResopnse.Organisation;
+            if (StoreBaseResopnse.Organisation.Country != null)
+            {
+                ViewBag.OrganisationCountryName = StoreBaseResopnse.Organisation.Country.CountryName;
+            }
+            else
+            {
+                ViewBag.OrganisationCountryName = "";
+            }
+            if (StoreBaseResopnse.Organisation.State != null)
+            {
+                ViewBag.OrganisationStateName = StoreBaseResopnse.Organisation.State.StateName;
+            }
+            else
+            {
+                ViewBag.OrganisationStateName = "";
+            }
+            return order;
+        }
         private NABViewModel intializeModel(ErrorSummary? Message, int  OrderID)
         {
             switch (Message)

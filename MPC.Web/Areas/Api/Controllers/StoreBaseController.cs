@@ -101,21 +101,23 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return new CompanyBaseResponse
             {
-                SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : null,
-                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : null,
-                PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
-                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
-                Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : null,
-                EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
-                Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+                SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : new List<SystemUserDropDown>(),
+                CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : new List<CompanyContactRole>(),
+                PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : new List<PageCategoryDropDown>(),
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : 
+                new List<RegistrationQuestionDropDown>(),
+                Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
+                EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : new List<EmailEvent>(),
+                Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : new List<Widget>(),
                 DefaultSpriteImage = bytes,
                 DefaultCompanyCss = defaultCss,
-                CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
-                Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
-                States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
-                SectionFlags = result.SectionFlags.Select(flag => flag.CreateFromDropDown()),
-                CmsPageDropDownList = result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()),
-                Themes = themes
+                CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : new List<CostCentreDropDown>(),
+                Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : new List<CountryDropDown>(),
+                States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
+                SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
+                Themes = themes,
+                PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>()
             };
         }
         #endregion
