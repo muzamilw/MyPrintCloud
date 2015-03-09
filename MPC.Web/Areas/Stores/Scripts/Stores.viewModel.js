@@ -15,6 +15,8 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId = ko.observable(),
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
+                    storeStatus = ko.observable(),
+                    productStatus = ko.observable(),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -84,7 +86,7 @@ define("stores/stores.viewModel",
                     companyBanners = ko.observableArray([]),
                     //Cms Pages For Store Layout DropDown
                     cmsPagesForStoreLayout = ko.observableArray([]),
-                     //Cms Pages for basedata
+                    //Cms Pages for basedata
                     cmsPagesBaseData = ko.observableArray([]),
                     //Roles
                     roles = ko.observableArray([]),
@@ -235,7 +237,32 @@ define("stores/stores.viewModel",
                         return matchFound;
                     },
                     //#endregion
+                    storeHeading = ko.computed(function () {
+                        if (ist.product.viewModel.selectedProduct() == undefined) {
+                            productStatus('');
+                            if (selectedStore() != null && selectedStore().companyId() > 0) {
+                                storeStatus("Modify Store Details");
+                            } else {
+                                storeStatus("Store Details");
+                            }
+                            var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
+                            var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? '-' + selectedStore().webAccessCode() : '';
+                            return value1 + value2;
+                        }
+                        else {
+                            var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
+                            storeStatus(storename);
+                            if (ist.product.viewModel.selectedProduct().id() > 0) {
+                                productStatus("Modify Product Details");
+                            } else {
+                                productStatus("Product Details");
+                            }
 
+                            var val1 = ist.product.viewModel.selectedProduct().productName() != '' && ist.product.viewModel.selectedProduct().productName() != undefined ? ist.product.viewModel.selectedProduct().productName() : '';
+                            var val2 = ist.product.viewModel.selectedProduct().productCode() != '' && ist.product.viewModel.selectedProduct().productCode() != undefined ? '-' + ist.product.viewModel.selectedProduct().productCode() : '';
+                            return val1 + val2;
+                        }
+                    }),
                     //#region _________S T O R E ____________________________________
 
                     //getItemsForWidgets
@@ -403,12 +430,10 @@ define("stores/stores.viewModel",
                             companyId: selectedStore().companyId(),
                         }, {
                             success: function (data) {
-                                if (data != null) {
-                                    //selectedActivity(model.Activity.Create(data));
-                                }
+                                toastr.success("Successfully Theme Apply.");
                             },
                             error: function (response) {
-                               // toastr.error("Failed to load Detail.");
+                                toastr.error("Failed to apply Theme.");
                             }
                         });
                     },
@@ -1024,7 +1049,7 @@ define("stores/stores.viewModel",
 
                     dataservice.deleteCompanyBanner(banner.convertToServerData(banner), {
                         success: function () {
-                            toastr.success("Deleted Successfully");
+                            toastr.success("Successfully removed.");
                         },
                         error: function () {
                             toastr.error("Failed to remove.");
@@ -2531,10 +2556,16 @@ define("stores/stores.viewModel",
                 },
                 //Selected Product Category
                 selectedProductCategory = ko.observable(),
-                    // Ttile while add/edit category
-                    productCategoryTitle = ko.observable(),
-                //Selected Product Category For Editting
+                 //Selected Product Category For Editting
                 selectedProductCategoryForEditting = ko.observable(),
+                 // Ttile while add/edit category
+                 productCategoryTitle = ko.computed(function () {
+                     if (selectedProductCategoryForEditting() != undefined) {
+                         var val = selectedProductCategoryForEditting().categoryName() != '' && selectedProductCategoryForEditting().categoryName() != undefined ? selectedProductCategoryForEditting().categoryName() : '';
+                         return productCategoryStatus() + ' ' + val;
+                     }
+                 }),
+                 productCategoryStatus = ko.observable(''),
                 //Deleted Product Categories List
                 deletedProductCategories = ko.observableArray([]),
                 //Editted Product Categories List
@@ -2605,7 +2636,7 @@ define("stores/stores.viewModel",
                     productCategory.isPublished(true);
                     //Setting Product Category Editting
                     selectedProductCategoryForEditting(productCategory);
-                    productCategoryTitle("New Category");
+                    productCategoryStatus("Category Details");
 
                     //Setting drop down list of parent
                     //putting all list of categories
@@ -2689,7 +2720,7 @@ define("stores/stores.viewModel",
                                 if (data != null) {
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
-                                    productCategoryTitle("Modify Category Settings");
+                                    productCategoryStatus("Modify Category Details");
                                     isSavingNewProductCategory(false);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -3300,6 +3331,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
+                    storeStatus("Modify Stores");
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
@@ -3544,7 +3576,7 @@ define("stores/stores.viewModel",
                                 //states.removeAll();
                                 //ko.utils.arrayPushAll(states(), data.States);
                                 //states.valueHasMutated();
-                               
+
                             }
                             selectedStore().reset();
                             isLoadingStores(false);
@@ -3655,6 +3687,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage().fileName(file.name);
                 },
                 resetObservableArrays = function () {
+                    storeStatus("Stores Details");
                     isUserAndAddressesTabOpened(false);
                     companyTerritoryCounter = -1,
                     selectedStore().addresses.removeAll();
@@ -4348,7 +4381,7 @@ define("stores/stores.viewModel",
                    fieldVariableForSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                    fieldVariableForSmartForm.title(fieldVariable.variableTitle());
                    fieldVariablesForSmartForm.push(fieldVariableForSmartForm);
-                   },
+               },
                 //save Field variabel
                 saveField = function (fieldVariable) {
                     dataservice.saveFieldVariable(fieldVariable, {
@@ -4695,17 +4728,17 @@ define("stores/stores.viewModel",
                     });
                 },
                 //Do Before Save Smart Form
-                doBeforeSaveSmartForm = function() {
-                        var flag = true;
-                        if (!selectedSmartForm().isValid()) {
-                            selectedSmartForm().errors.showAllMessages();
-                            flag = false;
-                        }
-                        return flag;
-                    },
+                doBeforeSaveSmartForm = function () {
+                    var flag = true;
+                    if (!selectedSmartForm().isValid()) {
+                        selectedSmartForm().errors.showAllMessages();
+                        flag = false;
+                    }
+                    return flag;
+                },
 
                     //Edit Smart Form
-                    onEditSmartForm = function(smartForm) {
+                    onEditSmartForm = function (smartForm) {
                         if (smartForm.id() === undefined) {
                             selectedSmartForm(smartForm);
                             view.showSmartFormDialog();
@@ -4714,7 +4747,7 @@ define("stores/stores.viewModel",
                         }
                     },
                     //Get Smart Forms        
-                    getSmartForms = function() {
+                    getSmartForms = function () {
                         dataservice.getSmartFormsByCompanyId({
                             CompanyId: selectedStore().companyId(),
                             PageSize: smartFormPager().pageSize(),
@@ -4722,10 +4755,10 @@ define("stores/stores.viewModel",
                             SortBy: sortOn(),
                             IsAsc: sortIsAsc()
                         }, {
-                            success: function(data) {
+                            success: function (data) {
 
                                 smartForms.removeAll();
-                                _.each(data.SmartFormResponse.SmartForms, function(item) {
+                                _.each(data.SmartFormResponse.SmartForms, function (item) {
                                     var smartForm = model.SmartForm();
                                     smartForm.id(item.SmartFormId);
                                     smartForm.name(item.Name);
@@ -4733,21 +4766,21 @@ define("stores/stores.viewModel",
                                     smartForms.push(smartForm);
                                 });
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed To Load Smart Forms.");
                             }
                         });
                     },
                     //Get Smart Form Detail
-                    getSmartFormDetail = function(smartForm) {
+                    getSmartFormDetail = function (smartForm) {
                         dataservice.getSmartFormDetailBySmartFormId({
                             smartFormId: smartForm.id(),
                         }, {
-                            success: function(data) {
+                            success: function (data) {
                                 if (data != null) {
                                     smartForm.smartFormDetails.removeAll();
                                     selectedSmartForm(smartForm);
-                                    _.each(data, function(item) {
+                                    _.each(data, function (item) {
                                         var smartFormDetail = model.SmartFormDetail.Create(item);
                                         if (item.ObjectType === 3) {
                                             var title = item.Title === null ? "" : item.Title, defaultValue = item.DefaultValue === null ? "" : item.DefaultValue;
@@ -4765,7 +4798,7 @@ define("stores/stores.viewModel",
                                     view.showSmartFormDialog();
                                 }
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed to load Detail.");
                             }
                         });
@@ -5120,6 +5153,9 @@ define("stores/stores.viewModel",
                     storeWorkflowImageLoadedCallback: storeWorkflowImageLoadedCallback,
                     selectedTheme: selectedTheme,
                     onApplyTheme: onApplyTheme,
+                    storeStatus: storeStatus,
+                    storeHeading: storeHeading,
+                    productStatus: productStatus,
                 };
                 //#endregion
             })()
