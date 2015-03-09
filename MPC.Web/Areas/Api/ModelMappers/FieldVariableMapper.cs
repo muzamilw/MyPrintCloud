@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 using DomainReponse = MPC.Models.ResponseModels;
@@ -93,7 +94,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new FieldVariableResponse
             {
-                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(vf => vf.CreateFromListView()) : null,
+                FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(vf => vf.CreateFromListView()) : new List<FieldVariable>(),
                 RowCount = source.RowCount
             };
         }

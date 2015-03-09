@@ -327,6 +327,8 @@ namespace MPC.Implementation.MISServices
                 {
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                    //company.CompanyCostCentres.Remove(dbVersionMissingItem);
+                    
                 }
             }
             else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres != null && companyDbVersion.CompanyCostCentres.Count > 0)
@@ -2554,7 +2556,7 @@ namespace MPC.Implementation.MISServices
                 FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                 SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                 FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+                CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId)
 
             };
         }
@@ -2579,8 +2581,9 @@ namespace MPC.Implementation.MISServices
                 Widgets = widgetRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
+                //CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
+                CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId()
             };
         }
         public void SaveFile(string filePath, long companyId)

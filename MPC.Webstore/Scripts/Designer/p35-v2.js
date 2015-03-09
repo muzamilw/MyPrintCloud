@@ -2080,10 +2080,14 @@ $("#BtnAllowOnlyTxtChange").click(function () {
     //animatedcollapse.toggle('textPropertPanel');
 });
 $("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
-    if ($("#optionRadioOtherProfile").attr("checked")) {
-        $("#otherProfileContainer").css("display", "inline-block");
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        $(".otherProfileContainer").css("display", "inline-block");
     }
     else {
-        $("#otherProfileContainer").css("display", "none");
+        $(".otherProfileContainer").css("display", "none");
     }
+});
+
+$("#smartFormSelectUserProfile").change(function () {
+    alert("change user profile");
 });

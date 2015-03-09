@@ -1,1 +1,68 @@
-﻿
+﻿@model List<MPC.Models.DomainModels.Item>
+@{
+    var loopcount = 0;
+    var productsCount = @ViewBag.ProductsCount;
+}
+<div class="recent-posts blocky">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Section title -->
+                <div class="section-title">
+                    <h4>&nbsp;Whats New</h4>
+                </div>
+                <div class="carousel slide" data-ride="carousel" id="item-carousel">
+                    <!-- Wrapper for slides -->
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <div class="row">
+                                @foreach (var item in Model as List<MPC.Models.DomainModels.Item>)
+                                {
+                                    loopcount++;
+                                    
+                                    <div class="col-md-3 col-sm-6">
+                                        <!-- single item -->
+                                        <div class="s-item">
+                                            <!-- Image link -->
+                                            <a href="single-item.html">
+                                                <img id="imgThumbnail" class="full_img_ThumbnailPath" src='@item.ThumbnailPath' />
+                                            </a>
+                                            <!-- portfolio caption -->
+                                            <div class="s-caption">
+                                                <!-- heading and paragraph -->
+                                                <h4>
+                                                    <a href="#" id="headingOfFeaturedPro">
+                                                        <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@item.ProductName</label>
+                                                    </a>
+                                                </h4>
+                                                <p id="descOfFPro">
+                                                    <label class="topcat_desc displayNone_TLS5">@item.WebDescription</label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    if (loopcount == 4)
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Controls -->
+                    <a class="left c-control" href="#item-carousel" data-slide="prev">
+                        <i class="fa fa-chevron-left"></i>
+                    </a>
+                    <a class="right c-control" href="#item-carousel" data-slide="next">
+                        <i class="fa fa-chevron-right"></i>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="/Scripts/bootstrap.min.js"></script>
+}

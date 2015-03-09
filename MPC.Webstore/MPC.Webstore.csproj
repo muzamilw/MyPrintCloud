@@ -562,6 +562,7 @@
     <Content Include="Content\Images\MASTERCARD.gif" />
     <Content Include="Content\Images\my-jobs.png" />
     <Content Include="Content\Images\next-horizontal.png" />
+    <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
@@ -786,8 +787,8 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\FeaturedProductCarousal\" />
     <Folder Include="Views\BillingShippingAddressManager\" />
+    <Folder Include="Views\FeaturedProductCarousal\" />
     <Folder Include="Views\NabSubmit\" />
     <Folder Include="Views\NewsletterSubscriber\" />
     <Folder Include="Views\SavedDesigns\" />
