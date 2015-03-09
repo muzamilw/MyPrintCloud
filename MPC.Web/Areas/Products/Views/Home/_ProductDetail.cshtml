@@ -44,11 +44,20 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-ProdNameAndImages" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Name and Type</h3>
+                                    <h3 class="group-header">Basic Details</h3>
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <label for="txtCompanyName" class="control-label text-right"></label>
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="How to Add a Product ?" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+                                                <label for="txtProductName" class="control-label text-right tooltip-float">Product Type</label>
+
                                             </div>
                                             <div class="col-lg-9">
                                                 <div class="radio">
@@ -66,7 +75,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios" id="optionYesFinishForProduct" value="2" data-bind="checked: isFinishedGoodsUi">
                                                     <label for="optionYesFinishForProduct">
-                                                        Marketing brief ( User can submit an Inquiry with information)
+                                                        Marketing brief
                                                     </label>
                                                 </div>
 
@@ -255,7 +264,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Published on Store</label>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Publish on Store</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -289,7 +298,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">This is a Digital Product, Allows Downloading of output PDF after order is placed by special Email and from Receipt page</label>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Users can Purchase/Download Hi Res Artwork</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -326,7 +335,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchFeaturedProduct">User must upload Files or Artwork (pdf,jpg,eps,tiff,tif,csv,xls,xlsx) for this product? </label>
+                                                <label class="control-label text-right" for="switchFeaturedProduct">User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) for this product? </label>
                                                 <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </div>
                                             <div class="col-lg-3">
@@ -443,7 +452,7 @@
 
                                             </div>
                                             <div class="col-lg-9">
-                                                <label style="font-weight:bold;" class="control-label text-right">Create the preffered Signatures (sections) layout for this product</label>
+                                                <label style="font-weight:bold;" class="control-label text-right">Create the preferred Signatures (sections) layout for this product</label>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -728,13 +737,7 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
                                     <div class="col-lg-12 clearfix">
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                            </div>
-                                            <div class="col-lg-9">
-                                                <label style="font-weight:bold" class="control-label text-right">Selling Price Table attributes options</label>
-                                            </div>
-                                        </div>
+                                       
                                         <div id="stockMainDiv" class="form-group">
                                             <div class="col-lg-12" style="text-align:right;">
                                                 <button type="button" style="float: right;margin-bottom: -17px;" data-bind="click: addItemStockOption" class="btn btn-success">
@@ -811,7 +814,7 @@
                                             </div>
                                             <div class="col-lg-9 Label-Bold">
 
-                                                <label style="font-weight:bold" class="control-label" data-bind="visible: isQtyRangedUi() === '2'">Edit the Fixed Price Table These prices will be published on the webstore</label>
+                                                <label style="font-weight:bold" class="control-label" data-bind="visible: isQtyRangedUi() === '2'">Enter the Desired quantities and the associated costs, these prices will be published on the webstore</label>
                                                 <label style="font-weight:bold;display: none" class="control-label" data-bind="visible: isQtyRangedUi() === '1'">Edit the Price Table with Quantity Range. These prices will be published on the webstore</label>
 
                                                 <span class="help-block text-right"></span>
@@ -1599,7 +1602,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios1" data-bind="checked: $parent.templateTypeUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
-                                                        A Pre built template e.g. corporate store template, uplod your PDF
+                                                       Create a template from an existing PDF
                                                     </label>
                                                 </div>
 
@@ -1637,7 +1640,7 @@
                                                 <div class="radio">
                                                     <input type="radio" data-bind="checked: $parent.templateTypeUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
-                                                        Start the Designer Empty but Link it With Template Category from Global Library.
+                                                        Start the designer empty showing avaliable stock layouts
                                                     </label>
                                                 </div>
 
@@ -1739,7 +1742,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" data-bind="checked: $parent.isTemplateDesignModeUi" id="optionLaunchYes" value="1">
                                                     <label for="optionLaunchYes">
-                                                        Launch Designer and Open template with Full Controlfor End User to Modify all images and text.
+                                                        Launch the Designer in unrestricted mode, allowing users to access the full toolset
                                                     </label>
                                                 </div>
 
@@ -1758,7 +1761,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunchNo" data-bind="checked: $parent.isTemplateDesignModeUi" value="2">
                                                     <label for="optionLaunchNo">
-                                                        Launch Designer and Open template in Restricted mode where the End User can modify Text objects.
+                                                        Launch the Designer in restricted mode, showing only avaliable tools
                                                     </label>
                                                 </div>
 
@@ -1777,7 +1780,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch" data-bind="checked: $parent.isTemplateDesignModeUi" value="3">
                                                     <label for="optionLaunch">
-                                                        Only launch Quick text Fields and then Show Template Preview to End User.
+                                                        Do not load Designer, show avaliable smart forms and provide a proof
                                                     </label>
                                                 </div>
 
@@ -1797,7 +1800,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch1" data-bind="checked: $parent.isTemplateDesignModeUi" value="4">
                                                     <label for="optionLaunch1">
-                                                        No Designer Tool Loaded
+                                                       Do not load Designer
                                                     </label>
                                                 </div>
 
@@ -1844,7 +1847,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios3" id="optionPDFOutputNo" data-bind="checked: $parent.isCmykUi" value="1">
                                                     <label for="optionPDFOutputNo">
-                                                        Convert all colours to CMYK seperation
+                                                        Convert all colors to CMYK 
                                                     </label>
                                                 </div>
 
@@ -2176,7 +2179,7 @@
                         </button>
                     </div>
                 </div>
-                <h3 class="group-header" style="margin-top:-17px;">Stock Label <span data-bind="text: $index() + 1"></span></h3>
+                <h3 class="group-header" style="margin-top:-17px;">Stock <span data-bind="text: $index() + 1"></span></h3>
             </div>
             <div class="col-xs-7">
                 <div class="form-group">
@@ -2187,7 +2190,7 @@
                             </a>
                         </div>
 
-                        <label class="control-label text-right tooltip-float">Base Stock/Inventory Item</label>
+                        <label class="control-label text-right tooltip-float">Inventory Item</label>
                     </div>
                     <div class="col-lg-6">
                         <div style="width: 325px;">
@@ -2206,7 +2209,7 @@
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label class="control-label text-right tooltip-float">Attribute/Column Name</label>
+                        <label class="control-label text-right tooltip-float">Display Name</label>
                     </div>
                     <div class="col-lg-4">
                         <div style="width: 325px;">
@@ -2221,7 +2224,7 @@
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label class="control-label text-right tooltip-float">Inventory Description</label>
+                        <label class="control-label text-right tooltip-float">Short Description</label>
                     </div>
                     <div class="col-lg-6">
                         <div style="width: 355px;">
@@ -2261,7 +2264,7 @@
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                         </a>
                     </div>
-                    <label class="control-label text-right tooltip-float">Optional AddOns</label>
+                    <label class="control-label text-right tooltip-float">Optional Add Ons (Space)</label>
                 </div>
                 <div class="col-lg-9">
                     <header class="clearfix">
