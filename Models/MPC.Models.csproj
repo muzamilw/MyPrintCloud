@@ -167,6 +167,13 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
+    <Compile Include="DomainModels\MachineClickChargeZone.cs" />
+    <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
+    <Compile Include="DomainModels\MachineGuilotinePtv.cs" />
+    <Compile Include="DomainModels\MachineMeterPerHourLookup.cs" />
+    <Compile Include="DomainModels\MachinePerHourLookup.cs" />
+    <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
     <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
