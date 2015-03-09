@@ -3,6 +3,13 @@
     Layout = null;
     ViewBag.Title = "NAB";
 }
+@if (ViewBag.ErrorMessage != "null")
+{
+    <div class="alert alert-danger">
+        <i class="fa fa-times-circle fa-fw fa-lg"></i>
+        @Html.Raw(ViewBag.ErrorMessage)
+    </div>
+}
 
 
 @using (Html.BeginForm())

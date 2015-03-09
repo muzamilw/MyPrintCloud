@@ -81,7 +81,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 //Create Customer
-                return db.Companies.Include("Address").Include("CompanyContact").Where(customer => customer.CompanyId == CompanyId).FirstOrDefault<Company>();
+                return db.Companies.Include("Addresses").Include("CompanyContacts").Where(customer => customer.CompanyId == CompanyId).FirstOrDefault<Company>();
             }
             catch (Exception ex)
             {
