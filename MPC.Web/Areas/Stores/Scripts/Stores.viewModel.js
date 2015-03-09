@@ -17,7 +17,7 @@ define("stores/stores.viewModel",
                     selectedCurrentPageCopy = ko.observable(),
                     ckEditorOpenFrom = ko.observable("Campaign"),
                     storeStatus = ko.observable(),
-                    productStatus = ko.observable(),
+                    productStatus = ko.observable(''),
                     //Active Widget (use for dynamic controll)
                     selectedWidget = ko.observable(),
                     // Error List
@@ -242,9 +242,9 @@ define("stores/stores.viewModel",
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Store Details");
+                                storeStatus("Modify Stores");
                             } else {
-                                storeStatus("Store Details");
+                                storeStatus("Stores Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
@@ -438,6 +438,24 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
+                    vatHandler = function (data) {
+                        var vat = selectedStore().isIncludeVAT();
+                            if (vat == 'true') {
+                                selectedStore().isCalculateTaxByService('false');
+                            } else {
+                                selectedStore().isCalculateTaxByService('true');
+                            }
+                            return true;
+                    },
+                     calculateTaxByServiceHandler = function (data) {
+                         var tax = selectedStore().isCalculateTaxByService();
+                         if (tax == 'true') {
+                             selectedStore().isIncludeVAT('false');
+                         } else {
+                             selectedStore().isIncludeVAT('true');
+                         }
+                         return true;
+                     },
                 //#endregion _____________________  S T O R E ____________________
 
                 // #region _________R A V E   R E V I E W_________________________
@@ -5200,7 +5218,9 @@ define("stores/stores.viewModel",
                     storeHeading: storeHeading,
                     productStatus: productStatus,
                     storeHasChanges: storeHasChanges,
-                    hasChangesOnStore: hasChangesOnStore
+                    hasChangesOnStore: hasChangesOnStore,
+                    calculateTaxByServiceHandler: calculateTaxByServiceHandler,
+                    vatHandler: vatHandler,
                 };
                 //#endregion
             })()
