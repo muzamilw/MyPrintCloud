@@ -164,7 +164,7 @@ namespace MPC.Webstore.Controllers
                             string AttachmentPath = "";//emailmgr.OrderConfirmationPDF(OrderId, 0, 0);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
-                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponseOrganisation.Company.SalesAndOrderManagerId1.Value);
+                            SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(UserCookieManager.OrganisationID));
                             //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation, cep, user, UserCookieManager.StoreMode, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                            // emailmgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, SessionParameters.ContactID, SessionParameters.CustomerID, 0, OrderId, SessionParameters.CompanySite, 0, 0, StoreMode.Retail);
                             UserCookieManager.OrderId = 0;
@@ -270,7 +270,7 @@ namespace MPC.Webstore.Controllers
                     cep.StoreID = UserCookieManager.StoreId;
 
                     cep.AddressID = UserCookieManager.StoreId;
-                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponseOrganisation.Company.SalesAndOrderManagerId1.Value);
+                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(Convert.ToInt32(UserCookieManager.OrganisationID));
                     cep.SystemUserID = EmailOFSM.SystemUserId;
                     if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
                     {
