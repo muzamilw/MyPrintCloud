@@ -6,7 +6,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using Castle.Core.Internal;
 using ICSharpCode.SharpZipLib.Zip;
+using MPC.Interfaces.MISServices;
+
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -15,15 +18,45 @@ namespace MPC.MIS.Areas.Api.Controllers
     /// </summary>
     public class GetThemeDetailController : ApiController
     {
+        #region
+        #endregion
+        private readonly ICompanyService companyService;
+        #region Constructor
+
+        /// <summary>
+        ///  Constructor
+        /// </summary>
+        public GetThemeDetailController(ICompanyService companyService)
+        {
+            this.companyService = companyService;
+        }
+
+        #endregion
+
         #region Public
-        public async void Get([FromUri] string fullZipPath)
+        public async void Get([FromUri] string fullZipPath, long companyId)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
+            if (!fullZipPath.IsNullOrEmpty())
+            {
+                string[] str = fullZipPath.Split('\\');
+                string themeName = str[str.Length - 1].Split('.')[0];
+                //Theme Already exist in MIS
+                if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))
+                {
+                    companyService.ApplyTheme(themeName, companyId);
 
-            await GetZipFile(fullZipPath);
+                }
+                else
+                {
+                   await GetZipFile(fullZipPath, companyId);
+                }
+            }
+
+
         }
 
         #endregion
@@ -32,28 +65,28 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Zip File Of Theme
         /// </summary>
-        private static async Task GetZipFile(string fullZipPath)
+        private async Task GetZipFile(string fullZipPath, long companyId)
         {
+            //Import Theme From Theming Project
             using (HttpClient client = new HttpClient())
             {
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCThemingPath"]);
-
                 string url = "ApplyTheme?fullZipPath=" + fullZipPath;
                 using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
                     if (response.IsSuccessStatusCode)
                     {
                         Stream resultStream = response.Content.ReadAsStreamAsync().Result;
-                        WriteZipFile(resultStream);
-
+                        WriteZipFile(resultStream, fullZipPath, companyId);
                     }
             }
+
         }
         /// <summary>
         /// Use For Write
         /// </summary>
-        private static void WriteZipFile(Stream fileStream)
+        private void WriteZipFile(Stream fileStream, string fullZipPath, long companyId)
         {
-            string baseFolder = HttpContext.Current.Server.MapPath("~/MPC_Themes/");
+            string baseFolder = HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/");
             if (!Directory.Exists(baseFolder))
             {
                 Directory.CreateDirectory(baseFolder);
@@ -98,7 +131,21 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             ins.Close();
             st.Close();
+            ApplyTheme(fullZipPath, companyId);
         }
+
+        private void ApplyTheme(string fullZipPath, long companyId)
+        {
+            string[] str = fullZipPath.Split('\\');
+            string themeName = str[str.Length - 1].Split('.')[0];
+            //Theme Already exist in MIS
+            if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))
+            {
+                companyService.ApplyTheme(themeName, companyId);
+
+            }
+        }
+
         #endregion
     }
 }

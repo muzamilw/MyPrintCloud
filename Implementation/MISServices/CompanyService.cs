@@ -14,6 +14,7 @@ using System.Web;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
@@ -25,6 +26,7 @@ using MPC.Repository.Repositories;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
+using Newtonsoft.Json.Linq;
 
 namespace MPC.Implementation.MISServices
 {
@@ -86,6 +88,7 @@ namespace MPC.Implementation.MISServices
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ISmartFormDetailRepository smartFormDetailRepository;
+
         #endregion
 
         private bool CheckDuplicateExistenceOfCompanyDomains(CompanySavingModel companySaving)
@@ -105,7 +108,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                
+
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -113,7 +116,7 @@ namespace MPC.Implementation.MISServices
             //{
             //    return false;
             //}
-           
+
         }
         /// <summary>
         /// Save Company
@@ -129,7 +132,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
             companyRepository.Add(companySaving.Company);
-            companyRepository.SaveChanges();
+            companyRepository.SaveChanges(); // TODO: Remove it from here
             var companyId = companySaving.Company.CompanyId;
             UpdateCompany(companySaving, companySaving.Company);
             return companySaving.Company;
@@ -981,14 +984,14 @@ namespace MPC.Implementation.MISServices
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
-            companyRepository.Update(companyToBeUpdated);
+            companyRepository.Update(companyToBeUpdated); // TODO: Remove it
             companyRepository.Update(companySavingModel.Company);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();//todo second external savechanges
+            //companyRepository.SaveChanges();//todo second external savechanges
             //Update products
-            UpdateProductsOfUpdatingCompany(companySavingModel);
+            //UpdateProductsOfUpdatingCompany(companySavingModel);
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             //SaveFilesOfProductCategories(companyToBeUpdated);
@@ -1077,7 +1080,7 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyDomain missingCompanyDomain in missingCompanyDomains)
                 {
 
-                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId );
+                    CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId);
                     using (var client = new HttpClient())
                     {
                         client.BaseAddress = new Uri(ConfigurationManager.AppSettings["RemoveDomainPath"]);
@@ -1214,7 +1217,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                companyRepository.SaveChanges();
+              //  companyRepository.SaveChanges();
             }
         }
 
@@ -1511,7 +1514,7 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem != null && dbVersionMissingItem.PageWidgetId > 0)
                     {
                         cmsSkinPageWidgetRepository.Delete(dbVersionMissingItem);
-                        cmsSkinPageWidgetRepository.SaveChanges();
+                        //cmsSkinPageWidgetRepository.SaveChanges();
                     }
                 }
                 #endregion
@@ -1681,10 +1684,10 @@ namespace MPC.Implementation.MISServices
                 foreach (var item in companySavingModel.DeletedCmsPages)
                 {
                     cmsPageRepository.Delete(cmsPageRepository.Find(item.PageId));
-                    cmsPageRepository.SaveChanges();
+                    //cmsPageRepository.SaveChanges();
                 }
             }
-            companyRepository.SaveChanges();
+           // companyRepository.SaveChanges();
 
             //Update Page Category List Items
             if (companySavingModel.PageCategories != null)
@@ -1699,7 +1702,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                pageCategoryRepository.SaveChanges();
+                //pageCategoryRepository.SaveChanges();
             }
         }
 
@@ -2199,7 +2202,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            fieldVariableRepository.SaveChanges();
+            //fieldVariableRepository.SaveChanges();
 
 
 
@@ -2221,7 +2224,7 @@ namespace MPC.Implementation.MISServices
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
                     }
-                    scopeVariableRepository.SaveChanges();
+                   // scopeVariableRepository.SaveChanges();
                 }
             }
 
@@ -2292,12 +2295,12 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        variableOptionRepository.SaveChanges();
+                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                fieldVariableRepository.SaveChanges();
+                //fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
@@ -2609,7 +2612,7 @@ namespace MPC.Implementation.MISServices
                 }
                 return UpdateCompany(companyModel, companyDbVersion);
             }
-           
+
             return null;
         }
         public long GetOrganisationId()
@@ -3379,9 +3382,9 @@ namespace MPC.Implementation.MISServices
 
                                         }
                                     }
-                                    if(item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+                                    if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
                                     {
-                                        foreach(var itemAttach in item.ItemAttachments)
+                                        foreach (var itemAttach in item.ItemAttachments)
                                         {
 
                                             string FilePath = HttpContext.Current.Server.MapPath(itemAttach.FolderPath);
@@ -3687,6 +3690,88 @@ namespace MPC.Implementation.MISServices
                                         }
                                         
                                     }
+                                    if (item.TemplateId != null && item.TemplateId > 0)
+                                    {
+                                        if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                        {
+                                            if (ObjExportRetail.TemplateFonts != null && ObjExportRetail.TemplateFonts.Count > 0)
+                                            {
+                                                foreach (var tempFont in ObjExportRetail.TemplateFonts)
+                                                {
+                                                    if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                    {
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+
+
+                                                    }
+                                                    else
+                                                    {
+
+                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                        if (File.Exists(F1))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F1, DPath);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F2))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                            r.Comment = "template font";
+                                                        }
+
+                                                        if (File.Exists(F3))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(F3, DPath3);
+                                                            r.Comment = "template font";
+                                                        }
+                                                    }
+
+                                                }
+
+                                            }
+                                        }
+
+                                    }
                                 }
 
                             }
@@ -3848,6 +3933,172 @@ namespace MPC.Implementation.MISServices
 
         }
         #endregion
+
+        public void ApplyTheme(string themeName, long companyId)
+        {
+            ApplyThemeCss(themeName, companyId);
+            ApplyThemeSpriteImage(themeName, companyId);
+        }
+
+        /// <summary>
+        /// Apply Theme Sprite Image
+        /// </summary>
+        private void ApplyThemeSpriteImage(string themeName, long companyId)
+        {
+            string themeSpriteImagePath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/sprite.png");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/sprite.png");
+            if (File.Exists(directoryPath))
+            {
+                File.Delete(directoryPath);
+            }
+            if (File.Exists(themeSpriteImagePath))
+            {
+                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
+            }
+            else
+            {
+                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
+            }
+        }
+
+        /// <summary>
+        /// Apply Theme Css
+        /// </summary>
+        private void ApplyThemeCss(string themeName, long companyId)
+        {
+            string path =
+                 HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId +
+                                                    "/" + companyId + "/site.css");
+            // Open the file to read from. 
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css")))
+            {
+                string css = 
+                  File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css"));
+                //Write CSS
+                if (File.Exists(path))
+                {
+                    File.WriteAllText(path, css);
+                }
+
+            }
+        }
+
+        private void ApplyThemeWidgets(string themeName, long companyId)
+        {
+            try
+            {
+                string widgetFilePath =
+                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/widgets.txt");
+                if (File.Exists(widgetFilePath))
+                {
+
+                    var objects = JArray.Parse(widgetFilePath); // parse as array 
+                    List<WidgetForTheme> widgetForThemes = new List<WidgetForTheme>();
+                    foreach (JObject root in objects)
+                    {
+
+                        WidgetForTheme widgetTheme = new WidgetForTheme();
+                        foreach (KeyValuePair<String, JToken> app in root)
+                        {
+                            switch (app.Key)
+                            {
+                                case "PageName":
+                                    widgetTheme.PageName = (String)app.Value["PageName"];
+                                    break;
+                                case "WidgetId":
+                                    widgetTheme.WidgetId = (long)app.Value["WidgetId"];
+                                    break;
+                                case "SkinId":
+                                    widgetTheme.SkinId = (long)app.Value["SkinId"];
+                                    break;
+                                case "Sequence":
+                                    widgetTheme.Sequence = (short?)app.Value["Sequence"];
+                                    break;
+                                case "ParamValue":
+                                    widgetTheme.ParamValue = (String)app.Value["ParamValue"];
+                                    break;
+                            }
+                        }
+                        widgetForThemes.Add(widgetTheme);
+                    }
+
+                    UpdateCmsPageWidgetFromApplyTheme(widgetForThemes, companyId);
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
+        }
+
+        private void UpdateCmsPageWidgetFromApplyTheme(List<WidgetForTheme> widgetForThemes, long companyId)
+        {
+            List<CmsPage> cmsPages = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
+
+
+            var groups = from line in widgetForThemes
+                         group line by line.PageName
+                             into codeGroup
+                             select codeGroup;
+
+
+            foreach (WidgetForTheme widgetTheme in widgetForThemes)
+            {
+                CmsPage cmsPageDbVersion = cmsPages.FirstOrDefault(cmsPage => cmsPage.PageName.ToLower() == widgetTheme.PageName.ToLower());
+                if (cmsPageDbVersion != null)
+                {
+                    List<CmsSkinPageWidget> removeCmsSkinPageWidgetItems = new List<CmsSkinPageWidget>();
+                    if (cmsPageDbVersion.CmsSkinPageWidgets != null)
+                    {
+                        //Remove Old Cms Skin Page Widget
+                        foreach (CmsSkinPageWidget widget in cmsPageDbVersion.CmsSkinPageWidgets)
+                        {
+                            removeCmsSkinPageWidgetItems.Add(widget);
+                        }
+                        foreach (CmsSkinPageWidget widget in removeCmsSkinPageWidgetItems)
+                        {
+                            cmsPageDbVersion.CmsSkinPageWidgets.Remove(widget);
+                        }
+
+
+                    }
+
+                }
+                else
+                {
+                    CmsPage newCmsPage = new CmsPage();
+                    newCmsPage.PageName = widgetTheme.PageName;
+                    newCmsPage.CompanyId = companyId;
+                    newCmsPage.OrganisationId = companyRepository.OrganisationId;
+                    if (widgetTheme.WidgetId != null)
+                    {
+                        CmsSkinPageWidget widget = new CmsSkinPageWidget();
+                        widget.WidgetId = widgetTheme.WidgetId;
+                        widget.SkinId = widgetTheme.SkinId;
+                        widget.Sequence = widgetTheme.Sequence;
+                        widget.CompanyId = companyId;
+                        widget.OrganisationId = companyRepository.OrganisationId;
+                        widget.PageId = newCmsPage.PageId;
+                        if (widgetTheme.ParamValue != null)
+                        {
+                            CmsSkinPageWidgetParam cmsSkinPageWidgetParam = new CmsSkinPageWidgetParam();
+                            cmsSkinPageWidgetParam.PageWidgetId = widget.WidgetId;
+                            cmsSkinPageWidgetParam.ParamValue = widgetTheme.ParamValue;
+                            widget.CmsSkinPageWidgetParams.Add(cmsSkinPageWidgetParam);
+                        }
+                        newCmsPage.CmsSkinPageWidgets.Add(widget);
+                    }
+                    cmsPageRepository.Add(newCmsPage);
+                    cmsPageRepository.SaveChanges();
+
+                }
+
+            }
+
+        }
     }
 }
 

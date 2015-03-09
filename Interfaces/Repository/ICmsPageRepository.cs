@@ -31,5 +31,11 @@ namespace MPC.Interfaces.Repository
         /// Get Cms pages for orders
         /// </summary>
         IEnumerable<CmsPage> GetCmsPagesForOrders();
+
+        /// <summary>
+        /// Get Cms Pages By Company Id
+        /// </summary>
+        List<CmsPage> GetCmsPagesByCompanyId(long companyId);
+       // CmsPage GetCmsPageByName(string )
     }
 }

@@ -93,6 +93,11 @@ namespace MPC.Interfaces.MISServices
 
         void DeleteCompanyBanner(long companyBannerId);
 
+        /// <summary>
+        /// Apply Theme
+        /// </summary>
+        void ApplyTheme(string themeName, long companyId);
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);
