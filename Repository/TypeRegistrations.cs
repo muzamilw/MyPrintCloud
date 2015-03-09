@@ -112,6 +112,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPayPalResponseRepository, PayPalResponseRepository>();
             unityContainer.RegisterType<INABTransactionRepository, NABTransactionRepository>();
             unityContainer.RegisterType<IItemImageRepository, ItemImageRepository>();
+            unityContainer.RegisterType<IMediaLibraryRepository, MediaLibraryRepository>();
         }
     }
 }
