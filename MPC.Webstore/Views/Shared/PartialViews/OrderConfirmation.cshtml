@@ -195,16 +195,6 @@
                                                         }
                                                         <a id="lnkPdfFile" href=@pdfLinkBtn><img id="imgToShow" class="image_stretcher" src="@imgToShowURL"></a>
                                                     </div>
-                                                    <div class="BtnTemplateModifyContainer">
-                                                        @if (prod.ProductType == (int)ProductType.PrintProduct)
-                                                        {
-                                                            <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('@prod.TemplateID','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                        }
-                                                        else
-                                                        {
-                                                            <input type="submit" name="lnkBtnRedesignTemplate" onclick="RedirectToConfirmSelect('0','@prod.ProductCategoryID','@prod.ItemID');" value="Modify" id="MainContent_grdViewShopCart_lnkBtnRedesignTemplate_0" class="silver_back_button_modify">
-                                                        }
-                                                    </div>
                                                 </td>
                                                 <td style="width:29%;">
                                                     <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
