@@ -2,8 +2,9 @@
     Module with the view model for the Store.
 */
 define("stores/stores.viewModel",
-    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
+    ["jquery", "amplify", "ko", "stores/stores.dataservice", "stores/stores.model", "common/confirmation.viewModel", "common/pagination",
+        "common/sharedNavigation.viewModel", "product/product.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, productViewModel) {
         var ist = window.ist || {};
         ist.stores = {
             viewModel: (function () {
@@ -238,7 +239,7 @@ define("stores/stores.viewModel",
                     },
                     //#endregion
                     storeHeading = ko.computed(function () {
-                        if (ist.product.viewModel.selectedProduct() == undefined) {
+                        if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
                                 storeStatus("Modify Store Details");
@@ -246,20 +247,20 @@ define("stores/stores.viewModel",
                                 storeStatus("Store Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
-                            var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? '-' + selectedStore().webAccessCode() : '';
+                            var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
                             return value1 + value2;
                         }
                         else {
                             var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             storeStatus(storename);
-                            if (ist.product.viewModel.selectedProduct().id() > 0) {
+                            if (productViewModel.selectedProduct().id() > 0) {
                                 productStatus("Modify Product Details");
                             } else {
                                 productStatus("Product Details");
                             }
 
-                            var val1 = ist.product.viewModel.selectedProduct().productName() != '' && ist.product.viewModel.selectedProduct().productName() != undefined ? ist.product.viewModel.selectedProduct().productName() : '';
-                            var val2 = ist.product.viewModel.selectedProduct().productCode() != '' && ist.product.viewModel.selectedProduct().productCode() != undefined ? '-' + ist.product.viewModel.selectedProduct().productCode() : '';
+                            var val1 = productViewModel.selectedProduct().productName() != '' && productViewModel.selectedProduct().productName() != undefined ? productViewModel.selectedProduct().productName() : '';
+                            var val2 = productViewModel.selectedProduct().productCode() != '' && productViewModel.selectedProduct().productCode() != undefined ? ' - ' + productViewModel.selectedProduct().productCode() : '';
                             return val1 + val2;
                         }
                     }),
@@ -311,7 +312,7 @@ define("stores/stores.viewModel",
                         selectedStore().type('3');
                         isEditorVisible(true);
                         view.initializeForm();
-                        getBaseDataFornewCompany();
+                        //getBaseDataFornewCompany();
                         //$('.nav-tabs').children().removeClass('active');
                         //$('#generalInfoTab').addClass('active');
                         $('.nav-tabs li:first-child a').tab('show');
@@ -963,7 +964,7 @@ define("stores/stores.viewModel",
                             }
 
                         }
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                         view.hideEditBannerDialog();
                     }
                 },
@@ -973,7 +974,7 @@ define("stores/stores.viewModel",
                         bannerSet.id(addBannerSetCount() - 1);
                         addBannerSetCount(addBannerSetCount() - 1);
                         companyBannerSetList.push(bannerSet);
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                         view.hideSetBannerDialog();
                     }
                 },
@@ -1034,10 +1035,10 @@ define("stores/stores.viewModel",
                         _.each(companyBanners(), function (item) {
                             if (item.id() === banner.id()) {
                                 companyBanners.remove(item);
-                                selectedStore().storeLayoutChange("change");
+                                //selectedStore().storeLayoutChange("change");
                             }
                         });
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                         if (banner.id() > 0) {
                             deleteBanner(banner);
                         }
@@ -1973,7 +1974,7 @@ define("stores/stores.viewModel",
                         if (secondaryPage.pageId() !== undefined && secondaryPage.pageId() > 0) {
                             deletedSecondaryPage.push(secondaryPage);
                         }
-                        selectedStore().storeLayoutChange("change");
+                       // selectedStore().storeLayoutChange("change");
                     });
                     confirmation.show();
                 },
@@ -2026,7 +2027,7 @@ define("stores/stores.viewModel",
                             nextSecondaryPageIdCounter(nextId);
                         }
                         //Hide Dialog
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                         view.hideSecondoryPageDialog();
                     }
                 },
@@ -3338,7 +3339,7 @@ define("stores/stores.viewModel",
                     getStoreForEditting();
                     view.initializeForm();
                     getBaseData();
-                    getBaseDataFornewCompany();
+                    //getBaseDataFornewCompany();
                     view.initializeLabelPopovers();
                 },
                 //Get Store For editting
@@ -3437,6 +3438,7 @@ define("stores/stores.viewModel",
                             //Update Cost Centers Selection 
                             updateSelectedStoreCostCenters();
                             selectedStore().reset();
+                            storeHasChanges.reset();
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -3474,6 +3476,7 @@ define("stores/stores.viewModel",
                     selectedCurrentPageId(undefined);
                     resetObservableArrays();
                     selectedStore().reset();
+                    storeHasChanges.reset();
                 },
                 resetFilterSection = function () {
                     searchFilter(undefined);
@@ -3527,9 +3530,6 @@ define("stores/stores.viewModel",
                                 //_.each(data.PaymentMethods, function (item) {
                                 //    paymentMethods.push(model.PaymentMethod.Create(item));
                                 //});
-                                //_.each(data.CostCenterDropDownList, function (item) {
-                                //    costCentersList.push(model.CostCenter.Create(item));
-                                //});
                                 ////Email Event List
                                 //emailEvents.removeAll();
                                 //if (data.EmailEvents !== null) {
@@ -3581,6 +3581,7 @@ define("stores/stores.viewModel",
                                
                             }
                             selectedStore().reset();
+                            storeHasChanges.reset();
                             isLoadingStores(false);
                         },
                         error: function (response) {
@@ -3607,6 +3608,7 @@ define("stores/stores.viewModel",
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
                                     cmsPagesBaseData.removeAll();
+                                    costCentersList.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
@@ -3652,6 +3654,10 @@ define("stores/stores.viewModel",
                                     _.each(data.Widgets, function (item) {
                                         widgets.push(model.Widget.Create(item));
                                     });
+                                    
+                                    _.each(data.CostCenterDropDownList, function (item) {
+                                        costCentersList.push(model.CostCenter.Create(item));
+                                    });
                                     //Sefault Sprite Image
                                     selectedStore().userDefinedSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
@@ -3672,7 +3678,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Failed to Load Stores . Error: " + response);
+                                toastr.error("Failed to Load Stores Base Data. Error: " + response);
                             }
                         });
                     }
@@ -3846,7 +3852,7 @@ define("stores/stores.viewModel",
                 // Widget being dropped
                 // ReSharper disable UnusedParameter
                 dropped = function (source, target, event) {
-                    selectedStore().storeLayoutChange("change");
+                    //selectedStore().storeLayoutChange("change");
                     // ReSharper restore UnusedParameter
                     if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
                         if (source.widget.widgetId() === 14) {
@@ -3897,7 +3903,7 @@ define("stores/stores.viewModel",
                 //Add Widget To Page Layout
                 addWidgetToPageLayout = function (widget) {
                     if (selectedCurrentPageId() !== undefined && widget !== undefined && widget !== null && widget.widgetControlName !== undefined && widget.widgetControlName() !== "") {
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                         if (widget.widgetId() === 14) {
                             var newWidget = new model.CmsSkingPageWidget();
                             //newWidget.htmlData(data);
@@ -3941,7 +3947,7 @@ define("stores/stores.viewModel",
                 deletePageLayoutWidget = function (widget) {
                     if (widget !== undefined && widget !== null) {
                         pageSkinWidgets.remove(widget);
-                        selectedStore().storeLayoutChange("change");
+                        //selectedStore().storeLayoutChange("change");
                     }
                 },
                 //show Ck Editor Dialog
@@ -3961,7 +3967,7 @@ define("stores/stores.viewModel",
                             item.cmsSkinPageWidgetParam().paramValue(param);
                         }
                     });
-                    selectedStore().storeLayoutChange("change");
+                    //selectedStore().storeLayoutChange("change");
                     selectedWidget(undefined);
                     view.hideCkEditorDialogDialog();
                 },
@@ -4807,6 +4813,22 @@ define("stores/stores.viewModel",
                     },
                     //#endregion ________ Smart Form___________
 
+                // Store Has Changes
+// ReSharper disable InconsistentNaming
+                storeHasChanges = new ko.dirtyFlag({
+                    // ReSharper restore InconsistentNaming
+                    emails: emails,
+                    companyBannerSetList: companyBannerSetList,
+                    companyBanners: companyBanners,
+                    newAddedSecondaryPage: newAddedSecondaryPage,
+                    editedSecondaryPage: editedSecondaryPage,
+                    deletedSecondaryPage: deletedSecondaryPage,
+                    pageSkinWidgets: pageSkinWidgets
+                }),
+                // Has Changes
+                hasChangesOnStore = ko.computed(function () {
+                    return ((selectedStore() && selectedStore().hasChanges()) || storeHasChanges.isDirty());
+                }),
                 //Store workflow Image Files Loaded Callback
                     storeWorkflowImageLoadedCallback = function (file, data) {
                         selectedStore().storeWorkflowImageBinary(data);
@@ -5158,6 +5180,8 @@ define("stores/stores.viewModel",
                     storeStatus: storeStatus,
                     storeHeading: storeHeading,
                     productStatus: productStatus,
+                    storeHasChanges: storeHasChanges,
+                    hasChangesOnStore: hasChangesOnStore
                 };
                 //#endregion
             })()
