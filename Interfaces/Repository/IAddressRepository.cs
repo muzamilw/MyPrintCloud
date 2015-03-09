@@ -44,5 +44,6 @@ namespace MPC.Interfaces.Repository
         void UpdateBillingShippingAdd(Address Model);
         void AddAddBillingShippingAdd(Address Address);
         void ResetDefaultShippingAddress(Address address);
+        Address GetAddressById(long addressId);
     }
 }
