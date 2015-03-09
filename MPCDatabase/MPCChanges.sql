@@ -608,3 +608,26 @@ GO
 /* Execution Date: 06/03/2015 */
 
 Insert into PaymentMethod (PaymentMethodId, MethodName, IsActive) values (6, 'NAB', 'True')
+
+
+/* Execution Date: 09/03/2015 */
+
+GO
+
+alter table cmsskinpagewidget
+drop constraint FK__CmsSkinPa__PageI__194E09EA
+
+alter table cmsskinpagewidget
+add constraint FK_CmsSkinPageWidget_CmsPage
+Foreign Key (PageId) references
+CmsPage(PageId) on delete cascade
+
+alter table cmsskinpagewidgetparam
+drop constraint FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets
+
+alter table cmsskinpagewidgetparam
+add constraint FK_cmsSkinPageWidgetParam_cmsSkinPageWidget
+Foreign Key (PageWidgetId) references
+CmsSkinPageWidget(PageWidgetId) on delete cascade
+
+GO

@@ -3407,18 +3407,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__CmsSkinPa__PageI__194E09EA">
-          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="0..1" />
-          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CmsPage">
-              <PropertyRef Name="PageId" />
-            </Principal>
-            <Dependent Role="CmsSkinPageWidget">
-              <PropertyRef Name="PageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__ImagePerm__Image__60D4A69D">
           <End Role="TemplateBackgroundImage" Type="Self.TemplateBackgroundImage" Multiplicity="0..1" />
           <End Role="ImagePermissions" Type="Self.ImagePermissions" Multiplicity="*" />
@@ -3560,6 +3548,34 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CmsOffer">
               <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CmsSkinPageWidget_CmsPage">
+          <End Role="CmsPage" Type="Self.CmsPage" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsPage">
+              <PropertyRef Name="PageId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_cmsSkinPageWidgetParam_cmsSkinPageWidget">
+          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CmsSkinPageWidgetParam" Type="Self.CmsSkinPageWidgetParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CmsSkinPageWidget">
+              <PropertyRef Name="PageWidgetId" />
+            </Principal>
+            <Dependent Role="CmsSkinPageWidgetParam">
+              <PropertyRef Name="PageWidgetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -4140,18 +4156,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CmsSkinPageWidget">
               <PropertyRef Name="WidgetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
-          <End Role="CmsSkinPageWidget" Type="Self.CmsSkinPageWidget" Multiplicity="0..1" />
-          <End Role="CmsSkinPageWidgetParam" Type="Self.CmsSkinPageWidgetParam" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CmsSkinPageWidget">
-              <PropertyRef Name="PageWidgetId" />
-            </Principal>
-            <Dependent Role="CmsSkinPageWidgetParam">
-              <PropertyRef Name="PageWidgetId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5158,10 +5162,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="State" EntitySet="State" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
-          <AssociationSet Name="FK__CmsSkinPa__PageI__194E09EA" Association="Self.FK__CmsSkinPa__PageI__194E09EA">
-            <End Role="CmsPage" EntitySet="CmsPage" />
-            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
-          </AssociationSet>
           <AssociationSet Name="FK__ImagePerm__Image__60D4A69D" Association="Self.FK__ImagePerm__Image__60D4A69D">
             <End Role="TemplateBackgroundImage" EntitySet="TemplateBackgroundImage" />
             <End Role="ImagePermissions" EntitySet="ImagePermissions" />
@@ -5209,6 +5209,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_CmsOffer_Company" Association="Self.FK_CmsOffer_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="CmsOffer" EntitySet="CmsOffer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CmsSkinPageWidget_CmsPage" Association="Self.FK_CmsSkinPageWidget_CmsPage">
+            <End Role="CmsPage" EntitySet="CmsPage" />
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+          </AssociationSet>
+          <AssociationSet Name="FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" Association="Self.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget">
+            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
+            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParam" />
           </AssociationSet>
           <AssociationSet Name="FK_ColorPallete_Company" Association="Self.FK_ColorPallete_Company">
             <End Role="Company" EntitySet="Company" />
@@ -5401,10 +5409,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_cmsPageWidgets_tbl_cmsWidgets" Association="Self.FK_tbl_cmsPageWidgets_tbl_cmsWidgets">
             <End Role="Widgets" EntitySet="Widgets" />
             <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" Association="Self.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets">
-            <End Role="CmsSkinPageWidget" EntitySet="CmsSkinPageWidget" />
-            <End Role="CmsSkinPageWidgetParam" EntitySet="CmsSkinPageWidgetParam" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_contactcompanies_tbl_contactcompanytypes" Association="Self.FK_tbl_contactcompanies_tbl_contactcompanytypes">
             <End Role="CompanyType" EntitySet="CompanyType" />
