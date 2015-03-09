@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using System;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
@@ -25,10 +26,10 @@ namespace MPC.Repository.Repositories
                 return db.SystemUsers;
             }
         }
-        public SystemUser GetSalesManagerDataByID(int ManagerId)
+        public SystemUser GetSalesManagerDataByID(Guid ManagerId)
         {
 
-            SystemUser rec = db.SystemUsers.FirstOrDefault();
+            SystemUser rec = db.SystemUsers.Where(g => g.SystemUserId == ManagerId).SingleOrDefault();
             //db.SystemUsers.Where(u => u.SystemUserId == ManagerId).FirstOrDefault()
             return rec;
         }

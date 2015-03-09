@@ -322,7 +322,7 @@
                                             <td width="30%" align="left"></td>
                                             <td width="32%"></td>
                                             <td width="20%" align="left" class="LightGrayLabels">
-                                                <label ID="lblTaxLabel" >VAT</label>
+                                                <label ID="lblTaxLabel" >@ViewBag.TaxLabel:</label>
                                             </td>
                                             <td align="right" width="20%">
                                                 <label ID="lblVatTotal"  class="LightGrayLabels"  Style="margin-right: 13px;" >@VatTotal</label>
@@ -378,7 +378,7 @@
                                 </div>
                                 
                             }
-                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true))
+                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true) || (UserCookieManager.StoreMode == (int)StoreMode.Retail))
                             {
                                 <div class="pad10">
                                     <div class="float_right marginLeft">

@@ -3013,7 +3013,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID +
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID +
                                         "/";
                         //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
@@ -3145,7 +3145,7 @@ namespace MPC.Repository.Repositories
                 }
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "/mpc_content/Attachments/Organisation" + organisationId + "/" + customerID;
+                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID;
                         // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
                     if (!System.IO.Directory.Exists(virtualFolderPth))

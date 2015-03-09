@@ -332,6 +332,7 @@
     <Compile Include="Common\EmailBackgroundTask.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
@@ -632,6 +633,7 @@
     <Content Include="Areas\Designer\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Designer\Views\Designer\Index.cshtml" />
     <Content Include="Areas\WebstoreApi\Views\web.config" />
+    <None Include="Properties\PublishProfiles\MPC.Webstore  MZ.pubxml" />
     <None Include="Properties\PublishProfiles\MPCPublish.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Designer\jCanvaScript.1.5.14.min.js" />
@@ -770,6 +772,7 @@
     <Content Include="Views\Payment\NabSubmitww.cshtml" />
     <Content Include="Views\Shared\PartialViews\SlidingBanner.cshtml" />
     <Content Include="Views\Shared\PartialViews\NabSubmit.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BillingShippingAddressManager.cshtml" />
     <Content Include="Views\Shared\PartialViews\SavedDesigns.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -779,6 +782,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\BillingShippingAddressManager\" />
     <Folder Include="Views\NabSubmit\" />
     <Folder Include="Views\SavedDesigns\" />
     <Folder Include="Views\SlidingBanner\" />

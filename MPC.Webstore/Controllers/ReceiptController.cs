@@ -62,11 +62,27 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Currency = "";
             }
 
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
            OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
            ViewBag.Organisation = StoreBaseResopnse.Organisation;
-
-           return View("PartialViews/Receipt", order);
+            if (StoreBaseResopnse.Organisation.Country != null)
+            {
+                ViewBag.OrganisationCountryName = StoreBaseResopnse.Organisation.Country.CountryName;
+            }
+            else
+            {
+                ViewBag.OrganisationCountryName = "";
+            }
+            if (StoreBaseResopnse.Organisation.State != null)
+            {
+                ViewBag.OrganisationStateName = StoreBaseResopnse.Organisation.State.StateName;
+            }
+            else
+            {
+                ViewBag.OrganisationStateName = "";
+            }
+            return View("PartialViews/Receipt", order);
         }
 
         

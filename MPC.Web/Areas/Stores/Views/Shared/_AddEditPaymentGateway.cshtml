@@ -62,15 +62,15 @@
                     <div class="col-lg-12">
                         <div class="col-lg-12" id="marchantIDtxt" style="font-size:12px;">
                             <!-- ko if: !$root.isAccessCodeSectionVisible() -->
-                            e.g. The marchant email address used in your PayPal account.
+                            e.g. The merchant ID used in your PayPal account.
                             <!--/ko-->
                             <!-- ko if: $root.isAccessCodeSectionVisible() -->
-                            e.g. The marchant id used in your <label data-bind="text: $root.paymentMethodName"></label> account.
+                            e.g. The merchant ID used in your <label data-bind="text: $root.paymentMethodName"></label> account.
                             <!--/ko-->
                         </div>
 
                     </div>
-
+                    
                 </div>
                 <div class="form-group paymentSettingsDisplay" style="display:none;" data-bind="visible: $root.isAccessCodeSectionVisible">
                     <div class="col-lg-4 text-right">
