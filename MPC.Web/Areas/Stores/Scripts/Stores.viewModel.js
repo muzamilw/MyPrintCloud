@@ -4378,6 +4378,7 @@ define("stores/stores.viewModel",
                    fieldVariableForSmartForm.variableTag(fieldVariable.variableTag());
                    fieldVariableForSmartForm.scopeName(fieldVariable.scopeName());
                    fieldVariableForSmartForm.typeName(fieldVariable.typeName());
+                   fieldVariableForSmartForm.variableType(fieldVariable.variableType());
                    fieldVariableForSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
                    fieldVariableForSmartForm.title(fieldVariable.variableTitle());
                    fieldVariablesForSmartForm.push(fieldVariableForSmartForm);

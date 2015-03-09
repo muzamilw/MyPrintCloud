@@ -2203,10 +2203,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            //fieldVariableRepository.SaveChanges();
-
-
-
+            
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
                 IEnumerable<CompanyContact> companyContacts =
@@ -2218,17 +2215,16 @@ namespace MPC.Implementation.MISServices
                         ScopeVariable scopeVariable = new ScopeVariable();
 
                         scopeVariable.ScopeVariableId = 0;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Scope = fieldVariable.Scope;
                         scopeVariable.Id = contact.ContactId;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
+                        fieldVariable.ScopeVariables.Add(scopeVariable);
                     }
-                    // scopeVariableRepository.SaveChanges();
                 }
             }
 
+            fieldVariableRepository.SaveChanges();
             return fieldVariable.VariableId;
         }
 
@@ -2296,12 +2292,11 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                //fieldVariableRepository.SaveChanges();
+                fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
