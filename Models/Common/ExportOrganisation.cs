@@ -198,23 +198,4 @@ namespace MPC.Models.Common
        
 
     }
-
-    public class ExportSets
-    {
-        public ExportOrganisation ExportOrganisationSet1 { get; set; }
-
-        public ExportOrganisation ExportOrganisationSet2 { get; set; }
-
-        public ExportOrganisation ExportOrganisationSet3 { get; set; }
-
-        public ExportOrganisation ExportOrganisationSet4 { get; set; }
-
-        public ExportOrganisation ExportRetailStore1 { get; set; }
-
-        public ExportOrganisation ExportRetailStore2 { get; set; }
-
-        public ExportOrganisation ExportRetailStore3 { get; set; }
-
-        public ExportOrganisation ExportRetailStore4 { get; set; }
-    }
 }

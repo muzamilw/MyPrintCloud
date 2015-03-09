@@ -337,9 +337,7 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\NabSubmitController.cs" />
-    <Compile Include="Controllers\NewsletterSubscriberController.cs" />
     <Compile Include="Controllers\OrderConfirmationController.cs" />
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
@@ -776,8 +774,6 @@
     <Content Include="Views\Shared\PartialViews\NabSubmit.cshtml" />
     <Content Include="Views\Shared\PartialViews\BillingShippingAddressManager.cshtml" />
     <Content Include="Views\Shared\PartialViews\SavedDesigns.cshtml" />
-    <Content Include="Views\Shared\PartialViews\NewsletterSubscriber.cshtml" />
-    <Content Include="Views\Shared\PartialViews\FeaturedProductCarousal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -786,10 +782,8 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\FeaturedProductCarousal\" />
     <Folder Include="Views\BillingShippingAddressManager\" />
     <Folder Include="Views\NabSubmit\" />
-    <Folder Include="Views\NewsletterSubscriber\" />
     <Folder Include="Views\SavedDesigns\" />
     <Folder Include="Views\SlidingBanner\" />
   </ItemGroup>

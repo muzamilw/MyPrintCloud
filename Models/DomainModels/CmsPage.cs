@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -44,8 +43,6 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Company
         /// </summary>
-       
-       
         public virtual Company Company { get; set; }
         /// <summary>
         /// Page Category

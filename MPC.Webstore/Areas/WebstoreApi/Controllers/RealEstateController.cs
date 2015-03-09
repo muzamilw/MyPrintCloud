@@ -50,11 +50,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             myCompanyService.ImportOrganisation(parameter1, parameter2, parameter3);
         }
 
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [HttpPost]
-        public void ExportOrganisation(long parameter1)
-        {
-            myCompanyService.ExportOrganisation(parameter1);
-        }
+       
     }
 }

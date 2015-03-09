@@ -47,9 +47,9 @@ namespace MPC.Interfaces.Repository
         bool UpdateCompanyName(Company Instance);
         Company GetStoreByStoreId(long companyId);
 
-        ExportSets ExportRetailCompany(long CompanyId);
+        ExportOrganisation ExportCompany( long CompanyId);
 
-        ExportOrganisation ExportCompany(long CompanyId);
+        ExportOrganisation ExportRetailCompany( long CompanyId);
 
         long GetCorporateCompanyIDbyOrganisationID(long OID);
 
