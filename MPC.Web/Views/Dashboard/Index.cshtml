@@ -1024,15 +1024,7 @@
 
         
 
-    function openTour() {
-        $("#myprintcloud-help").css("top", "-250");
-        $("#myprintcloud-help").css("display", "block");
-        $(".disabled-div").css("display", "block");
-        $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
-
-        $('body').css('overflow', 'hidden');
-
-    }
+  
  
     function createCookie(name, value, days) {
         if (days) {
@@ -1413,6 +1405,33 @@
                 $(".help-header-description").html(proceddingheadertext[i - 1]);
                 $(".help-details").html(proceddingdetails[i - 1]);
                 i = i - 1;
+
+            });
+            
+            $("#btnTakeATour").click(function () {
+             //   $("#myprintcloud-help").css("top", "-250");
+            //    $("#myprintcloud-help").css("display", "block");
+                $(".disabled-div").css("display", "block");
+            //    $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+                $(".bottom-arrow").show();
+                $(".left-arrow").show();
+                $(".right-arrow").show();
+                $("#btnPreviousHelp").hide();
+                i = 0;
+                $(".help-header-title").html(proceeding[i]);
+                $(".help-header-description").html(proceddingheadertext[i]);
+                $(".help-details").html(proceddingdetails[i]);
+                $(".highlight-div").css("visibility", "hidden");
+               
+               
+
+                       $("#myprintcloud-help").css("top", "-250");
+                       $("#myprintcloud-help").css("display", "block");
+                       $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+                       $("#myprintcloud-help").css("left", "41%");
+                
+                       lastTop = [];lastLeft = [];
+                $('body').css('overflow', 'hidden');
 
             });
         });
