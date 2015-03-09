@@ -41,8 +41,8 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         List<Address> GetContactCompanyAddressesList(long BillingAddressId, long ShippingAddressid, long PickUpAddressId);
         List<Address> GetsearchedAddress(long CompanyId, String searchtxt);
-        void UpdateBillingShippingAdd(Address Model);
-        void AddAddBillingShippingAdd(Address Address);
+        bool UpdateBillingShippingAdd(Address Model);
+        bool AddAddBillingShippingAdd(Address Address);
         void ResetDefaultShippingAddress(Address address);
     }
 }

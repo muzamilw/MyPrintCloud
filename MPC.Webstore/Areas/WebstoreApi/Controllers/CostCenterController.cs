@@ -323,6 +323,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             obj.Address = Address;
             obj.StateId = Address.StateId??0;
             obj.CountryId = Address.CountryId??0;
+            obj.CompanyID = Address.CompanyId??0;
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
@@ -348,6 +349,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
          public Address Address;
          public long StateId;
          public long CountryId;
+         public long CompanyID;
       }
     
 }

@@ -30,6 +30,8 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
             }
+
+            ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
             return View("PartialViews/BillingShippingAddressManager");
         }
 
@@ -93,16 +95,25 @@ namespace MPC.Webstore.Controllers
         }
 
         [HttpPost]
-        public ActionResult Index(string SearchedText)
+        public ActionResult Index(string SearchString, string btnsearch, string btnReset)
         {
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (btnsearch != null)
             {
-                List<Address> RefinedAddresses = FilterAddresses();
-                ViewBag.Address = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchedText.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                {
+                    List<Address> RefinedAddresses = FilterAddresses();
+                    ViewBag.Address = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                }
+                else
+                {
+                    ViewBag.Address = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchString);
+                }
+
             }
             else
             {
-                ViewBag.Address = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchedText);
+            
+            
             }
             return View("PartialViews/BillingShippingAddressManager");
         }
@@ -120,7 +131,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public void AddNewAddress(Address Address)
         {
-            _companyService.AddAddBillingShippingAdd(Address);
+            Address.CompanyId = _myClaimHelper.loginContactCompanyID();
+           _companyService.AddAddBillingShippingAdd(Address);
         }
         [HttpGet]
         public JsonResult LoadCountriesList()
