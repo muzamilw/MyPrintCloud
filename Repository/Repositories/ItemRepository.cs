@@ -4077,6 +4077,29 @@ namespace MPC.Repository.Repositories
         //    }
         //}
 
+        /// <summary>
+        /// get all published products against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public List<Item> GetProductsList(long CompanyId, long OrganisationId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Items.Where(
+                     i =>
+                         i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == CompanyId &&
+                         i.OrganisationId == OrganisationId).ToList();
+             
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+           
+        }
     #endregion
     }
 }

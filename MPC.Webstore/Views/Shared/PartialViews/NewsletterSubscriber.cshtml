@@ -1,19 +1,23 @@
-﻿
+﻿@using MPC.Webstore.Common
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
 <div id="btnSubscribeNewsletter" class="content_area_NewsLetter ">
     <div class="PnlSubscribeNewsletter container row">
         <div class="rounded_corners subscribe_sec" style="border: 2px solid #f3f3f3;
             ">
             <label id="lblOurNews" class="NewsLtrHeadingCS"></label>
-            <div class="NewsDescCs col-md-6 col-lg-6 col-sm-6 col-xs-12">
-                <label id="Nwsdesc"></label>
+            <div class="descriptionLetterCs ">
+                <label id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.StoreId))</label>
             </div>
             @using (Html.BeginForm())
                   {
-                      <div class="NewsLtrTxtBxContCS col-md-6 col-lg-6 col-sm-6 col-xs-12">
+                      <div class="NewsLtrTxtBxContCS ">
                           <input id="txtEmailbox" value="Enter email address..."
                                  class="txtSubscribe-Subscribe SubscribeTxtBoxCS" />
 
-                          <input id="btnSendNews" onclick=" return ValidateBottomSubscriberEmail(); " type="submit"
+                          <input id="btnSendNews" onclick=" return ValidateSubscriberEmail(); " type="submit"
                                  class="btnSubscribe rounded_corners" value="Send" /><br />
                       </div>
                       <div class="NewsLtrErrDesCS">
@@ -62,7 +66,7 @@
 
 
 
-        function ValidateBottomSubscriberEmail() {
+        function ValidateSubscriberEmail() {
 
             var email = $('#txtEmailbox').val().trim();
             if (ValidateEmail(email)) {
