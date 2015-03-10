@@ -49,6 +49,10 @@ define("product/product.viewModel",
                     categoryTypes = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
+                    // Currency Unit fOr Organisation 
+                    currencyUnit = ko.observable(),
+                    // Length Unit fOr Organisation 
+                    lengthUnit = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -832,6 +836,8 @@ define("product/product.viewModel",
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
                                 paperSizes.removeAll();
+                                lengthUnit(data.LengthUnit);
+                                currencyUnit(data.CurrencyUnit);
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -1224,9 +1230,11 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     // For Store
-                    initializeForStore: initializeForStore
+                    initializeForStore: initializeForStore,
                     // For Store
                     // Utility Methods
+                    currencyUnit: currencyUnit,
+                    lengthUnit: lengthUnit,
 
                 };
             })()
