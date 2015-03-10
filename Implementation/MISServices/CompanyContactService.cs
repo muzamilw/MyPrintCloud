@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Windows.Forms;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -76,6 +77,17 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
+        /// <summary>
+        /// Method to check user's email Duplicates within store 
+        /// </summary>
+        /// <param name="companyContact"></param>
+        /// <returns></returns>
+        private bool CheckDuplicatesOfContactEmailInStore(CompanyContact companyContact)
+        {
+            var flag = companyContactRepository.CheckDuplicatesOfContactEmailInStore(companyContact.Email,
+                companyContact.CompanyId);
+            return flag;
+        }
         #region Constructor
 
         public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
@@ -126,11 +138,15 @@ namespace MPC.Implementation.MISServices
 
         public CompanyContact Save(CompanyContact companyContact)
         {
-            if (companyContact.ContactId == 0)
+            if (!CheckDuplicatesOfContactEmailInStore(companyContact))
             {
-                return Create(companyContact);
+                if (companyContact.ContactId == 0)
+                {
+                    return Create(companyContact);
+                }
+                return Update(companyContact);
             }
-            return Update(companyContact);
+            throw new MPCException("Duplicate Email/Username are not allowed", companyContactRepository.OrganisationId);
         }
 
         /// <summary>
