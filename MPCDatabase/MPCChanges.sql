@@ -631,3 +631,15 @@ Foreign Key (PageWidgetId) references
 CmsSkinPageWidget(PageWidgetId) on delete cascade
 
 GO
+
+/* Execution Date: 10/03/2015 */
+
+GO
+
+alter table templateObject
+add originalTextStyles nvarchar(MAX) null
+
+alter table templateObject
+add originalContentString  nvarchar(MAX) null
+
+GO

@@ -43,5 +43,15 @@ namespace MPC.Models.ResponseModels
         /// Paper Sizes
         /// </summary>
         public IEnumerable<PaperSize> PaperSizes { get; set; }
+
+        /// <summary>
+        /// Length Unit 
+        /// </summary>
+        public string LengthUnit { get; set; }
+
+        /// <summary>
+        /// Currency Unit 
+        /// </summary>
+        public string CurrencyUnit { get; set; }
     }
 }

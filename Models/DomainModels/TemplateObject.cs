@@ -64,6 +64,8 @@
         public bool? IsOverlayObject { get; set; }
         public string ClippedInfo { get; set; }
         public int textCase { get; set; }
+        public string originalTextStyles { get; set; }
+        public string originalContentString { get; set; }
         public virtual Template Template { get; set; }
     }
 }
