@@ -836,8 +836,8 @@ define("product/product.viewModel",
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
                                 paperSizes.removeAll();
-                                lengthUnit(data.LengthUnit);
-                                currencyUnit(data.CurrencyUnit);
+                                lengthUnit(undefined);
+                                currencyUnit(undefined);
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -864,6 +864,10 @@ define("product/product.viewModel",
                                     
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
+                                    
+                                    // Map Units
+                                    lengthUnit(data.LengthUnit || undefined);
+                                    currencyUnit(data.CurrencyUnit || undefined);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -1191,6 +1195,8 @@ define("product/product.viewModel",
                     pressItems: pressItems,
                     paperSizes: paperSizes,
                     selectedCompany: selectedCompany,
+                    currencyUnit: currencyUnit,
+                    lengthUnit: lengthUnit,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1230,11 +1236,9 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     // For Store
-                    initializeForStore: initializeForStore,
+                    initializeForStore: initializeForStore
                     // For Store
                     // Utility Methods
-                    currencyUnit: currencyUnit,
-                    lengthUnit: lengthUnit,
 
                 };
             })()
