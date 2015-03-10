@@ -2350,7 +2350,7 @@ define("stores/stores.viewModel",
                     ko.utils.arrayPushAll(scopeVariable.variableOptions, item.variableOptions());
                     scopeVariable.variableOptions.valueHasMutated();
                     return scopeVariable;
-                }
+                },
                     // Delete CompanyContact
                     onDeleteCompanyContact = function (companyContact) { //CompanyContact
                         if (companyContact.isDefaultContact()) {
