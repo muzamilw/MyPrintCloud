@@ -722,7 +722,6 @@ function d5(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            console.log(IT.Height + " " + IT.Width);
             if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -3762,11 +3761,15 @@ function pcl41(xdata) {
     });
 
     $("#SmartFormContainer").html(html);
-    
+    pcl40_InsertUserData(smartFormData.scopeVariables);
 }
 function pcl40_showUserList(userList)
 {
-    alert("show user list");
+    var html = "";
+    $.each(userList, function (i, IT) {
+        html += '<option  id = "option' + IT.ContactId + '" value="' + IT.ContactId + '" >' + IT.ContactName + '</option>';;
+    });
+    $("#smartFormSelectUserProfile").html(html);
 }
 function pcl40_addDropDown(title, varId,options) {
     var html = "";
@@ -3800,7 +3803,13 @@ function pcl40_addCaption(caption) {
 function pcl40_addLineSeperator() {
     return ' <div class="clear"></div><div class="smartFormLineSeperator"></div>';
 }
-
+function pcl40_InsertUserData(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.Value != null && IT.value != "") {
+            $("#txtSmart" + IT.VariableId).val(IT.Value);
+        }
+    });
+}
 function pcl40_ValidateInputMask(e, mask) {
     alert(mask);
 }

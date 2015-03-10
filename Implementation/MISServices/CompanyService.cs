@@ -88,6 +88,8 @@ namespace MPC.Implementation.MISServices
         private readonly IScopeVariableRepository scopeVariableRepository;
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ISmartFormDetailRepository smartFormDetailRepository;
+        private readonly IMediaLibraryRepository mediaLibraryRepository;
+        private readonly ICompanyCostCenterRepository companyCostCenterRepository;
 
         #endregion
 
@@ -325,7 +327,10 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyCostCentre missingCompanyCostCentre in missingItemsList)
                 {
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyCostCenterRepository.Delete(dbVersionMissingItem);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
+                    //company.CompanyCostCentres.Remove(dbVersionMissingItem);
+                    
                 }
             }
             else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres != null && companyDbVersion.CompanyCostCentres.Count > 0)
@@ -334,6 +339,7 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
                 {
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyCostCenterRepository.Delete(dbVersionMissingItem);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                 }
             }
@@ -2202,10 +2208,7 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            //fieldVariableRepository.SaveChanges();
-
-
-
+            
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
                 IEnumerable<CompanyContact> companyContacts =
@@ -2217,17 +2220,16 @@ namespace MPC.Implementation.MISServices
                         ScopeVariable scopeVariable = new ScopeVariable();
 
                         scopeVariable.ScopeVariableId = 0;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Scope = fieldVariable.Scope;
                         scopeVariable.Id = contact.ContactId;
-                        scopeVariable.VariableId = fieldVariable.VariableId;
                         scopeVariable.Value = fieldVariable.DefaultValue;
                         scopeVariableRepository.Add(scopeVariable);
+                        fieldVariable.ScopeVariables.Add(scopeVariable);
                     }
-                    // scopeVariableRepository.SaveChanges();
                 }
             }
 
+            fieldVariableRepository.SaveChanges();
             return fieldVariable.VariableId;
         }
 
@@ -2295,12 +2297,11 @@ namespace MPC.Implementation.MISServices
                     if (dbVersionMissingItem.VariableOptionId > 0)
                     {
                         variableOptionRepository.Delete(dbVersionMissingItem);
-                        //variableOptionRepository.SaveChanges();
                     }
                 }
                 #endregion
 
-                //fieldVariableRepository.SaveChanges();
+                fieldVariableRepository.SaveChanges();
             }
 
             return fieldVariable.VariableId;
@@ -2415,10 +2416,13 @@ namespace MPC.Implementation.MISServices
             ICompanyDomainRepository companyDomainRepository, ICostCentreMatrixRepository costCentreMatrixRepositry, ICostCentreQuestionRepository CostCentreQuestionRepository,
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
-            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository, IEstimateRepository estimateRepository)
+            IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
+            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
+            this.mediaLibraryRepository = mediaLibraryRepository;
+            this.companyCostCenterRepository = companyCostCenterRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
             this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
@@ -2556,7 +2560,7 @@ namespace MPC.Implementation.MISServices
                 FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                 SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                 FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                // CmsPages = cmsPageRepository.GetCmsPagesForOrders()
+                CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId)
 
             };
         }
@@ -2581,8 +2585,9 @@ namespace MPC.Implementation.MISServices
                 Widgets = widgetRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
+                //CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
+                CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId()
             };
         }
         public void SaveFile(string filePath, long companyId)
@@ -4162,10 +4167,21 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
+        /// <summary>
+        /// Apply Theme
+        /// </summary>
+
         public void ApplyTheme(string themeName, long companyId)
         {
             ApplyThemeCss(themeName, companyId);
             ApplyThemeSpriteImage(themeName, companyId);
+            ApplyThemeWidgets(themeName, companyId);
+            AddThemeBanners(themeName, companyId);
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
+            ApplyThemeFonts(source, target);
+
         }
 
         /// <summary>
@@ -4182,12 +4198,10 @@ namespace MPC.Implementation.MISServices
             }
             if (File.Exists(themeSpriteImagePath))
             {
-                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
+                File.Copy(themeSpriteImagePath, directoryPath, true);
+                //  File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
             }
-            else
-            {
-                File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
-            }
+
         }
 
         /// <summary>
@@ -4208,6 +4222,10 @@ namespace MPC.Implementation.MISServices
                 {
                     File.WriteAllText(path, css);
                 }
+                else
+                {
+                    File.WriteAllText(path, css);
+                }
 
             }
         }
@@ -4220,35 +4238,11 @@ namespace MPC.Implementation.MISServices
                  HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/widgets.txt");
                 if (File.Exists(widgetFilePath))
                 {
-
-                    var objects = JArray.Parse(widgetFilePath); // parse as array 
                     List<WidgetForTheme> widgetForThemes = new List<WidgetForTheme>();
-                    foreach (JObject root in objects)
+                    using (StreamReader r = new StreamReader(widgetFilePath))
                     {
-
-                        WidgetForTheme widgetTheme = new WidgetForTheme();
-                        foreach (KeyValuePair<String, JToken> app in root)
-                        {
-                            switch (app.Key)
-                            {
-                                case "PageName":
-                                    widgetTheme.PageName = (String)app.Value["PageName"];
-                                    break;
-                                case "WidgetId":
-                                    widgetTheme.WidgetId = (long)app.Value["WidgetId"];
-                                    break;
-                                case "SkinId":
-                                    widgetTheme.SkinId = (long)app.Value["SkinId"];
-                                    break;
-                                case "Sequence":
-                                    widgetTheme.Sequence = (short?)app.Value["Sequence"];
-                                    break;
-                                case "ParamValue":
-                                    widgetTheme.ParamValue = (String)app.Value["ParamValue"];
-                                    break;
-                            }
-                        }
-                        widgetForThemes.Add(widgetTheme);
+                        string json = r.ReadToEnd();
+                        widgetForThemes = JsonConvert.DeserializeObject<List<WidgetForTheme>>(json);
                     }
 
                     UpdateCmsPageWidgetFromApplyTheme(widgetForThemes, companyId);
@@ -4264,40 +4258,29 @@ namespace MPC.Implementation.MISServices
 
         private void UpdateCmsPageWidgetFromApplyTheme(List<WidgetForTheme> widgetForThemes, long companyId)
         {
-            List<CmsPage> cmsPages = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
+            List<CmsPage> cmsPagesDbVersion = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
 
 
-            var groups = from line in widgetForThemes
-                         group line by line.PageName
-                             into codeGroup
-                             select codeGroup;
+            var pageGroups = from page in widgetForThemes
+                             group page by page.PageName
+                                 into pageGroup
+                                 select pageGroup;
 
-
-            foreach (WidgetForTheme widgetTheme in widgetForThemes)
+            if (cmsPagesDbVersion != null)
             {
-                CmsPage cmsPageDbVersion = cmsPages.FirstOrDefault(cmsPage => cmsPage.PageName.ToLower() == widgetTheme.PageName.ToLower());
-                if (cmsPageDbVersion != null)
+                foreach (CmsPage cmsPage in cmsPagesDbVersion)
                 {
-                    List<CmsSkinPageWidget> removeCmsSkinPageWidgetItems = new List<CmsSkinPageWidget>();
-                    if (cmsPageDbVersion.CmsSkinPageWidgets != null)
-                    {
-                        //Remove Old Cms Skin Page Widget
-                        foreach (CmsSkinPageWidget widget in cmsPageDbVersion.CmsSkinPageWidgets)
-                        {
-                            removeCmsSkinPageWidgetItems.Add(widget);
-                        }
-                        foreach (CmsSkinPageWidget widget in removeCmsSkinPageWidgetItems)
-                        {
-                            cmsPageDbVersion.CmsSkinPageWidgets.Remove(widget);
-                        }
-
-
-                    }
-
+                    cmsPageRepository.Delete(cmsPage);
                 }
-                else
+                // cmsPageRepository.SaveChanges();
+            }
+
+            foreach (var group in pageGroups)
+            {
+                CmsPage newCmsPage = new CmsPage();
+                foreach (WidgetForTheme widgetTheme in group)
                 {
-                    CmsPage newCmsPage = new CmsPage();
+                    newCmsPage.PageId = 0;
                     newCmsPage.PageName = widgetTheme.PageName;
                     newCmsPage.CompanyId = companyId;
                     newCmsPage.OrganisationId = companyRepository.OrganisationId;
@@ -4315,17 +4298,105 @@ namespace MPC.Implementation.MISServices
                             CmsSkinPageWidgetParam cmsSkinPageWidgetParam = new CmsSkinPageWidgetParam();
                             cmsSkinPageWidgetParam.PageWidgetId = widget.WidgetId;
                             cmsSkinPageWidgetParam.ParamValue = widgetTheme.ParamValue;
+                            if (widget.CmsSkinPageWidgetParams == null)
+                            {
+                                List<CmsSkinPageWidgetParam> pageWidgetParams = new List<CmsSkinPageWidgetParam>();
+                                widget.CmsSkinPageWidgetParams = pageWidgetParams;
+                            }
                             widget.CmsSkinPageWidgetParams.Add(cmsSkinPageWidgetParam);
+                        }
+                        if (newCmsPage.CmsSkinPageWidgets == null)
+                        {
+                            List<CmsSkinPageWidget> cmsSkinPageWidgets = new List<CmsSkinPageWidget>();
+                            newCmsPage.CmsSkinPageWidgets = cmsSkinPageWidgets;
                         }
                         newCmsPage.CmsSkinPageWidgets.Add(widget);
                     }
-                    cmsPageRepository.Add(newCmsPage);
-                    cmsPageRepository.SaveChanges();
 
                 }
+                cmsPageRepository.Add(newCmsPage);
+            }
+            cmsPageRepository.SaveChanges();
 
+        }
+
+        /// <summary>
+        /// Update Media Library File Path
+        /// </summary>
+        private void AddThemeBanners(string themeName, long companyId)
+        {
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
+            Copy(source, target, companyId);
+
+        }
+
+        /// <summary>
+        /// Copy 
+        /// </summary>
+        public void Copy(string sourceDirectory, string targetDirectory, long companyId)
+        {
+            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
+
+            CopyThemeBanners(diSource, diTarget, companyId);
+        }
+
+        /// <summary>
+        /// Copy Banners From 
+        /// </summary>
+        public void CopyThemeBanners(DirectoryInfo source, DirectoryInfo target, long companyId)
+        {
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
             }
 
+            List<MediaLibrary> mediaLibraries = new List<MediaLibrary>();
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = new MediaLibrary();
+                mediaLibrary.MediaId = 0;
+                mediaLibrary.FileName = fi.Name;
+                mediaLibrary.FileType = "image/jpeg";
+                mediaLibrary.CompanyId = companyId;
+                mediaLibrary.FilePath = "temp";
+                mediaLibraries.Add(mediaLibrary);
+                mediaLibraryRepository.Add(mediaLibrary);
+            }
+            mediaLibraryRepository.SaveChanges();
+            int i = 0;
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = mediaLibraries[i];
+                i = (i + 1);
+                mediaLibrary.FilePath = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId + "/" + mediaLibrary.MediaId + "_" + fi.Name;
+                fi.CopyTo(Path.Combine(target.FullName, mediaLibrary.MediaId + "_" + fi.Name), true);
+            }
+            mediaLibraryRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Apply Theme Fonts
+        /// </summary>
+        private void ApplyThemeFonts(string sourceDirectory, string targetDirectory)
+        {
+            DirectoryInfo source = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo target = new DirectoryInfo(targetDirectory);
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            }
         }
     }
 }

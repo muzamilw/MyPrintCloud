@@ -170,7 +170,7 @@
                                                 <br>
                                                 <br>
                                             </td>
-                                            <td class="PadTop5" align="left" style="width:5%;padding-left: 20px;">
+                                            <td class="PadTop5" align="left" style="width:5%;padding-left: 20px;" valign="top">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
                                             </td>
                                             @if (ViewBag.IsShowPrices)
@@ -187,17 +187,17 @@
                                                 itemPrice = Utils.FormatDecimalValueToTwoDecimal((prod.Qty1BaseCharge1 ?? 0).ToString(), ViewBag.Currency);
                                                 _grandTotal += prod.Qty1GrossTotal ?? 0;
 
-                                                <td class="PadTop5 priceth" align="right" style="width:20%;padding-right:0px;">
+                                                <td class="PadTop5 priceth" valign="top" align="right" style="width:20%;padding-right:0px;">
                                                     <span id="lblItemPrice" class="fntQtyPrice" style="font-weight:bold;text-align: right !important;">@itemPrice</span>
                                                 </td>
                                             }
 
-                                            <td align="left" style="width:20%;">
+                                            <td align="left" style="width:20%;" valign="top">
                                                 <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
                                                 @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>*@
                                                 <br>
-                                               @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
-                                                <input type="submit" ID="btnCopyProduct"  class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">
+                                                @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.OrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
+                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">
                                             </td>
                                         </tr>
 
