@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
+using MPC.Interfaces.Repository;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
@@ -21,14 +22,16 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICompanyService companyService;
+        private readonly ICompanyRepository companyRepository;
 
         #endregion
 
         #region constructor
 
-        public StoreBaseController(ICompanyService companyService)
+        public StoreBaseController(ICompanyService companyService, ICompanyRepository companyRepository)
         {
             this.companyService = companyService;
+            this.companyRepository = companyRepository;
         }
         #endregion
 
@@ -48,7 +51,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "GET/";
+                string url = "GetThemesByOrganisationId?organisationId=" + companyRepository.OrganisationId;
                 string responsestr = "";
                 var response = client.GetAsync(url);
 
@@ -76,7 +79,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                        SmartFormResponse = result.SmartFormResponse.CreateFrom(),
                        FieldVariableForSmartForms = result.FieldVariablesForSmartForm != null ? result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
                        CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
-                       Themes = themes
+                       Themes = themes ?? new List<SkinForTheme>()
                    };
         }
         public CompanyBaseResponse Get()

@@ -32,9 +32,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Scope Variables
         /// </summary>
-        public IEnumerable<ScopeVariable> Get([FromUri]long companyId)
+        public IEnumerable<ScopeVariable> Get([FromUri]long companyId,int scope)
         {
-            return companyService.GetFieldVariableByCompanyId(companyId).Select(cv => cv.CreateFromFieldVariable());
+            return companyService.GetFieldVariableByCompanyIdAndScope(companyId, scope).Select(cv => cv.CreateFromFieldVariable());
         }
 
         #endregion

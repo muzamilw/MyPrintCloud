@@ -488,6 +488,18 @@ namespace MPC.Repository.Repositories
             oResult = result.FirstOrDefault();
             return oResult;
         }
+        
+
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts) {
+            bool hasContactVariables = false;
+            Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+            foreach(var contact in contacts)
+            {
+                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                UserScopeVariables.Add(contact.ContactId, variables);
+            }
+            return UserScopeVariables;
+        }
         #endregion
     }
 }
