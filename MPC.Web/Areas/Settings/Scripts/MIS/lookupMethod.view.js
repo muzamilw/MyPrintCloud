@@ -11,7 +11,7 @@
                 // Binding root used with knockout
                 bindingRoot = $("#divlookupMethodBinding")[0],
 
-                // Initialize
+                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;

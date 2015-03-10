@@ -28,7 +28,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="main-box clearfix my-tabsHeader">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs" data-bind="with: selectedProduct">
+                        <ul id="itemProductTabListItem" class="nav nav-tabs" data-bind="with: selectedProduct">
                             <li class="active"><a href="#tab-ProdNameAndImages" data-toggle="tab">Basic Details</a></li>
                             <li><a href="#tab-ProductDetailSection" data-toggle="tab">Detail Page and Section</a></li>
                             <li><a href="#tab-StockLabels" data-toggle="tab">Stock Labels</a></li>
@@ -41,7 +41,7 @@
                             <!-- /ko -->
                             <li><a href="#tab-imageManagment" data-toggle="tab">Image Management</a></li>
                         </ul>
-                        <div class="tab-content">
+                        <div class="tab-content" id="itemProductTabListItemDetails">
                             <div class="tab-pane fade in active" id="tab-ProdNameAndImages" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Basic Details</h3>
@@ -204,8 +204,8 @@
                                                 <div class="col-xs-1">  </div>
                                                 <div class="col-xs-6">
                                                     @*<a data-toggle="modal" href="#myModalss" class=" pull-right">
-                                                            <i class="fa fa-lg"></i>&nbsp;Create a new Category
-                                                        </a>*@
+                                        <i class="fa fa-lg"></i>&nbsp;Create a new Category
+                                    </a>*@
                                                 </div>
 
                                             </div>
@@ -240,12 +240,95 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
+                                    <h3 class="group-header">Product Dimension</h3>
+                                    <div class="col-lg-9">
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Length" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
+                                                <span class="help-block text-right">Length of the item</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Width" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtItemWidth" class="control-label text-right tooltip-float">Item Width</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
+                                                <span class="help-block text-right">Width of the item</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Height" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtItemHeight" class="control-label text-right tooltip-float">Item Height</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
+                                                <span class="help-block text-right">Height of the item</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Weight" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+
+                                                </div>
+
+
+                                                <label for="txtItemWeight" class="control-label text-right tooltip-float">Item Weight</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
+                                                <span class="help-block text-right">Weight of the item</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Product Option</h3>
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Enabled</label>
+                                                <label class="control-label text-right" for="switchEnableProduct">Enabled</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -264,7 +347,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Publish on Store</label>
+                                                <label class="control-label text-right" for="switchPublishOnWebsite">Publish on Store</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -298,7 +381,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Users can Purchase/Download Hi Res Artwork</label>
+                                                <label class="control-label text-right" for="switchIsDigitalDownload">Users can Purchase/Download Hi Res Artwork</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -316,7 +399,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Is this Real Estate Product ( Allows Merging of Property/Asset data into Template )</label>
+                                                <label class="control-label text-right" for="switchIsRealStateProduct">Is this Real Estate Product ( Allows Merging of Property/Asset data into Template )</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -335,7 +418,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchFeaturedProduct">User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) for this product? </label>
+                                                <label class="control-label text-right" for="switchIsUploadImage">User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) for this product? </label>
                                                 <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                             </div>
                                             <div class="col-lg-3">
@@ -352,7 +435,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Is this a VDP product ? Apply prices as per below table</label>
+                                                <label class="control-label text-right" for="switchVDPs">Is this a VDP product ? Apply prices as per below table</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -369,12 +452,124 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Enable stock level</label>
+                                                <label class="control-label text-right tooltip-float" for="switchStockLevelProduct">Enable stock level</label>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
                                                     <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" data-bind="checked: isStockControl">
                                                     <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Add Crop Marks</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAddCropMarksProduct" data-bind="checked: isAddCropMarks">
+                                                    <label class="onoffswitch-label" for="switchAddCropMarksProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchPrintCropMarksProduct">Print Crop Marks</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchPrintCropMarksProduct" data-bind="checked: printCropMarks">
+                                                    <label class="onoffswitch-label" for="switchPrintCropMarksProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchDrawWaterMarkTxtProduct">Draw Watermark Text</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDrawWaterMarkTxtProduct" data-bind="checked: drawWatermarkText">
+                                                    <label class="onoffswitch-label" for="switchDrawWaterMarkTxtProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchDrawBleedAreaProduct">Draw Bleed Area</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDrawBleedAreaProduct" data-bind="checked: drawBleedArea">
+                                                    <label class="onoffswitch-label" for="switchDrawBleedAreaProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchIsMultiPagePdfProduct">Is MultiPage Pdf</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsMultiPagePdfProduct" data-bind="checked: isMultiPagePdf">
+                                                    <label class="onoffswitch-label" for="switchIsMultiPagePdfProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchAllowPdfDownloadProduct">Allow Pdf Download</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAllowPdfDownloadProduct" data-bind="checked: allowPdfDownload">
+                                                    <label class="onoffswitch-label" for="switchAllowPdfDownloadProduct">
+                                                        <div class="onoffswitch-inner"></div>
+                                                        <div class="onoffswitch-switch"></div>
+                                                    </label>
+                                                </div>
+                                                <span class="help-block text-right"></span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+
+                                                <label class="control-label text-right tooltip-float" for="switchAllowImageDownloadProduct">Allow Image Download</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="onoffswitch">
+                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAllowImageDownloadProduct" data-bind="checked: allowImageDownload">
+                                                    <label class="onoffswitch-label" for="switchAllowImageDownloadProduct">
                                                         <div class="onoffswitch-inner"></div>
                                                         <div class="onoffswitch-switch"></div>
                                                     </label>
@@ -512,223 +707,223 @@
 
 
                                     @*<div class="col-lg-9">
-                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
-                                                      <div class="bs-example-tooltips tooltip-float-width">
+                         <div class="form-group">
+                            <div class="col-lg-3 text-right">
+                                  <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enable Stock Label" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                     </div>
-
-
+                                 </div>
 
 
 
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Enable stock level</label>
-
-                                                </div>
-
-                                                <div class="col-lg-6">
-                                                      <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" checked>
-                                                        <label class="onoffswitch-label" for="switchStockLevelProduct">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right"></span>
-                                                </div>
-                                             </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-3 text-right">
-                                                          <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities in Stock" data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                     </div>
 
 
-                                                        <label  class="control-label text-right tooltip-float">Quantity in Stock</label>
+                                <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Enable stock level</label>
 
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                          <div style="width: 161px;">
+                            </div>
 
-                                                      <input type="text" style="width:100px; float:left;" class="form-control" id="txtStockQty"  value="15">
+                            <div class="col-lg-6">
+                                  <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchStockLevelProduct" checked>
+                                    <label class="onoffswitch-label" for="switchStockLevelProduct">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
+                                <span class="help-block text-right"></span>
+                            </div>
+                         </div>
+                            <div class="form-group">
+                                <div class="col-lg-3 text-right">
+                                      <div class="bs-example-tooltips tooltip-float-width">
 
-                                                        @Html.Partial("Product/_AddStockQty")
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Quantities in Stock" data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                      </div>
-
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                               <div class="form-group">
-                                                        <div class="col-lg-3 text-right">
-                                                              <div class="bs-example-tooltips tooltip-float-width">
-
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thershold Quantity " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
-
-                                                     </div>
+                                 </div>
 
 
+                                    <label  class="control-label text-right tooltip-float">Quantity in Stock</label>
 
-                                                            <label  class="control-label text-right tooltip-float">Thershold Quantity</label>
+                                </div>
+                                <div class="col-lg-9">
+                                      <div style="width: 161px;">
 
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                            <input type="text" style="width:100px;" class="form-control" id="txtTHQty"  value="31">
-                                                            <span class="help-block text-right"></span>
-                                                        </div>
-                                               </div>
-                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                  <input type="text" style="width:100px; float:left;" class="form-control" id="txtStockQty"  value="15">
 
-                                                              <div class="bs-example-tooltips tooltip-float-width">
+                                    @Html.Partial("Product/_AddStockQty")
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Allow Back Order " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                  </div>
 
-                                                             </div>
+                                    <span class="help-block text-right"></span>
+                                </div>
+                            </div>
+                           <div class="form-group">
+                                    <div class="col-lg-3 text-right">
+                                          <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <label class="control-label tooltip-float" for="switchFeaturedProduct">Allow Back Order</label>
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Thershold Quantity " data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                </div>
+                                 </div>
 
-                                                <div class="col-lg-6">
-                                                      <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAlowBackOrder" checked>
-                                                        <label class="onoffswitch-label" for="switchAlowBackOrder">
-                                                            <div class="onoffswitch-inner"></div>
-                                                            <div class="onoffswitch-switch"></div>
-                                                        </label>
-                                                    </div>
-                                                    <span class="help-block text-right"></span>
-                                                </div>
-                                             </div>
-                                             <div class="form-group">
-                                                        <div class="col-lg-3 text-right">
 
-                                                              <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Stock Level History " data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
+                                        <label  class="control-label text-right tooltip-float">Thershold Quantity</label>
 
-                                                             </div>
-                                                            <label  class="control-label tooltip-float">Stock Level History</label>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="text" style="width:100px;" class="form-control" id="txtTHQty"  value="31">
+                                        <span class="help-block text-right"></span>
+                                    </div>
+                           </div>
+                         <div class="form-group">
+                            <div class="col-lg-3 text-right">
 
-                                                        </div>
-                                                        <div class="col-lg-9">
-                                                              <div class="clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><span>Action</span></th>
-                                                                 <th style="width: 78px;"><span>Last Qty</span></th>
-                                                                <th style="width: 102px;"><span>Action Qty</span</th>
-                                                                <th style="text-align:center;"><span>Modified Date</span></th>
-                                                                <th style="width: 100px;">Modified By</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    720
-                                                                </td>
+                                          <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <td>820
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>15/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Allow Back Order " data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                            </tr>
-                                                              <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    720
-                                                                </td>
+                                         </div>
 
-                                                                <td>200
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>05/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
+                                <label class="control-label tooltip-float" for="switchFeaturedProduct">Allow Back Order</label>
 
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    920
-                                                                </td>
+                            </div>
 
-                                                                <td>300
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>07/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
+                            <div class="col-lg-6">
+                                  <div class="onoffswitch">
+                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAlowBackOrder" checked>
+                                    <label class="onoffswitch-label" for="switchAlowBackOrder">
+                                        <div class="onoffswitch-inner"></div>
+                                        <div class="onoffswitch-switch"></div>
+                                    </label>
+                                </div>
+                                <span class="help-block text-right"></span>
+                            </div>
+                         </div>
+                         <div class="form-group">
+                                    <div class="col-lg-3 text-right">
 
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    1220
-                                                                </td>
+                                          <div class="bs-example-tooltips tooltip-float-width">
 
-                                                                <td>70
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>10/09/2014</span>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
+                                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" border: 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Stock Level History " data-original-title="" title="">
+                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span></a>
 
-                                                            </tr>
-                                                             <tr>
-                                                                <td>Added
-                                                                </td>
-                                                                <td>
-                                                                    1290
-                                                                </td>
+                                         </div>
+                                        <label  class="control-label tooltip-float">Stock Level History</label>
 
-                                                                <td>110
-                                                                </td>
-                                                                <td class="text-center">
-                                                                   <span>01/09/2014</span>
-                                                                </td>
-                                                                <td  class="text-center">
-                                                                   <span >admin</span>
-                                                                </td>
+                                    </div>
+                                    <div class="col-lg-9">
+                                          <div class="clearfix">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><span>Action</span></th>
+                                             <th style="width: 78px;"><span>Last Qty</span></th>
+                                            <th style="width: 102px;"><span>Action Qty</span</th>
+                                            <th style="text-align:center;"><span>Modified Date</span></th>
+                                            <th style="width: 100px;">Modified By</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Added
+                                            </td>
+                                            <td>
+                                                720
+                                            </td>
 
-                                                            </tr>
+                                            <td>820
+                                            </td>
+                                            <td class="text-center">
+                                               <span>15/09/2014</span>
+                                            </td>
+                                            <td  class="text-center">
+                                               <span >admin</span>
+                                            </td>
 
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                                        </div>
-                                               </div>
+                                        </tr>
+                                          <tr>
+                                            <td>Added
+                                            </td>
+                                            <td>
+                                                720
+                                            </td>
 
-                                        </div>*@
+                                            <td>200
+                                            </td>
+                                            <td class="text-center">
+                                               <span>05/09/2014</span>
+                                            </td>
+                                            <td  class="text-center">
+                                               <span >admin</span>
+                                            </td>
+
+                                        </tr>
+                                         <tr>
+                                            <td>Added
+                                            </td>
+                                            <td>
+                                                920
+                                            </td>
+
+                                            <td>300
+                                            </td>
+                                            <td class="text-center">
+                                               <span>07/09/2014</span>
+                                            </td>
+                                            <td  class="text-center">
+                                               <span >admin</span>
+                                            </td>
+
+                                        </tr>
+                                         <tr>
+                                            <td>Added
+                                            </td>
+                                            <td>
+                                                1220
+                                            </td>
+
+                                            <td>70
+                                            </td>
+                                            <td class="text-center">
+                                               <span>10/09/2014</span>
+                                            </td>
+                                            <td class="text-center">
+                                               <span >admin</span>
+                                            </td>
+
+                                        </tr>
+                                         <tr>
+                                            <td>Added
+                                            </td>
+                                            <td>
+                                                1290
+                                            </td>
+
+                                            <td>110
+                                            </td>
+                                            <td class="text-center">
+                                               <span>01/09/2014</span>
+                                            </td>
+                                            <td  class="text-center">
+                                               <span >admin</span>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                                    </div>
+                           </div>
+
+                    </div>*@
                                 </div>
 
                             </div>
@@ -737,7 +932,7 @@
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
                                     <div class="col-lg-12 clearfix">
-                                       
+
                                         <div id="stockMainDiv" class="form-group">
                                             <div class="col-lg-12" style="text-align:right;">
                                                 <button type="button" style="float: right;margin-bottom: -17px;" data-bind="click: addItemStockOption" class="btn btn-success">
@@ -1602,7 +1797,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios1" data-bind="checked: $parent.templateTypeUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
-                                                       Create a template from an existing PDF
+                                                        Create a template from an existing PDF
                                                     </label>
                                                 </div>
 
@@ -1800,7 +1995,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch1" data-bind="checked: $parent.isTemplateDesignModeUi" value="4">
                                                     <label for="optionLaunch1">
-                                                       Do not load Designer
+                                                        Do not load Designer
                                                     </label>
                                                 </div>
 
@@ -1847,7 +2042,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios3" id="optionPDFOutputNo" data-bind="checked: $parent.isCmykUi" value="1">
                                                     <label for="optionPDFOutputNo">
-                                                        Convert all colors to CMYK 
+                                                        Convert all colors to CMYK
                                                     </label>
                                                 </div>
 
