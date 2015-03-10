@@ -246,15 +246,29 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Length" data-original-title="" title="">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Weight" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
 
 
-                                                <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
+                                                <label for="txtItemWeight" class="control-label text-right tooltip-float">Item Weight</label>
 
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
+                                                <span class="help-block text-right">Weight of the item</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Length" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtItemLength" class="control-label text-right tooltip-float">Item Length</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="txtItemLength" placeholder="Enter Length" data-bind="value: itemLength">
@@ -279,6 +293,9 @@
                                                 <input type="text" class="form-control" id="txtItemWidth" placeholder="Enter Width" data-bind="value: itemWidth">
                                                 <span class="help-block text-right">Width of the item</span>
                                             </div>
+                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -298,26 +315,11 @@
                                                 <input type="text" class="form-control" id="txtItemHeight" placeholder="Enter Height" data-bind="value: itemHeight">
                                                 <span class="help-block text-right">Height of the item</span>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-
-                                                    <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Item Weight" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-
-                                                </div>
-
-
-                                                <label for="txtItemWeight" class="control-label text-right tooltip-float">Item Weight</label>
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtItemWeight" placeholder="Enter Weight" data-bind="value: itemWeight">
-                                                <span class="help-block text-right">Weight of the item</span>
+                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
+                                       
                                     </div>
 
                                 </div>
@@ -1748,9 +1750,12 @@
                                                 <label for="txtProductName" class="control-label text-right tooltip-float">Default Width</label>
 
                                             </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth" style="width:30%;" placeholder="Enter Width">
+                                            <div class="col-lg-2">
+                                                <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth" placeholder="Enter Width">
                                                 <span class="help-block text-right"></span>
+                                            </div>
+                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -1765,9 +1770,12 @@
                                                 <label for="txtProductName" class="control-label text-right">Default Height</label>
 
                                             </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height" style="width:30%;">
+                                            <div class="col-lg-2">
+                                                <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height" >
                                                 <span class="help-block text-right"></span>
+                                            </div>
+                                            <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
+                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -2258,13 +2266,13 @@
 
             <td class="col-lg-4">
                 <div class="input-group" style="width: 95%;">
-                    <span class="input-group-addon">$</span>
+                    <span class="input-group-addon" data-bind="text:$root.currencyUnit()"></span>
                     <input type="text" class="form-control" id="txtDelvPricePerKilo" data-bind="value: pricePerClick" /><span class="input-group-addon">per click</span>
                 </div>
             </td>
             <td class="col-lg-4">
                 <div class="input-group" style="width: 95%;">
-                    <span class="input-group-addon">$</span>
+                    <span class="input-group-addon" data-bind="text:$root.currencyUnit()"></span>
                     <input type="text" class="form-control" id="txtMinimumCharge" data-bind="value: setupCharge" /><span class="input-group-addon">.00</span>
                 </div>
             </td>
