@@ -3460,10 +3460,7 @@ define("stores/stores.viewModel",
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
 
-                                //Themes 
-                                themes.removeAll();
-                                ko.utils.arrayPushAll(themes(), data.Themes);
-                                themes.valueHasMutated();
+                                
                             }
                             allPagesWidgets.removeAll();
                             pageSkinWidgets.removeAll();
@@ -3605,6 +3602,21 @@ define("stores/stores.viewModel",
                                     fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
                                 });
 
+                                //Themes 
+                                themes.removeAll();
+                                ko.utils.arrayPushAll(themes(), data.Themes);
+                                themes.valueHasMutated();
+
+                                cmsPagesForStoreLayout.removeAll();
+                                if (data.CmsPageDropDownList !== null) {
+                                    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
+                                    cmsPagesForStoreLayout.valueHasMutated();
+
+                                    //_.each(cmsPagesBaseData(), function (item) {
+                                    //    cmsPagesForStoreLayout.push(item);
+                                    //});
+                                }
+
                                 ////Countries 
                                 //countries.removeAll();
                                 //ko.utils.arrayPushAll(countries(), data.Countries);
@@ -3681,10 +3693,6 @@ define("stores/stores.viewModel",
                                     ko.utils.arrayPushAll(states(), data.States);
                                     states.valueHasMutated();
 
-                                    //Themes 
-                                    themes.removeAll();
-                                    ko.utils.arrayPushAll(themes(), data.Themes);
-                                    themes.valueHasMutated();
 
                                     _.each(data.Widgets, function (item) {
                                         widgets.push(model.Widget.Create(item));
@@ -3698,15 +3706,7 @@ define("stores/stores.viewModel",
                                     selectedStore().userDefinedSpriteImageFileName("default.jpg");
                                     selectedStore().defaultSpriteImageSource(data.DefaultSpriteImageSource);
                                     selectedStore().customCSS(data.DefaultCompanyCss);
-                                    cmsPagesForStoreLayout.removeAll();
-                                    if (data.CmsPageDropDownList !== null) {
-                                        ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
-                                        cmsPagesForStoreLayout.valueHasMutated();
-
-                                        _.each(cmsPagesBaseData(), function (item) {
-                                            cmsPagesForStoreLayout.push(item);
-                                        });
-                                    }
+                                   
                                     isBaseDataLoaded(true);
                                 }
                                 isLoadingStores(false);
@@ -3747,6 +3747,8 @@ define("stores/stores.viewModel",
                     edittedCompanyContacts.removeAll();
                     newCompanyContacts.removeAll();
                     parentCategories.removeAll();
+                    themes.removeAll();
+                    cmsPagesForStoreLayout.removeAll();
 
                     newAddedSecondaryPage.removeAll();
                     editedSecondaryPage.removeAll();
@@ -3779,6 +3781,9 @@ define("stores/stores.viewModel",
                     addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     selectedCompanyDomainItem(undefined);
+                    _.each(costCentersList(), function(costCenter) {
+                        costCenter.isSelected(false);
+                    });
                     //companyTerritoryPager().totalCount(0);
                 },
                 //#endregion
@@ -4860,7 +4865,8 @@ define("stores/stores.viewModel",
                     newAddedSecondaryPage: newAddedSecondaryPage,
                     editedSecondaryPage: editedSecondaryPage,
                     deletedSecondaryPage: deletedSecondaryPage,
-                    pageSkinWidgets: pageSkinWidgets
+                    pageSkinWidgets: pageSkinWidgets,
+                    costCentersList: costCentersList
                 }),
                 // Has Changes
                 hasChangesOnStore = ko.computed(function () {

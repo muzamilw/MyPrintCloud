@@ -40,32 +40,6 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
             var result = companyService.GetBaseData(companyId);
-            return new CompanyBaseResponse
-                   {
-                       //SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
-                       CompanyTerritories = result.CompanyTerritories.Select(x => x.CreateFrom()),
-                       //CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
-                      // PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
-                      // RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
-                       Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : null,
-                      // EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
-                      // Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
-                      // CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
-                      // Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
-                      // States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
-                       FieldVariableResponse = result.FieldVariableResponse.CreateFrom(),
-                       SmartFormResponse = result.SmartFormResponse.CreateFrom(),
-                       FieldVariableForSmartForms = result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()),
-                      // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : null
-                   };
-        }
-        public CompanyBaseResponse Get()
-        {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
-            }
-
             List<SkinForTheme> themes = new List<SkinForTheme>();
             // Get List of Skins 
             using (var client = new HttpClient())
@@ -85,6 +59,32 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
 
             }
+            return new CompanyBaseResponse
+                   {
+                       //SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
+                       CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(x => x.CreateFrom()) : new List<CompanyTerritory>(),
+                       //CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
+                       // PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
+                       // RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
+                       Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
+                       // EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
+                       // Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
+                       // CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
+                       // Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
+                       // States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
+                       FieldVariableResponse = result.FieldVariableResponse.CreateFrom(),
+                       SmartFormResponse = result.SmartFormResponse.CreateFrom(),
+                       FieldVariableForSmartForms = result.FieldVariablesForSmartForm != null ? result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
+                       CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
+                       Themes = themes
+                   };
+        }
+        public CompanyBaseResponse Get()
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
 
             var result = companyService.GetBaseDataForNewCompany();
             byte[] bytes = null;
@@ -97,14 +97,14 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
             }
-           
+
 
             return new CompanyBaseResponse
             {
                 SystemUsers = result.SystemUsers != null ? result.SystemUsers.Select(x => x.CreateFrom()) : new List<SystemUserDropDown>(),
                 CompanyContactRoles = result.CompanyContactRoles != null ? result.CompanyContactRoles.Select(x => x.CreateFrom()) : new List<CompanyContactRole>(),
                 PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : new List<PageCategoryDropDown>(),
-                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : 
+                RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) :
                 new List<RegistrationQuestionDropDown>(),
                 Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : new List<EmailEvent>(),
@@ -115,8 +115,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : new List<CountryDropDown>(),
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
-                CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
-                Themes = themes,
+                // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
+                // Themes = themes,
                 PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>()
             };
         }
