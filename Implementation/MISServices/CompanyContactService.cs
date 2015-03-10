@@ -85,7 +85,7 @@ namespace MPC.Implementation.MISServices
         private bool CheckDuplicatesOfContactEmailInStore(CompanyContact companyContact)
         {
             var flag = companyContactRepository.CheckDuplicatesOfContactEmailInStore(companyContact.Email,
-                companyContact.CompanyId);
+                companyContact.CompanyId, companyContact.ContactId);
             return flag;
         }
         #region Constructor

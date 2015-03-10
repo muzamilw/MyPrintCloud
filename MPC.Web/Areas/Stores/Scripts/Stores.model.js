@@ -2415,7 +2415,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 homeCity: homeCity,
                 homeState: homeState,
                 homePostCode: homePostCode,
-                HomeCountry: homeCountry,
+                homeCountry: homeCountry,
                 secretQuestion: secretQuestion,
                 secretAnswer: secretAnswer,
                 password: password,
@@ -2575,6 +2575,100 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
             },
+             update = function (source) {
+                 contactId(source.contactId());
+                 contactId(source.contactId());
+                 addressId(source.addressId());
+                 companyId(source.companyId());
+                 firstName(source.firstName());
+                 middleName(source.middleName());
+                 lastName(source.lastName());
+                 title(source.title());
+                 homeTel1(source.homeTel1());
+                 homeTel2(source.homeTel2());
+                 homeExtension1(source.homeExtension1());
+                 homeExtension2(source.homeExtension2());
+                 mobile(source.mobile());
+                 email(source.email());
+                 fAX(source.fAX());
+                 jobTitle(source.jobTitle());
+                 dOB(source.dOB());
+                 notes(source.notes());
+                 isDefaultContact(source.isDefaultContact());
+                 homeAddress1(source.homeAddress1());
+                 homeAddress2(source.homeAddress2());
+                 homeCity(source.homeCity());
+                 homeState(source.homeState());
+                 homePostCode(source.homePostCode());
+                 homeCountry(source.homeCountry());
+                 secretQuestion(source.secretQuestion());
+                 secretAnswer(source.secretAnswer());
+                 password(source.password());
+                 uRL(source.uRL());
+                 isEmailSubscription(source.isEmailSubscription());
+                 isNewsLetterSubscription(source.isNewsLetterSubscription());
+                 image(source.image());
+                 quickFullName(source.quickFullName());
+                 quickTitle(source.quickTitle());
+                 quickCompanyName(source.quickCompanyName());
+                 quickAddress1(source.quickAddress1());
+                 quickAddress2(source.quickAddress2());
+                 quickAddress3(source.quickAddress3());
+                 quickPhone(source.quickPhone());
+                 quickFax(source.quickFax());
+                 quickEmail(source.quickEmail());
+                 quickWebsite(source.quickWebsite());
+                 quickCompMessage(source.quickCompMessage());
+                 questionId(source.questionId());
+                 isApprover(source.isApprover());
+                 isWebAccess(source.isWebAccess());
+                 isPlaceOrder(source.isPlaceOrder());
+                 creditLimit(source.creditLimit());
+                 isArchived(source.isArchived());
+                 contactRoleId(source.contactRoleId());
+                 territoryId(source.territoryId());
+                 claimIdentifer(source.claimIdentifer());
+                 authentifiedBy(source.authentifiedBy());
+                 isPayByPersonalCreditCard(source.isPayByPersonalCreditCard());
+                 isPricingshown(source.isPricingshown());
+                 skypeId(source.skypeId());
+                 linkedinURL(source.linkedinURL());
+                 facebookURL(source.facebookURL());
+                 twitterURL(source.twitterURL());
+                 authenticationToken(source.authenticationToken());
+                 twitterScreenName(source.twitterScreenName());
+                 shippingAddressId(source.shippingAddressId());
+                 isUserLoginFirstTime(source.isUserLoginFirstTime());
+                 quickMobileNumber(source.quickMobileNumber());
+                 quickTwitterId(source.quickTwitterId());
+                 quickFacebookId(source.quickFacebookId());
+                 quickLinkedInId(source.quickLinkedInId());
+                 quickOtherId(source.quickOtherId());
+                 pOBoxAddress(source.pOBoxAddress());
+                 corporateUnit(source.corporateUnit());
+                 officeTradingName(source.officeTradingName());
+                 contractorName(source.contractorName());
+                 bPayCRN(source.bPayCRN());
+                 aBN(source.aBN());
+                 aCN(source.aCN());
+                 additionalField1(source.additionalField1());
+                 additionalField2(source.additionalField2());
+                 additionalField3(source.additionalField3());
+                 additionalField4(source.additionalField4());
+                 additionalField5(source.additionalField5());
+                 canUserPlaceOrderWithoutApproval(source.canUserPlaceOrderWithoutApproval());
+                 canUserEditProfile(source.canUserEditProfile());
+                 canPlaceDirectOrder(source.canPlaceDirectOrder());
+                 organisationId(source.organisationId());
+                 bussinessAddressId(source.bussinessAddressId());
+                 confirmPassword(source.confirmPassword());
+                 roleName(source.roleName());
+                 fileName(source.fileName());
+                 bussinessAddress(source.bussinessAddress());
+                 shippingAddress(source.shippingAddress());
+                 stateName(source.stateName());
+                 companyContactVariables(source.companyContactVariables());
+             },
             // Reset
             reset = function () {
                 dirtyFlag.reset();
@@ -2603,7 +2697,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeCity: homeCity,
             homeState: homeState,
             homePostCode: homePostCode,
-            HomeCountry: homeCountry,
+            homeCountry: homeCountry,
             secretQuestion: secretQuestion,
             secretAnswer: secretAnswer,
             password: password,
@@ -2676,6 +2770,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
+            update: update,
             reset: reset
         };
         return self;
@@ -2860,6 +2955,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         );
         return companyContact;
     };
+   
     // #endregion ________________COMPANY CONTACT ___________________
 
     // #region __________________  R O L E   ______________________
