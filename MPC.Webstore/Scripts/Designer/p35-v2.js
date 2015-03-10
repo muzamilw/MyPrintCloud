@@ -2082,12 +2082,18 @@ $("#BtnAllowOnlyTxtChange").click(function () {
 $("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
     if ($("#optionRadioOtherProfile").is(':checked')) {
         $(".otherProfileContainer").css("display", "inline-block");
+        var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+        pcl40_InsertUserData(data);
     }
     else {
         $(".otherProfileContainer").css("display", "none");
+        pcl40_InsertUserData(smartFormData.scopeVariables);
     }
 });
 
 $("#smartFormSelectUserProfile").change(function () {
-    alert("change user profile");
+    var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+    pcl40_InsertUserData(data);
+ 
+
 });

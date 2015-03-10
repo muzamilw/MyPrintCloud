@@ -21,5 +21,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<SmartFormDetail> GetSmartFormObjects(long smartFormId);
 
         List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
+
+        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts);
     }
 }
