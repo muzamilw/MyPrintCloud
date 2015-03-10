@@ -49,6 +49,10 @@ define("product/product.viewModel",
                     categoryTypes = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
+                    // Currency Unit fOr Organisation 
+                    currencyUnit = ko.observable(),
+                    // Length Unit fOr Organisation 
+                    lengthUnit = ko.observable(),
                     // Selected Region Id
                     selectedRegionId = ko.observable(),
                     // Selected Category Type Id
@@ -832,6 +836,8 @@ define("product/product.viewModel",
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
                                 paperSizes.removeAll();
+                                lengthUnit(undefined);
+                                currencyUnit(undefined);
                                 if (data) {
                                     mapCostCentres(data.CostCentres);
 
@@ -858,6 +864,10 @@ define("product/product.viewModel",
                                     
                                     // Map Paper Sizes
                                     mapPaperSizes(data.PaperSizes);
+                                    
+                                    // Map Units
+                                    lengthUnit(data.LengthUnit || undefined);
+                                    currencyUnit(data.CurrencyUnit || undefined);
 
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
@@ -1185,6 +1195,8 @@ define("product/product.viewModel",
                     pressItems: pressItems,
                     paperSizes: paperSizes,
                     selectedCompany: selectedCompany,
+                    currencyUnit: currencyUnit,
+                    lengthUnit: lengthUnit,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,

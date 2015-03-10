@@ -288,7 +288,12 @@ namespace MPC.Repository.Repositories
         }
         public IEnumerable<StockItem> GetAllStockItemforInk()
         {
-            return db.StockItems.Where(g => g.CategoryId == 2).ToList();
+            return db.StockItems.Join(db.StockCategories, SI => SI.CategoryId, SC => SC.CategoryId, (SI, SC) => new { SI, SC }).Where(IC => IC.SC.Code == "INK").Select(IC => IC.SI).ToList();
+
+              //return (from SI in db.StockItems
+              //      join CI in db.StockCategories on SI.CategoryId equals CI.CategoryId
+              //      where CI.Code == "INK"
+              //      select SI).ToList();
         }
         public IEnumerable<MachineResource> GetAllMachineResources()
         {
