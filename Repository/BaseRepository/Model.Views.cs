@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets377FB18C1E685210831678F12F363D57A1B78C777BB3972B6530BC4202F8087C))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets377FB18C1E685210831678F12F363D57A1B78C777BB3972B6530BC4202F8087C : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets377FB18C1E685210831678F12F363D57A1B78C777BB3972B6530BC4202F8087C()
+        public ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "5cddfe2331992fa4a25bb0522389950791186aa2dea88d2f76806398fb6d3318";
-            this.HashOverAllExtentViews = "455dc639416956a7c1308678b0266e53429d7eb6f94346be962bdc8932939eb4";
-            this.ViewCount = 296;
+            this.HashOverMappingClosure = "94b0f0d519764dd1f2bfb05d6c23e54f263d7c354c0538f29615bdbf3717e1f3";
+            this.HashOverAllExtentViews = "3b6edd5d97b67d27adab0028321bd9c2ba7650de36d9f416de354d7c9bde73a1";
+            this.ViewCount = 310;
         }
         
         /// <Summary>
@@ -1220,6 +1220,62 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 295))
             {
                 return GetView295();
+            }
+            if ((index == 296))
+            {
+                return GetView296();
+            }
+            if ((index == 297))
+            {
+                return GetView297();
+            }
+            if ((index == 298))
+            {
+                return GetView298();
+            }
+            if ((index == 299))
+            {
+                return GetView299();
+            }
+            if ((index == 300))
+            {
+                return GetView300();
+            }
+            if ((index == 301))
+            {
+                return GetView301();
+            }
+            if ((index == 302))
+            {
+                return GetView302();
+            }
+            if ((index == 303))
+            {
+                return GetView303();
+            }
+            if ((index == 304))
+            {
+                return GetView304();
+            }
+            if ((index == 305))
+            {
+                return GetView305();
+            }
+            if ((index == 306))
+            {
+                return GetView306();
+            }
+            if ((index == 307))
+            {
+                return GetView307();
+            }
+            if ((index == 308))
+            {
+                return GetView308();
+            }
+            if ((index == 309))
+            {
+                return GetView309();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -4030,7 +4086,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView67()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5382);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5613);
             viewString.Append("\r\n    SELECT VALUE -- Constructing TemplateObject\r\n        [DomainModels.Store.T");
             viewString.Append("emplateObject](T1.TemplateObject_ObjectId, T1.TemplateObject_ObjectType, T1.Temp");
             viewString.Append("lateObject_Name, T1.TemplateObject_IsEditable, T1.TemplateObject_IsHidden, T1.Te");
@@ -4054,51 +4110,54 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("eObject_QuickTextOrder, T1.TemplateObject_IsQuickText, T1.TemplateObject_CharSpa");
             viewString.Append("cing, T1.TemplateObject_watermarkText, T1.TemplateObject_textStyles, T1.Template");
             viewString.Append("Object_AutoShrinkText, T1.TemplateObject_IsOverlayObject, T1.TemplateObject_Clip");
-            viewString.Append("pedInfo, T1.TemplateObject_textCase)\r\n    FROM (\r\n        SELECT \r\n            T");
-            viewString.Append(".ObjectId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObje");
-            viewString.Append("ct_ObjectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEd");
-            viewString.Append("itable AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_");
-            viewString.Append("IsHidden, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n         ");
-            viewString.Append("   T.PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS Templat");
-            viewString.Append("eObject_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n    ");
-            viewString.Append("        T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS ");
-            viewString.Append("TemplateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Ro");
-            viewString.Append("tationAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n    ");
-            viewString.Append("        T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T");
-            viewString.Append(".FontName AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject");
-            viewString.Append("_FontSize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsIt");
-            viewString.Append("alic AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Al");
-            viewString.Append("lignment, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n         ");
-            viewString.Append("   T.Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS Templa");
-            viewString.Append("teObject_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType");
-            viewString.Append(", \r\n            T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC ");
-            viewString.Append("AS TemplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n   ");
-            viewString.Append("         T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateOb");
-            viewString.Append("ject_ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpot");
-            viewString.Append("Color AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateOb");
-            viewString.Append("ject_SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentStrin");
-            viewString.Append("g, \r\n            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n        ");
-            viewString.Append("    T.ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS ");
-            viewString.Append("TemplateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS Templa");
-            viewString.Append("teObject_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor");
-            viewString.Append(", \r\n            T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Tem");
-            viewString.Append("plateObject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r");
-            viewString.Append("\n            T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.Pa");
-            viewString.Append("rentId AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObje");
-            viewString.Append("ct_CircleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n         ");
-            viewString.Append("   T.ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateOb");
-            viewString.Append("ject_ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLock");
-            viewString.Append("ed, \r\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleR");
-            viewString.Append("adiusY AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS Templa");
-            viewString.Append("teObject_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickT");
-            viewString.Append("extOrder, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n         ");
-            viewString.Append("   T.CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS");
-            viewString.Append(" TemplateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_text");
-            viewString.Append("Styles, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n     ");
-            viewString.Append("       T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.Clip");
-            viewString.Append("pedInfo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObjec");
-            viewString.Append("t_textCase, \r\n            True AS _from0\r\n        FROM BaseDbContext.TemplateObj");
-            viewString.Append("ects AS T\r\n    ) AS T1");
+            viewString.Append("pedInfo, T1.TemplateObject_textCase, T1.TemplateObject_originalTextStyles, T1.Te");
+            viewString.Append("mplateObject_originalContentString)\r\n    FROM (\r\n        SELECT \r\n            T.");
+            viewString.Append("ObjectId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObjec");
+            viewString.Append("t_ObjectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEdi");
+            viewString.Append("table AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_I");
+            viewString.Append("sHidden, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n          ");
+            viewString.Append("  T.PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS Template");
+            viewString.Append("Object_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n     ");
+            viewString.Append("       T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS T");
+            viewString.Append("emplateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rot");
+            viewString.Append("ationAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n     ");
+            viewString.Append("       T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.");
+            viewString.Append("FontName AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_");
+            viewString.Append("FontSize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsIta");
+            viewString.Append("lic AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_All");
+            viewString.Append("ignment, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n          ");
+            viewString.Append("  T.Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS Templat");
+            viewString.Append("eObject_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType,");
+            viewString.Append(" \r\n            T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC A");
+            viewString.Append("S TemplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n    ");
+            viewString.Append("        T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObj");
+            viewString.Append("ect_ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotC");
+            viewString.Append("olor AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObj");
+            viewString.Append("ect_SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentString");
+            viewString.Append(", \r\n            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n         ");
+            viewString.Append("   T.ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS T");
+            viewString.Append("emplateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS Templat");
+            viewString.Append("eObject_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor,");
+            viewString.Append(" \r\n            T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Temp");
+            viewString.Append("lateObject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n");
+            viewString.Append("            T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.Par");
+            viewString.Append("entId AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObjec");
+            viewString.Append("t_CircleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n          ");
+            viewString.Append("  T.ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObj");
+            viewString.Append("ect_ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocke");
+            viewString.Append("d, \r\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRa");
+            viewString.Append("diusY AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS Templat");
+            viewString.Append("eObject_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTe");
+            viewString.Append("xtOrder, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n          ");
+            viewString.Append("  T.CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS ");
+            viewString.Append("TemplateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textS");
+            viewString.Append("tyles, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n      ");
+            viewString.Append("      T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.Clipp");
+            viewString.Append("edInfo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject");
+            viewString.Append("_textCase, \r\n            T.originalTextStyles AS TemplateObject_originalTextStyl");
+            viewString.Append("es, \r\n            T.originalContentString AS TemplateObject_originalContentStrin");
+            viewString.Append("g, \r\n            True AS _from0\r\n        FROM BaseDbContext.TemplateObjects AS T");
+            viewString.Append("\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplateObject", viewString.ToString());
         }
         
@@ -7459,7 +7518,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView157()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5389);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5620);
             viewString.Append("\r\n    SELECT VALUE -- Constructing TemplateObjects\r\n        [DomainModels.Templa");
             viewString.Append("teObject](T1.TemplateObject_ObjectId, T1.TemplateObject_ObjectType, T1.TemplateO");
             viewString.Append("bject_Name, T1.TemplateObject_IsEditable, T1.TemplateObject_IsHidden, T1.Templat");
@@ -7483,51 +7542,54 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ct_QuickTextOrder, T1.TemplateObject_IsQuickText, T1.TemplateObject_CharSpacing,");
             viewString.Append(" T1.TemplateObject_watermarkText, T1.TemplateObject_textStyles, T1.TemplateObjec");
             viewString.Append("t_AutoShrinkText, T1.TemplateObject_IsOverlayObject, T1.TemplateObject_ClippedIn");
-            viewString.Append("fo, T1.TemplateObject_textCase)\r\n    FROM (\r\n        SELECT \r\n            T.Obje");
-            viewString.Append("ctId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObject_Ob");
-            viewString.Append("jectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEditabl");
-            viewString.Append("e AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_IsHid");
-            viewString.Append("den, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n            T.");
-            viewString.Append("PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS TemplateObje");
-            viewString.Append("ct_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n         ");
-            viewString.Append("   T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS Templ");
-            viewString.Append("ateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rotatio");
-            viewString.Append("nAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n         ");
-            viewString.Append("   T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.Font");
-            viewString.Append("Name AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_Font");
-            viewString.Append("Size, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsItalic ");
-            viewString.Append("AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Allignm");
-            viewString.Append("ent, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n            T.");
-            viewString.Append("Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS TemplateObj");
-            viewString.Append("ect_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType, \r\n ");
-            viewString.Append("           T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC AS Te");
-            viewString.Append("mplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n        ");
-            viewString.Append("    T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObject_");
-            viewString.Append("ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotColor");
-            viewString.Append(" AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObject_");
-            viewString.Append("SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentString, \r\n");
-            viewString.Append("            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n            T");
-            viewString.Append(".ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS Templ");
-            viewString.Append("ateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS TemplateObj");
-            viewString.Append("ect_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor, \r\n ");
-            viewString.Append("           T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Template");
-            viewString.Append("Object_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n    ");
-            viewString.Append("        T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.ParentI");
-            viewString.Append("d AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObject_Ci");
-            viewString.Append("rcleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n            T.");
-            viewString.Append("ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObject_");
-            viewString.Append("ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocked, \r");
-            viewString.Append("\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRadius");
-            viewString.Append("Y AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS TemplateObj");
-            viewString.Append("ect_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTextOr");
-            viewString.Append("der, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n            T.");
-            viewString.Append("CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS Temp");
-            viewString.Append("lateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textStyle");
-            viewString.Append("s, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n          ");
-            viewString.Append("  T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.ClippedIn");
-            viewString.Append("fo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject_tex");
-            viewString.Append("tCase, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Tem");
-            viewString.Append("plateObject AS T\r\n    ) AS T1");
+            viewString.Append("fo, T1.TemplateObject_textCase, T1.TemplateObject_originalTextStyles, T1.Templat");
+            viewString.Append("eObject_originalContentString)\r\n    FROM (\r\n        SELECT \r\n            T.Objec");
+            viewString.Append("tId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObject_Obj");
+            viewString.Append("ectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEditable");
+            viewString.Append(" AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_IsHidd");
+            viewString.Append("en, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n            T.P");
+            viewString.Append("ositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS TemplateObjec");
+            viewString.Append("t_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n          ");
+            viewString.Append("  T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS Templa");
+            viewString.Append("teObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rotation");
+            viewString.Append("Angle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n          ");
+            viewString.Append("  T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.FontN");
+            viewString.Append("ame AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_FontS");
+            viewString.Append("ize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsItalic A");
+            viewString.Append("S TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Allignme");
+            viewString.Append("nt, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n            T.I");
+            viewString.Append("ndent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS TemplateObje");
+            viewString.Append("ct_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType, \r\n  ");
+            viewString.Append("          T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC AS Tem");
+            viewString.Append("plateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n         ");
+            viewString.Append("   T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObject_C");
+            viewString.Append("olorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotColor ");
+            viewString.Append("AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObject_S");
+            viewString.Append("potColorName, \r\n            T.ContentString AS TemplateObject_ContentString, \r\n ");
+            viewString.Append("           T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n            T.");
+            viewString.Append("ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS Templa");
+            viewString.Append("teObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS TemplateObje");
+            viewString.Append("ct_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor, \r\n  ");
+            viewString.Append("          T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS TemplateO");
+            viewString.Append("bject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n     ");
+            viewString.Append("       T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.ParentId");
+            viewString.Append(" AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObject_Cir");
+            viewString.Append("cleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n            T.E");
+            viewString.Append("xField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObject_E");
+            viewString.Append("xField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocked, \r\n");
+            viewString.Append("            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRadiusY");
+            viewString.Append(" AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS TemplateObje");
+            viewString.Append("ct_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTextOrd");
+            viewString.Append("er, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n            T.C");
+            viewString.Append("harSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS Templ");
+            viewString.Append("ateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textStyles");
+            viewString.Append(", \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n           ");
+            viewString.Append(" T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.ClippedInf");
+            viewString.Append("o AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject_text");
+            viewString.Append("Case, \r\n            T.originalTextStyles AS TemplateObject_originalTextStyles, \r");
+            viewString.Append("\n            T.originalContentString AS TemplateObject_originalContentString, \r\n");
+            viewString.Append("            True AS _from0\r\n        FROM DomainModelsStoreContainer.TemplateObje");
+            viewString.Append("ct AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplateObjects", viewString.ToString());
         }
         
@@ -10431,9 +10493,284 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
-        /// return view for BaseDbContext.LookupMethods
+        /// return view for DomainModelsStoreContainer.MachineClickChargeLookup
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView267()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineClickChargeLookup", @"
+    SELECT VALUE -- Constructing MachineClickChargeLookup
+        [DomainModels.Store.MachineClickChargeLookup](T1.MachineClickChargeLookup_Id, T1.MachineClickChargeLookup_MethodId, T1.MachineClickChargeLookup_SheetCost, T1.MachineClickChargeLookup_Sheets, T1.MachineClickChargeLookup_SheetPrice, T1.MachineClickChargeLookup_TimePerHour)
+    FROM (
+        SELECT 
+            T.Id AS MachineClickChargeLookup_Id, 
+            T.MethodId AS MachineClickChargeLookup_MethodId, 
+            T.SheetCost AS MachineClickChargeLookup_SheetCost, 
+            T.Sheets AS MachineClickChargeLookup_Sheets, 
+            T.SheetPrice AS MachineClickChargeLookup_SheetPrice, 
+            T.TimePerHour AS MachineClickChargeLookup_TimePerHour, 
+            True AS _from0
+        FROM BaseDbContext.MachineClickChargeLookups AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachineClickChargeZone
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView268()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7937);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineClickChargeZone\r\n        [DomainModels");
+            viewString.Append(".Store.MachineClickChargeZone](T1.MachineClickChargeZone_Id, T1.MachineClickChar");
+            viewString.Append("geZone_MethodId, T1.MachineClickChargeZone_From1, T1.MachineClickChargeZone_To1,");
+            viewString.Append(" T1.MachineClickChargeZone_Sheets1, T1.MachineClickChargeZone_SheetCost1, T1.Mac");
+            viewString.Append("hineClickChargeZone_SheetPrice1, T1.MachineClickChargeZone_From2, T1.MachineClic");
+            viewString.Append("kChargeZone_To2, T1.MachineClickChargeZone_Sheets2, T1.MachineClickChargeZone_Sh");
+            viewString.Append("eetCost2, T1.MachineClickChargeZone_SheetPrice2, T1.MachineClickChargeZone_From3");
+            viewString.Append(", T1.MachineClickChargeZone_To3, T1.MachineClickChargeZone_Sheets3, T1.MachineCl");
+            viewString.Append("ickChargeZone_SheetCost3, T1.MachineClickChargeZone_SheetPrice3, T1.MachineClick");
+            viewString.Append("ChargeZone_From4, T1.MachineClickChargeZone_To4, T1.MachineClickChargeZone_Sheet");
+            viewString.Append("s4, T1.MachineClickChargeZone_SheetCost4, T1.MachineClickChargeZone_SheetPrice4,");
+            viewString.Append(" T1.MachineClickChargeZone_From5, T1.MachineClickChargeZone_To5, T1.MachineClick");
+            viewString.Append("ChargeZone_Sheets5, T1.MachineClickChargeZone_SheetCost5, T1.MachineClickChargeZ");
+            viewString.Append("one_SheetPrice5, T1.MachineClickChargeZone_From6, T1.MachineClickChargeZone_To6,");
+            viewString.Append(" T1.MachineClickChargeZone_Sheets6, T1.MachineClickChargeZone_SheetCost6, T1.Mac");
+            viewString.Append("hineClickChargeZone_SheetPrice6, T1.MachineClickChargeZone_From7, T1.MachineClic");
+            viewString.Append("kChargeZone_To7, T1.MachineClickChargeZone_Sheets7, T1.MachineClickChargeZone_Sh");
+            viewString.Append("eetCost7, T1.MachineClickChargeZone_SheetPrice7, T1.MachineClickChargeZone_From8");
+            viewString.Append(", T1.MachineClickChargeZone_To8, T1.MachineClickChargeZone_Sheets8, T1.MachineCl");
+            viewString.Append("ickChargeZone_SheetCost8, T1.MachineClickChargeZone_SheetPrice8, T1.MachineClick");
+            viewString.Append("ChargeZone_From9, T1.MachineClickChargeZone_To9, T1.MachineClickChargeZone_Sheet");
+            viewString.Append("s9, T1.MachineClickChargeZone_SheetCost9, T1.MachineClickChargeZone_SheetPrice9,");
+            viewString.Append(" T1.MachineClickChargeZone_From10, T1.MachineClickChargeZone_To10, T1.MachineCli");
+            viewString.Append("ckChargeZone_Sheets10, T1.MachineClickChargeZone_SheetCost10, T1.MachineClickCha");
+            viewString.Append("rgeZone_SheetPrice10, T1.MachineClickChargeZone_From11, T1.MachineClickChargeZon");
+            viewString.Append("e_To11, T1.MachineClickChargeZone_Sheets11, T1.MachineClickChargeZone_SheetCost1");
+            viewString.Append("1, T1.MachineClickChargeZone_SheetPrice11, T1.MachineClickChargeZone_From12, T1.");
+            viewString.Append("MachineClickChargeZone_To12, T1.MachineClickChargeZone_Sheets12, T1.MachineClick");
+            viewString.Append("ChargeZone_SheetCost12, T1.MachineClickChargeZone_SheetPrice12, T1.MachineClickC");
+            viewString.Append("hargeZone_From13, T1.MachineClickChargeZone_To13, T1.MachineClickChargeZone_Shee");
+            viewString.Append("ts13, T1.MachineClickChargeZone_SheetCost13, T1.MachineClickChargeZone_SheetPric");
+            viewString.Append("e13, T1.MachineClickChargeZone_From14, T1.MachineClickChargeZone_To14, T1.Machin");
+            viewString.Append("eClickChargeZone_Sheets14, T1.MachineClickChargeZone_SheetCost14, T1.MachineClic");
+            viewString.Append("kChargeZone_SheetPrice14, T1.MachineClickChargeZone_From15, T1.MachineClickCharg");
+            viewString.Append("eZone_To15, T1.MachineClickChargeZone_Sheets15, T1.MachineClickChargeZone_SheetC");
+            viewString.Append("ost15, T1.MachineClickChargeZone_SheetPrice15, T1.MachineClickChargeZone_isaccum");
+            viewString.Append("ulativecharge, T1.MachineClickChargeZone_IsRoundUp, T1.MachineClickChargeZone_Ti");
+            viewString.Append("mePerHour)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineClickChargeZ");
+            viewString.Append("one_Id, \r\n            T.MethodId AS MachineClickChargeZone_MethodId, \r\n         ");
+            viewString.Append("   T.From1 AS MachineClickChargeZone_From1, \r\n            T.To1 AS MachineClickC");
+            viewString.Append("hargeZone_To1, \r\n            T.Sheets1 AS MachineClickChargeZone_Sheets1, \r\n    ");
+            viewString.Append("        T.SheetCost1 AS MachineClickChargeZone_SheetCost1, \r\n            T.Sheet");
+            viewString.Append("Price1 AS MachineClickChargeZone_SheetPrice1, \r\n            T.From2 AS MachineCl");
+            viewString.Append("ickChargeZone_From2, \r\n            T.To2 AS MachineClickChargeZone_To2, \r\n      ");
+            viewString.Append("      T.Sheets2 AS MachineClickChargeZone_Sheets2, \r\n            T.SheetCost2 AS");
+            viewString.Append(" MachineClickChargeZone_SheetCost2, \r\n            T.SheetPrice2 AS MachineClickC");
+            viewString.Append("hargeZone_SheetPrice2, \r\n            T.From3 AS MachineClickChargeZone_From3, \r\n");
+            viewString.Append("            T.To3 AS MachineClickChargeZone_To3, \r\n            T.Sheets3 AS Mach");
+            viewString.Append("ineClickChargeZone_Sheets3, \r\n            T.SheetCost3 AS MachineClickChargeZone");
+            viewString.Append("_SheetCost3, \r\n            T.SheetPrice3 AS MachineClickChargeZone_SheetPrice3, ");
+            viewString.Append("\r\n            T.From4 AS MachineClickChargeZone_From4, \r\n            T.To4 AS Ma");
+            viewString.Append("chineClickChargeZone_To4, \r\n            T.Sheets4 AS MachineClickChargeZone_Shee");
+            viewString.Append("ts4, \r\n            T.SheetCost4 AS MachineClickChargeZone_SheetCost4, \r\n        ");
+            viewString.Append("    T.SheetPrice4 AS MachineClickChargeZone_SheetPrice4, \r\n            T.From5 A");
+            viewString.Append("S MachineClickChargeZone_From5, \r\n            T.To5 AS MachineClickChargeZone_To");
+            viewString.Append("5, \r\n            T.Sheets5 AS MachineClickChargeZone_Sheets5, \r\n            T.Sh");
+            viewString.Append("eetCost5 AS MachineClickChargeZone_SheetCost5, \r\n            T.SheetPrice5 AS Ma");
+            viewString.Append("chineClickChargeZone_SheetPrice5, \r\n            T.From6 AS MachineClickChargeZon");
+            viewString.Append("e_From6, \r\n            T.To6 AS MachineClickChargeZone_To6, \r\n            T.Shee");
+            viewString.Append("ts6 AS MachineClickChargeZone_Sheets6, \r\n            T.SheetCost6 AS MachineClic");
+            viewString.Append("kChargeZone_SheetCost6, \r\n            T.SheetPrice6 AS MachineClickChargeZone_Sh");
+            viewString.Append("eetPrice6, \r\n            T.From7 AS MachineClickChargeZone_From7, \r\n            ");
+            viewString.Append("T.To7 AS MachineClickChargeZone_To7, \r\n            T.Sheets7 AS MachineClickChar");
+            viewString.Append("geZone_Sheets7, \r\n            T.SheetCost7 AS MachineClickChargeZone_SheetCost7,");
+            viewString.Append(" \r\n            T.SheetPrice7 AS MachineClickChargeZone_SheetPrice7, \r\n          ");
+            viewString.Append("  T.From8 AS MachineClickChargeZone_From8, \r\n            T.To8 AS MachineClickCh");
+            viewString.Append("argeZone_To8, \r\n            T.Sheets8 AS MachineClickChargeZone_Sheets8, \r\n     ");
+            viewString.Append("       T.SheetCost8 AS MachineClickChargeZone_SheetCost8, \r\n            T.SheetP");
+            viewString.Append("rice8 AS MachineClickChargeZone_SheetPrice8, \r\n            T.From9 AS MachineCli");
+            viewString.Append("ckChargeZone_From9, \r\n            T.To9 AS MachineClickChargeZone_To9, \r\n       ");
+            viewString.Append("     T.Sheets9 AS MachineClickChargeZone_Sheets9, \r\n            T.SheetCost9 AS ");
+            viewString.Append("MachineClickChargeZone_SheetCost9, \r\n            T.SheetPrice9 AS MachineClickCh");
+            viewString.Append("argeZone_SheetPrice9, \r\n            T.From10 AS MachineClickChargeZone_From10, \r");
+            viewString.Append("\n            T.To10 AS MachineClickChargeZone_To10, \r\n            T.Sheets10 AS ");
+            viewString.Append("MachineClickChargeZone_Sheets10, \r\n            T.SheetCost10 AS MachineClickChar");
+            viewString.Append("geZone_SheetCost10, \r\n            T.SheetPrice10 AS MachineClickChargeZone_Sheet");
+            viewString.Append("Price10, \r\n            T.From11 AS MachineClickChargeZone_From11, \r\n            ");
+            viewString.Append("T.To11 AS MachineClickChargeZone_To11, \r\n            T.Sheets11 AS MachineClickC");
+            viewString.Append("hargeZone_Sheets11, \r\n            T.SheetCost11 AS MachineClickChargeZone_SheetC");
+            viewString.Append("ost11, \r\n            T.SheetPrice11 AS MachineClickChargeZone_SheetPrice11, \r\n  ");
+            viewString.Append("          T.From12 AS MachineClickChargeZone_From12, \r\n            T.To12 AS Mac");
+            viewString.Append("hineClickChargeZone_To12, \r\n            T.Sheets12 AS MachineClickChargeZone_She");
+            viewString.Append("ets12, \r\n            T.SheetCost12 AS MachineClickChargeZone_SheetCost12, \r\n    ");
+            viewString.Append("        T.SheetPrice12 AS MachineClickChargeZone_SheetPrice12, \r\n            T.F");
+            viewString.Append("rom13 AS MachineClickChargeZone_From13, \r\n            T.To13 AS MachineClickChar");
+            viewString.Append("geZone_To13, \r\n            T.Sheets13 AS MachineClickChargeZone_Sheets13, \r\n    ");
+            viewString.Append("        T.SheetCost13 AS MachineClickChargeZone_SheetCost13, \r\n            T.She");
+            viewString.Append("etPrice13 AS MachineClickChargeZone_SheetPrice13, \r\n            T.From14 AS Mach");
+            viewString.Append("ineClickChargeZone_From14, \r\n            T.To14 AS MachineClickChargeZone_To14, ");
+            viewString.Append("\r\n            T.Sheets14 AS MachineClickChargeZone_Sheets14, \r\n            T.She");
+            viewString.Append("etCost14 AS MachineClickChargeZone_SheetCost14, \r\n            T.SheetPrice14 AS ");
+            viewString.Append("MachineClickChargeZone_SheetPrice14, \r\n            T.From15 AS MachineClickCharg");
+            viewString.Append("eZone_From15, \r\n            T.To15 AS MachineClickChargeZone_To15, \r\n           ");
+            viewString.Append(" T.Sheets15 AS MachineClickChargeZone_Sheets15, \r\n            T.SheetCost15 AS M");
+            viewString.Append("achineClickChargeZone_SheetCost15, \r\n            T.SheetPrice15 AS MachineClickC");
+            viewString.Append("hargeZone_SheetPrice15, \r\n            T.isaccumulativecharge AS MachineClickChar");
+            viewString.Append("geZone_isaccumulativecharge, \r\n            T.IsRoundUp AS MachineClickChargeZone");
+            viewString.Append("_IsRoundUp, \r\n            T.TimePerHour AS MachineClickChargeZone_TimePerHour, \r");
+            viewString.Append("\n            True AS _from0\r\n        FROM BaseDbContext.MachineClickChargeZones ");
+            viewString.Append("AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineClickChargeZone", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachineGuillotineCalc
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView269()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineGuillotineCalc", "\r\n    SELECT VALUE -- Constructing MachineGuillotineCalc\r\n        [DomainModels.S" +
+                    "tore.MachineGuillotineCalc](T1.MachineGuillotineCalc_Id, T1.MachineGuillotineCal" +
+                    "c_MethodId, T1.MachineGuillotineCalc_PaperWeight1, T1.MachineGuillotineCalc_Pape" +
+                    "rThroatQty1, T1.MachineGuillotineCalc_PaperWeight2, T1.MachineGuillotineCalc_Pap" +
+                    "erThroatQty2, T1.MachineGuillotineCalc_PaperWeight3, T1.MachineGuillotineCalc_Pa" +
+                    "perThroatQty3, T1.MachineGuillotineCalc_PaperWeight4, T1.MachineGuillotineCalc_P" +
+                    "aperThroatQty4, T1.MachineGuillotineCalc_PaperWeight5, T1.MachineGuillotineCalc_" +
+                    "PaperThroatQty5)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineGuillo" +
+                    "tineCalc_Id, \r\n            T.MethodId AS MachineGuillotineCalc_MethodId, \r\n     " +
+                    "       T.PaperWeight1 AS MachineGuillotineCalc_PaperWeight1, \r\n            T.Pap" +
+                    "erThroatQty1 AS MachineGuillotineCalc_PaperThroatQty1, \r\n            T.PaperWeig" +
+                    "ht2 AS MachineGuillotineCalc_PaperWeight2, \r\n            T.PaperThroatQty2 AS Ma" +
+                    "chineGuillotineCalc_PaperThroatQty2, \r\n            T.PaperWeight3 AS MachineGuil" +
+                    "lotineCalc_PaperWeight3, \r\n            T.PaperThroatQty3 AS MachineGuillotineCal" +
+                    "c_PaperThroatQty3, \r\n            T.PaperWeight4 AS MachineGuillotineCalc_PaperWe" +
+                    "ight4, \r\n            T.PaperThroatQty4 AS MachineGuillotineCalc_PaperThroatQty4," +
+                    " \r\n            T.PaperWeight5 AS MachineGuillotineCalc_PaperWeight5, \r\n         " +
+                    "   T.PaperThroatQty5 AS MachineGuillotineCalc_PaperThroatQty5, \r\n            Tru" +
+                    "e AS _from0\r\n        FROM BaseDbContext.MachineGuillotineCalcs AS T\r\n    ) AS T1" +
+                    "");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachineMeterPerHourLookup
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView270()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3180);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineMeterPerHourLookup\r\n        [DomainMod");
+            viewString.Append("els.Store.MachineMeterPerHourLookup](T1.MachineMeterPerHourLookup_Id, T1.Machine");
+            viewString.Append("MeterPerHourLookup_MethodId, T1.MachineMeterPerHourLookup_SheetsQty1, T1.Machine");
+            viewString.Append("MeterPerHourLookup_SheetsQty2, T1.MachineMeterPerHourLookup_SheetsQty3, T1.Machi");
+            viewString.Append("neMeterPerHourLookup_SheetsQty4, T1.MachineMeterPerHourLookup_SheetsQty5, T1.Mac");
+            viewString.Append("hineMeterPerHourLookup_SheetWeight1, T1.MachineMeterPerHourLookup_speedqty11, T1");
+            viewString.Append(".MachineMeterPerHourLookup_speedqty12, T1.MachineMeterPerHourLookup_speedqty13, ");
+            viewString.Append("T1.MachineMeterPerHourLookup_speedqty14, T1.MachineMeterPerHourLookup_speedqty15");
+            viewString.Append(", T1.MachineMeterPerHourLookup_SheetWeight2, T1.MachineMeterPerHourLookup_speedq");
+            viewString.Append("ty21, T1.MachineMeterPerHourLookup_speedqty22, T1.MachineMeterPerHourLookup_spee");
+            viewString.Append("dqty23, T1.MachineMeterPerHourLookup_speedqty24, T1.MachineMeterPerHourLookup_sp");
+            viewString.Append("eedqty25, T1.MachineMeterPerHourLookup_SheetWeight3, T1.MachineMeterPerHourLooku");
+            viewString.Append("p_speedqty31, T1.MachineMeterPerHourLookup_speedqty32, T1.MachineMeterPerHourLoo");
+            viewString.Append("kup_speedqty33, T1.MachineMeterPerHourLookup_speedqty34, T1.MachineMeterPerHourL");
+            viewString.Append("ookup_speedqty35, T1.MachineMeterPerHourLookup_hourlyCost, T1.MachineMeterPerHou");
+            viewString.Append("rLookup_hourlyPrice)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineMe");
+            viewString.Append("terPerHourLookup_Id, \r\n            T.MethodId AS MachineMeterPerHourLookup_Metho");
+            viewString.Append("dId, \r\n            T.SheetsQty1 AS MachineMeterPerHourLookup_SheetsQty1, \r\n     ");
+            viewString.Append("       T.SheetsQty2 AS MachineMeterPerHourLookup_SheetsQty2, \r\n            T.She");
+            viewString.Append("etsQty3 AS MachineMeterPerHourLookup_SheetsQty3, \r\n            T.SheetsQty4 AS M");
+            viewString.Append("achineMeterPerHourLookup_SheetsQty4, \r\n            T.SheetsQty5 AS MachineMeterP");
+            viewString.Append("erHourLookup_SheetsQty5, \r\n            T.SheetWeight1 AS MachineMeterPerHourLook");
+            viewString.Append("up_SheetWeight1, \r\n            T.speedqty11 AS MachineMeterPerHourLookup_speedqt");
+            viewString.Append("y11, \r\n            T.speedqty12 AS MachineMeterPerHourLookup_speedqty12, \r\n     ");
+            viewString.Append("       T.speedqty13 AS MachineMeterPerHourLookup_speedqty13, \r\n            T.spe");
+            viewString.Append("edqty14 AS MachineMeterPerHourLookup_speedqty14, \r\n            T.speedqty15 AS M");
+            viewString.Append("achineMeterPerHourLookup_speedqty15, \r\n            T.SheetWeight2 AS MachineMete");
+            viewString.Append("rPerHourLookup_SheetWeight2, \r\n            T.speedqty21 AS MachineMeterPerHourLo");
+            viewString.Append("okup_speedqty21, \r\n            T.speedqty22 AS MachineMeterPerHourLookup_speedqt");
+            viewString.Append("y22, \r\n            T.speedqty23 AS MachineMeterPerHourLookup_speedqty23, \r\n     ");
+            viewString.Append("       T.speedqty24 AS MachineMeterPerHourLookup_speedqty24, \r\n            T.spe");
+            viewString.Append("edqty25 AS MachineMeterPerHourLookup_speedqty25, \r\n            T.SheetWeight3 AS");
+            viewString.Append(" MachineMeterPerHourLookup_SheetWeight3, \r\n            T.speedqty31 AS MachineMe");
+            viewString.Append("terPerHourLookup_speedqty31, \r\n            T.speedqty32 AS MachineMeterPerHourLo");
+            viewString.Append("okup_speedqty32, \r\n            T.speedqty33 AS MachineMeterPerHourLookup_speedqt");
+            viewString.Append("y33, \r\n            T.speedqty34 AS MachineMeterPerHourLookup_speedqty34, \r\n     ");
+            viewString.Append("       T.speedqty35 AS MachineMeterPerHourLookup_speedqty35, \r\n            T.hou");
+            viewString.Append("rlyCost AS MachineMeterPerHourLookup_hourlyCost, \r\n            T.hourlyPrice AS ");
+            viewString.Append("MachineMeterPerHourLookup_hourlyPrice, \r\n            True AS _from0\r\n        FRO");
+            viewString.Append("M BaseDbContext.MachineMeterPerHourLookups AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineMeterPerHourLookup", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachinePerHourLookup
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView271()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachinePerHourLookup", @"
+    SELECT VALUE -- Constructing MachinePerHourLookup
+        [DomainModels.Store.MachinePerHourLookup](T1.MachinePerHourLookup_Id, T1.MachinePerHourLookup_MethodId, T1.MachinePerHourLookup_SpeedCost, T1.MachinePerHourLookup_Speed, T1.MachinePerHourLookup_SpeedPrice)
+    FROM (
+        SELECT 
+            T.Id AS MachinePerHourLookup_Id, 
+            T.MethodId AS MachinePerHourLookup_MethodId, 
+            T.SpeedCost AS MachinePerHourLookup_SpeedCost, 
+            T.Speed AS MachinePerHourLookup_Speed, 
+            T.SpeedPrice AS MachinePerHourLookup_SpeedPrice, 
+            True AS _from0
+        FROM BaseDbContext.MachinePerHourLookups AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachineSpeedWeightLookup
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView272()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3123);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineSpeedWeightLookup\r\n        [DomainMode");
+            viewString.Append("ls.Store.MachineSpeedWeightLookup](T1.MachineSpeedWeightLookup_Id, T1.MachineSpe");
+            viewString.Append("edWeightLookup_MethodId, T1.MachineSpeedWeightLookup_SheetsQty1, T1.MachineSpeed");
+            viewString.Append("WeightLookup_SheetsQty2, T1.MachineSpeedWeightLookup_SheetsQty3, T1.MachineSpeed");
+            viewString.Append("WeightLookup_SheetsQty4, T1.MachineSpeedWeightLookup_SheetsQty5, T1.MachineSpeed");
+            viewString.Append("WeightLookup_SheetWeight1, T1.MachineSpeedWeightLookup_speedqty11, T1.MachineSpe");
+            viewString.Append("edWeightLookup_speedqty12, T1.MachineSpeedWeightLookup_speedqty13, T1.MachineSpe");
+            viewString.Append("edWeightLookup_speedqty14, T1.MachineSpeedWeightLookup_speedqty15, T1.MachineSpe");
+            viewString.Append("edWeightLookup_SheetWeight2, T1.MachineSpeedWeightLookup_speedqty21, T1.MachineS");
+            viewString.Append("peedWeightLookup_speedqty22, T1.MachineSpeedWeightLookup_speedqty23, T1.MachineS");
+            viewString.Append("peedWeightLookup_speedqty24, T1.MachineSpeedWeightLookup_speedqty25, T1.MachineS");
+            viewString.Append("peedWeightLookup_SheetWeight3, T1.MachineSpeedWeightLookup_speedqty31, T1.Machin");
+            viewString.Append("eSpeedWeightLookup_speedqty32, T1.MachineSpeedWeightLookup_speedqty33, T1.Machin");
+            viewString.Append("eSpeedWeightLookup_speedqty34, T1.MachineSpeedWeightLookup_speedqty35, T1.Machin");
+            viewString.Append("eSpeedWeightLookup_hourlyCost, T1.MachineSpeedWeightLookup_hourlyPrice)\r\n    FRO");
+            viewString.Append("M (\r\n        SELECT \r\n            T.Id AS MachineSpeedWeightLookup_Id, \r\n       ");
+            viewString.Append("     T.MethodId AS MachineSpeedWeightLookup_MethodId, \r\n            T.SheetsQty1");
+            viewString.Append(" AS MachineSpeedWeightLookup_SheetsQty1, \r\n            T.SheetsQty2 AS MachineSp");
+            viewString.Append("eedWeightLookup_SheetsQty2, \r\n            T.SheetsQty3 AS MachineSpeedWeightLook");
+            viewString.Append("up_SheetsQty3, \r\n            T.SheetsQty4 AS MachineSpeedWeightLookup_SheetsQty4");
+            viewString.Append(", \r\n            T.SheetsQty5 AS MachineSpeedWeightLookup_SheetsQty5, \r\n         ");
+            viewString.Append("   T.SheetWeight1 AS MachineSpeedWeightLookup_SheetWeight1, \r\n            T.spee");
+            viewString.Append("dqty11 AS MachineSpeedWeightLookup_speedqty11, \r\n            T.speedqty12 AS Mac");
+            viewString.Append("hineSpeedWeightLookup_speedqty12, \r\n            T.speedqty13 AS MachineSpeedWeig");
+            viewString.Append("htLookup_speedqty13, \r\n            T.speedqty14 AS MachineSpeedWeightLookup_spee");
+            viewString.Append("dqty14, \r\n            T.speedqty15 AS MachineSpeedWeightLookup_speedqty15, \r\n   ");
+            viewString.Append("         T.SheetWeight2 AS MachineSpeedWeightLookup_SheetWeight2, \r\n            ");
+            viewString.Append("T.speedqty21 AS MachineSpeedWeightLookup_speedqty21, \r\n            T.speedqty22 ");
+            viewString.Append("AS MachineSpeedWeightLookup_speedqty22, \r\n            T.speedqty23 AS MachineSpe");
+            viewString.Append("edWeightLookup_speedqty23, \r\n            T.speedqty24 AS MachineSpeedWeightLooku");
+            viewString.Append("p_speedqty24, \r\n            T.speedqty25 AS MachineSpeedWeightLookup_speedqty25,");
+            viewString.Append(" \r\n            T.SheetWeight3 AS MachineSpeedWeightLookup_SheetWeight3, \r\n      ");
+            viewString.Append("      T.speedqty31 AS MachineSpeedWeightLookup_speedqty31, \r\n            T.speed");
+            viewString.Append("qty32 AS MachineSpeedWeightLookup_speedqty32, \r\n            T.speedqty33 AS Mach");
+            viewString.Append("ineSpeedWeightLookup_speedqty33, \r\n            T.speedqty34 AS MachineSpeedWeigh");
+            viewString.Append("tLookup_speedqty34, \r\n            T.speedqty35 AS MachineSpeedWeightLookup_speed");
+            viewString.Append("qty35, \r\n            T.hourlyCost AS MachineSpeedWeightLookup_hourlyCost, \r\n    ");
+            viewString.Append("        T.hourlyPrice AS MachineSpeedWeightLookup_hourlyPrice, \r\n            Tru");
+            viewString.Append("e AS _from0\r\n        FROM BaseDbContext.MachineSpeedWeightLookups AS T\r\n    ) AS");
+            viewString.Append(" T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineSpeedWeightLookup", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.LookupMethods
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView273()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.LookupMethods", @"
     SELECT VALUE -- Constructing LookupMethods
@@ -10453,9 +10790,284 @@ namespace Edm_EntityMappingGeneratedViews
         }
         
         /// <Summary>
+        /// return view for BaseDbContext.MachineClickChargeLookups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView274()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineClickChargeLookups", @"
+    SELECT VALUE -- Constructing MachineClickChargeLookups
+        [DomainModels.MachineClickChargeLookup](T1.MachineClickChargeLookup_Id, T1.MachineClickChargeLookup_MethodId, T1.MachineClickChargeLookup_SheetCost, T1.MachineClickChargeLookup_Sheets, T1.MachineClickChargeLookup_SheetPrice, T1.MachineClickChargeLookup_TimePerHour)
+    FROM (
+        SELECT 
+            T.Id AS MachineClickChargeLookup_Id, 
+            T.MethodId AS MachineClickChargeLookup_MethodId, 
+            T.SheetCost AS MachineClickChargeLookup_SheetCost, 
+            T.Sheets AS MachineClickChargeLookup_Sheets, 
+            T.SheetPrice AS MachineClickChargeLookup_SheetPrice, 
+            T.TimePerHour AS MachineClickChargeLookup_TimePerHour, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.MachineClickChargeLookup AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachineClickChargeZones
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView275()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7944);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineClickChargeZones\r\n        [DomainModel");
+            viewString.Append("s.MachineClickChargeZone](T1.MachineClickChargeZone_Id, T1.MachineClickChargeZon");
+            viewString.Append("e_MethodId, T1.MachineClickChargeZone_From1, T1.MachineClickChargeZone_To1, T1.M");
+            viewString.Append("achineClickChargeZone_Sheets1, T1.MachineClickChargeZone_SheetCost1, T1.MachineC");
+            viewString.Append("lickChargeZone_SheetPrice1, T1.MachineClickChargeZone_From2, T1.MachineClickChar");
+            viewString.Append("geZone_To2, T1.MachineClickChargeZone_Sheets2, T1.MachineClickChargeZone_SheetCo");
+            viewString.Append("st2, T1.MachineClickChargeZone_SheetPrice2, T1.MachineClickChargeZone_From3, T1.");
+            viewString.Append("MachineClickChargeZone_To3, T1.MachineClickChargeZone_Sheets3, T1.MachineClickCh");
+            viewString.Append("argeZone_SheetCost3, T1.MachineClickChargeZone_SheetPrice3, T1.MachineClickCharg");
+            viewString.Append("eZone_From4, T1.MachineClickChargeZone_To4, T1.MachineClickChargeZone_Sheets4, T");
+            viewString.Append("1.MachineClickChargeZone_SheetCost4, T1.MachineClickChargeZone_SheetPrice4, T1.M");
+            viewString.Append("achineClickChargeZone_From5, T1.MachineClickChargeZone_To5, T1.MachineClickCharg");
+            viewString.Append("eZone_Sheets5, T1.MachineClickChargeZone_SheetCost5, T1.MachineClickChargeZone_S");
+            viewString.Append("heetPrice5, T1.MachineClickChargeZone_From6, T1.MachineClickChargeZone_To6, T1.M");
+            viewString.Append("achineClickChargeZone_Sheets6, T1.MachineClickChargeZone_SheetCost6, T1.MachineC");
+            viewString.Append("lickChargeZone_SheetPrice6, T1.MachineClickChargeZone_From7, T1.MachineClickChar");
+            viewString.Append("geZone_To7, T1.MachineClickChargeZone_Sheets7, T1.MachineClickChargeZone_SheetCo");
+            viewString.Append("st7, T1.MachineClickChargeZone_SheetPrice7, T1.MachineClickChargeZone_From8, T1.");
+            viewString.Append("MachineClickChargeZone_To8, T1.MachineClickChargeZone_Sheets8, T1.MachineClickCh");
+            viewString.Append("argeZone_SheetCost8, T1.MachineClickChargeZone_SheetPrice8, T1.MachineClickCharg");
+            viewString.Append("eZone_From9, T1.MachineClickChargeZone_To9, T1.MachineClickChargeZone_Sheets9, T");
+            viewString.Append("1.MachineClickChargeZone_SheetCost9, T1.MachineClickChargeZone_SheetPrice9, T1.M");
+            viewString.Append("achineClickChargeZone_From10, T1.MachineClickChargeZone_To10, T1.MachineClickCha");
+            viewString.Append("rgeZone_Sheets10, T1.MachineClickChargeZone_SheetCost10, T1.MachineClickChargeZo");
+            viewString.Append("ne_SheetPrice10, T1.MachineClickChargeZone_From11, T1.MachineClickChargeZone_To1");
+            viewString.Append("1, T1.MachineClickChargeZone_Sheets11, T1.MachineClickChargeZone_SheetCost11, T1");
+            viewString.Append(".MachineClickChargeZone_SheetPrice11, T1.MachineClickChargeZone_From12, T1.Machi");
+            viewString.Append("neClickChargeZone_To12, T1.MachineClickChargeZone_Sheets12, T1.MachineClickCharg");
+            viewString.Append("eZone_SheetCost12, T1.MachineClickChargeZone_SheetPrice12, T1.MachineClickCharge");
+            viewString.Append("Zone_From13, T1.MachineClickChargeZone_To13, T1.MachineClickChargeZone_Sheets13,");
+            viewString.Append(" T1.MachineClickChargeZone_SheetCost13, T1.MachineClickChargeZone_SheetPrice13, ");
+            viewString.Append("T1.MachineClickChargeZone_From14, T1.MachineClickChargeZone_To14, T1.MachineClic");
+            viewString.Append("kChargeZone_Sheets14, T1.MachineClickChargeZone_SheetCost14, T1.MachineClickChar");
+            viewString.Append("geZone_SheetPrice14, T1.MachineClickChargeZone_From15, T1.MachineClickChargeZone");
+            viewString.Append("_To15, T1.MachineClickChargeZone_Sheets15, T1.MachineClickChargeZone_SheetCost15");
+            viewString.Append(", T1.MachineClickChargeZone_SheetPrice15, T1.MachineClickChargeZone_isaccumulati");
+            viewString.Append("vecharge, T1.MachineClickChargeZone_IsRoundUp, T1.MachineClickChargeZone_TimePer");
+            viewString.Append("Hour)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineClickChargeZone_I");
+            viewString.Append("d, \r\n            T.MethodId AS MachineClickChargeZone_MethodId, \r\n            T.");
+            viewString.Append("From1 AS MachineClickChargeZone_From1, \r\n            T.To1 AS MachineClickCharge");
+            viewString.Append("Zone_To1, \r\n            T.Sheets1 AS MachineClickChargeZone_Sheets1, \r\n         ");
+            viewString.Append("   T.SheetCost1 AS MachineClickChargeZone_SheetCost1, \r\n            T.SheetPrice");
+            viewString.Append("1 AS MachineClickChargeZone_SheetPrice1, \r\n            T.From2 AS MachineClickCh");
+            viewString.Append("argeZone_From2, \r\n            T.To2 AS MachineClickChargeZone_To2, \r\n           ");
+            viewString.Append(" T.Sheets2 AS MachineClickChargeZone_Sheets2, \r\n            T.SheetCost2 AS Mach");
+            viewString.Append("ineClickChargeZone_SheetCost2, \r\n            T.SheetPrice2 AS MachineClickCharge");
+            viewString.Append("Zone_SheetPrice2, \r\n            T.From3 AS MachineClickChargeZone_From3, \r\n     ");
+            viewString.Append("       T.To3 AS MachineClickChargeZone_To3, \r\n            T.Sheets3 AS MachineCl");
+            viewString.Append("ickChargeZone_Sheets3, \r\n            T.SheetCost3 AS MachineClickChargeZone_Shee");
+            viewString.Append("tCost3, \r\n            T.SheetPrice3 AS MachineClickChargeZone_SheetPrice3, \r\n   ");
+            viewString.Append("         T.From4 AS MachineClickChargeZone_From4, \r\n            T.To4 AS Machine");
+            viewString.Append("ClickChargeZone_To4, \r\n            T.Sheets4 AS MachineClickChargeZone_Sheets4, ");
+            viewString.Append("\r\n            T.SheetCost4 AS MachineClickChargeZone_SheetCost4, \r\n            T");
+            viewString.Append(".SheetPrice4 AS MachineClickChargeZone_SheetPrice4, \r\n            T.From5 AS Mac");
+            viewString.Append("hineClickChargeZone_From5, \r\n            T.To5 AS MachineClickChargeZone_To5, \r\n");
+            viewString.Append("            T.Sheets5 AS MachineClickChargeZone_Sheets5, \r\n            T.SheetCo");
+            viewString.Append("st5 AS MachineClickChargeZone_SheetCost5, \r\n            T.SheetPrice5 AS Machine");
+            viewString.Append("ClickChargeZone_SheetPrice5, \r\n            T.From6 AS MachineClickChargeZone_Fro");
+            viewString.Append("m6, \r\n            T.To6 AS MachineClickChargeZone_To6, \r\n            T.Sheets6 A");
+            viewString.Append("S MachineClickChargeZone_Sheets6, \r\n            T.SheetCost6 AS MachineClickChar");
+            viewString.Append("geZone_SheetCost6, \r\n            T.SheetPrice6 AS MachineClickChargeZone_SheetPr");
+            viewString.Append("ice6, \r\n            T.From7 AS MachineClickChargeZone_From7, \r\n            T.To7");
+            viewString.Append(" AS MachineClickChargeZone_To7, \r\n            T.Sheets7 AS MachineClickChargeZon");
+            viewString.Append("e_Sheets7, \r\n            T.SheetCost7 AS MachineClickChargeZone_SheetCost7, \r\n  ");
+            viewString.Append("          T.SheetPrice7 AS MachineClickChargeZone_SheetPrice7, \r\n            T.F");
+            viewString.Append("rom8 AS MachineClickChargeZone_From8, \r\n            T.To8 AS MachineClickChargeZ");
+            viewString.Append("one_To8, \r\n            T.Sheets8 AS MachineClickChargeZone_Sheets8, \r\n          ");
+            viewString.Append("  T.SheetCost8 AS MachineClickChargeZone_SheetCost8, \r\n            T.SheetPrice8");
+            viewString.Append(" AS MachineClickChargeZone_SheetPrice8, \r\n            T.From9 AS MachineClickCha");
+            viewString.Append("rgeZone_From9, \r\n            T.To9 AS MachineClickChargeZone_To9, \r\n            ");
+            viewString.Append("T.Sheets9 AS MachineClickChargeZone_Sheets9, \r\n            T.SheetCost9 AS Machi");
+            viewString.Append("neClickChargeZone_SheetCost9, \r\n            T.SheetPrice9 AS MachineClickChargeZ");
+            viewString.Append("one_SheetPrice9, \r\n            T.From10 AS MachineClickChargeZone_From10, \r\n    ");
+            viewString.Append("        T.To10 AS MachineClickChargeZone_To10, \r\n            T.Sheets10 AS Machi");
+            viewString.Append("neClickChargeZone_Sheets10, \r\n            T.SheetCost10 AS MachineClickChargeZon");
+            viewString.Append("e_SheetCost10, \r\n            T.SheetPrice10 AS MachineClickChargeZone_SheetPrice");
+            viewString.Append("10, \r\n            T.From11 AS MachineClickChargeZone_From11, \r\n            T.To1");
+            viewString.Append("1 AS MachineClickChargeZone_To11, \r\n            T.Sheets11 AS MachineClickCharge");
+            viewString.Append("Zone_Sheets11, \r\n            T.SheetCost11 AS MachineClickChargeZone_SheetCost11");
+            viewString.Append(", \r\n            T.SheetPrice11 AS MachineClickChargeZone_SheetPrice11, \r\n       ");
+            viewString.Append("     T.From12 AS MachineClickChargeZone_From12, \r\n            T.To12 AS MachineC");
+            viewString.Append("lickChargeZone_To12, \r\n            T.Sheets12 AS MachineClickChargeZone_Sheets12");
+            viewString.Append(", \r\n            T.SheetCost12 AS MachineClickChargeZone_SheetCost12, \r\n         ");
+            viewString.Append("   T.SheetPrice12 AS MachineClickChargeZone_SheetPrice12, \r\n            T.From13");
+            viewString.Append(" AS MachineClickChargeZone_From13, \r\n            T.To13 AS MachineClickChargeZon");
+            viewString.Append("e_To13, \r\n            T.Sheets13 AS MachineClickChargeZone_Sheets13, \r\n         ");
+            viewString.Append("   T.SheetCost13 AS MachineClickChargeZone_SheetCost13, \r\n            T.SheetPri");
+            viewString.Append("ce13 AS MachineClickChargeZone_SheetPrice13, \r\n            T.From14 AS MachineCl");
+            viewString.Append("ickChargeZone_From14, \r\n            T.To14 AS MachineClickChargeZone_To14, \r\n   ");
+            viewString.Append("         T.Sheets14 AS MachineClickChargeZone_Sheets14, \r\n            T.SheetCos");
+            viewString.Append("t14 AS MachineClickChargeZone_SheetCost14, \r\n            T.SheetPrice14 AS Machi");
+            viewString.Append("neClickChargeZone_SheetPrice14, \r\n            T.From15 AS MachineClickChargeZone");
+            viewString.Append("_From15, \r\n            T.To15 AS MachineClickChargeZone_To15, \r\n            T.Sh");
+            viewString.Append("eets15 AS MachineClickChargeZone_Sheets15, \r\n            T.SheetCost15 AS Machin");
+            viewString.Append("eClickChargeZone_SheetCost15, \r\n            T.SheetPrice15 AS MachineClickCharge");
+            viewString.Append("Zone_SheetPrice15, \r\n            T.isaccumulativecharge AS MachineClickChargeZon");
+            viewString.Append("e_isaccumulativecharge, \r\n            T.IsRoundUp AS MachineClickChargeZone_IsRo");
+            viewString.Append("undUp, \r\n            T.TimePerHour AS MachineClickChargeZone_TimePerHour, \r\n    ");
+            viewString.Append("        True AS _from0\r\n        FROM DomainModelsStoreContainer.MachineClickChar");
+            viewString.Append("geZone AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineClickChargeZones", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachineGuillotineCalcs
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView276()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineGuillotineCalcs", "\r\n    SELECT VALUE -- Constructing MachineGuillotineCalcs\r\n        [DomainModels." +
+                    "MachineGuillotineCalc](T1.MachineGuillotineCalc_Id, T1.MachineGuillotineCalc_Met" +
+                    "hodId, T1.MachineGuillotineCalc_PaperWeight1, T1.MachineGuillotineCalc_PaperThro" +
+                    "atQty1, T1.MachineGuillotineCalc_PaperWeight2, T1.MachineGuillotineCalc_PaperThr" +
+                    "oatQty2, T1.MachineGuillotineCalc_PaperWeight3, T1.MachineGuillotineCalc_PaperTh" +
+                    "roatQty3, T1.MachineGuillotineCalc_PaperWeight4, T1.MachineGuillotineCalc_PaperT" +
+                    "hroatQty4, T1.MachineGuillotineCalc_PaperWeight5, T1.MachineGuillotineCalc_Paper" +
+                    "ThroatQty5)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineGuillotineC" +
+                    "alc_Id, \r\n            T.MethodId AS MachineGuillotineCalc_MethodId, \r\n          " +
+                    "  T.PaperWeight1 AS MachineGuillotineCalc_PaperWeight1, \r\n            T.PaperThr" +
+                    "oatQty1 AS MachineGuillotineCalc_PaperThroatQty1, \r\n            T.PaperWeight2 A" +
+                    "S MachineGuillotineCalc_PaperWeight2, \r\n            T.PaperThroatQty2 AS Machine" +
+                    "GuillotineCalc_PaperThroatQty2, \r\n            T.PaperWeight3 AS MachineGuillotin" +
+                    "eCalc_PaperWeight3, \r\n            T.PaperThroatQty3 AS MachineGuillotineCalc_Pap" +
+                    "erThroatQty3, \r\n            T.PaperWeight4 AS MachineGuillotineCalc_PaperWeight4" +
+                    ", \r\n            T.PaperThroatQty4 AS MachineGuillotineCalc_PaperThroatQty4, \r\n  " +
+                    "          T.PaperWeight5 AS MachineGuillotineCalc_PaperWeight5, \r\n            T." +
+                    "PaperThroatQty5 AS MachineGuillotineCalc_PaperThroatQty5, \r\n            True AS " +
+                    "_from0\r\n        FROM DomainModelsStoreContainer.MachineGuillotineCalc AS T\r\n    " +
+                    ") AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachineMeterPerHourLookups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView277()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3187);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineMeterPerHourLookups\r\n        [DomainMo");
+            viewString.Append("dels.MachineMeterPerHourLookup](T1.MachineMeterPerHourLookup_Id, T1.MachineMeter");
+            viewString.Append("PerHourLookup_MethodId, T1.MachineMeterPerHourLookup_SheetsQty1, T1.MachineMeter");
+            viewString.Append("PerHourLookup_SheetsQty2, T1.MachineMeterPerHourLookup_SheetsQty3, T1.MachineMet");
+            viewString.Append("erPerHourLookup_SheetsQty4, T1.MachineMeterPerHourLookup_SheetsQty5, T1.MachineM");
+            viewString.Append("eterPerHourLookup_SheetWeight1, T1.MachineMeterPerHourLookup_speedqty11, T1.Mach");
+            viewString.Append("ineMeterPerHourLookup_speedqty12, T1.MachineMeterPerHourLookup_speedqty13, T1.Ma");
+            viewString.Append("chineMeterPerHourLookup_speedqty14, T1.MachineMeterPerHourLookup_speedqty15, T1.");
+            viewString.Append("MachineMeterPerHourLookup_SheetWeight2, T1.MachineMeterPerHourLookup_speedqty21,");
+            viewString.Append(" T1.MachineMeterPerHourLookup_speedqty22, T1.MachineMeterPerHourLookup_speedqty2");
+            viewString.Append("3, T1.MachineMeterPerHourLookup_speedqty24, T1.MachineMeterPerHourLookup_speedqt");
+            viewString.Append("y25, T1.MachineMeterPerHourLookup_SheetWeight3, T1.MachineMeterPerHourLookup_spe");
+            viewString.Append("edqty31, T1.MachineMeterPerHourLookup_speedqty32, T1.MachineMeterPerHourLookup_s");
+            viewString.Append("peedqty33, T1.MachineMeterPerHourLookup_speedqty34, T1.MachineMeterPerHourLookup");
+            viewString.Append("_speedqty35, T1.MachineMeterPerHourLookup_hourlyCost, T1.MachineMeterPerHourLook");
+            viewString.Append("up_hourlyPrice)\r\n    FROM (\r\n        SELECT \r\n            T.Id AS MachineMeterPe");
+            viewString.Append("rHourLookup_Id, \r\n            T.MethodId AS MachineMeterPerHourLookup_MethodId, ");
+            viewString.Append("\r\n            T.SheetsQty1 AS MachineMeterPerHourLookup_SheetsQty1, \r\n          ");
+            viewString.Append("  T.SheetsQty2 AS MachineMeterPerHourLookup_SheetsQty2, \r\n            T.SheetsQt");
+            viewString.Append("y3 AS MachineMeterPerHourLookup_SheetsQty3, \r\n            T.SheetsQty4 AS Machin");
+            viewString.Append("eMeterPerHourLookup_SheetsQty4, \r\n            T.SheetsQty5 AS MachineMeterPerHou");
+            viewString.Append("rLookup_SheetsQty5, \r\n            T.SheetWeight1 AS MachineMeterPerHourLookup_Sh");
+            viewString.Append("eetWeight1, \r\n            T.speedqty11 AS MachineMeterPerHourLookup_speedqty11, ");
+            viewString.Append("\r\n            T.speedqty12 AS MachineMeterPerHourLookup_speedqty12, \r\n          ");
+            viewString.Append("  T.speedqty13 AS MachineMeterPerHourLookup_speedqty13, \r\n            T.speedqty");
+            viewString.Append("14 AS MachineMeterPerHourLookup_speedqty14, \r\n            T.speedqty15 AS Machin");
+            viewString.Append("eMeterPerHourLookup_speedqty15, \r\n            T.SheetWeight2 AS MachineMeterPerH");
+            viewString.Append("ourLookup_SheetWeight2, \r\n            T.speedqty21 AS MachineMeterPerHourLookup_");
+            viewString.Append("speedqty21, \r\n            T.speedqty22 AS MachineMeterPerHourLookup_speedqty22, ");
+            viewString.Append("\r\n            T.speedqty23 AS MachineMeterPerHourLookup_speedqty23, \r\n          ");
+            viewString.Append("  T.speedqty24 AS MachineMeterPerHourLookup_speedqty24, \r\n            T.speedqty");
+            viewString.Append("25 AS MachineMeterPerHourLookup_speedqty25, \r\n            T.SheetWeight3 AS Mach");
+            viewString.Append("ineMeterPerHourLookup_SheetWeight3, \r\n            T.speedqty31 AS MachineMeterPe");
+            viewString.Append("rHourLookup_speedqty31, \r\n            T.speedqty32 AS MachineMeterPerHourLookup_");
+            viewString.Append("speedqty32, \r\n            T.speedqty33 AS MachineMeterPerHourLookup_speedqty33, ");
+            viewString.Append("\r\n            T.speedqty34 AS MachineMeterPerHourLookup_speedqty34, \r\n          ");
+            viewString.Append("  T.speedqty35 AS MachineMeterPerHourLookup_speedqty35, \r\n            T.hourlyCo");
+            viewString.Append("st AS MachineMeterPerHourLookup_hourlyCost, \r\n            T.hourlyPrice AS Machi");
+            viewString.Append("neMeterPerHourLookup_hourlyPrice, \r\n            True AS _from0\r\n        FROM Dom");
+            viewString.Append("ainModelsStoreContainer.MachineMeterPerHourLookup AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineMeterPerHourLookups", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachinePerHourLookups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView278()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachinePerHourLookups", @"
+    SELECT VALUE -- Constructing MachinePerHourLookups
+        [DomainModels.MachinePerHourLookup](T1.MachinePerHourLookup_Id, T1.MachinePerHourLookup_MethodId, T1.MachinePerHourLookup_SpeedCost, T1.MachinePerHourLookup_Speed, T1.MachinePerHourLookup_SpeedPrice)
+    FROM (
+        SELECT 
+            T.Id AS MachinePerHourLookup_Id, 
+            T.MethodId AS MachinePerHourLookup_MethodId, 
+            T.SpeedCost AS MachinePerHourLookup_SpeedCost, 
+            T.Speed AS MachinePerHourLookup_Speed, 
+            T.SpeedPrice AS MachinePerHourLookup_SpeedPrice, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.MachinePerHourLookup AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachineSpeedWeightLookups
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView279()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3130);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing MachineSpeedWeightLookups\r\n        [DomainMod");
+            viewString.Append("els.MachineSpeedWeightLookup](T1.MachineSpeedWeightLookup_Id, T1.MachineSpeedWei");
+            viewString.Append("ghtLookup_MethodId, T1.MachineSpeedWeightLookup_SheetsQty1, T1.MachineSpeedWeigh");
+            viewString.Append("tLookup_SheetsQty2, T1.MachineSpeedWeightLookup_SheetsQty3, T1.MachineSpeedWeigh");
+            viewString.Append("tLookup_SheetsQty4, T1.MachineSpeedWeightLookup_SheetsQty5, T1.MachineSpeedWeigh");
+            viewString.Append("tLookup_SheetWeight1, T1.MachineSpeedWeightLookup_speedqty11, T1.MachineSpeedWei");
+            viewString.Append("ghtLookup_speedqty12, T1.MachineSpeedWeightLookup_speedqty13, T1.MachineSpeedWei");
+            viewString.Append("ghtLookup_speedqty14, T1.MachineSpeedWeightLookup_speedqty15, T1.MachineSpeedWei");
+            viewString.Append("ghtLookup_SheetWeight2, T1.MachineSpeedWeightLookup_speedqty21, T1.MachineSpeedW");
+            viewString.Append("eightLookup_speedqty22, T1.MachineSpeedWeightLookup_speedqty23, T1.MachineSpeedW");
+            viewString.Append("eightLookup_speedqty24, T1.MachineSpeedWeightLookup_speedqty25, T1.MachineSpeedW");
+            viewString.Append("eightLookup_SheetWeight3, T1.MachineSpeedWeightLookup_speedqty31, T1.MachineSpee");
+            viewString.Append("dWeightLookup_speedqty32, T1.MachineSpeedWeightLookup_speedqty33, T1.MachineSpee");
+            viewString.Append("dWeightLookup_speedqty34, T1.MachineSpeedWeightLookup_speedqty35, T1.MachineSpee");
+            viewString.Append("dWeightLookup_hourlyCost, T1.MachineSpeedWeightLookup_hourlyPrice)\r\n    FROM (\r\n");
+            viewString.Append("        SELECT \r\n            T.Id AS MachineSpeedWeightLookup_Id, \r\n            ");
+            viewString.Append("T.MethodId AS MachineSpeedWeightLookup_MethodId, \r\n            T.SheetsQty1 AS M");
+            viewString.Append("achineSpeedWeightLookup_SheetsQty1, \r\n            T.SheetsQty2 AS MachineSpeedWe");
+            viewString.Append("ightLookup_SheetsQty2, \r\n            T.SheetsQty3 AS MachineSpeedWeightLookup_Sh");
+            viewString.Append("eetsQty3, \r\n            T.SheetsQty4 AS MachineSpeedWeightLookup_SheetsQty4, \r\n ");
+            viewString.Append("           T.SheetsQty5 AS MachineSpeedWeightLookup_SheetsQty5, \r\n            T.");
+            viewString.Append("SheetWeight1 AS MachineSpeedWeightLookup_SheetWeight1, \r\n            T.speedqty1");
+            viewString.Append("1 AS MachineSpeedWeightLookup_speedqty11, \r\n            T.speedqty12 AS MachineS");
+            viewString.Append("peedWeightLookup_speedqty12, \r\n            T.speedqty13 AS MachineSpeedWeightLoo");
+            viewString.Append("kup_speedqty13, \r\n            T.speedqty14 AS MachineSpeedWeightLookup_speedqty1");
+            viewString.Append("4, \r\n            T.speedqty15 AS MachineSpeedWeightLookup_speedqty15, \r\n        ");
+            viewString.Append("    T.SheetWeight2 AS MachineSpeedWeightLookup_SheetWeight2, \r\n            T.spe");
+            viewString.Append("edqty21 AS MachineSpeedWeightLookup_speedqty21, \r\n            T.speedqty22 AS Ma");
+            viewString.Append("chineSpeedWeightLookup_speedqty22, \r\n            T.speedqty23 AS MachineSpeedWei");
+            viewString.Append("ghtLookup_speedqty23, \r\n            T.speedqty24 AS MachineSpeedWeightLookup_spe");
+            viewString.Append("edqty24, \r\n            T.speedqty25 AS MachineSpeedWeightLookup_speedqty25, \r\n  ");
+            viewString.Append("          T.SheetWeight3 AS MachineSpeedWeightLookup_SheetWeight3, \r\n           ");
+            viewString.Append(" T.speedqty31 AS MachineSpeedWeightLookup_speedqty31, \r\n            T.speedqty32");
+            viewString.Append(" AS MachineSpeedWeightLookup_speedqty32, \r\n            T.speedqty33 AS MachineSp");
+            viewString.Append("eedWeightLookup_speedqty33, \r\n            T.speedqty34 AS MachineSpeedWeightLook");
+            viewString.Append("up_speedqty34, \r\n            T.speedqty35 AS MachineSpeedWeightLookup_speedqty35");
+            viewString.Append(", \r\n            T.hourlyCost AS MachineSpeedWeightLookup_hourlyCost, \r\n         ");
+            viewString.Append("   T.hourlyPrice AS MachineSpeedWeightLookup_hourlyPrice, \r\n            True AS ");
+            viewString.Append("_from0\r\n        FROM DomainModelsStoreContainer.MachineSpeedWeightLookup AS T\r\n ");
+            viewString.Append("   ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineSpeedWeightLookups", viewString.ToString());
+        }
+        
+        /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineCategory
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView268()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView280()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineCategory", @"
     SELECT VALUE -- Constructing MachineCategory
@@ -10473,7 +11085,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.MachineCategories
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView269()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView281()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineCategories", @"
     SELECT VALUE -- Constructing MachineCategories
@@ -10491,7 +11103,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Groups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView270()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView282()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Groups", @"
     SELECT VALUE -- Constructing Groups
@@ -10516,7 +11128,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Groups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView271()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView283()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Groups", @"
     SELECT VALUE -- Constructing Groups
@@ -10541,7 +11153,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.CostCenterChoice
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView272()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView284()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.CostCenterChoice", @"
     SELECT VALUE -- Constructing CostCenterChoice
@@ -10561,7 +11173,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.CostCenterChoices
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView273()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView285()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.CostCenterChoices", @"
     SELECT VALUE -- Constructing CostCenterChoices
@@ -10581,7 +11193,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.InkCoverageGroup
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView274()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView286()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.InkCoverageGroup", @"
     SELECT VALUE -- Constructing InkCoverageGroup
@@ -10601,7 +11213,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.InkCoverageGroups
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView275()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView287()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InkCoverageGroups", @"
     SELECT VALUE -- Constructing InkCoverageGroups
@@ -10621,7 +11233,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.MachineSpoilage
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView276()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView288()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineSpoilage", @"
     SELECT VALUE -- Constructing MachineSpoilage
@@ -10641,7 +11253,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.MachineSpoilages
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView277()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView289()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineSpoilages", @"
     SELECT VALUE -- Constructing MachineSpoilages
@@ -10661,7 +11273,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.Report
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView278()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView290()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Report", "\r\n    SELECT VALUE -- Constructing Report\r\n        [DomainModels.Store.Report](T1" +
                     ".Report_ReportId, T1.Report_Name, T1.Report_Path, T1.Report_FileName, T1.Report_" +
@@ -10692,7 +11304,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.Reports
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView279()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView291()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Reports", "\r\n    SELECT VALUE -- Constructing Reports\r\n        [DomainModels.Report](T1.Repo" +
                     "rt_ReportId, T1.Report_Name, T1.Report_Path, T1.Report_FileName, T1.Report_Categ" +
@@ -10723,7 +11335,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ReportNote
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView280()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView292()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ReportNote", @"
     SELECT VALUE -- Constructing ReportNote
@@ -10750,7 +11362,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ReportNotes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView281()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView293()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ReportNotes", @"
     SELECT VALUE -- Constructing ReportNotes
@@ -10777,7 +11389,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PipeLineProduct
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView282()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView294()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PipeLineProduct", @"
     SELECT VALUE -- Constructing PipeLineProduct
@@ -10794,7 +11406,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PipeLineProducts
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView283()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView295()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PipeLineProducts", @"
     SELECT VALUE -- Constructing PipeLineProducts
@@ -10811,7 +11423,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PipeLineSource
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView284()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView296()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PipeLineSource", @"
     SELECT VALUE -- Constructing PipeLineSource
@@ -10828,7 +11440,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PipeLineSources
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView285()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView297()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PipeLineSources", @"
     SELECT VALUE -- Constructing PipeLineSources
@@ -10845,7 +11457,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.ActivityType
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView286()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView298()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.ActivityType", @"
     SELECT VALUE -- Constructing ActivityType
@@ -10864,7 +11476,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.ActivityTypes
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView287()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView299()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.ActivityTypes", @"
     SELECT VALUE -- Constructing ActivityTypes
@@ -10883,7 +11495,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.DeliveryCarrier
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView288()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView300()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.DeliveryCarrier", @"
     SELECT VALUE -- Constructing DeliveryCarrier
@@ -10904,7 +11516,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.DeliveryCarriers
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView289()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView301()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.DeliveryCarriers", @"
     SELECT VALUE -- Constructing DeliveryCarriers
@@ -10925,7 +11537,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.PaypalPaymentRequest
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView290()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView302()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PaypalPaymentRequest", @"
     SELECT VALUE -- Constructing PaypalPaymentRequest
@@ -10946,7 +11558,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.PaypalPaymentRequests
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView291()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView303()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PaypalPaymentRequests", @"
     SELECT VALUE -- Constructing PaypalPaymentRequests
@@ -10967,7 +11579,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.NABTransaction
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView292()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView304()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.NABTransaction", @"
     SELECT VALUE -- Constructing NABTransaction
@@ -10987,7 +11599,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.NABTransactions
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView293()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView305()
         {
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.NABTransactions", @"
     SELECT VALUE -- Constructing NABTransactions
@@ -11007,7 +11619,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for DomainModelsStoreContainer.vw_SaveDesign
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView294()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView306()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2402);
             viewString.Append("\r\n    SELECT VALUE -- Constructing vw_SaveDesign\r\n        [DomainModels.Store.vw");
@@ -11047,7 +11659,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// <Summary>
         /// return view for BaseDbContext.SaveDesignViews
         /// </Summary>
-        private System.Collections.Generic.KeyValuePair<string, string> GetView295()
+        private System.Collections.Generic.KeyValuePair<string, string> GetView307()
         {
             System.Text.StringBuilder viewString = new System.Text.StringBuilder(2364);
             viewString.Append("\r\n    SELECT VALUE -- Constructing SaveDesignViews\r\n        [DomainModels.SaveDe");
@@ -11081,6 +11693,48 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("DesignView_TemplateID, \r\n            True AS _from0\r\n        FROM DomainModelsSt");
             viewString.Append("oreContainer.vw_SaveDesign AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SaveDesignViews", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.MachineGuilotinePtv
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView308()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.MachineGuilotinePtv", @"
+    SELECT VALUE -- Constructing MachineGuilotinePtv
+        [DomainModels.Store.MachineGuilotinePtv](T1.MachineGuilotinePtv_Id, T1.MachineGuilotinePtv_NoofSections, T1.MachineGuilotinePtv_NoofUps, T1.MachineGuilotinePtv_Noofcutswithoutgutters, T1.MachineGuilotinePtv_Noofcutswithgutters, T1.MachineGuilotinePtv_GuilotineId)
+    FROM (
+        SELECT 
+            T.Id AS MachineGuilotinePtv_Id, 
+            T.NoofSections AS MachineGuilotinePtv_NoofSections, 
+            T.NoofUps AS MachineGuilotinePtv_NoofUps, 
+            T.Noofcutswithoutgutters AS MachineGuilotinePtv_Noofcutswithoutgutters, 
+            T.Noofcutswithgutters AS MachineGuilotinePtv_Noofcutswithgutters, 
+            T.GuilotineId AS MachineGuilotinePtv_GuilotineId, 
+            True AS _from0
+        FROM BaseDbContext.MachineGuilotinePtvs AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.MachineGuilotinePtvs
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView309()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.MachineGuilotinePtvs", @"
+    SELECT VALUE -- Constructing MachineGuilotinePtvs
+        [DomainModels.MachineGuilotinePtv](T1.MachineGuilotinePtv_Id, T1.MachineGuilotinePtv_NoofSections, T1.MachineGuilotinePtv_NoofUps, T1.MachineGuilotinePtv_Noofcutswithoutgutters, T1.MachineGuilotinePtv_Noofcutswithgutters, T1.MachineGuilotinePtv_GuilotineId)
+    FROM (
+        SELECT 
+            T.Id AS MachineGuilotinePtv_Id, 
+            T.NoofSections AS MachineGuilotinePtv_NoofSections, 
+            T.NoofUps AS MachineGuilotinePtv_NoofUps, 
+            T.Noofcutswithoutgutters AS MachineGuilotinePtv_Noofcutswithoutgutters, 
+            T.Noofcutswithgutters AS MachineGuilotinePtv_Noofcutswithgutters, 
+            T.GuilotineId AS MachineGuilotinePtv_GuilotineId, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.MachineGuilotinePtv AS T
+    ) AS T1");
         }
     }
 }

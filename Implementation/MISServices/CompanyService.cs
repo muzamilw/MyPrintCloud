@@ -89,6 +89,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ISmartFormDetailRepository smartFormDetailRepository;
         private readonly IMediaLibraryRepository mediaLibraryRepository;
+        private readonly ICompanyCostCenterRepository companyCostCenterRepository;
 
         #endregion
 
@@ -326,6 +327,7 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyCostCentre missingCompanyCostCentre in missingItemsList)
                 {
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyCostCenterRepository.Delete(dbVersionMissingItem);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                     //company.CompanyCostCentres.Remove(dbVersionMissingItem);
 
@@ -337,6 +339,7 @@ namespace MPC.Implementation.MISServices
                 foreach (CompanyCostCentre missingCompanyCostCentre in lisRemoveAllItemsList)
                 {
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
+                    companyCostCenterRepository.Delete(dbVersionMissingItem);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                 }
             }
@@ -2438,11 +2441,12 @@ namespace MPC.Implementation.MISServices
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
-            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository)
+            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
             this.mediaLibraryRepository = mediaLibraryRepository;
+            this.companyCostCenterRepository = companyCostCenterRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
             this.estimateRepository = estimateRepository;
             this.systemUserRepository = systemUserRepository;
