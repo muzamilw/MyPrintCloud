@@ -722,7 +722,6 @@ function d5(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            console.log(IT.Height + " " + IT.Width);
             if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -3721,6 +3720,96 @@ function pcl40(xdata) {
         cursor: 'move'
     });
 }
-function pcl41() {
-    alert(item.SmartFormId);
+function pcl41(xdata) {
+
+    smartFormData = xdata;
+    
+    if (smartFormData.usersList != null)
+    {
+        $(".smartFormProfileContainer").css("display", "block");
+        pcl40_showUserList(smartFormData.usersList);
+    }
+    var html = "";
+    $(".smartFormFormHeading").html(smartFormData.smartForm.Heading);
+    $.each(smartFormData.smartFormObjs, function (i, IT) {
+        if(IT.ObjectType == 1)
+        {
+            if (IT.CaptionValue != null) {
+                html += pcl40_addCaption(IT.CaptionValue);
+            }
+        }
+        else if (IT.ObjectType == 2)
+        {
+            html += pcl40_addLineSeperator();
+        }
+        else if (IT.ObjectType == 3)
+        {
+            if(IT.FieldVariable.IsSystem == true)
+            {
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+            } else {
+                if(IT.FieldVariable.VariableType == 1 )
+                {
+                    //dropDown
+                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions);
+
+                } else if (IT.FieldVariable.VariableType == 2) {
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+                }
+            }
+        }
+    });
+
+    $("#SmartFormContainer").html(html);
+    pcl40_InsertUserData(smartFormData.scopeVariables);
+}
+function pcl40_showUserList(userList)
+{
+    var html = "";
+    $.each(userList, function (i, IT) {
+        html += '<option  id = "option' + IT.ContactId + '" value="' + IT.ContactId + '" >' + IT.ContactName + '</option>';;
+    });
+    $("#smartFormSelectUserProfile").html(html);
+}
+function pcl40_addDropDown(title, varId,options) {
+    var html = "";
+    html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
+    + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""';
+    $.each(options, function (i, IT) {
+        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" >' + IT.Value + '</option>';;
+    });
+
+    html+=    '</select></div>';
+
+}
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask) {
+    var required = "";
+    if (IsRequired == true)
+    {
+        required = "required";
+    }
+    if (InputMask != "" && InputMask != null)
+    {
+        required += ' onkeydown="pcl40_ValidateInputMask(this,"' + InputMask + '")"';
+    }
+    var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" '+ required+'>' + Value + '</textarea></div>';
+    return html;
+}
+function pcl40_addCaption(caption) {
+    var html = '<div class="clear"></div><div class="smartFormHeading"><p class="ThemeColor">' + caption + '</p></div>';
+    return html;
+}
+function pcl40_addLineSeperator() {
+    return ' <div class="clear"></div><div class="smartFormLineSeperator"></div>';
+}
+function pcl40_InsertUserData(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.Value != null && IT.value != "") {
+            $("#txtSmart" + IT.VariableId).val(IT.Value);
+        }
+    });
+}
+function pcl40_ValidateInputMask(e, mask) {
+    alert(mask);
 }

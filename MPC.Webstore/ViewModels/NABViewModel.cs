@@ -10,7 +10,7 @@ namespace MPC.Webstore.ViewModels
 {
     public class NABViewModel
     {
-       
+        public int OrderId { get; set; }
         [Required(ErrorMessage = "Card Number  Can't be blank")]
         [Display(Name = "Card Number")]
         public string CardNumber { get; set; }

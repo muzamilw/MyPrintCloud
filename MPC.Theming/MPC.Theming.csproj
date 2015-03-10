@@ -246,6 +246,7 @@
     <Content Include="Global.asax" />
     <Content Include="MPC_Themes\classic.zip" />
     <None Include="Properties\PublishProfiles\MPC_themes.pubxml" />
+    <Content Include="MPC_Themes\summer.zip" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -288,8 +289,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="themes\classic.zip" />
-    <Content Include="themes\summer.zip" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

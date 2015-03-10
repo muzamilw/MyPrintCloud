@@ -83,5 +83,13 @@ namespace MPC.Interfaces.Repository
         void  CopyAttachments(long itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
         long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID);
         Estimate GetShoppingCartOrderByContactID(long contactID, OrderStatus orderStatus);
+
+        /// <summary>
+        /// gets cart order by company id
+        /// </summary>
+        /// <param name="ContactId"></param>
+        /// <param name="TemporaryCustomerId"></param>
+        /// <returns></returns>
+        long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus);
     }
 }

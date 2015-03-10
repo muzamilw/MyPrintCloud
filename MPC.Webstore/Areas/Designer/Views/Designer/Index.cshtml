@@ -50,16 +50,36 @@
             </section>
             <section id="resultsQText" class="results infinite">
                 <section class="layer scrollPane">
-                    <div class="innerDesigner">
-                        
-                    
-
-                        <ul class=" textControls">
-                            <li><a class="add QuickTextTitle ThemeColor" style="" data-style="title">Update your Quick text Profile</a></li>
-                        </ul>
-                        <div class="QuickTextFields textControls">
+                    <div class="innerDesigner" id="">
+                        <div class="smartFormHeading"><p class="ThemeColor smartFormFormHeading"></p></div>    
+                        <div class="radioBtnContainer smartFormProfileContainer" style="display:none;">
+                            <div class="radio">
+                                <input type="radio" name="optionsRadioProfiles" id="optionsRadioYourProfile" value="1" checked>
+                                <label for="optionsRadioYourProfile">  Your Profile </label>
+                            </div>
+                            <div class="radio">
+                                <input type="radio" name="optionsRadioProfiles" id="optionRadioOtherProfile" value="2">
+                                <label for="optionRadioOtherProfile">  Other Profile </label>
+                            </div>
+                            <div class="radio otherProfileContainer" style="display:none;">
+                                <select class="smartFormSelect" id="smartFormSelectUserProfile">
+                                    <option> option 1</option>
+                                    <option> option 2</option>
+                                </select>
+                            </div>
+                           
                         </div>
-
+                        
+                        <div id="SmartFormContainer"></div>
+                        <div class="QuickTextFields textControls">
+                            <a id="BtnQuickTextSave" title="Save" style=" width: 299px;margin-top:20px;padding-top:8px" class="buttonDesigner"><span class="onText">Apply</span> </a>
+                        </div>
+                        @*<div class="smartFormHeading">
+                            <p class="ThemeColor">Update your Quick text Profile</p>
+                        </div>
+                        <div class="QuickTextFields textControls">
+                        </div>*@
+                        @*<div class="smartFormLineSeperator"></div>*@
                     </div>
                 </section>
 

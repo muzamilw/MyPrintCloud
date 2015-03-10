@@ -579,6 +579,41 @@ namespace MPC.Repository.BaseRepository
         public DbSet<NewsLetterSubscriber> NewsLetterSubscribers { get; set; }
 
         /// <summary>
+        /// MachineClickChargeLookup DbSet
+        /// </summary>
+        public DbSet<MachineClickChargeLookup> MachineClickChargeLookups { get; set; }
+
+        /// <summary>
+        /// MachineClickChargeZone DbSet
+        /// </summary>
+        public DbSet<MachineClickChargeZone> MachineClickChargeZones { get; set; }
+
+        /// <summary>
+        /// MachineGuillotineCalc DbSet
+        /// </summary>
+        public DbSet<MachineGuillotineCalc> MachineGuillotineCalcs { get; set; }
+
+        /// <summary>
+        /// MachineGuilotinePtv DbSet
+        /// </summary>
+        public DbSet<MachineGuilotinePtv> MachineGuilotinePtvs { get; set; }
+
+        /// <summary>
+        /// MachineMeterPerHourLookup DbSet
+        /// </summary>
+        public DbSet<MachineMeterPerHourLookup> MachineMeterPerHourLookups { get; set; }
+
+        /// <summary>
+        /// MachinePerHourLookup DbSet
+        /// </summary>
+        public DbSet<MachinePerHourLookup> MachinePerHourLookups { get; set; }
+
+        /// <summary>
+        /// MachineSpeedWeightLookup DbSet
+        /// </summary>
+        public DbSet<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
