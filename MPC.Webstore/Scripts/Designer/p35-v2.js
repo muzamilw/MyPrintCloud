@@ -2094,6 +2094,8 @@ $("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
 $("#smartFormSelectUserProfile").change(function () {
     var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
     pcl40_InsertUserData(data);
- 
-
+});
+$("#BtnSmartFormSave").click(function () {
+    pcl42();//update designer 
+    pcl42_svc();// save variables 
 });
