@@ -121,8 +121,10 @@ function fu04() {
               if (item.SmartFormId != null) {
                   if (item.SmartFormId != 0)
                   {
+                      $(".QuickTxt").css("visibility", "hidden");
                       $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
                         function (DT) {
+                            $(".QuickTxt").css("visibility", "visible");
                             pcl41(DT);
                         });
                   }
@@ -251,4 +253,9 @@ function c4_RS() {
     function (xdata) {
         varList = xdata;
     });
+}
+
+function pcl42_svc() {
+    // save variables service
+    alert("save variables to db");
 }

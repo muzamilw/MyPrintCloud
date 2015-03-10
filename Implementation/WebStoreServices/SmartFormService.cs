@@ -53,6 +53,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetScopeVariables(smartFormDetails,out hasContactVariables,contactId);
         }
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts)
+        {
+            return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts);
+        }
         #endregion
     }
 }

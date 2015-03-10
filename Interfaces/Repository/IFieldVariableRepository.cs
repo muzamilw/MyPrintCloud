@@ -22,9 +22,9 @@ namespace MPC.Interfaces.Repository
         FieldVariableResponse GetFieldVariable(FieldVariableRequestModel request);
 
         /// <summary>
-        /// Get Field Varibale By Company ID
+        /// Get Field Varibale By Company ID and Scope
         /// </summary>
-        IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId,int scope);
 
         /// <summary>
         /// Get Field Varibale By Company For Smart Form

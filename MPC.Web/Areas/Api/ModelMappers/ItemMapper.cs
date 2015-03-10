@@ -108,7 +108,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
 
             // Load Thumbnail Image
-            if (!string.IsNullOrEmpty(item.ThumbnailPath))
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
                 string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
                 if (File.Exists(thumbnailPath))
@@ -120,7 +120,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
 
             // Load Grid Image
-            if (!string.IsNullOrEmpty(item.GridImage))
+            if (!string.IsNullOrEmpty(source.GridImage))
             {
                 string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
                 if (File.Exists(gridImagePath))
@@ -131,7 +131,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
 
             // Load Image Path
-            if (!string.IsNullOrEmpty(item.ImagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
                 string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
                 if (File.Exists(imagePath))
@@ -141,7 +141,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
 
             // Load File1
-            if (!string.IsNullOrEmpty(item.File1))
+            if (!string.IsNullOrEmpty(source.File1))
             {
                 string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
                 if (File.Exists(file1Path))
@@ -151,7 +151,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             }
 
             // Load File2
-            if (!string.IsNullOrEmpty(item.File2))
+            if (!string.IsNullOrEmpty(source.File2))
             {
                 string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
                 if (File.Exists(file2Path))
@@ -160,7 +160,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             }
             // Load File3
-            if (!string.IsNullOrEmpty(item.File3))
+            if (!string.IsNullOrEmpty(source.File3))
             {
                 string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
                 if (File.Exists(file3Path))
@@ -169,7 +169,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             }
             // Load File4
-            if (!string.IsNullOrEmpty(item.File4))
+            if (!string.IsNullOrEmpty(source.File4))
             {
                 string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
                 if (File.Exists(file4Path))
@@ -178,7 +178,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 }
             }
             // Load File5
-            if (!string.IsNullOrEmpty(item.File5))
+            if (!string.IsNullOrEmpty(source.File5))
             {
                 string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
                 if (File.Exists(file5Path))
@@ -212,7 +212,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
             
             // Load Thumbnail Image
-            if (!string.IsNullOrEmpty(item.ThumbnailPath))
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
                 string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
                 if (File.Exists(thumbnailPath))
@@ -520,7 +520,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
 
             // Load Thumbnail Image
-            if (!string.IsNullOrEmpty(item.ThumbnailPath))
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
                 string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
                 if (File.Exists(thumbnailPath))

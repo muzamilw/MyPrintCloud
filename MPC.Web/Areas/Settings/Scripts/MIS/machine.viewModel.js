@@ -216,11 +216,12 @@ define("machine/machine.viewModel",
                         //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
                         //categoryID(1);
                         //getStockItemsList();
-                        openStockItemDialog(1);
+                      //  openStockItemDialog("PAP");
+                        openStockItemDialog(36338);
                     },
                     onPlateStockItemPopup = function () {
-                        openStockItemDialog(4);
-
+                        openStockItemDialog(36341);
+                        //openStockItemDialog("INK");
                         //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
                         //categoryID(4);
                         //getStockItemsList();
