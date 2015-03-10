@@ -41,5 +41,15 @@ namespace MPC.MIS.Areas.Api.Models
         /// Paper Sizes
         /// </summary>
         public IEnumerable<PaperSizeDropDown> PaperSizes { get; set; }
+
+        /// <summary>
+        /// Length Unit 
+        /// </summary>
+        public string LengthUnit { get; set; }
+
+        /// <summary>
+        /// Currency Unit 
+        /// </summary>
+        public string CurrencyUnit { get; set; }
     }
 }

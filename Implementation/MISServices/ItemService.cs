@@ -54,6 +54,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPaperSizeRepository paperSizeRepository;
         private readonly IItemSectionRepository itemSectionRepository;
         private readonly IItemImageRepository itemImageRepository;
+        private readonly IOrganisationRepository organizationRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -1306,8 +1307,8 @@ namespace MPC.Implementation.MISServices
             IStateRepository stateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyRepository companyRepository,
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
-            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository, 
-            IItemImageRepository itemImageRepository)
+            IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
+            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository)
         {
             if (itemRepository == null)
             {
@@ -1417,7 +1418,11 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemImageRepository");
             }
-
+            if (organizationRepository == null)
+            {
+                throw new ArgumentNullException("organizationRepository");
+            }
+            this.organizationRepository = organizationRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1618,6 +1623,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public ItemBaseResponse GetBaseData()
         {
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
             return new ItemBaseResponse
             {
                 CostCentres = costCentreRepository.GetAllNonSystemCostCentres(),
@@ -1625,7 +1631,9 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
-                PaperSizes = paperSizeRepository.GetAll()
+                PaperSizes = paperSizeRepository.GetAll(),
+                LengthUnit = organisation.LengthUnit != null ? organisation.LengthUnit.UnitName     : string.Empty,
+                CurrencyUnit= organisation.Currency  !=null  ? organisation.Currency.CurrencyCode : string.Empty
             };
         }
 
