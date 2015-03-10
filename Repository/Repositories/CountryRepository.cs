@@ -43,7 +43,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Country> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.OrderBy(i => i.CountryName).ToList();
         }
         public List<Country> PopulateBillingCountryDropDown()
         {

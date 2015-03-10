@@ -796,7 +796,7 @@ namespace MPC.Implementation.WebStoreServices
 
                 case ProductWidget.FeaturedProducts:
                     productsAllList = GetDisplayProductsWithDisplaySettings(null, null, CompanyId, OrganisationId);
-                    //filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                    filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
                     
                     break;
                 case ProductWidget.PopularProducts:

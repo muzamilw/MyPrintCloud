@@ -674,6 +674,11 @@ function fu12(mode, title) {
             item.EntityKey.$id = it5;
             it5++;
         }
+        if(IsCalledFrom == 2)
+        {
+            item.originalTextStyles = item.textStyles;
+            item.originalContentString = item.ContentString;
+        }
     });
     $.each(TPOs, function (i, IT) {
         IT.$id = it2;
@@ -2699,4 +2704,22 @@ function pcL29_pcRestore(type) {
 
     }
 
+}
+function pcl42() {
+    StartLoader("Processing template variables.");
+    c2_v2();// update template objects 
+    if ($("#optionRadioOtherProfile").is(':checked')) {   
+        pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
+    }
+    else {
+        pcl42_updateVariables(smartFormData.scopeVariables);
+    }
+
+    StopLoader();
+}
+function pcl42_updateVariables(data) {
+    
+    $.each(data, function (i, IT) {
+        IT.Value = $("#txtSmart" + IT.VariableId).val();
+    });
 }

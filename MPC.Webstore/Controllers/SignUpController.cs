@@ -211,7 +211,7 @@ namespace MPC.Webstore.Controllers
                     cep.StoreID = loginUser.CompanyId;
                     cep.AddressID = loginUser.CompanyId;
 
-                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
+                    SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
 
 

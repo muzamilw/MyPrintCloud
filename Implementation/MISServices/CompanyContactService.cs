@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -21,6 +23,7 @@ namespace MPC.Implementation.MISServices
         private readonly IRegistrationQuestionRepository registrationQuestionRepository;
         private readonly IAddressRepository addressRepository;
         private readonly IStateRepository stateRepository;
+        private readonly IScopeVariableRepository scopeVariableRepository;
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
@@ -29,6 +32,17 @@ namespace MPC.Implementation.MISServices
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
             companyContactRepository.Update(companyContact);
             companyContactRepository.SaveChanges();
+
+            if (companyContact.ScopVariables != null)
+            {
+                foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+                {
+                    scopeVariable.Id = companyContact.ContactId;
+                    scopeVariableRepository.Add(scopeVariable);
+                }
+                scopeVariableRepository.SaveChanges();
+            }
+
             return companyContact;
         }
         private CompanyContact Update(CompanyContact companyContact)
@@ -37,28 +51,30 @@ namespace MPC.Implementation.MISServices
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
             companyContactRepository.Update(companyContact);
             companyContactRepository.SaveChanges();
-            //if (companyContact.CompanyContactVariables != null)
-            //{
-            //    updateCompanyContactvariable(companyContact);
-            //}
-
+            if (companyContact.ScopVariables != null)
+            {
+                UpdateScopVariables(companyContact);
+            }
 
             return companyContact;
         }
 
-        private void updateCompanyContactvariable(CompanyContact companyContact)
+        /// <summary>
+        /// Update Scop Variables
+        /// </summary>
+        private void UpdateScopVariables(CompanyContact companyContact)
         {
-            CompanyContact companyContactDbVesion = companyContactRepository.Find(companyContact.ContactId);
-            //foreach (var companyContactVariable in companyContact.CompanyContactVariables)
-            //{
-            //    CompanyContactVariable companyContactVariableDbItem = companyContactDbVesion.CompanyContactVariables.FirstOrDefault(
-            //        ccv => ccv.ContactVariableId == companyContactVariable.ContactVariableId);
-            //    if (companyContactVariableDbItem != null)
-            //    {
-            //        companyContactVariableDbItem.Value = companyContactVariable.Value;
-            //    }
-            //}
-            companyContactRepository.SaveChanges();
+            IEnumerable<ScopeVariable> scopeVariables = scopeVariableRepository.GetContactVariableByContactId(companyContact.ContactId, (int)FieldVariableScopeType.Contact);
+            foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+            {
+                ScopeVariable scopeVariableDbItem = scopeVariables.FirstOrDefault(
+                    scv => scv.ScopeVariableId == scopeVariable.ScopeVariableId);
+                if (scopeVariableDbItem != null)
+                {
+                    scopeVariableDbItem.Value = scopeVariable.Value;
+                }
+            }
+            scopeVariableRepository.SaveChanges();
         }
 
         private void UpdateDefaultBehaviourOfContactCompany(CompanyContact companyContact)
@@ -90,7 +106,9 @@ namespace MPC.Implementation.MISServices
         }
         #region Constructor
 
-        public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository, ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository, IAddressRepository addressRepository, IStateRepository stateRepository)
+        public CompanyContactService(ICompanyContactRepository companyContactRepository, ICompanyTerritoryRepository companyTerritoryRepository,
+            ICompanyContactRoleRepository companyContactRoleRepository, IRegistrationQuestionRepository registrationQuestionRepository,
+            IAddressRepository addressRepository, IStateRepository stateRepository, IScopeVariableRepository scopeVariableRepository)
         {
             this.companyContactRepository = companyContactRepository;
             this.companyTerritoryRepository = companyTerritoryRepository;
@@ -98,6 +116,7 @@ namespace MPC.Implementation.MISServices
             this.registrationQuestionRepository = registrationQuestionRepository;
             this.addressRepository = addressRepository;
             this.stateRepository = stateRepository;
+            this.scopeVariableRepository = scopeVariableRepository;
         }
 
         #endregion

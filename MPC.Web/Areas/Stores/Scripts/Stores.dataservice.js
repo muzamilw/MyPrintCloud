@@ -57,8 +57,8 @@
                         type: 'GET'
                     });
 
-                    // Define request to Get Cmpany Contact Varibable ByContact  Id
-                    amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
+                    // Define request to Get Scope Varibable By Contact  Id
+                    amplify.request.define('getScopeVaribableByContactId', 'ajax', {
                         url: ist.siteUrl + '/Api/GetCompanyContactVariable',
                         dataType: 'json',
                         type: 'GET'
@@ -280,11 +280,11 @@
                     data: params
                 });
             },
-            //Get Cmpany Contact Varibable By Contact Id
-            getCmpanyContactVaribableByContactId = function (params, callbacks) {
+            //Get Scope Varibable By Contact Id
+            getScopeVaribableByContactId = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getCmpanyContactVaribableByContactId',
+                    resourceId: 'getScopeVaribableByContactId',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -641,7 +641,7 @@
             saveFieldVariable: saveFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
             getSmartFormDetailBySmartFormId: getSmartFormDetailBySmartFormId,
-            getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
+            getScopeVaribableByContactId: getScopeVaribableByContactId,
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
             saveSmartForm: saveSmartForm,
             getSmartFormsByCompanyId: getSmartFormsByCompanyId,

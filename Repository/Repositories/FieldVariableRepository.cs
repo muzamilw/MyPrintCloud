@@ -47,13 +47,13 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public string IsFiedlVariableNameOrTagDuplicate(string variableName, string variableTag, long companyId, long variableId)
         {
-            if (DbSet.Count(vf => vf.VariableName != null && vf.VariableName == variableName && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
+            if (DbSet.Count(vf => vf.VariableName != null && vf.VariableName.ToLower() == variableName.ToLower() && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
             {
-                return "Field Variable already exist with same name.";
+                return "Field Variable already exist with same Name.";
             }
-            if (DbSet.Count(vf => vf.VariableTag != null && vf.VariableTag == variableTag && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
+            if (DbSet.Count(vf => vf.VariableTag != null && vf.VariableTag.ToLower() == variableTag.ToLower() && vf.CompanyId == companyId && vf.VariableId != variableId) > 0)
             {
-                return "Field Variable already exist with same tag.";
+                return "Field Variable already exist with same Tag.";
             }
             return null;
         }
@@ -90,11 +90,11 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
-        /// Get Field Varibale By Company ID Of Contact Type
+        /// Get Field Varibale By Company ID and Scope Type
         /// </summary>
-        public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
+        public IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId, int scope)
         {
-            return DbSet.Where(vf => vf.CompanyId == companyId && vf.Scope == (int)FieldVariableScopeType.Contact).ToList();
+            return DbSet.Where(vf => vf.CompanyId == companyId && vf.Scope == scope).ToList();
         }
 
         /// <summary>

@@ -4281,7 +4281,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
             scope = ko.observable(specifiedScope),
-            optionId = ko.observable(specifiedType),
+            optionId = ko.observable(specifiedValue),
             variableOptions = ko.observableArray([]),
 
             // Errors
