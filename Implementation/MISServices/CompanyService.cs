@@ -328,7 +328,7 @@ namespace MPC.Implementation.MISServices
                     CompanyCostCentre dbVersionMissingItem = companyDbVersion.CompanyCostCentres.First(x => x.CostCentreId == missingCompanyCostCentre.CostCentreId && x.CompanyId == missingCompanyCostCentre.CompanyId);
                     companyDbVersion.CompanyCostCentres.Remove(dbVersionMissingItem);
                     //company.CompanyCostCentres.Remove(dbVersionMissingItem);
-                    
+
                 }
             }
             else if (company.CompanyCostCentres == null && companyDbVersion.CompanyCostCentres != null && companyDbVersion.CompanyCostCentres.Count > 0)
@@ -920,16 +920,6 @@ namespace MPC.Implementation.MISServices
                 }
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
-                    //if (companyContacts.CompanyContactVariables != null)
-                    //{
-                    //    foreach (var companyContactVariable in companyContacts.CompanyContactVariables)
-                    //    {
-                    //        FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
-                    //            f => f.FakeIdVariableId == companyContactVariable.FakeVariableId);
-                    //        if (fieldVariable != null)
-                    //            companyContactVariable.VariableId = fieldVariable.VariableId;
-                    //    }
-                    //}
 
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
 
@@ -1009,10 +999,43 @@ namespace MPC.Implementation.MISServices
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
             companyRepository.SaveChanges();//todo third external savechanges
-
+            UpdateScopeVariables(companySavingModel);
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
+        }
+
+        /// <summary>
+        /// Update Scope Variables
+        /// </summary>
+        private void UpdateScopeVariables(CompanySavingModel companySavingModel)
+        {
+            if (companySavingModel.Company.CompanyContacts != null)
+            {
+                foreach (CompanyContact companyContact in companySavingModel.Company.CompanyContacts)
+                {
+                    if (companyContact.ScopVariables != null)
+                    {
+                        foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+                        {
+                            if (scopeVariable.ScopeVariableId == 0)
+                            {
+                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
+                                if (fieldVariable != null)
+                                {
+                                    scopeVariable.VariableId = fieldVariable.VariableId;
+                                }
+
+                                scopeVariable.Id = companyContact.ContactId;
+                                scopeVariableRepository.Add(scopeVariable);
+                            }
+                        }
+                    }
+                }
+                scopeVariableRepository.SaveChanges();
+            }
+
         }
 
         /// <summary>
@@ -2205,7 +2228,8 @@ namespace MPC.Implementation.MISServices
             fieldVariable.OrganisationId = fieldVariableRepository.OrganisationId;
             long companyId = (long)(fieldVariable.CompanyId ?? 0);
             fieldVariableRepository.Add(fieldVariable);
-            
+            List<ScopeVariable> scopeVariables = new List<ScopeVariable>();
+            fieldVariable.ScopeVariables = scopeVariables;
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
                 IEnumerable<CompanyContact> companyContacts =
@@ -2733,11 +2757,11 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Get Field Varibale By Company ID
+        /// Get Field Varibale By Company ID By Sope Type
         /// </summary>
-        public IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId)
+        public IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId, int scope)
         {
-            return fieldVariableRepository.GetFieldVariableByCompanyId(companyId);
+            return fieldVariableRepository.GetFieldVariableByCompanyIdAndScope(companyId, scope);
         }
 
         /// <summary>

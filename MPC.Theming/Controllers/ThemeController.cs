@@ -17,10 +17,10 @@ namespace MPC.Theming.Controllers
     {
         #region Public
         // GET api/values
-        public ArrayList Get()
+        public ArrayList GetThemesByOrganisationId(long organisationId)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
-            string queryString = "Select * From Skin";
+            string queryString = "Select * From Skin Where OrganisationId=" + organisationId;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Create the Command and Parameter objects.

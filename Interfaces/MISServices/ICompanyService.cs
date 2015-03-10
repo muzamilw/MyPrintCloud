@@ -71,9 +71,9 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope);
 
         /// <summary>
-        /// Get Field Varibale By Company ID
+        /// Get Field Varibale By Company ID and By Sope Type
         /// </summary>
-        IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId, int scope);
 
 
         /// <summary>
