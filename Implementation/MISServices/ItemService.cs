@@ -1632,8 +1632,8 @@ namespace MPC.Implementation.MISServices
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
                 PaperSizes = paperSizeRepository.GetAll(),
-                LengthUnit =  organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
-                CurrencyUnit = organisation.Currency != null  ? organisation.Currency.CurrencyCode : string.Empty
+                LengthUnit =  organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
+                CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencyCode : string.Empty
             };
         }
 
