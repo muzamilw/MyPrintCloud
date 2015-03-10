@@ -294,7 +294,7 @@
                                                 <span class="help-block text-right">Width of the item</span>
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
-                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
+                                                ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -316,7 +316,7 @@
                                                 <span class="help-block text-right">Height of the item</span>
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
-                                                ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
+                                                ( <label class="control-label" data-bind="text: $root.lengthUnit"></label> )
                                             </div>
                                         </div>
                                        
@@ -1738,7 +1738,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1'">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -1758,7 +1758,7 @@
                                                 ( <label class="control-label" data-bind="text:$root.lengthUnit()"></label> )
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" data-bind="visible: $parent.templateTypeUi() === '1'">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
@@ -1771,7 +1771,7 @@
 
                                             </div>
                                             <div class="col-lg-2">
-                                                <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height" >
+                                                <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                             <div class="col-lg-2" style="margin-top:7px; margin-left:-5px">
@@ -2266,13 +2266,13 @@
 
             <td class="col-lg-4">
                 <div class="input-group" style="width: 95%;">
-                    <span class="input-group-addon" data-bind="text:$root.currencyUnit()"></span>
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
                     <input type="text" class="form-control" id="txtDelvPricePerKilo" data-bind="value: pricePerClick" /><span class="input-group-addon">per click</span>
                 </div>
             </td>
             <td class="col-lg-4">
                 <div class="input-group" style="width: 95%;">
-                    <span class="input-group-addon" data-bind="text:$root.currencyUnit()"></span>
+                    <span class="input-group-addon" data-bind="text: $root.currencyUnit"></span>
                     <input type="text" class="form-control" id="txtMinimumCharge" data-bind="value: setupCharge" /><span class="input-group-addon">.00</span>
                 </div>
             </td>
