@@ -4,7 +4,7 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-@* ReSharper disable UnknownCssClass *@
+                    @* ReSharper disable UnknownCssClass *@
                     <div class="bs-example-tooltips tooltip-float-width">
 
                         <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Customer for Estimate" data-original-title="" title="">
@@ -40,8 +40,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId">
-                    </select>
+                    <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId"></select>
                     <span class="help-block text-right"></span>
                 </div>
             </div>
@@ -269,129 +268,104 @@
 
 
     </div>
-    <div class="col-lg-12 form-horizontal" style="margin-top:-18px;">
-        <div>
-            @* <div class="input-group">
-    <div class="input-group-btn">
-        <button type="button" class="btn btn-primary dropdown-toggle" style="float:right;margin-bottom: 3px;" data-toggle="dropdown">Add New Product <span class="caret"></span></button>
-         <ul class="dropdown-menu">
-            <li><a href="#">From Retail Store</a></li>
-            <li><a href="#">Cost Center</a></li>
-            <li><a href="#">Inventory Item</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            </ul>
+    <div class="col-lg-12 form-horizontal">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <div class="col-lg-2 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Header" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label class="control-label tooltip-float">Order Header</label>
                 </div>
-            </div>*@
-            <h3 class="group-header" @*style="margin-top:-21px;"*@>Other Information</h3>
-            <div class="btn-group" style="float:right;margin-bottom: 3px;">
-                <button type="button" class="btn btn-primary">Add New Product</button>
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
-                    <li><a href="#">Cost Center</a></li>
-                    <li><a href="#">Inventory Item</a></li>
-                </ul>
-            </div>
-
-        </div>
-        <div class="form-group" style="margin-top: -43px;">
-
-
-            <div class="col-lg-12">
-                <div class="col-lg-12 clearfix">
-                    <header class="main-box-header clearfix">
-                        <div class="filter-block pull-right">
-
-                        </div>
-                    </header>
-                    <div class="main-box-body clearfix" style="padding-left: 177px;">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><a href="#"><span>Product Name</span></a></th>
-                                        <th><span>Qty 1</span></th>
-                                        <th style="text-align:center;"><span>Status</span></th>
-                                        <th><span>Gross Total</span></th>
-                                        <th style="width:83px;">&nbsp;</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
-                                    <!-- /ko -->
-                                </tbody>
-                            </table>
-                        </div>
+                <div class="col-lg-9">
+                    <div>
+                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
     <div class="col-lg-12 form-horizontal">
-        <h3 class="group-header">Header & Footer</h3>
-        <div class="col-lg-6">
-
+        <div class="col-lg-12">
             <div class="form-group">
-                <div class="col-lg-4 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Header" data-original-title="" title="">
-                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                        </a>
-
-                    </div>
-
-
-
-                    <label class="control-label tooltip-float">Order Header</label>
-
+                <div class="col-lg-2">
+                    @*  <div class=" btn-group" style="float:right">
+                            <button type="button" class="btn btn-primary">Add New Product</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
+                                <li><a href="#">Cost Center</a></li>
+                                <li><a href="#">Inventory Item</a></li>
+                            </ul>
+                        </div>*@
+                    &nbsp;
                 </div>
-                <div class="col-lg-6">
-                    <div>
-                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
-
-
+                <div class="col-lg-9" >
+                    <div style="background-color:gainsboro; border-radius:3px">
+                        <header class="main-box-header clearfix">
+                            <div style="float:left;"><span style="font-size:24px">Products / Services</span></div>
+                           <div class=" btn-group" style="float:right; margin-right:-7px;margin-top:3px">
+                                 <button type="button" class="btn btn-primary">Add</button>
+                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                 <span class="caret"></span>
+                                 <span class="sr-only">Toggle Dropdown</span>
+                                 </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
+                                    <li><a href="#">Cost Center</a></li>
+                                    <li><a href="#">Inventory Item</a></li>
+                                </ul>
+                          </div>
+                        </header>
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Product Name</span></a></th>
+                                            <th><span>Qty 1</span></th>
+                                            <th style="text-align:center;"><span>Status</span></th>
+                                            <th><span>Gross Total</span></th>
+                                            <th style="width:83px;">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- ko template: { name: 'itemTemplate', foreach: items } -->
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <div class="col-lg-4 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-
-                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Footer" data-original-title="" title="">
-                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                        </a>
-
-                    </div>
-
-
-
-                    <label class="control-label tooltip-float">Order Footer</label>
-
-                </div>
-                <div class="col-lg-6">
-                    <div>
-                        <textarea class="form-control" placeholder="Enter Order Footer" id="estimateFooter" rows="3" data-bind="value: footNotes"></textarea>
-
-
-                    </div>
-
                 </div>
             </div>
         </div>
-
-        @* ReSharper restore UnknownCssClass *@
-
     </div>
-    
+    <div class="col-lg-12 form-horizontal">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <div class="col-lg-2 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Order Header" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label class="control-label tooltip-float">Order Footer</label>
+                </div>
+                <div class="col-lg-9">
+                    <div>
+                        <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @* Item Template *@
     <script id="itemTemplate" type="text/html">
         <tr>
