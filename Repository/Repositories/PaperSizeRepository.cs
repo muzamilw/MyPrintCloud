@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<PaperSize> GetAll()
         {
-            return DbSet.ToList();
+            return DbSet.OrderBy(s => s.Name).ToList();
         }
 
         /// <summary>
