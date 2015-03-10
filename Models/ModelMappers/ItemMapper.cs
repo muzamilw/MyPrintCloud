@@ -981,6 +981,17 @@ namespace MPC.Models.ModelMappers
             target.IsRealStateProduct = source.IsRealStateProduct;
             target.IsUploadImage = source.IsUploadImage;
             target.IsDigitalDownload = source.IsDigitalDownload;
+            target.printCropMarks = source.printCropMarks;
+            target.drawWaterMarkTxt = source.drawWaterMarkTxt;
+            target.isAddCropMarks = source.isAddCropMarks;
+            target.drawBleedArea = source.drawBleedArea;
+            target.isMultipagePDF = source.isMultipagePDF;
+            target.allowPdfDownload = source.allowPdfDownload;
+            target.allowImageDownload = source.allowImageDownload;
+            target.ItemLength = source.ItemLength;
+            target.ItemWeight = source.ItemWeight;
+            target.ItemHeight = source.ItemHeight;
+            target.ItemWidth = source.ItemWidth;
            
             // Update Images
             UpdateImages(source, target);
