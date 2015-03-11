@@ -3817,6 +3817,8 @@ define("stores/stores.viewModel",
                     selectedStore().users.removeAll();
                     selectedStore().mediaLibraries.removeAll();
                     allCompanyAddressesList.removeAll();
+                    contactCompanyTerritoriesFilter.removeAll();
+
                     deletedAddresses.removeAll();
                     edittedAddresses.removeAll();
                     newAddresses.removeAll();
