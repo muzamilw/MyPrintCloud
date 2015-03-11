@@ -20,7 +20,7 @@ namespace MPC.Theming.Controllers
         public ArrayList GetThemesByOrganisationId(long organisationId)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
-            string queryString = "Select * From Skin Where OrganisationId=" + organisationId;
+            string queryString = "Select * From Skin Where (OrganisationId=" + organisationId + " or OrganisationId is null)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Create the Command and Parameter objects.
