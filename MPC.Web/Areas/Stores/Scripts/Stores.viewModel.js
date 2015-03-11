@@ -2008,8 +2008,22 @@ define("stores/stores.viewModel",
                 },
                 //Add Default PAge Keywords
                 addDefaultPageKeyWords = function () {
-                    selectedSecondaryPage().pageKeywords(selectedSecondaryPage().defaultPageKeyWords());
+                    loadDefaultPageKeywords();
+
                 },
+                //get CMS Tags For Load default for CMS Page
+                 loadDefaultPageKeywords = function () {
+                     dataservice.getCmsTags({
+                         success: function (data) {
+                             if (data != null) {
+                                 selectedSecondaryPage().pageKeywords(data);
+                             }
+                         },
+                         error: function (response) {
+                             toastr.error("Failed to load defaults.");
+                         }
+                     });
+                 },
                 //Save Secondary Page
                 onSaveSecondaryPage = function (sPage) {
                     if (doBeforeSaveSecondaryPage()) {
@@ -3808,7 +3822,7 @@ define("stores/stores.viewModel",
                     addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
                     selectedCompanyDomainItem(undefined);
-                    _.each(costCentersList(), function(costCenter) {
+                    _.each(costCentersList(), function (costCenter) {
                         costCenter.isSelected(false);
                     });
                     //companyTerritoryPager().totalCount(0);
