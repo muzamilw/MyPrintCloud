@@ -12,7 +12,7 @@ namespace MigrationUtility
     using System;
     using System.Collections.Generic;
     
-    public partial class TemplatePage
+    public partial class pcTemplatePage
     {
         public int ProductPageId { get; set; }
         public Nullable<int> ProductId { get; set; }
