@@ -152,6 +152,21 @@
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Address 1" data-original-title="" title="">
+                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                        </a>
+                    </div>
+                    <label class="control-label tooltip-float">Order Code</label>
+                </div>
+                <div class="col-lg-6" >
+                    <div>
+                        <input type="text" class="form-control" id="address1" data-bind="value: code, enable: false" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
 
                         <a class="input-group-addon" data-container="body" data-toggle="popover" data-placement="right" data-content="Is Credit Approved." data-original-title="" title="">
                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -291,26 +306,14 @@
         <div class="col-lg-12">
             <div class="form-group">
                 <div class="col-lg-2">
-                    @*  <div class=" btn-group" style="float:right">
-                            <button type="button" class="btn btn-primary">Add New Product</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
-                                <li><a href="#">Cost Center</a></li>
-                                <li><a href="#">Inventory Item</a></li>
-                            </ul>
-                        </div>*@
                     &nbsp;
                 </div>
                 <div class="col-lg-9" >
                     <div style="background-color:gainsboro; border-radius:3px">
                         <header class="main-box-header clearfix">
-                            <div style="float:left;"><span style="font-size:24px">Products / Services</span></div>
+                            <div style="float:left;"><span style="font-size:24px">Products / Services in this Order</span></div>
                            <div class=" btn-group" style="float:right; margin-right:-7px;margin-top:3px">
-                                 <button type="button" class="btn btn-primary">Add</button>
+                                 <button type="button" class="btn btn-primary">Add New Item Line</button>
                                  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                  <span class="caret"></span>
                                  <span class="sr-only">Toggle Dropdown</span>
