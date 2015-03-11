@@ -2918,6 +2918,7 @@ define("stores/stores.viewModel",
                             , {
                                 success: function (data) {
 
+                                    //#region If Parent Category Id == Null
                                     if (data.ParentCategoryId == null) {
                                         //if saving product is editting
                                         if (selectedProductCategoryForEditting().productCategoryId() > 0) {
@@ -2931,7 +2932,7 @@ define("stores/stores.viewModel",
                                             });
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                         }
-                                            //Creating new Product category
+                                        //Creating new Product category
                                         else {
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                             toastr.success("Category Added Successfully");
@@ -2940,14 +2941,15 @@ define("stores/stores.viewModel",
                                         //ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
                                         isLoadingStores(false);
                                         view.hideStoreProductCategoryDialog();
-                                    } else {
+                                    }
+                                        //#endregion
 
-
+                                    //#region Else Parent Category Id != null
+                                    else {
                                         newProductCategories.push(model.ProductCategory.Create(data));
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
 
                                         if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-
                                             $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                         }
                                         //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -2957,6 +2959,8 @@ define("stores/stores.viewModel",
                                         //}
                                         toastr.success("Category Updated Successfully");
                                     }
+                                    //#endregion
+
                                     //var category = {
                                     //    productCategoryId: data.ProductCategoryId,
                                     //    categoryName: data.CategoryName,

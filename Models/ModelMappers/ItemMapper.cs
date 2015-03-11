@@ -330,7 +330,19 @@ namespace MPC.Models.ModelMappers
             }
 
             // Update Template
-            target.Template.UpdateTo(source.Template);
+            source.Template.UpdateTo(target.Template);
+            switch (source.IsTemplateDesignMode)
+            {
+                case 1:
+                    target.Template.IsCorporateEditable = true;
+                    break;
+                case 2:
+                    target.Template.IsCorporateEditable = true;
+                    break;
+                default:
+                    target.Template.IsCorporateEditable = null;
+                    break;
+            }
 
             // Update Template Pages
             UpdateTemplatePages(source, target, actions);

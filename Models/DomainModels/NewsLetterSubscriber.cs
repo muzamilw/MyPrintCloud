@@ -16,7 +16,7 @@ namespace MPC.Models.DomainModels
         public DateTime SubscribeDate { get; set; }
         public DateTime? UnSubscribeDate { get; set; }
         public long? ContactId { get; set; }
-        public long ContactCompanyID { get; set; }
+        public int? ContactCompanyID { get; set; }
         public int? FlagId { get; set; }
         public CompanyContact CompanyContact { get; set; }
     }

@@ -56,6 +56,10 @@ define("order/order.viewModel",
                     isLoadingOrders = ko.observable(false),
                     // Is Order Editor Visible
                     isOrderDetailsVisible = ko.observable(false),
+                    // Is Item Detail Visible
+                    isItemDetailVisible = ko.observable(false),
+                    // Is Section Detail Visible
+                    isSectionDetailVisible = ko.observable(false),
                     // #endregion
                     // #region Observables
                     // filter
@@ -179,11 +183,11 @@ define("order/order.viewModel",
                     },
                     // Open Item Detail
                     openItemDetail = function () {
-                        view.showItemDetailDialog();
+                        isItemDetailVisible(true);
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
-                        view.hideItemDetailDialog();
+                        isItemDetailVisible(false);
                     },
                     // Save Product
                     saveProduct = function () {
@@ -204,11 +208,11 @@ define("order/order.viewModel",
                     },
                     // Open Section Detail
                     openSectionDetail = function () {
-                        view.showSectionDetailDialog();
+                        isSectionDetailVisible(true);
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
-                        view.hideSectionDetailDialog();
+                        isSectionDetailVisible(false);
                     },
                     // Select Job Description
                     selectJobDescription = function (jobDescription, e) {
@@ -536,14 +540,10 @@ define("order/order.viewModel",
                     },
                     //Update Items Data On Item Selection
                     updateItemsDataOnItemSelection = function(item) {
-                        debugger;
                     },
-
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     };
-
-
                 //#endregion
                 //#endregion
 
@@ -555,6 +555,8 @@ define("order/order.viewModel",
                     isLoadingOrders: isLoadingOrders,
                     orders: orders,
                     isOrderDetailsVisible: isOrderDetailsVisible,
+                    isItemDetailVisible: isItemDetailVisible,
+                    isSectionDetailVisible: isSectionDetailVisible,
                     pager: pager,
                     errorList: errorList,
                     filterText: filterText,
