@@ -3799,6 +3799,8 @@ define("stores/stores.viewModel",
                     pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,
                     selectedStore().addresses.removeAll();
+                    selectedStore().companyTerritories.removeAll();
+                    selectedStore().users.removeAll();
                     selectedStore().mediaLibraries.removeAll();
                     allCompanyAddressesList.removeAll();
                     deletedAddresses.removeAll();
@@ -3813,7 +3815,7 @@ define("stores/stores.viewModel",
                     parentCategories.removeAll();
                     themes.removeAll();
                     cmsPagesForStoreLayout.removeAll();
-
+                    addressCompanyTerritoriesFilter.removeAll();
                     newAddedSecondaryPage.removeAll();
                     editedSecondaryPage.removeAll();
                     deletedSecondaryPage.removeAll();
@@ -3842,8 +3844,8 @@ define("stores/stores.viewModel",
                     smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                     companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                     secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
-                    addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                    contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                    addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
+                    contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                     selectedCompanyDomainItem(undefined);
                     _.each(costCentersList(), function (costCenter) {
                         costCenter.isSelected(false);
@@ -4469,7 +4471,7 @@ define("stores/stores.viewModel",
                     });
                     fieldVariablesOfContactType.push(scopeVariable);
                     return scopeVariable;
-                }
+                },
                 //In Case Of New Store edit Field variable
                 updateFieldVariableWithNewStore = function (fieldVariable) {
 
@@ -4651,7 +4653,7 @@ define("stores/stores.viewModel",
                     }
 
                     return flag;
-                }
+                },
                 //Add Field Option
                 onAddFieldOption = function () {
                     if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
