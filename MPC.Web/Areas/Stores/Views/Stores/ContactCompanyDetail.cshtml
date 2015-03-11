@@ -1246,7 +1246,7 @@
                                 </div>
                                 <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Approval Policies</h3>
+                                        <h3 class="group-header">Store Settings</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -1271,7 +1271,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             Public
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Determines whether addresses are shared by every user or addresses can be private or public.</span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1345,7 +1345,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosForceOnlinePayment">
-                                                            Force visitors to pay online to your PayPal Account
+                                                            Force visitors to pay online using payment gateway
                                                         </label>
                                                     </div>
                                                     <div class="radio">
@@ -1359,7 +1359,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Can this store accept online payments ?</label>
+                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
@@ -1373,7 +1373,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchDisplayDVoucher">Display and accept discount voucher codes on shopping cart page ?</label>
+                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shoping Cart ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" checked>
@@ -1386,7 +1386,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchProductPrices">Display the prices of products across store ?</label>
+                                                <label class="col-md-6" for="switchProductPrices">Show product pricing on category pages ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" checked>
@@ -1399,7 +1399,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchCorpBranding">Display corporate branding ( logo, address, GST reg etc ) of store on Order receipts</label>
+                                                <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Receipts and Websites ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" checked>
@@ -1413,7 +1413,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow users to self register on this store</label>
+                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new registrations on store ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" checked>
@@ -1477,7 +1477,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">[No description provided!] </span>
+                                                    <span class="help-block text-right">&nbsp; </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1502,7 +1502,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Would you like to include VAT/GST across store prices?</span>
+                                                    <span class="help-block text-left">Would you like to include VAT/GST across store prices?</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1512,12 +1512,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">VAT/GST</label>
+                                                    <label class="control-label text-right tooltip-float">Global Tax Settings</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" id="txtTax" placeholder="20">
+                                                        <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Tax Title</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-group" style="width:50%;">
+                                                        <input type="text" class="form-control" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1558,7 +1573,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Order Download Settings</h3>
+                                        <h3 class="group-header">Attachments sent with outsourced orders</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">

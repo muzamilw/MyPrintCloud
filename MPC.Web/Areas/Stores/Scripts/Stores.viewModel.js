@@ -292,6 +292,14 @@ define("stores/stores.viewModel",
                         isStoreEditorVisible(true);
                         // getItemsForWidgets();
                     },
+                    // Sets Data fro new Store 
+                    setDataForNewStore = function (newStore) {
+                        // Store Workflow parameters 
+                        newStore.includeEmailBrokerArtworkOrderReport(true);
+                        newStore.includeEmailBrokerArtworkOrderXML(true);
+                        newStore.includeEmailBrokerArtworkOrderJobCard(true);
+                        newStore.makeEmailBrokerArtworkOrderProductionReady(true);
+                    },
                     //On Edit Click Of Store
                     onEditItem = function (item) {
                         resetObservableArrays();
@@ -307,6 +315,7 @@ define("stores/stores.viewModel",
                     onCreateNewStore = function () {
                         resetObservableArrays();
                         var store = new model.Store();
+                        setDataForNewStore(store);
                         editorViewModel.selectItem(store);
                         selectedStore(store);
                         //Set By Default Store Type

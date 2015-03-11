@@ -150,6 +150,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 LinkedinURL = source.LinkedinURL,
                 WorkflowS2CBytes=workflowbytes,
                 isCalculateTaxByService = source.isCalculateTaxByService,
+                TaxLabel=source.TaxLabel,
+                TaxRate= source.TaxRate,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -285,6 +287,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
                 includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
                 makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -382,7 +386,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FacebookURL = source.FacebookURL,
                 TwitterURL = source.TwitterURL,
                 LinkedinURL = source.LinkedinURL,
-                isCalculateTaxByService = source.isCalculateTaxByService ,  
+                isCalculateTaxByService = source.isCalculateTaxByService ,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
@@ -473,6 +479,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 CompanyLogoSource = source.CompanyLogoSource,
                 CompanyLogoName = source.CompanyLogoName,
                 Addresses =
