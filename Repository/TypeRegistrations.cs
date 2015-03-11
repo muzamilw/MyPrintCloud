@@ -115,6 +115,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IMediaLibraryRepository, MediaLibraryRepository>();
             unityContainer.RegisterType<ICompanyCostCenterRepository, CompanyCostCenterRepository>();
             unityContainer.RegisterType<INewsLetterSubscriberRepository, NewsLetterSubscriberRepository>();
+            unityContainer.RegisterType<ICmsTagReporistory, CmsTagReporistory>();
         }
     }
 }

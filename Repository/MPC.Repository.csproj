@@ -187,6 +187,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
+    <Compile Include="Repositories\CmsTagReporistory.cs" />
     <Compile Include="Repositories\ColorPalleteRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />

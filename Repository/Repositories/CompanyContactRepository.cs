@@ -1248,6 +1248,10 @@ namespace MPC.Repository.Repositories
             return result;
         }
 
+        public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
+        {
+            return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
+        }
     }
 }
 
