@@ -17,7 +17,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemStockOption CreateFrom(this DomainModels.ItemStockOption source)
         {
+// ReSharper disable SuggestUseVarKeywordEvident
             ItemStockOption itemStockOption = new ItemStockOption
+// ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemStockOptionId = source.ItemStockOptionId,
                 ItemId = source.ItemId,
@@ -34,11 +36,18 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 itemStockOption.StockItemName = sourceStockItem.ItemName;
                 itemStockOption.StockItemDescription = sourceStockItem.ItemDescription;
             }
+
+            if (string.IsNullOrEmpty(source.ImageURL))
+            {
+                return itemStockOption;
+            }
+
             string imageUrl = HttpContext.Current.Server.MapPath("~/" + source.ImageURL);
-            if (imageUrl != null && File.Exists(imageUrl))
+            if (File.Exists(imageUrl))
             {
                 itemStockOption.ImageUrlBytes = File.ReadAllBytes(imageUrl);
             }
+
             return itemStockOption;
         }
 

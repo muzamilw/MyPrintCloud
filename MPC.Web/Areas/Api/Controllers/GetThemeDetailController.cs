@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             if (!fullZipPath.IsNullOrEmpty())
             {
-                string[] str = fullZipPath.Split('\\');
+                string[] str = fullZipPath.Split('/');
                 string themeName = str[str.Length - 1].Split('.')[0];
                 //Theme Already exist in MIS
                 if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))

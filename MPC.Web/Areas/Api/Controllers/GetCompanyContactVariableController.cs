@@ -33,9 +33,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Scope variables
         /// </summary>
-        public IEnumerable<ScopeVariable> Get([FromUri]long contactId, int scope)
+        public IEnumerable<ScopeVariable> Get([FromUri]long id, int scope)
         {
-            return companyService.GetContactVariableByContactId(contactId, scope).Select(cv => cv.CreateFrom());
+            return companyService.GetContactVariableByContactId(id, scope).Select(cv => cv.CreateFrom());
         }
 
         #endregion

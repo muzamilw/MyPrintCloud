@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets6F7A579BF2CB0FBAADE6B01C63EF29177A9AB94E760F2924EC97739304A0AFF0))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets6F7A579BF2CB0FBAADE6B01C63EF29177A9AB94E760F2924EC97739304A0AFF0 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets6F7A579BF2CB0FBAADE6B01C63EF29177A9AB94E760F2924EC97739304A0AFF0()
+        public ViewsForBaseEntitySetsDF02C482BBC0ECB629E8CA3851C29348933D6CFB723A9AF9E2F1227B8CC795F0()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "86bf81ff968e7d6a7d9f62bd8f55d242a52281f753b22414e32b195b9d406783";
-            this.HashOverAllExtentViews = "dab6b6488a61b734e5c07cb9bbb3cd84e97ec7fc8d9ce60de29e31371dcb9517";
+            this.HashOverMappingClosure = "94b0f0d519764dd1f2bfb05d6c23e54f263d7c354c0538f29615bdbf3717e1f3";
+            this.HashOverAllExtentViews = "3b6edd5d97b67d27adab0028321bd9c2ba7650de36d9f416de354d7c9bde73a1";
             this.ViewCount = 310;
         }
         
@@ -4086,7 +4086,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView67()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5382);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5613);
             viewString.Append("\r\n    SELECT VALUE -- Constructing TemplateObject\r\n        [DomainModels.Store.T");
             viewString.Append("emplateObject](T1.TemplateObject_ObjectId, T1.TemplateObject_ObjectType, T1.Temp");
             viewString.Append("lateObject_Name, T1.TemplateObject_IsEditable, T1.TemplateObject_IsHidden, T1.Te");
@@ -4110,51 +4110,54 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("eObject_QuickTextOrder, T1.TemplateObject_IsQuickText, T1.TemplateObject_CharSpa");
             viewString.Append("cing, T1.TemplateObject_watermarkText, T1.TemplateObject_textStyles, T1.Template");
             viewString.Append("Object_AutoShrinkText, T1.TemplateObject_IsOverlayObject, T1.TemplateObject_Clip");
-            viewString.Append("pedInfo, T1.TemplateObject_textCase)\r\n    FROM (\r\n        SELECT \r\n            T");
-            viewString.Append(".ObjectId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObje");
-            viewString.Append("ct_ObjectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEd");
-            viewString.Append("itable AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_");
-            viewString.Append("IsHidden, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n         ");
-            viewString.Append("   T.PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS Templat");
-            viewString.Append("eObject_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n    ");
-            viewString.Append("        T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS ");
-            viewString.Append("TemplateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Ro");
-            viewString.Append("tationAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n    ");
-            viewString.Append("        T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T");
-            viewString.Append(".FontName AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject");
-            viewString.Append("_FontSize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsIt");
-            viewString.Append("alic AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Al");
-            viewString.Append("lignment, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n         ");
-            viewString.Append("   T.Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS Templa");
-            viewString.Append("teObject_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType");
-            viewString.Append(", \r\n            T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC ");
-            viewString.Append("AS TemplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n   ");
-            viewString.Append("         T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateOb");
-            viewString.Append("ject_ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpot");
-            viewString.Append("Color AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateOb");
-            viewString.Append("ject_SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentStrin");
-            viewString.Append("g, \r\n            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n        ");
-            viewString.Append("    T.ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS ");
-            viewString.Append("TemplateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS Templa");
-            viewString.Append("teObject_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor");
-            viewString.Append(", \r\n            T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Tem");
-            viewString.Append("plateObject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r");
-            viewString.Append("\n            T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.Pa");
-            viewString.Append("rentId AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObje");
-            viewString.Append("ct_CircleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n         ");
-            viewString.Append("   T.ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateOb");
-            viewString.Append("ject_ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLock");
-            viewString.Append("ed, \r\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleR");
-            viewString.Append("adiusY AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS Templa");
-            viewString.Append("teObject_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickT");
-            viewString.Append("extOrder, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n         ");
-            viewString.Append("   T.CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS");
-            viewString.Append(" TemplateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_text");
-            viewString.Append("Styles, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n     ");
-            viewString.Append("       T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.Clip");
-            viewString.Append("pedInfo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObjec");
-            viewString.Append("t_textCase, \r\n            True AS _from0\r\n        FROM BaseDbContext.TemplateObj");
-            viewString.Append("ects AS T\r\n    ) AS T1");
+            viewString.Append("pedInfo, T1.TemplateObject_textCase, T1.TemplateObject_originalTextStyles, T1.Te");
+            viewString.Append("mplateObject_originalContentString)\r\n    FROM (\r\n        SELECT \r\n            T.");
+            viewString.Append("ObjectId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObjec");
+            viewString.Append("t_ObjectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEdi");
+            viewString.Append("table AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_I");
+            viewString.Append("sHidden, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n          ");
+            viewString.Append("  T.PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS Template");
+            viewString.Append("Object_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n     ");
+            viewString.Append("       T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS T");
+            viewString.Append("emplateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rot");
+            viewString.Append("ationAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n     ");
+            viewString.Append("       T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.");
+            viewString.Append("FontName AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_");
+            viewString.Append("FontSize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsIta");
+            viewString.Append("lic AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_All");
+            viewString.Append("ignment, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n          ");
+            viewString.Append("  T.Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS Templat");
+            viewString.Append("eObject_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType,");
+            viewString.Append(" \r\n            T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC A");
+            viewString.Append("S TemplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n    ");
+            viewString.Append("        T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObj");
+            viewString.Append("ect_ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotC");
+            viewString.Append("olor AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObj");
+            viewString.Append("ect_SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentString");
+            viewString.Append(", \r\n            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n         ");
+            viewString.Append("   T.ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS T");
+            viewString.Append("emplateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS Templat");
+            viewString.Append("eObject_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor,");
+            viewString.Append(" \r\n            T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Temp");
+            viewString.Append("lateObject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n");
+            viewString.Append("            T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.Par");
+            viewString.Append("entId AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObjec");
+            viewString.Append("t_CircleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n          ");
+            viewString.Append("  T.ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObj");
+            viewString.Append("ect_ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocke");
+            viewString.Append("d, \r\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRa");
+            viewString.Append("diusY AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS Templat");
+            viewString.Append("eObject_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTe");
+            viewString.Append("xtOrder, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n          ");
+            viewString.Append("  T.CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS ");
+            viewString.Append("TemplateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textS");
+            viewString.Append("tyles, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n      ");
+            viewString.Append("      T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.Clipp");
+            viewString.Append("edInfo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject");
+            viewString.Append("_textCase, \r\n            T.originalTextStyles AS TemplateObject_originalTextStyl");
+            viewString.Append("es, \r\n            T.originalContentString AS TemplateObject_originalContentStrin");
+            viewString.Append("g, \r\n            True AS _from0\r\n        FROM BaseDbContext.TemplateObjects AS T");
+            viewString.Append("\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.TemplateObject", viewString.ToString());
         }
         
@@ -7515,7 +7518,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView157()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5389);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(5620);
             viewString.Append("\r\n    SELECT VALUE -- Constructing TemplateObjects\r\n        [DomainModels.Templa");
             viewString.Append("teObject](T1.TemplateObject_ObjectId, T1.TemplateObject_ObjectType, T1.TemplateO");
             viewString.Append("bject_Name, T1.TemplateObject_IsEditable, T1.TemplateObject_IsHidden, T1.Templat");
@@ -7539,51 +7542,54 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("ct_QuickTextOrder, T1.TemplateObject_IsQuickText, T1.TemplateObject_CharSpacing,");
             viewString.Append(" T1.TemplateObject_watermarkText, T1.TemplateObject_textStyles, T1.TemplateObjec");
             viewString.Append("t_AutoShrinkText, T1.TemplateObject_IsOverlayObject, T1.TemplateObject_ClippedIn");
-            viewString.Append("fo, T1.TemplateObject_textCase)\r\n    FROM (\r\n        SELECT \r\n            T.Obje");
-            viewString.Append("ctId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObject_Ob");
-            viewString.Append("jectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEditabl");
-            viewString.Append("e AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_IsHid");
-            viewString.Append("den, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n            T.");
-            viewString.Append("PositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS TemplateObje");
-            viewString.Append("ct_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n         ");
-            viewString.Append("   T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS Templ");
-            viewString.Append("ateObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rotatio");
-            viewString.Append("nAngle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n         ");
-            viewString.Append("   T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.Font");
-            viewString.Append("Name AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_Font");
-            viewString.Append("Size, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsItalic ");
-            viewString.Append("AS TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Allignm");
-            viewString.Append("ent, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n            T.");
-            viewString.Append("Indent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS TemplateObj");
-            viewString.Append("ect_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType, \r\n ");
-            viewString.Append("           T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC AS Te");
-            viewString.Append("mplateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n        ");
-            viewString.Append("    T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObject_");
-            viewString.Append("ColorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotColor");
-            viewString.Append(" AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObject_");
-            viewString.Append("SpotColorName, \r\n            T.ContentString AS TemplateObject_ContentString, \r\n");
-            viewString.Append("            T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n            T");
-            viewString.Append(".ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS Templ");
-            viewString.Append("ateObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS TemplateObj");
-            viewString.Append("ect_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor, \r\n ");
-            viewString.Append("           T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS Template");
-            viewString.Append("Object_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n    ");
-            viewString.Append("        T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.ParentI");
-            viewString.Append("d AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObject_Ci");
-            viewString.Append("rcleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n            T.");
-            viewString.Append("ExField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObject_");
-            viewString.Append("ExField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocked, \r");
-            viewString.Append("\n            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRadius");
-            viewString.Append("Y AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS TemplateObj");
-            viewString.Append("ect_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTextOr");
-            viewString.Append("der, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n            T.");
-            viewString.Append("CharSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS Temp");
-            viewString.Append("lateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textStyle");
-            viewString.Append("s, \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n          ");
-            viewString.Append("  T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.ClippedIn");
-            viewString.Append("fo AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject_tex");
-            viewString.Append("tCase, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.Tem");
-            viewString.Append("plateObject AS T\r\n    ) AS T1");
+            viewString.Append("fo, T1.TemplateObject_textCase, T1.TemplateObject_originalTextStyles, T1.Templat");
+            viewString.Append("eObject_originalContentString)\r\n    FROM (\r\n        SELECT \r\n            T.Objec");
+            viewString.Append("tId AS TemplateObject_ObjectId, \r\n            T.ObjectType AS TemplateObject_Obj");
+            viewString.Append("ectType, \r\n            T.Name AS TemplateObject_Name, \r\n            T.IsEditable");
+            viewString.Append(" AS TemplateObject_IsEditable, \r\n            T.IsHidden AS TemplateObject_IsHidd");
+            viewString.Append("en, \r\n            T.IsMandatory AS TemplateObject_IsMandatory, \r\n            T.P");
+            viewString.Append("ositionX AS TemplateObject_PositionX, \r\n            T.PositionY AS TemplateObjec");
+            viewString.Append("t_PositionY, \r\n            T.MaxHeight AS TemplateObject_MaxHeight, \r\n          ");
+            viewString.Append("  T.MaxWidth AS TemplateObject_MaxWidth, \r\n            T.MaxCharacters AS Templa");
+            viewString.Append("teObject_MaxCharacters, \r\n            T.RotationAngle AS TemplateObject_Rotation");
+            viewString.Append("Angle, \r\n            T.IsFontCustom AS TemplateObject_IsFontCustom, \r\n          ");
+            viewString.Append("  T.IsFontNamePrivate AS TemplateObject_IsFontNamePrivate, \r\n            T.FontN");
+            viewString.Append("ame AS TemplateObject_FontName, \r\n            T.FontSize AS TemplateObject_FontS");
+            viewString.Append("ize, \r\n            T.IsBold AS TemplateObject_IsBold, \r\n            T.IsItalic A");
+            viewString.Append("S TemplateObject_IsItalic, \r\n            T.Allignment AS TemplateObject_Allignme");
+            viewString.Append("nt, \r\n            T.VAllignment AS TemplateObject_VAllignment, \r\n            T.I");
+            viewString.Append("ndent AS TemplateObject_Indent, \r\n            T.IsUnderlinedText AS TemplateObje");
+            viewString.Append("ct_IsUnderlinedText, \r\n            T.ColorType AS TemplateObject_ColorType, \r\n  ");
+            viewString.Append("          T.ColorName AS TemplateObject_ColorName, \r\n            T.ColorC AS Tem");
+            viewString.Append("plateObject_ColorC, \r\n            T.ColorM AS TemplateObject_ColorM, \r\n         ");
+            viewString.Append("   T.ColorY AS TemplateObject_ColorY, \r\n            T.ColorK AS TemplateObject_C");
+            viewString.Append("olorK, \r\n            T.Tint AS TemplateObject_Tint, \r\n            T.IsSpotColor ");
+            viewString.Append("AS TemplateObject_IsSpotColor, \r\n            T.SpotColorName AS TemplateObject_S");
+            viewString.Append("potColorName, \r\n            T.ContentString AS TemplateObject_ContentString, \r\n ");
+            viewString.Append("           T.ContentCaseType AS TemplateObject_ContentCaseType, \r\n            T.");
+            viewString.Append("ProductId AS TemplateObject_ProductId, \r\n            T.DisplayOrderPdf AS Templa");
+            viewString.Append("teObject_DisplayOrderPdf, \r\n            T.DisplayOrderTxtControl AS TemplateObje");
+            viewString.Append("ct_DisplayOrderTxtControl, \r\n            T.RColor AS TemplateObject_RColor, \r\n  ");
+            viewString.Append("          T.GColor AS TemplateObject_GColor, \r\n            T.BColor AS TemplateO");
+            viewString.Append("bject_BColor, \r\n            T.LineSpacing AS TemplateObject_LineSpacing, \r\n     ");
+            viewString.Append("       T.ProductPageId AS TemplateObject_ProductPageId, \r\n            T.ParentId");
+            viewString.Append(" AS TemplateObject_ParentId, \r\n            T.CircleRadiusX AS TemplateObject_Cir");
+            viewString.Append("cleRadiusX, \r\n            T.Opacity AS TemplateObject_Opacity, \r\n            T.E");
+            viewString.Append("xField1 AS TemplateObject_ExField1, \r\n            T.ExField2 AS TemplateObject_E");
+            viewString.Append("xField2, \r\n            T.IsPositionLocked AS TemplateObject_IsPositionLocked, \r\n");
+            viewString.Append("            T.ColorHex AS TemplateObject_ColorHex, \r\n            T.CircleRadiusY");
+            viewString.Append(" AS TemplateObject_CircleRadiusY, \r\n            T.IsTextEditable AS TemplateObje");
+            viewString.Append("ct_IsTextEditable, \r\n            T.QuickTextOrder AS TemplateObject_QuickTextOrd");
+            viewString.Append("er, \r\n            T.IsQuickText AS TemplateObject_IsQuickText, \r\n            T.C");
+            viewString.Append("harSpacing AS TemplateObject_CharSpacing, \r\n            T.watermarkText AS Templ");
+            viewString.Append("ateObject_watermarkText, \r\n            T.textStyles AS TemplateObject_textStyles");
+            viewString.Append(", \r\n            T.AutoShrinkText AS TemplateObject_AutoShrinkText, \r\n           ");
+            viewString.Append(" T.IsOverlayObject AS TemplateObject_IsOverlayObject, \r\n            T.ClippedInf");
+            viewString.Append("o AS TemplateObject_ClippedInfo, \r\n            T.textCase AS TemplateObject_text");
+            viewString.Append("Case, \r\n            T.originalTextStyles AS TemplateObject_originalTextStyles, \r");
+            viewString.Append("\n            T.originalContentString AS TemplateObject_originalContentString, \r\n");
+            viewString.Append("            True AS _from0\r\n        FROM DomainModelsStoreContainer.TemplateObje");
+            viewString.Append("ct AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.TemplateObjects", viewString.ToString());
         }
         

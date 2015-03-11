@@ -17,15 +17,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Item CreateFrom(this DomainModels.Item source)
         {
-            string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
-            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
-            string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
-            string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
-            string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
-            string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
-            string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
-            string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
-
             // ReSharper disable SuggestUseVarKeywordEvident
             Item item = new Item
             // ReSharper restore SuggestUseVarKeywordEvident
@@ -35,8 +26,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                GridImage = gridImagePath,
-                ThumbnailPath = thumbnailPath,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
@@ -93,6 +82,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDigitalDownload = source.IsDigitalDownload,
                 PrintCropMarks = source.printCropMarks,
                 DrawWaterMarkTxt = source.drawWaterMarkTxt,
+                IsAddCropMarks = source.isAddCropMarks,
+                DrawBleedArea = source.drawBleedArea,
+                IsMultipagePdf = source.isMultipagePDF,
+                AllowPdfDownload = source.allowPdfDownload,
+                AllowImageDownload = source.allowImageDownload,
+                ItemLength = source.ItemLength,
+                ItemWeight = source.ItemWeight,
+                ItemHeight = source.ItemHeight,
+                ItemWidth = source.ItemWidth,
                 CompanyId = source.CompanyId,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
@@ -110,48 +108,83 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
 
             // Load Thumbnail Image
-            if (thumbnailPath != null && File.Exists(thumbnailPath))
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
             }
 
             // Load Grid Image
-            if (gridImagePath != null && File.Exists(gridImagePath))
+            if (!string.IsNullOrEmpty(source.GridImage))
             {
-                item.GridImageBytes = File.ReadAllBytes(gridImagePath);
+                string gridImagePath = HttpContext.Current.Server.MapPath("~/" + source.GridImage);
+                if (File.Exists(gridImagePath))
+                {
+                    item.GridImageBytes = File.ReadAllBytes(gridImagePath);
+                    item.GridImage = gridImagePath;
+                }
             }
 
             // Load Image Path
-            if (imagePath != null && File.Exists(imagePath))
+            if (!string.IsNullOrEmpty(source.ImagePath))
             {
-                item.ImagePathImage = File.ReadAllBytes(imagePath);
+                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImagePath);
+                if (File.Exists(imagePath))
+                {
+                    item.ImagePathImage = File.ReadAllBytes(imagePath);
+                }
             }
 
             // Load File1
-            if (file1Path != null && File.Exists(file1Path))
+            if (!string.IsNullOrEmpty(source.File1))
             {
-                item.File1Bytes = File.ReadAllBytes(file1Path);
+                string file1Path = HttpContext.Current.Server.MapPath("~/" + source.File1);
+                if (File.Exists(file1Path))
+                {
+                    item.File1Bytes = File.ReadAllBytes(file1Path);
+                }
             }
 
             // Load File2
-            if (file2Path != null && File.Exists(file2Path))
+            if (!string.IsNullOrEmpty(source.File2))
             {
-                item.File2Bytes = File.ReadAllBytes(file2Path);
+                string file2Path = HttpContext.Current.Server.MapPath("~/" + source.File2);
+                if (File.Exists(file2Path))
+                {
+                    item.File2Bytes = File.ReadAllBytes(file2Path);
+                }
             }
             // Load File3
-            if (file3Path != null && File.Exists(file3Path))
+            if (!string.IsNullOrEmpty(source.File3))
             {
-                item.File3Bytes = File.ReadAllBytes(file3Path);
+                string file3Path = HttpContext.Current.Server.MapPath("~/" + source.File3);
+                if (File.Exists(file3Path))
+                {
+                    item.File3Bytes = File.ReadAllBytes(file3Path);
+                }
             }
             // Load File4
-            if (file4Path != null && File.Exists(file4Path))
+            if (!string.IsNullOrEmpty(source.File4))
             {
-                item.File4Bytes = File.ReadAllBytes(file4Path);
+                string file4Path = HttpContext.Current.Server.MapPath("~/" + source.File4);
+                if (File.Exists(file4Path))
+                {
+                    item.File4Bytes = File.ReadAllBytes(file4Path);
+                }
             }
             // Load File5
-            if (file5Path != null && File.Exists(file5Path))
+            if (!string.IsNullOrEmpty(source.File5))
             {
-                item.File5Bytes = File.ReadAllBytes(file5Path);
+                string file5Path = HttpContext.Current.Server.MapPath("~/" + source.File5);
+                if (File.Exists(file5Path))
+                {
+                    item.File5Bytes = File.ReadAllBytes(file5Path);
+                }
             }
 
             return item;
@@ -162,7 +195,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemListView CreateFromForListView(this DomainModels.GetItemsListView source)
         {
-            string thumbnailpath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
             // ReSharper disable SuggestUseVarKeywordEvident
             ItemListView item = new ItemListView
             // ReSharper restore SuggestUseVarKeywordEvident
@@ -172,17 +204,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                ThumbnailPath = thumbnailpath,
                 ProductCategoryName = source.ProductCategoryName,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
                 MinPrice = source.MinPrice
             };
-
-            if (thumbnailpath != null && File.Exists(thumbnailpath))
+            
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                item.ThumbnailImage = File.ReadAllBytes(thumbnailpath);
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
             }
 
             return item;
@@ -257,6 +295,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsRealStateProduct = source.IsRealStateProduct,
                 IsUploadImage = source.IsUploadImage,
                 IsDigitalDownload = source.IsDigitalDownload,
+                printCropMarks = source.PrintCropMarks,
+                drawWaterMarkTxt = source.DrawWaterMarkTxt,
+                isAddCropMarks = source.IsAddCropMarks,
+                drawBleedArea = source.DrawBleedArea,
+                isMultipagePDF = source.IsMultipagePdf,
+                allowPdfDownload = source.AllowPdfDownload,
+                allowImageDownload = source.AllowImageDownload,
+                ItemLength = source.ItemLength,
+                ItemWeight = source.ItemWeight,
+                ItemHeight = source.ItemHeight,
+                ItemWidth = source.ItemWidth,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
@@ -453,7 +502,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
         {
-            string thumbnailpath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
             // ReSharper disable SuggestUseVarKeywordEvident
             ItemListView item = new ItemListView
             // ReSharper restore SuggestUseVarKeywordEvident
@@ -463,7 +511,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCode = source.ProductCode,
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
-                ThumbnailPath = thumbnailpath,
                 // ReSharper disable once PossibleNullReferenceException
                 ProductCategoryName = source.ProductCategoryItems.Count > 0? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
                 IsArchived = source.IsArchived,
@@ -472,9 +519,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MinPrice = source.MinPrice
             };
 
-            if (thumbnailpath != null && File.Exists(thumbnailpath))
+            // Load Thumbnail Image
+            if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
-                item.ThumbnailImage = File.ReadAllBytes(thumbnailpath);
+                string thumbnailPath = HttpContext.Current.Server.MapPath("~/" + source.ThumbnailPath);
+                if (File.Exists(thumbnailPath))
+                {
+
+                    item.ThumbnailImage = File.ReadAllBytes(thumbnailPath);
+                    item.ThumbnailPath = thumbnailPath;
+                }
             }
 
             return item;

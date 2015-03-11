@@ -12,6 +12,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get CMS Tags For Default Load of CMS Page
+                    amplify.request.define('getCmsTags', 'ajax', {
+                        url: ist.siteUrl + '/Api/CmsTag',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Campaign Base Data
                     amplify.request.define('getCampaignBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/CampaignBase',
@@ -57,8 +63,8 @@
                         type: 'GET'
                     });
 
-                    // Define request to Get Cmpany Contact Varibable ByContact  Id
-                    amplify.request.define('getCmpanyContactVaribableByContactId', 'ajax', {
+                    // Define request to Get Scope Varibable By Contact  Id
+                    amplify.request.define('getScopeVaribableByContactId', 'ajax', {
                         url: ist.siteUrl + '/Api/GetCompanyContactVariable',
                         dataType: 'json',
                         type: 'GET'
@@ -270,6 +276,16 @@
                     error: callbacks.error,
                 });
             },
+            // get CMS Tags For Load default for CMS Page
+            getCmsTags = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmsTags',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            
              // get Store
             getStores = function (params, callbacks) {
                 initialize();
@@ -280,11 +296,11 @@
                     data: params
                 });
             },
-            //Get Cmpany Contact Varibable By Contact Id
-            getCmpanyContactVaribableByContactId = function (params, callbacks) {
+            //Get Scope Varibable By Contact Id
+            getScopeVaribableByContactId = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getCmpanyContactVaribableByContactId',
+                    resourceId: 'getScopeVaribableByContactId',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -641,12 +657,13 @@
             saveFieldVariable: saveFieldVariable,
             getFieldVariableDetailById: getFieldVariableDetailById,
             getSmartFormDetailBySmartFormId: getSmartFormDetailBySmartFormId,
-            getCmpanyContactVaribableByContactId: getCmpanyContactVaribableByContactId,
+            getScopeVaribableByContactId: getScopeVaribableByContactId,
             getCmpanyContactVaribableByCompanyId: getCmpanyContactVaribableByCompanyId,
             saveSmartForm: saveSmartForm,
             getSmartFormsByCompanyId: getSmartFormsByCompanyId,
             deleteCompanyBanner: deleteCompanyBanner,
             getThemeDetail: getThemeDetail,
+            getCmsTags: getCmsTags,
         };
     })();
 
