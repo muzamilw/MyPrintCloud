@@ -2008,8 +2008,22 @@ define("stores/stores.viewModel",
                     },
                     //Add Default PAge Keywords
                     addDefaultPageKeyWords = function () {
-                        selectedSecondaryPage().pageKeywords(selectedSecondaryPage().defaultPageKeyWords());
-                    },
+                    loadDefaultPageKeywords();
+
+                },
+                //get CMS Tags For Load default for CMS Page
+                 loadDefaultPageKeywords = function () {
+                     dataservice.getCmsTags({
+                         success: function (data) {
+                             if (data != null) {
+                                 selectedSecondaryPage().pageKeywords(data);
+                             }
+                         },
+                         error: function (response) {
+                             toastr.error("Failed to load defaults.");
+                         }
+                     });
+                 },
                     //Save Secondary Page
                     onSaveSecondaryPage = function (sPage) {
                         if (doBeforeSaveSecondaryPage()) {
@@ -2788,6 +2802,7 @@ define("stores/stores.viewModel",
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
+                                    selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);

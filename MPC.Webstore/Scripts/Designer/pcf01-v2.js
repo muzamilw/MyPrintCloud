@@ -696,7 +696,8 @@ function d2() {
         });
     }
 }
-function d5(pageID, isloading) {
+function d5Start(pageID, isloading)
+{
     undoArry = [];
     redoArry = [];
     firstLoad = false;
@@ -710,8 +711,14 @@ function d5(pageID, isloading) {
     }
     //e0("d5");
     canvas.renderAll();
+}
+function d5(pageID, isloading) {
+    d5Start(pageID, isloading);
     c2_v2();
     c2_v2();
+    d5_sub(pageID, isloading);
+}
+function d5_sub(pageID, isloading) {
     SP = pageID;
     $(".menuItemContainer").removeClass("selectedItem");
     $("." + pageID).addClass("selectedItem");
@@ -733,7 +740,7 @@ function d5(pageID, isloading) {
                 } else {
                     canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
                 }
-                
+
             }
             else {
                 if (IT.Width != null && IT.Width != 0) {
@@ -746,8 +753,8 @@ function d5(pageID, isloading) {
                 } else {
                     canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
                 }
-                
-                
+
+
             }
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
