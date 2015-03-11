@@ -40,7 +40,8 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IStateRepository _StateRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IFavoriteDesignRepository _favoriteRepository;
-
+        private readonly INewsLetterSubscriberRepository _newsLetterSubscriberRepository;
+        private readonly IRaveReviewRepository _raveReviewRepository;
 
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
@@ -57,7 +58,8 @@ namespace MPC.Implementation.WebStoreServices
          ICompanyBannerRepository companyBannerRepository, IProductCategoryRepository productCategoryRepository, ICmsPageRepository cmspageRepository,
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
-            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository)
+            , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
+            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -77,6 +79,8 @@ namespace MPC.Implementation.WebStoreServices
             this._StateRepository = StateRepository;
             this._countryRepository = countryRepository;
             this._favoriteRepository = favoriteRepository;
+            this._newsLetterSubscriberRepository = newsLetterSubscriberRepository;
+            this._raveReviewRepository = raveReviewRepository;
         }
         
         #endregion
@@ -1326,6 +1330,56 @@ namespace MPC.Implementation.WebStoreServices
         public List<State> GetAllStates()
         {
             return _addressRepository.GetAllStates();
+        }
+
+        public NewsLetterSubscriber GetSubscriber(string email, long CompanyId)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.GetSubscriber(email, CompanyId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+          
+        }
+        public int AddSubscriber(NewsLetterSubscriber subsriber)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.AddSubscriber(subsriber);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status)
+        {
+            try
+            {
+                return _newsLetterSubscriberRepository.UpdateSubscriber(subscriptionCode, status);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public RaveReview GetRaveReview()
+        {
+            try
+            {
+                return _raveReviewRepository.GetRaveReview();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 
