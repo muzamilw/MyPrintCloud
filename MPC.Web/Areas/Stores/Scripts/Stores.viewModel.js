@@ -2788,6 +2788,7 @@ define("stores/stores.viewModel",
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
+                                    selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);
