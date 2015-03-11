@@ -264,7 +264,7 @@ namespace MPC.Repository.Repositories
 
         public IEnumerable<InkCoverageGroup> GetInkCoveragItems()
         {
-            return db.InkCoverageGroups;
+            return db.InkCoverageGroups.Where(g => g.SystemSiteId==1).ToList();
         }
         protected override IDbSet<Machine> DbSet
         {
