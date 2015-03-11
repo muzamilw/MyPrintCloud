@@ -98,6 +98,11 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         void ApplyTheme(string themeName, long companyId);
 
+        /// <summary>
+        /// Get Cms Tags For Cms Page Load Default page keywords
+        /// </summary>
+        string GetCmsTagForCmsPage();
+
         #region exportOrganisation
 
         void ExportOrganisation(long OrganisationID);

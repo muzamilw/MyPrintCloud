@@ -146,5 +146,14 @@ namespace MPC.Interfaces.Repository
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
         List<Item> GetProductsList(long CompanyId, long OrganisationId);
+
+       
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
     }
 }

@@ -124,6 +124,7 @@
     <Compile Include="Common\IsTrialClaimValue.cs" />
     <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\PaypalOrderParameter.cs" />
+    <Compile Include="Common\ProductModel.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
