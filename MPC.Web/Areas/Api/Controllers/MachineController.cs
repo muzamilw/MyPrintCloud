@@ -38,7 +38,13 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return MR;
         }
+        public MachineResponse GetByType([FromUri] bool IsGuillotine)
+        {
+            long Type = 0;
+            MachineResponse MR = _machineService.GetMachineById(Type).CreateFrom();
 
+            return MR;
+        }
         public MachineListResponse Get([FromUri] MachineRequestModel request)
         {
             var result = _machineService.GetAll(request);
@@ -48,7 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
-
+       
         public bool Delete(MachineDeleteRequest request)
         {
             return _machineService.archiveMachine(request.machineId);

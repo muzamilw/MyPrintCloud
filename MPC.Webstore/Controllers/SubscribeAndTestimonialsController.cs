@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.Owin.Security;
-using Microsoft.Practices.Unity;
-using MPC.Interfaces.WebStoreServices;
+﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
-using MPC.Webstore.Models;
-using MPC.Models.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
+using System.Web;
+using System.Web.Mvc;
 
 namespace MPC.Webstore.Controllers
 {
-    public class NewsletterSubscriberController : Controller
+    public class SubscribeAndTestimonialsController : Controller
     {
-        #region Private
+          #region Private
 
         private readonly ICompanyService _myCompanyService;
         private readonly ICampaignService _campaignService;
@@ -27,7 +25,7 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public NewsletterSubscriberController(ICompanyService myCompanyService, ICampaignService campaignService, IUserManagerService userManagerService)
+        public SubscribeAndTestimonialsController(ICompanyService myCompanyService, ICampaignService campaignService, IUserManagerService userManagerService)
         {
             if (myCompanyService == null)
             {
@@ -40,13 +38,13 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-        // GET: NewsletterSubscriber
+        // GET: SubscribeAndTestimonials
         public ActionResult Index()
         {
-            return PartialView("PartialViews/NewsletterSubscriber");
+            ViewData["RaveReview"] = _myCompanyService.GetRaveReview();
+            return PartialView("PartialViews/SubscribeAndTestimonials");
          
         }
-
         [HttpPost]
         public ActionResult Index(string txtEmailbox)
         {
@@ -142,8 +140,8 @@ namespace MPC.Webstore.Controllers
                 throw ex;
 
             }
-            return PartialView("PartialViews/NewsletterSubscriber");
-         
+            return PartialView("PartialViews/SubscribeAndTestimonials");
+
         }
     }
 }
