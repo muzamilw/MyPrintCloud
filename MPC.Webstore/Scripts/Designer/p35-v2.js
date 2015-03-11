@@ -2097,5 +2097,4 @@ $("#smartFormSelectUserProfile").change(function () {
 });
 $("#BtnSmartFormSave").click(function () {
     pcl42();//update designer 
-    pcl42_svc();// save variables 
 });

@@ -70,7 +70,7 @@ namespace MPC.Repository.Repositories
                     return 0;
                 }
             }
-             catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
@@ -87,19 +87,196 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
         }
-       
+
         public CompanyResponse GetCompanyById(long companyId)
         {
             try
             {
                 CompanyResponse companyResponse = new CompanyResponse();
-                var company = DbSet.Find(companyId);
-                company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
+                var company = db.Companies.Where(c => c.CompanyId == companyId).Include(c => c.CmsPages).Include(c => c.RaveReviews).Include(c => c.CompanyCMYKColors)
+                    .Include(c => c.CompanyBannerSets).Include(c => c.Campaigns).Include(c => c.PaymentGateways).Include(c => c.ProductCategories)
+                    .Include(c => c.MediaLibraries).Include(c => c.CompanyDomains).Include(c => c.CmsOffers).Include(c => c.CompanyCostCentres).Select(c => new
+                    {
+                        c.CompanyId,
+                        c.Name,
+                        c.AccountNumber,
+                        c.URL,
+                        c.CreditReference,
+                        c.CreditLimit,
+                        c.Terms,
+                        c.TypeId,
+                        c.DefaultMarkUpId,
+                        c.AccountOpenDate,
+                        c.AccountManagerId,
+                        c.DefaultNominalCode,
+                        c.Status,
+                        c.IsCustomer,
+                        c.Notes,
+                        c.IsDisabled,
+                        c.AccountBalance,
+                        c.CreationDate,
+                        c.VATRegNumber,
+                        c.VATRegReference,
+                        c.FlagId,
+                        c.PhoneNo,
+                        c.IsGeneral,
+                        c.WebAccessCode,
+                        c.isArchived,
+                        c.PayByPersonalCredeitCard,
+                        c.PONumberRequired,
+                        c.ShowPrices,
+                        c.isDisplayBanners,
+                        c.isDisplayMenuBar,
+                        c.isDisplaySecondaryPages,
+                        c.isAllowRegistrationFromWeb,
+                        c.isDisplayFeaturedProducts,
+                        c.isDisplayPromotionalProducts,
+                        c.isDisplaySiteFooter,
+                        c.isDisplaySiteHeader,
+                        c.isShowGoogleMap,
+                        c.RedirectWebstoreURL,
+                        c.isTextWatermark,
+                        c.WatermarkText,
+                        c.facebookAppId,
+                        c.facebookAppKey,
+                        c.twitterAppId,
+                        c.twitterAppKey,
+                        c.TwitterURL,
+                        c.isStoreModePrivate,
+                        c.TaxPercentageId,
+                        c.canUserPlaceOrderWithoutApproval,
+                        c.CanUserEditProfile,
+                        c.SalesAndOrderManagerId1,
+                        c.SalesAndOrderManagerId2,
+                        c.ProductionManagerId1,
+                        c.ProductionManagerId2,
+                        c.StockNotificationManagerId1,
+                        c.StockNotificationManagerId2,
+                        c.IsDeliveryTaxAble,
+                        c.IsDisplayDeliveryOnCheckout,
+                        c.isPaymentRequired,
+                        c.isIncludeVAT,
+                        c.includeEmailArtworkOrderReport,
+                        c.includeEmailArtworkOrderXML,
+                        c.includeEmailArtworkOrderJobCard,
+                        c.StoreBackgroundImage,
+                        c.makeEmailArtworkOrderProductionReady,
+                        c.CompanyType,
+                        c.PickupAddressId,
+                        c.WebAnalyticCode,
+                        c.WebMasterTag,
+                        c.FacebookURL,
+                        c.LinkedinURL,
+                        c.isCalculateTaxByService,
+                        RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
+                        CmsPages = c.CmsPages.Take(5).ToList(),
+                        c.CompanyCMYKColors,
+                        c.CompanyBannerSets,
+                        c.Campaigns,
+                        c.PaymentGateways,
+                        c.ProductCategories,
+                        c.MediaLibraries,
+                        c.CompanyDomains,
+                        c.CmsOffers,
+                        c.CompanyCostCentres,
+                        c.Image,
+                    }).ToList().Select(c => new Company
+                    {
+                        CompanyId = c.CompanyId,
+                        Name = c.Name,
+                        AccountNumber = c.AccountNumber,
+                        URL = c.URL,
+                        CreditReference = c.CreditReference,
+                        CreditLimit = c.CreditLimit,
+                        Terms = c.Terms,
+                        TypeId = c.TypeId,
+                        DefaultMarkUpId = c.DefaultMarkUpId,
+                        AccountOpenDate = c.AccountOpenDate,
+                        AccountManagerId = c.AccountManagerId,
+                        DefaultNominalCode = c.DefaultNominalCode,
+                        Status = c.Status,
+                        IsCustomer = c.IsCustomer,
+                        Notes = c.Notes,
+                        IsDisabled = c.IsDisabled,
+                        AccountBalance = c.AccountBalance,
+                        CreationDate = c.CreationDate,
+                        VATRegNumber = c.VATRegNumber,
+                        VATRegReference = c.VATRegReference,
+                        FlagId = c.FlagId,
+                        PhoneNo = c.PhoneNo,
+                        IsGeneral = c.IsGeneral,
+                        WebAccessCode = c.WebAccessCode,
+                        isArchived = c.isArchived,
+                        PayByPersonalCredeitCard = c.PayByPersonalCredeitCard,
+                        PONumberRequired = c.PONumberRequired,
+                        ShowPrices = c.ShowPrices,
+                        isDisplayBanners = c.isDisplayBanners,
+                        isDisplayMenuBar = c.isDisplayMenuBar,
+                        isDisplaySecondaryPages = c.isDisplaySecondaryPages,
+                        isAllowRegistrationFromWeb = c.isAllowRegistrationFromWeb,
+                        isDisplayFeaturedProducts = c.isDisplayFeaturedProducts,
+                        isDisplayPromotionalProducts = c.isDisplayPromotionalProducts,
+                        isDisplaySiteFooter = c.isDisplaySiteFooter,
+                        isDisplaySiteHeader = c.isDisplaySiteHeader,
+                        isShowGoogleMap = c.isShowGoogleMap,
+                        RedirectWebstoreURL = c.RedirectWebstoreURL,
+                        isTextWatermark = c.isTextWatermark,
+                        WatermarkText = c.WatermarkText,
+                        facebookAppId = c.facebookAppId,
+                        facebookAppKey = c.facebookAppKey,
+                        twitterAppId = c.twitterAppId,
+                        twitterAppKey = c.twitterAppKey,
+                        TwitterURL = c.TwitterURL,
+                        isStoreModePrivate = c.isStoreModePrivate,
+                        TaxPercentageId = c.TaxPercentageId,
+                        canUserPlaceOrderWithoutApproval = c.canUserPlaceOrderWithoutApproval,
+                        CanUserEditProfile = c.CanUserEditProfile,
+                        SalesAndOrderManagerId1 = c.SalesAndOrderManagerId1,
+                        SalesAndOrderManagerId2 = c.SalesAndOrderManagerId2,
+                        ProductionManagerId1 = c.ProductionManagerId1,
+                        ProductionManagerId2 = c.ProductionManagerId2,
+                        StockNotificationManagerId1 = c.StockNotificationManagerId1,
+                        StockNotificationManagerId2 = c.StockNotificationManagerId2,
+                        IsDeliveryTaxAble = c.IsDeliveryTaxAble,
+                        IsDisplayDeliveryOnCheckout = c.IsDisplayDeliveryOnCheckout,
+                        isPaymentRequired = c.isPaymentRequired,
+                        isIncludeVAT = c.isIncludeVAT,
+                        includeEmailArtworkOrderReport = c.includeEmailArtworkOrderReport,
+                        includeEmailArtworkOrderXML = c.includeEmailArtworkOrderXML,
+                        includeEmailArtworkOrderJobCard = c.includeEmailArtworkOrderJobCard,
+                        StoreBackgroundImage = c.StoreBackgroundImage,
+                        makeEmailArtworkOrderProductionReady = c.makeEmailArtworkOrderProductionReady,
+                        CompanyType = c.CompanyType,
+                        PickupAddressId = c.PickupAddressId,
+                        WebAnalyticCode = c.WebAnalyticCode,
+                        WebMasterTag = c.WebMasterTag,
+                        FacebookURL = c.FacebookURL,
+                        LinkedinURL = c.LinkedinURL,
+                        isCalculateTaxByService = c.isCalculateTaxByService,
+                        RaveReviews = c.RaveReviews,
+                        CmsPages = c.CmsPages,
+                        CompanyCMYKColors = c.CompanyCMYKColors,
+                        CompanyBannerSets = c.CompanyBannerSets,
+                        Campaigns = c.Campaigns,
+                        PaymentGateways = c.PaymentGateways,
+                        ProductCategories = c.ProductCategories,
+                        MediaLibraries = c.MediaLibraries,
+                        CompanyDomains = c.CompanyDomains,
+                        CmsOffers = c.CmsOffers,
+                        CompanyCostCentres = c.CompanyCostCentres,
+                        Image = c.Image,
+
+                    }).FirstOrDefault();
+
+
+                //var company = DbSet.Find(companyId);
+                // company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
+
                 companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
-                companyResponse.SecondaryPageResponse.RowCount = company.CmsPages.Count;
-                companyResponse.SecondaryPageResponse.CmsPages = company.CmsPages.Take(5).ToList();
+                companyResponse.SecondaryPageResponse.RowCount = db.CmsPages.Count(cmp => cmp.CompanyId == companyId);
+                companyResponse.SecondaryPageResponse.CmsPages = company != null ? company.CmsPages : new List<CmsPage>();
                 companyResponse.Company = company;
 
                 //companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
@@ -118,7 +295,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-           
+
         }
 
         /// <summary>
@@ -137,7 +314,7 @@ namespace MPC.Repository.Repositories
                 long type = request.CustomerType ?? 0;
                 Expression<Func<Company, bool>> query =
                     s =>
-                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) && 
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
                     (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 3 || s.IsCustomer == 4);
 
                 int rowCount = DbSet.Count(query);
@@ -163,9 +340,9 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-           
 
-           
+
+
         }
 
         /// <summary>
@@ -203,7 +380,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-           
+
         }
 
         public Company GetStoreById(long companyId)
@@ -218,7 +395,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-          
+
         }
         public Company GetStoreByStoreId(long companyId)
         {
@@ -235,14 +412,14 @@ namespace MPC.Repository.Repositories
             }
             //db.Configuration.LazyLoadingEnabled = false;
             //db.Configuration.ProxyCreationEnabled = false;
-           // return db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets").Include("CompanyBannerSets.CompanyBanners").Include("CmsPages").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("ProductCategories").Include("Items").Include("Items.ItemSections").Include("Items.ItemSections.SectionCostcentres").Include("Items.ItemSections.SectionCostcentres.SectionCostCentreResources").Include("PaymentGateways").Include("CmsSkinPageWidgets").Include("CompanyCostCentres").Include("CompanyCMYKColors").FirstOrDefault(c => c.CompanyId == companyId);
-         
+            // return db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets").Include("CompanyBannerSets.CompanyBanners").Include("CmsPages").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("ProductCategories").Include("Items").Include("Items.ItemSections").Include("Items.ItemSections.SectionCostcentres").Include("Items.ItemSections.SectionCostcentres.SectionCostCentreResources").Include("PaymentGateways").Include("CmsSkinPageWidgets").Include("CompanyCostCentres").Include("CompanyCMYKColors").FirstOrDefault(c => c.CompanyId == companyId);
+
         }
-       
-        
-        public ExportOrganisation ExportCompany( long CompanyId)
+
+
+        public ExportOrganisation ExportCompany(long CompanyId)
         {
-          
+
             ExportOrganisation ObjExportOrg = new ExportOrganisation();
             try
             {
@@ -267,9 +444,9 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
 
                 // set cms offers
-                
+
                 ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
-                
+
 
                 ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
 
@@ -307,180 +484,180 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.SecondaryPages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
 
-                
+
 
                 // Rave Reviews
 
                 ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
-                
+
 
                 // CompanyTerritories
 
 
                 ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
-               
+
 
                 // Addresses
 
 
                 ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
-                
+
 
                 // contacts
 
 
                 ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
-                
+
 
                 // product Categories
-                
+
                 ObjExportOrg.ProductCategory = db.ProductCategories.Where(s => s.isPublished == true && s.isArchived == false && s.CompanyId == CompanyId).ToList();
-                
+
 
                 // items
-               
-                 List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).ToList();
-                    items = items.ToList();
 
-                    ObjExportOrg.Items = items;
+                List<Item> items = db.Items.Where(i => i.IsPublished == true && i.IsArchived == false && i.CompanyId == CompanyId).ToList();
+                items = items.ToList();
 
-                    if (items != null)
+                ObjExportOrg.Items = items;
+
+                if (items != null)
+                {
+                    if (items.Count > 0)
                     {
-                        if (items.Count > 0)
+                        foreach (var item in items)
                         {
-                            foreach (var item in items)
+                            // itemSections
+                            if (item.ItemSections != null)
                             {
-                                // itemSections
-                                if (item.ItemSections != null)
-                                {
 
-                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                {
+                                    // add item sections
+                                    foreach (var sec in item.ItemSections)
                                     {
-                                        // add item sections
-                                        foreach (var sec in item.ItemSections)
+                                        if (sec.SectionCostcentres != null)
                                         {
-                                            if (sec.SectionCostcentres != null)
+                                            if (sec.SectionCostcentres.Count > 0)
                                             {
-                                                if (sec.SectionCostcentres.Count > 0)
+                                                // add section Costcentre
+                                                foreach (var ss in sec.SectionCostcentres)
                                                 {
-                                                    // add section Costcentre
-                                                    foreach (var ss in sec.SectionCostcentres)
+                                                    if (ss.SectionCostCentreResources != null)
                                                     {
-                                                        if (ss.SectionCostCentreResources != null)
+                                                        if (ss.SectionCostCentreResources.Count > 0)
                                                         {
-                                                            if (ss.SectionCostCentreResources.Count > 0)
+                                                            foreach (var res in ss.SectionCostCentreResources)
                                                             {
-                                                                foreach (var res in ss.SectionCostCentreResources)
-                                                                {
-                                                                    SectionCostCentreResources.Add(res);
-                                                                }
-
+                                                                SectionCostCentreResources.Add(res);
                                                             }
+
                                                         }
-
-                                                        SectionCostCentre.Add(ss);
                                                     }
+
+                                                    SectionCostCentre.Add(ss);
                                                 }
                                             }
-                                            ItemSections.Add(sec);
                                         }
+                                        ItemSections.Add(sec);
                                     }
                                 }
-                                if (item.ItemAttachments != null)
+                            }
+                            if (item.ItemAttachments != null)
+                            {
+                                if (item.ItemAttachments.Count > 0)
                                 {
-                                    if(item.ItemAttachments.Count > 0)
+                                    foreach (var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
                                     {
-                                        foreach(var itemAttach in item.ItemAttachments.Where(c => c.CompanyId == CompanyId))
-                                        {
-                                            ItemAttachments.Add(itemAttach);
-                                        }
+                                        ItemAttachments.Add(itemAttach);
                                     }
                                 }
-                                if(item.TemplateId != null && item.TemplateId > 0)
+                            }
+                            if (item.TemplateId != null && item.TemplateId > 0)
+                            {
+                                if (item.DesignerCategoryId == null && item.DesignerCategoryId > 0)
                                 {
-                                    if(item.DesignerCategoryId == null && item.DesignerCategoryId > 0)
+                                    ObjExportOrg.ItemTemplate = item.Template;
+
+                                    long TemplateID = item.Template.ProductId;
+
+                                    if (TemplateID > 0)
                                     {
-                                        ObjExportOrg.ItemTemplate = item.Template;
-
-                                        long TemplateID = item.Template.ProductId;
-
-                                        if (TemplateID > 0)
+                                        // template pages
+                                        List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
+                                        if (lstTemplatePage != null && lstTemplatePage.Count > 0)
                                         {
-                                            // template pages
-                                            List<TemplatePage> lstTemplatePage = db.TemplatePages.Where(t => t.ProductId == TemplateID).ToList();
-                                            if (lstTemplatePage != null && lstTemplatePage.Count > 0)
+                                            foreach (var tempPage in lstTemplatePage)
                                             {
-                                                foreach (var tempPage in lstTemplatePage)
-                                                {
-                                                    TemplatePages.Add(tempPage);
-                                                }
-
+                                                TemplatePages.Add(tempPage);
                                             }
 
+                                        }
 
-                                            // template objects
-                                            List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
-                                            if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+
+                                        // template objects
+                                        List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(c => c.ProductId == TemplateID).ToList();
+                                        if (lstTemplateObjects != null && lstTemplateObjects.Count > 0)
+                                        {
+                                            foreach (var tempObjects in lstTemplateObjects)
                                             {
-                                                foreach (var tempObjects in lstTemplateObjects)
-                                                {
-                                                    TemplateObjects.Add(tempObjects);
-                                                }
-
+                                                TemplateObjects.Add(tempObjects);
                                             }
 
-                                            // template fonts
-                                            List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
-                                            if (lstTemplateFont != null && lstTemplateFont.Count > 0)
-                                            {
-                                                foreach (var tempFonts in lstTemplateFont)
-                                                {
-                                                    TemplateFonts.Add(tempFonts);
-                                                }
+                                        }
 
+                                        // template fonts
+                                        List<TemplateFont> lstTemplateFont = db.TemplateFonts.Where(c => c.ProductId == TemplateID).ToList();
+                                        if (lstTemplateFont != null && lstTemplateFont.Count > 0)
+                                        {
+                                            foreach (var tempFonts in lstTemplateFont)
+                                            {
+                                                TemplateFonts.Add(tempFonts);
                                             }
-                                            // template background images
 
-                                            List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
-                                            if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                                        }
+                                        // template background images
+
+                                        List<TemplateBackgroundImage> lstTemplateBackgroundImages = db.TemplateBackgroundImages.Where(c => c.ProductId == TemplateID && c.ContactCompanyId == CompanyId).ToList();
+                                        if (lstTemplateBackgroundImages != null && lstTemplateBackgroundImages.Count > 0)
+                                        {
+                                            foreach (var tempBackImages in lstTemplateBackgroundImages)
                                             {
-                                                foreach (var tempBackImages in lstTemplateBackgroundImages)
+                                                TemplateBackGroundImages.Add(tempBackImages);
+                                                if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
                                                 {
-                                                    TemplateBackGroundImages.Add(tempBackImages);
-                                                    if (tempBackImages.ImagePermissions != null && tempBackImages.ImagePermissions.Count > 0)
+                                                    foreach (var img in tempBackImages.ImagePermissions)
                                                     {
-                                                        foreach (var img in tempBackImages.ImagePermissions)
-                                                        {
-                                                            ImagePermission.Add(img);
-                                                        }
+                                                        ImagePermission.Add(img);
                                                     }
                                                 }
-
                                             }
 
-
                                         }
-                                    }
-                                   
 
+
+                                    }
                                 }
+
 
                             }
+
                         }
-                        ObjExportOrg.ItemSection = ItemSections;
-                        ObjExportOrg.SectionCostcentre = SectionCostCentre;
-                        ObjExportOrg.SectionCostCentreResource = SectionCostCentreResources;
-                        ObjExportOrg.ItemAttachment = ItemAttachments;
-                        ObjExportOrg.TemplatePages = TemplatePages;
-                        ObjExportOrg.TemplateObjects = TemplateObjects;
-                        ObjExportOrg.TemplateFonts = TemplateFonts;
-                        ObjExportOrg.TemplateBackgroundImage = TemplateBackGroundImages;
-                        ObjExportOrg.ImagePermission = ImagePermission;
                     }
+                    ObjExportOrg.ItemSection = ItemSections;
+                    ObjExportOrg.SectionCostcentre = SectionCostCentre;
+                    ObjExportOrg.SectionCostCentreResource = SectionCostCentreResources;
+                    ObjExportOrg.ItemAttachment = ItemAttachments;
+                    ObjExportOrg.TemplatePages = TemplatePages;
+                    ObjExportOrg.TemplateObjects = TemplateObjects;
+                    ObjExportOrg.TemplateFonts = TemplateFonts;
+                    ObjExportOrg.TemplateBackgroundImage = TemplateBackGroundImages;
+                    ObjExportOrg.ImagePermission = ImagePermission;
+                }
 
 
-                
+
 
 
                 //  campaigns
@@ -490,21 +667,21 @@ namespace MPC.Repository.Repositories
                 // payment gateways
 
                 ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
-                
+
 
 
 
                 // cms skin page widgets
-               
+
                 ObjExportOrg.CmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
-                
+
 
                 // company cost centre
-               
-                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
-                
 
-               // company cmyk colors
+                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
+
+
+                // company cmyk colors
                 ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
                 // company cost centres
@@ -537,7 +714,7 @@ namespace MPC.Repository.Repositories
                 return ObjExportOrg;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -630,7 +807,7 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                 //Rave Reviews
+                //Rave Reviews
 
                 ObjExportOrg.RetailRaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
@@ -873,11 +1050,11 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                
+
                 //List<ItemSection> ItemSections = new List<ItemSection>();
                 //List<SectionCostcentre> SectionCostCentre = new List<SectionCostcentre>();
                 //List<SectionCostCentreResource> SectionCostCentreResources = new List<SectionCostCentreResource>();
-                
+
                 List<TemplatePage> TemplatePages = new List<TemplatePage>();
                 List<TemplateObject> TemplateObjects = new List<TemplateObject>();
                 List<TemplateFont> TemplateFonts = new List<TemplateFont>();
@@ -888,9 +1065,9 @@ namespace MPC.Repository.Repositories
 
                 ExportSets sets = new ExportSets();
 
-                sets.ExportRetailStore1 =  ExportRetailCompany1(CompanyId, sets);
+                sets.ExportRetailStore1 = ExportRetailCompany1(CompanyId, sets);
                 sets.ExportRetailStore2 = ExportRetailCompany2(CompanyId, sets);
-                sets.ExportRetailStore3 =  ExportRetailCompany3(CompanyId, sets);
+                sets.ExportRetailStore3 = ExportRetailCompany3(CompanyId, sets);
 
 
                 db.Configuration.LazyLoadingEnabled = false;
@@ -908,7 +1085,7 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.RetailCmsSkinPageWidget = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-               
+
 
                 // company cost centre
 
@@ -932,7 +1109,7 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
 
-               
+
                 TemplatePages = null;
                 TemplateObjects = null;
                 TemplateFonts = null;
@@ -958,28 +1135,28 @@ namespace MPC.Repository.Repositories
             }
         }
 
-         public long GetCorporateCompanyIDbyOrganisationID(long OID)
-         {
-             try
-             {
-                 return db.Companies.Where(o => o.OrganisationId == OID && o.IsCustomer == 3).Select(c => c.CompanyId).FirstOrDefault();
-             }
-             catch(Exception ex)
-             {
-                 throw ex;
-             }
-         }
-         public long GetRetailCompanyIDbyOrganisationID(long OID)
-         {
-             try
-             {
-                 return db.Companies.Where(o => o.OrganisationId == OID && o.IsCustomer == 4).Select(c => c.CompanyId).FirstOrDefault();
-             }
-             catch (Exception ex)
-             {
-                 throw ex;
-             }
-         }
+        public long GetCorporateCompanyIDbyOrganisationID(long OID)
+        {
+            try
+            {
+                return db.Companies.Where(o => o.OrganisationId == OID && o.IsCustomer == 3).Select(c => c.CompanyId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public long GetRetailCompanyIDbyOrganisationID(long OID)
+        {
+            try
+            {
+                return db.Companies.Where(o => o.OrganisationId == OID && o.IsCustomer == 4).Select(c => c.CompanyId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>
@@ -1133,7 +1310,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
         private CompanyContact PopulateContactsObject(long customerID, long addressID, bool isDefaultContact)
         {
@@ -1173,7 +1350,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
         private static string ComputeHashSHA1(string plainText)
         {
@@ -1190,7 +1367,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
         private static string ComputeHash(string plainText,
                                     string hashAlgorithm,
@@ -1269,7 +1446,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
 
         private static HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm)
@@ -1306,7 +1483,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public string SystemWeight(long OrganisationID)
@@ -1356,7 +1533,7 @@ namespace MPC.Repository.Repositories
             bool Result = false;
             try
             {
-                Company Company = db.Companies.Where(i => i.CompanyId == Instance.CompanyId).FirstOrDefault(); 
+                Company Company = db.Companies.Where(i => i.CompanyId == Instance.CompanyId).FirstOrDefault();
                 Company.Name = Instance.Name;
                 db.Companies.Attach(Company);
                 db.Entry(Company).State = EntityState.Modified;
@@ -1368,14 +1545,14 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     Result = false;
-                
+
                 }
             }
             catch (Exception ex)
             {
 
                 throw ex;
-            
+
             }
             return Result;
         }
@@ -1412,7 +1589,7 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-            
+
         }
 
         /// <summary>
@@ -1429,7 +1606,7 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-            
+
         }
     }
 }

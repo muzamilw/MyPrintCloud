@@ -12,6 +12,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get CMS Tags For Default Load of CMS Page
+                    amplify.request.define('getCmsTags', 'ajax', {
+                        url: ist.siteUrl + '/Api/CmsTag',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Campaign Base Data
                     amplify.request.define('getCampaignBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/CampaignBase',
@@ -270,6 +276,16 @@
                     error: callbacks.error,
                 });
             },
+            // get CMS Tags For Load default for CMS Page
+            getCmsTags = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCmsTags',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
+            
              // get Store
             getStores = function (params, callbacks) {
                 initialize();
@@ -647,6 +663,7 @@
             getSmartFormsByCompanyId: getSmartFormsByCompanyId,
             deleteCompanyBanner: deleteCompanyBanner,
             getThemeDetail: getThemeDetail,
+            getCmsTags: getCmsTags,
         };
     })();
 

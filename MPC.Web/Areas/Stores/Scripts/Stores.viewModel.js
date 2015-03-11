@@ -2008,8 +2008,22 @@ define("stores/stores.viewModel",
                     },
                     //Add Default PAge Keywords
                     addDefaultPageKeyWords = function () {
-                        selectedSecondaryPage().pageKeywords(selectedSecondaryPage().defaultPageKeyWords());
-                    },
+                    loadDefaultPageKeywords();
+
+                },
+                //get CMS Tags For Load default for CMS Page
+                 loadDefaultPageKeywords = function () {
+                     dataservice.getCmsTags({
+                         success: function (data) {
+                             if (data != null) {
+                                 selectedSecondaryPage().pageKeywords(data);
+                             }
+                         },
+                         error: function (response) {
+                             toastr.error("Failed to load defaults.");
+                         }
+                     });
+                 },
                     //Save Secondary Page
                     onSaveSecondaryPage = function (sPage) {
                         if (doBeforeSaveSecondaryPage()) {
@@ -2146,7 +2160,7 @@ define("stores/stores.viewModel",
                     edittedCompanyContacts = ko.observableArray([]),
                     newCompanyContacts = ko.observableArray([]),
                     //Company Contact  Pager
-                    companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Company Contact Search Filter
                     searchCompanyContactFilter = ko.observable(),
                     //Search Company Contact        
@@ -2156,8 +2170,8 @@ define("stores/stores.viewModel",
                                 SearchFilter: searchCompanyContactFilter(),
                                 CompanyId: selectedStore().companyId(),
                                 TerritoryId: contactCompanyTerritoryFilter(),
-                                PageSize: companyContactPager().pageSize(),
-                                PageNo: companyContactPager().currentPage(),
+                                PageSize: contactCompanyPager().pageSize(),
+                                PageNo: contactCompanyPager().currentPage(),
                                 SortBy: sortOn(),
                                 IsAsc: sortIsAsc()
                             }, {
@@ -2788,6 +2802,7 @@ define("stores/stores.viewModel",
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
+                                    selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);
@@ -2894,6 +2909,7 @@ define("stores/stores.viewModel",
                             , {
                                 success: function (data) {
 
+                                    //#region If Parent Category Id == Null
                                     if (data.ParentCategoryId == null) {
                                         //if saving product is editting
                                         if (selectedProductCategoryForEditting().productCategoryId() > 0) {
@@ -2907,7 +2923,7 @@ define("stores/stores.viewModel",
                                             });
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                         }
-                                            //Creating new Product category
+                                        //Creating new Product category
                                         else {
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                             toastr.success("Category Added Successfully");
@@ -2916,14 +2932,15 @@ define("stores/stores.viewModel",
                                         //ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
                                         isLoadingStores(false);
                                         view.hideStoreProductCategoryDialog();
-                                    } else {
+                                    }
+                                        //#endregion
 
-
+                                    //#region Else Parent Category Id != null
+                                    else {
                                         newProductCategories.push(model.ProductCategory.Create(data));
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
 
                                         if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-
                                             $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                         }
                                         //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -2933,6 +2950,8 @@ define("stores/stores.viewModel",
                                         //}
                                         toastr.success("Category Updated Successfully");
                                     }
+                                    //#endregion
+
                                     //var category = {
                                     //    productCategoryId: data.ProductCategoryId,
                                     //    categoryName: data.CategoryName,
@@ -3798,8 +3817,12 @@ define("stores/stores.viewModel",
                     pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,
                     selectedStore().addresses.removeAll();
+                    selectedStore().companyTerritories.removeAll();
+                    selectedStore().users.removeAll();
                     selectedStore().mediaLibraries.removeAll();
                     allCompanyAddressesList.removeAll();
+                    contactCompanyTerritoriesFilter.removeAll();
+
                     deletedAddresses.removeAll();
                     edittedAddresses.removeAll();
                     newAddresses.removeAll();
@@ -3812,7 +3835,7 @@ define("stores/stores.viewModel",
                     parentCategories.removeAll();
                     themes.removeAll();
                     cmsPagesForStoreLayout.removeAll();
-
+                    addressCompanyTerritoriesFilter.removeAll();
                     newAddedSecondaryPage.removeAll();
                     editedSecondaryPage.removeAll();
                     deletedSecondaryPage.removeAll();
@@ -3841,8 +3864,8 @@ define("stores/stores.viewModel",
                     smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
                     companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                     secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getSecondoryPages));
-                    addressPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                    contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
+                    addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
+                    contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                     selectedCompanyDomainItem(undefined);
                     _.each(costCentersList(), function (costCenter) {
                         costCenter.isSelected(false);
@@ -4468,7 +4491,7 @@ define("stores/stores.viewModel",
                     });
                     fieldVariablesOfContactType.push(scopeVariable);
                     return scopeVariable;
-                }
+                },
                 //In Case Of New Store edit Field variable
                 updateFieldVariableWithNewStore = function (fieldVariable) {
 
@@ -4650,7 +4673,7 @@ define("stores/stores.viewModel",
                     }
 
                     return flag;
-                }
+                },
                 //Add Field Option
                 onAddFieldOption = function () {
                     if (selectedFieldOption() === undefined || selectedFieldOption().isValid()) {
@@ -5181,7 +5204,7 @@ define("stores/stores.viewModel",
                     deletedCompanyContacts: deletedCompanyContacts,
                     edittedCompanyContacts: edittedCompanyContacts,
                     newCompanyContacts: newCompanyContacts,
-                    companyContactPager: companyContactPager,
+                    //contactCompanyPager: contactCompanyPager,
                     searchCompanyContactFilter: searchCompanyContactFilter,
                     searchCompanyContact: searchCompanyContact,
                     companyContactFilterSelected: companyContactFilterSelected,
