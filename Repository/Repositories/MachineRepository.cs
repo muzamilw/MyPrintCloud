@@ -140,10 +140,15 @@ namespace MPC.Repository.Repositories
         public MachineResponseModel GetMachineByID(long MachineID)
         {
             Machine omachine = DbSet.Where(g => g.MachineId == MachineID).SingleOrDefault();
+            bool IsGuillotine = false;
+            if (omachine.MachineCatId == 4)
+            {
+                IsGuillotine = true;
+            }
             return new MachineResponseModel
             {
                 machine = omachine,
-                lookupMethods = GetAllLookupMethodList(),
+                lookupMethods = GetAllLookupMethodList(IsGuillotine),
                 Markups = GetAllMarkupList(),
                 StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
@@ -154,6 +159,25 @@ namespace MPC.Repository.Repositories
             };
 
             
+        }
+
+        public MachineResponseModel GetNewMachine(bool IsGuillotine)
+        {
+           
+            return new MachineResponseModel
+            {
+                machine = null,
+                lookupMethods = GetAllLookupMethodList(IsGuillotine),
+                Markups = GetAllMarkupList(),
+                StockItemforInk = GetAllStockItemforInk(),
+                MachineSpoilageItems = null,
+                deFaultPaperSizeName = null,
+                deFaultPlatesName = null,
+                InkCoveragItems = GetInkCoveragItems()
+
+            };
+
+
         }
 
         public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
@@ -273,15 +297,18 @@ namespace MPC.Repository.Repositories
                 return db.Machines;
             }
         }
-        public IEnumerable<LookupMethod> GetAllLookupMethodList()
+        public IEnumerable<LookupMethod> GetAllLookupMethodList(bool IsGuillotine)
         {
-           return db.LookupMethods;
-        }
-        //public IEnumerable<StockItem> GetStockItemsForPaperSizePlate()
-        //{
-        //    return db.StockItems.Where(g => g.CategoryId == 1 || g.CategoryId == 4).ToList();
+            if (IsGuillotine)
+            {
+                return db.LookupMethods.Where(g => g.MethodId == 6 || g.Type == 6).ToList();
+            }
+            else
+            {
+                return db.LookupMethods.Where(g => g.MethodId != 6 && g.Type != 6).ToList();
+            }
 
-        //}
+        }
         public IEnumerable<Markup> GetAllMarkupList()
         {
             return db.Markups;

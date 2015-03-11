@@ -109,7 +109,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : new List<PageCategoryDropDown>(),
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) :
                 new List<RegistrationQuestionDropDown>(),
-                Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
+               // Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : new List<EmailEvent>(),
                 Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : new List<Widget>(),
                 DefaultSpriteImage = bytes,

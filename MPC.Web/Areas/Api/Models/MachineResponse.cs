@@ -16,8 +16,7 @@ namespace MPC.MIS.Areas.Api.Models
         
         public IEnumerable<InkCoverageGroup> InkCoveragItems { get; set; }
         public IEnumerable<MachineSpoilage> MachineSpoilageItems { get; set; }
-        //public IEnumerable<MachineSpoilage>
-       // public virtual IEnumerable<MachineResource> MachineResources { get; set; }
+        
 
     }
 }

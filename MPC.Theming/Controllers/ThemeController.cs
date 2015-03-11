@@ -60,6 +60,7 @@ namespace MPC.Theming.Controllers
         [HttpGet]
         public HttpResponseMessage ApplyTheme([FromUri] string fullZipPath)
         {
+            fullZipPath = "http://themes.myprintcloud.com/mpc_themes/classic.zip";
             HttpResponseMessage result = null;
             if (File.Exists(fullZipPath))
             {
