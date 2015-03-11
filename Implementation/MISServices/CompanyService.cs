@@ -90,6 +90,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISmartFormDetailRepository smartFormDetailRepository;
         private readonly IMediaLibraryRepository mediaLibraryRepository;
         private readonly ICompanyCostCenterRepository companyCostCenterRepository;
+        private readonly ICmsTagReporistory cmsTagReporistory;
 
         #endregion
 
@@ -2233,6 +2234,8 @@ namespace MPC.Implementation.MISServices
             fieldVariableRepository.Add(fieldVariable);
             List<ScopeVariable> scopeVariables = new List<ScopeVariable>();
             fieldVariable.ScopeVariables = scopeVariables;
+
+            //In case of scope type of variable field is contact
             if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Contact)
             {
                 IEnumerable<CompanyContact> companyContacts =
@@ -2252,7 +2255,58 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
+            /*
+        //In case of scope type of variable field is address
+        else if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Address)
+        {
+            IEnumerable<Address> addresses =
+                addressRepository.GetAddressByCompanyID(companyId);
+            if (addresses != null)
+            {
+                foreach (var address in addresses)
+                {
+                    ScopeVariable scopeVariable = new ScopeVariable();
 
+                    scopeVariable.ScopeVariableId = 0;
+                    scopeVariable.Scope = fieldVariable.Scope;
+                    scopeVariable.Id = address.AddressId;
+                    scopeVariable.Value = fieldVariable.DefaultValue;
+                    scopeVariableRepository.Add(scopeVariable);
+                    fieldVariable.ScopeVariables.Add(scopeVariable);
+                }
+            }
+        }
+        //In case of scope type of variable field is Company Territory
+        else if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Territory)
+        {
+            IEnumerable<CompanyTerritory> companyTerritories =
+                companyTerritoryRepository.GetAllCompanyTerritories(companyId);
+            if (companyTerritories != null)
+            {
+                foreach (var territory in companyTerritories)
+                {
+                    ScopeVariable scopeVariable = new ScopeVariable();
+
+                    scopeVariable.ScopeVariableId = 0;
+                    scopeVariable.Scope = fieldVariable.Scope;
+                    scopeVariable.Id = territory.TerritoryId;
+                    scopeVariable.Value = fieldVariable.DefaultValue;
+                    scopeVariableRepository.Add(scopeVariable);
+                    fieldVariable.ScopeVariables.Add(scopeVariable);
+                }
+            }
+        }
+        //In case of scope type of variable field is Store
+        else if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Store)
+        {
+            ScopeVariable scopeVariable = new ScopeVariable();
+            scopeVariable.ScopeVariableId = 0;
+            scopeVariable.Scope = fieldVariable.Scope;
+            scopeVariable.Id = companyId;
+            scopeVariable.Value = fieldVariable.DefaultValue;
+            scopeVariableRepository.Add(scopeVariable);
+            fieldVariable.ScopeVariables.Add(scopeVariable);
+        }*/
             fieldVariableRepository.SaveChanges();
             return fieldVariable.VariableId;
         }
@@ -2411,6 +2465,221 @@ namespace MPC.Implementation.MISServices
             smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
         }
+
+        /// <summary>
+        /// Apply Theme Sprite Image
+        /// </summary>
+        private void ApplyThemeSpriteImage(string themeName, long companyId)
+        {
+            string themeSpriteImagePath =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/sprite.png");
+            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/sprite.png");
+            if (File.Exists(directoryPath))
+            {
+                File.Delete(directoryPath);
+            }
+            if (File.Exists(themeSpriteImagePath))
+            {
+                File.Copy(themeSpriteImagePath, directoryPath, true);
+                //  File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
+            }
+
+        }
+
+        /// <summary>
+        /// Apply Theme Css
+        /// </summary>
+        private void ApplyThemeCss(string themeName, long companyId)
+        {
+            string path =
+                 HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId +
+                                                    "/" + companyId + "/site.css");
+            // Open the file to read from. 
+            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css")))
+            {
+                string css =
+                  File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css"));
+                //Write CSS
+                if (File.Exists(path))
+                {
+                    File.WriteAllText(path, css);
+                }
+                else
+                {
+                    File.WriteAllText(path, css);
+                }
+
+            }
+        }
+
+        private void ApplyThemeWidgets(string themeName, long companyId)
+        {
+            try
+            {
+                string widgetFilePath =
+                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/widgets.txt");
+                if (File.Exists(widgetFilePath))
+                {
+                    List<WidgetForTheme> widgetForThemes = new List<WidgetForTheme>();
+                    using (StreamReader r = new StreamReader(widgetFilePath))
+                    {
+                        string json = r.ReadToEnd();
+                        widgetForThemes = JsonConvert.DeserializeObject<List<WidgetForTheme>>(json);
+                    }
+
+                    UpdateCmsPageWidgetFromApplyTheme(widgetForThemes, companyId);
+                }
+
+
+            }
+            catch (Exception e)
+            {
+                e.ToString();
+            }
+        }
+
+        private void UpdateCmsPageWidgetFromApplyTheme(List<WidgetForTheme> widgetForThemes, long companyId)
+        {
+            List<CmsPage> cmsPagesDbVersion = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
+
+
+            var pageGroups = from page in widgetForThemes
+                             group page by page.PageName
+                                 into pageGroup
+                                 select pageGroup;
+
+            if (cmsPagesDbVersion != null)
+            {
+                foreach (CmsPage cmsPage in cmsPagesDbVersion)
+                {
+                    cmsPageRepository.Delete(cmsPage);
+                }
+                // cmsPageRepository.SaveChanges();
+            }
+
+            foreach (var group in pageGroups)
+            {
+                CmsPage newCmsPage = new CmsPage();
+                foreach (WidgetForTheme widgetTheme in group)
+                {
+                    newCmsPage.PageId = 0;
+                    newCmsPage.PageName = widgetTheme.PageName;
+                    newCmsPage.CompanyId = companyId;
+                    newCmsPage.OrganisationId = companyRepository.OrganisationId;
+                    if (widgetTheme.WidgetId != null)
+                    {
+                        CmsSkinPageWidget widget = new CmsSkinPageWidget();
+                        widget.WidgetId = widgetTheme.WidgetId;
+                        widget.SkinId = widgetTheme.SkinId;
+                        widget.Sequence = widgetTheme.Sequence;
+                        widget.CompanyId = companyId;
+                        widget.OrganisationId = companyRepository.OrganisationId;
+                        widget.PageId = newCmsPage.PageId;
+                        if (widgetTheme.ParamValue != null)
+                        {
+                            CmsSkinPageWidgetParam cmsSkinPageWidgetParam = new CmsSkinPageWidgetParam();
+                            cmsSkinPageWidgetParam.PageWidgetId = widget.WidgetId;
+                            cmsSkinPageWidgetParam.ParamValue = widgetTheme.ParamValue;
+                            if (widget.CmsSkinPageWidgetParams == null)
+                            {
+                                List<CmsSkinPageWidgetParam> pageWidgetParams = new List<CmsSkinPageWidgetParam>();
+                                widget.CmsSkinPageWidgetParams = pageWidgetParams;
+                            }
+                            widget.CmsSkinPageWidgetParams.Add(cmsSkinPageWidgetParam);
+                        }
+                        if (newCmsPage.CmsSkinPageWidgets == null)
+                        {
+                            List<CmsSkinPageWidget> cmsSkinPageWidgets = new List<CmsSkinPageWidget>();
+                            newCmsPage.CmsSkinPageWidgets = cmsSkinPageWidgets;
+                        }
+                        newCmsPage.CmsSkinPageWidgets.Add(widget);
+                    }
+
+                }
+                cmsPageRepository.Add(newCmsPage);
+            }
+            cmsPageRepository.SaveChanges();
+
+        }
+
+        /// <summary>
+        /// Update Media Library File Path
+        /// </summary>
+        private void AddThemeBanners(string themeName, long companyId)
+        {
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
+            Copy(source, target, companyId);
+
+        }
+
+        /// <summary>
+        /// Copy 
+        /// </summary>
+        public void Copy(string sourceDirectory, string targetDirectory, long companyId)
+        {
+            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
+
+            CopyThemeBanners(diSource, diTarget, companyId);
+        }
+
+        /// <summary>
+        /// Copy Banners From 
+        /// </summary>
+        public void CopyThemeBanners(DirectoryInfo source, DirectoryInfo target, long companyId)
+        {
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            List<MediaLibrary> mediaLibraries = new List<MediaLibrary>();
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = new MediaLibrary();
+                mediaLibrary.MediaId = 0;
+                mediaLibrary.FileName = fi.Name;
+                mediaLibrary.FileType = "image/jpeg";
+                mediaLibrary.CompanyId = companyId;
+                mediaLibrary.FilePath = "temp";
+                mediaLibraries.Add(mediaLibrary);
+                mediaLibraryRepository.Add(mediaLibrary);
+            }
+            mediaLibraryRepository.SaveChanges();
+            int i = 0;
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                MediaLibrary mediaLibrary = mediaLibraries[i];
+                i = (i + 1);
+                mediaLibrary.FilePath = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId + "/" + mediaLibrary.MediaId + "_" + fi.Name;
+                fi.CopyTo(Path.Combine(target.FullName, mediaLibrary.MediaId + "_" + fi.Name), true);
+            }
+            mediaLibraryRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Apply Theme Fonts
+        /// </summary>
+        private void ApplyThemeFonts(string sourceDirectory, string targetDirectory)
+        {
+            DirectoryInfo source = new DirectoryInfo(sourceDirectory);
+            DirectoryInfo target = new DirectoryInfo(targetDirectory);
+            // Check if the target directory exists; if not, create it.
+            if (Directory.Exists(target.FullName) == false)
+            {
+                Directory.CreateDirectory(target.FullName);
+            }
+
+            // Copy each file into the new directory.
+            foreach (FileInfo fi in source.GetFiles())
+            {
+                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
+            }
+        }
         #endregion
 
         #region Constructor
@@ -2441,10 +2710,12 @@ namespace MPC.Implementation.MISServices
             IStockCategoryRepository StockCategoryRepository, IPaperSizeRepository PaperSizeRepository, IMachineRepository MachineRepository, IPhraseFieldRepository PhraseFieldRepository,
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
-            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository)
+            IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
+            ICmsTagReporistory cmsTagReporistory)
         {
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
+            this.cmsTagReporistory = cmsTagReporistory;
             this.mediaLibraryRepository = mediaLibraryRepository;
             this.companyCostCenterRepository = companyCostCenterRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
@@ -2802,6 +3073,41 @@ namespace MPC.Implementation.MISServices
             companyBannerRepository.SaveChanges();
         }
 
+        /// <summary>
+        /// Apply Theme
+        /// </summary>
+        public void ApplyTheme(string themeName, long companyId)
+        {
+            ApplyThemeCss(themeName, companyId);
+            ApplyThemeSpriteImage(themeName, companyId);
+            ApplyThemeWidgets(themeName, companyId);
+            AddThemeBanners(themeName, companyId);
+            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
+            string source =
+                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
+            ApplyThemeFonts(source, target);
+
+        }
+
+        /// <summary>
+        /// Get Cms Tags For Cms Page Load Default page keywords
+        /// </summary>
+        public string GetCmsTagForCmsPage()
+        {
+            IEnumerable<CmsTag> cmsTags = cmsTagReporistory.GetAllForCmsPage();
+
+            string defaultPageKeyWords = null;
+            if (cmsTags != null)
+            {
+                foreach (var item in cmsTags)
+                {
+
+                    defaultPageKeyWords = defaultPageKeyWords != null ? (defaultPageKeyWords + " , " + item.TagName) : item.TagName;
+
+                }
+            }
+            return defaultPageKeyWords ?? string.Empty;
+        }
         #endregion
 
         #region ExportOrganisation
@@ -4191,237 +4497,6 @@ namespace MPC.Implementation.MISServices
         }
         #endregion
 
-        /// <summary>
-        /// Apply Theme
-        /// </summary>
-
-        public void ApplyTheme(string themeName, long companyId)
-        {
-            ApplyThemeCss(themeName, companyId);
-            ApplyThemeSpriteImage(themeName, companyId);
-            ApplyThemeWidgets(themeName, companyId);
-            AddThemeBanners(themeName, companyId);
-            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
-            string source =
-                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
-            ApplyThemeFonts(source, target);
-
-        }
-
-        /// <summary>
-        /// Apply Theme Sprite Image
-        /// </summary>
-        private void ApplyThemeSpriteImage(string themeName, long companyId)
-        {
-            string themeSpriteImagePath =
-                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/sprite.png");
-            string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/sprite.png");
-            if (File.Exists(directoryPath))
-            {
-                File.Delete(directoryPath);
-            }
-            if (File.Exists(themeSpriteImagePath))
-            {
-                File.Copy(themeSpriteImagePath, directoryPath, true);
-                //  File.WriteAllBytes(directoryPath, File.ReadAllBytes(themeSpriteImagePath));
-            }
-
-        }
-
-        /// <summary>
-        /// Apply Theme Css
-        /// </summary>
-        private void ApplyThemeCss(string themeName, long companyId)
-        {
-            string path =
-                 HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId +
-                                                    "/" + companyId + "/site.css");
-            // Open the file to read from. 
-            if (File.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css")))
-            {
-                string css =
-                  File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/site.css"));
-                //Write CSS
-                if (File.Exists(path))
-                {
-                    File.WriteAllText(path, css);
-                }
-                else
-                {
-                    File.WriteAllText(path, css);
-                }
-
-            }
-        }
-
-        private void ApplyThemeWidgets(string themeName, long companyId)
-        {
-            try
-            {
-                string widgetFilePath =
-                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/widgets.txt");
-                if (File.Exists(widgetFilePath))
-                {
-                    List<WidgetForTheme> widgetForThemes = new List<WidgetForTheme>();
-                    using (StreamReader r = new StreamReader(widgetFilePath))
-                    {
-                        string json = r.ReadToEnd();
-                        widgetForThemes = JsonConvert.DeserializeObject<List<WidgetForTheme>>(json);
-                    }
-
-                    UpdateCmsPageWidgetFromApplyTheme(widgetForThemes, companyId);
-                }
-
-
-            }
-            catch (Exception e)
-            {
-                e.ToString();
-            }
-        }
-
-        private void UpdateCmsPageWidgetFromApplyTheme(List<WidgetForTheme> widgetForThemes, long companyId)
-        {
-            List<CmsPage> cmsPagesDbVersion = cmsPageRepository.GetCmsPagesByCompanyId(companyId);
-
-
-            var pageGroups = from page in widgetForThemes
-                             group page by page.PageName
-                                 into pageGroup
-                                 select pageGroup;
-
-            if (cmsPagesDbVersion != null)
-            {
-                foreach (CmsPage cmsPage in cmsPagesDbVersion)
-                {
-                    cmsPageRepository.Delete(cmsPage);
-                }
-                // cmsPageRepository.SaveChanges();
-            }
-
-            foreach (var group in pageGroups)
-            {
-                CmsPage newCmsPage = new CmsPage();
-                foreach (WidgetForTheme widgetTheme in group)
-                {
-                    newCmsPage.PageId = 0;
-                    newCmsPage.PageName = widgetTheme.PageName;
-                    newCmsPage.CompanyId = companyId;
-                    newCmsPage.OrganisationId = companyRepository.OrganisationId;
-                    if (widgetTheme.WidgetId != null)
-                    {
-                        CmsSkinPageWidget widget = new CmsSkinPageWidget();
-                        widget.WidgetId = widgetTheme.WidgetId;
-                        widget.SkinId = widgetTheme.SkinId;
-                        widget.Sequence = widgetTheme.Sequence;
-                        widget.CompanyId = companyId;
-                        widget.OrganisationId = companyRepository.OrganisationId;
-                        widget.PageId = newCmsPage.PageId;
-                        if (widgetTheme.ParamValue != null)
-                        {
-                            CmsSkinPageWidgetParam cmsSkinPageWidgetParam = new CmsSkinPageWidgetParam();
-                            cmsSkinPageWidgetParam.PageWidgetId = widget.WidgetId;
-                            cmsSkinPageWidgetParam.ParamValue = widgetTheme.ParamValue;
-                            if (widget.CmsSkinPageWidgetParams == null)
-                            {
-                                List<CmsSkinPageWidgetParam> pageWidgetParams = new List<CmsSkinPageWidgetParam>();
-                                widget.CmsSkinPageWidgetParams = pageWidgetParams;
-                            }
-                            widget.CmsSkinPageWidgetParams.Add(cmsSkinPageWidgetParam);
-                        }
-                        if (newCmsPage.CmsSkinPageWidgets == null)
-                        {
-                            List<CmsSkinPageWidget> cmsSkinPageWidgets = new List<CmsSkinPageWidget>();
-                            newCmsPage.CmsSkinPageWidgets = cmsSkinPageWidgets;
-                        }
-                        newCmsPage.CmsSkinPageWidgets.Add(widget);
-                    }
-
-                }
-                cmsPageRepository.Add(newCmsPage);
-            }
-            cmsPageRepository.SaveChanges();
-
-        }
-
-        /// <summary>
-        /// Update Media Library File Path
-        /// </summary>
-        private void AddThemeBanners(string themeName, long companyId)
-        {
-            string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
-            string source =
-                HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
-            Copy(source, target, companyId);
-
-        }
-
-        /// <summary>
-        /// Copy 
-        /// </summary>
-        public void Copy(string sourceDirectory, string targetDirectory, long companyId)
-        {
-            DirectoryInfo diSource = new DirectoryInfo(sourceDirectory);
-            DirectoryInfo diTarget = new DirectoryInfo(targetDirectory);
-
-            CopyThemeBanners(diSource, diTarget, companyId);
-        }
-
-        /// <summary>
-        /// Copy Banners From 
-        /// </summary>
-        public void CopyThemeBanners(DirectoryInfo source, DirectoryInfo target, long companyId)
-        {
-            // Check if the target directory exists; if not, create it.
-            if (Directory.Exists(target.FullName) == false)
-            {
-                Directory.CreateDirectory(target.FullName);
-            }
-
-            List<MediaLibrary> mediaLibraries = new List<MediaLibrary>();
-            // Copy each file into the new directory.
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                MediaLibrary mediaLibrary = new MediaLibrary();
-                mediaLibrary.MediaId = 0;
-                mediaLibrary.FileName = fi.Name;
-                mediaLibrary.FileType = "image/jpeg";
-                mediaLibrary.CompanyId = companyId;
-                mediaLibrary.FilePath = "temp";
-                mediaLibraries.Add(mediaLibrary);
-                mediaLibraryRepository.Add(mediaLibrary);
-            }
-            mediaLibraryRepository.SaveChanges();
-            int i = 0;
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                MediaLibrary mediaLibrary = mediaLibraries[i];
-                i = (i + 1);
-                mediaLibrary.FilePath = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId + "/" + mediaLibrary.MediaId + "_" + fi.Name;
-                fi.CopyTo(Path.Combine(target.FullName, mediaLibrary.MediaId + "_" + fi.Name), true);
-            }
-            mediaLibraryRepository.SaveChanges();
-        }
-
-        /// <summary>
-        /// Apply Theme Fonts
-        /// </summary>
-        private void ApplyThemeFonts(string sourceDirectory, string targetDirectory)
-        {
-            DirectoryInfo source = new DirectoryInfo(sourceDirectory);
-            DirectoryInfo target = new DirectoryInfo(targetDirectory);
-            // Check if the target directory exists; if not, create it.
-            if (Directory.Exists(target.FullName) == false)
-            {
-                Directory.CreateDirectory(target.FullName);
-            }
-
-            // Copy each file into the new directory.
-            foreach (FileInfo fi in source.GetFiles())
-            {
-                fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
-            }
-        }
     }
 }
 

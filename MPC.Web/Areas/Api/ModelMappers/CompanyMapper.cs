@@ -151,7 +151,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WorkflowS2CBytes=workflowbytes,
                 isCalculateTaxByService = source.isCalculateTaxByService,
                 RaveReviews =
-                    source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
                     source.CompanyCMYKColors != null
                         ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
@@ -165,7 +165,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyContacts =
                     source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
                 CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
                 ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,

@@ -176,7 +176,26 @@ define("machine/machine.viewModel",
                             //}
                         }
                     },
-                    
+                    onplateChange = function () {
+                        if (selectedMachine() != undefined && selectedMachine().isplateused()) {
+                            selectedMachine().deFaultPlatesName(null);
+                            selectedMachine().iswashupused(false);
+                            selectedMachine().ismakereadyused(false);
+                            selectedMachine().MakeReadyPrice(0);
+                            selectedMachine().WashupPrice(0);
+                        }
+                    },
+
+                    onismakereadyusedChange = function () {
+                        if (selectedMachine() != undefined && selectedMachine().ismakereadyused()) {
+                            selectedMachine().MakeReadyPrice(0);
+                        }
+                    },
+                     oniswashupusedChange = function () {
+                         if (selectedMachine() != undefined && selectedMachine().iswashupused()) {
+                             selectedMachine().WashupPrice(0);
+                         }
+                     },
 
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
@@ -213,18 +232,10 @@ define("machine/machine.viewModel",
                    
 
                     onPapperSizeStockItemPopup = function () {
-                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        //categoryID(1);
-                        //getStockItemsList();
-                      //  openStockItemDialog("PAP");
-                        openStockItemDialog(36338);
+                        openStockItemDialog(1);//for Paper
                     },
                     onPlateStockItemPopup = function () {
-                        openStockItemDialog(36341);
-                        //openStockItemDialog("INK");
-                        //stockItemgPager(new pagination.Pagination({ PageSize: 5 }, stockItemList, getStockItemsList)),
-                        //categoryID(4);
-                        //getStockItemsList();
+                        openStockItemDialog(4); //for plate
                     },
                     openStockItemDialog = function (stockCategoryId) {
                         stockDialog.show(function (stockItem) {
@@ -328,7 +339,10 @@ define("machine/machine.viewModel",
                     onCloseMachineEditor: onCloseMachineEditor,
                     CloseMachineEditor: CloseMachineEditor,
                     gotoElement: gotoElement,
-                    setValidationSummary: setValidationSummary
+                    setValidationSummary: setValidationSummary,
+                    onplateChange: onplateChange,
+                    onismakereadyusedChange:onismakereadyusedChange,
+                    oniswashupusedChange: oniswashupusedChange
 
                   
                 };
