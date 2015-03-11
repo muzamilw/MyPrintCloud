@@ -156,19 +156,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyCMYKColors != null
                         ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
                         : null,
-                CompanyTerritories =
-                    source.CompanyTerritories != null
-                        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
-                        : null,
-                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                //CompanyTerritories =
+                //    source.CompanyTerritories != null
+                //        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
+                //        : null,
+                //Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyContacts =
-                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                //CompanyContacts =
+                //    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
-                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
+               // CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
+               // ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImage = storeBackgroundImageBytes,
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
