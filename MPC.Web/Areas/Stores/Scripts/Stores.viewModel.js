@@ -2160,7 +2160,7 @@ define("stores/stores.viewModel",
                     edittedCompanyContacts = ko.observableArray([]),
                     newCompanyContacts = ko.observableArray([]),
                     //Company Contact  Pager
-                    companyContactPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Company Contact Search Filter
                     searchCompanyContactFilter = ko.observable(),
                     //Search Company Contact        
@@ -2170,8 +2170,8 @@ define("stores/stores.viewModel",
                                 SearchFilter: searchCompanyContactFilter(),
                                 CompanyId: selectedStore().companyId(),
                                 TerritoryId: contactCompanyTerritoryFilter(),
-                                PageSize: companyContactPager().pageSize(),
-                                PageNo: companyContactPager().currentPage(),
+                                PageSize: contactCompanyPager().pageSize(),
+                                PageNo: contactCompanyPager().currentPage(),
                                 SortBy: sortOn(),
                                 IsAsc: sortIsAsc()
                             }, {
@@ -5198,7 +5198,7 @@ define("stores/stores.viewModel",
                     deletedCompanyContacts: deletedCompanyContacts,
                     edittedCompanyContacts: edittedCompanyContacts,
                     newCompanyContacts: newCompanyContacts,
-                    companyContactPager: companyContactPager,
+                    //contactCompanyPager: contactCompanyPager,
                     searchCompanyContactFilter: searchCompanyContactFilter,
                     searchCompanyContact: searchCompanyContact,
                     companyContactFilterSelected: companyContactFilterSelected,
