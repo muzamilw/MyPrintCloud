@@ -100,9 +100,9 @@ namespace MPC.Interfaces.MISServices
 
         #region exportOrganisation
 
-        void ExportOrganisation(long OrganisationID);
+        bool ExportOrganisation(long OrganisationID);
 
-        void ImportOrganisation(long OrganisationId, string ZipPath, bool isCorpStore);
+        bool ImportOrganisation(long OrganisationId, bool isCorpStore);
         #endregion
     }
 }

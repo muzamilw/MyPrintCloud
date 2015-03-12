@@ -133,5 +133,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return companyService.DeleteCompany(model.CompanyId).CreateFrom();
         }
+
+
+
+
     }
 }

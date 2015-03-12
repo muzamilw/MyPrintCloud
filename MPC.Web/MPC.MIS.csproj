@@ -321,6 +321,7 @@
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
@@ -2988,6 +2989,7 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
