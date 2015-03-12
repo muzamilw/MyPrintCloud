@@ -1,0 +1,135 @@
+﻿@using MPC.Models.Common
+@{
+    var featureProducts = ViewData["FeaturedProducts"] as List<MPC.Models.DomainModels.Item>;
+    var Categories = ViewData["Categories"] as List<MPC.Models.DomainModels.ProductCategory>;
+    var childs = ViewData["childCategory"] as List<MPC.Models.DomainModels.ProductCategory>;
+    string RedirectURL = string.Empty;
+}
+
+<div class="container body-container spacer-top ">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3  sidebar-offcanvas sidebar" id="sidebar-left" role="navigation">
+            <div class="panel panel-info" id="togglemenu_sidebar">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Product Category
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="panel-group" id="accordionmenu">
+                      @foreach (var category in Categories)
+                      {
+                          <div id="parentCatsContainer"   class="panel panel-default">
+                              <div class="panel-heading">
+                                  <a id="ltrlParentCatName"   data-toggle="collapse" data-parent="#accordionmenu">
+                                     @category.CategoryName
+                                  </a>
+                              </div>
+                              <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
+                                  <div class="panel-body">
+                                      <ul class="submenu list-unstyled">
+                                                @foreach (var child in childs)
+                                                {
+                                                    if (child.ParentCategoryId == category.ProductCategoryId)
+                                                    {
+                                                        <li><a id="ltrlSubCatName" href=""><i class="fa fa-play-circle"></i><span>@child.CategoryName</span></a></li>
+                                                    }
+
+                                                }    
+                                      </ul>
+                                  </div>
+                              </div>
+                          </div>
+                      }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3  hidden" id="alternate"></div>
+        <!--/Left Panel-->
+        <!--Center Part-->
+        <div id="middle-content" class="col-xs-12 col-sm-8 col-md-9 col-lg-9 retrohome">
+            <div class="row main-content">
+
+                <div class="col-md-12 col-xs-12">
+                    <div class="page-header">
+                        <h1>FEATURED PRODUCTS</h1>
+                    </div>
+                    <div class="middle_inner_section">
+                        <div class="row" id="home_page">
+                            
+                           @foreach (var feature in featureProducts)
+                           {
+
+                               if (feature.ProductType == (int)ProductType.MarketingBrief)
+                               {
+
+                                   RedirectURL = "/MarketingBrief/" + feature.ProductName + "/" + feature.ItemId;
+
+                               }
+                               else if (feature.ProductType == (int)ProductType.PrintProduct)
+                               {
+                                   if (feature.IsUploadImage == true)
+                                   {
+                                       RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
+                                   }
+                                   else
+                                   {
+
+                                       RedirectURL = "/CloneFeatureItem/" + feature.ItemId;
+                                   }
+
+                               }
+                               else if (feature.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                               {
+                                   RedirectURL = "/ProductOptions/" + 0 + "/" + feature.ItemId + "/UploadDesign";
+                               }
+                            <div class="col-sm-12 col-md-4 product-box">
+                                <div class="hover-box-shadow">
+                                    <p class="text-center">
+                                        <a href="@RedirectURL" class='thumbnail'>
+                                            <img id="imgFP" src="@feature.ThumbnailPath" class="img-responsive" itemprop="image" />
+                                        </a>
+                                    </p>
+                                    <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
+                                    <div class="product-desc">
+                                        <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
+                                        <p id="paraDes">@feature.WebDescription</p>
+                                        <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
+                                    </div>
+                                </div>
+                            </div>
+                           }
+                                    
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3  hidden" id="alternate2"></div>
+    </div>
+</div>
+@section scripts {
+    <script>
+        $(document).ready(function() {
+            sideBarClick(0);
+        });
+
+        function sideBarClick(dataid) {
+            $('.sideMenuItems').each(function() {
+
+                $(this).removeClass('in');
+            });
+            var idOfCatPro = $('a[data-id=' + dataid + ']').attr("id");
+            if ($("#" + idOfCatPro + "").parent().next().hasClass('in')) {
+                $("#" + idOfCatPro + "").parent().next().removeClass('in');
+            } else {
+                $("#" + idOfCatPro + "").parent().next().addClass('in');
+            }
+
+        }
+
+    </script>
+}

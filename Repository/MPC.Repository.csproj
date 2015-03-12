@@ -193,13 +193,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Repositories\CmsSkinPageWidgetRepository.cs" />
+    <Compile Include="Repositories\CmsTagReporistory.cs" />
     <Compile Include="Repositories\ColorPalleteRepository.cs" />
     <Compile Include="Repositories\CompanyBannerRepository.cs" />
     <Compile Include="Repositories\CompanyCMYKColorRepository.cs" />
     <Compile Include="Repositories\CompanyContactRepository.cs" />
     <Compile Include="Repositories\CompanyContactRoleRepository.cs" />
+    <Compile Include="Repositories\CompanyCostCenterRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
+    <Compile Include="Repositories\MediaLibraryRepository.cs" />
     <Compile Include="Repositories\NABTransactionRepository.cs" />
+    <Compile Include="Repositories\NewsLetterSubscriberRepository.cs" />
     <Compile Include="Repositories\ScopeVariableRepository.cs" />
     <Compile Include="Repositories\CompanyDomainRepository.cs" />
     <Compile Include="Repositories\CompanyBannerSetRepository.cs" />

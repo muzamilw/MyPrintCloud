@@ -33,5 +33,13 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+
+         /// <summary>
+        /// Get list of Stock Sub Category for Stock Category Ids
+        /// </summary>
+        public IEnumerable<StockSubCategory> GetStockSubCategoriesByStockCategoryIds(List<long> categoryIds)
+        {
+            return DbSet.Where(subCategory => categoryIds.Contains(subCategory.CategoryId)).ToList();
+        }
     }
 }

@@ -123,7 +123,7 @@ namespace MPC.Repository.Repositories
         }
         public CompanyContact GetContactById(int contactId)
         {
-            return (from c in db.CompanyContacts.Include("CompanyTerritories")
+            return (from c in db.CompanyContacts.Include("CompanyTerritory")
                     where c.ContactId == contactId
                     select c).FirstOrDefault();
           
@@ -1248,6 +1248,10 @@ namespace MPC.Repository.Repositories
             return result;
         }
 
+        public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
+        {
+            return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
+        }
     }
 }
 
