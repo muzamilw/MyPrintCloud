@@ -37,5 +37,10 @@ namespace MPC.MIS.Areas.Orders.Controllers
             return View();
 
         }
+
+        public ActionResult PendingOrders()
+        {
+            return RedirectToAction("Index");
+        }
     }
 }

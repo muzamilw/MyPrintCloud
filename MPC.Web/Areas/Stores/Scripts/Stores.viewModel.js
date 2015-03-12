@@ -2901,10 +2901,6 @@ define("stores/stores.viewModel",
 
                             }
                         }
-                        //Check Is Updating and Parent is Changing
-                        if (COND) {
-
-                        }
                     }
                 },
                 //On Save Product Category
