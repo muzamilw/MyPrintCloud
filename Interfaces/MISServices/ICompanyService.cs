@@ -71,9 +71,9 @@ namespace MPC.Interfaces.MISServices
         IEnumerable<ScopeVariable> GetContactVariableByContactId(long contactId, int scope);
 
         /// <summary>
-        /// Get Field Varibale By Company ID
+        /// Get Field Varibale By Company ID and By Sope Type
         /// </summary>
-        IEnumerable<FieldVariable> GetFieldVariableByCompanyId(long companyId);
+        IEnumerable<FieldVariable> GetFieldVariableByCompanyIdAndScope(long companyId, int scope);
 
 
         /// <summary>
@@ -97,6 +97,11 @@ namespace MPC.Interfaces.MISServices
         /// Apply Theme
         /// </summary>
         void ApplyTheme(string themeName, long companyId);
+
+        /// <summary>
+        /// Get Cms Tags For Cms Page Load Default page keywords
+        /// </summary>
+        string GetCmsTagForCmsPage();
 
         #region exportOrganisation
 

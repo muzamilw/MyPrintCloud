@@ -2079,3 +2079,22 @@ $("#BtnAllowOnlyTxtChange").click(function () {
     g1(D1AO);
     //animatedcollapse.toggle('textPropertPanel');
 });
+$("#optionsRadioYourProfile,#optionRadioOtherProfile").change(function () {
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        $(".otherProfileContainer").css("display", "inline-block");
+        var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+        pcl40_InsertUserData(data);
+    }
+    else {
+        $(".otherProfileContainer").css("display", "none");
+        pcl40_InsertUserData(smartFormData.scopeVariables);
+    }
+});
+
+$("#smartFormSelectUserProfile").change(function () {
+    var data = smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()];
+    pcl40_InsertUserData(data);
+});
+$("#BtnSmartFormSave").click(function () {
+    pcl42();//update designer 
+});

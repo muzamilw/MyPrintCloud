@@ -51,7 +51,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<StockCategory> GetAll()
         {
-            return DbSet.ToList(); ;
+            return DbSet.Where(stockCategory => stockCategory.OrganisationId == OrganisationId || stockCategory.OrganisationId==null).ToList();
         }
         public StockCategoryResponse SearchStockCategory(StockCategoryRequestModel request)
         {

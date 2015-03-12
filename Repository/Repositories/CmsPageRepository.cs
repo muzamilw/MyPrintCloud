@@ -52,14 +52,14 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Get Cms pages for orders
         /// </summary>
-        public IEnumerable<CmsPage> GetCmsPagesForOrders()
+        public IEnumerable<CmsPage> GetCmsPagesForOrders(long companyId)
         {
             try
             {
                 return DbSet.Where(
               cmspage =>
               cmspage.isUserDefined == false && cmspage.OrganisationId == OrganisationId &&
-              cmspage.CompanyId == null).ToList();
+              cmspage.CompanyId == companyId).ToList();
             }
             catch (Exception ex)
             {

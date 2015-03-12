@@ -330,7 +330,19 @@ namespace MPC.Models.ModelMappers
             }
 
             // Update Template
-            target.Template.UpdateTo(source.Template);
+            source.Template.UpdateTo(target.Template);
+            switch (source.IsTemplateDesignMode)
+            {
+                case 1:
+                    target.Template.IsCorporateEditable = true;
+                    break;
+                case 2:
+                    target.Template.IsCorporateEditable = false;
+                    break;
+                default:
+                    target.Template.IsCorporateEditable = null;
+                    break;
+            }
 
             // Update Template Pages
             UpdateTemplatePages(source, target, actions);
@@ -981,6 +993,17 @@ namespace MPC.Models.ModelMappers
             target.IsRealStateProduct = source.IsRealStateProduct;
             target.IsUploadImage = source.IsUploadImage;
             target.IsDigitalDownload = source.IsDigitalDownload;
+            target.printCropMarks = source.printCropMarks;
+            target.drawWaterMarkTxt = source.drawWaterMarkTxt;
+            target.isAddCropMarks = source.isAddCropMarks;
+            target.drawBleedArea = source.drawBleedArea;
+            target.isMultipagePDF = source.isMultipagePDF;
+            target.allowPdfDownload = source.allowPdfDownload;
+            target.allowImageDownload = source.allowImageDownload;
+            target.ItemLength = source.ItemLength;
+            target.ItemWeight = source.ItemWeight;
+            target.ItemHeight = source.ItemHeight;
+            target.ItemWidth = source.ItemWidth;
            
             // Update Images
             UpdateImages(source, target);

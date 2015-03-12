@@ -63,7 +63,8 @@ namespace MPC.Repository.Repositories
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
 		{
-			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1);
+			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1)
+                .OrderBy(costcentre => costcentre.Name).ToList();
 		}
 
 		public bool Delete(long CostCentreID)

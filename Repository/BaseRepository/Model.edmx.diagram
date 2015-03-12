@@ -20,7 +20,6 @@
         <AssociationConnector Association="DomainModels.FK_Company_CmsSkinPageWidget" />
         <AssociationConnector Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsPages" />
         <AssociationConnector Association="DomainModels.FK_tbl_cmsPageWidgets_tbl_cmsWidgets" />
-        <AssociationConnector Association="DomainModels.FK_tbl_cmsSkinPageWidgetParams_tbl_cmsSkinPageWidgets" />
         <AssociationConnector Association="DomainModels.FK_CompanyDomain_Company" />
         <AssociationConnector Association="DomainModels.FK_CompanySet_Company" />
         <AssociationConnector Association="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" />
@@ -177,7 +176,6 @@
         <AssociationConnector Association="DomainModels.FK__Address__StateId__1859E5B1" />
         <AssociationConnector Association="DomainModels.FK__Organisat__Count__16719D3F" />
         <AssociationConnector Association="DomainModels.FK__Organisat__State__157D7906" />
-        <AssociationConnector Association="DomainModels.FK__CmsSkinPa__PageI__194E09EA" />
         <EntityTypeShape EntityType="DomainModels.TemplateColorStyle" Width="1.5" PointX="2.5" PointY="68.75" />
         <AssociationConnector Association="DomainModels.FK_ColorStyles_Products" />
         <EntityTypeShape EntityType="DomainModels.TemplateFont" Width="1.5" PointX="7" PointY="74.375" />
@@ -276,6 +274,21 @@
         <EntityTypeShape EntityType="DomainModels.SaveDesignView" Width="1.5" PointX="39.375" PointY="6.75" />
         <EntityTypeShape EntityType="DomainModels.NewsLetterSubscriber" Width="1.5" PointX="15.5" PointY="79.25" />
         <AssociationConnector Association="DomainModels.FK_tbl_NewsLetterSubscribers_tbl_Contacts" />
+        <AssociationConnector Association="DomainModels.FK_CmsSkinPageWidget_CmsPage" />
+        <AssociationConnector Association="DomainModels.FK_cmsSkinPageWidgetParam_cmsSkinPageWidget" />
+        <EntityTypeShape EntityType="DomainModels.MachineClickChargeLookup" Width="1.5" PointX="29.625" PointY="75" />
+        <EntityTypeShape EntityType="DomainModels.MachineClickChargeZone" Width="1.5" PointX="29.625" PointY="46.25" />
+        <EntityTypeShape EntityType="DomainModels.MachineGuillotineCalc" Width="1.5" PointX="29.625" PointY="63.625" />
+        <EntityTypeShape EntityType="DomainModels.MachineGuilotinePtv" Width="1.5" PointX="5.375" PointY="40" />
+        <EntityTypeShape EntityType="DomainModels.MachineMeterPerHourLookup" Width="1.5" PointX="29.625" PointY="78.125" />
+        <EntityTypeShape EntityType="DomainModels.MachinePerHourLookup" Width="1.5" PointX="29.625" PointY="85.375" />
+        <EntityTypeShape EntityType="DomainModels.MachineSpeedWeightLookup" Width="1.5" PointX="29.625" PointY="67.875" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_clickchargelookup" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_clickchargezone" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_guillotinecalc" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" />
+        <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

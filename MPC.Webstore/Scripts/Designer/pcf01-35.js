@@ -674,6 +674,11 @@ function fu12(mode, title) {
             item.EntityKey.$id = it5;
             it5++;
         }
+        if(IsCalledFrom == 2)
+        {
+            item.originalTextStyles = item.textStyles;
+            item.originalContentString = item.ContentString;
+        }
     });
     $.each(TPOs, function (i, IT) {
         IT.$id = it2;
@@ -2699,4 +2704,61 @@ function pcL29_pcRestore(type) {
 
     }
 
+}
+function pcl42() {
+    StartLoader("Processing template variables.");
+    if (pcl42_Validate()) {
+        c2_v2(); c2_v2();// update template objects 
+        if ($("#optionRadioOtherProfile").is(':checked')) {
+            pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
+        }
+        else {
+            pcl42_updateVariables(smartFormData.scopeVariables);
+        }
+        pcl42_UpdateTO();
+        d5_sub(SP,true);
+        pcl42_svc();// save variables
+    } else
+    {
+        alert("Variable validation failed");
+    }
+    StopLoader();
+}
+function pcl42_updateVariables(data) {
+    
+    $.each(data, function (i, IT) {
+        IT.Value = $("#txtSmart" + IT.VariableId).val();
+    });
+}
+function pcl42_UpdateTO() {
+    $.each(TO, function (i, IT) {
+        $.each(smartFormData.smartFormObjs, function (i, obj) {
+            if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
+            {
+                var variableTag = obj.FieldVariable.VariableTag;
+                if (IT.originalContentString.indexOf(variableTag) != -1)
+                {
+                    IT.ContentString = IT.originalContentString;
+                    IT.textStyles = IT.originalTextStyles;
+                }
+            }
+        });
+    });
+
+    $.each(TO, function (i, IT) {
+        $.each(smartFormData.smartFormObjs, function (i, obj) {
+            if (obj.ObjectType == 3)  // replacing variables
+            {
+                var variableTag = obj.FieldVariable.VariableTag;
+                while (IT.ContentString.indexOf(variableTag) != -1)
+                    IT.ContentString = IT.ContentString.replace(variableTag, $("#txtSmart" + obj.VariableId).val())
+            }
+        });
+    });
+
+}
+
+function pcl42_Validate() {
+    alert("validate variables");
+    return true;
 }

@@ -17,10 +17,10 @@ namespace MPC.Theming.Controllers
     {
         #region Public
         // GET api/values
-        public ArrayList Get()
+        public ArrayList GetThemesByOrganisationId(long organisationId)
         {
             string connectionString = ConfigurationManager.AppSettings["connectionString"];
-            string queryString = "Select * From Skin";
+            string queryString = "Select * From Skin Where (OrganisationId=" + organisationId + " or OrganisationId is null)";
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 // Create the Command and Parameter objects.
@@ -60,6 +60,7 @@ namespace MPC.Theming.Controllers
         [HttpGet]
         public HttpResponseMessage ApplyTheme([FromUri] string fullZipPath)
         {
+            fullZipPath = "http://themes.myprintcloud.com/mpc_themes/classic.zip";
             HttpResponseMessage result = null;
             if (File.Exists(fullZipPath))
             {

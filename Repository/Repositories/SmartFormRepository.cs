@@ -174,10 +174,11 @@ namespace MPC.Repository.Repositories
             List<SmartFormUserList> objUsers = null;
             if (currentContact != null)
             {
-                objUsers = new List<SmartFormUserList>();
+               
                 List<CompanyContact> contacts = new List<CompanyContact>();
                 if (currentContact.ContactRoleId == (int)Roles.Adminstrator)
                 {
+
                     contacts = (from c in db.CompanyContacts//.Include("tbl_ContactCompanyTerritories").Include("tbl_ContactDepartments")
                                 where c.CompanyId == currentContact.CompanyId
                                 select c).ToList();
@@ -186,8 +187,13 @@ namespace MPC.Repository.Repositories
                 {
                     contacts = db.CompanyContacts.Where(i => i.TerritoryId == currentContact.TerritoryId).ToList();
                 }
+                else
+                {
+                 //   contacts.Add(currentContact);
+                }
                 if (contacts.Count > 0)
                 {
+                    objUsers = new List<SmartFormUserList>();
                     foreach (var contact in contacts)
                     {
                         SmartFormUserList objUser = new SmartFormUserList(contact.ContactId, (contact.FirstName + contact.LastName));
@@ -203,7 +209,8 @@ namespace MPC.Repository.Repositories
             db.Configuration.ProxyCreationEnabled = false;
 
             SmartForm smartFormObj =  db.SmartForms.Where(g => g.SmartFormId == smartFormId).SingleOrDefault();
-            smartFormObj.SmartFormDetails = null;
+            if(smartFormObj != null)
+             smartFormObj.SmartFormDetails = null;
             return smartFormObj;
         }
 
@@ -212,8 +219,9 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
 
-            List<SmartFormDetail> objs =  db.SmartFormDetails.Include("FieldVariable").Where(g => g.SmartFormId == smartFormId).ToList();
+            List<SmartFormDetail> objs = db.SmartFormDetails.Include("FieldVariable.VariableOptions").Where(g => g.SmartFormId == smartFormId).OrderBy(g => g.SortOrder).ToList();
             foreach (var obj in objs) { obj.SmartForm = null; };
+            
             return objs;
         }
 
@@ -221,14 +229,14 @@ namespace MPC.Repository.Repositories
         {
             List<ScopeVariable> result = new List<ScopeVariable>();
             hasContactVariables = false;
-
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
             foreach(SmartFormDetail obj in smartFormDetails)
             {
                 if(obj.ObjectType == (int)SmartFormDetailFieldType.VariableField)
                 {
-                    if(obj.FieldVariable.IsSystem == true)
+                    if(obj.FieldVariable.IsSystem.HasValue && obj.FieldVariable.IsSystem.Value == true)
                     {
-                        var contact = db.CompanyContacts.Where(g=>g.ContactId == contactId).SingleOrDefault();
+                        
                         var fieldValue = "";
                         if (contact != null)
                         {
@@ -359,15 +367,15 @@ namespace MPC.Repository.Repositories
                                     //childType = "conAgent";
                                     //listingConAgentCount++;
                                     break;
-                                case "tbl_contacts":
+                                case "CompanyContact":
                                     hasContactVariables = true;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contactId);
                                     break;
-                                case "tbl_contactcompanies":
+                                case "Company":
                                     //   keyValue = SessionParameters.ContactCompany.ContactCompanyID;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.CompanyId);
                                     break;
-                                case "tbl_addresses":
+                                case "Address":
                                     //  keyValue = SessionParameters.CustomerContact.AddressID;
                                     fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
                                     break;
@@ -383,7 +391,16 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-
+                        //if(obj.FieldVariable != null )
+                        //{
+                        //    if(obj.FieldVariable.VariableType == 1)
+                        //    {
+                        //        //dropdown
+                        //    }else if(obj.FieldVariable.VariableType == 2)
+                        //    {
+                        //        // imput
+                        //    }
+                        //}
                         if (obj.FieldVariable != null && obj.FieldVariable.Scope.HasValue)
                         {
                             int scope = obj.FieldVariable.Scope.Value;
@@ -418,7 +435,7 @@ namespace MPC.Repository.Repositories
                             }
                             else if (scope == (int)FieldVariableScopeType.Territory)
                             {
-                                var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                               // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
                                 if (contact != null)
                                 {
                                     var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
@@ -470,6 +487,18 @@ namespace MPC.Repository.Repositories
             System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
             oResult = result.FirstOrDefault();
             return oResult;
+        }
+        
+
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts) {
+            bool hasContactVariables = false;
+            Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+            foreach(var contact in contacts)
+            {
+                List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                UserScopeVariables.Add(contact.ContactId, variables);
+            }
+            return UserScopeVariables;
         }
         #endregion
     }

@@ -51,35 +51,31 @@
     }
     
 </style>
-<div class="row">
-    <div>
-        <form method="post" enctype="multipart/form-data" id="prefixForm">
-        <div class="col-lg-12">
+<div class="row" id="divlookupMethodBinding">
+       <div class="col-lg-12" data-bind="visible: !isEditorVisible()">
             <div class="row">
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index">Settings</a></li>
                         <li>Home</li>
-                       
+
                         <li class="active"><span>Lookup Methods</span></li>
                     </ol>
                     <div class="clearfix">
                         <h1 class="pull-left">Machine Lookup Methods</h1>
                         <div>
                             <table id="table">
-                                <tbody>
-                                   
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
 
- <div class="row" id="prefixesdata" style="float:right;">
-               <div class="input-group">
-                   <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Save</button>
-                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
+            <div class="row" id="prefixesdata" style="float:right;">
+                <div class="input-group">
+                    <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Save</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="#">Click Charge</a></li>
                         <li><a href="#">Speed Weight</a></li>
@@ -88,126 +84,124 @@
                         <li><a href="#">Guillotine Click Charge</a></li>
                         <li><a href="#">Meter Per Hour Meter Charge</a></li>
                     </ul>
-                   &nbsp;&nbsp;&nbsp;
-                   <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Delete Lookup</button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Delete Lookup</button>
                 </div>
-                </div>
-                <div class="col-lg-12 main-box clearfix">
-                    <div class="main-box-body">
-                        <div class="col-lg-12 form-horizontal" style="padding-top:40px;padding-bottom:40px;">
-                            <div class="col-md-3" style="width:auto;">
+            </div>
+            <div class="col-lg-12 main-box clearfix">
+                <div class="main-box-body">
+                    <div class="col-lg-12 form-horizontal" style="padding-top:40px;padding-bottom:40px;">
+                        <div class="col-md-3" style="width:auto;">
 
-                                @*Div For TreeView*@
-                                <div style="display:inline;position:relative;">
-                                   <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewClickCharge">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Click Charge</div>
-                                           <ol class="dd-list" id="treeviewClickCharge">
-                                               <li class="dd-item dd-item-list">
-                                                   <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                   <div class="dd-handle">Click Charge Lookup</div>
-                                               </li>
-                                           </ol>
-                                        </li>
-                                    </ol>
+                            @*Div For TreeView*@
+                            <div style="display:inline;position:relative;">
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewClickCharge">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Click Charge</div>
+                                        <ol class="dd-list" id="treeviewClickCharge">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Click Charge Lookup</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
 
-                                    <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewSpeedWeight">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Speed Weight</div>
-                                            <ol class="dd-list" id="treeviewSpeedWeight">
-                                                <li class="dd-item dd-item-list">
-                                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                    <div class="dd-handle">Speed Weight Lookup</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewSpeedWeight">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Speed Weight</div>
+                                        <ol class="dd-list" id="treeviewSpeedWeight">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Speed Weight Lookup</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
 
-                                    <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewPerHour">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Per Hour</div>
-                                            <ol class="dd-list" id="treeviewPerHour">
-                                                <li class="dd-item dd-item-list">
-                                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                    <div class="dd-handle">Click Charge Zone 2</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-
-
-                                    <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewClickChargeZone">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Click Charge Zones</div>
-                                            <ol class="dd-list" id="treeviewClickChargeZone">
-                                                <li class="dd-item dd-item-list">
-                                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                    <div class="dd-handle">Konica Zone</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewPerHour">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Per Hour</div>
+                                        <ol class="dd-list" id="treeviewPerHour">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Click Charge Zone 2</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
 
 
-                                    <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewGuillotine">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Guillotine Click Charge</div>
-                                            <ol class="dd-list" id="treeviewGuillotine">
-                                                <li class="dd-item dd-item-list">
-                                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                    <div class="dd-handle">Guillotine LookUp</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-                                       
-                                    <ol class="dd-list">
-                                       <li class="dd-item dd-item-list" id="treeviewMeterCharge">
-                                            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                            <div class="dd-handle">Meter Per Hour Meter Charge</div>
-                                            <ol class="dd-list" id="treeviewMeterCharge">
-                                                <li class="dd-item dd-item-list">
-                                                    <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-                                                    <div class="dd-handle">Meter Per Hour</div>
-                                                </li>
-                                            </ol>
-                                        </li>
-                                    </ol>
-                                   </div>
-                            </div>     
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewClickChargeZone">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Click Charge Zones</div>
+                                        <ol class="dd-list" id="treeviewClickChargeZone">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Konica Zone</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
 
-                            <div style="display:inline;margin-left:10px;width:73% !important;" class="col-md-8">
-                                <div class="treeviewClickCharge-partial">
-                                    @Html.Partial("_ClickChargeLookUp")
-                                </div>
-                                <div class="treeviewSpeedWeight-partial">
-                                    @Html.Partial("_SpeedWeight")
-                                </div>
-                                <div class="treeviewPerHour-partial">
-                                    @Html.Partial("_PerHour")
-                                </div>
-                                <div class="treeviewMeterCharge-partial">
-                                    @Html.Partial("_MeterPerHour")
-                                </div>
-                                <div class="treeviewGuillotine-partial">
-                                    @Html.Partial("_GuillotineClickCharge")
-                                </div>
-                                <div class="treeviewClickChargeZone-partial">
-                                    @Html.Partial("_ClickChargeZone")
-                                </div>
-                            </div> 
+
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewGuillotine">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Guillotine Click Charge</div>
+                                        <ol class="dd-list" id="treeviewGuillotine">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Guillotine LookUp</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+
+                                <ol class="dd-list">
+                                    <li class="dd-item dd-item-list" id="treeviewMeterCharge">
+                                        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                        <div class="dd-handle">Meter Per Hour Meter Charge</div>
+                                        <ol class="dd-list" id="treeviewMeterCharge">
+                                            <li class="dd-item dd-item-list">
+                                                <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+                                                <div class="dd-handle">Meter Per Hour</div>
+                                            </li>
+                                        </ol>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div style="display:inline;margin-left:10px;width:73% !important;" class="col-md-8">
+                            <div class="treeviewClickCharge-partial">
+                                @Html.Partial("_ClickChargeLookUp")
+                            </div>
+                            <div class="treeviewSpeedWeight-partial">
+                                @Html.Partial("_SpeedWeight")
+                            </div>
+                            <div class="treeviewPerHour-partial">
+                                @Html.Partial("_PerHour")
+                            </div>
+                            <div class="treeviewMeterCharge-partial">
+                                @Html.Partial("_MeterPerHour")
+                            </div>
+                            <div class="treeviewGuillotine-partial">
+                                @Html.Partial("_GuillotineClickCharge")
+                            </div>
+                            <div class="treeviewClickChargeZone-partial">
+                                @Html.Partial("_ClickChargeZone")
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        
-    </div>
-    
+        </div>
+
 </div>
 @section Scripts{
     <script>
