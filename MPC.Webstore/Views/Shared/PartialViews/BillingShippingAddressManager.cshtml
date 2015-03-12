@@ -1,6 +1,6 @@
 ﻿@{
 
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 15);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 7);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
@@ -18,11 +18,11 @@
                 <div class="float_left">
                     @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New Address" runat="server"
                     ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
-                    <img id="imgAddNew" class=" add_new" src="~/images/AddNew.png" />
+                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" />
                 </div>
                 <div class="new_caption">
                     @*<asp:Literal ID="ltrlnewShippingAddress" runat="server" Text="New Shipping Address"></asp:Literal>*@
-                    <label id="ltrlnewShippingAddress" onclick="ResetTextboxes()">New Shipping Address</label>
+                    <label id="ltrlnewShippingAddress" onclick="ResetTextboxes()">New Billing & Shipping Address</label>
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -50,12 +50,13 @@
                             OnClick="btnsearch_Click" />*@
                             <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5">Go</button>
                         </td>
-                          }
+                          
                         <td style="padding-left: 10px;">
                             @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
                             OnClick="btnReset_Click" />*@
                             <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5">Clear</button>
                         </td>
+                        }
                     </tr>
                 </table>
             </div>
@@ -118,13 +119,30 @@
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
     headerStyle: "normalTextStyle territory_row_padding_header",
-    rowStyle: "territory_row_padding",
-    alternatingRowStyle: "territory_row_padding",
+             rowStyle: "territory_row_padding GridLineHeight",
+             alternatingRowStyle: "territory_row_padding GridLineHeight",
     columns: new[] {
 
-    grid.Column(format:@<a onclick="ShowBillingShippingDetails(@item.AddressId)">@item.AddressName</a>,style: "address_title_corp_div"),
-    grid.Column(format:@<a onclick="ShowBillingShippingDetails(@item.AddressId)">@item.Address1</a>,style: "address_detil_corp_div"),
-    grid.Column(format:@<a onclick="ShowBillingShippingDetails(@item.AddressId)">@item.Tel1</a>,style: "main_contact_corp_div"),
+    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">@item.AddressName</label>,style: "address_title_corp_div gridfontStyle"),
+    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">@item.Address1</label>,style: "address_detil_corp_div gridfontStyle"),
+    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">
+    @if (item.IsDefaultAddress == null)
+    {
+        <label class="PaddingTop">No</label>
+
+    }
+    else
+    {
+        if (item.IsDefaultAddress == true)
+        {
+            <label class="PaddingTop">Yes</label>
+        }
+        else
+        {
+            <label class="PaddingTop">Yes</label>
+        }
+    }
+</label>,style: "main_contact_corp_div gridfontStyle"),
 
     })
                     </div>
@@ -136,9 +154,9 @@
                 <div class="float_right"></div>
                 <div class="clearBoth">
                 </div>
-                <div class="border_bottom_line">
+                @*<div class="border_bottom_line">
                     &nbsp;
-                </div>
+                </div>*@
 
             </div>
             @*<div id="PnlPagerControl" class="Width100Percent" runat="server">
@@ -342,7 +360,7 @@
 
             <input type="submit"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="AddAndUpdate()">
 
-            <input type="submit"  value="Cancel"   id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;">
+            <input value="Cancel" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction()">
         </div>
         <div class="clearBoth">
             
@@ -352,413 +370,412 @@
         
         <script type="text/javascript">
 
-                var AdRessID;
-                var CountryID;
-                var StateID;
-                var UpdateStatus = true;
-                //var CompanyID;
-                //alert(CompanyID+'companyID');
-                function AddAndUpdate()
-                {
-                    if (UpdateStatus == true) {
-                        alert(UpdateStatus + 'onupdate');
-                        UpdateAddress();
+    var AdRessID;
+    var CountryID;
+    var StateID;
+    var UpdateStatus = true;
+    //var CompanyID;
+    //alert(CompanyID+'companyID');
+    function AddAndUpdate() {
+        if (UpdateStatus == true) {
+            
+            UpdateAddress();
+        }
+        else {
+            
+            AddNewAddress();
+        }
+    }
+
+    function SearchAddress() {
+        var SeearchString = $("#txtsearch").val();
+        
+        Search(SeearchString);
+    }
+
+    function Search(SearchText) {
+        var data = { SearchedText: SearchText }
+        $.ajax({
+            type: "POST",
+            url: "/BillingShippingAddressManager/Index",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+            }
+           
+        });
+    }
+    function ShowBillingShippingDetails(AddressID) {
+        ShowLoader();
+        UpdateStatus = true;
+        AdRessID = AddressID;
+        var data = { AddressId: AddressID }
+        $.ajax({
+            type: "GET",
+            url: "/webstoreapi/CostCenter/FillAddresses",
+            contentType: "application/json",
+            data: data,
+            async: true,
+            success: function (response) {
+                var PHtml = $("#UpdateModelPopUp").html();
+
+                ShippingBillingDetails("", PHtml);
+
+                $("#txtAddressName").val(response.Address.AddressName);
+                $("#txtFAO").val(response.Address.FAO);
+                $('#txtAddress1').val(response.Address.Address1);
+                $("#txtReference").val(response.Address.Reference);
+                $("#txtAddress2").val(response.Address.Address2);
+                $("#txtTel1").val(response.Address.Tel1);
+                $("#txtExt1").val(response.Address.Extension1);
+                $("#txtAddress3").val(response.Address.Address3);
+                $("#txtTel2").val(response.Address.Tel2);
+                $("#txtExt2").val(response.Address.Extension2);
+                $("#txtCity").val(response.Address.City);
+                $("#txtFax").val(response.Address.Fax);
+                $("#txtLatitude").val(response.Address.GeoLatitude);
+                $("#txtLongitude").val(response.Address.GeoLongitude);
+                $("#txtPostalCode").val(response.Address.PostCode);
+                StateID = response.StateId;
+                CountryID = response.CountryId;
+                LoadCountries();
+                LoadStates();
+
+            }
+        });
+
+    }
+
+    function LoadCountries() {
+        $.ajax({
+            type: "GET",
+            url: "/BillingShippingAddressManager/LoadCountriesList",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var CountriesDD = $("#DDCountry");
+                CountriesDD.html('');
+                CountriesDD.append($('<option></option>').val(0).html('Select Country'));
+                $.each(response.Country, function (id, option) {
+
+                    CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
+                });
+                if (UpdateStatus == true) {
+                    if (CountryID > 0) {
+
+                        SetSelectedCountry(response.Country, CountryID);
                     }
                     else {
-                        alert(UpdateStatus + 'On new');
-                        AddNewAddress();
+
+                        $("#DDCountry")[0].selectedIndex = 0;
                     }
                 }
+                else { $("#DDCountry")[0].selectedIndex = 0; }
+            }
+        });
+    }
+    function LoadStates() {
+        if (UpdateStatus == true) {
 
-                function SearchAddress()
-                {
-                    var SeearchString = $("#txtsearch").val();
-                    alert(SeearchString);
-                    Search(SeearchString);
-                }
+            if (StateID > 0) {
 
-                function Search(SearchText) {
-                    var data ={ SearchedText: SearchText }
-                    $.ajax({
-                        type: "POST",
-                        url: "/BillingShippingAddressManager/Index",
-                        contentType: "application/json",
-                        data: JSON.stringify(data),
-                        async: true,
-                        success: function (response) {
-                        }
-                    });
-                }
-                function ShowBillingShippingDetails(AddressID)
-                {
-                    UpdateStatus = true;
-                    AdRessID= AddressID;
-                    var data ={ AddressId: AddressID }
-                    $.ajax({
-                        type: "GET",
-                        url: "/webstoreapi/CostCenter/FillAddresses",
-                        contentType: "application/json",
-                        data: data,
-                        async: true,
-                        success: function (response) {
-                            var PHtml = $("#UpdateModelPopUp").html();
-
-                            ShippingBillingDetails("", PHtml);
-
-                            $("#txtAddressName").val(response.Address.AddressName);
-                            $("#txtFAO").val(response.Address.FAO);
-                            $('#txtAddress1').val(response.Address.Address1);
-                            $("#txtReference").val(response.Address.Reference);
-                            $("#txtAddress2").val(response.Address.Address2);
-                            $("#txtTel1").val(response.Address.Tel1);
-                            $("#txtExt1").val(response.Address.Extension1);
-                            $("#txtAddress3").val(response.Address.Address3);
-                            $("#txtTel2").val(response.Address.Tel2);
-                            $("#txtExt2").val(response.Address.Extension2);
-                            $("#txtCity").val(response.Address.City);
-                            $("#txtFax").val(response.Address.Fax);
-                            $("#txtLatitude").val(response.Address.GeoLatitude);
-                            $("#txtLongitude").val(response.Address.GeoLongitude);
-                            $("#txtPostalCode").val(response.Address.PostCode);
-
-                            StateID = response.StateId;
-                            CountryID = response.CountryId;
-
-                            LoadCountries();
-                           
-                            LoadStates();
-
-                            alert('stateid' + StateID + ' CountryID ' + CountryID);
-                        }
-                    });
-
-                }
-
-                function LoadCountries()
-                {
-                    $.ajax({
-                        type: "GET",
-                        url: "/BillingShippingAddressManager/LoadCountriesList",
-                        contentType: "application/json",
-                        async: true,
-                        success: function (response) {
-                            var CountriesDD = $("#DDCountry");
-                            CountriesDD.html('');
-                            CountriesDD.append($('<option></option>').val(0).html('Select Country'));
-                            $.each(response.Country, function (id, option) {
-                           
-                                CountriesDD.append($('<option></option>').val(option.CountryId).html(option.CountryName));
-                            });
-                            if (UpdateStatus == true) {
-                                if (CountryID > 0) {
-
-                                    SetSelectedCountry(response.Country, CountryID);
-                                }
-                                else {
-
-                                    $("#DDCountry")[0].selectedIndex = 0;
-                                }
-                            }
-                            else { $("#DDCountry")[0].selectedIndex = 0; }
-                        }
-                    });
-                }
-                function LoadStates()
-                {
-                            if (UpdateStatus == true) {
-
-                                if (StateID > 0) {
-
-                                    if (CountryID > 0)
-                                    {
-                                        alert(CountryID + '  ' + StateID);
-                                        LoadCountryStatesOnLoad(CountryID);
-                                    }
-                                }
-                                else {
-                                    LoadAllStates();
-                                    $("#DDSate")[0].selectedIndex = 0;
-                                }
-                            }
-                            else {
-                                alert(UpdateStatus);
-                                  LoadAllStates();
-                                  $("#DDSate")[0].selectedIndex = 0;
-                            }
-                        }
-                
-                function loadCountryStates(CountryID)
-                {
-                    var data ={CountryId: CountryID}
-                    $.ajax({
-                        type: "GET",
-                        url: "/BillingShippingAddressManager/LoadStatesByCountryID",
-                        contentType: "application/json",
-                        data: data,
-                        async: true,
-                        success: function (response) {
-                            obj = response.State;
-                            alert(obj + 'in sucess fun');
-                            var StatesDD = $("#DDSate");
-                            StatesDD.html('');
-                            //StatesDD.append($('<option></option>').val(0).html('Select State'));
-                            $.each(response.State, function (id, option) {
-                                alert(response.State + 'me');
-                                StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
-
-                            });
-                        }
-                    });
+                if (CountryID > 0) {
                    
+                    LoadCountryStatesOnLoad(CountryID);
                 }
-                function ResetTextboxes()
-                {
-                    UpdateStatus = false;
-                    var PHtml = $("#UpdateModelPopUp").html();
-                    ShippingBillingDetails("", PHtml);
-
-                    $("#txtAddressName").val('');
-                    $("#txtFAO").val('');
-                    $('#txtAddress1').val('');
-                    $("#txtReference").val('');
-                    $("#txtAddress2").val('');
-                    $("#txtTel1").val('');
-                    $("#txtExt1").val('');
-                    $("#txtAddress3").val('');
-                    $("#txtTel2").val('');
-                    $("#txtExt2").val('');
-                    $("#txtCity").val('');
-                    $("#txtFax").val('');
-                    $("#txtLatitude").val('');
-                    $("#txtLongitude").val('');
-                    $("#txtPostalCode").val('');
-                    $("#DDSate").val('');
-                    $("#DDCountry").val('');
-                    $("#TerritoryDD").val('');
-                    LoadCountries();
-                    LoadStates();
-                }
-
-                function AddNewAddress()
-                {
-
-                    //    public long AddressId { get; set; }
-                    //    public long? CompanyId { get; set; }
-                    //    public string AddressName { get; set; }
-                    //public string Address1 { get; set; }
-                    //public string Address2 { get; set; }
-                    //public string Address3 { get; set; }
-                    //public string City { get; set; }
-                    //public long? StateId { get; set; }
-                    //public long? CountryId { get; set; }
-                    //public string PostCode { get; set; }
-                    //public string Fax { get; set; }
-                    //public string Email { get; set; }
-                    //public string URL { get; set; }
-                    //public string Tel1 { get; set; }
-                    //public string Tel2 { get; set; }
-                    //public string Extension1 { get; set; }
-                    //public string Extension2 { get; set; }
-                    //public string Reference { get; set; }
-                    //public string FAO { get; set; }
-                    //public bool? IsDefaultAddress { get; set; }
-                    //public bool? IsDefaultShippingAddress { get; set; }
-                    //public bool? isArchived { get; set; }
-                    //public long? TerritoryId { get; set; }
-                    //public string GeoLatitude { get; set; }
-                    //public string GeoLongitude { get; set; }
-                    //public bool? isPrivate { get; set; }
-                    //public long? ContactId { get; set; }
-                    //public bool? isDefaultTerrorityBilling { get; set; }
-                    //public bool? isDefaultTerrorityShipping { get; set; }
-                    //public long? OrganisationId { get; set; }
-                
-                    //public bool? DisplayOnContactUs { get; set; }
-                    if (UpdateStatus == true) {
-                        var PHtml = $("#UpdateModelPopUp").html();
-                        ShippingBillingDetails("", PHtml);
-                    }
-                    var AddressName=  $("#txtAddressName").val();
-                    var FAO= $("#txtFAO").val();
-                    var Address1 = $('#txtAddress1').val();
-                    var Reference = $("#txtReference").val();
-                    var  Address2 =$("#txtAddress2").val();
-                    var  Tel1 =$("#txtTel1").val();
-                    var  Extension1 = $("#txtExt1").val();
-                    var  Address3= $("#txtAddress3").val();
-                    var  Tel2  =$("#txtTel2").val();
-                    var  Extension2  =$("#txtExt2").val();
-                    var  City=  $("#txtCity").val();
-                    var Fax  = $("#txtFax").val();
-                    var GeoLatitude=$("#txtLatitude").val();
-                    var GeoLongitude=$("#txtLongitude").val();
-                    var PostCode=$("#txtPostalCode").val();
-                    var StateId = $("#DDSate").val();
-                    var CountryId = $("#DDCountry").val();
-                    var TerritoryId=$("#TerritoryDD").val();
-                   // var CountryName = $("#DDCountry option:selected").text();
-                   // var StateName = $("#DDSate option:selected").text();
-                    //if (CountryName == null) {
-                    //    CountryName = '';
-                    //}
-
-                    //if (StateName == null) {
-                    //    StateName = '';
-                    //}
-
-                    var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId };
-                    $.ajax({
-                        type: "POST",
-                        url: "/BillingShippingAddressManager/AddNewAddress",
-                        contentType: "application/json",
-                        data:JSON.stringify(data),
-                        async: true,
-                        success: function (response) {
-                            HideLoader();
-                        }
-                    });
-                }
-                function UpdateAddress()
-                {
-                    //var PHtml = $("#UpdateModelPopUp").html();
-                    //ShippingBillingDetails("", PHtml);
-                    var AddressName=  $("#txtAddressName").val();
-                    var FAO= $("#txtFAO").val();
-                    var Address1 = $('#txtAddress1').val();
-                    var Reference = $("#txtReference").val();
-                    var  Address2 =$("#txtAddress2").val();
-                    var  Tel1 =$("#txtTel1").val();
-                    var  Extension1=$("#txtExt1").val();
-                    var  Address3=$("#txtAddress3").val();
-                    var  Tel2=$("#txtTel2").val();
-                    var  Extension2=$("#txtExt2").val();
-                    var  City=$("#txtCity").val();
-                    var Fax  = $("#txtFax").val();
-                    var GeoLatitude=$("#txtLatitude").val();
-                    var GeoLongitude=$("#txtLongitude").val();
-                    var PostCode=$("#txtPostalCode").val();
-                    var StateId = $("#DDSate").val();
-                    var CountryId = $("#DDCountry").val();
-                    var TerritoryId=$("#TerritoryDD").val();
-                    //var CountryName = $("#DDCountry option:selected").text();
-                    //var StateName = $("#DDSate option:selected").text();
-                    //if (CountryName == null)
-                    //{
-                    //    CountryName ='';
-                    //}
-                    
-                    //if (StateName == null)
-                    //{
-                    //    StateName = '';
-                    //}
-                    
-                    var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId, AddressId: AdRessID, TerritoryId: TerritoryId };
-                    $.ajax({
-                        type: "POST",
-                        url: "/BillingShippingAddressManager/UpdateAddress",
-                        contentType:"application/json",
-                        data:JSON.stringify(data),
-                        async: true,
-                        success: function (response) {
-
-                            HideLoader();
-                        }
-                    });
-                }
-                function SetSelectedCountry(obj,countryid)
-                {
-                    var index = 1;
-                    $.each(obj, function (id, option) {
-                        if (option.CountryId == countryid) {
-                       
-                            $("#DDCountry")[0].selectedIndex = index;
-                        }
-                        index++;
-                    });
-                }
-                function SetSelectedState(obj,stateId)
-                {
-                    alert(stateId+'zohaib');
-                    var index = 0;
-                    $.each(obj, function (id, option) {
-                        if (option.StateId == stateId) {
-
-                            alert(option.StateId+'loppsatedid');
-                            $("#DDSate")[0].selectedIndex = index;
-                        }
-                        index++;
-                    });
-                }
-
-                function SetStateSelection()
-                {
-                       var obj= loadCountryStates(CountryID);
-                       SetSelectedState(obj, StateID);
-
-                       if (UpdateStatus == true) {
-                           if (StateID > 0) {
-
-                               SetSelectedState(response.State, StateID);
-                           }
-                           else {
-
-                               $("#DDSate")[0].selectedIndex = 0;
-                           }
-                       }
-                       else { $("#DDSate")[0].selectedIndex = 0; 
-                       }
-                }
-
-                function LoadCountryStatesOnLoad(CountryID)
-                {
-                    var data = { CountryId: CountryID }
-                    $.ajax({
-                        type: "GET",
-                        url: "/BillingShippingAddressManager/LoadStatesByCountryID",
-                        contentType: "application/json",
-                        data: data,
-                        async: true,
-                        success: function (response) {
-                            
-                            var StatesDD = $("#DDSate");
-                            StatesDD.html('');
-                            //StatesDD.append($('<option></option>').val(0).html('Select State'));
-                            $.each(response.State, function (id, option) {
-                                
-                                StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
-
-                            });
-                            alert('afet foreach');
-                            SetSelectedState(response.State, StateID);
-                        }
-                    });
-
-                }
-                function LoadAllStates()
-                {
-                    $.ajax({
-                        type: "GET",
-                        url: "/BillingShippingAddressManager/LoadAllStates",
-                        contentType: "application/json",
-                        async: true,
-                        success: function (response) {
-                            var States = $("#DDSate");
-                            States.html('');
-                            States.append($('<option></option>').val(0).html('Select State'));
-                            $.each(response.State, function (id, option) {
-                                States.append($('<option></option>').val(option.StateId).html(option.StateName));
-                            });
-                        }
-                        });
-
-                }
-                $(document).on('change', '#DDCountry', function () {
-                    var CountryID = $(this).val();
-                   
-                    if (CountryID > 0) {
-                        alert(CountryID);
-                        loadCountryStates(CountryID);
-                    }
-                });
+            }
+            else {
+                LoadAllStates();
+                $("#DDSate")[0].selectedIndex = 0;
+            }
+        }
+        else {
             
+            LoadAllStates();
+            $("#DDSate")[0].selectedIndex = 0;
+        }
+    }
+
+    function loadCountryStates(CountryID) {
+        var data = { CountryId: CountryID }
+        $.ajax({
+            type: "GET",
+            url: "/BillingShippingAddressManager/LoadStatesByCountryID",
+            contentType: "application/json",
+            data: data,
+            async: true,
+            success: function (response) {
+                obj = response.State;
+               
+                var StatesDD = $("#DDSate");
+                StatesDD.html('');
+                //StatesDD.append($('<option></option>').val(0).html('Select State'));
+                $.each(response.State, function (id, option) {
+                   
+                    StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
+
+                });
+            }
+        });
+
+    }
+    function ResetTextboxes() {
+        UpdateStatus = false;
+        var PHtml = $("#UpdateModelPopUp").html();
+        ShippingBillingDetails("", PHtml);
+
+        $("#txtAddressName").val('');
+        $("#txtFAO").val('');
+        $('#txtAddress1').val('');
+        $("#txtReference").val('');
+        $("#txtAddress2").val('');
+        $("#txtTel1").val('');
+        $("#txtExt1").val('');
+        $("#txtAddress3").val('');
+        $("#txtTel2").val('');
+        $("#txtExt2").val('');
+        $("#txtCity").val('');
+        $("#txtFax").val('');
+        $("#txtLatitude").val('');
+        $("#txtLongitude").val('');
+        $("#txtPostalCode").val('');
+        $("#DDSate").val('');
+        $("#DDCountry").val('');
+        $("#TerritoryDD").val('');
+        LoadCountries();
+        LoadStates();
+    }
+
+    function AddNewAddress() {
+
+        //    public long AddressId { get; set; }
+        //    public long? CompanyId { get; set; }
+        //    public string AddressName { get; set; }
+        //public string Address1 { get; set; }
+        //public string Address2 { get; set; }
+        //public string Address3 { get; set; }
+        //public string City { get; set; }
+        //public long? StateId { get; set; }
+        //public long? CountryId { get; set; }
+        //public string PostCode { get; set; }
+        //public string Fax { get; set; }
+        //public string Email { get; set; }
+        //public string URL { get; set; }
+        //public string Tel1 { get; set; }
+        //public string Tel2 { get; set; }
+        //public string Extension1 { get; set; }
+        //public string Extension2 { get; set; }
+        //public string Reference { get; set; }
+        //public string FAO { get; set; }
+        //public bool? IsDefaultAddress { get; set; }
+        //public bool? IsDefaultShippingAddress { get; set; }
+        //public bool? isArchived { get; set; }
+        //public long? TerritoryId { get; set; }
+        //public string GeoLatitude { get; set; }
+        //public string GeoLongitude { get; set; }
+        //public bool? isPrivate { get; set; }
+        //public long? ContactId { get; set; }
+        //public bool? isDefaultTerrorityBilling { get; set; }
+        //public bool? isDefaultTerrorityShipping { get; set; }
+        //public long? OrganisationId { get; set; }
+
+        //public bool? DisplayOnContactUs { get; set; }
+        if (UpdateStatus == true) {
+            var PHtml = $("#UpdateModelPopUp").html();
+            ShippingBillingDetails("", PHtml);
+        }
+        var AddressName = $("#txtAddressName").val();
+        var FAO = $("#txtFAO").val();
+        var Address1 = $('#txtAddress1').val();
+        var Reference = $("#txtReference").val();
+        var Address2 = $("#txtAddress2").val();
+        var Tel1 = $("#txtTel1").val();
+        var Extension1 = $("#txtExt1").val();
+        var Address3 = $("#txtAddress3").val();
+        var Tel2 = $("#txtTel2").val();
+        var Extension2 = $("#txtExt2").val();
+        var City = $("#txtCity").val();
+        var Fax = $("#txtFax").val();
+        var GeoLatitude = $("#txtLatitude").val();
+        var GeoLongitude = $("#txtLongitude").val();
+        var PostCode = $("#txtPostalCode").val();
+        var StateId = $("#DDSate").val();
+        var CountryId = $("#DDCountry").val();
+        var TerritoryId = $("#TerritoryDD").val();
+        // var CountryName = $("#DDCountry option:selected").text();
+        // var StateName = $("#DDSate option:selected").text();
+        //if (CountryName == null) {
+        //    CountryName = '';
+        //}
+
+        //if (StateName == null) {
+        //    StateName = '';
+        //}
+
+        var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId };
+        $.ajax({
+            type: "POST",
+            url: "/BillingShippingAddressManager/AddNewAddress",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+                HideLoader();
+                RebindGrid();
+            },
+            error: function (error) {
+                ShowPopUp('Error Occured While Adding Address', error);
+              }
+        });
+    }
+    function UpdateAddress() {
+        //var PHtml = $("#UpdateModelPopUp").html();
+        //ShippingBillingDetails("", PHtml);
+        var AddressName = $("#txtAddressName").val();
+        var FAO = $("#txtFAO").val();
+        var Address1 = $('#txtAddress1').val();
+        var Reference = $("#txtReference").val();
+        var Address2 = $("#txtAddress2").val();
+        var Tel1 = $("#txtTel1").val();
+        var Extension1 = $("#txtExt1").val();
+        var Address3 = $("#txtAddress3").val();
+        var Tel2 = $("#txtTel2").val();
+        var Extension2 = $("#txtExt2").val();
+        var City = $("#txtCity").val();
+        var Fax = $("#txtFax").val();
+        var GeoLatitude = $("#txtLatitude").val();
+        var GeoLongitude = $("#txtLongitude").val();
+        var PostCode = $("#txtPostalCode").val();
+        var StateId = $("#DDSate").val();
+        var CountryId = $("#DDCountry").val();
+        var TerritoryId = $("#TerritoryDD").val();
+        //var CountryName = $("#DDCountry option:selected").text();
+        //var StateName = $("#DDSate option:selected").text();
+        //if (CountryName == null)
+        //{
+        //    CountryName ='';
+        //}
+
+        //if (StateName == null)
+        //{
+        //    StateName = '';
+        //}
+
+        var data = { AddressName: AddressName, FAO: FAO, Address1: Address1, Reference: Reference, Address2: Address2, Tel1: Tel1, Extension1: Extension1, Address3: Address3, Tel2: Tel2, Extension2: Extension2, City: City, Fax: Fax, GeoLatitude: GeoLatitude, GeoLongitude: GeoLongitude, PostCode: PostCode, StateId: StateId, CountryId: CountryId, TerritoryId: TerritoryId, AddressId: AdRessID, TerritoryId: TerritoryId };
+        $.ajax({
+            type: "POST",
+            url: "/BillingShippingAddressManager/UpdateAddress",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+
+                HideLoader();
+                RebindGrid();
+            },
+            error: function (error) {
+                ShowPopUp('Error Occured While Updating Address', error);
+            }
+        });
+    }
+    function SetSelectedCountry(obj, countryid) {
+        var index = 1;
+        $.each(obj, function (id, option) {
+            if (option.CountryId == countryid) {
+
+                $("#DDCountry")[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+    function SetSelectedState(obj, stateId) {
+
+        var index = 0;
+        $.each(obj, function (id, option) {
+            if (option.StateId == stateId) {
+
+                
+                $("#DDSate")[0].selectedIndex = index;
+            }
+            index++;
+        });
+    }
+
+    function SetStateSelection() {
+        var obj = loadCountryStates(CountryID);
+        SetSelectedState(obj, StateID);
+
+        if (UpdateStatus == true) {
+            if (StateID > 0) {
+
+                SetSelectedState(response.State, StateID);
+            }
+            else {
+
+                $("#DDSate")[0].selectedIndex = 0;
+            }
+        }
+        else {
+            $("#DDSate")[0].selectedIndex = 0;
+        }
+    }
+
+    function LoadCountryStatesOnLoad(CountryID) {
+        var data = { CountryId: CountryID }
+        $.ajax({
+            type: "GET",
+            url: "/BillingShippingAddressManager/LoadStatesByCountryID",
+            contentType: "application/json",
+            data: data,
+            async: true,
+            success: function (response) {
+
+                var StatesDD = $("#DDSate");
+                StatesDD.html('');
+                //StatesDD.append($('<option></option>').val(0).html('Select State'));
+                $.each(response.State, function (id, option) {
+
+                    StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
+
+                });
+                
+                SetSelectedState(response.State, StateID);
+            }
+        });
+
+    }
+    function LoadAllStates() {
+        $.ajax({
+            type: "GET",
+            url: "/BillingShippingAddressManager/LoadAllStates",
+            contentType: "application/json",
+            async: true,
+            success: function (response) {
+                var States = $("#DDSate");
+                States.html('');
+                States.append($('<option></option>').val(0).html('Select State'));
+                $.each(response.State, function (id, option) {
+                    States.append($('<option></option>').val(option.StateId).html(option.StateName));
+                });
+            }
+        });
+
+    }
+    $(document).on('change', '#DDCountry', function () {
+        var CountryID = $(this).val();
+
+        if (CountryID > 0) {
+            
+            loadCountryStates(CountryID);
+        }
+    });
+    function RebindGrid() {
+     
+        window.location.href = "/BillingShippingAddressManager";
+    }
+    
+    function myFunction() {
+        HideLoader();
+    }
         </script>

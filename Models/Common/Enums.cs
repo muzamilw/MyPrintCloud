@@ -337,4 +337,9 @@ namespace MPC.Models.Common
         QuantityBase = 3,
         FormulaBase = 4
     }
+    public enum SubscriberStatus
+    {
+        Pending = 1,
+        Confirmed = 2
+    }
 }

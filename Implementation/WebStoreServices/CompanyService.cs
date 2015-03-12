@@ -1327,6 +1327,10 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _addressRepository.GetAllStates();
         }
+        public CompanyContact GetContactByEmailID(string Email)
+        {
+            return _CompanyContactRepository.GetContactByEmailID(Email);
+        }
     }
 
 

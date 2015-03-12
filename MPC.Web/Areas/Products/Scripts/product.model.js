@@ -32,7 +32,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedFile2, specifiedFile3, specifiedFile4, specifiedFile5, specifiedFlagId, specifiedIsQtyRanged, specifiedPackagingWeight,
         specifiedDefaultItemTax, specifiedSupplierId, specifiedSupplierId2, specifiedEstimateProductionTime, specifiedItemProductDetail,
         specifiedIsTemplateDesignMode, specifiedDesignerCategoryId, specifiedScalar, specifiedZoomFactor, specifiedIsCMYK, specifiedTemplateType,
-        specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, callbacks, constructorParams) {
+        specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
+        specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -394,6 +395,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isUploadImage = ko.observable(specifiedIsUploadImage || false),
             // Is Digital Download
             isDigitalDownload = ko.observable(specifiedIsDigitalDownload || false),
+            // Print Crop Marks
+            printCropMarks = ko.observable(specifiedPrintCropMarks || false),
+            // Draw Water Mark
+            drawWatermarkText = ko.observable(specifiedDrawWatermarkText || false),
+            // Organisation Id
+            organisationId = ko.observable(specifiedOrganisationId || undefined),
+            // Company Id
+            companyId = ko.observable(specifiedCompanyId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -1502,6 +1511,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isRealStateProduct: isRealStateProduct,
             isUploadImage: isUploadImage,
             isDigitalDownload: isDigitalDownload,
+            printCropMarks: printCropMarks,
+            drawWatermarkText: drawWatermarkText,
+            organisationId: organisationId,
+            companyId: companyId,
             canStartDesignerEmpty: canStartDesignerEmpty,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
@@ -2606,8 +2619,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     PriceMatrixId: id(),
                     ItemId: itemId(),
                     Quantity: quantity(),
-                    QtyRangedFrom: qtyRangedFrom(),
-                    QtyRangedTo: qtyRangedTo(),
+                    QtyRangeFrom: qtyRangedFrom(),
+                    QtyRangeTo: qtyRangedTo(),
                     FlagId: flagId(),
                     SupplierId: supplierId(),
                     SupplierSequence: supplierSequence(),
@@ -3115,7 +3128,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Price Matrix Factory
     ItemPriceMatrix.Create = function (source) {
-        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangedFrom, source.QtyRangedTo, source.PricePaperType1, source.PricePaperType2,
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
             source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
             source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
     };
@@ -3162,7 +3175,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.File3BytesSource, source.File4BytesSource, source.File5BytesSource, source.FlagId, source.IsQtyRanged, source.PackagingWeight, source.DefaultItemTax,
             source.SupplierId, source.SupplierId2, source.EstimateProductionTime, source.ItemProductDetail, source.IsTemplateDesignMode, source.DesignerCategoryId,
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
-            source.IsDigitalDownload, callbacks, constructorParams);
+            source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

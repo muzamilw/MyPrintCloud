@@ -111,5 +111,6 @@ namespace MPC.Interfaces.Repository
 
         bool SaveResetPassword(long ContactID, string Password);
 
+        CompanyContact GetContactByEmailID(string Email);
     }
 }

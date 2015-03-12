@@ -1336,6 +1336,7 @@
             for (i = 0; i < files.length; i++) {
                 data.append("file" + i, files[i]);
             }
+
             $.ajax({
                 type: "POST",
                 url: "/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,

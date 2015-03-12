@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Newtonsoft.Json;
+﻿using System.Web.Mvc;
+
 
 namespace MPC.Theming.Controllers
 {
@@ -14,9 +7,8 @@ namespace MPC.Theming.Controllers
     {
         public ActionResult Index()
         {
-            
-                return View();
-            
+            return View();
+
         }
     }
 }

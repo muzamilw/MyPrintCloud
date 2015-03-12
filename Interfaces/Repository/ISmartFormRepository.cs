@@ -24,5 +24,7 @@ namespace MPC.Interfaces.Repository
         /// Get Smart Form By Company Id
         /// </summary>
         SmartFormResponse GetSmartForms(SmartFormRequestModel request);
+
+        List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
     }
 }

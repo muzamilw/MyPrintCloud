@@ -167,6 +167,7 @@
     <Compile Include="DomainModels\ActivityType.cs" />
     <Compile Include="DomainModels\Address.cs" />
     <Compile Include="DomainModels\CmsOffer.cs" />
+    <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
@@ -410,6 +411,7 @@
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />
     <Compile Include="ResponseModels\SupplierBaseResponse.cs" />
     <Compile Include="ResponseModels\SupplierSearchResponseForInventory.cs" />
+    <Compile Include="ResponseModels\WidgetForTheme.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

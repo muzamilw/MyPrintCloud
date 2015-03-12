@@ -1247,7 +1247,10 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-
+        public  CompanyContact GetContactByEmailID(string Email)
+        {
+          return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
+        }
     }
 }
 

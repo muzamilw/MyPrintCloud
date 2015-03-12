@@ -415,9 +415,9 @@ namespace MPC.Repository.Repositories
                 AddAddress.Extension2 = Address.Extension2;
                 AddAddress.GeoLatitude = Address.GeoLatitude;
                 AddAddress.GeoLongitude = Address.GeoLongitude;
-                AddAddress.Country = Address.Country;
+                
                 AddAddress.CountryId = Address.CountryId;
-                AddAddress.State = Address.State;
+              
                 AddAddress.StateId = Address.StateId;
                 AddAddress.CompanyId = Address.CompanyId;
                 db.Addesses.Add(AddAddress);

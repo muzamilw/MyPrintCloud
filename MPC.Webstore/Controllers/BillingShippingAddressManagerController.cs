@@ -20,6 +20,7 @@ namespace MPC.Webstore.Controllers
             this._companyService = _companyService;
             this._myClaimHelper = _myClaimHelper;
         }
+        
         public ActionResult Index()
         {
             if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
@@ -31,7 +32,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
             }
 
-            ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
+            
             return View("PartialViews/BillingShippingAddressManager");
         }
 
@@ -97,7 +98,8 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(string SearchString, string btnsearch, string btnReset)
         {
-            if (btnsearch != null)
+            
+            if (btnsearch !=null)
             {
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 {
@@ -108,12 +110,19 @@ namespace MPC.Webstore.Controllers
                 {
                     ViewBag.Address = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchString);
                 }
-
+                
             }
             else
             {
-            
-            
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                {
+                    ViewBag.Address = FilterAddresses();
+                }
+                else
+                {
+                    ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+                }
+
             }
             return View("PartialViews/BillingShippingAddressManager");
         }
@@ -126,13 +135,30 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public void UpdateAddress(Address Address)
         {
-            _companyService.UpdateBillingShippingAdd(Address);
+            try
+            {
+                _companyService.UpdateBillingShippingAdd(Address);
+            }
+            catch (Exception Ex)
+            {
+
+                throw Ex;
+            
+            }
         }
         [HttpPost]
         public void AddNewAddress(Address Address)
         {
-            Address.CompanyId = _myClaimHelper.loginContactCompanyID();
-           _companyService.AddAddBillingShippingAdd(Address);
+            try
+            {
+                Address.CompanyId = _myClaimHelper.loginContactCompanyID();
+               _companyService.AddAddBillingShippingAdd(Address);
+            }
+            catch (Exception Ex)
+            {
+                throw Ex;
+            }
+           
         }
         [HttpGet]
         public JsonResult LoadCountriesList()
@@ -155,6 +181,20 @@ namespace MPC.Webstore.Controllers
             obj.State = _companyService.GetCountryStates(CountryId);
             return Json(obj, JsonRequestBehavior.AllowGet);
            
+        }
+        [HttpGet]
+        public ActionResult RebindGrid()
+        {
+            //if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            //{
+            //    ViewBag.Address = FilterAddresses();
+            //}
+            //else
+            //{
+            //    ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+            //}
+            //return View("PartialViews/BillingShippingAddressManager");
+            return RedirectToAction("Index","BillingShippingAddressManager");
         }
     }
     public class JsonResponse
