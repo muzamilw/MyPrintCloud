@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Orders.Controllers
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public ActionResult Index()
         {
+            ViewBag.CallingMethod = (string) TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
             return View();
         }
 
@@ -37,10 +38,37 @@ namespace MPC.MIS.Areas.Orders.Controllers
             return View();
 
         }
-
+      
         public ActionResult PendingOrders()
         {
+            TempData["CallingMethod"] = "4";
             return RedirectToAction("Index");
         }
+        public ActionResult ConfirmedStarts()
+        {
+            TempData["CallingMethod"] = "5";
+            return RedirectToAction("Index");
+        }
+        public ActionResult InProduction()
+        {
+            TempData["CallingMethod"] = "6";
+            return RedirectToAction("Index");
+        }
+        public ActionResult ReadyForShipping()
+        {
+            TempData["CallingMethod"] = "7";
+            return RedirectToAction("Index");
+        }
+        public ActionResult Invoiced()
+        {
+            TempData["CallingMethod"] = "8";
+            return RedirectToAction("Index");
+        }
+        public ActionResult CancelledOrders()
+        {
+            TempData["CallingMethod"] = "9";
+            return RedirectToAction("Index");
+        }
+
     }
 }

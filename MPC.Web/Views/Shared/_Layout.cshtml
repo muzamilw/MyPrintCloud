@@ -29,9 +29,7 @@
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/select2.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
     <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-    <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
     <link type="text/css" href="~/Content/CSS/jquery-Slider.css" rel="stylesheet" />
-
     <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
@@ -390,42 +388,42 @@
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/PendingOrders" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Pending (New) Orders</span>
                                                 <span class="label label-primary label-circle pull-right">50</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/ConfirmedStarts" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Confirmed Starts</span>
                                                 <span class="label label-primary label-circle pull-right">10</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/InProduction" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>In Production</span>
                                                 <span class="label label-primary label-circle pull-right">08</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/ReadyForShipping" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Ready for shipping</span>
                                                 <span class="label label-primary label-circle pull-right">07</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/Invoiced" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Invoiced</span>
                                                 <span class="label label-primary label-circle pull-right">05</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/CancelledOrders" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Cancelled Orders</span>
                                                 <span class="label label-primary label-circle pull-right">06</span>
@@ -780,9 +778,6 @@
               //  $("#labels-months-output").text("You selected " + months[ui.value] + " (" + ui.value + ")");
            });
     </script>
-    
-
-        });
 
     @RenderSection("scripts", required: false)
 

@@ -8,7 +8,7 @@ body
     background: #fff;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    background: url(../images/patterns/5.png) repeat;
+    /*background: url(../images/patterns/5.png) repeat;*/
     height: 100%;
 }
 

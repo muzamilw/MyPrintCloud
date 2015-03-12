@@ -114,7 +114,6 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //Save Paper Sheet
                     savePaperSheet = function (item) {
-                        debugger;
                         if (selectedPaperSheet() != undefined && doBeforeSave()) {
                             if (selectedPaperSheet().paperSizeId() > 0) {
                                 saveEdittedPaperSheet();
@@ -139,7 +138,6 @@ define("paperSheet/paperSheet.viewModel",
                     },
                     //Save EDIT Paper Sheets
                     saveEdittedPaperSheet = function () {
-                        debugger;
                         dataservice.savePaperSheet(selectedPaperSheet().convertToServerData(orgCulture()), {
                             success: function (data) {
                                 var newItem = model.paperSheetServertoClientMapper(data);
