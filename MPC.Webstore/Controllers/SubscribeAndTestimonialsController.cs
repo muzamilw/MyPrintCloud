@@ -80,7 +80,7 @@ namespace MPC.Webstore.Controllers
                     subscriber.SubscribeDate = DateTime.Now;
                     subscriber.SubscriptionCode = subscriptionCode;
                     subscriber.Email = txtEmailbox;
-                    subscriber.ContactCompanyID = UserCookieManager.StoreId;
+                    subscriber.ContactCompanyID = Convert.ToInt32(UserCookieManager.StoreId);
 
                     CEP.CompanySiteID = StoreBaseResopnse.Organisation.OrganisationId;
 
