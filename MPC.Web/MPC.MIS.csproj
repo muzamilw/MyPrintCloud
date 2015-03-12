@@ -3017,6 +3017,7 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />

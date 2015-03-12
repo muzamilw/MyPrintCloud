@@ -19,15 +19,19 @@
                 <div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.createNewMachine">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
+                        <span id="btnCreateNewMachine">  Create New Press </span>
+                        <!--ko if: isGuillotineList()-->
+                        
+                        <!-- /ko -->
+                        <!--ko ifnot: isGuillotineList()-->
+                       
+                        <!-- /ko -->
 
-                        <!--ko if: isGuillotineList-->
-                        Create New Guillotine
-                        <!-- /ko -->
-                        <!--ko ifnot: isGuillotineList-->
-                        Create New Press
-                        <!-- /ko -->
 
                     </a>
+                    <div id="addMachine">
+                        &nbsp;
+                    </div>
                 </div>
             </div>
         </div>
@@ -53,7 +57,7 @@
                                                             <th><span>Machine Name</span></th>
                                                             <th><span>Max Sheet Size</span></th>
                                                             <th><span>Min Sheet Size</span></th>
-                                                            <th ><span>Calculation Method</span></th>
+                                                            <th><span>Calculation Method</span></th>
                                                             <th>&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -77,7 +81,7 @@
                                 </div>
 
                             </div>
-                            <div class="tab-pane fade " id="tab-Guillotine" >
+                            <div class="tab-pane fade " id="tab-Guillotine">
                                 <div class="col-lg-12">
                                     <div class="main-box no-header clearfix">
                                         <div class="main-box-body clearfix">
@@ -116,7 +120,7 @@
         </div>
     </div>
     @Html.Partial("~/Areas/Settings/Views/Home/MachinesDetail.cshtml")
-   
+
     <!-- ko stopBinding: true -->
     @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
     @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
@@ -131,7 +135,7 @@
         </td>
         <td><span data-bind="text: maximumsheetwidth"> </span><span>*</span> <span data-bind="text: maximumsheetheight"> </span>  </td>
         <td><span data-bind="text: minimumsheetwidth"> </span><span>*</span> <span data-bind="text: minimumsheetheight"> </span>  </td>
-        
+
         <td data-bind="text: LookupMethodName"></td>
         <td id="actionColumn">
             <!-- ko template: { name: "MachineActionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -157,7 +161,7 @@
 </script>
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
-   
+
     <script>
         require(["machine/machine.view", "common/confirmation.view", "common/stockItem.view"]);
         $(function () {

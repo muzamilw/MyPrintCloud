@@ -687,7 +687,121 @@
         }
         
     };
+    var newMachineClientMapper = function (source) {
+        var omachine = new machine();
 
+        omachine.lookupList.removeAll();
+        ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
+        omachine.lookupList.valueHasMutated();
+
+        omachine.markupList.removeAll();
+        ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
+        omachine.markupList.valueHasMutated();
+
+
+        for (i = 0; i < 8; i++) {
+            omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
+          }
+
+        var StockItemforInkList = ko.observableArray([]);
+        StockItemforInkList.removeAll();
+        ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
+        StockItemforInkList.valueHasMutated();
+
+        var InkCoveragItemsList = ko.observableArray([]);
+        InkCoveragItemsList.removeAll();
+        ko.utils.arrayPushAll(InkCoveragItemsList(), source.InkCoveragItems);
+        InkCoveragItemsList.valueHasMutated();
+
+
+
+        for (i = 0; i < 8; i++) {
+            omachine.MachineInkCoverages.push(newMachineInkCoveragesListClientMapper(StockItemforInkList, InkCoveragItemsList));
+        }
+
+        return omachine;
+    };
+    var newMachineSpoilageItemsMapper = function (i) {
+        var
+            MachineSpoilageId = ko.observable(),
+            MachineId = ko.observable(),
+            SetupSpoilage = ko.observable(10),
+            RunningSpoilage = ko.observable(10),
+            NoOfColors = i+1,
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                SetupSpoilage: SetupSpoilage,
+                RunningSpoilage: RunningSpoilage
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            MachineSpoilageId: MachineSpoilageId,
+            MachineId: MachineId,
+            SetupSpoilage: SetupSpoilage,
+            RunningSpoilage: RunningSpoilage,
+            NoOfColors: NoOfColors,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+
+    }
+    var newMachineInkCoveragesListClientMapper = function (StockItemforInkList, InkCoveragItems) {
+        var
+            Id = 0,
+            SideInkOrder = ko.observable(undefined),
+            SideInkOrderCoverage = ko.observable(undefined),
+            MachineId = 0,
+            StockItemforInkList = StockItemforInkList,
+            InkCoveragItems = InkCoveragItems,
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                SideInkOrder: SideInkOrder,
+                SideInkOrderCoverage: SideInkOrderCoverage
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
+        return {
+            Id: Id,
+            SideInkOrder: SideInkOrder,
+            SideInkOrderCoverage: SideInkOrderCoverage,
+            MachineId: MachineId,
+            StockItemforInkList: StockItemforInkList,
+            InkCoveragItems: InkCoveragItems,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
+        };
+    };
 
     var MachineSpoilageServerMapper = function (source) {
         var MachineSpoilageItem = {};
@@ -723,6 +837,9 @@
         MachineInkCoveragesServerMapper: MachineInkCoveragesServerMapper,
         machineServerMapper: machineServerMapper,
         MachineInkCoveragesListServerMapper: MachineInkCoveragesListServerMapper,
-        MachineSpoilageServerMapper: MachineSpoilageServerMapper
+        MachineSpoilageServerMapper: MachineSpoilageServerMapper,
+        newMachineClientMapper: newMachineClientMapper,
+        newMachineSpoilageItemsMapper: newMachineSpoilageItemsMapper,
+        newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper
     };
 });

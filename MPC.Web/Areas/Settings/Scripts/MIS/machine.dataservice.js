@@ -48,6 +48,15 @@ define("machine/machine.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+
+                    amplify.request.define('saveNewMachine', 'ajax', {
+                        url: ist.siteUrl + '/Api/Machine',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Put'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -99,14 +108,25 @@ define("machine/machine.dataservice", function () {
                 error: callbacks.error,
                 data: JSON.stringify(param)
             });
-        };
+        },
+          saveNewMachine = function (param, callbacks) {
+              initialize();
+              return amplify.request({
+                  resourceId: 'saveNewMachine',
+                  success: callbacks.success,
+                  error: callbacks.error,
+                  data: JSON.stringify(param)
+              });
+          };
 
+        
         return {
             GetMachineList: GetMachineList,
             getMachineById: getMachineById,
             getStockItemsList: getStockItemsList,
             deleteMachine: deleteMachine,
-            saveMachine: saveMachine
+            saveMachine: saveMachine,
+            saveNewMachine: saveNewMachine
             
         };
     })();

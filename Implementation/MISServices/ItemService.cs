@@ -328,6 +328,23 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Template Pages BackgroundFileName updation
+        /// </summary>
+        private static void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
+        {
+            if (itemTarget.Template != null && item.Template.ProductId > 0)
+            {
+                if (itemTarget.Template.TemplatePages != null)
+                {
+                    foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+                    {
+                        templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Save Product Images
         /// </summary>
         private void SaveProductImages(Item target)
@@ -359,9 +376,6 @@ namespace MPC.Implementation.MISServices
 
             // Item Images
             SaveItemImages(target, mapPath);
-
-            // Save Changes
-            itemRepository.SaveChanges();
         }
 
         /// <summary>
@@ -1589,6 +1603,12 @@ namespace MPC.Implementation.MISServices
 
             // Save Images and Update Item
             SaveProductImages(itemTarget);
+
+            // Update Template Pages Background Image
+            UpdateTemplatePagesBackgroundFileNames(item, itemTarget);
+            
+            // Save Changes
+            itemRepository.SaveChanges();
 
             // Load Properties if Any
             itemTarget = itemRepository.Find(itemTarget.ItemId);
