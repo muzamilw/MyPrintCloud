@@ -18,7 +18,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 GroupName = source.GroupName,
                 Percentage = source.Percentage,
                 IsFixed = source.IsFixed,
-                SystemSiteId = source.SystemSiteId
+                SystemSiteId = source.OrganisationId
             };
 
         }
