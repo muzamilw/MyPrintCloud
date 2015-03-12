@@ -244,9 +244,9 @@ define("stores/stores.viewModel",
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Stores");
+                                storeStatus("Modify Store Details");
                             } else {
-                                storeStatus("Stores Details");
+                                storeStatus("Store Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
@@ -3462,7 +3462,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
-                    storeStatus("Modify Stores");
+                    storeStatus("Modify Store Details");
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
@@ -3823,7 +3823,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage().fileName(file.name);
                 },
                 resetObservableArrays = function () {
-                    storeStatus("Stores Details");
+                    storeStatus("Store Details");
                     isUserAndAddressesTabOpened(false);
                     pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,

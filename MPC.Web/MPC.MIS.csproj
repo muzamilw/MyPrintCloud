@@ -322,6 +322,7 @@
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
@@ -809,6 +810,7 @@
     <Content Include="Content\CSS\fonts\typicons.svg" />
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
+    <Content Include="Content\CSS\jquery-Slider.css" />
     <Content Include="Content\CSS\main.css" />
     <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
@@ -1154,6 +1156,7 @@
     <Content Include="Content\themes\Centaurus\js\hogan.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-world-merc-en.js" />
+    <Content Include="Content\themes\Centaurus\js\jquerySlider.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-ui.custom.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.hotkeys.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.js" />
@@ -3009,6 +3012,7 @@
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
+    <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />

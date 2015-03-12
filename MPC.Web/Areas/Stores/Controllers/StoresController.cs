@@ -68,5 +68,14 @@ namespace MPC.MIS.Areas.Stores.Controllers
             file.SaveAs(savePath);
             companyService.SaveFile(savePath, companyId);
         }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [HttpPost]
+        public void ExportOrganisation(long parameter1)
+        {
+            companyService.ExportOrganisation(parameter1);
+        }
+
+
     }
 }
