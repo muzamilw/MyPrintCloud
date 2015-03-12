@@ -2216,7 +2216,10 @@ namespace MPC.Implementation.WebStoreServices
             }
             product.PDFTemplateHeight = DesignerUtils.PointToPixel(product.PDFTemplateHeight.Value);
             product.PDFTemplateWidth = DesignerUtils.PointToPixel(product.PDFTemplateWidth.Value);
-            product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);
+            if(product.CuttingMargin.HasValue)
+                product.CuttingMargin = DesignerUtils.PointToPixel(product.CuttingMargin.Value);
+            else
+                product.CuttingMargin = DesignerUtils.PointToPixel(14.173228345);  // in case of coorporate this value is not set 
             string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + organisationId.ToString() + "/Templates/" + productID.ToString() + "/");
                        
             foreach (var objPage in product.TemplatePages)
