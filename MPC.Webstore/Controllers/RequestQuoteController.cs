@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 
@@ -74,7 +75,9 @@ namespace MPC.Webstore.Controllers
 
                 if (Customer > 0)
                 {
-
+                    string CacheKeyName = "CompanyBaseResponse";
+                    ObjectCache cache = MemoryCache.Default;
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
                     MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.OrganisationID);
                     CompanyContact UserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
@@ -87,8 +90,8 @@ namespace MPC.Webstore.Controllers
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreID = UserCookieManager.OrganisationID;
 
-                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
-
+                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+                    
                     if (UserCookieManager.StoreMode == (int) StoreMode.Retail)
                     {
                         _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
@@ -112,7 +115,6 @@ namespace MPC.Webstore.Controllers
 
             int iMaxFileSize = 2097152;
 
-
             long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(Model, Convert.ToInt32(hfNoOfRec)));
 
             long InquiryId = result;
@@ -121,6 +123,10 @@ namespace MPC.Webstore.Controllers
                 if (Request.ContentLength < iMaxFileSize)
                 {
                     FillAttachments(result, uploadFile);
+                }
+                else
+                { 
+                   
                 }
             }
             if (result > 0)

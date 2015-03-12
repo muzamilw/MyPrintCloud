@@ -340,11 +340,12 @@ namespace MPC.Repository.Repositories
         }
       
           
-        public void UpdateBillingShippingAdd(Address Model)
+        public bool UpdateBillingShippingAdd(Address Model)
         {
+            bool Result = false;
             try
             {
-                Address Address = new Address();
+                Address Address = db.Addesses.Where(i => i.AddressId == Model.AddressId).FirstOrDefault();
                 Address.Address1 = Model.Address1;
                 Address.Address2 = Model.Address2;
                 Address.Address3 = Model.Address3;
@@ -360,20 +361,21 @@ namespace MPC.Repository.Repositories
                 Address.Extension2 = Model.Extension2;
                 Address.GeoLatitude = Model.GeoLatitude;
                 Address.GeoLongitude = Model.GeoLongitude;
-                Address.Country = Model.Country;
                 Address.CountryId = Model.CountryId;
-                Address.State = Model.State;
                 Address.StateId = Model.StateId;
-
                 db.Addesses.Attach(Address);
                 db.Entry(Address).State = EntityState.Modified;
-                db.SaveChanges();
+                if (db.SaveChanges() > 0)
+                {
+                    Result = true;
+                
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
+            return Result;
         }
         public bool AddressNameExist(Address address)
         {
@@ -388,8 +390,9 @@ namespace MPC.Repository.Repositories
                         return false;
                     }
         }
-        public void AddAddBillingShippingAdd(Address Address)
+        public bool AddAddBillingShippingAdd(Address Address)
         {
+            bool Result = false;
             try
             {
                 Address AddAddress = new Address();
@@ -408,12 +411,18 @@ namespace MPC.Repository.Repositories
                 AddAddress.Extension2 = Address.Extension2;
                 AddAddress.GeoLatitude = Address.GeoLatitude;
                 AddAddress.GeoLongitude = Address.GeoLongitude;
-                AddAddress.Country = Address.Country;
+                
                 AddAddress.CountryId = Address.CountryId;
-                AddAddress.State = Address.State;
+              
                 AddAddress.StateId = Address.StateId;
+                AddAddress.CompanyId = Address.CompanyId;
                 db.Addesses.Add(AddAddress);
-                db.SaveChanges();
+
+                if (db.SaveChanges() > 0)
+                {
+
+                    Result = true;
+                }
             }
             catch (Exception ex)
             {
@@ -421,6 +430,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+            return Result;
         }
 
         public  void ResetDefaultShippingAddress( Address address)

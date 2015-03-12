@@ -54,9 +54,9 @@ namespace MPC.Webstore.Controllers
             {
 
 
-                NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.StoreId);
+                 NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.StoreId);
 
-
+                
                 if (subscriber == null)
                 {
                     string CacheKeyName = "CompanyBaseResponse";
