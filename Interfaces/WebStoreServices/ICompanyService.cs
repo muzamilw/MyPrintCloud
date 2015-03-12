@@ -209,5 +209,9 @@ namespace MPC.Interfaces.WebStoreServices
         List<CmsSkinPageWidget> GetStoreWidgets(long CompanyId);
         State GetStateByStateID(long StateID);
         List<Country> GetAllCountries();
+        NewsLetterSubscriber GetSubscriber(string email, long CompanyId);
+        int AddSubscriber(NewsLetterSubscriber subsriber);
+        bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
+        RaveReview GetRaveReview();
     }
 }

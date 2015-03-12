@@ -11,11 +11,17 @@ namespace MPC.MIS.Areas.Api.Controllers
     public class LookupMethodController : ApiController
     {
         // GET: Api/LookupMethod
-        public LookupMethodResponse Get(long id)
-        {
+        //public LookupMethodResponse Get(long id)
+        //{
 
 
-            return new LookupMethodResponse { };
-        }
+        //    return new LookupMethodResponse { };
+        //}
+        //public List<LookupMethod> Get(long isGuillotine)
+        //{
+
+
+            
+        //}
     }
 }
