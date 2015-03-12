@@ -85,6 +85,7 @@
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />
+    <Compile Include="Repository\INewsLetterSubscriberRepository.cs" />
     <Compile Include="Repository\IScopeVariableRepository.cs" />
     <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
     <Compile Include="Repository\IFieldVariableRepository.cs" />

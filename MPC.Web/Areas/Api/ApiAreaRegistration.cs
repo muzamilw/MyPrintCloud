@@ -27,6 +27,11 @@ namespace MPC.MIS.Areas.Api
                 name: "ApiDefaultWithoutId",
                 routeTemplate: AreaName + "/{controller}"
             );
+            context.Routes.MapHttpRoute(
+              name: "ZohaibAPICollerntro",
+              routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}",
+              defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional }
+          );
         }
     }
 }

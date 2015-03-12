@@ -1154,8 +1154,8 @@ namespace MigrationUtility
                         List<tbl_ItemStockOptions> otbl_ItemStockOptions = PCContext.tbl_ItemStockOptions.Where ( g=> g.ItemID == item.ItemID && g.ContactCompanyID == null).ToList();
 
                         foreach (var ootbl_ItemStockOptions in otbl_ItemStockOptions)
-	                    {
-		                      ItemStockOption oItemStockOption = Mapper.Map<tbl_ItemStockOptions, ItemStockOption>(ootbl_ItemStockOptions);
+                        {
+                              ItemStockOption oItemStockOption = Mapper.Map<tbl_ItemStockOptions, ItemStockOption>(ootbl_ItemStockOptions);
                             oItemStockOption.ItemId = oItem.ItemId;
 
                       
@@ -1168,15 +1168,15 @@ namespace MigrationUtility
 
                           
 
-	                    }
+                        }
                          MPCContext.SaveChanges();
 
                           ///price matrix
                             ///
                              List<tbl_items_PriceMatrix> otbl_items_PriceMatrix = PCContext.tbl_items_PriceMatrix.Where ( g=> g.ItemID == item.ItemID && g.ContactCompanyID == null).ToList();
                         foreach (var oootbl_items_PriceMatrix in otbl_items_PriceMatrix)
-	                    {
-		                    ItemPriceMatrix oItemPriceMatrix = Mapper.Map<tbl_items_PriceMatrix, ItemPriceMatrix>(oootbl_items_PriceMatrix);
+                        {
+                            ItemPriceMatrix oItemPriceMatrix = Mapper.Map<tbl_items_PriceMatrix, ItemPriceMatrix>(oootbl_items_PriceMatrix);
                             oItemPriceMatrix.ItemId = oItem.ItemId;
                              MPCContext.ItemPriceMatrices.Add(oItemPriceMatrix);
                         }

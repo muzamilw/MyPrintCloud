@@ -333,6 +333,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
+    <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
@@ -374,6 +375,7 @@
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\QuickLinksController.cs" />
     <Compile Include="Controllers\SlidingBannerController.cs" />
+    <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -779,6 +781,8 @@
     <Content Include="Views\Shared\PartialViews\SavedDesigns.cshtml" />
     <Content Include="Views\Shared\PartialViews\NewsletterSubscriber.cshtml" />
     <Content Include="Views\Shared\PartialViews\FeaturedProductCarousal.cshtml" />
+    <Content Include="Views\Shared\PartialViews\CategoriesAndProducts.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SubscribeAndTestimonials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -787,12 +791,8 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\BillingShippingAddressManager\" />
-    <Folder Include="Views\FeaturedProductCarousal\" />
-    <Folder Include="Views\NabSubmit\" />
-    <Folder Include="Views\NewsletterSubscriber\" />
-    <Folder Include="Views\SavedDesigns\" />
-    <Folder Include="Views\SlidingBanner\" />
+    <Folder Include="Views\CategoriesAndProducts\" />
+    <Folder Include="Views\SubscribeAndTestimonials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

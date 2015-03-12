@@ -12,5 +12,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string ContentType { get; set; }
         public int LockedBy { get; set; }
         public int? ParentCategoryId { get; set; }
+        public int DisplayOrder { get; set; }
     }
 }

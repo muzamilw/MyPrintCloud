@@ -895,7 +895,26 @@ namespace MPC.Implementation.WebStoreServices
         //    return filteredProdcuts.OrderBy(item => item.SortOrder).ToList();
 
         //}
+      
 
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId)
+        {
+            try
+            {
+                return _ItemRepository.GetStoreParentCategories(CompanyId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
 
     }
 }

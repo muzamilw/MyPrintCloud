@@ -37,7 +37,6 @@ namespace MPC.Models.DomainModels
         public bool? isDefaultTerrorityBilling { get; set; }
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
-
         public bool? DisplayOnContactUs { get; set; }
 
         public virtual CompanyTerritory CompanyTerritory { get; set; }
