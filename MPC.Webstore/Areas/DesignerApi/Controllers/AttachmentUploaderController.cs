@@ -44,7 +44,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 {
                     string uploadPath = HttpContext.Current.Server.MapPath("~/" + id);
                     if (!Directory.Exists(uploadPath))
-                        Directory.CreateDirectory(uploadPath);
+                    Directory.CreateDirectory(uploadPath);
                     MyStreamProvider streamProvider = new MyStreamProvider(uploadPath);
                     //  string _idOfObject1 = HttpRequest.Content.Headers["IDofObject1"].ToString();
                     //string _idOfObject2 = Request.Content.Headers.GetValues("IDofObject2").ToString(); ;// Headers["IDofObject2"].ToString();
@@ -55,7 +55,6 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                     ItemAttachment attachment = null;
                     foreach (var file in streamProvider.FileData)
                     {
-                        
                         FileInfo fi = new FileInfo(file.LocalFileName);
                         messages.Add(fi.Name);
                         string srcPath = uploadPath + "/" + fi.Name;

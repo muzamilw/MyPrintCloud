@@ -13,13 +13,15 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     
     {
+
+        CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
         void ResetDefaultShippingAddress(Address address);
         List<State> GetAllStates();
         List<State> GetCountryStates(long CountryId);
-        void AddAddBillingShippingAdd(Address Address);
+        bool AddAddBillingShippingAdd(Address Address);
         bool AddressNameExist(Address address);
-        void UpdateBillingShippingAdd(Address Model);
+        bool UpdateBillingShippingAdd(Address Model);
         List<Address> GetsearchedAddress(long CompanyId, String searchtxt);
         MyCompanyDomainBaseReponse GetStoreFromCache(long companyId);
         long GetStoreIdFromDomain(string domain);
