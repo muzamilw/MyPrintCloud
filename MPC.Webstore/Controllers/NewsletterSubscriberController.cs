@@ -108,7 +108,7 @@ namespace MPC.Webstore.Controllers
                     string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);
                     string subscriptionLink = path + "ConfirmSubscription.aspx?" + "SubscriptionCode=" + subscriptionCode;
 
-                    //CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
+                    CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
                     _campaignService.emailBodyGenerator(SubscriptionCampaign, CEP, Contact, StoreMode.Retail, (int)StoreBaseResopnse.Company.OrganisationId, "", "", SubscriberEmail, EmailOFSM.Email, "", "", null, "", null, "", "", subscriptionLink);
                     string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.StoreId);
                     if (string.IsNullOrEmpty(sConfirmation))

@@ -279,10 +279,6 @@ namespace MPC.Repository.Repositories
            
         }
 
-
-      
-
-
         /// <summary>
         /// Get addresses list billing, shipping and pickup address
         /// </summary>
@@ -465,6 +461,11 @@ namespace MPC.Repository.Repositories
         public Country GetCountryByCountryID(long CountryID)
         {
             return db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
+        }
+
+        public Address GetAddressById(long addressId)
+        {
+            return DbSet.Include("State").Include("Country").FirstOrDefault(x => x.AddressId == addressId);
         }
     }
 }

@@ -2759,6 +2759,27 @@ function pcl42_UpdateTO() {
 }
 
 function pcl42_Validate() {
-    alert("validate variables");
-    return true;
+    var result = true;
+    $(".requiredSFObj").removeClass("requiredSFObj");
+    $.each(smartFormData.smartFormObjs, function (i, obj) {
+        if (obj.ObjectType == 3)  // replacing variables
+        {
+            if(obj.IsRequired == true)
+            {
+                var txt = $("#txtSmart" + obj.VariableId).val();
+                if(txt == "" || txt == "null")
+                {
+                    $("#txtSmart" + obj.VariableId).addClass("requiredSFObj");
+                    $("#txtSmart" + obj.VariableId).focus();
+                    result =  false;
+                }
+            }
+            if(obj.FieldVariable.InputMask != null && obj.FieldVariable.InputMask != "")
+            {
+                alert("validate input mask");
+            }
+        }
+    });
+    //alert("validate variables");
+    return result;
 }

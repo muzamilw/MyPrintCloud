@@ -100,6 +100,7 @@ namespace MPC.Webstore.Controllers
                         CEP.SalesManagerContactID = 1;
                         CEP.StoreID = UserCookieManager.StoreId;
 
+
                     }
                     string basePath = Request.Url.ToString();
                     string path = basePath.Substring(0, basePath.LastIndexOf('/') + 1);

@@ -643,3 +643,15 @@ alter table templateObject
 add originalContentString  nvarchar(MAX) null
 
 GO
+
+
+/* Execution Date: 12/02/2015 */
+
+GO
+
+exec sp_rename 'InkCoverageGroup.SystemSiteId', 'OrganisationId'
+
+alter table SystemUser
+add Email varchar(200) null
+
+GO

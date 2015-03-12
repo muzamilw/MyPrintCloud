@@ -6789,3 +6789,7 @@ font-size: 13px;
 .QuickTxt {
     visibility:hidden;
 }
+
+.requiredSFObj{
+    box-shadow: inset 3px 3px 12px rgba(255, 0, 0, 0.25), 0 2px 4px #FF000A !important;
+}
