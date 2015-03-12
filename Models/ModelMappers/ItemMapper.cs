@@ -337,7 +337,7 @@ namespace MPC.Models.ModelMappers
                     target.Template.IsCorporateEditable = true;
                     break;
                 case 2:
-                    target.Template.IsCorporateEditable = true;
+                    target.Template.IsCorporateEditable = false;
                     break;
                 default:
                     target.Template.IsCorporateEditable = null;
