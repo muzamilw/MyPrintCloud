@@ -1786,18 +1786,19 @@ namespace MPC.Implementation.WebStoreServices
 
                         theDoc.Rendering.DotsPerInch = DPI;
                         string fileName = "p" + i + ".png";
-                        if (RoundCorners)
-                        {
-                            Stream str = new MemoryStream();
+                        //if (RoundCorners)
+                        //{
+                        //    Stream str = new MemoryStream();
 
-                            theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName), str);
-                            generateRoundCorners(System.IO.Path.Combine(savePath, fileName), System.IO.Path.Combine(savePath, fileName), str);
+                        //    theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName), str);
+                        //    generateRoundCorners(System.IO.Path.Combine(savePath, fileName), System.IO.Path.Combine(savePath, fileName), str);
 
-                        }
-                        else
-                        {
-                            theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
-                        }
+                        //}
+                        //else
+                        //{
+                        //    theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
+                        //}
+                        theDoc.Rendering.Save(System.IO.Path.Combine(savePath, fileName));
                     }
 
                     theDoc.Dispose();

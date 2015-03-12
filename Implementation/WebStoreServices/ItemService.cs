@@ -784,5 +784,137 @@ namespace MPC.Implementation.WebStoreServices
         //        throw ex;
         //    }
         //}
+
+        public List<Item> GetProductsWithDisplaySettings(ProductWidget productWidgetId, long CompanyId, long OrganisationId)
+        {
+           
+            List<Item> productsAllList = null; 
+            List<Item> filteredList = null;
+
+            switch (productWidgetId)
+            {
+
+                case ProductWidget.FeaturedProducts:
+                    productsAllList = GetDisplayProductsWithDisplaySettings(null, null, CompanyId, OrganisationId);
+                    filteredList = productsAllList;//ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+                    
+                    break;
+                case ProductWidget.PopularProducts:
+
+                    productsAllList = GetDisplayProductsWithDisplaySettings(true, null, CompanyId, OrganisationId); //popular
+                   
+                    if (productsAllList != null & productsAllList.Count > 0)
+                        filteredList = productsAllList.ToList();
+
+                    break;
+                case ProductWidget.SpecialProducts:
+
+                    productsAllList = GetDisplayProductsWithDisplaySettings(null, true, CompanyId, OrganisationId); //promotional or special
+                    if (productsAllList != null & productsAllList.Count > 0)
+                    {
+                       // filteredList = ProductManager.GetSearchedProducts((int)productWidget, productsAllList);
+
+                        if (filteredList != null)
+                            filteredList = filteredList.ToList();
+
+                        break;
+                    }
+                    else
+                    {
+                        filteredList = null;
+                        break;
+                    }
+            }
+
+            if (filteredList != null)
+                return filteredList.OrderBy(i => i.SortOrder).ToList();
+            return null;
+
+        }
+
+        private List<Item> GetDisplayProductsWithDisplaySettings(bool? isPopularProd, bool? isPromotionProduct, long CompanyId, long OrganisationId)
+        {
+            //Note:All promotional or spceial will also be a featured product
+            if (isPopularProd == null && isPromotionProduct == null)
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsFeatured == true).OrderBy(i => i.SortOrder).ToList();
+            }
+            else if (isPopularProd == true && isPromotionProduct == null)
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsPopular == true).OrderBy(i => i.SortOrder).ToList();
+            }
+            else
+            {
+                return _ItemRepository.GetProductsList(CompanyId, OrganisationId).Where(i => i.IsSpecialItem == true).OrderBy(i => i.SortOrder).ToList();
+            }
+        }
+
+        //private List<Item> GetSearchedProducts(int offerTypeId, List<Item> productsAllList)
+        //{
+        //    Random rand = new Random();
+        //    List<Int32> result = new List<Int32>();
+        //    List<Item> filteredProdcuts = null;
+        //    int ii = 0;
+        //    if (productsAllList.Count > 0)
+        //    {
+        //        //Choose from the offers
+
+        //        filteredProdcuts = productsAllList.FindAll(item => item.OfferType.HasValue && item.OfferType.Value == offerTypeId).ToList();
+        //        if (filteredProdcuts.Count == 0)
+
+        //            filteredProdcuts = productsAllList.FindAll(item => (item.OfferType.HasValue == false || item.OfferType.Value != offerTypeId)).OrderByDescending(item => item.ItemID).ToList();
+
+        //        int seed = 1, increment = 3;
+        //        int n = filteredProdcuts.Count;
+
+        //        int x = seed;
+        //        for (int i = 0; i < n; i++)
+        //        {
+        //            x = (x + increment) % n;
+        //            result.Add(x);
+        //        }
+        //        //for (Int32 i = 0; i < productsAllList.Count; i++)
+        //        //{
+        //        //    int MAx = productsAllList.Count + 1;
+        //        //    Int32 curValue = rand.Next(1, MAx);
+        //        //    while (result.Contains(curValue))//result.Exists(value => value == curValue))
+        //        //    {
+        //        //        curValue = rand.Next(1, 11);
+        //        //    }
+
+        //        //    result.Add(curValue);
+        //        //}
+        //        foreach (var i in filteredProdcuts)
+        //        {
+        //            i.SortOrder = result[ii];
+        //            ii++;
+        //        }
+
+        //    }
+
+        //    return filteredProdcuts.OrderBy(item => item.SortOrder).ToList();
+
+        //}
+      
+
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId)
+        {
+            try
+            {
+                return _ItemRepository.GetStoreParentCategories(CompanyId, OrganisationId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
     }
 }

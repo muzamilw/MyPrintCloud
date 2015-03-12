@@ -304,6 +304,7 @@
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CampaignBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CmsTagController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyBannerController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
@@ -324,6 +325,7 @@
     <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -348,6 +350,13 @@
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineGuillotineCalcMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineGuilotinePtvMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
@@ -408,6 +417,14 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
+    <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
+    <Compile Include="Areas\Api\Models\MachineGuillotineCalc.cs" />
+    <Compile Include="Areas\Api\Models\MachineGuilotinePtv.cs" />
+    <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
+    <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -740,6 +757,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
@@ -2991,6 +3012,7 @@
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
+    <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />

@@ -26,7 +26,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductCategories = source.ProductCategories != null ? source.ProductCategories.Select(cc => cc.CreateFromDropDown()) : 
                 new List<ProductCategoryDropDown>(),
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(cc => cc.CreateFromDropDown()) :
-                new List<PaperSizeDropDown>()
+                new List<PaperSizeDropDown>(),
+                LengthUnit = source.LengthUnit,
+                CurrencyUnit = source.CurrencyUnit
             };
         }
         

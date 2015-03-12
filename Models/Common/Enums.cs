@@ -342,4 +342,10 @@ namespace MPC.Models.Common
         Pending = 1,
         Confirmed = 2
     }
+    public enum ProductWidget
+    {
+        FeaturedProducts = 1,
+        PopularProducts = 2,
+        SpecialProducts = 3
+    }
 }

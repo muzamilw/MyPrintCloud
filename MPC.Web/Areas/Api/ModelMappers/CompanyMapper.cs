@@ -148,26 +148,29 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 FacebookURL = source.FacebookURL,
                 LinkedinURL = source.LinkedinURL,
-                WorkflowS2CBytes=workflowbytes,  // workflow image                
+                WorkflowS2CBytes=workflowbytes,
+                isCalculateTaxByService = source.isCalculateTaxByService,
+                TaxLabel=source.TaxLabel,
+                TaxRate= source.TaxRate,
                 RaveReviews =
-                    source.RaveReviews != null ? source.RaveReviews.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                    source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
                     source.CompanyCMYKColors != null
                         ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
                         : null,
-                CompanyTerritories =
-                    source.CompanyTerritories != null
-                        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
-                        : null,
-                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                //CompanyTerritories =
+                //    source.CompanyTerritories != null
+                //        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
+                //        : null,
+                //Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyContacts =
-                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                //CompanyContacts =
+                //    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
-                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
-                CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
-                ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
+                PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
+                ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList().OrderBy(x=>x.DisplayOrder).ToList() : null,
+               // CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
+               // ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
                 StoreBackgroudImage = storeBackgroundImageBytes,
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
@@ -284,6 +287,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
                 includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
                 makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -294,8 +299,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
-                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0
+                CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
+                isCalculateTaxByService = source.isCalculateTaxByService, 
                 };
+
         }
 
         /// <summary>
@@ -379,6 +386,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FacebookURL = source.FacebookURL,
                 TwitterURL = source.TwitterURL,
                 LinkedinURL = source.LinkedinURL,
+                isCalculateTaxByService = source.isCalculateTaxByService ,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
@@ -469,6 +479,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
+                TaxLabel = source.TaxLabel,
+                TaxRate = source.TaxRate,
                 CompanyLogoSource = source.CompanyLogoSource,
                 CompanyLogoName = source.CompanyLogoName,
                 Addresses =

@@ -212,10 +212,16 @@ namespace MPC.Webstore
                );
 
             routes.MapRoute(
-             "CloneItem",
-             "CloneItem/{id}",
-             new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+             "CloneFeatureItem",
+             "CloneFeatureItem/{id}",
+             new { controller = "FeaturedProductCarousal", action = "CloneFeatureItem", id = UrlParameter.Optional }
                );
+
+            routes.MapRoute(
+            "CloneItem",
+            "CloneItem/{id}",
+            new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
+              );
 
             routes.MapRoute(
            "Dashboard/ResetPassword",
@@ -261,8 +267,8 @@ namespace MPC.Webstore
               
               routes.MapRoute(
               "NabSubmit",
-              "NabSubmit",
-              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+              "NabSubmit/{OrderID}",
+              new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
            );
               
             routes.MapRoute(

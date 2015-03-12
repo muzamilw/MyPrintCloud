@@ -49,20 +49,6 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         /// <summary>
-        /// New Stock Categories
-        /// </summary>
-        /// <param name="stockCategory"></param>
-        /// <returns></returns>
-        public StockCategory Put(StockCategory stockCategory)
-        {
-            if (ModelState.IsValid)
-            {
-                return stockCategoryService.Add(stockCategory.CreateFrom()).CreateFrom();
-            }
-            throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
-        }
-
-        /// <summary>
         /// Update stock Category
         /// </summary>
         /// <param name="stockCategory"></param>
@@ -74,7 +60,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 try
                 {
-                    return stockCategoryService.Update(stockCategory.CreateFrom()).CreateFrom();
+                    if(stockCategory.CategoryId <= 0)
+                    {
+                        return stockCategoryService.Add(stockCategory.CreateFrom()).CreateFrom();
+                    }
+                    else 
+                    {
+                        return stockCategoryService.Update(stockCategory.CreateFrom()).CreateFrom();
+                    }
+                    
                 }
                 catch (Exception exception)
                 {

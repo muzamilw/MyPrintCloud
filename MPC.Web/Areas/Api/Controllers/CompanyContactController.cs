@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -48,6 +49,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Save Contact
         /// </summary>
+        [ApiException]
         public CompanyContact Post(CompanyContact companyContact)
         {
             if (!ModelState.IsValid)

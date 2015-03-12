@@ -158,5 +158,23 @@ namespace MPC.Interfaces.WebStoreServices
         List<SaveDesignView> GetSavedDesigns(long ContactID);
 
         void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList);
+        /// <summary>
+        /// get published featured, special and popular products
+        /// </summary>
+        /// <param name="productWidgetId"></param>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<Item> GetProductsWithDisplaySettings(ProductWidget productWidgetId, long CompanyId, long OrganisationId);
+
+    
+
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
     }
 }

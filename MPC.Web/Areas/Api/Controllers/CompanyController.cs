@@ -60,24 +60,6 @@ namespace MPC.MIS.Areas.Api.Controllers
             //var result = companyService.GetCompanyById(companyId);
 
             CompanyResponse companyResponse = companyService.GetCompanyById(companyId).CreateFrom();
-            // Get List of Skins 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCThemingPath"]);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                string url = "GET/";
-                string responsestr = "";
-                var response = client.GetAsync(url);
-
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                    companyResponse.Themes = JsonConvert.DeserializeObject<List<SkinForTheme>>(responsestr);
-                }
-
-            }
 
             return companyResponse;
         }

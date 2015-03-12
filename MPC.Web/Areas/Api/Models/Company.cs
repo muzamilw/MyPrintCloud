@@ -39,7 +39,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short? IsGeneral { get; set; }
         public int? SalesPerson { get; set; }
         public string StoreImagePath { get; set; }
-
+        public bool? isCalculateTaxByService { get; set; }
         public string ImageName { get; set; }
         public string WebAccessCode { get; set; }
         public bool? isArchived { get; set; }
@@ -110,7 +110,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int CompanyContactCount { get; set; }
         public int CompanyAddressesCount { get; set; }
 
-
+        /// <summary>
+        /// Tax Label
+        /// </summary>
+        public string TaxLabel { get; set; }
+        public double? TaxRate { get; set; }
         #endregion
 
         #region Public List Properties

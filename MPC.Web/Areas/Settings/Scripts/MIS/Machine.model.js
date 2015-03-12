@@ -144,6 +144,7 @@
             isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
+            
             dirtyFlag = new ko.dirtyFlag({
                 MachineName: MachineName,
                 MachineCatId: MachineCatId,
@@ -211,6 +212,7 @@
                 Minimumsheetwidth: Minimumsheetwidth,
                 LookupMethodId: LookupMethodId,
                 MachineSpoilageItems: MachineSpoilageItems,
+                MachineInkCoverages: MachineInkCoverages
             }),
             hasChanges = ko.computed(function () {
 
@@ -301,6 +303,7 @@
             MachineInkCoverages: MachineInkCoverages,
             MachineSpoilageItems: MachineSpoilageItems,
             onSelectStockItem: onSelectStockItem
+          
         };
         return self;
     };
@@ -332,13 +335,44 @@
     }
 
     var MachineInkCoveragesListClientMapper = function (source, StockItemforInkList, InkCoveragItems) {
+        var
+            Id = source.Id,
+            SideInkOrder = ko.observable(source.SideInkOrder || undefined),
+            SideInkOrderCoverage = ko.observable(source.SideInkOrderCoverage || undefined),
+            MachineId = source.MachineId,
+            StockItemforInkList = StockItemforInkList,
+            InkCoveragItems = InkCoveragItems,
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                SideInkOrder: SideInkOrder,
+                SideInkOrderCoverage: SideInkOrderCoverage
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
         return {
-            Id : source.Id,
-            SideInkOrder : source.SideInkOrder,
-            SideInkOrderCoverage : source.SideInkOrderCoverage,
-            MachineId: source.MachineId,
+            Id : Id,
+            SideInkOrder: SideInkOrder,
+            SideInkOrderCoverage: SideInkOrderCoverage,
+            MachineId: MachineId,
             StockItemforInkList: StockItemforInkList,
-            InkCoveragItems: InkCoveragItems
+            InkCoveragItems: InkCoveragItems,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
         };
     };
     var MachineInkCoveragesServerMapper = function (source) {
@@ -379,12 +413,42 @@
     };
 
     var MachineSpoilageItemsMapper = function (source) {
+        var 
+            MachineSpoilageId = source.MachineSpoilageId,
+            MachineId = source.MachineId,
+            SetupSpoilage = ko.observable(source.SetupSpoilage),
+            RunningSpoilage = ko.observable(source.RunningSpoilage),
+            NoOfColors = source.NoOfColors,
+             errors = ko.validation.group({
+             }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            dirtyFlag = new ko.dirtyFlag({
+                SetupSpoilage: SetupSpoilage,
+                RunningSpoilage: RunningSpoilage
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+
         return {
-            MachineSpoilageId: source.MachineSpoilageId,
-            MachineId:source.MachineId,
-            SetupSpoilage : source.SetupSpoilage,
-            RunningSpoilage : source.RunningSpoilage,
-            NoOfColors: source.NoOfColors
+            MachineSpoilageId: MachineSpoilageId,
+            MachineId:MachineId,
+            SetupSpoilage : SetupSpoilage,
+            RunningSpoilage : RunningSpoilage,
+            NoOfColors: NoOfColors,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset
         };
         
     }
@@ -410,7 +474,7 @@
         omachine.ColourHeads(source.machine.ColourHeads);
         omachine.isPerfecting(source.machine.isPerfecting);
         omachine.SetupCharge(source.machine.SetupCharge);
-        omachine.WashupPrice(source.machine.WashupPrice);
+        
         omachine.WashupCost(source.machine.WashupCost);
         omachine.MinInkDuctqty(source.machine.MinInkDuctqty);
         omachine.worknturncharge(source.machine.worknturncharge);
@@ -420,8 +484,26 @@
         omachine.DefaultPaperId(source.machine.DefaultPaperId);
         omachine.isfilmused(source.machine.isfilmused);
         omachine.isplateused(source.machine.isplateused);
-        omachine.ismakereadyused(source.machine.ismakereadyused);
-        omachine.iswashupused(source.machine.iswashupused);
+        if (omachine.isplateused()) {
+            omachine.ismakereadyused(source.machine.ismakereadyused);
+            omachine.iswashupused(source.machine.iswashupused);
+            omachine.deFaultPlatesName(source.deFaultPlatesName);
+        } else {
+            omachine.deFaultPlatesName(null);
+            omachine.iswashupused(false);
+            omachine.ismakereadyused(false);
+        }
+        if (omachine.ismakereadyused()) {
+            omachine.MakeReadyPrice(source.machine.MakeReadyPrice);
+        } else {
+            omachine.MakeReadyPrice(0);
+        }
+        if (omachine.iswashupused()) {
+            omachine.WashupPrice(source.machine.WashupPrice);
+        } else {
+            omachine.WashupPrice(0);
+        }
+
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
@@ -453,7 +535,7 @@
         omachine.ReelMRPrice(source.machine.ReelMRPrice);
         omachine.IsMaxColorLimit(source.machine.IsMaxColorLimit);
         omachine.PressUtilization(source.machine.PressUtilization);
-        omachine.MakeReadyPrice(source.machine.MakeReadyPrice);
+        
         omachine.InkChargeForUniqueColors(source.machine.InkChargeForUniqueColors);
         omachine.CompanyId(source.machine.CompanyId);
         omachine.FlagId(source.machine.FlagId);
@@ -472,7 +554,7 @@
         omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
-        omachine.deFaultPlatesName(source.deFaultPlatesName);
+        
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
@@ -611,8 +693,8 @@
         var MachineSpoilageItem = {};
         MachineSpoilageItem.MachineSpoilageId = source.MachineSpoilageId;
         MachineSpoilageItem.MachineId = source.MachineId;
-        MachineSpoilageItem.SetupSpoilage = source.SetupSpoilage;
-        MachineSpoilageItem.RunningSpoilage = source.RunningSpoilage;
+        MachineSpoilageItem.SetupSpoilage = source.SetupSpoilage();
+        MachineSpoilageItem.RunningSpoilage = source.RunningSpoilage();
         MachineSpoilageItem.NoOfColors = source.NoOfColors;
         return MachineSpoilageItem;
 
@@ -620,8 +702,8 @@
     var MachineInkCoveragesListServerMapper = function (source) {
         var InkCoveragesItem = {};
         InkCoveragesItem.Id = source.Id;
-        InkCoveragesItem.SideInkOrder = source.SideInkOrder;
-        InkCoveragesItem.SideInkOrderCoverage = source.SideInkOrderCoverage;
+        InkCoveragesItem.SideInkOrder = source.SideInkOrder();
+        InkCoveragesItem.SideInkOrderCoverage = source.SideInkOrderCoverage();
         InkCoveragesItem.MachineId = source.MachineId;
 
         return InkCoveragesItem;

@@ -4,6 +4,7 @@
 @section leftmenue {
 
 }
+
 <div class="row" id="divMachineListBinding">
     <div class="col-lg-12" data-bind="visible: !isEditorVisible()">
         <div class="row">
@@ -15,6 +16,19 @@
                     <li class="active"><span>Machines</span></li>
                 </ol>
                 <h1>Machines</h1>
+                <div class="pull-right top-page-ui">
+                    <a class="btn btn-primary" data-bind="click: $root.createNewMachine">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
+
+                        <!--ko if: isGuillotineList-->
+                        Create New Guillotine
+                        <!-- /ko -->
+                        <!--ko ifnot: isGuillotineList-->
+                        Create New Press
+                        <!-- /ko -->
+
+                    </a>
+                </div>
             </div>
         </div>
         <div class="row">

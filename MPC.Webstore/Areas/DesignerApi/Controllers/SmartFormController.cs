@@ -74,13 +74,19 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             SmartForm objSmartform = smartFormService.GetSmartForm(parameter2);
             List<SmartFormDetail> smartFormObjs = smartFormService.GetSmartFormObjects(parameter2);
             bool hasContactVariables = false;
+            Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
             List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs,out hasContactVariables,parameter1);
-            if(hasContactVariables)
+            if (hasContactVariables)
             {
                 usersListData = new List<SmartFormUserList>();
                 usersListData = smartFormService.GetUsersList(parameter1);
+                if (usersListData != null)
+                {
+                    AllUserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
+                    AllUserScopeVariables = smartFormService.GetUserScopeVariables(smartFormObjs, usersListData);
+                }
             }
-            SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs,scopeVariable);
+            SmartFormUserData result = new SmartFormUserData(usersListData, objSmartform, smartFormObjs, scopeVariable, AllUserScopeVariables);
 
 
             var formatter = new JsonMediaTypeFormatter();
@@ -101,12 +107,15 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public List<SmartFormDetail> smartFormObjs { get; set; }
 
         public List<ScopeVariable> scopeVariables { get; set; }
-        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables)
+        public Dictionary<long, List<ScopeVariable>> AllUserScopeVariables;
+
+        public SmartFormUserData(List<SmartFormUserList> usersList, SmartForm smartForm, List<SmartFormDetail> smartFormObjs, List<ScopeVariable> scopeVariables, Dictionary<long, List<ScopeVariable>> AllUserScopeVariables)
         {
             this.usersList = usersList;
             this.smartForm = smartForm;
             this.smartFormObjs = smartFormObjs;
             this.scopeVariables = scopeVariables;
+            this.AllUserScopeVariables = AllUserScopeVariables;
         }
     }
 }

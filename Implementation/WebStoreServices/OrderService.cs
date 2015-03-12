@@ -480,5 +480,24 @@ namespace MPC.Implementation.WebStoreServices
 
            return _OrderRepository.CreateNewOrder(CompanyId, ContactId, OrganisationId, orderTitle);
        }
+       /// <summary>
+       /// gets cart order by company id
+       /// </summary>
+       /// <param name="ContactId"></param>
+       /// <param name="TemporaryCustomerId"></param>
+       /// <returns></returns>
+       public long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus)
+        {
+            try
+            {
+                return _OrderRepository.GetOrderIdByCompanyId(CompanyId, orderStatus);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+                return 0;
+            }
+        }
     }
 }

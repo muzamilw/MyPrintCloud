@@ -12,8 +12,10 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li class="active"><span data-bind="text:$root.storeStatus"></span></li>
+                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'" ><span data-bind="text:$root.storeStatus"></span></li>
+                        <!-- if ko if : $root.productStatus()!='' -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
+                        <!-- /ko -->
                     </ol>
                     <div class="tab-content dynamicNameHeading" data-bind="with: $root.selectedStore()">
                         <h1 data-bind="text:$root.storeHeading()!='undefined-undefined' ?$root.storeHeading():'' "></h1>
@@ -38,7 +40,7 @@
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
                         </div>
                     </div>
@@ -48,7 +50,7 @@
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
-                                <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
+                                <li><a href="#tab-widgets" data-toggle="tab">Themes & Settings</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
@@ -63,6 +65,7 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
+                                <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -123,7 +126,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
+                                                    <span class="help-block text-right">URL http://pinkcards.com/store/corporatedemo</span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
@@ -1244,7 +1247,7 @@
                                 </div>
                                 <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Approval Policies</h3>
+                                        <h3 class="group-header">Store Settings</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -1269,7 +1272,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             Public
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Determines whether addresses are shared by every user or addresses can be private or public.</span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1343,7 +1346,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosForceOnlinePayment">
-                                                            Force visitors to pay online to your PayPal Account
+                                                            Force visitors to pay online using payment gateway
                                                         </label>
                                                     </div>
                                                     <div class="radio">
@@ -1357,7 +1360,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Can this store accept online payments ?</label>
+                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
@@ -1371,7 +1374,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchDisplayDVoucher">Display and accept discount voucher codes on shopping cart page ?</label>
+                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shoping Cart ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" checked>
@@ -1384,7 +1387,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchProductPrices">Display the prices of products across store ?</label>
+                                                <label class="col-md-6" for="switchProductPrices">Show product pricing on category pages ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" checked>
@@ -1397,7 +1400,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchCorpBranding">Display corporate branding ( logo, address, GST reg etc ) of store on Order receipts</label>
+                                                <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Receipts and Websites ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" checked>
@@ -1411,7 +1414,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow users to self register on this store</label>
+                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new registrations on store ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" checked>
@@ -1451,8 +1454,33 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Price Settings</h3>
+                                        <h3 class="group-header">Tax Settings</h3>
                                         <div class="col-lg-12 clearfix">
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By Service</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadios1" id="optionYes1" value="true" data-bind="checked: $root.selectedStore().isCalculateTaxByService, event:{click:$root.calculateTaxByServiceHandler}">
+                                                        <label for="optionYes1">
+                                                            Yes
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <input type="radio" name="optionsRadios1" id="optionNo1" value="false" data-bind="checked: $root.selectedStore().isCalculateTaxByService, event:{click:$root.calculateTaxByServiceHandler}">
+                                                        <label for="optionNo1">
+                                                            No
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right">&nbsp; </span>
+                                                </div>
+                                            </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1464,18 +1492,18 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT">
+                                                        <input type="radio" name="optionsRadios" id="optionYes" value="true" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
                                                         <label for="optionYes">
                                                             Yes
                                                         </label>
                                                     </div>
                                                     <div class="radio">
-                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT">
+                                                        <input type="radio" name="optionsRadios" id="optionNo" value="false" data-bind="checked: $root.selectedStore().isIncludeVAT, event:{click:$root.vatHandler}">
                                                         <label for="optionNo">
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Would you like to include VAT/GST across store prices?</span>
+                                                    <span class="help-block text-left">Would you like to include VAT/GST across store prices?</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1485,12 +1513,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">VAT/GST</label>
+                                                    <label class="control-label text-right tooltip-float">Global Tax Settings</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" id="txtTax" placeholder="20">
+                                                        <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Tax Title</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-group" style="width:50%;">
+                                                        <input type="text" class="form-control" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1531,7 +1574,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Order Download Settings</h3>
+                                        <h3 class="group-header">Attachments sent with outsourced orders</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
@@ -1738,10 +1781,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <thead>
                                                         <tr>
                                                             <th><a href="#"><span>Color Name</span></a></th>
-                                                            <th><a href="#"><span>ColorC</span></a></th>
-                                                            <th><a href="#"><span>ColorM</span></a></th>
-                                                            <th><a href="#"><span>ColorY</span></a></th>
-                                                            <th><a href="#"><span>ColorK</span></a></th>
+                                                            <th><a href="#"><span>Cyan</span></a></th>
+                                                            <th><a href="#"><span>Magenta</span></a></th>
+                                                            <th><a href="#"><span>Yellow</span></a></th>
+                                                            <th><a href="#"><span>Black</span></a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1848,6 +1891,38 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
+                                <div class="tab-pane clearfix fade" id="tab-ModifyVariable">
+                                    <h3 class="group-header">Variables</h3>
+                                    <div class="col-lg-12 clearfix">
+                                        <header class="main-box-header clearfix">
+                                            <div class="filter-block">
+                                                <div class="form-group filter-block pull-left col-xs-4">
+                                                </div>
+                                                <div class="filter-block pull-right col-xs-5">
+                                                   
+                                                </div>
+                                            </div>
+                                        </header>
+                                        <div class="main-box-body clearfix">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            @*<th><a href="#"><span>Name</span></a></th>
+                                                            <th><a href="#"><span>Description</span></a></th>
+                                                            <th>&nbsp;</th>*@
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @*<!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
+                                                        <!-- /ko -->*@
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                           
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1891,7 +1966,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
                 <td data-bind="text: reviewBy"></td>
                 <td data-bind="text: review"></td>
-                <td data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></td>
+                <td ><div class="type">
+                <span class="label" data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></span></</div>
+                </td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->

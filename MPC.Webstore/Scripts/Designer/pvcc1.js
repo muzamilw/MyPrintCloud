@@ -146,7 +146,8 @@ var allowPdfDownload = false;
 var allowImgDownload = false;
 var isMultiPageProduct = false;
 var varList = []; var isRealestateproduct = false;
-var item ;
+var item;
+var smartFormData = null;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

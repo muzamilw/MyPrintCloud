@@ -30,17 +30,7 @@ namespace MPC.MIS.Areas.Api.Models
 
             }
 
-            string defaultPageKeyWords = null;
-            if (source.CmsPageTags != null)
-            {
-                foreach (var item in source.CmsPageTags)
-                {
-                    if (item.CmsTag != null)
-                    {
-                        defaultPageKeyWords = defaultPageKeyWords != null ? (defaultPageKeyWords + " , " + item.CmsTag.TagName) : item.CmsTag.TagName;
-                    }
-                }
-            }
+
             return new CmsPage
             {
                 PageId = source.PageId,
@@ -57,7 +47,6 @@ namespace MPC.MIS.Areas.Api.Models
                 isEnabled = source.isEnabled,
                 PageKeywords = source.PageKeywords,
                 PageTitle = source.PageTitle,
-                DefaultPageKeyWords = defaultPageKeyWords,
                 Image = bytes,
                 PageBanner = source.PageBanner
             };
@@ -112,7 +101,7 @@ namespace MPC.MIS.Areas.Api.Models
                 IsDisplay = source.isDisplay,
                 IsEnabled = source.isEnabled,
                 Meta_Title = source.Meta_Title,
-                IsUserDefined= source.isUserDefined,
+                IsUserDefined = source.isUserDefined,
                 Image = bytes,
                 CategoryName = source.PageCategory != null ? source.PageCategory.CategoryName : string.Empty,
             };
