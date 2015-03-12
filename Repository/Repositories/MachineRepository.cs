@@ -160,8 +160,8 @@ namespace MPC.Repository.Repositories
 
             
         }
-
-        public MachineResponseModel GetNewMachine(bool IsGuillotine)
+        
+        public MachineResponseModel CreateMachineByType(bool IsGuillotine)
         {
            
             return new MachineResponseModel
@@ -180,6 +180,125 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        {
+            try
+            {
+                Machine omachine = new Machine();
+                omachine.MachineName = machine.MachineName;
+                omachine.MachineCatId = machine.MachineCatId;
+                omachine.ColourHeads = machine.ColourHeads;
+                omachine.isPerfecting = machine.isPerfecting;
+                omachine.SetupCharge = machine.SetupCharge;
+                omachine.WashupPrice = machine.WashupPrice;
+                omachine.WashupCost = machine.WashupCost;
+                omachine.MinInkDuctqty = machine.MinInkDuctqty;
+                omachine.worknturncharge = machine.worknturncharge;
+                omachine.MakeReadyCost = machine.MakeReadyCost;
+                omachine.DefaultFilmId = machine.DefaultFilmId;
+                omachine.DefaultPlateId = machine.DefaultPlateId;
+                omachine.DefaultPaperId = machine.DefaultPaperId;
+                omachine.isfilmused = machine.isfilmused;
+                omachine.isplateused = machine.isplateused;
+                omachine.ismakereadyused = machine.ismakereadyused;
+                omachine.iswashupused = machine.iswashupused;
+                omachine.maximumsheetweight = machine.maximumsheetweight;
+                omachine.maximumsheetheight = machine.maximumsheetheight;
+                omachine.maximumsheetwidth = machine.maximumsheetwidth;
+                omachine.minimumsheetheight = machine.minimumsheetheight;
+                omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                omachine.gripdepth = machine.gripdepth;
+                omachine.gripsideorientaion = machine.gripsideorientaion;
+                omachine.gutterdepth = machine.gutterdepth;
+                omachine.headdepth = machine.headdepth;
+                omachine.MarkupId = machine.MarkupId;
+                omachine.PressSizeRatio = machine.PressSizeRatio;
+                omachine.Description = machine.Description;
+                omachine.Priority = machine.Priority;
+                omachine.DirectCost = machine.DirectCost;
+                omachine.Image = machine.Image;
+                omachine.MinimumCharge = machine.MinimumCharge;
+                omachine.CostPerCut = machine.CostPerCut;
+                omachine.PricePerCut = machine.PricePerCut;
+                omachine.IsAdditionalOption = machine.IsAdditionalOption;
+                omachine.IsDisabled = false;
+                omachine.LockedBy = machine.LockedBy;
+                omachine.CylinderSizeId = machine.CylinderSizeId;
+                omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder;
+                omachine.Web1MRCost = machine.Web1MRCost;
+                omachine.Web1MRPrice = machine.Web1MRPrice;
+                omachine.Web2MRCost = machine.Web2MRCost;
+                omachine.Web2MRPrice = machine.Web2MRPrice;
+                omachine.ReelMRCost = machine.ReelMRCost;
+                omachine.ReelMRPrice = machine.ReelMRPrice;
+                omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
+                omachine.PressUtilization = machine.PressUtilization;
+                omachine.MakeReadyPrice = machine.MakeReadyPrice;
+                omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors;
+                omachine.CompanyId = machine.CompanyId;
+                omachine.FlagId = machine.FlagId;
+                omachine.IsScheduleable = machine.IsScheduleable;
+                omachine.SystemSiteId = machine.SystemSiteId;
+                omachine.SpoilageType = machine.SpoilageType;
+                omachine.SetupTime = machine.SetupTime;
+                omachine.TimePerCut = machine.TimePerCut;
+                omachine.MakeReadyTime = machine.MakeReadyTime;
+                omachine.WashupTime = machine.WashupTime;
+                omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
+                omachine.LookupMethodId = machine.LookupMethodId;
+                omachine.OrganisationId = OrganisationId;
+                db.Machines.Add(omachine);
+                db.SaveChanges();
+
+                foreach (var item in machine.MachineInkCoverages)
+                {
+                    MachineInkCoverage obj = new MachineInkCoverage();
+                    obj.MachineId = omachine.MachineId;
+                    obj.SideInkOrder = item.SideInkOrder;
+                    obj.SideInkOrderCoverage = item.SideInkOrderCoverage;
+                    db.MachineInkCoverages.Add(obj);
+                }
+
+                foreach (var item in MachineSpoilages)
+                {
+                    MachineSpoilage obj = new MachineSpoilage();
+                    obj.MachineId = omachine.MachineId;
+                    obj.RunningSpoilage = item.RunningSpoilage;
+                    obj.SetupSpoilage = item.SetupSpoilage;
+                    obj.NoOfColors = item.NoOfColors;
+                    db.MachineSpoilages.Add(obj);
+
+                }
+
+                if (db.SaveChanges() > 0)
+                {
+                    return new MachineResponseModel
+                    {
+                        machine = omachine,
+                        lookupMethods = null,
+                        Markups = null,
+                        StockItemforInk = null,
+                        MachineSpoilageItems = GetMachineSpoilageItems(omachine.MachineId),
+                        deFaultPaperSizeName = null,
+                        deFaultPlatesName = null,
+                        InkCoveragItems = null
+
+                    };
+                }
+                else
+                {
+                    return new MachineResponseModel
+                    {
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             try
@@ -288,7 +407,7 @@ namespace MPC.Repository.Repositories
 
         public IEnumerable<InkCoverageGroup> GetInkCoveragItems()
         {
-            return db.InkCoverageGroups.Where(g => g.OrganisationId==1).ToList();
+            return db.InkCoverageGroups;
         }
         protected override IDbSet<Machine> DbSet
         {

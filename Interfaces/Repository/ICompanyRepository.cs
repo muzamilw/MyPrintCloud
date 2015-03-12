@@ -65,7 +65,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         int LiveStoresCountForDashboard();
 
-       
-        
+        CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
+
     }
 }

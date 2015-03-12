@@ -8,7 +8,7 @@ body
     background: #fff;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
-    background: url(../images/patterns/5.png) repeat;
+    /*background: url(../images/patterns/5.png) repeat;*/
     height: 100%;
 }
 
@@ -177,6 +177,9 @@ z-index:1000000011;
        }
        
 
-  
+  #machineDetailsHeader{
+    border: 1px solid silver;
+    box-shadow: 1px 1px 1px silver;
+}
 
       
