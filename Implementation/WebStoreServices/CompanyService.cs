@@ -1292,18 +1292,18 @@ namespace MPC.Implementation.WebStoreServices
             return _addressRepository.GetsearchedAddress(CompanyId, searchtxt);
         }
         
-        public void UpdateBillingShippingAdd(Address Model)
+        public bool UpdateBillingShippingAdd(Address Model)
         {
-            _addressRepository.UpdateBillingShippingAdd(Model);
+          return _addressRepository.UpdateBillingShippingAdd(Model);
            
         }
         public bool AddressNameExist(Address address)
         {
             return _addressRepository.AddressNameExist(address);
         }
-        public void AddAddBillingShippingAdd(Address Address)
+        public bool AddAddBillingShippingAdd(Address Address)
         {
-            _addressRepository.AddAddBillingShippingAdd(Address);
+           return _addressRepository.AddAddBillingShippingAdd(Address);
         }
         public void ResetDefaultShippingAddress(Address address)
         {
@@ -1330,6 +1330,10 @@ namespace MPC.Implementation.WebStoreServices
         public List<State> GetAllStates()
         {
             return _addressRepository.GetAllStates();
+        }
+        public CompanyContact GetContactByEmailID(string Email)
+        {
+            return _CompanyContactRepository.GetContactByEmailID(Email);
         }
 
         public NewsLetterSubscriber GetSubscriber(string email, long CompanyId)

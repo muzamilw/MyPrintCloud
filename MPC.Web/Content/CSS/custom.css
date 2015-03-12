@@ -177,6 +177,9 @@ z-index:1000000011;
        }
        
 
-  
+  #machineDetailsHeader{
+    border: 1px solid silver;
+    box-shadow: 1px 1px 1px silver;
+}
 
       
