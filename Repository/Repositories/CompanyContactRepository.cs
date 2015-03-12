@@ -1247,7 +1247,14 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-
+        public  CompanyContact GetContactByEmailID(string Email)
+        {
+          return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
+        }
+        public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
+        {
+            return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
+        }
     }
 }
 

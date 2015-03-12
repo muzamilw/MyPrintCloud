@@ -14,7 +14,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CategoryName = source.CategoryName,
                 ContentType = source.ContentType,
                 LockedBy = source.LockedBy,
-                ParentCategoryId = source.ParentCategoryId
+                ParentCategoryId = source.ParentCategoryId,
+                DisplayOrder = source.DisplayOrder
             };
         }
     }

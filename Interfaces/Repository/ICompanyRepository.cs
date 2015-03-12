@@ -49,7 +49,8 @@ namespace MPC.Interfaces.Repository
 
         ExportSets ExportRetailCompany(long CompanyId);
 
-        ExportOrganisation ExportCompany(long CompanyId);
+      
+        ExportSets ExportCorporateCompany(long CompanyId);
 
         long GetCorporateCompanyIDbyOrganisationID(long OID);
 

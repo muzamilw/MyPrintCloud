@@ -45,9 +45,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost]
-        public void InsertOrganisation(long parameter1, string parameter2,bool parameter3)
+        public void InsertOrganisation(long parameter1, bool parameter2)
         {
-            myCompanyService.ImportOrganisation(parameter1, parameter2, parameter3);
+            myCompanyService.ImportOrganisation(parameter1, parameter2);
         }
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]

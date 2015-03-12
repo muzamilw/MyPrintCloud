@@ -22,11 +22,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
-        public IEnumerable<Section> getSectionLibray()
-        {
+        //public IEnumerable<Section> getSectionLibray()
+        //{
 
-            //return _SectionService.GetSectionsForPhraseLibrary().Select(g => g.CreateFromCampaign()).ToList();
+        //    //return _SectionService.GetSectionsForPhraseLibrary().Select(g => g.CreateFromCampaign()).ToList();
 
-        }
+        //}
     }
 }

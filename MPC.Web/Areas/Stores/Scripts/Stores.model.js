@@ -114,7 +114,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #endregion _________ S T O R E   L I S T    V I E W____________________
 
     // #region _____________________ S T O R E ______________________________
-    
+
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
     var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
@@ -175,7 +175,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isBrokerCanAcceptPaymentOnline = ko.observable(specifiedisBrokerCanAcceptPaymentOnline),
             canUserPlaceOrderWithoutApproval = ko.observable(specifiedcanUserPlaceOrderWithoutApproval),
             isIncludeVAT = ko.observable(specifiedisIncludeVAT),
-            isCalculateTaxByService = ko.observable(undefined),   
+            isCalculateTaxByService = ko.observable(undefined),
             includeEmailBrokerArtworkOrderReport = ko.observable(specifiedincludeEmailBrokerArtworkOrderReport),
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
@@ -250,6 +250,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             customCSS = ko.observable(specifiedCustomCSS),
             //Company Domain Copy
             defaultCompanyDomainCopy = ko.observable(),
+            taxLabel = ko.observable(undefined),
+            taxRate = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -270,7 +272,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 companyId: companyId,
                 name: name,
                 storeWorkflowImageName: storeWorkflowImageName,
-                storeWorkflowImageBinary:storeWorkflowImageBinary,
+                storeWorkflowImageBinary: storeWorkflowImageBinary,
                 status: status,
                 image: image,
                 url: url,
@@ -279,7 +281,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 avatRegNumber: avatRegNumber,
                 avatRegReference: avatRegReference,
                 phoneNo: phoneNo,
-                isCalculateTaxByService:isCalculateTaxByService,
+                isCalculateTaxByService: isCalculateTaxByService,
                 isCustomer: isCustomer,
                 notes: notes,
                 webAccessCode: webAccessCode,
@@ -327,7 +329,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 customCSS: customCSS,
                 companyDomains: companyDomains,
                 isDeliveryTaxAble: isDeliveryTaxAble,
-                pickupAddressId: pickupAddressId
+                pickupAddressId: pickupAddressId,
+                taxLabel: taxLabel,
+                taxRate: taxRate
                 //storeLayoutChange: storeLayoutChange
                 //#endregion
             }),
@@ -387,9 +391,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.PickupAddressId = source.pickupAddressId();
                 result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
                 result.CustomCSS = source.customCSS();
-                result.StoreWorkflowImageName  = source.storeWorkflowImageName(); 
+                result.StoreWorkflowImageName = source.storeWorkflowImageName();
                 result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
                 result.isCalculateTaxByService = source.isCalculateTaxByService();
+                result.TaxLabel = source.taxLabel();
+                result.TaxRate = source.taxRate()
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -475,7 +481,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             accountManagerId: accountManagerId,
             avatRegNumber: avatRegNumber,
             avatRegReference: avatRegReference,
-            isCalculateTaxByService:isCalculateTaxByService,
+            isCalculateTaxByService: isCalculateTaxByService,
             phoneNo: phoneNo,
             isCustomer: isCustomer,
             notes: notes,
@@ -511,7 +517,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDisplayBanners: isDisplayBanners,
             storeImageFileBinary: storeImageFileBinary,
             storeImageName: storeImageName,
-            storeWorkflowImageName:storeWorkflowImageName,
+            storeWorkflowImageName: storeWorkflowImageName,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,
@@ -548,7 +554,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
             reset: reset,
-            storeWorkflowImageBinary:storeWorkflowImageBinary
+            storeWorkflowImageBinary: storeWorkflowImageBinary,
+            taxLabel: taxLabel,
+            taxRate: taxRate
             //#endregion
         };
         return self;
@@ -688,7 +696,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.companyType(CompanyType.Create(source.CompanyType));
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
-        store.isCalculateTaxByService(source.isCalculateTaxByService==true ? 'true': 'false');
+        store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
+        store.taxLabel(source.TaxLabel);
+        store.taxRate(source.TaxRate);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -2042,82 +2052,90 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         specifiedImageSource, specifiedDefaultPageKeyWords, specifiedFileName, specifiedPageBanner, specifiedisEnabled) {
         var self,
             id = ko.observable(specifiedPageId),
-            pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
-            pageKeywords = ko.observable(specifiedPageKeywords),
-            metaTitle = ko.observable(specifiedMetaTitle),
-            metaDescriptionContent = ko.observable(specifiedMetaDescriptionContent),
-            metaCategoryContent = ko.observable(specifiedMetaCategoryContent),
-            metaRobotsContent = ko.observable(specifiedMetaRobotsContent),
-            metaAuthorContent = ko.observable(specifiedMetaAuthorContent),
-            metaLanguageContent = ko.observable(specifiedMetaLanguageContent),
-            metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
-            categoryId = ko.observable(specifiedCategoryId),
-            pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
-            imageSrc = ko.observable(specifiedImageSource),
-            fileName = ko.observable(specifiedFileName),
-            isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
-            defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
-            pageBanner = ko.observable(specifiedPageBanner),
-            isUserDefined = ko.observable(undefined),
-            // Errors
-            errors = ko.validation.group({
-                pageTitle: pageTitle,
+           // pageTitle = ko.observable(specifiedPageTitle).extend({ required: true }),
+           isUserDefined = ko.observable(undefined),
+            pageTitle = ko.observable(specifiedPageTitle).extend({
+                required: {
+                    onlyIf: function () {
+                        return isUserDefined();
+                    }
+                }
+            }),
+        pageKeywords = ko.observable(specifiedPageKeywords),
+        metaTitle = ko.observable(specifiedMetaTitle),
+        metaDescriptionContent = ko.observable(specifiedMetaDescriptionContent),
+        metaCategoryContent = ko.observable(specifiedMetaCategoryContent),
+        metaRobotsContent = ko.observable(specifiedMetaRobotsContent),
+        metaAuthorContent = ko.observable(specifiedMetaAuthorContent),
+        metaLanguageContent = ko.observable(specifiedMetaLanguageContent),
+        metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
+        categoryId = ko.observable(specifiedCategoryId),
+        pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
+        imageSrc = ko.observable(specifiedImageSource),
+        fileName = ko.observable(specifiedFileName),
+        isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
+        defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
+        pageBanner = ko.observable(specifiedPageBanner),
 
-            }),
-            // Is Valid 
-            isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;
-            }),
+        // Errors
+        errors = ko.validation.group({
+            pageTitle: pageTitle,
 
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-                pageTitle: pageTitle,
-                pageKeywords: pageKeywords,
-                metaTitle: metaTitle,
-                metaDescriptionContent: metaDescriptionContent,
-                metaCategoryContent: metaCategoryContent,
-                metaRobotsContent: metaRobotsContent,
-                metaAuthorContent: metaAuthorContent,
-                metaLanguageContent: metaLanguageContent,
-                metaRevisitAfterContent: metaRevisitAfterContent,
-                categoryId: categoryId,
-                pageHTML: pageHTML,
-                imageSrc: imageSrc,
-                fileName: fileName,
-                defaultPageKeyWords: defaultPageKeyWords,
-                pageBanner: pageBanner,
-                isEnabled: isEnabled
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.PageId = source.id() === undefined ? 0 : source.id();
-                result.PageTitle = source.pageTitle() === undefined ? null : source.pageTitle();;
-                result.PageKeywords = source.pageKeywords() === undefined ? null : source.pageKeywords();
-                result.Meta_Title = source.metaTitle() === undefined ? null : source.metaTitle();
-                result.Meta_DescriptionContent = source.metaDescriptionContent() === undefined ? null : source.metaDescriptionContent();
-                result.Meta_CategoryContent = source.metaCategoryContent() === undefined ? null : source.metaCategoryContent();
-                result.Meta_RobotsContent = source.metaRobotsContent() === undefined ? null : source.metaRobotsContent();
-                result.Meta_AuthorContent = source.metaAuthorContent() === undefined ? null : source.metaAuthorContent();
-                result.Meta_LanguageContent = source.metaLanguageContent() === undefined ? null : source.metaLanguageContent();
-                result.Meta_RevisitAfterContent = source.metaRevisitAfterContent() === undefined ? null : source.metaRevisitAfterContent();
-                result.CategoryId = source.categoryId() === undefined ? null : source.categoryId();
-                result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
-                result.FileName = source.fileName() === undefined ? null : source.fileName();
-                result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
-                result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
-                result.isEnabled = source.isEnabled();
-                result.IsUserDefined = source.isUserDefined();
-                return result;
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
+        }),
+        // Is Valid 
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;
+        }),
+
+        // ReSharper disable InconsistentNaming
+        dirtyFlag = new ko.dirtyFlag({
+            pageTitle: pageTitle,
+            pageKeywords: pageKeywords,
+            metaTitle: metaTitle,
+            metaDescriptionContent: metaDescriptionContent,
+            metaCategoryContent: metaCategoryContent,
+            metaRobotsContent: metaRobotsContent,
+            metaAuthorContent: metaAuthorContent,
+            metaLanguageContent: metaLanguageContent,
+            metaRevisitAfterContent: metaRevisitAfterContent,
+            categoryId: categoryId,
+            pageHTML: pageHTML,
+            imageSrc: imageSrc,
+            fileName: fileName,
+            defaultPageKeyWords: defaultPageKeyWords,
+            pageBanner: pageBanner,
+            isEnabled: isEnabled
+        }),
+        // Has Changes
+        hasChanges = ko.computed(function () {
+            return dirtyFlag.isDirty();
+        }),
+        //Convert To Server
+        convertToServerData = function (source) {
+            var result = {};
+            result.PageId = source.id() === undefined ? 0 : source.id();
+            result.PageTitle = source.pageTitle() === undefined ? null : source.pageTitle();;
+            result.PageKeywords = source.pageKeywords() === undefined ? null : source.pageKeywords();
+            result.Meta_Title = source.metaTitle() === undefined ? null : source.metaTitle();
+            result.Meta_DescriptionContent = source.metaDescriptionContent() === undefined ? null : source.metaDescriptionContent();
+            result.Meta_CategoryContent = source.metaCategoryContent() === undefined ? null : source.metaCategoryContent();
+            result.Meta_RobotsContent = source.metaRobotsContent() === undefined ? null : source.metaRobotsContent();
+            result.Meta_AuthorContent = source.metaAuthorContent() === undefined ? null : source.metaAuthorContent();
+            result.Meta_LanguageContent = source.metaLanguageContent() === undefined ? null : source.metaLanguageContent();
+            result.Meta_RevisitAfterContent = source.metaRevisitAfterContent() === undefined ? null : source.metaRevisitAfterContent();
+            result.CategoryId = source.categoryId() === undefined ? null : source.categoryId();
+            result.PageHTML = source.pageHTML() === undefined ? null : source.pageHTML();
+            result.FileName = source.fileName() === undefined ? null : source.fileName();
+            result.Bytes = source.imageSrc() === undefined ? null : source.imageSrc();
+            result.PageBanner = source.pageBanner() === undefined ? null : source.pageBanner();
+            result.isEnabled = source.isEnabled();
+            result.IsUserDefined = source.isUserDefined();
+            return result;
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
         self = {
             id: id,
             pageTitle: pageTitle,
@@ -2136,7 +2154,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             defaultPageKeyWords: defaultPageKeyWords,
             pageBanner: pageBanner,
             isValid: isValid,
-            isUserDefined:isUserDefined,
+            isUserDefined: isUserDefined,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2148,7 +2166,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     };
     //CMS Page Create Factory
     CMSPage.Create = function (source) {
-        var obj= new CMSPage(
+        var obj = new CMSPage(
             source.PageId,
             source.PageTitle,
             source.PageKeywords,
@@ -2247,7 +2265,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             };
         self = {
             pageId: pageId,
-            isUserDefined:isUserDefined,
+            isUserDefined: isUserDefined,
             pageTitle: pageTitle,
             metaTitle: metaTitle,
             isEnabled: isEnabled,
@@ -2259,7 +2277,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return self;
     };
     SecondaryPageListView.Create = function (source) {
-        var obj= new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
+        var obj = new SecondaryPageListView(source.PageId, source.PageTitle, source.Meta_Title, source.IsEnabled, source.IsDisplay,
             source.CategoryName, source.ImageSource);
         obj.isUserDefined(source.IsUserDefined);
         return obj;
@@ -2415,7 +2433,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 homeCity: homeCity,
                 homeState: homeState,
                 homePostCode: homePostCode,
-                HomeCountry: homeCountry,
+                homeCountry: homeCountry,
                 secretQuestion: secretQuestion,
                 secretAnswer: secretAnswer,
                 password: password,
@@ -2575,6 +2593,100 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     //ShippingAddress: shippingAddress() != undefined ? shippingAddress().convertToServerData() : null,
                 };
             },
+             update = function (source) {
+                 contactId(source.contactId());
+                 contactId(source.contactId());
+                 addressId(source.addressId());
+                 companyId(source.companyId());
+                 firstName(source.firstName());
+                 middleName(source.middleName());
+                 lastName(source.lastName());
+                 title(source.title());
+                 homeTel1(source.homeTel1());
+                 homeTel2(source.homeTel2());
+                 homeExtension1(source.homeExtension1());
+                 homeExtension2(source.homeExtension2());
+                 mobile(source.mobile());
+                 email(source.email());
+                 fAX(source.fAX());
+                 jobTitle(source.jobTitle());
+                 dOB(source.dOB());
+                 notes(source.notes());
+                 isDefaultContact(source.isDefaultContact());
+                 homeAddress1(source.homeAddress1());
+                 homeAddress2(source.homeAddress2());
+                 homeCity(source.homeCity());
+                 homeState(source.homeState());
+                 homePostCode(source.homePostCode());
+                 homeCountry(source.homeCountry());
+                 secretQuestion(source.secretQuestion());
+                 secretAnswer(source.secretAnswer());
+                 password(source.password());
+                 uRL(source.uRL());
+                 isEmailSubscription(source.isEmailSubscription());
+                 isNewsLetterSubscription(source.isNewsLetterSubscription());
+                 image(source.image());
+                 quickFullName(source.quickFullName());
+                 quickTitle(source.quickTitle());
+                 quickCompanyName(source.quickCompanyName());
+                 quickAddress1(source.quickAddress1());
+                 quickAddress2(source.quickAddress2());
+                 quickAddress3(source.quickAddress3());
+                 quickPhone(source.quickPhone());
+                 quickFax(source.quickFax());
+                 quickEmail(source.quickEmail());
+                 quickWebsite(source.quickWebsite());
+                 quickCompMessage(source.quickCompMessage());
+                 questionId(source.questionId());
+                 isApprover(source.isApprover());
+                 isWebAccess(source.isWebAccess());
+                 isPlaceOrder(source.isPlaceOrder());
+                 creditLimit(source.creditLimit());
+                 isArchived(source.isArchived());
+                 contactRoleId(source.contactRoleId());
+                 territoryId(source.territoryId());
+                 claimIdentifer(source.claimIdentifer());
+                 authentifiedBy(source.authentifiedBy());
+                 isPayByPersonalCreditCard(source.isPayByPersonalCreditCard());
+                 isPricingshown(source.isPricingshown());
+                 skypeId(source.skypeId());
+                 linkedinURL(source.linkedinURL());
+                 facebookURL(source.facebookURL());
+                 twitterURL(source.twitterURL());
+                 authenticationToken(source.authenticationToken());
+                 twitterScreenName(source.twitterScreenName());
+                 shippingAddressId(source.shippingAddressId());
+                 isUserLoginFirstTime(source.isUserLoginFirstTime());
+                 quickMobileNumber(source.quickMobileNumber());
+                 quickTwitterId(source.quickTwitterId());
+                 quickFacebookId(source.quickFacebookId());
+                 quickLinkedInId(source.quickLinkedInId());
+                 quickOtherId(source.quickOtherId());
+                 pOBoxAddress(source.pOBoxAddress());
+                 corporateUnit(source.corporateUnit());
+                 officeTradingName(source.officeTradingName());
+                 contractorName(source.contractorName());
+                 bPayCRN(source.bPayCRN());
+                 aBN(source.aBN());
+                 aCN(source.aCN());
+                 additionalField1(source.additionalField1());
+                 additionalField2(source.additionalField2());
+                 additionalField3(source.additionalField3());
+                 additionalField4(source.additionalField4());
+                 additionalField5(source.additionalField5());
+                 canUserPlaceOrderWithoutApproval(source.canUserPlaceOrderWithoutApproval());
+                 canUserEditProfile(source.canUserEditProfile());
+                 canPlaceDirectOrder(source.canPlaceDirectOrder());
+                 organisationId(source.organisationId());
+                 bussinessAddressId(source.bussinessAddressId());
+                 confirmPassword(source.confirmPassword());
+                 roleName(source.roleName());
+                 fileName(source.fileName());
+                 bussinessAddress(source.bussinessAddress());
+                 shippingAddress(source.shippingAddress());
+                 stateName(source.stateName());
+                 companyContactVariables(source.companyContactVariables());
+             },
             // Reset
             reset = function () {
                 dirtyFlag.reset();
@@ -2603,7 +2715,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeCity: homeCity,
             homeState: homeState,
             homePostCode: homePostCode,
-            HomeCountry: homeCountry,
+            homeCountry: homeCountry,
             secretQuestion: secretQuestion,
             secretAnswer: secretAnswer,
             password: password,
@@ -2676,6 +2788,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
+            update: update,
             reset: reset
         };
         return self;
@@ -2860,6 +2973,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         );
         return companyContact;
     };
+   
     // #endregion ________________COMPANY CONTACT ___________________
 
     // #region __________________  R O L E   ______________________
@@ -4185,7 +4299,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             title = ko.observable(specifiedTitle),
             type = ko.observable(specifiedType),
             scope = ko.observable(specifiedScope),
-            optionId = ko.observable(specifiedType),
+            optionId = ko.observable(specifiedValue),
             variableOptions = ko.observableArray([]),
 
             // Errors

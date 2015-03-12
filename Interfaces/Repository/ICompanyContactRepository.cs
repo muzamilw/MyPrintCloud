@@ -110,6 +110,8 @@ namespace MPC.Interfaces.Repository
         string GetPasswordByContactID(long ContactID);
 
         bool SaveResetPassword(long ContactID, string Password);
+        bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId);
 
+        CompanyContact GetContactByEmailID(string Email);
     }
 }

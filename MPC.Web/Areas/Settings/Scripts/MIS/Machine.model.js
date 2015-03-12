@@ -474,7 +474,7 @@
         omachine.ColourHeads(source.machine.ColourHeads);
         omachine.isPerfecting(source.machine.isPerfecting);
         omachine.SetupCharge(source.machine.SetupCharge);
-        omachine.WashupPrice(source.machine.WashupPrice);
+        
         omachine.WashupCost(source.machine.WashupCost);
         omachine.MinInkDuctqty(source.machine.MinInkDuctqty);
         omachine.worknturncharge(source.machine.worknturncharge);
@@ -484,8 +484,26 @@
         omachine.DefaultPaperId(source.machine.DefaultPaperId);
         omachine.isfilmused(source.machine.isfilmused);
         omachine.isplateused(source.machine.isplateused);
-        omachine.ismakereadyused(source.machine.ismakereadyused);
-        omachine.iswashupused(source.machine.iswashupused);
+        if (omachine.isplateused()) {
+            omachine.ismakereadyused(source.machine.ismakereadyused);
+            omachine.iswashupused(source.machine.iswashupused);
+            omachine.deFaultPlatesName(source.deFaultPlatesName);
+        } else {
+            omachine.deFaultPlatesName(null);
+            omachine.iswashupused(false);
+            omachine.ismakereadyused(false);
+        }
+        if (omachine.ismakereadyused()) {
+            omachine.MakeReadyPrice(source.machine.MakeReadyPrice);
+        } else {
+            omachine.MakeReadyPrice(0);
+        }
+        if (omachine.iswashupused()) {
+            omachine.WashupPrice(source.machine.WashupPrice);
+        } else {
+            omachine.WashupPrice(0);
+        }
+
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
@@ -517,7 +535,7 @@
         omachine.ReelMRPrice(source.machine.ReelMRPrice);
         omachine.IsMaxColorLimit(source.machine.IsMaxColorLimit);
         omachine.PressUtilization(source.machine.PressUtilization);
-        omachine.MakeReadyPrice(source.machine.MakeReadyPrice);
+        
         omachine.InkChargeForUniqueColors(source.machine.InkChargeForUniqueColors);
         omachine.CompanyId(source.machine.CompanyId);
         omachine.FlagId(source.machine.FlagId);
@@ -536,7 +554,7 @@
         omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
-        omachine.deFaultPlatesName(source.deFaultPlatesName);
+        
         omachine.lookupList.removeAll();
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
