@@ -80,6 +80,7 @@
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
+    <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
