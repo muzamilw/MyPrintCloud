@@ -2281,6 +2281,8 @@ define("stores/stores.viewModel",
                         selectedCompanyContactEmail(undefined);
                         isSavingNewCompanyContact(true);
                         selectedCompanyContact(user);
+                        selectedCompanyContact().isWebAccess(true);
+                        selectedCompanyContact().isPlaceOrder(true);
                         if (selectedStore().type() == 4) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories.length > 0) {
