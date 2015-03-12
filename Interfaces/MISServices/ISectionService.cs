@@ -9,6 +9,6 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ISectionService
     {
-        List<Section> GetSectionsForPhraseLibrary();
+        IEnumerable<Section> GetSectionsForPhraseLibrary();
     }
 }
