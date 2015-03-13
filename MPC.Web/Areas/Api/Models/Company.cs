@@ -215,6 +215,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
 
         public byte[] Image { get; set; }
+       
         /// <summary>
         /// Image Source
         /// </summary>
