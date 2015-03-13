@@ -110,7 +110,11 @@ namespace MPC.MIS.Areas.Api.Models
         public int CompanyContactCount { get; set; }
         public int CompanyAddressesCount { get; set; }
 
-
+        /// <summary>
+        /// Tax Label
+        /// </summary>
+        public string TaxLabel { get; set; }
+        public double? TaxRate { get; set; }
         #endregion
 
         #region Public List Properties

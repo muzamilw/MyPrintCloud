@@ -244,9 +244,9 @@ define("stores/stores.viewModel",
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Stores");
+                                storeStatus("Modify Store Details");
                             } else {
-                                storeStatus("Stores Details");
+                                storeStatus("Store Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
@@ -292,6 +292,14 @@ define("stores/stores.viewModel",
                         isStoreEditorVisible(true);
                         // getItemsForWidgets();
                     },
+                    // Sets Data fro new Store 
+                    setDataForNewStore = function (newStore) {
+                        // Store Workflow parameters 
+                        newStore.includeEmailBrokerArtworkOrderReport(true);
+                        newStore.includeEmailBrokerArtworkOrderXML(true);
+                        newStore.includeEmailBrokerArtworkOrderJobCard(true);
+                        newStore.makeEmailBrokerArtworkOrderProductionReady(true);
+                    },
                     //On Edit Click Of Store
                     onEditItem = function (item) {
                         resetObservableArrays();
@@ -307,6 +315,7 @@ define("stores/stores.viewModel",
                     onCreateNewStore = function () {
                         resetObservableArrays();
                         var store = new model.Store();
+                        setDataForNewStore(store);
                         editorViewModel.selectItem(store);
                         selectedStore(store);
                         //Set By Default Store Type
@@ -2273,6 +2282,8 @@ define("stores/stores.viewModel",
                         selectedCompanyContactEmail(undefined);
                         isSavingNewCompanyContact(true);
                         selectedCompanyContact(user);
+                        selectedCompanyContact().isWebAccess(true);
+                        selectedCompanyContact().isPlaceOrder(true);
                         if (selectedStore().type() == 4) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories.length > 0) {
@@ -2893,10 +2904,6 @@ define("stores/stores.viewModel",
 
                             }
                         }
-                        //Check Is Updating and Parent is Changing
-                        if (COND) {
-
-                        }
                     }
                 },
                 //On Save Product Category
@@ -2910,6 +2917,7 @@ define("stores/stores.viewModel",
                             , {
                                 success: function (data) {
 
+                                    //#region If Parent Category Id == Null
                                     if (data.ParentCategoryId == null) {
                                         //if saving product is editting
                                         if (selectedProductCategoryForEditting().productCategoryId() > 0) {
@@ -2923,7 +2931,7 @@ define("stores/stores.viewModel",
                                             });
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                         }
-                                            //Creating new Product category
+                                        //Creating new Product category
                                         else {
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                             toastr.success("Category Added Successfully");
@@ -2932,14 +2940,15 @@ define("stores/stores.viewModel",
                                         //ko.applyBindings(view.viewModel, $("#" + data.ProductCategoryId)[0]);
                                         isLoadingStores(false);
                                         view.hideStoreProductCategoryDialog();
-                                    } else {
+                                    }
+                                        //#endregion
 
-
+                                    //#region Else Parent Category Id != null
+                                    else {
                                         newProductCategories.push(model.ProductCategory.Create(data));
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
 
                                         if ($("#" + selectedProductCategoryForEditting().productCategoryId()).length > 0) {
-
                                             $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                         }
                                         //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
@@ -2949,6 +2958,8 @@ define("stores/stores.viewModel",
                                         //}
                                         toastr.success("Category Updated Successfully");
                                     }
+                                    //#endregion
+
                                     //var category = {
                                     //    productCategoryId: data.ProductCategoryId,
                                     //    categoryName: data.CategoryName,
@@ -3448,7 +3459,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
-                    storeStatus("Modify Stores");
+                    storeStatus("Modify Store Details");
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
@@ -3817,7 +3828,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage().fileName(file.name);
                 },
                 resetObservableArrays = function () {
-                    storeStatus("Stores Details");
+                    storeStatus("Store Details");
                     isUserAndAddressesTabOpened(false);
                     pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,

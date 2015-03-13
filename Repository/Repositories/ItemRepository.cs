@@ -2149,7 +2149,7 @@ namespace MPC.Repository.Repositories
                     if (isNewSectionCostCenter)
                     {
                         //29 is the global type of web order cost centre
-                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
                         if (oCostCentre != null)
                         {
                             sectionCC.CostCentreId = oCostCentre.CostCentreId;

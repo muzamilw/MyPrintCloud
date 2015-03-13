@@ -31,15 +31,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new APIDomainModels.MachineResponse
             {
-                machine = source.machine.CreateFrom(),
-                lookupMethods = source.lookupMethods.Select(s => s.CreateFrom()),
-                Markups= source.Markups.Select(s=>s.CreateFrom()),
-                StockItemforInk = source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
+                machine = source.machine == null? null: source.machine.CreateFrom(),
+                lookupMethods = source.lookupMethods == null? null: source.lookupMethods.Select(s => s.CreateFrom()),
+                Markups= source.Markups==null?null: source.Markups.Select(s=>s.CreateFrom()),
+                StockItemforInk = source.StockItemforInk== null ? null: source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
                 //StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
-                MachineSpoilageItems = source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
-                InkCoveragItems = source.InkCoveragItems.Select(s => s.CreateFrom()),
-                deFaultPaperSizeName = source.deFaultPaperSizeName,
-                deFaultPlatesName = source.deFaultPlatesName
+                MachineSpoilageItems = source.MachineSpoilageItems == null ? null: source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
+                InkCoveragItems = source.InkCoveragItems ==null ? null : source.InkCoveragItems.Select(s => s.CreateFrom()),
+                deFaultPaperSizeName = source.deFaultPaperSizeName == null ? null : source.deFaultPaperSizeName,
+                deFaultPlatesName = source.deFaultPlatesName == null ? null: source.deFaultPlatesName
             };
 
         }

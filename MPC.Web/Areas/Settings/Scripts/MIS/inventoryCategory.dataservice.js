@@ -32,7 +32,7 @@
                         url: ist.siteUrl + '/Api/InventoryCategory',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
+                        type: 'POST'
                     });
                     isInitialized = true;
                 }

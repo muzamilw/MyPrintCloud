@@ -120,7 +120,6 @@
         <AssociationConnector Association="DomainModels.FK_tbl_deliverynote_details_tbl_items" />
         <EntityTypeShape EntityType="DomainModels.CompanyCMYKColor" Width="1.5" PointX="22.375" PointY="1" />
         <EntityTypeShape EntityType="DomainModels.DiscountVoucher" Width="1.5" PointX="23.375" PointY="8" />
-        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="6.375" PointY="43.375" />
         <EntityTypeShape EntityType="DomainModels.GetItemsListView" Width="1.5" PointX="25.375" PointY="8.75" />
         <AssociationConnector Association="DomainModels.FK_CompanyCMYKColor_Company" />
         <EntityTypeShape EntityType="DomainModels.Currency" Width="1.5" PointX="24.375" PointY="0.75" />
@@ -289,6 +288,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_meterperhourlookup" />
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" />
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" />
+        <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="39.375" PointY="29.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

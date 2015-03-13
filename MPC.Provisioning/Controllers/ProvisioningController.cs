@@ -95,20 +95,24 @@ namespace MPC.Provisioning.Controllers
 
         public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder)
         {
+            try
+            {
 
-            string misFolder = sitePhysicalPath + "\\mis";
-            ProcessStartInfo startInfo = new ProcessStartInfo();
-            startInfo.FileName = @"powershell.exe";
-            startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder  +  " " + misFolder;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.UseShellExecute = false;
-            startInfo.CreateNoWindow = true;
-            Process process = new Process();
-            process.StartInfo = startInfo;
-            process.Start();
 
-            string output = process.StandardOutput.ReadToEnd();
+                string misFolder = sitePhysicalPath + "\\mis";
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = @"powershell.exe";
+                startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.UseShellExecute = false;
+                startInfo.CreateNoWindow = true;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
+
+                string output = process.StandardOutput.ReadToEnd();
+               // string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();
@@ -126,7 +130,7 @@ namespace MPC.Provisioning.Controllers
                 {
                     // Create the Command and Parameter objects.
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    long OrganisationId = 8;
+                    long OrganisationId = 4;
                       
                     try
                     {
@@ -134,25 +138,40 @@ namespace MPC.Provisioning.Controllers
 
                         var result = command.ExecuteNonQuery();
 
+
+                       Guid ID = Guid.Parse(userId);
+                       
                         //creating default user
                         //must save the user ID as userid coming from core
                         command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
-                        command.CommandText += " values ('"+userId+"','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
+                        command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
 
 
                         result = command.ExecuteNonQuery();
-                        
 
-                        // 
-
-                        // import organisation
-                        //string Path = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
-                        //string sCurrentServer = CurrentServerPath();
-                        //Uri uri = new Uri(sCurrentServer + "/webstoreapi/RealEstate/InsertOrganisation/" + OrganisationId + "/" + Path);
-                        //WebClient oClient = new WebClient();
-                        //oClient.OpenReadAsync(uri);
 
                         connection.Close();
+                         
+
+                        // import organisation
+                        //string Path = string.Empty;
+                        string sCurrentServer = CurrentServerPath();
+                        //Path = sCurrentServer + "/MPC_Content/Organisations/ExportedZip1.zip";
+                        bool isCorp = false;
+                        Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
+                        WebClient oClient = new WebClient();
+                        oClient.OpenReadAsync(uri);
+
+
+                        //WebRequest request = null;
+                        //request = WebRequest.Create(uri);
+                        //request.Method = "POST";
+                        //WebResponse response = request.GetResponse();
+
+                        //response = null;
+                       
+                        
+
 
                     }
                     catch (Exception ex)
@@ -168,7 +187,12 @@ namespace MPC.Provisioning.Controllers
                 return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + output;
             }
 
-            
+            }
+            catch (Exception ex)
+            {
+
+                return "Please contact support@myprintcloud.com . There were errors in setting up your account : " + ex.ToString();
+            }
            
         }
 

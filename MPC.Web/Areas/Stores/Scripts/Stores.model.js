@@ -250,7 +250,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             customCSS = ko.observable(specifiedCustomCSS),
             //Company Domain Copy
             defaultCompanyDomainCopy = ko.observable(),
-            
+            taxLabel = ko.observable(undefined),
+            taxRate = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -328,7 +329,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 customCSS: customCSS,
                 companyDomains: companyDomains,
                 isDeliveryTaxAble: isDeliveryTaxAble,
-                pickupAddressId: pickupAddressId
+                pickupAddressId: pickupAddressId,
+                taxLabel: taxLabel,
+                taxRate: taxRate
                 //storeLayoutChange: storeLayoutChange
                 //#endregion
             }),
@@ -391,6 +394,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 result.StoreWorkflowImageName = source.storeWorkflowImageName();
                 result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
                 result.isCalculateTaxByService = source.isCalculateTaxByService();
+                result.TaxLabel = source.taxLabel();
+                result.TaxRate = source.taxRate()
                 result.RaveReviews = [];
                 result.PaymentGateways = [];
                 result.CompanyContacts = [];
@@ -550,7 +555,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             convertToServerData: convertToServerData,
             reset: reset,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
-           
+            taxLabel: taxLabel,
+            taxRate: taxRate
             //#endregion
         };
         return self;
@@ -691,6 +697,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
         store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
+        store.taxLabel(source.TaxLabel);
+        store.taxRate(source.TaxRate);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
