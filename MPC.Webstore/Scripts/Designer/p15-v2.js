@@ -262,11 +262,6 @@ function pcl42_svc(data, cId) {
         contactId: cId,
         variables: data
     };
-    //if (!list[cId]) {
-    //    list[cId] = {};
-    //}
-    //list[cId] = data;
-    console.log(list);
     var jsonObjects = JSON.stringify(list, null, 2);
     var options = {
         type: "POST",
