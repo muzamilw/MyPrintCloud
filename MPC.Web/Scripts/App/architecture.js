@@ -390,6 +390,8 @@ require(["ko", "knockout-validation"], function (ko) {
             // ReSharper restore DuplicatingLocalDeclaration
             $(element).datepicker(options);
             $(element).datepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
+            $(element).datepicker("option", "changeMonth", true);
+            $(element).datepicker("option", "changeYear",  true);
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
                 var observable = valueAccessor();
