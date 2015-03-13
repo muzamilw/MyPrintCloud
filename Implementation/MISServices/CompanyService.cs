@@ -3698,485 +3698,183 @@ namespace MPC.Implementation.MISServices
                     // export corporate company Flow
                     ExportOrganisation ObjExportCorp = new Models.Common.ExportOrganisation();
                     ObjExportCorp = ObjExportCorporateSet.ExportStore1;
-                    if (ObjExportCorp.Company != null)
+                    if(ObjExportCorp != null)
                     {
-                        //// export company Logo
-                        if (ObjExportCorp.Company.Image != null)
+                        if (ObjExportCorp.Company != null)
                         {
-                            string FilePath = HttpContext.Current.Server.MapPath(ObjExportCorp.Company.Image);
-                            DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
-                            if (File.Exists(FilePath))
+                            //// export company Logo
+                            if (ObjExportCorp.Company.Image != null)
                             {
-                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                r.Comment = "Company Logo for Store";
-
-                            }
-                        }
-
-
-                        // export media
-
-                        if (ObjExportCorp.Company.MediaLibraries != null)
-                        {
-                            if (ObjExportCorp.Company.MediaLibraries.Count > 0)
-                            {
-                                foreach (var media in ObjExportCorp.Company.MediaLibraries)
+                                string FilePath = HttpContext.Current.Server.MapPath(ObjExportCorp.Company.Image);
+                                DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
+                                if (File.Exists(FilePath))
                                 {
-                                    if (media.FilePath != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(media.FilePath);
-                                        DPath = "/Media/" + OrganisationID + "/" + CompanyID;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Media Files for Store";
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Company Logo for Store";
 
-                                        }
-                                    }
                                 }
                             }
-                        }
-                        List<ProductCategory> categories = new List<ProductCategory>();
-                        categories = ObjExportCorporateSet.ExportStore2;
 
-                        if (categories != null)
-                        {
-                            foreach (var cat in categories)
+
+                            // export media
+
+                            if (ObjExportCorp.Company.MediaLibraries != null)
                             {
-                                if (cat.ImagePath != null)
+                                if (ObjExportCorp.Company.MediaLibraries.Count > 0)
                                 {
-                                    string FilePath = HttpContext.Current.Server.MapPath(cat.ImagePath);
-                                    DPath = "/Assets/" + OrganisationID + "/" + CompanyID + "/ProductCategories";
-                                    if (File.Exists(FilePath))
+                                    foreach (var media in ObjExportCorp.Company.MediaLibraries)
                                     {
-                                        ZipEntry r = zip.AddFile(FilePath, DPath);
-                                        r.Comment = "Category Image Path for Store";
-
-                                    }
-                                }
-
-                                if (cat.ThumbnailPath != null)
-                                {
-                                    string FilePath = HttpContext.Current.Server.MapPath(cat.ThumbnailPath);
-                                    DPath = "/Assets/" + OrganisationID + "/" + CompanyID + "/ProductCategories";
-
-                                    if (File.Exists(FilePath))
-                                    {
-                                        ZipEntry r = zip.AddFile(FilePath, DPath);
-                                        r.Comment = "Category Thumbnail Path for Store";
-
-                                    }
-                                }
-
-                            }
-
-                        }
-                        List<Item> exItemsCorp = new List<Item>();
-                        exItemsCorp = ObjExportCorporateSet.ExportStore3;
-                        if (exItemsCorp != null)
-                        {
-                            if (exItemsCorp.Count > 0)
-                            {
-                                foreach (var item in exItemsCorp)
-                                {
-                                    if (item.ImagePath != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.ImagePath);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (media.FilePath != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Image Path for Store";
-
-                                        }
-                                    }
-
-                                    if (item.ThumbnailPath != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.ThumbnailPath);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Thumbnail Path for Store";
-
-                                        }
-                                    }
-
-                                    if (item.GridImage != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.GridImage);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Grid image for Store";
-
-                                        }
-                                    }
-                                    if (item.File1 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.File1);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
-
-                                        }
-                                    }
-                                    if (item.File2 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.File2);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
-
-                                        }
-                                    }
-                                    if (item.File3 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.File3);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
-
-                                        }
-                                    }
-                                    if (item.File4 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.File4);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
-
-                                        }
-                                    }
-                                    if (item.File5 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath(item.File5);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
-                                        {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
-
-                                        }
-                                    }
-
-                                    if (item.TemplateId != null && item.TemplateId > 0)
-                                    {
-                                        if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
-                                        {
-                                            if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                            string FilePath = HttpContext.Current.Server.MapPath(media.FilePath);
+                                            DPath = "/Media/" + OrganisationID + "/" + CompanyID;
+                                            if (File.Exists(FilePath))
                                             {
-                                                foreach (var tempFont in item.Template.TemplateFonts)
-                                                {
-                                                    if (!string.IsNullOrEmpty(tempFont.FontPath))
-                                                    {
-                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
-
-                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
-
-                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
-
-                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
-
-                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
-
-                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
-
-                                                        if (File.Exists(F1))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F1, DPath);
-                                                            r.Comment = "template font";
-                                                        }
-
-                                                        if (File.Exists(F2))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                            r.Comment = "template font";
-                                                        }
-
-                                                        if (File.Exists(F3))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F3, DPath3);
-                                                            r.Comment = "template font";
-                                                        }
-
-
-                                                    }
-                                                    else
-                                                    {
-
-                                                        string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
-
-                                                        string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
-
-                                                        string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
-
-                                                        DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
-
-                                                        string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
-
-                                                        string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
-
-                                                        if (File.Exists(F1))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F1, DPath);
-                                                            r.Comment = "template font";
-                                                        }
-
-                                                        if (File.Exists(F2))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                            r.Comment = "template font";
-                                                        }
-
-                                                        if (File.Exists(F3))
-                                                        {
-                                                            ZipEntry r = zip.AddFile(F3, DPath3);
-                                                            r.Comment = "template font";
-                                                        }
-                                                    }
-
-                                                }
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Media Files for Store";
 
                                             }
                                         }
-                                        //if(ObjExportRetail.TemplateBackgroundImage)
-
-                                    }
-                                }
-
-                            }
-                        }
-                        if (ObjExportCorp.Company.CompanyContacts != null && ObjExportCorp.Company.CompanyContacts.Count > 0)
-                        {
-                            foreach (var contact in ObjExportCorp.Company.CompanyContacts)
-                            {
-                                if (!string.IsNullOrEmpty(contact.image))
-                                {
-                                    string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
-                                    string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID + "/Contacts/" + contact.ContactId;
-                                    if (File.Exists(ContactImage))
-                                    {
-                                        ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
-                                        r.Comment = "Contact images for Store";
-
                                     }
                                 }
                             }
+                            List<ProductCategory> categories = new List<ProductCategory>();
+                            categories = ObjExportCorporateSet.ExportStore2;
 
-                        }
-                        string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
-                        string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
-                        if (File.Exists(CSSPath))
-                        {
-                            ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
-                            r.Comment = "CSS for Store";
-
-                        }
-                        string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/sprite.png";
-                        string pDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
-
-                        if (File.Exists(SpritePath))
-                        {
-                            ZipEntry r = zip.AddFile(SpritePath, pDirectory);
-                            r.Comment = "Sprite for Store";
-
-                        }
-
-                    }
-
-                    ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
-                    ObjExportRetail = ObjExportRetailSet.ExportRetailStore1;
-
-                    if (ObjExportRetail.RetailCompany != null)
-                    {
-                        if (ObjExportRetail.RetailCompany.Image != null)
-                        {
-                            string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetail.RetailCompany.Image);
-                            DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
-                            if (File.Exists(FilePath))
+                            if (categories != null)
                             {
-                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                r.Comment = "Company Logo for Store";
-
-                            }
-                        }
-
-
-                        // export media
-
-                        if (ObjExportRetail.RetailCompany.MediaLibraries != null)
-                        {
-                            if (ObjExportRetail.RetailCompany.MediaLibraries.Count > 0)
-                            {
-                                foreach (var media in ObjExportRetail.RetailCompany.MediaLibraries)
+                                foreach (var cat in categories)
                                 {
-                                    if (media.FilePath != null)
+                                    if (cat.ImagePath != null)
                                     {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + media.FilePath);
-                                        DPath = "/Media/" + OrganisationID + "/" + RetailCompanyID;
+                                        string FilePath = HttpContext.Current.Server.MapPath(cat.ImagePath);
+                                        DPath = "/Assets/" + OrganisationID + "/" + CompanyID + "/ProductCategories";
                                         if (File.Exists(FilePath))
                                         {
                                             ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Media Files for Store";
+                                            r.Comment = "Category Image Path for Store";
 
                                         }
                                     }
-                                }
-                            }
-                        }
 
-                        List<ProductCategory> categories = new List<ProductCategory>();
-                        categories = ObjExportRetailSet.ExportRetailStore2;
-
-                        if (categories != null)
-                        {
-                            foreach (var cat in categories)
-                            {
-                                if (cat.ImagePath != null)
-                                {
-                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + cat.ImagePath);
-                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
-                                    if (File.Exists(FilePath))
+                                    if (cat.ThumbnailPath != null)
                                     {
-                                        ZipEntry r = zip.AddFile(FilePath, DPath);
-                                        r.Comment = "Category Image Path for Store";
+                                        string FilePath = HttpContext.Current.Server.MapPath(cat.ThumbnailPath);
+                                        DPath = "/Assets/" + OrganisationID + "/" + CompanyID + "/ProductCategories";
 
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Category Thumbnail Path for Store";
+
+                                        }
                                     }
-                                }
 
-                                if (cat.ThumbnailPath != null)
-                                {
-                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + cat.ThumbnailPath);
-                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
-
-                                    if (File.Exists(FilePath))
-                                    {
-                                        ZipEntry r = zip.AddFile(FilePath, DPath);
-                                        r.Comment = "Category Thumbnail Path for Store";
-
-                                    }
                                 }
 
                             }
-
-                        }
-
-                        List<Item> exItems = new List<Item>();
-                        exItems = ObjExportRetailSet.ExportRetailStore3;
-                        if (exItems != null)
-                        {
-                            if (exItems.Count > 0)
+                            List<Item> exItemsCorp = new List<Item>();
+                            exItemsCorp = ObjExportCorporateSet.ExportStore3;
+                            if (exItemsCorp != null)
                             {
-                                foreach (var item in exItems)
+                                if (exItemsCorp.Count > 0)
                                 {
-                                    if (item.ImagePath != null)
+                                    foreach (var item in exItemsCorp)
                                     {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.ImagePath);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.ImagePath != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Image Path for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.ImagePath);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Image Path for Store";
 
+                                            }
                                         }
-                                    }
 
-                                    if (item.ThumbnailPath != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.ThumbnailPath);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.ThumbnailPath != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Thumbnail Path for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.ThumbnailPath);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Thumbnail Path for Store";
 
+                                            }
                                         }
-                                    }
 
-                                    if (item.GridImage != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.GridImage);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.GridImage != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items Grid image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.GridImage);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Grid image for Store";
 
+                                            }
                                         }
-                                    }
-                                    if (item.File1 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File1);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.File1 != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.File1);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
 
+                                            }
                                         }
-                                    }
-                                    if (item.File2 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File2);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.File2 != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.File2);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
 
+                                            }
                                         }
-                                    }
-                                    if (item.File3 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File3);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.File3 != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.File3);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
 
+                                            }
                                         }
-                                    }
-                                    if (item.File4 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File4);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.File4 != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.File4);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
 
+                                            }
                                         }
-                                    }
-                                    if (item.File5 != null)
-                                    {
-                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File5);
-                                        DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
-                                        if (File.Exists(FilePath))
+                                        if (item.File5 != null)
                                         {
-                                            ZipEntry r = zip.AddFile(FilePath, DPath);
-                                            r.Comment = "Items image for Store";
+                                            string FilePath = HttpContext.Current.Server.MapPath(item.File5);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
 
+                                            }
                                         }
-                                    }
 
-
-                                    if (item.TemplateId != null && item.TemplateId > 0)
-                                    {
-                                        if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                        if (item.TemplateId != null && item.TemplateId > 0)
                                         {
-                                            if (item.Template != null)
+                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                             {
                                                 if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
                                                 {
@@ -4252,78 +3950,387 @@ namespace MPC.Implementation.MISServices
 
                                                     }
 
-
                                                 }
-                                                if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
+                                            }
+                                            //if(ObjExportRetail.TemplateBackgroundImage)
+
+                                        }
+                                    }
+
+                                }
+                            }
+                            if (ObjExportCorp.Company.CompanyContacts != null && ObjExportCorp.Company.CompanyContacts.Count > 0)
+                            {
+                                foreach (var contact in ObjExportCorp.Company.CompanyContacts)
+                                {
+                                    if (!string.IsNullOrEmpty(contact.image))
+                                    {
+                                        string ContactImage = HttpContext.Current.Server.MapPath(contact.image);
+                                        string ContactDirectory = "/Assets/" + OrganisationID + "/" + CompanyID + "/Contacts/" + contact.ContactId;
+                                        if (File.Exists(ContactImage))
+                                        {
+                                            ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
+                                            r.Comment = "Contact images for Store";
+
+                                        }
+                                    }
+                                }
+
+                            }
+                            string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
+                            string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
+                            if (File.Exists(CSSPath))
+                            {
+                                ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
+                                r.Comment = "CSS for Store";
+
+                            }
+                            string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/sprite.png";
+                            string pDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
+
+                            if (File.Exists(SpritePath))
+                            {
+                                ZipEntry r = zip.AddFile(SpritePath, pDirectory);
+                                r.Comment = "Sprite for Store";
+
+                            }
+
+                        }
+                    }
+                   
+
+                    ExportOrganisation ObjExportRetail = new Models.Common.ExportOrganisation();
+                    ObjExportRetail = ObjExportRetailSet.ExportRetailStore1;
+                    if(ObjExportRetail != null)
+                    {
+                        if (ObjExportRetail.RetailCompany != null)
+                        {
+                            if (ObjExportRetail.RetailCompany.Image != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetail.RetailCompany.Image);
+                                DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Company Logo for Store";
+
+                                }
+                            }
+
+
+                            // export media
+
+                            if (ObjExportRetail.RetailCompany.MediaLibraries != null)
+                            {
+                                if (ObjExportRetail.RetailCompany.MediaLibraries.Count > 0)
+                                {
+                                    foreach (var media in ObjExportRetail.RetailCompany.MediaLibraries)
+                                    {
+                                        if (media.FilePath != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + media.FilePath);
+                                            DPath = "/Media/" + OrganisationID + "/" + RetailCompanyID;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Media Files for Store";
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            List<ProductCategory> categories = new List<ProductCategory>();
+                            categories = ObjExportRetailSet.ExportRetailStore2;
+
+                            if (categories != null)
+                            {
+                                foreach (var cat in categories)
+                                {
+                                    if (cat.ImagePath != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + cat.ImagePath);
+                                        DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Category Image Path for Store";
+
+                                        }
+                                    }
+
+                                    if (cat.ThumbnailPath != null)
+                                    {
+                                        string FilePath = HttpContext.Current.Server.MapPath("~/" + cat.ThumbnailPath);
+                                        DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/ProductCategories";
+
+                                        if (File.Exists(FilePath))
+                                        {
+                                            ZipEntry r = zip.AddFile(FilePath, DPath);
+                                            r.Comment = "Category Thumbnail Path for Store";
+
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                            List<Item> exItems = new List<Item>();
+                            exItems = ObjExportRetailSet.ExportRetailStore3;
+                            if (exItems != null)
+                            {
+                                if (exItems.Count > 0)
+                                {
+                                    foreach (var item in exItems)
+                                    {
+                                        if (item.ImagePath != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.ImagePath);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Image Path for Store";
+
+                                            }
+                                        }
+
+                                        if (item.ThumbnailPath != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.ThumbnailPath);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Thumbnail Path for Store";
+
+                                            }
+                                        }
+
+                                        if (item.GridImage != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.GridImage);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items Grid image for Store";
+
+                                            }
+                                        }
+                                        if (item.File1 != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File1);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+                                        if (item.File2 != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File2);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+                                        if (item.File3 != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File3);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+                                        if (item.File4 != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File4);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+                                        if (item.File5 != null)
+                                        {
+                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + item.File5);
+                                            DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                            if (File.Exists(FilePath))
+                                            {
+                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                r.Comment = "Items image for Store";
+
+                                            }
+                                        }
+
+
+                                        if (item.TemplateId != null && item.TemplateId > 0)
+                                        {
+                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                            {
+                                                if (item.Template != null)
                                                 {
-                                                    foreach (var img in item.Template.TemplateBackgroundImages)
+                                                    if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
                                                     {
-
-                                                        if (!string.IsNullOrEmpty(img.ImageName))
+                                                        foreach (var tempFont in item.Template.TemplateFonts)
                                                         {
-                                                            DPath = "Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName;
-                                                            string FilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName);
-                                                            if (File.Exists(FilePath))
+                                                            if (!string.IsNullOrEmpty(tempFont.FontPath))
                                                             {
-                                                                ZipEntry r = zip.AddFile(FilePath, DPath);
-                                                                r.Comment = "template images";
+                                                                string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
 
+                                                                string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                                string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                                DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                                string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                                string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                                if (File.Exists(F1))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F1, DPath);
+                                                                    r.Comment = "template font";
+                                                                }
+
+                                                                if (File.Exists(F2))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                                    r.Comment = "template font";
+                                                                }
+
+                                                                if (File.Exists(F3))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F3, DPath3);
+                                                                    r.Comment = "template font";
+                                                                }
+
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                string F1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                                string F2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                                string F3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                                DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                                string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                                string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                                if (File.Exists(F1))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F1, DPath);
+                                                                    r.Comment = "template font";
+                                                                }
+
+                                                                if (File.Exists(F2))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                                    r.Comment = "template font";
+                                                                }
+
+                                                                if (File.Exists(F3))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(F3, DPath3);
+                                                                    r.Comment = "template font";
+                                                                }
                                                             }
 
                                                         }
 
+
                                                     }
+                                                    if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
+                                                    {
+                                                        foreach (var img in item.Template.TemplateBackgroundImages)
+                                                        {
+
+                                                            if (!string.IsNullOrEmpty(img.ImageName))
+                                                            {
+                                                                DPath = "Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName;
+                                                                string FilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName);
+                                                                if (File.Exists(FilePath))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                    r.Comment = "template images";
+
+                                                                }
+
+                                                            }
+
+                                                        }
+                                                    }
+
                                                 }
 
                                             }
 
                                         }
-
                                     }
+
                                 }
-
                             }
-                        }
 
-                        //ExportOrganisation RetailexOrg = new ExportOrganisation();
-                        //RetailexOrg = ObjExportRetailSet.ExportRetailStore2;
-                        if (ObjExportRetail.RetailCompanyContact != null && ObjExportRetail.RetailCompanyContact.Count > 0)
-                        {
-                            foreach (var contact in ObjExportRetail.RetailCompanyContact)
+                            //ExportOrganisation RetailexOrg = new ExportOrganisation();
+                            //RetailexOrg = ObjExportRetailSet.ExportRetailStore2;
+                            if (ObjExportRetail.RetailCompanyContact != null && ObjExportRetail.RetailCompanyContact.Count > 0)
                             {
-                                if (!string.IsNullOrEmpty(contact.image))
+                                foreach (var contact in ObjExportRetail.RetailCompanyContact)
                                 {
-                                    string ContactImage = HttpContext.Current.Server.MapPath("~/" + contact.image);
-                                    string ContactDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Contacts/" + contact.ContactId;
-                                    if (File.Exists(ContactImage))
+                                    if (!string.IsNullOrEmpty(contact.image))
                                     {
-                                        ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
-                                        r.Comment = "Contact images for Store";
+                                        string ContactImage = HttpContext.Current.Server.MapPath("~/" + contact.image);
+                                        string ContactDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Contacts/" + contact.ContactId;
+                                        if (File.Exists(ContactImage))
+                                        {
+                                            ZipEntry r = zip.AddFile(ContactImage, ContactDirectory);
+                                            r.Comment = "Contact images for Store";
 
+                                        }
                                     }
                                 }
+
+                            }
+                            string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Site.css";
+                            string pCSSDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                            if (File.Exists(CSSPath))
+                            {
+                                ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
+                                r.Comment = "CSS for Store";
+
+                            }
+                            string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/sprite.png";
+                            string pDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+
+                            if (File.Exists(SpritePath))
+                            {
+                                ZipEntry r = zip.AddFile(SpritePath, pDirectory);
+                                r.Comment = "Sprite for Store";
+
                             }
 
                         }
-                        string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/Site.css";
-                        string pCSSDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
-                        if (File.Exists(CSSPath))
-                        {
-                            ZipEntry r = zip.AddFile(CSSPath, pCSSDirectory);
-                            r.Comment = "CSS for Store";
-
-                        }
-                        string SpritePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + RetailCompanyID + "/sprite.png";
-                        string pDirectory = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
-
-                        if (File.Exists(SpritePath))
-                        {
-                            ZipEntry r = zip.AddFile(SpritePath, pDirectory);
-                            r.Comment = "Sprite for Store";
-
-                        }
-
                     }
+                   
                     //  ExportRetailStore(RetailCompanyID, OrganisationID, DPath, zip);
 
 
@@ -4338,6 +4345,11 @@ namespace MPC.Implementation.MISServices
                         sZipFileName = name + ".zip";
                     if (System.IO.Directory.Exists(sDirectory))
                     {
+                        zip.Save(sDirectory + "\\" + sZipFileName);
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(sDirectory);
                         zip.Save(sDirectory + "\\" + sZipFileName);
                     }
                     if (JsonFiles != null && JsonFiles.Count > 0)

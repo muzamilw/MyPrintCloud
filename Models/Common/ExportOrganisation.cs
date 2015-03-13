@@ -174,6 +174,14 @@ namespace MPC.Models.Common
 
         public List<Campaign> RetailCampaigns { get; set; }
 
+        public List<SmartForm> RetailSmartForms { get; set; }
+
+        public List<SmartForm> SmartForms { get; set; }
+
+        public List<FieldVariable> RetailFieldVariables { get; set; }
+
+        public List<FieldVariable> FieldVariables { get; set; }
+
     
 
 
