@@ -84,7 +84,9 @@ define("order/order.view",
 
         // Initialize the view model
         if (ist.order.view.bindingRoot) {
+            orderViewModel.currentScreen($("#CallingMethod").val() == "" ? "0" : $("#CallingMethod").val());
             orderViewModel.initialize(ist.order.view);
+            
         }
         return ist.order.view;
     });

@@ -85,15 +85,15 @@ namespace MPC.MIS.Areas.Api.Models
         public static CmsPageForListView CreateFromForListView(this DomainModels.CmsPage source)
         {
             byte[] bytes = null;
-            if (!string.IsNullOrEmpty(source.PageBanner))
-            {
-                string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
-                if (File.Exists(filePath))
-                {
-                    bytes = File.ReadAllBytes(filePath);
-                }
+            //if (!string.IsNullOrEmpty(source.PageBanner))
+            //{
+            //    string filePath = HttpContext.Current.Server.MapPath("~/" + source.PageBanner);
+            //    if (File.Exists(filePath))
+            //    {
+            //        bytes = File.ReadAllBytes(filePath);
+            //    }
 
-            }
+            //}
             return new CmsPageForListView
             {
                 PageId = source.PageId,

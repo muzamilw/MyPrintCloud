@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
+using Castle.Core.Internal;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -969,9 +970,6 @@ namespace MPC.Implementation.MISServices
             UpdateTerritories(companySavingModel, companyDbVersion);
             UpdateAddresses(companySavingModel, companyDbVersion);
             UpdateCompanyContacts(companySavingModel, companyDbVersion);
-            //UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
-            //UpdateAddressOfUpdatingCompany(companySavingModel);
-            //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
@@ -987,13 +985,10 @@ namespace MPC.Implementation.MISServices
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            //companyRepository.SaveChanges();//todo second external savechanges
-            //Update products
-            //UpdateProductsOfUpdatingCompany(companySavingModel);
+            companyRepository.SaveChanges();//todo second external savechanges //uncomment By Rafiq bcz media Id Nedd for save image 
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
-            //SaveFilesOfProductCategories(companyToBeUpdated);
-            SaveSpriteImage(companySavingModel.Company);
+             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
@@ -1003,8 +998,9 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
+            
+            UpdateScopeVariables(companySavingModel); // TODO: Check
             companyRepository.SaveChanges();//todo third external savechanges
-            UpdateScopeVariables(companySavingModel);
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
@@ -1038,7 +1034,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                scopeVariableRepository.SaveChanges();
+               // scopeVariableRepository.SaveChanges();
             }
 
         }
@@ -1220,7 +1216,7 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var item in company.MediaLibraries)
                 {
-                    if (item.FilePath == string.Empty)
+                    if (!item.FakeId.IsNullOrEmpty())
                     {
                         if (item.FileSource != null)
                         {
@@ -3492,6 +3488,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
                     string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson1.txt";
@@ -3567,7 +3564,18 @@ namespace MPC.Implementation.MISServices
                         ZipEntry r = zip.AddFile(sRetailPath4, "");
                         r.Comment = "Json File for retail Company";
                     }
-
+                    JsonFiles.Add(sOrgPath);
+                    JsonFiles.Add(sOrgPath2);
+                    JsonFiles.Add(sOrgPath3);
+                    JsonFiles.Add(sOrgPath4);
+                    JsonFiles.Add(sCorpPath);
+                    JsonFiles.Add(sCorpPath2);
+                    JsonFiles.Add(sCorpPath3);
+                    JsonFiles.Add(sCorpPath4);
+                    JsonFiles.Add(sRetailPath);
+                    JsonFiles.Add(sRetailPath2);
+                    JsonFiles.Add(sRetailPath3);
+                    JsonFiles.Add(sRetailPath4);
                     //string sRetailPath5 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson5.txt";
                     //if (File.Exists(sRetailPath5))
                     //{
@@ -4343,6 +4351,21 @@ namespace MPC.Implementation.MISServices
                     {
                         zip.Save(sDirectory + "\\" + sZipFileName);
                     }
+                    if(JsonFiles != null && JsonFiles.Count > 0)
+                    {
+                       foreach(var file in JsonFiles)
+                       {
+                           if(!string.IsNullOrEmpty(file))
+                           {
+                               if(File.Exists(file))
+                               {
+                                   File.Delete(file);
+                               }
+                               
+                           }
+                       }
+                    }
+
                 }
             }
             catch (Exception ex)

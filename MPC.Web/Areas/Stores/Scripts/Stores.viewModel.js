@@ -244,9 +244,9 @@ define("stores/stores.viewModel",
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
-                                storeStatus("Modify Stores");
+                                storeStatus("Modify Store Details");
                             } else {
-                                storeStatus("Stores Details");
+                                storeStatus("Store Details");
                             }
                             var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
@@ -385,6 +385,7 @@ define("stores/stores.viewModel",
                     storeImageFilesLoadedCallback = function (file, data) {
                         selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
+                        selectedStore().isVisibleNewLogoImage(true);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
                     //store Backgroud Image Upload Callback
@@ -2017,9 +2018,9 @@ define("stores/stores.viewModel",
                     },
                     //Add Default PAge Keywords
                     addDefaultPageKeyWords = function () {
-                    loadDefaultPageKeywords();
+                        loadDefaultPageKeywords();
 
-                },
+                    },
                 //get CMS Tags For Load default for CMS Page
                  loadDefaultPageKeywords = function () {
                      dataservice.getCmsTags({
@@ -2160,7 +2161,7 @@ define("stores/stores.viewModel",
                     //#endregion
 
                     // #region _________C O M P A N  Y   C O N T A C T _________________
-                    
+
                     //companyContactFilter
                     companyContactFilter = ko.observable(),
                     contactCompanyTerritoryFilter = ko.observable(),
@@ -2281,6 +2282,8 @@ define("stores/stores.viewModel",
                         selectedCompanyContactEmail(undefined);
                         isSavingNewCompanyContact(true);
                         selectedCompanyContact(user);
+                        selectedCompanyContact().isWebAccess(true);
+                        selectedCompanyContact().isPlaceOrder(true);
                         if (selectedStore().type() == 4) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories.length > 0) {
@@ -2331,10 +2334,10 @@ define("stores/stores.viewModel",
                             }
 
 
-                        _.each(fieldVariablesOfContactType(), function (item) {
+                            _.each(fieldVariablesOfContactType(), function (item) {
 
-                            selectedCompanyContact().companyContactVariables.push(scopeVariableMapper(item));
-                        });
+                                selectedCompanyContact().companyContactVariables.push(scopeVariableMapper(item));
+                            });
 
                         }
                         //_.each(newAddresses(), function (address) {
@@ -2352,8 +2355,8 @@ define("stores/stores.viewModel",
                         //for the first time of contact creation make default shipping address and default billing address, as the selected shipping and billing respectively.
 
                         if (selectedStore().companyId() !== undefined && selectedCompanyContact().contactId() === undefined) {
-                        var scope = 2;
-                        getCompanyContactVariable(scope);
+                            var scope = 2;
+                            getCompanyContactVariable(scope);
                         }
 
                         view.showCompanyContactDialog();
@@ -2429,13 +2432,13 @@ define("stores/stores.viewModel",
                         selectedCompanyContactEmail(companyContact.email());
                         isSavingNewCompanyContact(false);
                         view.showCompanyContactDialog();
-                    if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
-                        var scope = 2;
-                        getCompanyContactVariableForEditContact(selectedCompanyContact().contactId(), scope);
+                        if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
+                            var scope = 2;
+                            getCompanyContactVariableForEditContact(selectedCompanyContact().contactId(), scope);
 
-                    }
+                        }
                     },
-                    closeCompanyContact = function() {
+                    closeCompanyContact = function () {
                         selectedBussinessAddressId(undefined);
                         view.hideCompanyContactDialog();
                         isSavingNewCompanyContact(false);
@@ -2496,7 +2499,7 @@ define("stores/stores.viewModel",
                                             else {
                                                 companyContactEditorViewModel.acceptItem(savedCompanyContact);
                                             }
-                                            
+
                                             toastr.success("Saved Successfully");
                                             closeCompanyContact();
                                         }
@@ -3456,7 +3459,7 @@ define("stores/stores.viewModel",
                 },
                 //Open Store Dialog
                 openEditDialog = function () {
-                    storeStatus("Modify Stores");
+                    storeStatus("Modify Store Details");
                     isEditorVisible(true);
                     getStoreForEditting();
                     view.initializeForm();
@@ -3486,6 +3489,14 @@ define("stores/stores.viewModel",
                                 //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
                                 //    selectedStore().users.push(model.CompanyContact.Create(item));
                                 //});
+                                _.each(data.Company.Addresses, function (addressItem) {
+                                    var address = new model.Address.Create(addressItem);
+                                    selectedStore().addresses.push(address);
+                                });
+                                _.each(data.Company.CompanyContacts, function (companyContactItem) {
+                                    var companyContact = new model.CompanyContact.Create(companyContactItem);
+                                    selectedStore().users.push(companyContact);
+                                });
                                 orderCount(data.NewOrdersCount);
                                 userCount(data.NewUsersCount);
                                 _.each(data.Company.ColorPalletes, function (item) {
@@ -3817,7 +3828,7 @@ define("stores/stores.viewModel",
                     selectedSecondaryPage().fileName(file.name);
                 },
                 resetObservableArrays = function () {
-                    storeStatus("Stores Details");
+                    storeStatus("Store Details");
                     isUserAndAddressesTabOpened(false);
                     pickUpLocationValue(undefined);
                     companyTerritoryCounter = -1,
