@@ -31,21 +31,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new APIDomainModels.MachineResponse
             {
-                machine = source.machine == null? null: source.machine.CreateFrom(),
-                lookupMethods = source.lookupMethods == null? null: source.lookupMethods.Select(s => s.CreateFrom()),
-                Markups= source.Markups==null?null: source.Markups.Select(s=>s.CreateFrom()),
-                StockItemforInk = source.StockItemforInk== null ? null: source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
-                MachineSpoilageItems = source.MachineSpoilageItems == null ? null: source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
-                InkCoveragItems = source.InkCoveragItems ==null ? null : source.InkCoveragItems.Select(s => s.CreateFrom()),
+                machine = source.machine == null ? null : source.machine.CreateFrom(),
+                lookupMethods = source.lookupMethods == null ? null : source.lookupMethods.Select(s => s.CreateFrom()),
+                Markups = source.Markups == null ? null : source.Markups.Select(s => s.CreateFrom()),
+                StockItemforInk = source.StockItemforInk == null ? null : source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
+                //StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
+                MachineSpoilageItems = source.MachineSpoilageItems == null ? null : source.MachineSpoilageItems.Select(s => s.CreateFrom()),
+                InkCoveragItems = source.InkCoveragItems == null ? null : source.InkCoveragItems.Select(s => s.CreateFrom()),
                 deFaultPaperSizeName = source.deFaultPaperSizeName == null ? null : source.deFaultPaperSizeName,
-                deFaultPlatesName = source.deFaultPlatesName == null ? null: source.deFaultPlatesName
+                deFaultPlatesName = source.deFaultPlatesName == null ? null : source.deFaultPlatesName
             };
 
         }
         /// <summary>
         /// Create From Domain Model
         /// </summary>
-        
+
 
         public static APIDomainModels.Machine CreateFrom(this DomainModels.Machine source)
         {
@@ -111,9 +112,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MakeReadyTime = source.MakeReadyTime,
                 WashupTime = source.WashupTime,
                 ReelMakereadyTime = source.ReelMakereadyTime,
-                LookupMethodId=source.LookupMethodId,
-                MachineInkCoverages = source.MachineInkCoverages.Select(g=>g.CreateFrom()).ToList()
-               
+                LookupMethodId = source.LookupMethodId,
+                MachineInkCoverages = source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList()
+
             };
         }
 
@@ -139,7 +140,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isplateused = source.isplateused,
                 ismakereadyused = source.ismakereadyused,
                 iswashupused = source.iswashupused,
-                Image=null,
+                Image = null,
                 maximumsheetweight = source.maximumsheetweight,
                 maximumsheetheight = source.maximumsheetheight,
                 maximumsheetwidth = source.maximumsheetwidth,
@@ -184,7 +185,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ReelMakereadyTime = source.ReelMakereadyTime,
                 LookupMethodId = source.LookupMethodId,
                 MachineInkCoverages = source.MachineInkCoverages != null ? source.MachineInkCoverages.Select(g => g.CreateFrom()).ToList() : null
-             
+
 
             };
         }
