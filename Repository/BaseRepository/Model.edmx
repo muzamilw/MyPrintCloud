@@ -490,6 +490,7 @@
           <Property Name="TaxLabel" Type="varchar" MaxLength="30" />
           <Property Name="isAddCropMarks" Type="bit" />
           <Property Name="isCalculateTaxByService" Type="bit" />
+          <Property Name="ActiveBannerSetId" Type="bigint" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -6798,6 +6799,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="includeEmailArtworkOrderXML" Type="Boolean" />
           <Property Name="includeEmailArtworkOrderJobCard" Type="Boolean" />
           <Property Name="makeEmailArtworkOrderProductionReady" Type="Boolean" />
+          <Property Name="ActiveBannerSetId" Type="Int64" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -12098,6 +12100,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="ActiveBannerSetId" ColumnName="ActiveBannerSetId" />
                 <ScalarProperty Name="makeEmailArtworkOrderProductionReady" ColumnName="makeEmailArtworkOrderProductionReady" />
                 <ScalarProperty Name="includeEmailArtworkOrderJobCard" ColumnName="includeEmailArtworkOrderJobCard" />
                 <ScalarProperty Name="includeEmailArtworkOrderXML" ColumnName="includeEmailArtworkOrderXML" />

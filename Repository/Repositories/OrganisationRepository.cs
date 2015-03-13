@@ -519,6 +519,8 @@ namespace MPC.Repository.Repositories
                              comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                              comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
                          db.Companies.Add(comp);
                          db.SaveChanges();
@@ -592,7 +594,7 @@ namespace MPC.Repository.Repositories
                       
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                         if(comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                         if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                          {
                              comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                              comp.CmsPages.ToList().ForEach(x => x.Company = null);
@@ -623,7 +625,8 @@ namespace MPC.Repository.Repositories
                              comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
-                      
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
                          //comp.CmsPages.ToList().ForEach(c => c.)
                          db.Companies.Add(comp);
@@ -709,54 +712,57 @@ namespace MPC.Repository.Repositories
                              string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
                              
                              
-
-                             foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
+                             if(Directory.Exists(Sourcelanguagefiles))
                              {
-                                 if (File.Exists(newPath))
+                                 foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
                                  {
-                                     
-                                     string FileName = Path.GetFileName(newPath);
-
-                                     DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
-
-                                    
-                                     // define destination directory
-                                      string directoty = Path.GetDirectoryName(newPath);
-                                    string[] stringSeparators = new string[] { "MPC_Content" };
-                                    if (!string.IsNullOrEmpty(directoty))
-                                    {
-                                        string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-                                        string FolderName = result[1];
-                                        if (!string.IsNullOrEmpty(FolderName))
-                                        {
-                                            string[] folder = FolderName.Split('\\');
-                                            DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
-
-                                            DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
-
-                                        }
-                                    }
-                                     
-                                     if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                     if (File.Exists(newPath))
                                      {
-                                         Directory.CreateDirectory(DestinationLanguageDirectory);
-                                         if (Directory.Exists(DestinationLanguageDirectory))
+
+                                         string FileName = Path.GetFileName(newPath);
+
+                                         DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+
+                                         // define destination directory
+                                         string directoty = Path.GetDirectoryName(newPath);
+                                         string[] stringSeparators = new string[] { "MPC_Content" };
+                                         if (!string.IsNullOrEmpty(directoty))
+                                         {
+                                             string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+                                             string FolderName = result[1];
+                                             if (!string.IsNullOrEmpty(FolderName))
+                                             {
+                                                 string[] folder = FolderName.Split('\\');
+                                                 DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
+
+                                                 DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
+
+                                             }
+                                         }
+
+                                         if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                         {
+                                             Directory.CreateDirectory(DestinationLanguageDirectory);
+                                             if (Directory.Exists(DestinationLanguageDirectory))
+                                             {
+                                                 if (!File.Exists(DestinationLanguageFilePath))
+                                                     File.Copy(newPath, DestinationLanguageFilePath);
+                                             }
+                                         }
+                                         else
                                          {
                                              if (!File.Exists(DestinationLanguageFilePath))
                                                  File.Copy(newPath, DestinationLanguageFilePath);
                                          }
-                                     }
-                                     else
-                                     {
-                                         if (!File.Exists(DestinationLanguageFilePath))
-                                             File.Copy(newPath, DestinationLanguageFilePath);
+
                                      }
 
                                  }
-
-                             }
                             
+                             }
+                          
 
                              
                              
