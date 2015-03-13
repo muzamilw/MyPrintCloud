@@ -16,11 +16,12 @@ namespace MigrationUtility.Preview
     {
         public Template()
         {
-            this.Items = new HashSet<Item>();
             this.TemplateBackgroundImages = new HashSet<TemplateBackgroundImage>();
             this.TemplateColorStyles = new HashSet<TemplateColorStyle>();
             this.TemplateFonts = new HashSet<TemplateFont>();
             this.TemplateObjects = new HashSet<TemplateObject>();
+            this.TemplatePages = new HashSet<TemplatePage>();
+            this.Items = new HashSet<Item>();
         }
     
         public long ProductId { get; set; }
@@ -66,10 +67,11 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isEditorChoice { get; set; }
         public Nullable<long> ProductCategoryId { get; set; }
     
-        public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<TemplateBackgroundImage> TemplateBackgroundImages { get; set; }
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
         public virtual ICollection<TemplateFont> TemplateFonts { get; set; }
         public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
+        public virtual ICollection<TemplatePage> TemplatePages { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
     }
 }
