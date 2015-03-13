@@ -13,7 +13,7 @@ define("sectionflags/sectionflags.dataservice", function () {
 
                     // Define request to get SectionFlags
                     amplify.request.define('getSectionLibray', 'ajax', {
-                        url: ist.siteUrl + '/Api/SectionFlags',
+                        url: ist.siteUrl + '/Api/Section',
                         dataType: 'json',
                         type: 'GET'
                     });

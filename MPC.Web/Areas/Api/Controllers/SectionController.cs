@@ -9,13 +9,13 @@ using System.Web.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class SectionFlagsController : ApiController
+    public class SectionController : ApiController
     {
         // GET: Api/SectionFlags
 
         private readonly ISectionService _SectionService;
 
-        public SectionFlagsController(ISectionService SectionFlags)
+        public SectionController(ISectionService SectionFlags)
         {
 
             this._SectionService = SectionFlags;
