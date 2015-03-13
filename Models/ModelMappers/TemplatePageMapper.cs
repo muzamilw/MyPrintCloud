@@ -30,6 +30,7 @@ namespace MPC.Models.ModelMappers
             target.PageName = source.PageName;
             target.PageNo = source.PageNo;
             target.Orientation = source.Orientation;
+            target.BackGroundType = 1;
         }
 
         #endregion

@@ -1342,7 +1342,6 @@ define("crm/crm.viewModel",
                     }, {
                         success: function (data) {
                             if (data != null) {
-                                debugger;
                                 systemUsers.removeAll();
                                 addressCompanyTerritoriesFilter.removeAll();
                                 contactCompanyTerritoriesFilter.removeAll();
@@ -1664,8 +1663,6 @@ define("crm/crm.viewModel",
                     },
                     {
                         success: function (data) {
-                            debugger;
-
                             if (data != null) {
                                 invoicesList.removeAll();
                                 invoicePager().totalCount(data.RowCount);

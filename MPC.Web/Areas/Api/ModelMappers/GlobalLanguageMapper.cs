@@ -18,7 +18,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new GlobalLanguageDropDown() 
             {
                 LanguageId = source.LanguageId,
-                FriendlyName = source.FriendlyName,
+                FriendlyName = source.FriendlyName+" "+source.culture,
             };
         }
 

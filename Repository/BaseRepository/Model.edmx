@@ -1213,7 +1213,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="GroupName" Type="varchar" MaxLength="50" />
           <Property Name="Percentage" Type="float" />
           <Property Name="IsFixed" Type="int" Nullable="false" />
-          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+          <Property Name="OrganisationId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Inquiry">
           <Key>
@@ -3208,6 +3208,7 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="IsScheduleable" Type="smallint" />
           <Property Name="IsSystemUser" Type="int" />
           <Property Name="UserAuthToken" Type="nvarchar" MaxLength="500" />
+          <Property Name="Email" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Template">
           <Key>
@@ -6212,7 +6213,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </AssociationSet>
           <EntitySet Name="CompanyCMYKColors" EntityType="DomainModels.CompanyCMYKColor" />
           <EntitySet Name="DiscountVouchers" EntityType="DomainModels.DiscountVoucher" />
-          <EntitySet Name="SystemUsers" EntityType="DomainModels.SystemUser" />
           <EntitySet Name="GetItemsListViews" EntityType="DomainModels.GetItemsListView" />
           <AssociationSet Name="FK_CompanyCMYKColor_Company" Association="DomainModels.FK_CompanyCMYKColor_Company">
             <End Role="Company" EntitySet="Companies" />
@@ -6667,6 +6667,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="LookupMethod" EntitySet="LookupMethods" />
             <End Role="MachineSpeedWeightLookup" EntitySet="MachineSpeedWeightLookups" />
           </AssociationSet>
+          <EntitySet Name="SystemUsers" EntityType="DomainModels.SystemUser" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -9434,24 +9435,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
           <Property Name="CompanyId" Type="Int64" />
         </EntityType>
-        <EntityType Name="SystemUser">
-          <Key>
-            <PropertyRef Name="SystemUserId" />
-          </Key>
-          <Property Name="SystemUserId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="OrganizationId" Type="Int32" />
-          <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="UserType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="RoleId" Type="Int32" />
-          <Property Name="IsAccountDisabled" Type="Int16" />
-          <Property Name="CostPerHour" Type="Single" />
-          <Property Name="IsScheduleable" Type="Int16" />
-          <Property Name="IsSystemUser" Type="Int32" />
-          <Property Name="UserAuthToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="GetItemsListView">
           <Key>
             <PropertyRef Name="ItemId" />
@@ -11357,7 +11340,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="GroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Percentage" Type="Double" />
           <Property Name="IsFixed" Type="Int32" Nullable="false" />
-          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+          <Property Name="OrganisationId" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="MachineSpoilage">
           <Key>
@@ -12087,6 +12070,25 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="SystemUser">
+          <Key>
+            <PropertyRef Name="SystemUserId" />
+          </Key>
+          <Property Name="SystemUserId" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="OrganizationId" Type="Int32" />
+          <Property Name="DepartmentId" Type="Int32" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="UserType" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="IsAccountDisabled" Type="Int16" />
+          <Property Name="CostPerHour" Type="Single" />
+          <Property Name="IsScheduleable" Type="Int16" />
+          <Property Name="IsSystemUser" Type="Int32" />
+          <Property Name="UserAuthToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14137,25 +14139,6 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SystemUsers">
-            <EntityTypeMapping TypeName="DomainModels.SystemUser">
-              <MappingFragment StoreEntitySet="SystemUser">
-                <ScalarProperty Name="UserAuthToken" ColumnName="UserAuthToken" />
-                <ScalarProperty Name="IsSystemUser" ColumnName="IsSystemUser" />
-                <ScalarProperty Name="IsScheduleable" ColumnName="IsScheduleable" />
-                <ScalarProperty Name="CostPerHour" ColumnName="CostPerHour" />
-                <ScalarProperty Name="IsAccountDisabled" ColumnName="IsAccountDisabled" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
-                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
@@ -15356,7 +15339,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="InkCoverageGroups">
             <EntityTypeMapping TypeName="DomainModels.InkCoverageGroup">
               <MappingFragment StoreEntitySet="InkCoverageGroup">
-                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="OrganisationId" ColumnName="OrganisationId" />
                 <ScalarProperty Name="IsFixed" ColumnName="IsFixed" />
                 <ScalarProperty Name="Percentage" ColumnName="Percentage" />
                 <ScalarProperty Name="GroupName" ColumnName="GroupName" />
@@ -15848,6 +15831,26 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="SheetsQty1" ColumnName="SheetsQty1" />
                 <ScalarProperty Name="MethodId" ColumnName="MethodId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SystemUsers">
+            <EntityTypeMapping TypeName="DomainModels.SystemUser">
+              <MappingFragment StoreEntitySet="SystemUser">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserAuthToken" ColumnName="UserAuthToken" />
+                <ScalarProperty Name="IsSystemUser" ColumnName="IsSystemUser" />
+                <ScalarProperty Name="IsScheduleable" ColumnName="IsScheduleable" />
+                <ScalarProperty Name="CostPerHour" ColumnName="CostPerHour" />
+                <ScalarProperty Name="IsAccountDisabled" ColumnName="IsAccountDisabled" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
+                <ScalarProperty Name="OrganizationId" ColumnName="OrganizationId" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="SystemUserId" ColumnName="SystemUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

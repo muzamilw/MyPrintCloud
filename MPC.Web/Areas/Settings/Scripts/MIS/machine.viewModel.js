@@ -32,11 +32,7 @@ define("machine/machine.viewModel",
                     UpdatedPapperStockID = ko.observable(),
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
-                    //createNewMachine = function () {
-                    //    var oMachine = new model.machine();
-                    //    editorViewModel.selectItem(oMachine);
-                    //    openEditDialog();
-                    //},
+                    
                     
                     gotoElement = function (validation) {
                         view.gotoElement(validation.element);
@@ -49,10 +45,12 @@ define("machine/machine.viewModel",
                          
                      },
                     GetMachineListForGuillotine = function () {
+                        $("#btnCreateNewMachine").html('Create New Guillotine');
                         isGuillotineList(true);
                        getMachines();
                     },
                     GetMachineListForAll = function () {
+                        $("#btnCreateNewMachine").html('Create New Press');
                          isGuillotineList(false);
                          getMachines();
                      },
@@ -162,38 +160,40 @@ define("machine/machine.viewModel",
                        isEditorVisible(false);
                         errorList.removeAll();
                     },
-                     createNewMachine = function () {
-                         var oMachine = new model.machine();
-                         selectedMachine(oMachine);
-                         openEditDialog();
-                     },
-                    onEditItem = function () {
-                        errorList.removeAll();
-                        dataservice.getMachineById({
-                            IsGuillotine: isGuillotineList(),
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    selectedMachine().markupList.removeAll();
-                                    ko.utils.arrayPushAll(selectedMachine().markupList(), data.Markups);
-                                    selectedMachine().markupList.valueHasMutated();
+                    createNewMachine = function (oMachine) {
+                         errorList.removeAll();
+                         dataservice.getMachineById({
+                             IsGuillotine: isGuillotineList(),
+                         }, {
+                             success: function (data) {
+                                 if (data != null) {
+                                     selectedMachine(model.newMachineClientMapper(data));
+                                     selectedMachine().reset();
+                                     isEditorVisible(true);
 
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to load Detail . Error: ");
-                            }
-                        });
-                    },
+                                 }
+                             },
+                             error: function (response) {
+                                 toastr.error("Failed to load Detail . Error: ");
+                             }
+                         });
+                     },
+
+                    
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
                             if (selectedMachine().MachineId() > 0) {
                                 saveEdittedMachine();
                             }
-                            //else {
-                            //    saveNewMachine(item);
-                            //}
+                            else {
+                                if (isGuillotineList()) {
+                                    selectedMachine().MachineCatId(4);
+                                        } else {
+                                    selectedMachine().MachineCatId(2);
+                                        }
+                                saveNewMachine();
+                            }
                         }
                     },
                     onplateChange = function () {
@@ -235,7 +235,33 @@ define("machine/machine.viewModel",
                             }
                         });
                     },
-                   
+                    saveNewMachine = function () {
+                         
+                         dataservice.saveNewMachine(model.machineServerMapper(selectedMachine()), {
+                             success: function (data) {
+                                 selectedMachine().reset();
+                                 errorList.removeAll();
+                                 selectedMachine().MachineId(data.machine.MachineId);
+                                
+                                 for (i = 0; i < 8; i++) {
+                                     selectedMachine().MachineSpoilageItems()[i].MachineSpoilageId = data.MachineSpoilageItems[i].MachineSpoilageId;
+                                     selectedMachine().MachineSpoilageItems()[i].MachineId = data.machine.MachineId;
+                                     selectedMachine().MachineInkCoverages()[i].Id = data.machine.MachineInkCoverages[i].Id;
+                                     selectedMachine().MachineInkCoverages()[i].MachineId = data.machine.MachineId;
+                                 }
+                                
+                                 toastr.success("Successfully save.");
+
+                             },
+                             error: function (exceptionMessage, exceptionType) {
+                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                     toastr.error(exceptionMessage);
+                                 } else {
+                                     toastr.error("Failed to save.");
+                                 }
+                             }
+                         });
+                     },
                    
 
                     onPapperSizeStockItemPopup = function () {
@@ -247,7 +273,6 @@ define("machine/machine.viewModel",
                     openStockItemDialog = function (stockCategoryId) {
                         stockDialog.show(function (stockItem) {
                             selectedMachine().onSelectStockItem(stockItem);
-                            //onSelectStockItem(stockItem);
                         }, stockCategoryId, false);
                     },
                     onEditItem = function (oMachine) {
@@ -259,7 +284,7 @@ define("machine/machine.viewModel",
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
-                                    showMachineDetail();
+                                    isEditorVisible(true);
                                     
                                 }
                             },
@@ -267,9 +292,6 @@ define("machine/machine.viewModel",
                                 toastr.error("Failed to load Detail . Error: ");
                             }
                         });
-                    },
-                    openEditDialog = function () {
-                        isEditorVisible(true);
                     },
                     closeEditDialog = function () {
                         if (selectedMachine() != undefined) {
@@ -284,14 +306,12 @@ define("machine/machine.viewModel",
                             editorViewModel.revertItem();
                         }
                     },
-                    // close CostCenter Editor
+                    
                     closeMachineDetail = function () {
                         isEditorVisible(false);
                     },
-                    // Show CostCenter Editor
-                    showMachineDetail = function () {
-                        isEditorVisible(true);
-                    },
+                   
+                   
                     // #region Observables
                     // Initialize the view model
                     initialize = function (specifiedView) {
@@ -318,14 +338,14 @@ define("machine/machine.viewModel",
                     saveMachine: saveMachine,
                     errorList:errorList,
                     saveEdittedMachine: saveEdittedMachine,
-                    openEditDialog: openEditDialog,
+                    
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
                     onEditItem: onEditItem,
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
-                    showMachineDetail: showMachineDetail,
+                   
                     getStockItemsList: getStockItemsList,
                     onPapperSizeStockItemPopup: onPapperSizeStockItemPopup,
                     onPlateStockItemPopup: onPlateStockItemPopup,
@@ -343,7 +363,8 @@ define("machine/machine.viewModel",
                     onplateChange: onplateChange,
                     onismakereadyusedChange:onismakereadyusedChange,
                     oniswashupusedChange: oniswashupusedChange,
-                    createNewMachine: createNewMachine
+                    createNewMachine: createNewMachine,
+                    saveNewMachine: saveNewMachine
 
                   
                 };
