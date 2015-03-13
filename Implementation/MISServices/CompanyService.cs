@@ -100,18 +100,20 @@ namespace MPC.Implementation.MISServices
             var itemMatched = false;
             foreach (var domain in allDomains)
             {
-                foreach (var domainForSaving in companySaving.Company.CompanyDomains)
+                if (companySaving.Company.CompanyDomains != null)
                 {
-                    if (domainForSaving.CompanyDomainId == 0)
+                    foreach (var domainForSaving in companySaving.Company.CompanyDomains)
                     {
-                        if (domainForSaving.Domain == domain.Domain)
+                        if (domainForSaving.CompanyDomainId == 0)
                         {
-                            throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
-                            //return false;
+                            if (domainForSaving.Domain == domain.Domain)
+                            {
+                                throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
+                                //return false;
+                            }
                         }
                     }
                 }
-
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -955,8 +957,7 @@ namespace MPC.Implementation.MISServices
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var productCategories = new List<ProductCategory>();
-            var companyDomainsDbVersion = new List<CompanyDomain>();
-            companyDomainsDbVersion = companyDbVersion.CompanyDomains.ToList();
+            List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList(): null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);

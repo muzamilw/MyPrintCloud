@@ -9,6 +9,6 @@
         public string GroupName { get; set; }
         public double? Percentage { get; set; }
         public int IsFixed { get; set; }
-        public int SystemSiteId { get; set; }
+        public int OrganisationId { get; set; }
     }
 }

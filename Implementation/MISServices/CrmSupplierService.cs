@@ -27,7 +27,7 @@ namespace MPC.Implementation.MISServices
         #region Public 
         public CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request)
         {
-            return companyRepository.SearchCompanies(request);
+            return companyRepository.SearchCompaniesForSupplier(request);
         }
         #endregion
     }

@@ -273,7 +273,7 @@ namespace MPC.Repository.Repositories
 
 
                 //var company = DbSet.Find(companyId);
-                // company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
+                //company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
 
                 companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
                 companyResponse.SecondaryPageResponse.RowCount = db.CmsPages.Count(cmp => cmp.CompanyId == companyId);
@@ -341,11 +341,50 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-
-
-
         }
+        /// <summary>
+        /// Get Companies list for Supplier List View
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request)
+        {
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isTypeSpecified = request.CustomerType != null;
+                long type = request.CustomerType ?? 0;
+                Expression<Func<Company, bool>> query =
+                    s =>
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) ) &&
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 2);
 
+                int rowCount = DbSet.Count(query);
+                IEnumerable<Company> companies = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+                return new CompanyResponse
+                {
+                    RowCount = rowCount,
+                    Companies = companies
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>

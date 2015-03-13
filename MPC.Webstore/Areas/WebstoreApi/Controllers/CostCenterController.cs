@@ -1,4 +1,5 @@
 ﻿using MPC.Interfaces.Common;
+using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -6,6 +7,7 @@ using MPC.Webstore.Common;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,9 +25,13 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         #region Private
 
         private readonly ICostCentreService _CostCentreService;
-
+        
+        private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
         private readonly IItemService _ItemService;
         private readonly ICompanyService _companyService;
+        private readonly ICampaignService _campaignService;
+        private readonly IUserManagerService _usermanagerService;
+        private readonly ICompanyContactRepository _companyContact;
         #endregion
         #region Constructor
 
@@ -34,12 +40,16 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         /// </summary>
         /// <param name="companyService"></param>
         private readonly IOrderService _orderService;
-        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService, ICompanyService companyService)
+        public CostCenterController(ICostCentreService CostCentreService, IItemService ItemService, IOrderService _orderService, ICompanyService companyService, IWebstoreClaimsHelperService _webstoreAuthorizationChecker, ICampaignService _campaignService, IUserManagerService _usermanagerService, ICompanyContactRepository _companyContact)
         {
             this._CostCentreService = CostCentreService;
             this._ItemService = ItemService;
             this._orderService = _orderService;
             this._companyService = companyService;
+            this._webstoreAuthorizationChecker = _webstoreAuthorizationChecker;
+            this._campaignService = _campaignService;
+            this._usermanagerService = _usermanagerService;
+            this._companyContact = _companyContact;
         }
 
         #endregion
@@ -323,13 +333,411 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             obj.Address = Address;
             obj.StateId = Address.StateId??0;
             obj.CountryId = Address.CountryId??0;
+            obj.CompanyID = Address.CompanyId??0;
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, obj, formatter);
         }
-    }
+
+        [HttpPost]
+        public void UploadImage(string FirstName, string LastName, string Email, string JobTitle, string HomeTel1, string Mobile, string FAX, string CompanyName, string quickWebsite, string POBoxAddress, string CorporateUnit, string OfficeTradingName, string ContractorName, string BPayCRN, string ABN, string ACN, string AdditionalField1, string AdditionalField2, string AdditionalField3, string AdditionalField4, string AdditionalField5, bool IsEmailSubscription, bool IsNewsLetterSubscription)
+        {
+          // if (HttpContext.Current.Request.Files.AllKeys.Any())
+           // {
+                 //Get the uploaded image from the Files collection
+            try
+            {
+                var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                //}
+
+                bool result = false;
+                CompanyContact UpdateContact = new CompanyContact();
+                UpdateContact.FirstName = FirstName;
+                UpdateContact.LastName = LastName;
+                UpdateContact.Email = Email;
+                UpdateContact.JobTitle = JobTitle;
+                UpdateContact.HomeTel1 = HomeTel1;
+                UpdateContact.Mobile = Mobile;
+                UpdateContact.FAX = FAX;
+                UpdateContact.quickWebsite = quickWebsite;
+                UpdateContact.image = UpdateImage(httpPostedFile);
+                UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
+                UpdateContact.IsEmailSubscription = IsEmailSubscription;
+                UpdateContact.IsNewsLetterSubscription = IsNewsLetterSubscription;
+                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                {
+                    Company Company = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+                    if (Company != null)
+                    {
+                        Company.Name = CompanyName;
+                        Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
+                        result = _companyService.UpdateCompanyName(Company);
+                    }
+                    result = _companyService.UpdateCompanyContactForRetail(UpdateContact);
+                }
+                else
+                {
+                    UpdateContact.POBoxAddress = POBoxAddress;
+                    UpdateContact.CorporateUnit = CorporateUnit;
+                    UpdateContact.OfficeTradingName = OfficeTradingName;
+                    UpdateContact.ContractorName = ContractorName;
+                    UpdateContact.BPayCRN = BPayCRN;
+                    UpdateContact.ABN = ABN;
+                    UpdateContact.ACN = ACN;
+                    UpdateContact.AdditionalField1 = AdditionalField1;
+                    UpdateContact.AdditionalField2 = AdditionalField2;
+                    UpdateContact.AdditionalField3 = AdditionalField3;
+                    UpdateContact.AdditionalField4 = AdditionalField4;
+                    UpdateContact.AdditionalField5 = AdditionalField5;
+                    UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
+                    result = _companyService.UpdateCompanyContactForCorporate(UpdateContact);
+                }
+                if (result)
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            }
+        
+        private string UpdateImage(HttpPostedFile Request)
+        {
+            string ImagePath = string.Empty;
+            CompanyContact contact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+            if (Request != null)
+            {
+                string folderPath = "/mpc_content/Assets" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Contacts/" + contact.ContactId + "";
+                string virtualFolderPth = string.Empty;
+
+               // virtualFolderPth = @Server.MapPath(folderPath);
+              //  virtualFolderPth = Request.MapPath(folderPath);
+              virtualFolderPth=  HttpContext.Current.Server.MapPath(folderPath);
+               /// virtualFolderPth = System.Web.Http.HttpServer.
+                if (!System.IO.Directory.Exists(virtualFolderPth))
+                {
+                    System.IO.Directory.CreateDirectory(virtualFolderPth);
+                }
+                if (contact.image != null || contact.image != "")
+                {
+
+                    RemovePreviousFile(contact.image);
+                }
+                var fileName = Path.GetFileName(Request.FileName);
+
+                Request.SaveAs(virtualFolderPth + "/" + fileName);
+
+                ImagePath = folderPath + "/" + fileName;
+            }
+            else
+            {
+                ImagePath = contact.image;
+            }
+
+            return ImagePath;
+        }
+
+        private void RemovePreviousFile(string previousFileToremove)
+        {
+            if (!string.IsNullOrEmpty(previousFileToremove))
+            {
+                string ServerPath = HttpContext.Current.Server.MapPath(previousFileToremove);
+                if (System.IO.File.Exists(ServerPath))
+                {
+                    DeleteFile(ServerPath);
+                }
+            }
+        }
+
+       
+
+        public void DeleteFile(string completePath)
+        {
+            try
+            {
+                if (System.IO.File.Exists(completePath))
+                {
+                    System.IO.File.Delete(completePath);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        [HttpPost]
+        public HttpPostedFile ImageFile()
+        { 
+             HttpPostedFile file=null;
+             if (HttpContext.Current.Request.Files.AllKeys.Any())
+             {
+                // Get the uploaded image from the Files collection
+                var httpPostedFile = HttpContext.Current.Request.Files["UploadedImage"];
+                if (httpPostedFile!= null)
+                {
+                  file=httpPostedFile;
+                }
+        
+              }
+              return file;
+         }
+        [HttpPost]
+        public void UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
+        {
+            var httpPostedFile = HttpContext.Current.Request.Files["UploadedFile"];
+            Inquiry NewInqury = new Inquiry();
+
+            NewInqury.Title = Title;
+
+            if (_webstoreAuthorizationChecker.loginContactID() > 0)
+            {
+                NewInqury.ContactId = _webstoreAuthorizationChecker.loginContactID();
+                NewInqury.ContactCompanyId = (int)_webstoreAuthorizationChecker.loginContactCompanyID();
+                
+            }
+            else
+            {
+                if (_companyContact.GetContactByEmailID(Email)!=null)
+                {
+                    return;
+                }
+                CompanyContact Contact = new CompanyContact();
+                Contact.FirstName = FirstName;
+                Contact.LastName = LastName;
+                Contact.Email = Email;
+                Contact.Mobile = Mobile;
+                Contact.Password = "password";
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
+
+                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
+
+                if (Customer > 0)
+                {
+
+                    MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.OrganisationID);
+                    CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+                    CampaignEmailParams cep = new CampaignEmailParams();
+
+                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                    cep.ContactId = NewInqury.ContactId;
+
+                    cep.CompanySiteID = 1;
+                    cep.AddressID = (int)NewInqury.ContactCompanyId;
+                    cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
+                    cep.StoreID = UserCookieManager.OrganisationID;
+
+                    SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
+
+                    if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    {
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+
+                    }
+                    else
+                    {
+                        _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
+
+                    }
+
+                    _campaignService.emailBodyGenerator(RegistrationCampaignn, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+
+                }
+            }
+            NewInqury.CreatedDate = DateTime.Now;
+            NewInqury.IsDirectInquiry = false;
+            NewInqury.FlagId = null;
+            NewInqury.SourceId = 30;
+            int iMaxFileSize = 2097152;
+            long result = _ItemService.AddInquiryAndItems(NewInqury, FillItems(InquiryItemDeliveryDate1, InquiryItemDeliveryDate2, InquiryItemDeliveryDate3, InquiryItemTitle1, InquiryItemNotes1, InquiryItemTitle2, InquiryItemNotes2, InquiryItemTitle3, InquiryItemNotes3, Convert.ToInt32(hfNoOfRec)));
+            long InquiryId = result;
+           
+            if (Request != null)
+            {
+                if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
+                {
+                    FillAttachments(result, httpPostedFile);
+                }
+            }
+            if (result > 0)
+            {
+
+                MPC.Models.DomainModels.Company loginUserCompany = _companyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+                CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
+                CampaignEmailParams cep = new CampaignEmailParams();
+
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                cep.ContactId = NewInqury.ContactId;
+
+                cep.CompanySiteID = 1;
+                cep.AddressID = (int)NewInqury.ContactCompanyId;
+                cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
+                cep.StoreID = UserCookieManager.StoreId;
+                Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.StoreId);
+                string CacheKeyName = "CompanyBaseResponse";
+                ObjectCache cache = MemoryCache.Default;
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+
+                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                {
+                    cep.StoreID = _webstoreAuthorizationChecker.loginContactCompanyID();
+                    long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
+                    cep.CorporateManagerID = MID;
+                    int ManagerID = (int)MID;
+
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
+                }
+                else
+                {
+
+                    _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)NewInqury.ContactId, (int)NewInqury.ContactCompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+
+                }
+
+                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+            }
+        
+        
+        }
+
+        private void FillAttachments(long inquiryID, HttpPostedFile Request)
+        {
+
+            if (Request != null)
+            {
+                List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
+                string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/" + inquiryID + "";
+                string virtualFolderPth = string.Empty;
+
+                virtualFolderPth = HttpContext.Current.Server.MapPath(folderPath);
+                if (!System.IO.Directory.Exists(virtualFolderPth))
+                    System.IO.Directory.CreateDirectory(virtualFolderPth);
+
+                //for (int i = 0; i < Request.Count; i++)
+                //{
+                //HttpPostedFile postedFile = Request;
+
+                string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(Request.FileName));
+
+                InquiryAttachment inquiryAttachment = new InquiryAttachment();
+                inquiryAttachment.OrignalFileName = Path.GetFileName(Request.FileName);
+                inquiryAttachment.Extension = Path.GetExtension(Request.FileName);
+                inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
+                inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
+                listOfAttachment.Add(inquiryAttachment);
+                Request.SaveAs(virtualFolderPth + fileName);
+                _ItemService.AddInquiryAttachments(listOfAttachment);
+            }
+
+
+        }
+        private Inquiry AddInquiry(Prefix prefix)
+        {
+
+            // Get order prefix and update the order next number
+            //  tbl_prefixes prefix = PrefixManager.GetDefaultPrefix(context);
+            Inquiry inquiry = new Inquiry();
+
+            inquiry.InquiryCode = prefix.EnquiryPrefix + "-001-" + prefix.EnquiryNext.ToString();
+            prefix.EnquiryNext = prefix.EnquiryNext + 1;
+
+            return inquiry;
+
+        }
+        private List<InquiryItem> FillItems(string InquiryItemDeliveryDate1, string InquiryItemDeliveryDate2, string InquiryItemDeliveryDate3, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemTitle2, string InquiryItemNotes2,string InquiryItemTitle3,string InquiryItemNotes3, int hfNoOfRec)
+        {
+            List<InquiryItem> listOfInquiries = new List<InquiryItem>();
+            DateTime requideddate = DateTime.Now;
+            if (hfNoOfRec > 0)
+            {
+                int numOfrec = Convert.ToInt32(hfNoOfRec);
+
+                if (numOfrec >= 1)
+                {
+                    InquiryItem item1 = new InquiryItem();
+
+                    item1.Title = InquiryItemTitle1;
+                    item1.Notes = InquiryItemNotes1;
+
+                    item1.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate1, CultureInfo.InvariantCulture);
+
+                    requideddate = item1.DeliveryDate;
+
+                    listOfInquiries.Add(item1);
+                }
+
+                if (numOfrec >= 2)
+                {
+                    InquiryItem item1 = new InquiryItem();
+
+                    item1.Title = InquiryItemTitle1;
+                    item1.Notes = InquiryItemNotes1;
+
+                    item1.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate1, CultureInfo.InvariantCulture);
+                    listOfInquiries.Add(item1);
+
+                    InquiryItem item2 = new InquiryItem();
+
+                    item2.Title = InquiryItemTitle2;
+                    item2.Notes = InquiryItemNotes2;
+                    item2.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate2, CultureInfo.InvariantCulture);
+
+                    if (requideddate > item2.DeliveryDate)
+                        requideddate = item2.DeliveryDate;
+
+                    listOfInquiries.Add(item2);
+                }
+
+                if (numOfrec >= 3)
+                {
+                    InquiryItem item1 = new InquiryItem();
+
+                    item1.Title =InquiryItemTitle1;
+                    item1.Notes =InquiryItemNotes1;
+
+                    item1.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate1, CultureInfo.InvariantCulture);
+                    listOfInquiries.Add(item1);
+
+                    InquiryItem item2 = new InquiryItem();
+
+                    item2.Title =InquiryItemTitle2;
+                    item2.Notes = InquiryItemNotes2;
+                    item2.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate2, CultureInfo.InvariantCulture);
+
+                    listOfInquiries.Add(item2);
+
+
+                    InquiryItem item3 = new InquiryItem();
+
+                    item3.Title = InquiryItemTitle3;
+                    item3.Notes = InquiryItemNotes3;
+                    item3.DeliveryDate = Convert.ToDateTime(InquiryItemDeliveryDate3, CultureInfo.InvariantCulture);
+
+                    if (requideddate > item3.DeliveryDate)
+                        requideddate = item3.DeliveryDate;
+
+                    listOfInquiries.Add(item3);
+                }
+
+            }
+            return listOfInquiries;
+        }
+
+        //public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)
+        //{
+           
+        //    return View("PartialViews/RequestQuote", Model);
+        //}
+
       public class JasonResponseObject
           {
           public Order order;
@@ -343,12 +751,14 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public string OrderDateValue;
           public string DeliveryDateValue;
          }
+
       public class JsonAddressClass
       {
          public Address Address;
          public long StateId;
          public long CountryId;
+         public long CompanyID;
       }
-    
+    }
 }
          
