@@ -9,12 +9,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
     {
         public static ApiModels.CompanyListViewModel ListViewModelCreateFrom(this DomainModels.Company source)
         {
-            byte[] bytes = null;
-            string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            if (source.Image != null && File.Exists(imagePath))
-            {
-                bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-            }
+
             return new ApiModels.CompanyListViewModel
             {
                 AccountNumber = source.AccountNumber,
@@ -23,7 +18,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Status = source.Status,
                 URL = source.URL,
-                Image = bytes
+                ImageBytes = source.Image
             };
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
@@ -17,23 +18,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static MediaLibrary CreateFrom(this DomainModels.MediaLibrary source)
         {
             byte[] mediaFileBytes = null;
-            if (!string.IsNullOrEmpty(source.FilePath))
-            {
-                string path =
-                    HttpContext.Current.Server.MapPath("~/" + source.FilePath);
-                if (File.Exists(path))
-                {
-                    mediaFileBytes = File.ReadAllBytes(path);
-                }
-            }
+            string path = string.Empty;
+            //if (!string.IsNullOrEmpty(source.FilePath))
+            //{
+            //    path =
+            //        HttpContext.Current.Server.MapPath("~/" + source.FilePath);
+            //    //if (File.Exists(path))
+            //    //{
+            //    //    mediaFileBytes = File.ReadAllBytes(path);
+            //    //}
+            //}
             return new MediaLibrary
             {
                 MediaId = source.MediaId,
                 FileName = source.FileName,
                 FilePath = source.FilePath,
+                ImageSourcePath = !string.IsNullOrEmpty(source.FilePath) ? source.FilePath + "?" + DateTime.Now.ToString() : string.Empty,
                 CompanyId = source.CompanyId,
-                FileType = source.FileType,
-                Image = mediaFileBytes
+                FileType = source.FileType
             };
         }
 
