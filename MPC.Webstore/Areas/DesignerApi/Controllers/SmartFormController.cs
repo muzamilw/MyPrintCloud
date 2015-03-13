@@ -100,8 +100,8 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [HttpPost]
         public HttpResponseMessage SaveUserVariables([FromBody]  Dictionary<long, List<ScopeVariable>> obj)
         {
-
-            var result = "";// smartFormService.SaveTemplateVariables(obj);
+            
+            var result =smartFormService.SaveUserProfilesData(obj);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

@@ -511,10 +511,12 @@ namespace MPC.Repository.Repositories
         }
         public string DynamicQueryToSetRecord(string feildname, string tblname, string keyName, long keyValue,string newValue)
         {
-            var query = "UPDATE " + tblname + "  SET " + feildname + "='" + newValue + "' WHERE " + keyName + " =(SELECT " + keyName + " FROM " + tblname + "  WHERE " + keyName + "= " + keyValue + "  LIMIT 1)";
+            var query = "UPDATE " + tblname + "  SET " + feildname + "='" + newValue + "' WHERE " + keyName + " =(SELECT top 1 " + keyName + " FROM " + tblname + "  WHERE " + keyName + "= " + keyValue + ")";
             string oResult = null;
-            System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>(query, "");
-            oResult = result.FirstOrDefault();
+            int result = db.Database.ExecuteSqlCommand(query);
+            //System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>(query, "");
+            
+            //oResult = result.FirstOrDefault();
             return oResult;
         }
 
@@ -642,6 +644,7 @@ namespace MPC.Repository.Repositories
                 }
 
             }
+            result = true;
             return result;
         }
         #endregion

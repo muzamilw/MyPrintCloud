@@ -113,7 +113,7 @@ define("machine/machine.viewModel",
                             PageNo: pager().currentPage(),
                             SortBy: sortOn(),
                             IsAsc: sortIsAsc(),
-                            isGuillotineList: isGuillotineList
+                            isGuillotineList: isGuillotineList()
                         }, {
                             success: function (data) {
                                 machineList.removeAll();
@@ -221,10 +221,29 @@ define("machine/machine.viewModel",
                        
                         dataservice.saveMachine(model.machineServerMapper(selectedMachine()), {
                             success: function (data) {
-                                selectedMachine().reset();
                                 errorList.removeAll();
-                                toastr.success("Successfully save.");
+                                toastr.success("Successfully Saved.");
+                                isEditorVisible(false);
+                                _.each(machineList(), function (machine) {
+                                    if (machine && machine.MachineId() == selectedMachine().MachineId()) {
+                                        machine.Description(selectedMachine().Description());
+                                        machine.MachineName(selectedMachine().MachineName());
+                                        machine.maximumsheetwidth(selectedMachine().maximumsheetwidth());
+                                        machine.maximumsheetheight(selectedMachine().maximumsheetheight());
+                                        machine.minimumsheetwidth(selectedMachine().minimumsheetwidth());
+                                        machine.minimumsheetheight(selectedMachine().minimumsheetheight());
+                                        if (machine.LookupMethodId() != selectedMachine().LookupMethodId()) {
+                                            _.each(selectedMachine().lookupList(), function (lookupItm) {
+                                                if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
+                                                    machine.LookupMethodName(lookupItm.Name);
+                                                }
 
+                                            });
+                                         }
+
+                                    }
+                                });
+                               
                             },
                             error: function (exceptionMessage, exceptionType) {
                                 if (exceptionType === ist.exceptionType.MPCGeneralException) {
@@ -241,16 +260,22 @@ define("machine/machine.viewModel",
                              success: function (data) {
                                  selectedMachine().reset();
                                  errorList.removeAll();
+                                 
                                  selectedMachine().MachineId(data.machine.MachineId);
-                                
-                                 for (i = 0; i < 8; i++) {
-                                     selectedMachine().MachineSpoilageItems()[i].MachineSpoilageId = data.MachineSpoilageItems[i].MachineSpoilageId;
-                                     selectedMachine().MachineSpoilageItems()[i].MachineId = data.machine.MachineId;
-                                     selectedMachine().MachineInkCoverages()[i].Id = data.machine.MachineInkCoverages[i].Id;
-                                     selectedMachine().MachineInkCoverages()[i].MachineId = data.machine.MachineId;
-                                 }
-                                
+                                 isEditorVisible(false);
+
                                  toastr.success("Successfully save.");
+                                 var module = model.machineListClientMapperSelectedItem(selectedMachine());
+                                 
+                                     _.each(selectedMachine().lookupList(), function (lookupItm) {
+                                         if (lookupItm && lookupItm.MethodId == selectedMachine().LookupMethodId()) {
+                                             module.LookupMethodName(lookupItm.Name);
+                                         }
+
+                                     });
+                                 
+                                 machineList.push(module);
+                                
 
                              },
                              error: function (exceptionMessage, exceptionType) {
