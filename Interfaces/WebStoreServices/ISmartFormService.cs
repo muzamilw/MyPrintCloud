@@ -24,6 +24,6 @@ namespace MPC.Interfaces.WebStoreServices
 
         Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts);
 
-        bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
+        string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
     }
 }

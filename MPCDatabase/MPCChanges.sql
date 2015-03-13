@@ -659,3 +659,13 @@ alter table SystemUser
 add Email varchar(200) null
 
 GO
+
+/* Execution Date: 13/03/2015 */
+
+
+GO
+
+alter table company
+add ActiveBannerSetId bigint null
+
+GO

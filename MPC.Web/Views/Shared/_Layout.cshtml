@@ -276,6 +276,7 @@
                     <div id="col-left-inner" class="col-left-nano-content">
 
                         @RenderSection("leftmenue", required: false)
+                        
                         @* Test left menue starts here*@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                             <ul class="nav nav-pills nav-stacked" id="Navigation-bar">
@@ -374,62 +375,7 @@
                                     </ul>
                                 </li>
                                 <li id="liorderprocessing">
-                                    <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-graduation-cap"></i>
-                                        <span>Orders Processing</span>
-                                        <i class="fa fa-chevron-circle-right drop-icon"></i>
-                                    </a>
-                                    <ul class="submenu">
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Orders - All</span>
-                                                <span class="label label-primary label-circle pull-right">86</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/PendingOrders" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Pending (New) Orders</span>
-                                                <span class="label label-primary label-circle pull-right">50</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/ConfirmedStarts" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Confirmed Starts</span>
-                                                <span class="label label-primary label-circle pull-right">10</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/InProduction" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>In Production</span>
-                                                <span class="label label-primary label-circle pull-right">08</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/ReadyForShipping" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Ready for shipping</span>
-                                                <span class="label label-primary label-circle pull-right">07</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/Invoiced" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Invoiced</span>
-                                                <span class="label label-primary label-circle pull-right">05</span>
-                                            </a>
-                                        </li>
-                                        <li class="left15pxback">
-                                            <a href="~/Orders/Home/CancelledOrders" class="my-navigator">
-                                                <i class="fa fa-table"></i>
-                                                <span>Cancelled Orders</span>
-                                                <span class="label label-primary label-circle pull-right">06</span>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    @Html.Action("OrderMenuItems", "Home", new { area = "" })
                                 </li>
                                 <li id="liproduction">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
@@ -754,7 +700,7 @@
             });
 
         });
-        // set up an array to hold the months
+        
         var months = ["Pending Order", "Confirmed Start", "In Production", "Ship", "Invoice"];
         var activeMonth = new Date().getMonth();
         $(".slider").slider().slider("pips");
