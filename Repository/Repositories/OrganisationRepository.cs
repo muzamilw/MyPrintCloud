@@ -592,7 +592,7 @@ namespace MPC.Repository.Repositories
                       
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                         if(comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                         if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                          {
                              comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                              comp.CmsPages.ToList().ForEach(x => x.Company = null);

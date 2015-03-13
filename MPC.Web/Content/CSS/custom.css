@@ -177,7 +177,7 @@ z-index:1000000011;
        }
        
 
-  #machineDetailsHeader{
+  .machineDetailsHeader{
     border: 1px solid silver;
     box-shadow: 1px 1px 1px silver;
 }
