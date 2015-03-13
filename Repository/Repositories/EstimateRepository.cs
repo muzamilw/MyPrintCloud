@@ -125,6 +125,24 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        ///Get Order Statuses Count For Menu Items
+        /// </summary>
+        public OrderMenuCount GetOrderStatusesCountForMenuItems()
+        {
+            return new OrderMenuCount
+            {
+                AllOrdersCount = DbSet.Count(order => order.OrganisationId == OrganisationId && order.isEstimate== false),
+                PendingOrders = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.PendingOrder && order.isEstimate == false),
+                ConfirmedStarts = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.ConfirmedOrder && order.isEstimate == false),
+                InProduction = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.InProduction && order.isEstimate == false),
+                ReadyForShipping = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.Completed_NotShipped && order.isEstimate == false),
+                Invoiced = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CompletedAndShipped_Invoiced && order.isEstimate == false),
+                CancelledOrders = DbSet.Count(order => order.OrganisationId == OrganisationId && order.StatusId == (short)OrderStatusEnum.CancelledOrder && order.isEstimate == false),
+            };
+        }
+
+
+        /// <summary>
         /// Gets list of Orders for company edit tab
         /// </summary>
         public OrdersForCrmResponse GetOrdersForCrm(GetOrdersRequest request)

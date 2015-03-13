@@ -32,7 +32,12 @@ namespace MPC.MIS.Controllers
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
+        private IOrderService orderService{ get; set; }
 
+        public HomeController(IOrderService orderService)
+        {
+            this.orderService = orderService;
+        }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
 
@@ -267,6 +272,20 @@ namespace MPC.MIS.Controllers
         public ActionResult PageUnAvailable()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult OrderMenuItems()
+        {
+            var OrderStatusCount = orderService.GetOrderScreenMenuItemCount();
+            ViewBag.AllOrdersCount = OrderStatusCount.AllOrdersCount;
+            ViewBag.PendingOrders = OrderStatusCount.PendingOrders;
+            ViewBag.ConfirmedStarts = OrderStatusCount.ConfirmedStarts;
+            ViewBag.InProduction = OrderStatusCount.InProduction;
+            ViewBag.ReadyForShipping = OrderStatusCount.ReadyForShipping;
+            ViewBag.Invoiced = OrderStatusCount.Invoiced;
+            ViewBag.CancelledOrders = OrderStatusCount.CancelledOrders;
+            return PartialView();
         }
     }
 }
