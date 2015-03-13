@@ -122,6 +122,7 @@
     <Compile Include="Common\InvoiceByColumn.cs" />
     <Compile Include="Common\Order.cs" />
     <Compile Include="Common\IsTrialClaimValue.cs" />
+    <Compile Include="Common\OrderMenuCount.cs" />
     <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\PaypalOrderParameter.cs" />
     <Compile Include="Common\ProductModel.cs" />

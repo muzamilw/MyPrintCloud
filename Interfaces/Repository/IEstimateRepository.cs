@@ -1,4 +1,5 @@
 ﻿using MPC.MIS.Areas.Api.Models;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -29,5 +30,10 @@ namespace MPC.Interfaces.Repository
         /// Gives count of new orders by given number of last dats
         /// </summary>
         int GetNewOrdersCount(int noOfLastDays, long companyId);
+        /// <summary>
+        /// Get Order Statuses Count For Menu Items
+        /// </summary>
+        /// <returns></returns>
+        OrderMenuCount GetOrderStatusesCountForMenuItems();
     }
 }
