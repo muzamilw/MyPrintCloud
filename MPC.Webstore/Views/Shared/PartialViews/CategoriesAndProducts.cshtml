@@ -1,9 +1,13 @@
 ﻿@using MPC.Models.Common
+@using MPC.Webstore.Common
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var featureProducts = ViewData["FeaturedProducts"] as List<MPC.Models.DomainModels.Item>;
     var Categories = ViewData["Categories"] as List<MPC.Models.DomainModels.ProductCategory>;
     var childs = ViewData["childCategory"] as List<MPC.Models.DomainModels.ProductCategory>;
     string RedirectURL = string.Empty;
+    var count = 0;
+    string CatName = "ParentCat";
 }
 
 <div class="container body-container spacer-top ">
@@ -21,25 +25,26 @@
                       {
                           <div id="parentCatsContainer"   class="panel panel-default">
                               <div class="panel-heading">
-                                  <a id="ltrlParentCatName"   data-toggle="collapse" data-parent="#accordionmenu">
-                                     @category.CategoryName
+                                  <a id="@CatName@count" data-toggle="collapse" data-parent="#accordionmenu" data-id="@count" onclick="sideBarClick('@count');">
+                                      @category.CategoryName
                                   </a>
                               </div>
                               <div id="sidebar_menu_collapse1" class="sideMenuItems panel-collapse collapse ">
                                   <div class="panel-body">
                                       <ul class="submenu list-unstyled">
-                                                @foreach (var child in childs)
-                                                {
-                                                    if (child.ParentCategoryId == category.ProductCategoryId)
-                                                    {
-                                                        <li><a id="ltrlSubCatName" href=""><i class="fa fa-play-circle"></i><span>@child.CategoryName</span></a></li>
-                                                    }
+                                          @foreach (var child in childs)
+                                          {
+                                              if (child.ParentCategoryId == category.ProductCategoryId)
+                                              {
+                                                  <li><a id="ltrlSubCatName" href="/Category/@Html.ResolveString(child.CategoryName)/@child.ProductCategoryId"><span>@child.CategoryName</span></a></li>
+                                              }
 
-                                                }    
+                                          }    
                                       </ul>
                                   </div>
                               </div>
                           </div>
+                          count++;
                       }
                     </div>
                 </div>
@@ -77,7 +82,7 @@
                                    else
                                    {
 
-                                       RedirectURL = "/CloneFeatureItem/" + feature.ItemId;
+                                       RedirectURL = "/CloneProducts/" + feature.ItemId;
                                    }
 
                                }
@@ -95,7 +100,7 @@
                                     <h3 id="h3FP" itemprop="name">@feature.ProductName</h3>
                                     <div class="product-desc">
                                         <p id="paraDescTitle"><strong>@feature.ProductName</strong></p>
-                                        <p id="paraDes">@feature.WebDescription</p>
+                                        @*<p id="paraDes">@feature.WebDescription</p>*@
                                         <p class="text-center"><a id="viewDetaillink" href="@RedirectURL" class='btn btn-info'>View details <i class="fa fa-angle-double-right"></i></a></p>
                                     </div>
                                 </div>
