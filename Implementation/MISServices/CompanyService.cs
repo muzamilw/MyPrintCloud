@@ -970,7 +970,7 @@ namespace MPC.Implementation.MISServices
             UpdateTerritories(companySavingModel, companyDbVersion);
             UpdateAddresses(companySavingModel, companyDbVersion);
             UpdateCompanyContacts(companySavingModel, companyDbVersion);
-            UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
+            //UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
             UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
@@ -980,12 +980,16 @@ namespace MPC.Implementation.MISServices
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
             }
+            else
+            {
+                companySavingModel.Company.Image = companyDbVersion.Image;
+            }
             companyRepository.Update(companyToBeUpdated); // TODO: Remove it
             companyRepository.Update(companySavingModel.Company);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();//todo second external savechanges //uncomment By Rafiq bcz media Id Nedd for save image 
+            companyRepository.SaveChanges();//todo second external savechanges //uncomment By Rafiq bcz media Id Need for save image 
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             SaveSpriteImage(companySavingModel.Company);
@@ -1379,7 +1383,9 @@ namespace MPC.Implementation.MISServices
         private void SaveStoreBackgroundImage(Company company, Company companyDbVersion)
         {
 
+
             string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyDbVersion.CompanyId);
+            string savePath = directoryPath + "\\background.png";
             if (company.StoreBackgroundFile != null)
             {
                 string base64 = company.StoreBackgroundFile.Substring(company.StoreBackgroundFile.IndexOf(',') + 1);
@@ -1390,7 +1396,6 @@ namespace MPC.Implementation.MISServices
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string savePath = directoryPath + "\\background.png";
                 if (File.Exists(savePath))
                 {
                     File.Delete(savePath);
@@ -1400,6 +1405,25 @@ namespace MPC.Implementation.MISServices
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 companyDbVersion.StoreBackgroundImage = savePath;
+            }
+            else
+            {
+                if (HttpContext.Current.Server.MapPath("~/" + company.StoreBackgroundImage) != savePath)
+                {
+                    string mediaFilePath = HttpContext.Current.Server.MapPath("~/" + company.StoreBackgroundImage);
+                    if (File.Exists(savePath))
+                    {
+                        File.Delete(savePath);
+                    }
+                    if (File.Exists(mediaFilePath))
+                    {
+                        File.Copy(mediaFilePath, savePath, true);
+                        int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                        savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                        companyDbVersion.StoreBackgroundImage = savePath;
+                    }
+                }
+
             }
         }
 

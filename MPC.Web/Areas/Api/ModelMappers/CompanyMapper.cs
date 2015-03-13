@@ -287,6 +287,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DefaultMarkUpId = source.DefaultMarkUpId,
                 AccountOpenDate = source.AccountOpenDate,
                 AccountManagerId = source.AccountManagerId,
+                StoreBackgroundImage = source.StoreBackgroundImage, 
                 Status = source.Status,
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,

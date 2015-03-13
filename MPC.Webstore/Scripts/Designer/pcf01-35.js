@@ -2711,13 +2711,15 @@ function pcl42() {
         c2_v2(); c2_v2();// update template objects 
         if ($("#optionRadioOtherProfile").is(':checked')) {
             pcl42_updateVariables(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()]);
+            pcl42_svc(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], $("#smartFormSelectUserProfile").val());// save variables
         }
         else {
             pcl42_updateVariables(smartFormData.scopeVariables);
+            pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
         }
         pcl42_UpdateTO();
         d5_sub(SP,true);
-        pcl42_svc();// save variables
+       
     } else
     {
         alert("Variable validation failed");
