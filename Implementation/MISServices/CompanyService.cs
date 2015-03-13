@@ -92,6 +92,7 @@ namespace MPC.Implementation.MISServices
         private readonly IMediaLibraryRepository mediaLibraryRepository;
         private readonly ICompanyCostCenterRepository companyCostCenterRepository;
         private readonly ICmsTagReporistory cmsTagReporistory;
+        private readonly ICompanyBannerSetRepository bannerSetRepository;
 
         #endregion
 
@@ -2647,6 +2648,27 @@ namespace MPC.Implementation.MISServices
             }
 
             List<MediaLibrary> mediaLibraries = new List<MediaLibrary>();
+
+            // Get Active Banner Set
+            CompanyBannerSet companyBannerSet = bannerSetRepository.GetActiveBannerSetForCompany(companyId);
+
+            // Check If Exists
+            if (companyBannerSet != null)
+            {
+                if (companyBannerSet.CompanyBanners == null)
+                {
+                    companyBannerSet.CompanyBanners = new List<CompanyBanner>();
+                }
+
+                // Remove Existing Banners
+                List<CompanyBanner> companyBanners = companyBannerSet.CompanyBanners.ToList();
+                companyBanners.ForEach(cb =>
+                {
+                    companyBannerSet.CompanyBanners.Remove(cb);
+                    companyBannerRepository.Delete(cb);
+                });
+            }
+
             // Copy each file into the new directory.
             foreach (FileInfo fi in source.GetFiles())
             {
@@ -2658,16 +2680,41 @@ namespace MPC.Implementation.MISServices
                 mediaLibrary.FilePath = "temp";
                 mediaLibraries.Add(mediaLibrary);
                 mediaLibraryRepository.Add(mediaLibrary);
+
+                if (companyBannerSet != null)
+                {
+                    // Add New Banners from Theme to Active Set
+                    CompanyBanner banner = new CompanyBanner
+                    {
+                        CompanySetId = companyBannerSet.CompanySetId,
+                        Heading = "Banner"
+                    };
+
+                    companyBannerSet.CompanyBanners.Add(banner);
+                    companyBannerRepository.Add(banner);
+                }
             }
+            
             mediaLibraryRepository.SaveChanges();
             int i = 0;
             foreach (FileInfo fi in source.GetFiles())
             {
                 MediaLibrary mediaLibrary = mediaLibraries[i];
-                i = (i + 1);
+                
                 mediaLibrary.FilePath = "/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId + "/" + mediaLibrary.MediaId + "_" + fi.Name;
                 fi.CopyTo(Path.Combine(target.FullName, mediaLibrary.MediaId + "_" + fi.Name), true);
+
+                // Update Banner Image Path
+                if (companyBannerSet != null && companyBannerSet.CompanyBanners != null && companyBannerSet.CompanyBanners.Count > 0)
+                {
+                    // Add New Banners from Theme to Active Set
+                    CompanyBanner banner = companyBannerSet.CompanyBanners.ToList()[i];
+                    banner.ImageURL = mediaLibrary.FilePath;
+                }
+
+                i = (i + 1);
             }
+            
             mediaLibraryRepository.SaveChanges();
         }
 
@@ -2721,11 +2768,16 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository)
         {
+            if (bannerSetRepository == null)
+            {
+                throw new ArgumentNullException("bannerSetRepository");
+            }
             this.companyRepository = companyRepository;
             this.smartFormRepository = smartFormRepository;
             this.cmsTagReporistory = cmsTagReporistory;
+            this.bannerSetRepository = bannerSetRepository;
             this.mediaLibraryRepository = mediaLibraryRepository;
             this.companyCostCenterRepository = companyCostCenterRepository;
             this.smartFormDetailRepository = smartFormDetailRepository;
