@@ -2774,12 +2774,7 @@ function pcl42_Validate() {
                     result =  false;
                 }
             }
-            if(obj.FieldVariable.InputMask != null && obj.FieldVariable.InputMask != "")
-            {
-                alert("validate input mask");
-            }
         }
     });
-    //alert("validate variables");
     return result;
 }

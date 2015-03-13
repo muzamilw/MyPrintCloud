@@ -1,4 +1,5 @@
-﻿
+﻿@using MPC.Webstore.Common
+
 <div id="footer" class="footer-content spacer-top">
 
 
@@ -30,7 +31,7 @@
 
                     <div class="panel panel-info" id="Div2">
                         <div class="panel-heading">
-                            <h3 class="panel-title" id="lblOurNews">Subscribe here</h3>
+                            <h3 class="panel-title" id="lblOurNews">Subscribe to our newsletter</h3>
                         </div>
                         @using (Html.BeginForm())
                         {
@@ -44,7 +45,7 @@
 
                                     </div>
                                     <asp:label id="lblerrorMsg" cssclass="error-block text-danger"></asp:label>
-            <p class="help-block" id="Nwsdesc"></p>
+            <p class="help-block" id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.StoreId))</p>
         </div>
         <input id="btnSendNews" type="submit"
                class="btn btn-primary btn-rounded" value="Subscribe" />
@@ -53,7 +54,7 @@
                         </div>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <div class="panel panel-info" id="Div3">
+                            <div class="panel panel-info" id="testimonials">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Testimonials</h3>
                                 </div>
