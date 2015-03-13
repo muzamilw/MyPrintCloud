@@ -273,7 +273,7 @@ namespace MPC.Repository.Repositories
 
 
                 //var company = DbSet.Find(companyId);
-                // company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
+                //company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
 
                 companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
                 companyResponse.SecondaryPageResponse.RowCount = db.CmsPages.Count(cmp => cmp.CompanyId == companyId);
@@ -341,11 +341,50 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-
-
-
         }
+        /// <summary>
+        /// Get Companies list for Supplier List View
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        public CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request)
+        {
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isTypeSpecified = request.CustomerType != null;
+                long type = request.CustomerType ?? 0;
+                Expression<Func<Company, bool>> query =
+                    s =>
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) ) &&
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 2);
 
+                int rowCount = DbSet.Count(query);
+                IEnumerable<Company> companies = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+                return new CompanyResponse
+                {
+                    RowCount = rowCount,
+                    Companies = companies
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         /// <summary>
         /// Get Suppliers For Inventories
         /// </summary>
@@ -637,13 +676,13 @@ namespace MPC.Repository.Repositories
                 // Item Mapper
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
-              Mapper.CreateMap<Item, Item>()
-                 .ForMember(x => x.Company, opt => opt.Ignore())
-                 .ForMember(x => x.ItemAttachments, opt => opt.Ignore())
-                 .ForMember(x => x.Estimate, opt => opt.Ignore())
-                 .ForMember(x => x.Invoice, opt => opt.Ignore())
-                 .ForMember(x => x.DeliveryNoteDetails, opt => opt.Ignore())
-                 .ForMember(x => x.ItemStockOptions, opt => opt.Ignore());
+                Mapper.CreateMap<Item, Item>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                   .ForMember(x => x.ItemAttachments, opt => opt.Ignore())
+                   .ForMember(x => x.Estimate, opt => opt.Ignore())
+                   .ForMember(x => x.Invoice, opt => opt.Ignore())
+                   .ForMember(x => x.DeliveryNoteDetails, opt => opt.Ignore());
+                    
 
               Mapper.CreateMap<ItemSection, ItemSection>()
               .ForMember(x => x.Item, opt => opt.Ignore())
@@ -808,9 +847,9 @@ namespace MPC.Repository.Repositories
                 ExportSets sets = new ExportSets();
 
                 sets.ExportStore1 = ExportCorporateCompany1(CompanyId, sets);
-                sets.ExportRetailStore3 = ExportRetailCompany3(CompanyId, sets, true);
-                sets.ExportRetailStore2 = ExportRetailCompany2(CompanyId, sets, true);
-                sets.ExportRetailStore4 = ExportRetailCompany4(CompanyId, sets, true);
+                sets.ExportStore3 = ExportRetailCompany3(CompanyId, sets, true);
+                sets.ExportStore2 = ExportRetailCompany2(CompanyId, sets, true);
+                sets.ExportStore4 = ExportRetailCompany4(CompanyId, sets, true);
 
                 return sets;
 

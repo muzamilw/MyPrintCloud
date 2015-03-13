@@ -112,6 +112,7 @@ namespace MPC.Provisioning.Controllers
                 process.Start();
 
                 string output = process.StandardOutput.ReadToEnd();
+               // string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();
@@ -137,15 +138,19 @@ namespace MPC.Provisioning.Controllers
 
                         var result = command.ExecuteNonQuery();
 
+
+                       Guid ID = Guid.Parse(userId);
+                       
                         //creating default user
                         //must save the user ID as userid coming from core
                         command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
-                        command.CommandText += " values ('" + userId + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
+                        command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
 
 
                         result = command.ExecuteNonQuery();
-                        
 
+
+                        connection.Close();
                          
 
                         // import organisation
@@ -157,7 +162,16 @@ namespace MPC.Provisioning.Controllers
                         WebClient oClient = new WebClient();
                         oClient.OpenReadAsync(uri);
 
-                        connection.Close();
+
+                        //WebRequest request = null;
+                        //request = WebRequest.Create(uri);
+                        //request.Method = "POST";
+                        //WebResponse response = request.GetResponse();
+
+                        //response = null;
+                       
+                        
+
 
                     }
                     catch (Exception ex)

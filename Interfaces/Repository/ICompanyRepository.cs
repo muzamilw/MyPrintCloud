@@ -49,6 +49,7 @@ namespace MPC.Interfaces.Repository
 
         ExportSets ExportRetailCompany(long CompanyId);
 
+      
         ExportSets ExportCorporateCompany(long CompanyId);
 
         long GetCorporateCompanyIDbyOrganisationID(long OID);
@@ -64,7 +65,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         int LiveStoresCountForDashboard();
 
-       
-        
+        CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
+
     }
 }

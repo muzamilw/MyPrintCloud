@@ -110,6 +110,8 @@ define("order/order.viewModel",
                     selectedSection = ko.observable(),
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
+                    //Current Screen
+                    currentScreen = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -444,7 +446,8 @@ define("order/order.viewModel",
                         dataservice.getOrders({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
-                            PageNo: pager().currentPage()
+                            PageNo: pager().currentPage(),
+                            Status: currentScreen()
                         }, {
                             success: function (data) {
                                 orders.removeAll();
@@ -595,6 +598,7 @@ define("order/order.viewModel",
                     deleteProduct: deleteProduct,
                     selectJobDescription: selectJobDescription,
                     openPhraseLibrary: openPhraseLibrary,
+                    currentScreen: currentScreen,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,

@@ -545,6 +545,7 @@ namespace MPC.Repository.Repositories
 
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
+                                 item.SmartFormId = null;
                                  db.Items.Add(item);
 
                              }

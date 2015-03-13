@@ -40,7 +40,8 @@ define("crm/crm.supplier.viewModel",
                         PageSize: supplierpager().pageSize(),
                         PageNo: supplierpager().currentPage(),
                         SortBy: supplierSortOn(),
-                        IsAsc: supplierSortIsAsc()
+                        IsAsc: supplierSortIsAsc(),
+                        CustomerType: 2
                     }, {
                         success: function (data) {
                             suppliers.removeAll();

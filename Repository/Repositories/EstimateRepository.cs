@@ -75,11 +75,11 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
             Expression<Func<Estimate, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
-                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Estimate> items = request.IsAsc
