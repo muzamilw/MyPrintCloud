@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Web;
-using ApiModels = MPC.MIS.Areas.Api.Models;
+﻿using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
 namespace MPC.MIS.Areas.Api.ModelMappers
