@@ -2509,9 +2509,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.GridImage);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2557,9 +2557,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File1);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2607,9 +2607,9 @@ namespace MPC.Repository.Repositories
                                 string name = Path.GetFileName(item.File2);
 
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2655,9 +2655,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File3);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2703,9 +2703,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File4);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2751,9 +2751,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File5);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
