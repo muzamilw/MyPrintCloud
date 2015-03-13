@@ -598,6 +598,8 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -991,7 +993,7 @@ namespace MPC.Repository.Repositories
                 }
 
                 ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
-
+                TemplateColorStyle = null;
                 string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson1.txt";
