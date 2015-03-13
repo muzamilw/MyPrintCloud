@@ -278,9 +278,11 @@ define("stores/stores.viewModel",
                                         itemsForWidgets.push(itemForWidget);
                                     });
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 //toastr.error("Failed to Delete . Error: " + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -3465,7 +3467,6 @@ define("stores/stores.viewModel",
                     view.initializeForm();
                     getBaseData();
                     //getBaseDataFornewCompany();
-                    view.initializeLabelPopovers();
                 },
                 //Get Store For editting
                 getStoreForEditting = function () {
@@ -3502,15 +3503,15 @@ define("stores/stores.viewModel",
                                 _.each(data.Company.ColorPalletes, function (item) {
                                     selectedStore().colorPalette(model.ColorPalette.Create(item));
                                 });
-                                cmsPagesForStoreLayout.removeAll();
-                                if (data.Company.CmsPagesDropDownList !== null) {
-                                    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
-                                    cmsPagesForStoreLayout.valueHasMutated();
+                                //cmsPagesForStoreLayout.removeAll();
+                                //if (data.Company.CmsPagesDropDownList !== null) {
+                                //    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
+                                //    cmsPagesForStoreLayout.valueHasMutated();
 
-                                    _.each(cmsPagesBaseData(), function (item) {
-                                        cmsPagesForStoreLayout.push(item);
-                                    });
-                                }
+                                //    _.each(cmsPagesBaseData(), function (item) {
+                                //        cmsPagesForStoreLayout.push(item);
+                                //    });
+                                //}
                                 emails.removeAll();
                                 _.each(data.Company.Campaigns, function (item) {
                                     var campaign = model.Campaign.Create(item);
@@ -3570,10 +3571,12 @@ define("stores/stores.viewModel",
                             selectedStore().reset();
                             storeHasChanges.reset();
                             isLoadingStores(false);
+                            view.initializeLabelPopovers();
                         },
                         error: function (response) {
                             isLoadingStores(false);
                             toastr.error("Failed to Load Stores . Error: " + response);
+                            view.initializeLabelPopovers();
                         }
                     });
                 },
@@ -3673,38 +3676,46 @@ define("stores/stores.viewModel",
 
                                 //Field VariableF or Field variable List View
                                 fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                                _.each(data.FieldVariableResponse.FieldVariables, function (item) {
-                                    var field = model.FieldVariable();
-                                    field.id(item.VariableId);
-                                    field.variableName(item.VariableName);
-                                    field.scopeName(item.ScopeName);
-                                    field.typeName(item.TypeName);
-                                    field.variableTag(item.VariableTag);
-                                    fieldVariables.push(field);
-                                });
-                                fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
+                                if (data.FieldVariableResponse && data.FieldVariableResponse.FieldVariables) {
+                                    _.each(data.FieldVariableResponse.FieldVariables, function (item) {
+                                        var field = model.FieldVariable();
+                                        field.id(item.VariableId);
+                                        field.variableName(item.VariableName);
+                                        field.scopeName(item.ScopeName);
+                                        field.typeName(item.TypeName);
+                                        field.variableTag(item.VariableTag);
+                                        fieldVariables.push(field);
+                                    });
+                                    fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
+                                }
 
                                 //Smart Form List View
                                 smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
-                                _.each(data.SmartFormResponse.SmartForms, function (item) {
-                                    var smartForm = model.SmartForm();
-                                    smartForm.id(item.SmartFormId);
-                                    smartForm.name(item.Name);
-                                    smartForm.heading(item.Heading);
-                                    smartForms.push(smartForm);
-                                });
-                                smartFormPager().totalCount(data.SmartFormResponse.TotalCount);
+                                if (data.SmartFormResponse && data.SmartFormResponse.SmartForms) {
+                                    _.each(data.SmartFormResponse.SmartForms, function (item) {
+                                        var smartForm = model.SmartForm();
+                                        smartForm.id(item.SmartFormId);
+                                        smartForm.name(item.Name);
+                                        smartForm.heading(item.Heading);
+                                        smartForms.push(smartForm);
+                                    });
+                                    smartFormPager().totalCount(data.SmartFormResponse.TotalCount);
+                                }
 
-                                //Field Variable For Smart Forms
-                                _.each(data.FieldVariableForSmartForms, function (item) {
-                                    fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
-                                });
-
+                                if (data.FieldVariableForSmartForms != null) {
+                                    //Field Variable For Smart Forms
+                                    _.each(data.FieldVariableForSmartForms, function (item) {
+                                        fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
+                                    });
+                                }
+                                
                                 //Themes 
                                 themes.removeAll();
-                                ko.utils.arrayPushAll(themes(), data.Themes);
-                                themes.valueHasMutated();
-
+                                if (data.Themes) {
+                                    ko.utils.arrayPushAll(themes(), data.Themes);
+                                    themes.valueHasMutated();
+                                }
+                                
                                 cmsPagesForStoreLayout.removeAll();
                                 if (data.CmsPageDropDownList !== null) {
                                     ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
@@ -3728,10 +3739,12 @@ define("stores/stores.viewModel",
                             selectedStore().reset();
                             storeHasChanges.reset();
                             isLoadingStores(false);
+                            view.initializeLabelPopovers();
                         },
                         error: function (response) {
                             isLoadingStores(false);
                             toastr.error("Failed to Load Stores . Error: " + response);
+                            view.initializeLabelPopovers();
                         }
                     });
                 },
@@ -3752,15 +3765,15 @@ define("stores/stores.viewModel",
                                     registrationQuestions.removeAll();
                                     allCompanyAddressesList.removeAll();
                                     pageCategories.removeAll();
-                                    cmsPagesBaseData.removeAll();
+                                   // cmsPagesBaseData.removeAll();
                                     costCentersList.removeAll();
                                     _.each(data.SystemUsers, function (item) {
                                         var systemUser = new model.SystemUser.Create(item);
                                         systemUsers.push(systemUser);
                                     });
-                                    _.each(data.CmsPageDropDownList, function (item) {
-                                        cmsPagesBaseData.push(item);
-                                    });
+                                    //_.each(data.CmsPageDropDownList, function (item) {
+                                    //    cmsPagesBaseData.push(item);
+                                    //});
                                     _.each(data.CompanyContactRoles, function (item) {
                                         var role = new model.Role.Create(item);
                                         roles.push(role);
