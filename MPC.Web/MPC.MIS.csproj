@@ -3008,6 +3008,7 @@
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <Content Include="Views\Shared\PageUnAvailable.cshtml" />
+    <Content Include="Views\Home\OrderMenuItems.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
