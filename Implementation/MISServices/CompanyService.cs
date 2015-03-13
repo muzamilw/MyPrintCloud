@@ -11,6 +11,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Web;
 using System.Net.Mime;
 using System.Web;
+using Castle.Core.Internal;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -968,9 +969,6 @@ namespace MPC.Implementation.MISServices
             UpdateTerritories(companySavingModel, companyDbVersion);
             UpdateAddresses(companySavingModel, companyDbVersion);
             UpdateCompanyContacts(companySavingModel, companyDbVersion);
-            //UpdateCompanyTerritoryOfUpdatingCompany(companySavingModel);
-            //UpdateAddressOfUpdatingCompany(companySavingModel);
-            //UpdateCompanyContactOfUpdatingCompany(companySavingModel);
             UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
@@ -986,13 +984,10 @@ namespace MPC.Implementation.MISServices
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            //companyRepository.SaveChanges();//todo second external savechanges
-            //Update products
-            //UpdateProductsOfUpdatingCompany(companySavingModel);
+            companyRepository.SaveChanges();//todo second external savechanges //uncomment By Rafiq bcz media Id Nedd for save image 
             //Save Files
             companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
-            //SaveFilesOfProductCategories(companyToBeUpdated);
-            SaveSpriteImage(companySavingModel.Company);
+             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
@@ -1002,8 +997,9 @@ namespace MPC.Implementation.MISServices
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
             UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
+            
+            UpdateScopeVariables(companySavingModel); // TODO: Check
             companyRepository.SaveChanges();//todo third external savechanges
-            UpdateScopeVariables(companySavingModel);
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
@@ -1037,7 +1033,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                scopeVariableRepository.SaveChanges();
+               // scopeVariableRepository.SaveChanges();
             }
 
         }
@@ -1219,7 +1215,7 @@ namespace MPC.Implementation.MISServices
 
                 foreach (var item in company.MediaLibraries)
                 {
-                    if (item.FilePath == string.Empty)
+                    if (!item.FakeId.IsNullOrEmpty())
                     {
                         if (item.FileSource != null)
                         {

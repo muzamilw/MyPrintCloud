@@ -93,7 +93,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.Image,
             source.URL,
             source.IsCustomer,
-            source.ImageSource
+            source.ImageBytes
         );
 
         //if (source.IsCustomer == 0) {
@@ -198,8 +198,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 }
             }),
             pickupAddressId = ko.observable(specifiedPickupAddressId),
-            //store Image
-            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            //store Image Logo
+            storeImageFileBinary = ko.observable(),
             storeImageName = ko.observable(),
             storeWorkflowImageBinary = ko.observable(),
             storeWorkflowImageName = ko.observable(),
@@ -250,6 +250,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             customCSS = ko.observable(specifiedCustomCSS),
             //Company Domain Copy
             defaultCompanyDomainCopy = ko.observable(),
+            
             // Errors
             errors = ko.validation.group({
                 companyId: companyId,
@@ -548,7 +549,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             hasChanges: hasChanges,
             convertToServerData: convertToServerData,
             reset: reset,
-            storeWorkflowImageBinary: storeWorkflowImageBinary
+            storeWorkflowImageBinary: storeWorkflowImageBinary,
+           
             //#endregion
         };
         return self;
@@ -2963,7 +2965,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         );
         return companyContact;
     };
-   
+
     // #endregion ________________COMPANY CONTACT ___________________
 
     // #region __________________  R O L E   ______________________
@@ -4000,22 +4002,26 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________ Media Library _________________
 
     // ReSharper disable once InconsistentNaming
-    var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource) {
+    var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource,
+        specifiedImageSourcePath) {
         var self,
             id = ko.observable(specifiedMediaId),
             fakeId = ko.observable(),
+            //Contain File Db Path 
             filePath = ko.observable(specifiedFilePath),
             fileName = ko.observable(specifiedFileName),
             fileType = ko.observable(specifiedFileType),
             companyId = ko.observable(specifiedCompanyId),
-            fileSource = ko.observable(specifiedImageSource),
+            fileSource = ko.observable(),
+            //Contain Full image path with cahe remove logic for image
+            imageSourcePath = ko.observable(specifiedImageSourcePath),
             isSelected = ko.observable(false),
 
         //Convert To Server
         convertToServerData = function () {
             return {
                 MediaId: id() === undefined ? 0 : id(),
-                FilePath: filePath(),
+                FilePath: filePath,
                 FileName: fileName(),
                 FileType: fileType(),
                 CompanyId: companyId(),
@@ -4032,6 +4038,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId: companyId,
             fileSource: fileSource,
             isSelected: isSelected,
+            imageSourcePath: imageSourcePath,
             convertToServerData: convertToServerData,
         };
         return self;
@@ -4043,7 +4050,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.FileName,
             source.FileType,
             source.CompanyId,
-        source.ImageSource);
+        source.ImageSource,
+        source.ImageSourcePath);
     };
 
     // #endregion ______________ MediaLibrary _________________

@@ -25,32 +25,34 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             //{
             //    bytes = source.Image != null ? File.ReadAllBytes(source.Image) : null;
             //}
-            string imagePath;
+            string imagePath = string.Empty;
+            string watermarkPath = string.Empty;
+            string backgroundPath = string.Empty;
             if (!string.IsNullOrEmpty(source.Image))
             {
                 imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                } 
+                //if (File.Exists(imagePath))
+                //{
+                //    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+                //} 
             }
 
             // store work flow image
             if (source.isTextWatermark ==false && !string.IsNullOrEmpty(source.WatermarkText))
             {
-                imagePath = HttpContext.Current.Server.MapPath("~/" + source.WatermarkText);
-                if (File.Exists(imagePath))
-                {
-                    workflowbytes = source.WatermarkText != null ? File.ReadAllBytes(imagePath) : null;
-                    source.WatermarkText = null; 
-                }
+                watermarkPath = HttpContext.Current.Server.MapPath("~/" + source.WatermarkText);
+                //if (File.Exists(imagePath))
+                //{
+                //    workflowbytes = source.WatermarkText != null ? File.ReadAllBytes(imagePath) : null;
+                //    source.WatermarkText = null; 
+                //}
             }
 
 
             byte[] storeBackgroundImageBytes = null;
             if (!string.IsNullOrEmpty(source.StoreBackgroundImage))
             {
-                imagePath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
+                backgroundPath = HttpContext.Current.Server.MapPath("~/" + source.StoreBackgroundImage);
                 if (File.Exists(imagePath))
                 {
                     storeBackgroundImageBytes = source.StoreBackgroundImage != null ? File.ReadAllBytes(imagePath) : null;
@@ -78,7 +80,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyId = source.CompanyId,
                 Name = source.Name,
-                Image = bytes,
+                //Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
                 AccountNumber = source.AccountNumber,
                 URL = source.URL,
                 CreditReference = source.CreditReference,
@@ -117,7 +120,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == true ? "true" : "false",
-                WatermarkText = source.WatermarkText,
+                WatermarkText = source.isTextWatermark == true ? source.WatermarkText : watermarkPath,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
@@ -140,7 +143,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 includeEmailArtworkOrderReport = source.includeEmailArtworkOrderReport,
                 includeEmailArtworkOrderXML = source.includeEmailArtworkOrderXML,
                 includeEmailArtworkOrderJobCard = source.includeEmailArtworkOrderJobCard,
-                StoreBackgroundImage = source.StoreBackgroundImage,
+                //StoreBackgroundImage = source.StoreBackgroundImage,
                 makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
@@ -148,7 +151,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 WebMasterTag = source.WebMasterTag,
                 FacebookURL = source.FacebookURL,
                 LinkedinURL = source.LinkedinURL,
-                WorkflowS2CBytes=workflowbytes,
+                //WorkflowS2CBytes=workflowbytes,
                 isCalculateTaxByService = source.isCalculateTaxByService,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
@@ -156,26 +159,25 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                     source.CompanyCMYKColors != null
                         ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
                         : null,
-                //CompanyTerritories =
-                //    source.CompanyTerritories != null
-                //        ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
-                //        : null,
-                //Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                CompanyTerritories =
+                    source.CompanyTerritories != null
+                       ? source.CompanyTerritories.Take(10).Select(x => x.CreateFrom()).ToList()
+                        : null,
+                Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
                 CompanyBannerSets = source.CompanyBannerSets != null ? source.CompanyBannerSets.Select(x => x.CreateFrom()).ToList() : null,
-                //CompanyContacts =
-                //    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
-                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFrom()).ToList() : null,
+                CompanyContacts =
+                    source.CompanyContacts != null ? source.CompanyContacts.Take(10).Select(x => x.CreateFrom()).ToList() : null,
+                Campaigns = source.Campaigns != null ? source.Campaigns.Select(x => x.CreateFromForListView()).ToList() : null,
                 PaymentGateways = source.PaymentGateways != null ? source.PaymentGateways.Select(x => x.CreateFrom()).ToList() : null,
                 ProductCategoriesListView = source.ProductCategories != null ? source.ProductCategories.Where(x => x.ParentCategoryId == null).Select(x => x.ListViewModelCreateFrom()).ToList() : null,
-               // CmsPagesDropDownList = source.CmsPages != null ? source.CmsPages.Select(x => x.CreateFromForDropDown()).ToList() : null,
-               // ColorPalletes = source.ColorPalletes != null ? source.ColorPalletes.Select(c => c.CreateFrom()).ToList() : null,
-                StoreBackgroudImage = storeBackgroundImageBytes,
+                //StoreBackgroudImage = storeBackgroundImageBytes,
+                StoreBackgroundImage = backgroundPath, 
                 DefaultSpriteImage = defaultSpriteBytes,
                 UserDefinedSpriteImage = spriteBytes,
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
                 CmsOffers = source.CmsOffers != null ? source.CmsOffers.Select(c => c.CreateFrom()).ToList() : null,
-                CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre).Select(x => x.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
+                CompanyCostCentres = source.CompanyCostCentres != null ? (source.CompanyCostCentres.Count != 0 ? source.CompanyCostCentres.FirstOrDefault().CostCentre != null ? source.CompanyCostCentres.Select(x => x.CostCentre.CostCentreDropDownCreateFrom()).ToList() : null : null) : null
             };
         }
         /// <summary>

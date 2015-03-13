@@ -50,6 +50,21 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        public static Campaign CreateFromForListView(this DomainModels.Campaign source)
+        {
+            return new Campaign
+            {
+                CampaignId = source.CampaignId,
+                CampaignName = source.CampaignName,
+                CampaignType = source.CampaignType,
+                IsEnabled = source.IsEnabled,
+                StartDateTime = source.StartDateTime,
+                SendEmailAfterDays = source.SendEmailAfterDays,
+                EventName = source.CampaignEmailEvent != null ? source.CampaignEmailEvent.EventName : null,
+            };
+        }
+
+
         /// <summary>
         /// Crete From Web Model
         /// </summary>
