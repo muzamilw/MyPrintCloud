@@ -98,7 +98,7 @@ namespace MigrationUtility.Preview
         public virtual ICollection<StockCostAndPrice> StockCostAndPrices { get; set; }
         public virtual ICollection<StockItemsColor> StockItemsColors { get; set; }
         public virtual StockSubCategory StockSubCategory { get; set; }
-        public virtual Company Company { get; set; }
         public virtual ICollection<ItemSection> ItemSections { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

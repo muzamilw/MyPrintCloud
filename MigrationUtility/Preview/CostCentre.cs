@@ -26,7 +26,7 @@ namespace MigrationUtility.Preview
         public long CostCentreId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int Type { get; set; }
+        public Nullable<int> Type { get; set; }
         public Nullable<int> CreatedBy { get; set; }
         public string LockedBy { get; set; }
         public string LastModifiedBy { get; set; }

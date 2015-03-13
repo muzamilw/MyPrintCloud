@@ -16,8 +16,8 @@ namespace MigrationUtility.Preview
     {
         public Estimate()
         {
-            this.Items = new HashSet<Item>();
             this.PrePayments = new HashSet<PrePayment>();
+            this.Items = new HashSet<Item>();
         }
     
         public long EstimateId { get; set; }
@@ -107,8 +107,8 @@ namespace MigrationUtility.Preview
     
         public virtual CompanyContact CompanyContact { get; set; }
         public virtual tbl_enquiries tbl_enquiries { get; set; }
-        public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }
+        public virtual ICollection<Item> Items { get; set; }
         public virtual Company Company { get; set; }
     }
 }

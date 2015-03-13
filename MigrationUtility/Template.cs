@@ -20,7 +20,7 @@ namespace MigrationUtility
             this.TemplateColorStyles = new HashSet<TemplateColorStyle>();
             this.TemplateFonts = new HashSet<TemplateFont>();
             this.TemplateObjects = new HashSet<TemplateObject>();
-            this.TemplatePages = new HashSet<TemplatePage>();
+            this.TemplatePages = new HashSet<pcTemplatePage>();
         }
     
         public int ProductID { get; set; }
@@ -85,7 +85,7 @@ namespace MigrationUtility
         public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
         public virtual ICollection<TemplateFont> TemplateFonts { get; set; }
         public virtual ICollection<TemplateObject> TemplateObjects { get; set; }
-        public virtual ICollection<TemplatePage> TemplatePages { get; set; }
+        public virtual ICollection<pcTemplatePage> TemplatePages { get; set; }
         public virtual tbl_ProductCategory tbl_ProductCategory { get; set; }
     }
 }

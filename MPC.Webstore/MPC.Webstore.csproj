@@ -359,6 +359,7 @@
     <Compile Include="Controllers\ParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductOptionsController.cs" />
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
+    <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
     <Compile Include="Controllers\RealEstateHeaderController.cs" />
@@ -375,6 +376,7 @@
     <Compile Include="Controllers\SignUpController.cs" />
     <Compile Include="Controllers\QuickLinksController.cs" />
     <Compile Include="Controllers\SlidingBannerController.cs" />
+    <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -785,6 +787,8 @@
     <Content Include="Views\Shared\PartialViews\FeaturedProductCarousal.cshtml" />
     <Content Include="Views\Shared\PartialViews\CategoriesAndProducts.cshtml" />
     <Content Include="Views\Shared\PartialViews\SubscribeAndTestimonials.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ProductParentCategories.cshtml" />
+    <Content Include="Views\Shared\PartialViews\SubscribeAndContact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -793,8 +797,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\CategoriesAndProducts\" />
-    <Folder Include="Views\SubscribeAndTestimonials\" />
+    <Folder Include="Views\SubscribeAndContact\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

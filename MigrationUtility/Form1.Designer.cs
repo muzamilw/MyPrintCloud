@@ -53,6 +53,7 @@
             this.btnImportRetail.TabIndex = 1;
             this.btnImportRetail.Text = "Retail Store Import";
             this.btnImportRetail.UseVisualStyleBackColor = true;
+            this.btnImportRetail.Click += new System.EventHandler(this.btnImportRetail_Click);
             // 
             // btnCorporateStoreImport
             // 
@@ -62,6 +63,7 @@
             this.btnCorporateStoreImport.TabIndex = 2;
             this.btnCorporateStoreImport.Text = "Corporate Store Import";
             this.btnCorporateStoreImport.UseVisualStyleBackColor = true;
+            this.btnCorporateStoreImport.Click += new System.EventHandler(this.btnCorporateStoreImport_Click);
             // 
             // txtCorpStoreId
             // 
@@ -69,6 +71,7 @@
             this.txtCorpStoreId.Name = "txtCorpStoreId";
             this.txtCorpStoreId.Size = new System.Drawing.Size(100, 20);
             this.txtCorpStoreId.TabIndex = 3;
+            this.txtCorpStoreId.Text = "10492";
             // 
             // btnStoreWidgetExport
             // 
@@ -100,6 +103,7 @@
             this.Controls.Add(this.output);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -184,10 +184,10 @@ namespace MigrationUtility.Preview
         public string StockQueue { get; set; }
         public string CostCentreQueue { get; set; }
     
-        public virtual Item Item { get; set; }
         public virtual Machine Machine { get; set; }
         public virtual StockItem StockItem { get; set; }
         public virtual ICollection<ItemSectionCostCentreGroup> ItemSectionCostCentreGroups { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
+        public virtual Item Item { get; set; }
     }
 }
