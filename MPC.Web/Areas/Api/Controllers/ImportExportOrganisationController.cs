@@ -45,8 +45,8 @@ namespace MPC.MIS.Areas.Api.Controllers
          
         }
 
-     
-        [HttpPost]
+
+        [HttpGet]
         public bool ExportOrganisation(long id)
         {
             try
