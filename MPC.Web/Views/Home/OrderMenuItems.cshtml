@@ -1,0 +1,56 @@
+﻿<a href="#" class="dropdown-toggle">
+    <i class="fa fa-graduation-cap"></i>
+    <span>Orders Processing</span>
+    <i class="fa fa-chevron-circle-right drop-icon"></i>
+</a>
+<ul class="submenu">
+    <li class="left15pxback">
+        <a href="~/Orders/Home" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Orders - All</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.AllOrdersCount</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/PendingOrders" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Pending (New) Orders</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.PendingOrders</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/ConfirmedStarts" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Confirmed Starts</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.ConfirmedStarts</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/InProduction" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>In Production</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.InProduction</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/ReadyForShipping" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Ready for shipping</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.ReadyForShipping</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/Invoiced" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Invoiced</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.Invoiced</span>
+        </a>
+    </li>
+    <li class="left15pxback">
+        <a href="~/Orders/Home/CancelledOrders" class="my-navigator">
+            <i class="fa fa-table"></i>
+            <span>Cancelled Orders</span>
+            <span class="label label-primary label-circle pull-right">@ViewBag.CancelledOrders</span>
+        </a>
+    </li>
+</ul>
