@@ -35,7 +35,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 lookupMethods = source.lookupMethods == null? null: source.lookupMethods.Select(s => s.CreateFrom()),
                 Markups= source.Markups==null?null: source.Markups.Select(s=>s.CreateFrom()),
                 StockItemforInk = source.StockItemforInk== null ? null: source.StockItemforInk.Select(s => s.CreateFromDetailForMachine()),
-                //StockItemsForPaperSizePlate = source.StockItemsForPaperSizePlate.Select(s => s.CreateFromDetailForMachine()),
                 MachineSpoilageItems = source.MachineSpoilageItems == null ? null: source.MachineSpoilageItems.Select(s=>s.CreateFrom()),
                 InkCoveragItems = source.InkCoveragItems ==null ? null : source.InkCoveragItems.Select(s => s.CreateFrom()),
                 deFaultPaperSizeName = source.deFaultPaperSizeName == null ? null : source.deFaultPaperSizeName,

@@ -3492,6 +3492,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
                     string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson1.txt";
@@ -3567,7 +3568,18 @@ namespace MPC.Implementation.MISServices
                         ZipEntry r = zip.AddFile(sRetailPath4, "");
                         r.Comment = "Json File for retail Company";
                     }
-
+                    JsonFiles.Add(sOrgPath);
+                    JsonFiles.Add(sOrgPath2);
+                    JsonFiles.Add(sOrgPath3);
+                    JsonFiles.Add(sOrgPath4);
+                    JsonFiles.Add(sCorpPath);
+                    JsonFiles.Add(sCorpPath2);
+                    JsonFiles.Add(sCorpPath3);
+                    JsonFiles.Add(sCorpPath4);
+                    JsonFiles.Add(sRetailPath);
+                    JsonFiles.Add(sRetailPath2);
+                    JsonFiles.Add(sRetailPath3);
+                    JsonFiles.Add(sRetailPath4);
                     //string sRetailPath5 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson5.txt";
                     //if (File.Exists(sRetailPath5))
                     //{
@@ -4343,6 +4355,21 @@ namespace MPC.Implementation.MISServices
                     {
                         zip.Save(sDirectory + "\\" + sZipFileName);
                     }
+                    if(JsonFiles != null && JsonFiles.Count > 0)
+                    {
+                       foreach(var file in JsonFiles)
+                       {
+                           if(!string.IsNullOrEmpty(file))
+                           {
+                               if(File.Exists(file))
+                               {
+                                   File.Delete(file);
+                               }
+                               
+                           }
+                       }
+                    }
+
                 }
             }
             catch (Exception ex)

@@ -676,13 +676,13 @@ namespace MPC.Repository.Repositories
                 // Item Mapper
                 ExportOrganisation ObjExportOrg = new ExportOrganisation();
 
-              Mapper.CreateMap<Item, Item>()
-                 .ForMember(x => x.Company, opt => opt.Ignore())
-                 .ForMember(x => x.ItemAttachments, opt => opt.Ignore())
-                 .ForMember(x => x.Estimate, opt => opt.Ignore())
-                 .ForMember(x => x.Invoice, opt => opt.Ignore())
-                 .ForMember(x => x.DeliveryNoteDetails, opt => opt.Ignore())
-                 .ForMember(x => x.ItemStockOptions, opt => opt.Ignore());
+                Mapper.CreateMap<Item, Item>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                   .ForMember(x => x.ItemAttachments, opt => opt.Ignore())
+                   .ForMember(x => x.Estimate, opt => opt.Ignore())
+                   .ForMember(x => x.Invoice, opt => opt.Ignore())
+                   .ForMember(x => x.DeliveryNoteDetails, opt => opt.Ignore());
+                    
 
               Mapper.CreateMap<ItemSection, ItemSection>()
               .ForMember(x => x.Item, opt => opt.Ignore())
@@ -847,9 +847,9 @@ namespace MPC.Repository.Repositories
                 ExportSets sets = new ExportSets();
 
                 sets.ExportStore1 = ExportCorporateCompany1(CompanyId, sets);
-                sets.ExportRetailStore3 = ExportRetailCompany3(CompanyId, sets, true);
-                sets.ExportRetailStore2 = ExportRetailCompany2(CompanyId, sets, true);
-                sets.ExportRetailStore4 = ExportRetailCompany4(CompanyId, sets, true);
+                sets.ExportStore3 = ExportRetailCompany3(CompanyId, sets, true);
+                sets.ExportStore2 = ExportRetailCompany2(CompanyId, sets, true);
+                sets.ExportStore4 = ExportRetailCompany4(CompanyId, sets, true);
 
                 return sets;
 

@@ -304,7 +304,6 @@ namespace MPC.Repository.Repositories
             try
             {
                 Machine omachine = db.Machines.Where(s => s.MachineId == machine.MachineId).SingleOrDefault();
-                omachine.MachineId = machine.MachineId;
                 omachine.MachineName = machine.MachineName;
                 omachine.MachineCatId = machine.MachineCatId;
                 omachine.ColourHeads = machine.ColourHeads;
@@ -366,7 +365,7 @@ namespace MPC.Repository.Repositories
                 omachine.WashupTime = machine.WashupTime;
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
-                omachine.OrganisationId = machine.OrganisationId;
+                
               
 
                 foreach (var item in machine.MachineInkCoverages)

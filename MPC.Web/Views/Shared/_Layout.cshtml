@@ -29,8 +29,7 @@
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/select2.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
     <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-    <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-
+    <link type="text/css" href="~/Content/CSS/jquery-Slider.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
@@ -396,35 +395,35 @@
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/ConfirmedStarts" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Confirmed Starts</span>
                                                 <span class="label label-primary label-circle pull-right">10</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/InProduction" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>In Production</span>
                                                 <span class="label label-primary label-circle pull-right">08</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/ReadyForShipping" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Ready for shipping</span>
                                                 <span class="label label-primary label-circle pull-right">07</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/Invoiced" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Invoiced</span>
                                                 <span class="label label-primary label-circle pull-right">05</span>
                                             </a>
                                         </li>
                                         <li class="left15pxback">
-                                            <a href="~/Order/OrderList" class="my-navigator">
+                                            <a href="~/Orders/Home/CancelledOrders" class="my-navigator">
                                                 <i class="fa fa-table"></i>
                                                 <span>Cancelled Orders</span>
                                                 <span class="label label-primary label-circle pull-right">06</span>
@@ -744,7 +743,7 @@
     <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-
+    <script src="~/Content/themes/Centaurus/js/jquerySlider.js"></script>
     <script>
         $(document).ready(function () {
 
@@ -755,10 +754,30 @@
             });
 
         });
-    </script>
-    
+        // set up an array to hold the months
+        var months = ["Pending Order", "Confirmed Start", "In Production", "Ship", "Invoice"];
+        var activeMonth = new Date().getMonth();
+        $(".slider").slider().slider("pips");
+        $(".slider")
 
-        });
+            // activate the slider with options
+            .slider({
+                min: 0,
+                max: months.length - 1,
+                value: 2
+            })
+
+            // add pips with the labels set to "months"
+            .slider("pips", {
+                rest: "label",
+                labels: months
+            })
+
+            // and whenever the slider changes, lets echo out the month
+            .on("slidechange", function (e, ui) {
+              //  $("#labels-months-output").text("You selected " + months[ui.value] + " (" + ui.value + ")");
+           });
+    </script>
 
     @RenderSection("scripts", required: false)
 
