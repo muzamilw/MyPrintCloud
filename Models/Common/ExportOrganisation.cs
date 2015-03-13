@@ -174,6 +174,7 @@ namespace MPC.Models.Common
 
         public List<Campaign> RetailCampaigns { get; set; }
 
+    
 
 
     }

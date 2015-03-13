@@ -3490,7 +3490,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
-                return false;
+             
                 throw new MPCException(ex.ToString(), OrganisationID);
 
             }
@@ -4353,8 +4353,8 @@ namespace MPC.Implementation.MISServices
 
                     // export zip
                     zip.Comment = "This zip archive was created to export complete organisation";
-                    string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations";
-                    string name = "ExportedZip";
+                    string sDirectory = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/DefaulStorePackage";
+                    string name = "DefaultStores";
                     string sZipFileName = string.Empty;
                     if (Path.HasExtension(name))
                         sZipFileName = name;
@@ -4428,7 +4428,7 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
                 string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation");
                 // string ReadPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip20.zip");
-                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Organisations/ExportedZip.zip");
+                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/DefaulStorePackage/DefaultStores.zip");
                 if (File.Exists(ZipPath))
                 {
                     //string zipToUnpack = "C1P3SML.zip";
@@ -4500,7 +4500,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/ProductCategories.txt");
+                    string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/RetailProductCategories.txt");
                     if (File.Exists(ProdCatRetailFilePath))
                     {
                         string json = System.IO.File.ReadAllText(ProdCatRetailFilePath);
@@ -4509,7 +4509,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string SecRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/SecondaryPages.txt");
+                    string SecRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/RetailSecondaryPages.txt");
                     if (File.Exists(SecRetailFilePath2))
                     {
                         string json = System.IO.File.ReadAllText(SecRetailFilePath2);

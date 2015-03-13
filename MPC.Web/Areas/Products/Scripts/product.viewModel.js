@@ -513,7 +513,7 @@ define("product/product.viewModel",
                         view.editTemplate(product);
                     },
                     // Initialize the view model
-                    initialize = function (specifiedView) {
+                    initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
@@ -522,13 +522,15 @@ define("product/product.viewModel",
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
                         
                         pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems));
+                        
+                        if (!isOnStoreScreen) {
+                            // Get Base Data
+                            getBaseData();
 
-                        // Get Base Data
-                        getBaseData();
-
-                        // Get Items
-                        getItems();
-
+                            // Get Items
+                            getItems();
+                        }
+                        
                         // Set Open From Flag to false - so that popup don't show until button gets clicked
                         phraseLibrary.isOpenFromPhraseLibrary(false);
                         
@@ -559,6 +561,8 @@ define("product/product.viewModel",
                     // #region For Store
                     // Selected Company Id
                     selectedCompany = ko.observable(),
+                    // Is Product Section Initialized
+                    isProductSectionInitialized = false,
                     // Initialize the view model from Store
                     initializeForStore = function(companyId) {
                         if (selectedCompany() !== companyId) {
@@ -568,11 +572,17 @@ define("product/product.viewModel",
                         var productDetailBinding = $("#productDetailBinding")[0];
                         var productBinding = $("#productBinding")[0];
                         setTimeout(function () {
-                            ko.cleanNode(productBinding);
-                            ko.cleanNode(productDetailBinding);
-                            ko.applyBindings(view.viewModel, productBinding);
-                            ko.applyBindings(view.viewModel, productDetailBinding);
+                            if (!isProductSectionInitialized) {
+                                ko.cleanNode(productBinding);
+                                ko.cleanNode(productDetailBinding);
+                                ko.applyBindings(view.viewModel, productBinding);
+                                ko.applyBindings(view.viewModel, productDetailBinding);
+                                isProductSectionInitialized = true;
+                            }
                         }, 1000);
+
+                        // Get Base Data
+                        getBaseData();
                         
                         // Get Items for Store
                         resetFilter();
