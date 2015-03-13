@@ -69,27 +69,27 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public Item GetItemWithDetails(long itemId)
         {
-           
-                return
-                              DbSet
-                              .Include("ItemSections")
-                              .Include("ItemSections.StockItem")
-                              .Include("ItemSections.Machine")
-                              .Include("ItemStockOptions")
-                              .Include("ItemStockOptions.StockItem")
-                              .Include("ItemStockOptions.ItemAddonCostCentres")
-                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
-                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
-                              .Include("ProductCategoryItems")
-                              .Include("ProductCategoryItems.ProductCategory")
-                              .Include("ItemStateTaxes")
-                              .Include("ItemStateTaxes.Country")
-                              .Include("ItemStateTaxes.State")
-                              .Include("ItemRelatedItems")
-                              .Include("ItemRelatedItems.RelatedItem")
-                              .FirstOrDefault(item => item.ItemId == itemId);
-          
-              
+
+            return
+                          DbSet
+                          .Include("ItemSections")
+                          .Include("ItemSections.StockItem")
+                          .Include("ItemSections.Machine")
+                          .Include("ItemStockOptions")
+                          .Include("ItemStockOptions.StockItem")
+                          .Include("ItemStockOptions.ItemAddonCostCentres")
+                          .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
+                          .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
+                          .Include("ProductCategoryItems")
+                          .Include("ProductCategoryItems.ProductCategory")
+                          .Include("ItemStateTaxes")
+                          .Include("ItemStateTaxes.Country")
+                          .Include("ItemStateTaxes.State")
+                          .Include("ItemRelatedItems")
+                          .Include("ItemRelatedItems.RelatedItem")
+                          .FirstOrDefault(item => item.ItemId == itemId);
+
+
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public ItemSearchResponse GetItems(ItemSearchRequestModel request)
         {
-            int fromRow = (request.PageNo - 1)*request.PageSize;
+            int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
 
             Expression<Func<Item, bool>> query =
@@ -133,7 +133,7 @@ namespace MPC.Repository.Repositories
                     .Take(toRow)
                     .ToList();
 
-            return new ItemSearchResponse {Items = items, TotalCount = DbSet.Count(query)};
+            return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
         }
 
         public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
@@ -153,7 +153,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-          
+
         }
 
         public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
@@ -185,7 +185,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                 return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
+                return db.ItemPriceMatrices.Where(i => i.ItemId == ItemId && i.SupplierId == null).ToList();
 
             }
             catch (Exception ex)
@@ -369,7 +369,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
-            
+
         }
 
         // resolve c
@@ -430,7 +430,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -486,7 +486,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public string DynamicQueryToGetRecord(string feildname, string tblname, string keyName, int keyValue)
@@ -505,7 +505,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
 
         }
 
@@ -515,7 +515,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = (int) clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 //  string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
                 string drURL =
@@ -625,7 +625,7 @@ namespace MPC.Repository.Repositories
                         // generate thumbnail 
                         if (!ext.Contains("svg"))
                         {
-                            string[] results = item.ImageName.Split(new string[] {ext}, StringSplitOptions.None);
+                            string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
                             string destPath = results[0] + "_thumb" + ext;
                             string ThumbPath = drURL + destPath;
                             FileInfo oFileThumb = new FileInfo(ThumbPath);
@@ -693,7 +693,7 @@ namespace MPC.Repository.Repositories
 
             try
             {
-                result = (int) clonedTemplate.ProductId;
+                result = (int)clonedTemplate.ProductId;
 
                 string BasePath = System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/");
 
@@ -776,7 +776,7 @@ namespace MPC.Repository.Repositories
                     // generate thumbnail 
                     if (!ext.Contains("svg"))
                     {
-                        string[] results = item.ImageName.Split(new string[] {ext}, StringSplitOptions.None);
+                        string[] results = item.ImageName.Split(new string[] { ext }, StringSplitOptions.None);
                         string destPath = results[0] + "_thumb" + ext;
                         string ThumbPath =
                             System.Web.HttpContext.Current.Server.MapPath("~/DesignEngine/Designer/Products/" + destPath);
@@ -848,12 +848,12 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
-          
+
         }
 
         public double GrossTotalCalculation(double netTotal, double stateTaxValue)
         {
-            try 
+            try
             {
                 return netTotal + CalculatePercentage(netTotal, stateTaxValue);
             }
@@ -862,22 +862,22 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
-          
+
 
         }
 
-        public  double CalculatePercentage(double itemValue, double percentageValue)
+        public double CalculatePercentage(double itemValue, double percentageValue)
         {
             try
             {
                 return itemValue * (percentageValue / 100);
-                
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            
+
 
         }
 
@@ -1179,7 +1179,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-        
+
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long newItemID,
@@ -1214,7 +1214,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
-          
+
         }
 
         private bool SaveAdditionalAddonsOrUpdateStockItemType(List<AddOnCostsCenter> selectedAddonsList, long stockID,
@@ -1293,7 +1293,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public void UpdateStockItemType(ItemSection itemSection, long stockID)
@@ -1309,7 +1309,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
-           
+
         }
 
         private SectionCostcentre PopulateTblSectionCostCenteres(AddOnCostsCenter addOn)
@@ -1332,7 +1332,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         #endregion
@@ -1350,7 +1350,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
             //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
 
         }
@@ -1367,7 +1367,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
         public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
@@ -1397,7 +1397,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
 
         public List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID)
@@ -1410,7 +1410,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
 
         }
 
@@ -1424,7 +1424,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -1519,7 +1519,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public List<ItemAttachment> GetItemAttactchments(int itemID)
@@ -1535,7 +1535,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         public List<ArtWorkAttatchment> GetItemAttactchments(long itemID, string fileExtionsion,
@@ -1573,8 +1573,8 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
-          
+
+
         }
 
         public static string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
@@ -1591,7 +1591,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public static string GetAttachmentFileName(string ProductCode, string OrderCode, string ItemCode,
@@ -1615,7 +1615,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
@@ -1631,8 +1631,8 @@ namespace MPC.Repository.Repositories
 
                     if (insertCuttingMargin)
                     {
-                        theDoc.Rect.Inset((int) MPC.Models.Common.Constants.CuttingMargin,
-                            (int) MPC.Models.Common.Constants.CuttingMargin);
+                        theDoc.Rect.Inset((int)MPC.Models.Common.Constants.CuttingMargin,
+                            (int)MPC.Models.Common.Constants.CuttingMargin);
                     }
 
                     Stream oImgstream = new MemoryStream();
@@ -1674,14 +1674,14 @@ namespace MPC.Repository.Repositories
                 if (origImage.Width > origImage.Height)
                 {
                     NewWidth = ThumbnailSizeWidth;
-                    WidthPer = (float) ThumbnailSizeWidth/origImage.Width;
-                    NewHeight = Convert.ToInt32(origImage.Height*WidthPer);
+                    WidthPer = (float)ThumbnailSizeWidth / origImage.Width;
+                    NewHeight = Convert.ToInt32(origImage.Height * WidthPer);
                 }
                 else
                 {
                     NewHeight = ThumbnailSizeHeight;
-                    HeightPer = (float) ThumbnailSizeHeight/origImage.Height;
-                    NewWidth = Convert.ToInt32(origImage.Width*HeightPer);
+                    HeightPer = (float)ThumbnailSizeHeight / origImage.Height;
+                    NewWidth = Convert.ToInt32(origImage.Width * HeightPer);
                 }
 
                 Bitmap origThumbnail = new Bitmap(NewWidth, NewHeight, origImage.PixelFormat);
@@ -1765,7 +1765,7 @@ namespace MPC.Repository.Repositories
                     //Remove the Templates if he has designed any
                     if (!ValidateIfTemplateIDIsAlreadyBooked(tblItem.ItemId, tblItem.TemplateId))
                         clonedTemplate =
-                            RemoveTemplates(tblItem.TemplateId.HasValue ? (int) tblItem.TemplateId : (int?) null);
+                            RemoveTemplates(tblItem.TemplateId.HasValue ? (int)tblItem.TemplateId : (int?)null);
 
                     //Section cost centeres
                     //tblItem.ItemSections.ToList().ForEach(itemSection => itemSection.SectionCostcentres.ToList().ForEach(sectCost => db.SectionCostcentres.Remove(sectCost)));
@@ -1784,9 +1784,9 @@ namespace MPC.Repository.Repositories
 
                         db.ItemSections.Remove(itemSection);
                     }
-                
+
                     //Item Section
-                  //  tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
+                    //  tblItem.ItemSections.ToList().ForEach(itemsect => db.ItemSections.Remove(itemsect));
                     //Finally the item
                     db.Items.Remove(tblItem);
 
@@ -1877,7 +1877,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -1907,7 +1907,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         private bool ValidateIfTemplateIDIsAlreadyBooked(long itemID, long? templateID)
@@ -1930,7 +1930,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         // Get Related Items List
@@ -1974,7 +1974,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         /// <summary>
@@ -1995,7 +1995,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         /// <summary>
@@ -2008,8 +2008,8 @@ namespace MPC.Repository.Repositories
             try
             {
                 GetCategoryProduct products = (from c in db.GetCategoryProducts
-                    where c.ItemId == itemID
-                    select c).FirstOrDefault();
+                                               where c.ItemId == itemID
+                                               select c).FirstOrDefault();
                 if (products != null)
                 {
                     return products.MinPrice;
@@ -2116,21 +2116,21 @@ namespace MPC.Repository.Repositories
                     bool isNewSectionCostCenter = false;
 
 
-                List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
+                    List<SectionCostcentre> listOfSectionCostCentres = db.SectionCostcentres.Where(c => c.ItemSectionId == FirstItemSection.ItemSectionId).ToList();
 
-                SectionCostcentre sectionCC = null;
-                foreach (var ccItem in listOfSectionCostCentres)
-                {
-                    if (ccItem.CostCentre != null)
+                    SectionCostcentre sectionCC = null;
+                    foreach (var ccItem in listOfSectionCostCentres)
                     {
-                        if (ccItem.CostCentre.Type == 29)
+                        if (ccItem.CostCentre != null)
                         {
-                            sectionCC = ccItem;
+                            if (ccItem.CostCentre.Type == 29)
+                            {
+                                sectionCC = ccItem;
+                            }
                         }
                     }
-                }
-             
-              
+
+
                     if (sectionCC == null)
                     {
                         sectionCC = new SectionCostcentre();
@@ -2149,7 +2149,7 @@ namespace MPC.Repository.Repositories
                     if (isNewSectionCostCenter)
                     {
                         //29 is the global type of web order cost centre
-                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29).SingleOrDefault();
+                        var oCostCentre = db.CostCentres.Where(g => g.Type == 29 && g.OrganisationId == OrganisationId).SingleOrDefault();
                         if (oCostCentre != null)
                         {
                             sectionCC.CostCentreId = oCostCentre.CostCentreId;
@@ -2178,7 +2178,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -2192,7 +2192,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public Item GetClonedItemByOrderId(long OrderId, long ReferenceItemId)
@@ -2208,8 +2208,8 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
-           
+
+
         }
 
 
@@ -2226,8 +2226,8 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
-           
+
+
         }
 
         public List<ProductItem> GetRelatedItemsByItemID(long ItemID)
@@ -2235,35 +2235,35 @@ namespace MPC.Repository.Repositories
             try
             {
                 var query = from productsList in db.GetCategoryProducts
-                    join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
-                    join r in db.Items on tblRelItems.ItemId equals r.ItemId
-                    //into tblRelatedGroupJoin
-                    where r.ItemId == ItemID
+                            join tblRelItems in db.ItemRelatedItems on productsList.ItemId equals tblRelItems.RelatedItemId
+                            join r in db.Items on tblRelItems.ItemId equals r.ItemId
+                            //into tblRelatedGroupJoin
+                            where r.ItemId == ItemID
 
-                    //from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
-                    select new ProductItem
-                    {
-                        ItemID = productsList.ItemId,
-                        //  RelatedItemID = JTble.RelatedItemID.HasValue ? JTble.RelatedItemID.Value : 0,
-                        EstimateID = productsList.EstimateId,
-                        ProductName = productsList.ProductName,
-                        ProductCategoryName = productsList.ProductCategoryName,
-                        ProductCategoryID = productsList.ProductCategoryId,
-                        MinPrice = productsList.MinPrice,
-                        ImagePath = productsList.ImagePath,
-                        ThumbnailPath = productsList.ThumbnailPath,
-                        IconPath = productsList.IconPath,
-                        IsEnabled = productsList.IsEnabled,
-                        IsSpecialItem = productsList.IsSpecialItem,
-                        IsPopular = productsList.IsPopular,
-                        IsFeatured = productsList.IsFeatured,
-                        IsPromotional = productsList.IsPromotional,
-                        IsPublished = productsList.IsPublished,
-                        ProductSpecification = productsList.ProductSpecification,
-                        CompleteSpecification = productsList.CompleteSpecification,
-                        //TipsAndHints = productsList.ti,
-                        ProductType = productsList.ProductType
-                    };
+                            //from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
+                            select new ProductItem
+                            {
+                                ItemID = productsList.ItemId,
+                                //  RelatedItemID = JTble.RelatedItemID.HasValue ? JTble.RelatedItemID.Value : 0,
+                                EstimateID = productsList.EstimateId,
+                                ProductName = productsList.ProductName,
+                                ProductCategoryName = productsList.ProductCategoryName,
+                                ProductCategoryID = productsList.ProductCategoryId,
+                                MinPrice = productsList.MinPrice,
+                                ImagePath = productsList.ImagePath,
+                                ThumbnailPath = productsList.ThumbnailPath,
+                                IconPath = productsList.IconPath,
+                                IsEnabled = productsList.IsEnabled,
+                                IsSpecialItem = productsList.IsSpecialItem,
+                                IsPopular = productsList.IsPopular,
+                                IsFeatured = productsList.IsFeatured,
+                                IsPromotional = productsList.IsPromotional,
+                                IsPublished = productsList.IsPublished,
+                                ProductSpecification = productsList.ProductSpecification,
+                                CompleteSpecification = productsList.CompleteSpecification,
+                                //TipsAndHints = productsList.ti,
+                                ProductType = productsList.ProductType
+                            };
 
 
                 return query.ToList<ProductItem>();
@@ -2348,13 +2348,13 @@ namespace MPC.Repository.Repositories
                 TemporaryOrder =
                     db.Estimates.Where(
                         order =>
-                            order.EstimateId == replacedOrderdID && order.StatusId == (short) OrderStatus.ShoppingCart &&
+                            order.EstimateId == replacedOrderdID && order.StatusId == (short)OrderStatus.ShoppingCart &&
                             order.isEstimate == false).FirstOrDefault();
                 ActualOrder =
                     db.Estimates.Where(
                         order =>
                             order.CompanyId == realCustomerID && order.ContactId == realContactID &&
-                            order.StatusId == (short) OrderStatus.ShoppingCart && order.isEstimate == false)
+                            order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
 
                 if (ActualOrder != null && TemporaryOrder != null)
@@ -2409,7 +2409,7 @@ namespace MPC.Repository.Repositories
                                 .Where(
                                     i =>
                                         i.EstimateId == TemporaryOrder.EstimateId &&
-                                        i.StatusId == (short) OrderStatus.ShoppingCart)
+                                        i.StatusId == (short)OrderStatus.ShoppingCart)
                                 .ToList();
 
                         //Attatchments
@@ -2519,13 +2519,13 @@ namespace MPC.Repository.Repositories
                         .Where(cust => cust.CompanyId == TemporaryCustomerId)
                         .FirstOrDefault();
                 if (customer != null &&
-                    (customer.IsCustomer == 0 || customer.TypeId == (int) CompanyTypes.TemporaryCustomer))
+                    (customer.IsCustomer == 0 || customer.TypeId == (int)CompanyTypes.TemporaryCustomer))
                 {
                     TemporaryCustomerOrder =
                         db.Estimates.Where(
                             order =>
                                 order.CompanyId == TemporaryCustomerId &&
-                                order.StatusId == (short) OrderStatus.ShoppingCart && order.isEstimate == false)
+                                order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false)
                             .FirstOrDefault();
                     List<Item> TemporaryOrderItems =
                         db.Items.Include("ItemAttachments")
@@ -2533,7 +2533,7 @@ namespace MPC.Repository.Repositories
                             .Where(
                                 i =>
                                     i.EstimateId == TemporaryCustomerOrder.EstimateId &&
-                                    i.StatusId == (short) OrderStatus.ShoppingCart)
+                                    i.StatusId == (short)OrderStatus.ShoppingCart)
                             .ToList();
 
                     if (TemporaryCustomerOrder != null)
@@ -2551,7 +2551,7 @@ namespace MPC.Repository.Repositories
 
                             if (itemAttment != null)
                                 artWorkAttaList.AddRange(itemAttment);
-                                    // builds a list of whole Attatchments to be removed physically
+                            // builds a list of whole Attatchments to be removed physically
 
                             if (cloneTemp != null &&
                                 clonedTemplateList.Find(tempInList => tempInList.ProductId == cloneTemp.ProductId) ==
@@ -2602,7 +2602,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         public Item GetItemByOrderID(long OrderID)
@@ -2610,7 +2610,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return
-                    db.Items.Where(c => c.EstimateId == OrderID && c.ItemType == (int) ItemTypes.Delivery)
+                    db.Items.Where(c => c.EstimateId == OrderID && c.ItemType == (int)ItemTypes.Delivery)
                         .FirstOrDefault();
             }
             catch (Exception ex)
@@ -2649,7 +2649,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -2679,7 +2679,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
 
         }
 
@@ -2968,7 +2968,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -3007,7 +3007,7 @@ namespace MPC.Repository.Repositories
                 // string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
 
                 if (oLstAttachments.Count == 0)
-                    //no attachments already exist, hence a new entry in attachments is required
+                //no attachments already exist, hence a new entry in attachments is required
                 {
 
                     //special working for attaching the PDF
@@ -3015,7 +3015,7 @@ namespace MPC.Repository.Repositories
                     ArtWorkAttatchment attatcment = null;
                     string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID +
                                         "/";
-                        //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
                     {
@@ -3040,11 +3040,11 @@ namespace MPC.Repository.Repositories
                         string fileName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
                                           OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
                                           Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1";
-                            //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                         string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
                                              OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
                                              Order.Order_Code + "-" + Item.ItemCode + "-" + "Side1overlay";
-                            //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                        //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
 
                         string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
@@ -3094,12 +3094,12 @@ namespace MPC.Repository.Repositories
                                               OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
                                               Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                               item.PageNo.ToString();
-                                //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                            //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
                             string overlayName = OrderCreationDate.Year.ToString() + OrderCreationDate.ToString("MMMM") +
                                                  OrderCreationDate.Day.ToString() + "-" + Item.ProductCode + "-" +
                                                  Order.Order_Code + "-" + Item.ItemCode + "-" + "Side" +
                                                  item.PageNo.ToString() + "overlay";
-                                //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                            //GetAttachmentFileName(Item.ProductCode, Order.Order_Code, Item.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
 
 
                             string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
@@ -3146,7 +3146,7 @@ namespace MPC.Repository.Repositories
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
                     string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + customerID;
-                        // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                    // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath);
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
@@ -3298,12 +3298,12 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-           
+
         }
 
         public static double ServiceTotalTaxCalculation(double QuantityBastotal, double Taxvalue)
         {
-            double Quantity1Taxvalue = QuantityBastotal*Taxvalue;
+            double Quantity1Taxvalue = QuantityBastotal * Taxvalue;
             return Quantity1Taxvalue;
 
         }
@@ -3323,13 +3323,13 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-           
+
 
         }
 
         public static double CalculatePercentageDelivery(double itemValue, double percentageValue)
         {
-            
+
             try
             {
                 double percentValue = 0;
@@ -3343,10 +3343,10 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-          
+
         }
 
-        public  double calculateTaxPercentage(double netTotal, double MarkupRate)
+        public double calculateTaxPercentage(double netTotal, double MarkupRate)
         {
             try
             {
@@ -3358,7 +3358,7 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-           
+
         }
 
         private bool UpdateItemName(long ItemID, string ProductName)
@@ -3378,7 +3378,7 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-          
+
         }
 
         public void GenerateThumbnailForPdf(string sideThumbnailPath, bool insertCuttingMargin)
@@ -3413,7 +3413,7 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-           
+
         }
 
         public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
@@ -3468,13 +3468,13 @@ namespace MPC.Repository.Repositories
 
                 throw ex;
             }
-           
+
         }
 
         public bool UpdateTemplateIdInItem(long itemID, long templateID)
         {
-        
-           
+
+
             bool result = false;
             Item tblItemProduct = null;
 
@@ -3529,7 +3529,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
 
         }
 
@@ -3569,8 +3569,8 @@ namespace MPC.Repository.Repositories
             {
 
                 List<Item> itemsList = (from r in db.Items
-                    where r.EstimateId == orderId && (r.ItemType == null || r.ItemType != 2)
-                    select r).ToList();
+                                        where r.EstimateId == orderId && (r.ItemType == null || r.ItemType != 2)
+                                        select r).ToList();
                 if (itemsList != null && itemsList.Count > 0)
                 {
                     return Convert.ToInt64(itemsList[0].ItemId);
@@ -3626,7 +3626,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
 
         public ItemSection GetItemFirstSectionByItemId(long ItemId)
@@ -3642,7 +3642,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         public ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity)
@@ -3663,7 +3663,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         public IEnumerable<Item> GetItemsByCompanyId(long companyId)
@@ -3678,7 +3678,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         /// <summary>
@@ -3689,7 +3689,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                int orderStatusID = (int) OrderStatus.ShoppingCart;
+                int orderStatusID = (int)OrderStatus.ShoppingCart;
                 long itemsCount = 0;
                 if (ContactId > 0)
                 {
@@ -3702,7 +3702,7 @@ namespace MPC.Repository.Repositories
                             .FirstOrDefault();
                     if (Order != null)
                     {
-                        Order.Items.Where(c => c.ItemType != (int) ItemTypes.Delivery).ToList().ForEach(orderItem =>
+                        Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
                         {
                             if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
                                 itemsCount += 1;
@@ -3722,7 +3722,7 @@ namespace MPC.Repository.Repositories
                                 .FirstOrDefault();
                         if (Order != null)
                         {
-                            Order.Items.Where(c => c.ItemType != (int) ItemTypes.Delivery).ToList().ForEach(orderItem =>
+                            Order.Items.Where(c => c.ItemType != (int)ItemTypes.Delivery).ToList().ForEach(orderItem =>
                             {
                                 if (orderItem.IsOrderedItem.HasValue && orderItem.IsOrderedItem.Value)
                                     itemsCount += 1;
@@ -3754,20 +3754,20 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-    
-       
+
+
 
         /// <summary>
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-       
+
         public Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code)
         {
-           
+
             bool result = false;
             Template clonedTemplate = null;
-             ItemSection tblItemSectionCloned = null;
+            ItemSection tblItemSectionCloned = null;
             SectionCostcentre tblISectionCostCenteresCloned = null;
 
             Item newItem = null;
@@ -3778,7 +3778,7 @@ namespace MPC.Repository.Repositories
                 newItem.ItemId = 0;
                 newItem.EstimateId = orderID;
                 newItem.IsOrderedItem = true;
-               // Status
+                // Status
                 int statustype = Convert.ToInt16(OrderStatus.ShoppingCart);
                 newItem.StatusId = Convert.ToInt16(OrderStatus.ShoppingCart); //tblStatuses.StatusID; //shopping cart               
                 db.Items.Add(newItem); //dbcontext added
@@ -3847,7 +3847,7 @@ namespace MPC.Repository.Repositories
                         //        //if (result == true)
                         //        //{
                         return newItem;
-                       
+
                     }
                 }
 
@@ -3903,7 +3903,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
             //if (clonedItemAttachment.FileName.IndexOf(' ') > 0)
             //{
             //    string previousitemId = clonedItemAttachment.FileName.Substring(0, clonedItemAttachment.FileName.IndexOf(' '));
@@ -3942,25 +3942,25 @@ namespace MPC.Repository.Repositories
             long sameItem = 0;
 
             List<SaveDesignView> NewList = new List<SaveDesignView>();
-                List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
-                                                        where savedDesign.ContactID == ContactID
-                                                       select savedDesign).ToList();
+            List<SaveDesignView> ListsavedDesign = (from savedDesign in db.SaveDesignViews
+                                                    where savedDesign.ContactID == ContactID
+                                                    select savedDesign).ToList();
 
-                foreach (var s in ListsavedDesign)
+            foreach (var s in ListsavedDesign)
+            {
+                if (sameItem > 0 && s.ItemID == sameItem)
                 {
-                    if (sameItem > 0 && s.ItemID == sameItem)
-                    {
 
-                    }
-                    else
-                    {
-                        sameItem = s.ItemID;
-                        NewList.Add(s);
-                    }
                 }
+                else
+                {
+                    sameItem = s.ItemID;
+                    NewList.Add(s);
+                }
+            }
 
-                return NewList;
-           
+            return NewList;
+
         }
         public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
         {
@@ -3975,9 +3975,9 @@ namespace MPC.Repository.Repositories
                         completePath = HttpContext.Current.Server.MapPath(itemAtt.FolderPath + itemAtt.FileName);
                         if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
                         {
-                          
+
                             //delete the thumb nails as well.
-                           DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
+                            DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
                         }
                         DeleteFile(completePath); //
                     }
@@ -4003,7 +4003,7 @@ namespace MPC.Repository.Repositories
             catch (Exception)
             { }
         }
-      
+
 
         //public void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin)
         //{
@@ -4092,14 +4092,39 @@ namespace MPC.Repository.Repositories
                      i =>
                          i.EstimateId == null && i.IsPublished == true && i.IsEnabled == true && i.CompanyId == CompanyId &&
                          i.OrganisationId == OrganisationId).ToList();
-             
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-           
+
         }
-    #endregion
+
+     
+        /// <summary>
+        /// get all parent categories and corresponding products of a category against a store
+        /// </summary>
+        /// <param name="CompanyId"></param>
+        /// <param name="OrganisationId"></param>
+        /// <returns></returns>
+        public List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                var query = (from category in db.ProductCategories
+                             where category.CompanyId ==
+                                     CompanyId && category.OrganisationId == OrganisationId
+                             select category);
+                return query.ToList<ProductCategory>();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        #endregion
     }
 }

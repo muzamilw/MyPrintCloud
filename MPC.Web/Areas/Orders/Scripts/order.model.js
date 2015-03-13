@@ -293,13 +293,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             code = ko.observable(specifiedCode || undefined),
             // Product Name
             productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
-            // Product Name For Grid
-            productNameForGrid = ko.computed(function () {
-                if (!productName()) {
-                    return "";
-                }
-                return productName().length > 30 ? productName().substring(0, 29) : productName();
-            }),
             // Product Code
             productCode = ko.observable(specifiedProductCode || undefined).extend({ required: true }),
             // job description title1
@@ -533,7 +526,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name: name,
             code: code,
             productName: productName,
-            productNameForGrid: productNameForGrid,
             productCode: productCode,
             jobDescriptionTitle1: jobDescriptionTitle1,
             jobDescriptionTitle2: jobDescriptionTitle2,

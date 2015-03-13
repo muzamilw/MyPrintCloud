@@ -71,6 +71,13 @@ namespace MPC.Webstore
        new { controller = "BillingShippingAddressManager", action = "LoadCountriesList", id = UrlParameter.Optional }
        );
 
+            routes.MapRoute(
+             "UpdateContactDetails",
+             "ContactDetail/Update",
+             new { controller = "ContactDetail", action = "Update", id = UrlParameter.Optional }
+             );
+
+
            routes.MapRoute(
                  "StateList",
                  "BillingShippingAddressManager/LoadAllStates",
@@ -94,6 +101,17 @@ namespace MPC.Webstore
             "BillingShippingAddressManager/AddNewAddress",
             new { controller = "BillingShippingAddressManager", action = "AddNewAddress", id = UrlParameter.Optional }
          );
+        routes.MapRoute(
+   "RebindGrid",
+   "BillingShippingAddressManager/RebindGrid",
+   new { controller = "BillingShippingAddressManager", action = "RebindGrid", id = UrlParameter.Optional }
+);
+
+//        routes.MapRoute(
+//"RebindGrid",
+//"BillingShippingAddressManager/Index",
+//new { controller = "BillingShippingAddressManager", action = "Index", id = UrlParameter.Optional }
+//);
 
             routes.MapRoute(
        "orderview",
@@ -216,7 +234,12 @@ namespace MPC.Webstore
              "CloneFeatureItem/{id}",
              new { controller = "FeaturedProductCarousal", action = "CloneFeatureItem", id = UrlParameter.Optional }
                );
-
+            routes.MapRoute(
+             "CloneProducts",
+             "CloneProducts/{id}",
+             new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
+               );
+            
             routes.MapRoute(
             "CloneItem",
             "CloneItem/{id}",

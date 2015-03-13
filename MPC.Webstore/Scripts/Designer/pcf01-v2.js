@@ -3768,6 +3768,7 @@ function pcl41(xdata) {
     });
 
     $("#SmartFormContainer").html(html);
+    pcl40_applyInputMask(smartFormData.smartFormObjs);
     pcl40_InsertUserData(smartFormData.scopeVariables);
 }
 function pcl40_showUserList(userList)
@@ -3795,10 +3796,10 @@ function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, Input
     {
         required = "required";
     }
-    if (InputMask != "" && InputMask != null)
-    {
-        required += ' onkeydown="pcl40_ValidateInputMask(this,"' + InputMask + '")"';
-    }
+    //if (InputMask != "" && InputMask != null)
+    //{
+    //    required += ' onkeydown="pcl40_ValidateInputMask(this,"' + InputMask + '")"';
+    //}
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
         '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" '+ required+'>' + Value + '</textarea></div>';
     return html;
@@ -3817,6 +3818,16 @@ function pcl40_InsertUserData(scope) {
         }
     });
 }
-function pcl40_ValidateInputMask(e, mask) {
-    alert(mask);
+//function pcl40_ValidateInputMask(e, mask) {
+//    alert(mask);
+//}
+
+function pcl40_applyInputMask(sObjs) {
+    $.each(sObjs, function (i, IT) {
+        if (IT.ObjectType == 3) {
+            if (IT.FieldVariable.InputMask != "" && IT.FieldVariable.InputMask != null) {
+                $("#txtSmart" + IT.FieldVariable.VariableId).mask(IT.FieldVariable.InputMask);
+            }
+        }
+    });
 }

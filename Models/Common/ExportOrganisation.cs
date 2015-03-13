@@ -141,7 +141,17 @@ namespace MPC.Models.Common
         public List<SectionCostcentre> RetailSectionCostcentre { get; set; }
         public List<SectionCostCentreResource> RetailSectionCostCentreResource { get; set; }
 
-        public List<ItemAttachment> RetailItemAttachment { get; set; }
+        public List<ItemImage> RetailItemImages { get; set; }
+
+        public List<ItemRelatedItem> RetailRelatedItems { get; set; }
+        public List<ItemVdpPrice> RetailItemVDPPrices { get; set; }
+        public List<ItemPriceMatrix> RetailItemPriceMatrix { get; set; }
+
+        public List<ItemProductDetail> RetailItemProductDetail { get; set; }
+
+        public List<ItemStockOption> RetailItemStockOptions { get; set; }
+        public List<ItemStateTax> RetailItemStateTax { get; set; }
+        public List<ItemVideo> RetailItemVideo { get; set; }
         public Template RetailItemTemplate { get; set; }
 
         public List<TemplatePage> RetailTemplatePages { get; set; }
@@ -164,6 +174,15 @@ namespace MPC.Models.Common
 
         public List<Campaign> RetailCampaigns { get; set; }
 
+        public List<SmartForm> RetailSmartForms { get; set; }
+
+        public List<SmartForm> SmartForms { get; set; }
+
+        public List<FieldVariable> RetailFieldVariables { get; set; }
+
+        public List<FieldVariable> FieldVariables { get; set; }
+
+    
 
 
     }
@@ -211,10 +230,25 @@ namespace MPC.Models.Common
 
         public ExportOrganisation ExportRetailStore1 { get; set; }
 
-        public ExportOrganisation ExportRetailStore2 { get; set; }
+        public List<ProductCategory> ExportRetailStore2 { get; set; }
 
-        public ExportOrganisation ExportRetailStore3 { get; set; }
+        public List<Item> ExportRetailStore3 { get; set; }
 
-        public ExportOrganisation ExportRetailStore4 { get; set; }
+        public List<CmsPage> ExportRetailStore4 { get; set; }
+
+        public ExportOrganisation ExportStore1 { get; set; }
+
+        public List<ProductCategory> ExportStore2 { get; set; }
+
+        public List<Item> ExportStore3 { get; set; }
+
+        public List<CmsPage> ExportStore4 { get; set; }
+
+      
+
+
+
     }
+
+  
 }

@@ -12,7 +12,7 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'" ><span data-bind="text:$root.storeStatus"></span></li>
+                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'"><span data-bind="text:$root.storeStatus"></span></li>
                         <!-- if ko if : $root.productStatus()!='' -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                         <!-- /ko -->
@@ -50,7 +50,7 @@
                         <div class="tabs-wrapper profile-tabs">
                             <ul class="nav nav-tabs">
                                 <li class="active" id="generalInfoTab"><a href="#tab-generalinfo" data-toggle="tab">General Info</a></li>
-                                <li><a href="#tab-widgets" data-toggle="tab">Themes & Widgets</a></li>
+                                <li><a href="#tab-widgets" data-toggle="tab">Themes & Settings</a></li>
                                 <li><a href="#tab-SEO" data-toggle="tab">SEO & Rave Reviews</a></li>
                                 <li><a href="#tab-territory" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Users & Addresses</a></li>
                                 <!--ko if: $root.selectedStore() != undefined && $root.selectedStore().companyId()!== undefined -->
@@ -83,13 +83,13 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
-                                                    <span class="help-block text-right">The Store Name will be used in default URL to pass on to your customers</span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Retail B2C Store Type or Corporate B2B Private Store" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -126,7 +126,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">URL http://pinkcards.com/store/corporatedemo</span>
+                                                    <span class="help-block text-right">The web access code creates a unique URL for this store</span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
@@ -160,7 +160,7 @@
                                                         <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                                         <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                     </div>
-                                                    <span class="help-block text-right">ex. (999) 999-9999</span>
+                                                    <span class="help-block text-right">This phone number is displayed on the store for quick contact</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -181,7 +181,7 @@
 
                                             @*Start*@
                                             <div class="form-group">
-                                                <h3 class="group-header">Company Domain</h3>
+                                                <h3 class="group-header">Additionals Domains for this store</h3>
                                                 <div class="col-lg-9">
                                                     <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add</button>
                                                 </div>
@@ -236,7 +236,8 @@
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
                                                     </div>
-                                                    <img style="min-height: 150px; width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>....</span>
@@ -314,7 +315,7 @@
                                                     <span class="help-block text-right">GST registration number</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group" >
+                                            <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
@@ -787,7 +788,8 @@
                                                     <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels)</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <img data-bind="attr: { src: storeBackgroudImageImageSource }" width="400" height="300" />
+                                                    <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()===undefined,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                    <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                 </div>
                                                 <div class="col-lg-1">
                                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
@@ -1247,7 +1249,7 @@
                                 </div>
                                 <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-approvalPolicies" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Approval Policies</h3>
+                                        <h3 class="group-header">Store Settings</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -1272,7 +1274,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             Public
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Determines whether addresses are shared by every user or addresses can be private or public.</span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1299,25 +1301,24 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     </div>
                                                     <br />
                                                     <!--ko if: $root.selectedStore().isTextWatermark() == 'true' -->
-                                                   
+
                                                     <input type="text" class="form-control" id="txtWaterMArk" placeholder="Enter Watermark Text" data-bind="value: $root.selectedStore().watermarkText">
                                                     <br />
                                                     <!-- /ko -->
-                                                   
                                                     <!--ko if: $root.selectedStore().isTextWatermark() == 'false' -->
                                                     <div class="form-group">
                                                         <div class="col-lg-6">
                                                             <img width="200" height="150" data-bind="attr: { src: $root.selectedStore().storeWorkflowImageBinary }" />
                                                         </div>
                                                         <div class="col-lg-1">
-                                                            <div class="fileUpload btn btn-primary" >
+                                                            <div class="fileUpload btn btn-primary">
                                                                 <span>....</span>
                                                                 <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.storeWorkflowImageLoadedCallback, fileFilter: 'image.*'}" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <!-- /ko -->
-                                                    
+
 
 
                                                     <div id="WaterMarkImageUploadCnt" style="display: none;" class="col-lg-6">
@@ -1346,7 +1347,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosOlinePayment" id="optionsRadiosForceOnlinePayment" value="true" data-bind="checked: $root.selectedStore().isBrokerPaymentRequired">
                                                         <label for="optionsRadiosForceOnlinePayment">
-                                                            Force visitors to pay online to your PayPal Account
+                                                            Force visitors to pay online using payment gateway
                                                         </label>
                                                     </div>
                                                     <div class="radio">
@@ -1360,7 +1361,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Can this store accept online payments ?</label>
+                                                <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="onoffswitchAcceptOnline" data-bind="checked: $root.selectedStore().isBrokerCanAcceptPaymentOnline">
@@ -1374,7 +1375,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchDisplayDVoucher">Display and accept discount voucher codes on shopping cart page ?</label>
+                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shopping Cart ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" checked>
@@ -1387,7 +1388,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchProductPrices">Display the prices of products across store ?</label>
+                                                <label class="col-md-6" for="switchProductPrices">Show product pricing on category pages ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" checked>
@@ -1400,7 +1401,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchCorpBranding">Display corporate branding ( logo, address, GST reg etc ) of store on Order receipts</label>
+                                                <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Receipts and Websites ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" checked>
@@ -1414,7 +1415,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow users to self register on this store</label>
+                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new registrations on store ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" checked>
@@ -1478,7 +1479,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">[No description provided!] </span>
+                                                    <span class="help-block text-right">&nbsp; </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1503,7 +1504,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             No
                                                         </label>
                                                     </div>
-                                                    <span class="help-block text-right">Would you like to include VAT/GST across store prices?</span>
+                                                    <span class="help-block text-left">Would you like to include VAT/GST across store prices?</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1513,12 +1514,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">VAT/GST</label>
+                                                    <label class="control-label text-right tooltip-float">Global Tax Settings</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" id="txtTax" placeholder="20">
+                                                        <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon">%</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Tax Title</label>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="input-group" style="width:50%;">
+                                                        <input type="text" class="form-control" data-bind="value:$root.selectedStore().taxLabel" id="txtTax" placeholder="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1559,7 +1575,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Order Download Settings</h3>
+                                        <h3 class="group-header">Attachments sent with outsourced orders</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
@@ -1884,7 +1900,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group filter-block pull-left col-xs-4">
                                                 </div>
                                                 <div class="filter-block pull-right col-xs-5">
-                                                   
+
                                                 </div>
                                             </div>
                                         </header>
@@ -1894,17 +1910,17 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <thead>
                                                         <tr>
                                                             @*<th><a href="#"><span>Name</span></a></th>
-                                                            <th><a href="#"><span>Description</span></a></th>
-                                                            <th>&nbsp;</th>*@
+                                                                <th><a href="#"><span>Description</span></a></th>
+                                                                <th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @*<!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
-                                                        <!-- /ko -->*@
+                                                            <!-- /ko -->*@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -1951,7 +1967,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
                 <td data-bind="text: reviewBy"></td>
                 <td data-bind="text: review"></td>
-                <td data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></td>
+                <td>
+                    <div class="type">
+                        <span class="label" data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></span></
+                    </div>
+                </td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
@@ -2017,8 +2037,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="bannerItemTemplate" type="text/html">
             <tr data-bind="click: $root.selectedCompanyBanner">
                 <td>
-                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="attr:{ src: imageSource }" />
-                    @*<img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />*@
+                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
                 </td>
                 <td data-bind="text:setName"></td>
                 <td data-bind="text:heading"></td>
@@ -2451,9 +2471,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
 </script>
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
-        @*<a href="#" class="photo-box image-link" style="background-image: url('/Content/themes/Centaurus/img/samples/hdr/small/img_6.jpg');"></a>*@
-        <div class="photo-box image-link" data-bind="style:{backgroundImage:' url('+fileSource()+')'}"></div>
-        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i>23 minutes ago</span>
+        <div class="photo-box image-link" style="padding-top: 0">
+            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
+            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>
 </script>
 

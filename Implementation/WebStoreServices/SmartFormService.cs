@@ -57,6 +57,21 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts);
         }
+        public string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
+        {
+            string result = "true";
+            try
+            {
+                 _smartFormRepository.SaveUserProfilesData(obj);
+            }
+            catch(Exception ex)
+            {
+                result = ex.ToString();
+                //throw ex;
+            }
+            return result;
+           
+        }
         #endregion
     }
 }

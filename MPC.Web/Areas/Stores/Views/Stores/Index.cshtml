@@ -88,7 +88,7 @@
         <script id="itemStoreTemplate" type="text/html">
             <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedStore}">
                 <td>
-                    <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
+                    <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
                 </td>
                 <td>
                     <a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditItem"></a>
@@ -137,6 +137,8 @@
     @{
         Html.RenderPartial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml");
     }
+    
+    <input type="text" id="isStoreScreen" value="true" style="display: none"/>
 
 </div>
 <!-- ko stopBinding: true -->

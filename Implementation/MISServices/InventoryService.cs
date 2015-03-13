@@ -83,10 +83,11 @@ namespace MPC.Implementation.MISServices
         public InventoryBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            IEnumerable<StockCategory> stocks= stockCategoryRepository.GetAll();
             return new InventoryBaseResponse
             {
-                StockCategories = stockCategoryRepository.GetAll(),
-                StockSubCategories = stockSubCategoryRepository.GetAll(),
+                StockCategories = stocks,
+                StockSubCategories = stocks.SelectMany(s => s.StockSubCategories).ToList(),
                 PaperSizes = paperSizeRepository.GetAll(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagForInventory(),
                 WeightUnits = weightUnitRepository.GetAll(),

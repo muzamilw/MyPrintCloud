@@ -83,11 +83,13 @@ namespace MPC.Repository.Repositories
 
                     ImportOrganisation ImportIDs = new ImportOrganisation();
                     ImportIDs.CostCentreIDs = new List<long>();
+                    objExpCorporate = Sets.ExportStore1;
                     if (objExpCorporate.Company != null)
                     {
                         ImportIDs.OldCompanyID = objExpCorporate.Company.CompanyId;
                        
                     }
+                    objExpRetail = Sets.ExportRetailStore1;
                     if (objExpRetail.RetailCompany != null)
                     {
                         ImportIDs.RetailOldCompanyID = objExpRetail.RetailCompany.CompanyId;
@@ -96,7 +98,7 @@ namespace MPC.Repository.Repositories
                     Organisation objOrg = db.Organisations.Where(o => o.OrganisationId == OID).FirstOrDefault();
 
                     Organisation objExpOrg = Sets.ExportOrganisationSet1.Organisation;
-                    objOrg.OrganisationName = objExpOrg.OrganisationName;
+                    //objOrg.OrganisationName = objExpOrg.OrganisationName;
 
                  //   objOrg.OrganisationName = objExpOrg.Organisation.OrganisationName;
 
@@ -490,9 +492,84 @@ namespace MPC.Repository.Repositories
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
+                         if (comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                         {
+                             comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
+                             comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                         }
+                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
+                         {
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                         }
+
+                         if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                             comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
+                             comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.Addresses != null && comp.Addresses.Count > 0)
+                             comp.Addresses.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CompanyContacts != null && comp.CompanyContacts.Count > 0)
+                             comp.CompanyContacts.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.Campaigns != null && comp.Campaigns.Count > 0)
+                             comp.Campaigns.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                             comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
+                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
                          db.Companies.Add(comp);
                          db.SaveChanges();
                          oCID = comp.CompanyId;
+
+                         List<CmsPage> cmsPages = Sets.ExportStore4;
+                         if (cmsPages != null && cmsPages.Count > 0)
+                         {
+                             foreach (var Page in cmsPages)
+                             {
+
+                                 Page.PageCategory = null;
+                                 Page.CompanyId = oCID;
+                                 db.CmsPages.Add(Page);
+                             }
+                             db.SaveChanges();
+                         }
+                         //  import items
+                         List<Item> items = Sets.ExportStore3;
+                         if (items != null && items.Count > 0)
+                         {
+                             foreach (var item in items)
+                             {
+
+                                 item.OrganisationId = OrganisationID;
+                                 item.CompanyId = oCID;
+                                 item.SmartFormId = null;
+                                 db.Items.Add(item);
+
+                             }
+
+                             db.SaveChanges();
+
+                         }
+
+                         // product categories
+                         List<ProductCategory> prodCats = Sets.ExportStore2;
+                         if (prodCats != null && prodCats.Count > 0)
+                         {
+                             foreach (var cat in prodCats)
+                             {
+                                 cat.OrganisationId = OrganisationID;
+                                 cat.CompanyId = oCID;
+                                 db.ProductCategories.Add(cat);
+
+                             }
+                             db.SaveChanges();
+                         }
+
 
                          if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
                          {
@@ -508,16 +585,100 @@ namespace MPC.Repository.Repositories
                      }
                      else // import retail store
                      {
+
                          Company comp = new Company();
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
+                      
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
+                         if (comp.CmsPages != null && comp.CmsPages.Count > 0)
+                         {
+                             comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
+                             comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                         }
+                         if(comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
+                         {
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
+                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                         }
+                        
+
+
+                         // setting organisationid 
+
+                         if(comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                              comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if(comp.RaveReviews != null && comp.RaveReviews.Count > 0)
+                              comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if(comp.Addresses != null && comp.Addresses.Count > 0)
+                              comp.Addresses.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CompanyContacts != null && comp.CompanyContacts.Count > 0)
+                             comp.CompanyContacts.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.Campaigns != null && comp.Campaigns.Count > 0)
+                             comp.Campaigns.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                             comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
+                            comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+                         //comp.CmsPages.ToList().ForEach(c => c.)
                          db.Companies.Add(comp);
                          db.SaveChanges();
                          oRetailCID = comp.CompanyId;
+
+
+                         List<CmsPage> cmsPages = Sets.ExportRetailStore4;
+                         if (cmsPages != null && cmsPages.Count > 0)
+                         {
+                             foreach(var Page in cmsPages)
+                             {
+                               
+                                 Page.PageCategory = null;
+                                 Page.CompanyId = oRetailCID;
+                                 db.CmsPages.Add(Page);
+                             }
+                             db.SaveChanges();
+                         }
+                         //  import items
+                         List<Item> items = Sets.ExportRetailStore3;
+                         if (items != null && items.Count > 0)
+                         {
+                             foreach (var item in items)
+                             {
+                          
+                                 item.OrganisationId = OrganisationID;
+                                 item.CompanyId = oRetailCID;
+                                 db.Items.Add(item);
+
+                             }
+
+                             db.SaveChanges();
+
+                         }
+
+                         // product categories
+                         List<ProductCategory> prodCats = Sets.ExportRetailStore2;
+                         if (prodCats != null && prodCats.Count > 0)
+                         {
+                             foreach (var cat in prodCats)
+                             {
+                                 cat.OrganisationId = OrganisationID;
+                                 cat.CompanyId = oRetailCID;
+                                 db.ProductCategories.Add(cat);
+                                
+                             }
+                             db.SaveChanges();
+                         }
+
+                         //
+
 
                          if (objExpRetail.RetailTemplateColorStyle != null && objExpRetail.RetailTemplateColorStyle.Count > 0)
                          {
@@ -529,6 +690,7 @@ namespace MPC.Repository.Repositories
                              }
                              db.SaveChanges();
                          }
+
 
                      }
                     
@@ -550,54 +712,57 @@ namespace MPC.Repository.Repositories
                              string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
                              
                              
-
-                             foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
+                             if(Directory.Exists(Sourcelanguagefiles))
                              {
-                                 if (File.Exists(newPath))
+                                 foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
                                  {
-                                     
-                                     string FileName = Path.GetFileName(newPath);
-
-                                     DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
-
-                                    
-                                     // define destination directory
-                                      string directoty = Path.GetDirectoryName(newPath);
-                                    string[] stringSeparators = new string[] { "MPC_Content" };
-                                    if (!string.IsNullOrEmpty(directoty))
-                                    {
-                                        string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-                                        string FolderName = result[1];
-                                        if (!string.IsNullOrEmpty(FolderName))
-                                        {
-                                            string[] folder = FolderName.Split('\\');
-                                            DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
-
-                                            DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
-
-                                        }
-                                    }
-                                     
-                                     if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                     if (File.Exists(newPath))
                                      {
-                                         Directory.CreateDirectory(DestinationLanguageDirectory);
-                                         if (Directory.Exists(DestinationLanguageDirectory))
+
+                                         string FileName = Path.GetFileName(newPath);
+
+                                         DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+
+                                         // define destination directory
+                                         string directoty = Path.GetDirectoryName(newPath);
+                                         string[] stringSeparators = new string[] { "MPC_Content" };
+                                         if (!string.IsNullOrEmpty(directoty))
+                                         {
+                                             string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+                                             string FolderName = result[1];
+                                             if (!string.IsNullOrEmpty(FolderName))
+                                             {
+                                                 string[] folder = FolderName.Split('\\');
+                                                 DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
+
+                                                 DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
+
+                                             }
+                                         }
+
+                                         if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                         {
+                                             Directory.CreateDirectory(DestinationLanguageDirectory);
+                                             if (Directory.Exists(DestinationLanguageDirectory))
+                                             {
+                                                 if (!File.Exists(DestinationLanguageFilePath))
+                                                     File.Copy(newPath, DestinationLanguageFilePath);
+                                             }
+                                         }
+                                         else
                                          {
                                              if (!File.Exists(DestinationLanguageFilePath))
                                                  File.Copy(newPath, DestinationLanguageFilePath);
                                          }
-                                     }
-                                     else
-                                     {
-                                         if (!File.Exists(DestinationLanguageFilePath))
-                                             File.Copy(newPath, DestinationLanguageFilePath);
+
                                      }
 
                                  }
-
-                             }
                             
+                             }
+                          
 
                              
                              

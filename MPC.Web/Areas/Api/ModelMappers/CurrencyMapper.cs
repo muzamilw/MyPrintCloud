@@ -18,7 +18,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CurrencyDropDown
             {
                 CurrencyId = source.CurrencyId,
-                CurrencyName = source.CurrencyName,
+                CurrencyName = source.CurrencyCode+" "+source.CurrencySymbol,
             };
         }
 

@@ -103,7 +103,7 @@
             </div>
             <div class="TTL widthAvenior">
                 
-                @Html.TextBoxFor(model => model.LastName, new { id = "txtBoxLastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
+                @Html.TextBoxFor(model => model.LastName, new { id = "LastName", @class = "newTxtBox", placeholder = "LastName", maxlength = 500 })
             </div>
             <div class="clearBoth">
             </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="TTL widthAvenior">
                 
-                @Html.TextBoxFor(model => model.Email, new { id = "txtBoxUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
+                @Html.TextBoxFor(model => model.Email, new { id = "UserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500 })
             </div>
             <div class="clearBoth">
             </div>
@@ -129,7 +129,7 @@
             </div>
             <div class="TTL widthAvenior">
                 
-                @Html.TextBoxFor(model => model.Mobile, new { id = "txtPhone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
+                @Html.TextBoxFor(model => model.Mobile, new { id = "Phone", @class = "newTxtBox", placeholder = "Phone", maxlength = 500 })
             </div>
             <div class="clearBoth">
             </div>
@@ -159,7 +159,7 @@
                 <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
             </div>
             <div class="TTL widthAvenior">
-                <input type="file" name="uploadFile" class="newTxtBox" />
+                <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox" />
             </div>
             <br />
             <br />
@@ -240,7 +240,7 @@
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "txtFirstName", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                        
@@ -310,7 +310,7 @@
 
             <div class="quote_send_button">
                
-                <input id="btnSend" class="start_creating_btn rounded_corners5" type="submit" value="Send" />
+                <input id="btnSend" class="start_creating_btn rounded_corners5"  value="Send" onclick="Submit()"/>
             </div>
             <div class="quote_cancel_button">
                
@@ -358,21 +358,8 @@
 @section scripts{
 
 <script>
-   
-    
+ 
 
-    //    $(function () {
-    //$(document).ready(function () {
-       
-    //    $('.Jdatepicker').datepicker();
-        
-    //    $("#addNewInqItem").click(function () {
-    //        AddNew();
-    //    });
-    //});
-   
-        
-    //  });
     $(document).ready(function () {
      
         
@@ -394,9 +381,7 @@
         });
         $("#Remove3").click(function () {
 
-
             Remove(3);
-
         });
         function Remove(recNo) {
             //Remove the view and Show the add new button
@@ -434,9 +419,6 @@
             ShowGUI();
         }
 
-
-      
-
         function Validate() {
             var isValid = true;
             var currentRec = parseInt($("#hfNoOfRec").val());
@@ -459,12 +441,12 @@
 
         }
 
-        function ValidateRec1() {
+        function ValidateRec() {
             var errorMessage = '';
             var isValid = true;
             if ($("#hfIsUserLoggedIn").val() == "false") {
                 if ($("#txtBoxUserName").val().trim() == '') {
-                    var inquirytitlexreq = "<%= Resources.MyResource.yourNameRequired %>";
+                    var inquirytitlexreq = "First Name Is Required.";
                     errorMessage = errorMessage + inquirytitlexreq + "<br>";
                     $('#divYourNameRq').css('display', 'block');
                     isValid = false;
@@ -472,8 +454,9 @@
                 else {
                     $('#divYourNameRq').css('display', 'none');
                 }
+
                 if ($("#txtBoxLastName").val().trim() == '') {
-                    var inquirytitlexreq = "<%= Resources.MyResource.yourNameRequiredLast %>";
+                    var inquirytitlexreq = "Last Name Required";
                     errorMessage = errorMessage + inquirytitlexreq + "<br>";
                     $('#ltrlLastNameRQ').css('display', 'block');
                     isValid = false;
@@ -483,7 +466,7 @@
                 }
                 //yourNameRequiredLast
                 if ($("#txtBoxUserEmail").val().trim() == '') {
-                    var inquirytitlexreq = "<%= Resources.MyResource.yourEmailRequired %>";
+                    var inquirytitlexreq = "Your Email is Required";
                     errorMessage = errorMessage + inquirytitlexreq + "<br>";
                     $('#divEmailRq').css('display', 'block');
                     isValid = false;
@@ -492,13 +475,69 @@
                     $('#divEmailRq').css('display', 'none');
                 }
             }
+                if ($("#txtInquiryTitle").val().trim() == '') {
+                    var inquirytitlexreq = "Your InquiryTitle is Required";
+                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                    $('#InquiryTitleInd2').css('display', 'block');
+                    isValid = false;
+                }
+                else {
+                    $('#InquiryTitleInd2').css('display', 'none');
+                }
+                if ($("#txtTitle1").val().trim() == '') {
+                    var inquirytitlexreq = " Inquiry Item Title is Required";
+                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                    $('#InquiryTitleInd2').css('display', 'block');
+                    isValid = false;
+                }
+                else {
+                    $('#InquiryTitleInd2').css('display', 'none');
+                }
+                //if ($("#txtInquiryDate1").val().trim() == '') {
+                //    var inquirytitlexreq = " Inquiry Item Title is Required";
+                //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                //    $('#InquiryTitleInd2').css('display', 'block');
+                //    isValid = false;
+                //}
+                //else {
+                //    $('#InquiryTitleInd2').css('display', 'none');
+                //}
+                if(parseInt($("#hfNoOfRec").val()==2))
+                {
+                    if ($("#txtTitle2").val().trim() == '') {
+                        var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
+                        errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                        $("#ItemTitleInd2").css('display', 'block');
+                        isValid = false;
+                    }
+                    else {
+                        $("#InquiryTitleInd2").css('display', 'none');
+                    }
+
+                }
+                if (parseInt($("#hfNoOfRec").val() == 3))
+                {
+                    if ($("#txtTitle3").val().trim() == '') {
+                        var inquirytitlexreq = " Inquiry Item title for 3rd item is Required";
+                        errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                        $("#ItemTitleInd3").css('display', 'block');
+                        isValid = false;
+                    }
+                    else {
+                        $("#ItemTitleInd3").css('display', 'none');
+                    }
+                }
+                alert(errorMessage);
+                ShowPopUp('Message', errorMessage);
+                return isValid;
+            
         }
 
         function ValidateRec2() {
             var errorMessage = '';
             var isValid = true;
             if ($("#txtTitle2").val().trim() == '') {
-                var itemtitle2xreq = "<%= Resources.MyResource.itemtitle2xreq %>";
+                var itemtitle2xreq = "Item Title is Required";
                 errorMessage = errorMessage + itemtitle2xreq + "<br>";
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
@@ -529,7 +568,66 @@
             }
             return isValid;
         }
+    }
+
+    function Submit()
+    {
+        if (ValidateRec() == true)
+        {
+            alert(ValidateRec());
+
+            SubmitData();
+        }
+        alert(ValidateRec());
+    }
+    function SubmitData() {
+        var FirstName = $("#txtBoxUserName").val();
+        var LastName = $("#LastName").val();
+        var Email = $("#UserEmail").val();
+        var Mobile = $("#Phone").val();
+        var Title = $("#txtInquiryTitle").val();
+
+        var InquiryItemTitle1 = $("#txtTitle1").val();
+        var InquiryItemNotes1 = $("#txtItemNote1").val();
+        var InquiryItemDeliveryDate1 = $("#txtInquiryDate1").val();
+
+        var InquiryItemTitle2 = $("#txtTitle2").val();
+        var InquiryItemNotes2 = $("#itemnotes2").val();
+        var InquiryItemDeliveryDate2 = $("#txtInquiryDate2").val();
+
+        var InquiryItemTitle3 = $("#txtTitle3").val();
+        var InquiryItemNotes3 = $("#txtItemNote3").val();
+        var InquiryItemDeliveryDate3 = $("#txtInquiryDate3").val();
+        var hfNoOfRec = $("#hfNoOfRec").val();
+        $("#InquiryAttachment").val();
+        $("#").val();
+        $("#").val();
+        var data = new FormData();
+        var files = $("#InquiryAttachment").get(0).files;
+        alert(files + ' files ');
+        if (files.length > 0) {
+            data.append("UploadedFile", files[0]);
+        }
+        $.ajax({
+            type: "POST",
+            url: "/webstoreapi/costCenter/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
+            contentType: false,
+            data: data,
+            async: true,
+            processData: false,
+            success: function (response) {
+
+                $("#MessgeToDisply").css('visibility', 'visible');
+                $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
+
+            },
+            error: function (error) {
+                $("#MessgeToDisply").css('visibility', 'visible');
+                $("#MessgeToDisply").html('Error Occured While Updating Profile!');
+            }
+        });
 
     }
+
 </script>
 }

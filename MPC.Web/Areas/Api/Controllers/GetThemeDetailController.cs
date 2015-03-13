@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using Castle.Core.Internal;
+using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using MPC.Interfaces.MISServices;
 
@@ -34,7 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
-        public async void Get([FromUri] string fullZipPath, long companyId)
+        public void Get([FromUri] string fullZipPath, long companyId)
         {
             if (!ModelState.IsValid)
             {
@@ -52,7 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
                 else
                 {
-                   await GetZipFile(fullZipPath, companyId);
+                    GetZipFile(fullZipPath, companyId);
                 }
             }
 
@@ -65,22 +66,27 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Zip File Of Theme
         /// </summary>
-        private async Task GetZipFile(string fullZipPath, long companyId)
+        private void GetZipFile(string fullZipPath, long companyId)
         {
-            //Import Theme From Theming Project
-            using (HttpClient client = new HttpClient())
+            WebClient webClient = new WebClient();
+            Stream data = null;
+            using (WebClient client = new WebClient())
             {
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCThemingPath"]);
-                string url = "ApplyTheme?fullZipPath=" + fullZipPath;
-                using (HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead))
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Stream resultStream = response.Content.ReadAsStreamAsync().Result;
-                        WriteZipFile(resultStream, fullZipPath, companyId);
-                    }
+                try
+                {
+                    data = webClient.OpenRead(fullZipPath);
+                }
+                catch (WebException e)
+                {
+                    //How do I capture this from the UI to show the error in a message box?
+                    throw e;
+                }
             }
 
+            WriteZipFile(data, fullZipPath, companyId);
+
         }
+
         /// <summary>
         /// Use For Write
         /// </summary>
@@ -136,7 +142,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private void ApplyTheme(string fullZipPath, long companyId)
         {
-            string[] str = fullZipPath.Split('\\');
+            string[] str = fullZipPath.Split('/');
             string themeName = str[str.Length - 1].Split('.')[0];
             //Theme Already exist in MIS
             if (Directory.Exists(HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName)))
