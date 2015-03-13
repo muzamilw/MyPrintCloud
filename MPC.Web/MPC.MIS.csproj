@@ -815,6 +815,7 @@
     <Content Include="Content\CSS\fonts\typicons.svg" />
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
+    <Content Include="Content\CSS\jquery-Slider.css" />
     <Content Include="Content\CSS\main.css" />
     <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
@@ -1160,6 +1161,7 @@
     <Content Include="Content\themes\Centaurus\js\hogan.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-world-merc-en.js" />
+    <Content Include="Content\themes\Centaurus\js\jquerySlider.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-ui.custom.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.hotkeys.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.js" />

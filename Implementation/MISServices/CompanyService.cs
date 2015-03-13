@@ -100,18 +100,20 @@ namespace MPC.Implementation.MISServices
             var itemMatched = false;
             foreach (var domain in allDomains)
             {
-                foreach (var domainForSaving in companySaving.Company.CompanyDomains)
+                if (companySaving.Company.CompanyDomains != null)
                 {
-                    if (domainForSaving.CompanyDomainId == 0)
+                    foreach (var domainForSaving in companySaving.Company.CompanyDomains)
                     {
-                        if (domainForSaving.Domain == domain.Domain)
+                        if (domainForSaving.CompanyDomainId == 0)
                         {
-                            throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
-                            //return false;
+                            if (domainForSaving.Domain == domain.Domain)
+                            {
+                                throw new MPCException("There Exist Another Domain Name Instance in system for:" + domainForSaving.Domain, organisationRepository.OrganisationId);
+                                //return false;
+                            }
                         }
                     }
                 }
-
             }
             return true;
             //var commonItem = companySaving.Company.CompanyDomains..Intersect(allCompanyDomains);
@@ -955,8 +957,7 @@ namespace MPC.Implementation.MISServices
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
             var productCategories = new List<ProductCategory>();
-            var companyDomainsDbVersion = new List<CompanyDomain>();
-            companyDomainsDbVersion = companyDbVersion.CompanyDomains.ToList();
+            List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList(): null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
@@ -3491,6 +3492,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                List<string> JsonFiles = new List<string>();
                 using (ZipFile zip = new ZipFile())
                 {
                     string sOrgPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/OrganisationJson1.txt";
@@ -3566,7 +3568,18 @@ namespace MPC.Implementation.MISServices
                         ZipEntry r = zip.AddFile(sRetailPath4, "");
                         r.Comment = "Json File for retail Company";
                     }
-
+                    JsonFiles.Add(sOrgPath);
+                    JsonFiles.Add(sOrgPath2);
+                    JsonFiles.Add(sOrgPath3);
+                    JsonFiles.Add(sOrgPath4);
+                    JsonFiles.Add(sCorpPath);
+                    JsonFiles.Add(sCorpPath2);
+                    JsonFiles.Add(sCorpPath3);
+                    JsonFiles.Add(sCorpPath4);
+                    JsonFiles.Add(sRetailPath);
+                    JsonFiles.Add(sRetailPath2);
+                    JsonFiles.Add(sRetailPath3);
+                    JsonFiles.Add(sRetailPath4);
                     //string sRetailPath5 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson5.txt";
                     //if (File.Exists(sRetailPath5))
                     //{
@@ -4342,6 +4355,21 @@ namespace MPC.Implementation.MISServices
                     {
                         zip.Save(sDirectory + "\\" + sZipFileName);
                     }
+                    if(JsonFiles != null && JsonFiles.Count > 0)
+                    {
+                       foreach(var file in JsonFiles)
+                       {
+                           if(!string.IsNullOrEmpty(file))
+                           {
+                               if(File.Exists(file))
+                               {
+                                   File.Delete(file);
+                               }
+                               
+                           }
+                       }
+                    }
+
                 }
             }
             catch (Exception ex)

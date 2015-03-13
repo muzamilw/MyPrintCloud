@@ -83,13 +83,13 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
-                                                    <span class="help-block text-right">The Store Name will be used in default URL to pass on to your customers</span>
+                                                    <span class="help-block text-right">&nbsp;</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Retail B2C Store Type or Corporate B2B Private Store" data-original-title="" title="">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -126,7 +126,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">URL http://pinkcards.com/store/corporatedemo</span>
+                                                    <span class="help-block text-right">The web access code creates a unique URL for this store</span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
@@ -160,7 +160,7 @@
                                                         <span class="input-group-addon"><i class="fa fa-phone"></i></span>
                                                         <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                     </div>
-                                                    <span class="help-block text-right">ex. (999) 999-9999</span>
+                                                    <span class="help-block text-right">This phone number is displayed on the store for quick contact</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -181,7 +181,7 @@
 
                                             @*Start*@
                                             <div class="form-group">
-                                                <h3 class="group-header">Company Domain</h3>
+                                                <h3 class="group-header">Additionals Domains for this store</h3>
                                                 <div class="col-lg-9">
                                                     <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add</button>
                                                 </div>
@@ -1374,7 +1374,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shoping Cart ?</label>
+                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shopping Cart ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" checked>
