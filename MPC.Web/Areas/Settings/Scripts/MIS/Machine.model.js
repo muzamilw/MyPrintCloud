@@ -12,6 +12,7 @@
             maximumsheetheight = ko.observable(),
             minimumsheetwidth = ko.observable(),
             minimumsheetheight = ko.observable(),
+            LookupMethodId = ko.observable(),
             errors = ko.validation.group({
                 name: MachineName,
                 type: MachineCatId,
@@ -35,7 +36,8 @@
             MachineCatId : MachineCatId,
             MachineName : MachineName,
             Description: Description,
-            ImageSource : ImageSource,
+            ImageSource: ImageSource,
+            LookupMethodId:LookupMethodId,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -396,6 +398,27 @@
         omachineList.minimumsheetwidth(source.minimumsheetwidth);
         omachineList.minimumsheetheight(source.minimumsheetheight);
         omachineList.LookupMethodName(source.LookupMethodName);
+        omachineList.LookupMethodId(source.LookupMethodId);
+        
+        return omachineList;
+
+    };
+
+    var machineListClientMapperSelectedItem = function (source) {
+
+        var omachineList = new machineList();
+        omachineList.Description(source.Description());
+        omachineList.MachineId(source.MachineId());
+        omachineList.MachineCatId(source.MachineCatId());
+        omachineList.MachineName(source.MachineName());
+       
+        omachineList.maximumsheetwidth(source.maximumsheetwidth());
+        omachineList.maximumsheetheight(source.maximumsheetheight());
+        omachineList.minimumsheetwidth(source.minimumsheetwidth());
+        omachineList.minimumsheetheight(source.minimumsheetheight());
+        
+        omachineList.LookupMethodId(source.LookupMethodId());
+
         return omachineList;
 
     };
@@ -570,14 +593,7 @@
         });
 
 
-        //omachine.MachineSpoilageItems.removeAll();
-        //ko.utils.arrayPushAll(omachine.MachineSpoilageItems, source.MachineSpoilageItems);
-        //omachine.MachineSpoilageItems.valueHasMutated();
-
-        //omachine.MachineInkCoverages.removeAll();
-        //ko.utils.arrayPushAll(omachine.MachineInkCoverages(), source.machine.MachineInkCoverages);
-        //omachine.MachineInkCoverages.valueHasMutated();
-       
+        
         var StockItemforInkList = ko.observableArray([]);
         StockItemforInkList.removeAll();
         ko.utils.arrayPushAll(StockItemforInkList(), source.StockItemforInk);
@@ -840,6 +856,7 @@
         MachineSpoilageServerMapper: MachineSpoilageServerMapper,
         newMachineClientMapper: newMachineClientMapper,
         newMachineSpoilageItemsMapper: newMachineSpoilageItemsMapper,
-        newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper
+        newMachineInkCoveragesListClientMapper: newMachineInkCoveragesListClientMapper,
+        machineListClientMapperSelectedItem: machineListClientMapperSelectedItem
     };
 });
