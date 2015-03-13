@@ -96,6 +96,18 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+
+        [HttpPost]
+        public HttpResponseMessage SaveUserVariables([FromBody]  Dictionary<long, List<ScopeVariable>> obj)
+        {
+
+            var result = "";// smartFormService.SaveTemplateVariables(obj);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
         #endregion
     }
 
