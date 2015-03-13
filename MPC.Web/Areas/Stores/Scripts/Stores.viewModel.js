@@ -443,10 +443,10 @@ define("stores/stores.viewModel",
                             companyId: selectedStore().companyId(),
                         }, {
                             success: function (data) {
-                                toastr.success("Successfully Theme Apply.");
+                                toastr.success("Theme Apply Successfully .");
                             },
                             error: function (response) {
-                                toastr.error("Failed to apply Theme.");
+                                toastr.error("Failed to Theme apply .");
                             }
                         });
                     },
@@ -1041,9 +1041,9 @@ define("stores/stores.viewModel",
                     //Filter Banners based on banner set id
                     onChangeBannerSet = function () {
                         filteredCompanyBanners.removeAll();
-                        if (filteredCompanySetId() !== undefined) {
+                        if (selectedStore().activeBannerSetId() !== undefined) {
                             _.each(companyBanners(), function (item) {
-                                if (item.companySetId() === filteredCompanySetId()) {
+                                if (item.companySetId() === selectedStore().activeBannerSetId()) {
                                     filteredCompanyBanners.push(item);
                                 }
                             });
@@ -3142,7 +3142,10 @@ define("stores/stores.viewModel",
                         if (selectedStore().type() == 4) {
                             haveIsDefaultTerritory = true;
                         }
-
+                        if (selectedStore().activeBannerSetId.error) {
+                            errorList.push({ name: "At least one Banner Set required.", element: selectedStore().activeBannerSetId.domElement });
+                            flag = false;
+                        }
                         _.each(selectedStore().addresses(), function (address) {
                             if (address.isDefaultTerrorityBilling()) {
                                 haveIsBillingDefaultAddress = true;
@@ -3482,6 +3485,7 @@ define("stores/stores.viewModel",
                             selectedStore(model.Store());
                             if (data != null) {
                                 selectedStore(model.Store.Create(data.Company));
+                                
                                 //_.each(data.AddressResponse.Addresses, function (item) {
                                 //    selectedStore().addresses.push(model.Address.Create(item));
                                 //});
@@ -3559,7 +3563,7 @@ define("stores/stores.viewModel",
                                 _.each(data.Company.MediaLibraries, function (item) {
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
-
+                                selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
 
                             }
                             allPagesWidgets.removeAll();
