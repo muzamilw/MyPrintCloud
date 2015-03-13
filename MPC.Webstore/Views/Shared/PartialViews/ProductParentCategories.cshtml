@@ -1,0 +1,31 @@
+﻿@model List<MPC.Models.DomainModels.ProductCategory>
+@using MPC.Webstore.Common;
+<div id="middle-content" class="container">
+    <div class="row main-content">
+        <div class="col-xs-12">
+            <div class="middle_inner_section">
+                <div class="row" id="home_page">
+                   @foreach (var categories in Model)
+                   {
+                       <div class="col-sm-12 col-md-3 product-box">
+                           <div class="hover-box-shadow">
+                               <p class="text-center">
+                                   <a id="ProductUrl" class='thumbnail' href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();">
+                                       <img id="productImge" src="@Html.GetAppBasePath()@categories.ThumbnailPath"  class="img-responsive" itemprop="image" />
+                                   </a>
+                               </p>
+                               <p class="text-center"><a id="prductlinkUrl" href="/Category/@Html.ResolveString(categories.CategoryName)/@categories.ProductCategoryId" onclick="ShowLoader();" class='btn btn-info' itemprop="url">View details <i class="fa fa-angle-double-right"></i></a></p>
+                               <h3 itemprop="name" id="productName"  >@categories.CategoryName</h3>
+                               <div class="product-desc" itemprop="description">
+                                   <p id="productDesc"  >@categories.Description1
+                               </div>
+
+                           </div>
+                       </div>
+                   }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

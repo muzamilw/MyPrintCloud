@@ -104,7 +104,7 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
-
+        
         /// <summary>
         /// Map Image Url
         /// </summary>
@@ -122,6 +122,8 @@ namespace MPC.Models.DomainModels
         public bool? isAddCropMarks { get; set; }
 
         public bool? isCalculateTaxByService { get; set; }
+
+        public long? ActiveBannerSetId { get; set; }
 
         [NotMapped]
         public string ImageName { get; set; }

@@ -23,16 +23,26 @@ namespace MPC.Repository.Repositories
             }
         }
      
-        public List<CompanyBanner> GetCompanyBannersById(long companyId)
+        public List<CompanyBanner> GetCompanyBannersById(long companysetId)
         {
             try
             {
-                var companyBanners = from banner in db.CompanyBanners
-                                     join companyBannerSet in db.CompanyBannerSets on banner.CompanySetId equals companyBannerSet.CompanySetId
-                                     where companyBannerSet.CompanyId == companyId //&& companyBannerSet.OrganisationId == organisationId
-                                     select banner;
+                if (companysetId > 0)
+                {
+                    var companyBanners = from banner in db.CompanyBanners
+                        join companyBannerSet in db.CompanyBannerSets on banner.CompanySetId equals
+                            companyBannerSet.CompanySetId
+                        where companyBannerSet.CompanySetId == companysetId
+                        //&& companyBannerSet.OrganisationId == organisationId
+                        select banner;
 
-                return companyBanners.ToList();
+                    return companyBanners.ToList();
+                }
+                else
+                {
+                    return null;
+                }
+
             }
             catch(Exception ex)
             {

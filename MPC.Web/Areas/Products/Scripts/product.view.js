@@ -461,7 +461,9 @@ define("product/product.view",
 
         // Initialize the view model
         if (ist.product.view.bindingRoot) {
-            productViewModel.initialize(ist.product.view);
+            var isStoreScreen = $("#isStoreScreen");
+            isStoreScreen = isStoreScreen ? isStoreScreen.val() : false;
+            productViewModel.initialize(ist.product.view, isStoreScreen);
         }
         return ist.product.view;
     });

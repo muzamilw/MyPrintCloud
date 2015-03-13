@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
@@ -39,5 +40,10 @@ namespace MPC.Interfaces.MISServices
         /// Get base data for Specified Company
         /// </summary>
         OrderBaseResponseForCompany GetBaseDataForCompany(long companyId);
+        /// <summary>
+        /// Get Order Statuses Count For Menu Items
+        /// </summary>
+        /// <returns></returns>
+        OrderMenuCount GetOrderScreenMenuItemCount();
     }
 }

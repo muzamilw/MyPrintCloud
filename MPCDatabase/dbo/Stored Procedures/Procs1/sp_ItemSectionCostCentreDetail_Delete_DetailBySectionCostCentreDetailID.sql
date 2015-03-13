@@ -1,7 +1,0 @@
-﻿CREATE PROCEDURE dbo.sp_ItemSectionCostCentreDetail_Delete_DetailBySectionCostCentreDetailID
-(
-	@SectionCostCentreDetailID int
-)
-AS
-	Delete  from tbl_section_costcentre_detail WHERE tbl_section_costcentre_detail.SectionCostCentreDetailId = @SectionCostCentreDetailID
-	RETURN

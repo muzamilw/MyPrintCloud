@@ -112,7 +112,7 @@ namespace MPC.Provisioning.Controllers
                 process.Start();
 
                 string output = process.StandardOutput.ReadToEnd();
-               // string output = "App Created";
+              // string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();

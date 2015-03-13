@@ -14,6 +14,8 @@ namespace MPC.MIS.Areas.Api.Models
         public long CompanyId { get; set; }
         public string FileSource { get; set; }
         public string FakeId { get; set; }
+        //Contain save db path of image
+        public string ImageSourcePath { get; set; }
 
         /// <summary>
         /// Image Bytes

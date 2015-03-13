@@ -86,13 +86,12 @@ namespace MigrationUtility.Preview
         public Nullable<bool> isDisplaySiteFooter { get; set; }
         public string RedirectWebstoreURL { get; set; }
         public Nullable<int> defaultPalleteId { get; set; }
-        public Nullable<bool> isDisplaylBrokerBanners { get; set; }
-        public Nullable<bool> isBrokerCanLaminate { get; set; }
-        public Nullable<bool> isBrokerCanRoundCorner { get; set; }
+        public Nullable<bool> isLaminate { get; set; }
+        public Nullable<bool> isRoundCorner { get; set; }
         public Nullable<bool> isBrokerCanDeliverSameDay { get; set; }
-        public Nullable<bool> isBrokerCanAcceptPaymentOnline { get; set; }
-        public Nullable<bool> isBrokerOrderApprovalRequired { get; set; }
-        public Nullable<bool> isBrokerPaymentRequired { get; set; }
+        public Nullable<bool> isAcceptPaymentOnline { get; set; }
+        public Nullable<bool> isOrderApprovalRequired { get; set; }
+        public Nullable<bool> isPaymentRequired { get; set; }
         public Nullable<bool> isWhiteLabel { get; set; }
         public string TwitterURL { get; set; }
         public string FacebookURL { get; set; }
@@ -104,7 +103,6 @@ namespace MigrationUtility.Preview
         public string WatermarkText { get; set; }
         public Nullable<int> CoreCustomerId { get; set; }
         public string StoreBackgroundImage { get; set; }
-        public Nullable<bool> isDisplayBrokerSecondaryPages { get; set; }
         public Nullable<int> PriceFlagId { get; set; }
         public Nullable<bool> isIncludeVAT { get; set; }
         public Nullable<bool> isAllowRegistrationFromWeb { get; set; }
@@ -121,10 +119,10 @@ namespace MigrationUtility.Preview
         public Nullable<bool> canUserPlaceOrderWithoutApproval { get; set; }
         public Nullable<bool> CanUserEditProfile { get; set; }
         public Nullable<long> OrganisationId { get; set; }
-        public Nullable<bool> includeEmailBrokerArtworkOrderReport { get; set; }
-        public Nullable<bool> includeEmailBrokerArtworkOrderXML { get; set; }
-        public Nullable<bool> includeEmailBrokerArtworkOrderJobCard { get; set; }
-        public Nullable<bool> makeEmailBrokerArtworkOrderProductionReady { get; set; }
+        public Nullable<bool> includeEmailArtworkOrderReport { get; set; }
+        public Nullable<bool> includeEmailArtworkOrderXML { get; set; }
+        public Nullable<bool> includeEmailArtworkOrderJobCard { get; set; }
+        public Nullable<bool> makeEmailArtworkOrderProductionReady { get; set; }
         public Nullable<System.Guid> SalesAndOrderManagerId1 { get; set; }
         public Nullable<System.Guid> SalesAndOrderManagerId2 { get; set; }
         public Nullable<System.Guid> ProductionManagerId1 { get; set; }

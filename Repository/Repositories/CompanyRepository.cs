@@ -96,9 +96,22 @@ namespace MPC.Repository.Repositories
             try
             {
                 CompanyResponse companyResponse = new CompanyResponse();
-                var company = db.Companies.Where(c => c.CompanyId == companyId).Include(c => c.CmsPages).Include(c => c.RaveReviews).Include(c => c.CompanyCMYKColors)
-                    .Include(c => c.CompanyBannerSets).Include(c => c.Campaigns).Include(c => c.PaymentGateways).Include(c => c.ProductCategories)
-                    .Include(c => c.MediaLibraries).Include(c => c.CompanyDomains).Include(c => c.CmsOffers).Include(c => c.CompanyCostCentres).Select(c => new
+                var company = db.Companies.Include(c => c.CmsPages)
+                    .Include(c => c.RaveReviews)
+                    .Include(c => c.CompanyCMYKColors)
+                    .Include(c => c.CompanyBannerSets)
+                    .Include(c => c.Campaigns)
+                    .Include(c => c.PaymentGateways)
+                    .Include(c => c.ProductCategories)
+                    .Include(c => c.MediaLibraries)
+                    .Include(c => c.CompanyDomains)
+                    .Include(c => c.CmsOffers)
+                    .Include(c => c.CompanyCostCentres)
+                    .Include(c => c.Addresses)
+                    .Include(c => c.CompanyContacts)
+                    .Include(c => c.CompanyTerritories)
+                    .Where(c => c.CompanyId == companyId)
+                    .Select(c => new
                     {
                         c.CompanyId,
                         c.Name,
@@ -172,17 +185,39 @@ namespace MPC.Repository.Repositories
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
-                        CmsPages = c.CmsPages.Take(5).ToList(),
+                        CmsPages = c.CmsPages.Take(5).Select(cms => new
+                        {
+                            cms.PageId,
+                            cms.PageTitle,
+                            cms.isDisplay,
+                            cms.isEnabled,
+                            cms.Meta_Title,
+                            cms.isUserDefined,
+                            cms.PageCategory,
+                            cms.PageBanner
+                        }).ToList(),
                         c.CompanyCMYKColors,
                         c.CompanyBannerSets,
-                        c.Campaigns,
+                        Campaigns = c.Campaigns.Select(cam => new
+                        {
+                            cam.CampaignName,
+                            cam.CampaignType,
+                            cam.StartDateTime,
+                            cam.SendEmailAfterDays,
+                            cam.IsEnabled,
+                            cam.CampaignEmailEvent
+                        }),
                         c.PaymentGateways,
-                        c.ProductCategories,
+                        ProductCategories = c.ProductCategories.Where(pc => pc.ParentCategoryId == null),
                         c.MediaLibraries,
                         c.CompanyDomains,
                         c.CmsOffers,
                         c.CompanyCostCentres,
+                        CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
+                        Addresses = c.Addresses.Take(1).ToList(),
+                        CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
+                        c.ActiveBannerSetId,
                     }).ToList().Select(c => new Company
                     {
                         CompanyId = c.CompanyId,
@@ -257,38 +292,48 @@ namespace MPC.Repository.Repositories
                         LinkedinURL = c.LinkedinURL,
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
-                        CmsPages = c.CmsPages,
+                        CmsPages = c.CmsPages.Select(cms => new CmsPage
+                        {
+                            PageId = cms.PageId,
+                            PageTitle = cms.PageTitle,
+                            isDisplay = cms.isDisplay,
+                            isEnabled = cms.isEnabled,
+                            Meta_Title = cms.Meta_Title,
+                            isUserDefined = cms.isUserDefined,
+                            PageCategory = cms.PageCategory,
+                            PageBanner = cms.PageBanner
+                        }).ToList(),
                         CompanyCMYKColors = c.CompanyCMYKColors,
                         CompanyBannerSets = c.CompanyBannerSets,
-                        Campaigns = c.Campaigns,
+                        Campaigns = c.Campaigns.Select(cam => new Campaign
+                        {
+                            CampaignName = cam.CampaignName,
+                            CampaignType = cam.CampaignType,
+                            StartDateTime = cam.StartDateTime,
+                            SendEmailAfterDays = cam.SendEmailAfterDays,
+                            IsEnabled = cam.IsEnabled,
+                            CampaignEmailEvent = cam.CampaignEmailEvent
+                        }).ToList(),
                         PaymentGateways = c.PaymentGateways,
-                        ProductCategories = c.ProductCategories,
+                        ProductCategories = c.ProductCategories.ToList(),
                         MediaLibraries = c.MediaLibraries,
                         CompanyDomains = c.CompanyDomains,
                         CmsOffers = c.CmsOffers,
                         CompanyCostCentres = c.CompanyCostCentres,
                         Image = c.Image,
-
+                        ActiveBannerSetId = c.ActiveBannerSetId,
+                        CompanyTerritories = c.CompanyTerritories.ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList()
                     }).FirstOrDefault();
 
 
-                //var company = DbSet.Find(companyId);
                 //company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
 
                 companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
                 companyResponse.SecondaryPageResponse.RowCount = db.CmsPages.Count(cmp => cmp.CompanyId == companyId);
                 companyResponse.SecondaryPageResponse.CmsPages = company != null ? company.CmsPages : new List<CmsPage>();
                 companyResponse.Company = company;
-
-                //companyResponse.CompanyTerritoryResponse = new CompanyTerritoryResponse();
-                //companyResponse.AddressResponse = new AddressResponse();
-                //companyResponse.CompanyContactResponse = new CompanyContactResponse();
-                //companyResponse.CompanyTerritoryResponse.RowCount = company.CompanyTerritories.Count();
-                //companyResponse.CompanyTerritoryResponse.CompanyTerritories = company.CompanyTerritories.Take(5).ToList();
-                //companyResponse.AddressResponse.RowCount = company.Addresses.Count();
-                //companyResponse.AddressResponse.Addresses = company.Addresses.Take(5).ToList();
-                //companyResponse.CompanyContactResponse.CompanyContacts = company.CompanyContacts.Take(5).ToList();
-                //companyResponse.CompanyContactResponse.RowCount = company.CompanyContacts.Count;
                 return companyResponse;
             }
             catch (Exception ex)
@@ -598,6 +643,19 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+               List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+               ObjExportOrg.RetailSmartForms = smartForms;
+
+
+                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+               // variables.ToList().ForEach(s => s.ScopeVariables = null);
+                variables.ToList().ForEach(s => s.Company = null);
+               // variables.ToList().ForEach(s => s.SmartFormDetails = null);
+              //  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+                ObjExportOrg.RetailFieldVariables = variables;
+
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -702,8 +760,14 @@ namespace MPC.Repository.Repositories
 
               Mapper.CreateMap<ItemStockOption, ItemStockOption>()
             .ForMember(x => x.Item, opt => opt.Ignore())
-            .ForMember(x => x.StockItem, opt => opt.Ignore())
-            .ForMember(x => x.ItemAddonCostCentres, opt => opt.Ignore());
+            .ForMember(x => x.StockItem, opt => opt.Ignore());
+
+
+              Mapper.CreateMap<ItemAddonCostCentre, ItemAddonCostCentre>()
+          .ForMember(x => x.CostCentre, opt => opt.Ignore())
+          .ForMember(x => x.ItemStockOption, opt => opt.Ignore());
+       
+
 
               Mapper.CreateMap<ProductCategoryItem, ProductCategoryItem>()
           .ForMember(x => x.Item, opt => opt.Ignore())
@@ -749,10 +813,10 @@ namespace MPC.Repository.Repositories
 
               Mapper.CreateMap<ImagePermission, ImagePermission>()
                 .ForMember(x => x.TemplateBackgroundImage, opt => opt.Ignore());
-        
 
 
-              List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateFonts").Include("Template.TemplateFonts").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
+
+              List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions.ItemAddonCostCentres").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateFonts").Include("Template.TemplateFonts").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
               List<Item> oOutputItems = new List<Item>();
              
               if(items != null && items.Count > 0)
@@ -979,6 +1043,18 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+                List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+                ObjExportOrg.SmartForms = smartForms;
+
+
+                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+                // variables.ToList().ForEach(s => s.ScopeVariables = null);
+                variables.ToList().ForEach(s => s.Company = null);
+                // variables.ToList().ForEach(s => s.SmartFormDetails = null);
+                //  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+                ObjExportOrg.FieldVariables = variables;
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -991,7 +1067,7 @@ namespace MPC.Repository.Repositories
                 }
 
                 ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
-
+                TemplateColorStyle = null;
                 string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson1.txt";

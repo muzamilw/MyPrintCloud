@@ -120,6 +120,14 @@ namespace MPC.Implementation.MISServices
                     CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId)
                 };
         }
+        /// <summary>
+        /// Get Order Statuses Count For Menu Items
+        /// </summary>
+        /// <returns></returns>
+        public OrderMenuCount GetOrderScreenMenuItemCount()
+        {
+            return estimateRepository.GetOrderStatusesCountForMenuItems();
+        }
 
         #endregion
     }
