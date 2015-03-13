@@ -33,9 +33,14 @@
                         </tbody>
                     </table>
                 </div>
-
+                
             </div>
             <div class="clearfix">
+            </div>
+            <div id="pagerDiv">
+                <!-- ko with: pager -->
+                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                <!-- /ko -->
             </div>
         </div>
     </div>

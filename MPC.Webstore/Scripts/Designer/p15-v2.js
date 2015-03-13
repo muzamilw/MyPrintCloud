@@ -256,6 +256,26 @@ function c4_RS() {
 }
 
 function pcl42_svc() {
-    // save variables service
-    alert("save variables to db");
+    var to = "/designerApi/SmartForm/SaveUserVariables";
+    
+    var jsonObjects = JSON.stringify(smartFormData.AllUserScopeVariables, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == '"true"') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
+
 }

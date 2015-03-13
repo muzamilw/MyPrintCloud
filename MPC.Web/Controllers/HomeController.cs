@@ -32,7 +32,12 @@ namespace MPC.MIS.Controllers
         {
             get { return HttpContext.GetOwinContext().Authentication; }
         }
+        private IOrderService orderService{ get; set; }
 
+        public HomeController(IOrderService orderService)
+        {
+            this.orderService = orderService;
+        }
         [Dependency]
         public IClaimsSecurityService ClaimsSecurityService { get; set; }
 
@@ -84,7 +89,7 @@ namespace MPC.MIS.Controllers
             //For Development environment Set these values and comment code above starting from using...
 
             validationInfo = new ValidationInfo();
-            validationInfo.CustomerID = "8";
+            validationInfo.CustomerID = "1";
             validationInfo.userId = "xyz";
             validationInfo.FullName = "Naveed Zahid";
             validationInfo.Plan = "light";
@@ -267,6 +272,20 @@ namespace MPC.MIS.Controllers
         public ActionResult PageUnAvailable()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult OrderMenuItems()
+        {
+            var OrderStatusCount = orderService.GetOrderScreenMenuItemCount();
+            ViewBag.AllOrdersCount = OrderStatusCount.AllOrdersCount;
+            ViewBag.PendingOrders = OrderStatusCount.PendingOrders;
+            ViewBag.ConfirmedStarts = OrderStatusCount.ConfirmedStarts;
+            ViewBag.InProduction = OrderStatusCount.InProduction;
+            ViewBag.ReadyForShipping = OrderStatusCount.ReadyForShipping;
+            ViewBag.Invoiced = OrderStatusCount.Invoiced;
+            ViewBag.CancelledOrders = OrderStatusCount.CancelledOrders;
+            return PartialView();
         }
     }
 }
