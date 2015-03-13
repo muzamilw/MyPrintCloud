@@ -258,12 +258,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         defaultCompanyDomainCopy = ko.observable(),
         taxLabel = ko.observable(undefined),
         taxRate = ko.observable(undefined),
+        activeBannerSetId = ko.observable().extend({ required: true }),
         // Errors
         errors = ko.validation.group({
             companyId: companyId,
             name: name,
             webAccessCode: webAccessCode,
             url: url,
+            activeBannerSetId: activeBannerSetId,
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -279,6 +281,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             name: name,
             storeWorkflowImageName: storeWorkflowImageName,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
+            activeBannerSetId: activeBannerSetId,
             status: status,
             image: image,
             url: url,
@@ -359,6 +362,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.AvatRegNumber = source.avatRegNumber();
             result.PvatRegReference = source.avatRegReference();
             result.PhoneNo = source.phoneNo();
+            result.ActiveBannerSetId = source.activeBannerSetId();
             //result.IsCustomer = source.isCustomer();
             result.IsCustomer = source.type();
             result.Notes = source.notes();
@@ -491,6 +495,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isCalculateTaxByService: isCalculateTaxByService,
             phoneNo: phoneNo,
             isCustomer: isCustomer,
+            activeBannerSetId: activeBannerSetId,
             notes: notes,
             webMasterTag: webMasterTag,
             webAnalyticCode: webAnalyticCode,
@@ -697,9 +702,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
+           
         );
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.storeId(source.StoreId);
+       // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);

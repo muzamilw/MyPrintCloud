@@ -113,7 +113,6 @@ namespace MigrationUtility.Preview
         public virtual DbSet<ItemPriceMatrix> ItemPriceMatrices { get; set; }
         public virtual DbSet<ItemProductDetail> ItemProductDetails { get; set; }
         public virtual DbSet<ItemRelatedItem> ItemRelatedItems { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
         public virtual DbSet<ItemSectionCostCentreGroup> ItemSectionCostCentreGroups { get; set; }
         public virtual DbSet<ItemStateTax> ItemStateTaxes { get; set; }
         public virtual DbSet<ItemStockControl> ItemStockControls { get; set; }
@@ -259,10 +258,12 @@ namespace MigrationUtility.Preview
         public virtual DbSet<StockItemsIssueLog> StockItemsIssueLogs { get; set; }
         public virtual DbSet<WebProductCategoryItemPrice> WebProductCategoryItemPrices { get; set; }
         public virtual DbSet<Phrase> Phrases { get; set; }
-        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<CostCentreMatrix> CostCentreMatrices { get; set; }
-        public virtual DbSet<CostCentreType> CostCentreTypes { get; set; }
         public virtual DbSet<ItemSection> ItemSections { get; set; }
         public virtual DbSet<LookupMethod> LookupMethods { get; set; }
+        public virtual DbSet<TemplatePage> TemplatePages { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<CostCentreType> CostCentreTypes { get; set; }
     }
 }

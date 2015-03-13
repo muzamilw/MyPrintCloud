@@ -29,6 +29,18 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
         }
-      
+
+        /// <summary>
+        /// Get Active Banner Set for Company
+        /// </summary>
+        public CompanyBannerSet GetActiveBannerSetForCompany(long companyId)
+        {
+            var query = from company in db.Companies
+                join companyBannerSet in DbSet on company.ActiveBannerSetId equals companyBannerSet.CompanySetId
+                where company.CompanyId == companyId
+                select companyBannerSet;
+
+            return query.FirstOrDefault();
+        }
     }
 }
