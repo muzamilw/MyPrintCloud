@@ -108,7 +108,9 @@ namespace MPC.Implementation.MISServices
 
             if (organisationDbVersion == null)
             {
-                return Save(organisation);
+                throw new MPCException(string.Format("Organisation {0} doesn't Exist.", organisation.OrganisationName),
+                            organisationRepository.OrganisationId); 
+                //Save(organisation); // Commented by Khurram. As Organisation is not created from MIS, it is only updated.
             }
             //Set updated fields
             return Update(organisation, organisationDbVersion);
@@ -140,7 +142,7 @@ namespace MPC.Implementation.MISServices
         {
             organisation.OrganisationId = organisationRepository.OrganisationId;
             organisationRepository.Add(organisation);
-            organisationRepository.SaveChanges();
+            //organisationRepository.SaveChanges();
 
             #region Markup
 
@@ -150,7 +152,8 @@ namespace MPC.Implementation.MISServices
                 {
                     item.OrganisationId = organisationRepository.OrganisationId;
                     markupRepository.Add(item);
-                    markupRepository.SaveChanges();
+                    organisation.Markups.Add(item);
+                    //markupRepository.SaveChanges();
                 }
             }
 
@@ -164,11 +167,14 @@ namespace MPC.Implementation.MISServices
                 {
                     item.UserDomainKey = (int)organisationRepository.OrganisationId;
                     chartOfAccountRepository.Add(item);
-                    chartOfAccountRepository.SaveChanges();
+                    organisation.ChartOfAccounts.Add(item);
+                    //chartOfAccountRepository.SaveChanges();
                 }
             }
 
             #endregion
+
+            organisationRepository.SaveChanges();
 
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
@@ -185,7 +191,6 @@ namespace MPC.Implementation.MISServices
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
             organisation.OrganisationId = organisationRepository.OrganisationId;
-            organisation.MISLogo = organisationDbVersion.MISLogo;
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
             #region Markup
@@ -198,7 +203,6 @@ namespace MPC.Implementation.MISServices
                     markup.IsDefault = true;
                     Markup markupOld = markupsDbVersion.First(x => x.IsDefault != null);
                     markupOld.IsDefault = null;
-                    markupRepository.SaveChanges();
                 }
             }
 
@@ -215,7 +219,6 @@ namespace MPC.Implementation.MISServices
                     {
                         item.OrganisationId = organisationRepository.OrganisationId;
                         markupRepository.Add(item);
-                        markupRepository.SaveChanges();
                     }
                     else
                     {
@@ -233,7 +236,6 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                markupRepository.SaveChanges();
             }
             //find missing items
             List<Markup> missingMarkupListItems = new List<Markup>();
@@ -258,7 +260,8 @@ namespace MPC.Implementation.MISServices
                 {
                     if (prefixRepository.PrefixUseMarkupId(dbVersionMissingItem.MarkUpId))
                     {
-                        throw new MPCException("Deleted Markup used in Prefix.", 0);
+                        throw new MPCException(string.Format("Can not delete markup {0} it is being used in Prefix.", dbVersionMissingItem.MarkUpName), 
+                            organisationRepository.OrganisationId);
                     }
                 }
             }
@@ -270,7 +273,10 @@ namespace MPC.Implementation.MISServices
                 if (dbVersionMissingItem.MarkUpId > 0)
                 {
                     markupRepository.Delete(dbVersionMissingItem);
-                    markupRepository.SaveChanges();
+                    if (organisation.Markups != null)
+                    {
+                        organisation.Markups.Remove(dbVersionMissingItem);    
+                    }
                 }
             }
             #endregion
@@ -289,7 +295,6 @@ namespace MPC.Implementation.MISServices
                     {
                         item.UserDomainKey = (int)organisationRepository.OrganisationId;
                         chartOfAccountRepository.Add(item);
-                        chartOfAccountRepository.SaveChanges();
                     }
                     else
                     {
@@ -307,7 +312,6 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                chartOfAccountRepository.SaveChanges();
             }
             //find missing items
             List<ChartOfAccount> missingChartOfAccountItems = new List<ChartOfAccount>();
@@ -330,10 +334,14 @@ namespace MPC.Implementation.MISServices
                 if (dbVersionMissingItem.Id > 0)
                 {
                     chartOfAccountRepository.Delete(dbVersionMissingItem);
-                    chartOfAccountRepository.SaveChanges();
+                    if (organisation.ChartOfAccounts != null)
+                    {
+                        organisation.ChartOfAccounts.Remove(dbVersionMissingItem);
+                    }
                 }
             }
             #endregion
+
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);

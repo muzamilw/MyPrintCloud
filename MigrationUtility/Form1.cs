@@ -1798,7 +1798,7 @@ namespace MigrationUtility
                 long companyid = Convert.ToInt32( txtStoreId.Text);
 
                 
-                var widgets =  MPCContext.CmsSkinPageWidgets.Include("CmsSkinPageWidgetParams").Include("CmsPage").Where(g => g.CompanyId == companyid).ToList();
+                var widgets =  MPCContext.CmsSkinPageWidgets.Include("CmsSkinPageWidgetParams").Include("CmsPage").Where(g => g.CompanyId == companyid && g.PageId != null).ToList();
 
                 List<CmsSkinPageWidgetModel> oOutputwidgets = new List<CmsSkinPageWidgetModel>();
 

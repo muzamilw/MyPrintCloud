@@ -476,7 +476,7 @@ function g1(D1AO) {
         $("#BtnLockTxtPosition").removeAttr("disabled");
         $("#BtnPrintObj").removeAttr("disabled");
         if (IsEmbedded && !D1AO.IsEditable) {
-            $("#BtnLockEditing").attr("disabled", "disabled");
+          //  $("#BtnLockEditing").attr("disabled", "disabled");
         }
         if (IsEmbedded && D1AO.IsPositionLocked) {
             $("#BtnLockTxtPosition").attr("disabled", "disabled");
@@ -1074,7 +1074,7 @@ $("#btnUpdateImgProp").click(function (event) {
         //}
     }
     StartLoader("Updating image information, please wait...");
-    $.getJSON("services/imageSvcDam/" + imgSelected + "," + imType + "," + title + "," + desc + "," + keywords,
+    $.getJSON("/designerApi/TemplateBackgroundImage/UpdateImage/" + imgSelected + "/" + imType + "/" + title + "/" + desc + "/" + keywords + "/",
 	function (DT) {
 	    StopLoader();
 	    if (IsCalledFrom == 3) {
@@ -1082,14 +1082,14 @@ $("#btnUpdateImgProp").click(function (event) {
 	            k27();
 	        }
 	    }
-	    if (imgLoaderSection == 1) {
-	        $(".search").click();
-	    } else if (imgLoaderSection == 2) {
-	        $(".backgrounds").click();
-	    } else {
-	        $(".uploads").click();
-	    }
-
+	    //if (imgLoaderSection == 1) {
+	    //    $(".search").click();
+	    //} else if (imgLoaderSection == 2) {
+	    //    $(".backgrounds").click();
+	    //} else {
+	    //    $(".uploads").click();
+	    //}
+	    $("#btnAdd").click();
 	});
 
     return false;
@@ -1959,7 +1959,7 @@ $("#BtnLockEditing").click(function () {
     var thisCheck = $(this);
     var D1AO = canvas.getActiveObject();
     if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-
+      
         if (D1AO.get('IsEditable') == true) {
             D1AO.IsEditable = false;
             D1AO.IsTextEditable = false;
