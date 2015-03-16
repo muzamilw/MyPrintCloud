@@ -78,51 +78,57 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (featuredList[i + 2].ProductType == (int)ProductType.MarketingBrief)
+                                        @if ((i + 2) < productsCount)
                                         {
+                                            if (featuredList[i + 2].ProductType == (int)ProductType.MarketingBrief)
+                                            {
 
-                                            RedirectURL = "/MarketingBrief/" + featuredList[i + 2].ProductName + "/" + featuredList[i + 2].ItemId;
+                                                RedirectURL = "/MarketingBrief/" + featuredList[i + 2].ProductName + "/" + featuredList[i + 2].ItemId;
 
-                                        }
-                                        else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
-                                        {
-                                            if (featuredList[i + 2].IsUploadImage == true)
+                                            }
+                                            else if (featuredList[i + 2].ProductType == (int)ProductType.PrintProduct)
+                                            {
+                                                if (featuredList[i + 2].IsUploadImage == true)
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
+                                                }
+                                                else
+                                                {
+
+                                                    RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
+                                                }
+
+                                            }
+                                            else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
                                             {
                                                 RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
                                             }
-                                            else
-                                            {
-
-                                                RedirectURL = "/CloneFeatureItem/" + featuredList[i + 2].ItemId;
-                                            }
-
-                                        }
-                                        else if (featuredList[i + 2].ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                        {
-                                            RedirectURL = "/ProductOptions/" + 0 + "/" + featuredList[i + 2].ItemId + "/UploadDesign";
-                                        }
-                                        <div class="col-md-3 col-sm-6">
-                                            <!-- single item -->
-                                            <div class="s-item">
-                                                <!-- Image link -->
-                                                <a href="@RedirectURL">
-                                                    <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 2].ThumbnailPath />
-                                                </a>
-                                                <!-- portfolio caption -->
-                                                <div class="s-caption">
-                                                    <!-- heading and paragraph -->
-                                                    <h4>
-                                                        <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
-                                                        </a>
-                                                    </h4>
-                                                    <p id="descOfFPro">
-                                                        <label class="topcat_desc displayNone_TLS5">@featuredList[i + 2].WebDescription</label>
-                                                    </p>
+                                            <div class="col-md-3 col-sm-6">
+                                                <!-- single item -->
+                                                <div class="s-item">
+                                                    <!-- Image link -->
+                                                    <a href="@RedirectURL">
+                                                        <img id="imgThumbnail" class="full_img_ThumbnailPath" src=@featuredList[i + 2].ThumbnailPath />
+                                                    </a>
+                                                    <!-- portfolio caption -->
+                                                    <div class="s-caption">
+                                                        <!-- heading and paragraph -->
+                                                        <h4>
+                                                            <a href="#" id="headingOfFeaturedPro">
+                                                                <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
+                                                            </a>
+                                                        </h4>
+                                                        <p id="descOfFPro">
+                                                            <label class="topcat_desc displayNone_TLS5">@featuredList[i + 2].WebDescription</label>
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @if (featuredList[i + 3].ProductType == (int)ProductType.MarketingBrief)
+                                        }
+                                       
+                                      @if ((i + 3) < productsCount)
+                                      {
+                                        if (featuredList[i + 3].ProductType == (int)ProductType.MarketingBrief)
                                         {
 
                                             RedirectURL = "/MarketingBrief/" + featuredList[i + 3].ProductName + "/" + featuredList[i + 3].ItemId;
@@ -166,7 +172,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @if (featuredList[i + 4].ProductType == (int)ProductType.MarketingBrief)
+                                      }
+                                       @if ((i + 4) < productsCount)
+                                       {
+                                        if (featuredList[i + 4].ProductType == (int)ProductType.MarketingBrief)
                                         {
 
                                             RedirectURL = "/MarketingBrief/" + featuredList[i + 4].ProductName + "/" + featuredList[i + 4].ItemId;
@@ -210,6 +219,8 @@
                                                 </div>
                                             </div>
                                         </div>
+                                       }
+                                      
 
                                     </div>
                                 </div>

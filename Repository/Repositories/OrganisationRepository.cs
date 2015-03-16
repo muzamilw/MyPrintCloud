@@ -519,6 +519,8 @@ namespace MPC.Repository.Repositories
                              comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                              comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
                          db.Companies.Add(comp);
                          db.SaveChanges();
@@ -623,7 +625,8 @@ namespace MPC.Repository.Repositories
                              comp.CompanyCostCentres.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
-                      
+                         if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
+                             comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
                          //comp.CmsPages.ToList().ForEach(c => c.)
                          db.Companies.Add(comp);
@@ -709,54 +712,57 @@ namespace MPC.Repository.Repositories
                              string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
                              
                              
-
-                             foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
+                             if(Directory.Exists(Sourcelanguagefiles))
                              {
-                                 if (File.Exists(newPath))
+                                 foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
                                  {
-                                     
-                                     string FileName = Path.GetFileName(newPath);
-
-                                     DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
-
-                                    
-                                     // define destination directory
-                                      string directoty = Path.GetDirectoryName(newPath);
-                                    string[] stringSeparators = new string[] { "MPC_Content" };
-                                    if (!string.IsNullOrEmpty(directoty))
-                                    {
-                                        string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-                                        string FolderName = result[1];
-                                        if (!string.IsNullOrEmpty(FolderName))
-                                        {
-                                            string[] folder = FolderName.Split('\\');
-                                            DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
-
-                                            DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
-
-                                        }
-                                    }
-                                     
-                                     if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                     if (File.Exists(newPath))
                                      {
-                                         Directory.CreateDirectory(DestinationLanguageDirectory);
-                                         if (Directory.Exists(DestinationLanguageDirectory))
+
+                                         string FileName = Path.GetFileName(newPath);
+
+                                         DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+
+                                         // define destination directory
+                                         string directoty = Path.GetDirectoryName(newPath);
+                                         string[] stringSeparators = new string[] { "MPC_Content" };
+                                         if (!string.IsNullOrEmpty(directoty))
+                                         {
+                                             string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+                                             string FolderName = result[1];
+                                             if (!string.IsNullOrEmpty(FolderName))
+                                             {
+                                                 string[] folder = FolderName.Split('\\');
+                                                 DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
+
+                                                 DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
+
+                                             }
+                                         }
+
+                                         if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                                         {
+                                             Directory.CreateDirectory(DestinationLanguageDirectory);
+                                             if (Directory.Exists(DestinationLanguageDirectory))
+                                             {
+                                                 if (!File.Exists(DestinationLanguageFilePath))
+                                                     File.Copy(newPath, DestinationLanguageFilePath);
+                                             }
+                                         }
+                                         else
                                          {
                                              if (!File.Exists(DestinationLanguageFilePath))
                                                  File.Copy(newPath, DestinationLanguageFilePath);
                                          }
-                                     }
-                                     else
-                                     {
-                                         if (!File.Exists(DestinationLanguageFilePath))
-                                             File.Copy(newPath, DestinationLanguageFilePath);
+
                                      }
 
                                  }
-
-                             }
                             
+                             }
+                          
 
                              
                              
@@ -2503,9 +2509,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.GridImage);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2551,9 +2557,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File1);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2601,9 +2607,9 @@ namespace MPC.Repository.Repositories
                                 string name = Path.GetFileName(item.File2);
 
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2649,9 +2655,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File3);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2697,9 +2703,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File4);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2745,9 +2751,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File5);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 

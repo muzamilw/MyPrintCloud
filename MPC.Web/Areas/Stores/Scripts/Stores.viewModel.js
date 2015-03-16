@@ -387,7 +387,6 @@ define("stores/stores.viewModel",
                     storeImageFilesLoadedCallback = function (file, data) {
                         selectedStore().storeImageFileBinary(data);
                         selectedStore().storeImageName(file.name);
-                        selectedStore().isVisibleNewLogoImage(true);
                         //selectedProductCategoryForEditting().fileType(data.imageType);
                     },
                     //store Backgroud Image Upload Callback
@@ -444,10 +443,10 @@ define("stores/stores.viewModel",
                             companyId: selectedStore().companyId(),
                         }, {
                             success: function (data) {
-                                toastr.success("Successfully Theme Apply.");
+                                toastr.success("Theme Apply Successfully .");
                             },
                             error: function (response) {
-                                toastr.error("Failed to apply Theme.");
+                                toastr.error("Failed to Theme apply .");
                             }
                         });
                     },
@@ -1042,9 +1041,9 @@ define("stores/stores.viewModel",
                     //Filter Banners based on banner set id
                     onChangeBannerSet = function () {
                         filteredCompanyBanners.removeAll();
-                        if (filteredCompanySetId() !== undefined) {
+                        if (selectedStore().activeBannerSetId() !== undefined) {
                             _.each(companyBanners(), function (item) {
-                                if (item.companySetId() === filteredCompanySetId()) {
+                                if (item.companySetId() === selectedStore().activeBannerSetId()) {
                                     filteredCompanyBanners.push(item);
                                 }
                             });
@@ -2933,7 +2932,7 @@ define("stores/stores.viewModel",
                                             });
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                         }
-                                        //Creating new Product category
+                                            //Creating new Product category
                                         else {
                                             selectedStore().productCategories.splice(0, 0, model.ProductCategory.Create(data));
                                             toastr.success("Category Added Successfully");
@@ -2945,7 +2944,7 @@ define("stores/stores.viewModel",
                                     }
                                         //#endregion
 
-                                    //#region Else Parent Category Id != null
+                                        //#region Else Parent Category Id != null
                                     else {
                                         newProductCategories.push(model.ProductCategory.Create(data));
                                         selectedProductCategoryForEditting(model.ProductCategory.Create(data));
@@ -3143,7 +3142,10 @@ define("stores/stores.viewModel",
                         if (selectedStore().type() == 4) {
                             haveIsDefaultTerritory = true;
                         }
-
+                        if (selectedStore().activeBannerSetId.error) {
+                            errorList.push({ name: "At least one Banner Set required.", element: selectedStore().activeBannerSetId.domElement });
+                            flag = false;
+                        }
                         _.each(selectedStore().addresses(), function (address) {
                             if (address.isDefaultTerrorityBilling()) {
                                 haveIsBillingDefaultAddress = true;
@@ -3422,6 +3424,7 @@ define("stores/stores.viewModel",
                                     //new store adding
                                     if (selectedStore().companyId() == undefined || selectedStore().companyId() == 0) {
                                         selectedStore().companyId(data.CompanyId);
+                                        selectedStore().storeImageFileBinary(data.StoreImagePath);
                                         if (selectedStore().type() == "4") {
                                             selectedStore().type("Retail Customer");
                                         } else if (selectedStore().type() == "3") {
@@ -3435,6 +3438,7 @@ define("stores/stores.viewModel",
                                                 store.name(selectedStore().name());
                                                 store.url(selectedStore().url());
                                                 store.status(selectedStore().status());
+                                                store.storeImageFileBinary(data.StoreImagePath);
                                                 if (selectedStore().type() == "4") {
                                                     store.type("Retail Customer");
                                                 } else if (selectedStore().type() == "3") {
@@ -3481,6 +3485,7 @@ define("stores/stores.viewModel",
                             selectedStore(model.Store());
                             if (data != null) {
                                 selectedStore(model.Store.Create(data.Company));
+                                
                                 //_.each(data.AddressResponse.Addresses, function (item) {
                                 //    selectedStore().addresses.push(model.Address.Create(item));
                                 //});
@@ -3558,7 +3563,7 @@ define("stores/stores.viewModel",
                                 _.each(data.Company.MediaLibraries, function (item) {
                                     selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                 });
-
+                                selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
 
                             }
                             allPagesWidgets.removeAll();
@@ -4329,7 +4334,12 @@ define("stores/stores.viewModel",
                 onSaveMedia = function () {
                     //Open From Store backgound
                     if (mediaLibraryOpenFrom() === "StoreBackground") {
-                        selectedStore().storeBackgroudImageImageSource(selectedMediaFile().fileSource());
+                        if (selectedMediaFile().fakeId() === undefined) {
+                            selectedStore().storeBackgroudImagePath(selectedMediaFile().filePath());
+                        } else {
+                            selectedStore().storeBackgroudImageImageSource(selectedMediaFile().fileSource());
+                        }
+                        
                     }
                         //If Open From Company Banner
                     else if (mediaLibraryOpenFrom() === "CompanyBanner") {
@@ -4337,9 +4347,10 @@ define("stores/stores.viewModel",
                             selectedCompanyBanner().filePath(selectedMediaFile().filePath());
                         } else {
                             selectedCompanyBanner().filePath(selectedMediaFile().id());
+                            selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
+                            selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
                         }
-                        selectedCompanyBanner().fileBinary(selectedMediaFile().fileSource());
-                        selectedCompanyBanner().imageSource(selectedMediaFile().fileSource());
+                        
                     }
                         //If Open From Secondary Page
                     else if (mediaLibraryOpenFrom() === "SecondaryPage") {
@@ -4347,27 +4358,28 @@ define("stores/stores.viewModel",
                             selectedSecondaryPage().pageBanner(selectedMediaFile().filePath());
                         } else {
                             selectedSecondaryPage().pageBanner(selectedMediaFile().id());
+                            selectedSecondaryPage().imageSrc(selectedMediaFile().fileSource());
                         }
-                        selectedSecondaryPage().imageSrc(selectedMediaFile().fileSource());
+                       
                     }
-                        //If Open From Product Category Banner
-                    else if (mediaLibraryOpenFrom() === "ProductCategoryBanner") {
-                        if (selectedMediaFile().id() > 0) {
-                            selectedProductCategoryForEditting().imagePath(selectedMediaFile().filePath());
-                        } else {
-                            selectedProductCategoryForEditting().imagePath(selectedMediaFile().id());
-                        }
-                        selectedProductCategoryForEditting().productCategoryImageFileBinary(selectedMediaFile().fileSource());
-                    }
-                        //If Open From Product Category Thumbnail
-                    else if (mediaLibraryOpenFrom() === "ProductCategoryThumbnail") {
-                        if (selectedMediaFile().id() > 0) {
-                            selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().filePath());
-                        } else {
-                            selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().id());
-                        }
-                        selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(selectedMediaFile().fileSource());
-                    }
+                    //    //If Open From Product Category Banner
+                    //else if (mediaLibraryOpenFrom() === "ProductCategoryBanner") {
+                    //    if (selectedMediaFile().id() > 0) {
+                    //        selectedProductCategoryForEditting().imagePath(selectedMediaFile().filePath());
+                    //    } else {
+                    //        selectedProductCategoryForEditting().imagePath(selectedMediaFile().id());
+                    //    }
+                    //    selectedProductCategoryForEditting().productCategoryImageFileBinary(selectedMediaFile().fileSource());
+                    //}
+                    //    //If Open From Product Category Thumbnail
+                    //else if (mediaLibraryOpenFrom() === "ProductCategoryThumbnail") {
+                    //    if (selectedMediaFile().id() > 0) {
+                    //        selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().filePath());
+                    //    } else {
+                    //        selectedProductCategoryForEditting().thumbnailPath(selectedMediaFile().id());
+                    //    }
+                    //    selectedProductCategoryForEditting().productCategoryThumbnailFileBinary(selectedMediaFile().fileSource());
+                    //}
 
                     //Hide gallery
                     hideMediaLibraryDialog();
