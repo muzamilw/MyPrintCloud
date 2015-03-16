@@ -337,6 +337,7 @@
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
@@ -779,6 +780,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\prefix.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\costcenter.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\prefix.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\sectionflags.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.view.js" />
     <Content Include="Areas\Settings\Scripts\myOrganization.dataservice.js" />
@@ -810,6 +815,7 @@
     <Content Include="Content\CSS\fonts\typicons.svg" />
     <Content Include="Content\CSS\fonts\wpzoom.svg" />
     <Content Include="Content\CSS\icons.css" />
+    <Content Include="Content\CSS\jquery-Slider.css" />
     <Content Include="Content\CSS\main.css" />
     <Content Include="Content\CSS\spectrum.css" />
     <Content Include="Content\CSS\supr-theme\images\ui-bg_diagonals-small_100_f4f4f4_40x40.png" />
@@ -957,6 +963,19 @@
       <DependentUpon>Store.less</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
@@ -1155,6 +1174,7 @@
     <Content Include="Content\themes\Centaurus\js\hogan.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-jvectormap-world-merc-en.js" />
+    <Content Include="Content\themes\Centaurus\js\jquerySlider.js" />
     <Content Include="Content\themes\Centaurus\js\jquery-ui.custom.min.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.hotkeys.js" />
     <Content Include="Content\themes\Centaurus\js\jquery.js" />
@@ -2993,6 +3013,7 @@
     <Content Include="Views\CRM\SupplierDetail.cshtml" />
     <Content Include="Views\CRM\SuppliersList.cshtml" />
     <Content Include="Views\Shared\PageUnAvailable.cshtml" />
+    <Content Include="Views\Home\OrderMenuItems.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3017,6 +3038,8 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\SectionFlags\" />
+    <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
@@ -3031,7 +3054,6 @@
     <Folder Include="Content\Images\patterns\body\" />
     <Folder Include="Content\Images\patterns\header\" />
     <Folder Include="Content\Images\patterns\sidebar\" />
-    <Folder Include="Content\themes\base\images\" />
     <Folder Include="Content\themes\base\minified\images\" />
     <Folder Include="Models\" />
     <Folder Include="MPC_Content\Artworks\" />

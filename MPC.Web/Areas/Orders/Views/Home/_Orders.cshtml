@@ -33,9 +33,14 @@
                         </tbody>
                     </table>
                 </div>
-
+                
             </div>
             <div class="clearfix">
+            </div>
+            <div id="pagerDiv">
+                <!-- ko with: pager -->
+                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                <!-- /ko -->
             </div>
         </div>
     </div>
@@ -63,7 +68,7 @@
 
     @* Action Template *@
     <script id="orderActionTemplate" type="text/html">
-        <a href="#" class="table-link">
+        @*<a href="#" class="table-link">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
@@ -80,7 +85,7 @@
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
             </span>
-        </a>
+        </a>*@
     </script>
 
     @* List View Template *@
@@ -88,7 +93,7 @@
         <tr>
             <td>
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/logos/1.jpg")" alt="" />
-                <a data-bind="text: companyName, click: $root.editOrder" class="user-link"></a>
+                <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>

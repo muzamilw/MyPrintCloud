@@ -96,10 +96,27 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
 
         }
+
+        [HttpPost]
+        public HttpResponseMessage SaveUserVariables([FromBody]   smartFormPostedUser obj)
+        {
+            Dictionary<long, List<ScopeVariable>> data = new Dictionary<long,List<ScopeVariable>>();
+            data.Add(obj.contactId, obj.variables);
+            var result =smartFormService.SaveUserProfilesData(data);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+        }
         #endregion
     }
 
-
+    public class smartFormPostedUser
+    {
+        public long contactId { get; set; }
+        public List<ScopeVariable> variables { get; set; }
+    }
     public class SmartFormUserData
     {
         public List<SmartFormUserList> usersList { get; set; }

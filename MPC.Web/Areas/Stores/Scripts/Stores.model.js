@@ -93,7 +93,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.Image,
             source.URL,
             source.IsCustomer,
-            source.ImageSource
+            source.ImageBytes
         );
 
         //if (source.IsCustomer == 0) {
@@ -198,8 +198,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 }
             }),
             pickupAddressId = ko.observable(specifiedPickupAddressId),
-            //store Image
-            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            //store Image Logo
+            storeImageFileBinary = ko.observable(),
             storeImageName = ko.observable(),
             storeWorkflowImageBinary = ko.observable(),
             storeWorkflowImageName = ko.observable(),
@@ -235,242 +235,253 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //Company Cost Center
             companyCostCenters = ko.observableArray([]),
             //store Backgroud Image Image Source
-            storeBackgroudImageImageSource = ko.observable(specifiedStoreBackgroudImageSource),
+            storeBackgroudImageImageSource = ko.observable(),
             //store Backgroud Image Path
             storeBackgroudImagePath = ko.observable(specifiedStoreBackgroundImage),
-            //store Backgroud Image File Name
-            storeBackgroudImageFileName = ko.observable(),
-            defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
-            defaultSpriteImageFileName = ko.observable(),
-            userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
-            userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
-            storeLayoutChange = ko.observable(),
-            //Is Show Google Map
-            isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
-            customCSS = ko.observable(specifiedCustomCSS),
-            //Company Domain Copy
-            defaultCompanyDomainCopy = ko.observable(),
-            taxLabel = ko.observable(undefined),
-            taxRate = ko.observable(undefined),
-            // Errors
-            errors = ko.validation.group({
-                companyId: companyId,
-                name: name,
-                webAccessCode: webAccessCode,
-                url: url,
-            }),
-            // Is Valid 
-            isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;
-            }),
+            storeBackgroudImagePathWithCacheRemoveTechnique = ko.computed(function () {
+                if (storeBackgroudImagePath() !== null && storeBackgroudImagePath() !== undefined) {
+                    return storeBackgroudImagePath() + "?" + Date();
+                }
+
+            });
+        //store Backgroud Image File Name
+        storeBackgroudImageFileName = ko.observable(),
+        defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
+        defaultSpriteImageFileName = ko.observable(),
+        userDefinedSpriteImageSource = ko.observable(specifiedUserDefinedSpriteImageSource),
+        userDefinedSpriteImageFileName = ko.observable(specifiedUserDefinedSpriteFileName),
+        storeLayoutChange = ko.observable(),
+        //Is Show Google Map
+        isShowGoogleMap = ko.observable(specifiedIsShowGoogleMap != undefined ? specifiedIsShowGoogleMap.toString() : "1"),
+        customCSS = ko.observable(specifiedCustomCSS),
+        //Company Domain Copy
+        defaultCompanyDomainCopy = ko.observable(),
+        taxLabel = ko.observable(undefined),
+        taxRate = ko.observable(undefined),
+        activeBannerSetId = ko.observable().extend({ required: true }),
+        // Errors
+        errors = ko.validation.group({
+            companyId: companyId,
+            name: name,
+            webAccessCode: webAccessCode,
+            url: url,
+            activeBannerSetId: activeBannerSetId,
+        }),
+        // Is Valid 
+        isValid = ko.computed(function () {
+            return errors().length === 0 ? true : false;
+        }),
 
 
-            // ReSharper disable InconsistentNaming
-            dirtyFlag = new ko.dirtyFlag({
-                //#region Dirty Flag 
-                // ReSharper restore InconsistentNaming
-                companyId: companyId,
-                name: name,
-                storeWorkflowImageName: storeWorkflowImageName,
-                storeWorkflowImageBinary: storeWorkflowImageBinary,
-                status: status,
-                image: image,
-                url: url,
-                accountOpenDate: accountOpenDate,
-                accountManagerId: accountManagerId,
-                avatRegNumber: avatRegNumber,
-                avatRegReference: avatRegReference,
-                phoneNo: phoneNo,
-                isCalculateTaxByService: isCalculateTaxByService,
-                isCustomer: isCustomer,
-                notes: notes,
-                webAccessCode: webAccessCode,
-                twitterUrl: twitterUrl,
-                mediaLibraries: mediaLibraries,
-                facebookUrl: facebookUrl,
-                linkedinUrl: linkedinUrl,
-                facebookAppId: facebookAppId,
-                facebookAppKey: facebookAppKey,
-                twitterAppId: twitterAppId,
-                twitterAppKey: twitterAppKey,
-                companyType: companyType,
-                type: type,
-                raveReviews: raveReviews,
-                companyTerritories: companyTerritories,
-                addresses: addresses,
-                users: users,
-                secondaryPages: secondaryPages,
-                companyCMYKColors: companyCMYKColors,
-                webMasterTag: webMasterTag,
-                webAnalyticCode: webAnalyticCode,
-                salesAndOrderManagerId1: salesAndOrderManagerId1,
-                salesAndOrderManagerId2: salesAndOrderManagerId2,
-                productionManagerId1: productionManagerId1,
-                productionManagerId2: productionManagerId2,
-                stockNotificationManagerId1: stockNotificationManagerId1,
-                stockNotificationManagerId2: stockNotificationManagerId2,
-                isStoreModePrivate: isStoreModePrivate,
-                isTextWatermark: isTextWatermark,
-                watermarkText: watermarkText,
-                isBrokerPaymentRequired: isBrokerPaymentRequired,
-                isBrokerCanAcceptPaymentOnline: isBrokerCanAcceptPaymentOnline,
-                canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
-                isIncludeVAT: isIncludeVAT,
-                includeEmailBrokerArtworkOrderReport: includeEmailBrokerArtworkOrderReport,
-                includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
-                includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
-                makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
-                storeImageFileBinary: storeImageFileBinary,
-                storeImageName: storeImageName,
-                isDisplayBanners: isDisplayBanners,
-                storeBackgroudImageImageSource: storeBackgroudImageImageSource,
-                storeBackgroudImageFileName: storeBackgroudImageFileName,
-                isShowGoogleMap: isShowGoogleMap,
-                customCSS: customCSS,
-                companyDomains: companyDomains,
-                isDeliveryTaxAble: isDeliveryTaxAble,
-                pickupAddressId: pickupAddressId,
-                taxLabel: taxLabel,
-                taxRate: taxRate
-                //storeLayoutChange: storeLayoutChange
-                //#endregion
-            }),
-            // Has Changes
-            hasChanges = ko.computed(function () {
-                return dirtyFlag.isDirty();
-            }),
-            //Convert To Server
-            convertToServerData = function (source) {
-                var result = {};
-                result.isDisplaySecondaryPages = source.isDidplayInFooter();
-                result.CompanyId = source.companyId();
-                result.Name = source.name();
-                result.Status = source.status();
-                //result.ImageBytes = source.image();
-                result.URL = source.url();
-                result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
-                result.AccountManagerId = source.accountManagerId();
-                result.AvatRegNumber = source.avatRegNumber();
-                result.PvatRegReference = source.avatRegReference();
-                result.PhoneNo = source.phoneNo();
-                //result.IsCustomer = source.isCustomer();
-                result.IsCustomer = source.type();
-                result.Notes = source.notes();
-                result.WebMasterTag = source.webMasterTag();
-                result.WebAnalyticCode = source.webAnalyticCode();
-                result.WebAccessCode = source.webAccessCode();
-                result.TwitterURL = source.twitterUrl();
-                result.FacebookURL = source.facebookUrl();
-                result.LinkedinURL = source.linkedinUrl();
-                result.facebookAppId = source.facebookAppId();
-                result.facebookAppKey = source.facebookAppKey();
-                result.twitterAppId = source.twitterAppId();
-                result.twitterAppKey = source.twitterAppKey();
-                result.StoreImagePath = source.storeImagePath();
-                result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
-                result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
-                result.ProductionManagerId1 = source.productionManagerId1();
-                result.ProductionManagerId2 = source.productionManagerId2();
-                result.StockNotificationManagerId1 = source.stockNotificationManagerId1();
-                result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
-                result.isStoreModePrivate = source.isStoreModePrivate();
-                result.isTextWatermark = source.isTextWatermark();
-                result.isShowGoogleMap = source.isShowGoogleMap();
-                result.WatermarkText = source.watermarkText();
-                result.isPaymentRequired = source.isBrokerPaymentRequired();
-                result.isCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
-                result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
-                result.isIncludeVAT = source.isIncludeVAT();
-                // result.StoreBackgroundImage = source.storeBackgroudImagePath();
-                result.includeEmailArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
-                result.includeEmailArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
-                result.includeEmailArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
-                result.makeEmailArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
-                result.isDisplayBanners = source.isDisplayBanners();
-                result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
-                result.PickupAddressId = source.pickupAddressId();
-                result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
-                result.CustomCSS = source.customCSS();
-                result.StoreWorkflowImageName = source.storeWorkflowImageName();
-                result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
-                result.isCalculateTaxByService = source.isCalculateTaxByService();
-                result.TaxLabel = source.taxLabel();
-                result.TaxRate = source.taxRate()
-                result.RaveReviews = [];
-                result.PaymentGateways = [];
-                result.CompanyContacts = [];
-                _.each(source.raveReviews(), function (item) {
-                    result.RaveReviews.push(item.convertToServerData());
-                });
-                result.CompanyTerritories = [];
-                _.each(source.companyTerritories(), function (item) {
-                    result.CompanyTerritories.push(item.convertToServerData());
-                });
-                result.CompanyCmykColors = [];
-                _.each(source.companyCMYKColors(), function (item) {
-                    result.CompanyCmykColors.push(item.convertToServerData());
-                });
-                result.CompanyDomains = [];
-                _.each(source.companyDomains(), function (item) {
-                    result.CompanyDomains.push(item.convertToServerData());
-                });
-                result.CompanyCostCenters = [];
-                _.each(source.companyCostCenters(), function (item) {
-                    result.CompanyCostCenters.push(item.convertToServerData());
-                });
-                //_.each(source.users(), function (item) {
-                //    result.CompanyContacts.push(item.convertToServerData());
-                //});
-                //#region Arrays
-                result.NewAddedCompanyTerritories = [];
-                result.EdittedCompanyTerritories = [];
-                result.DeletedCompanyTerritories = [];
-                result.NewAddedCompanyContacts = [];
-                result.EdittedCompanyContacts = [];
-                result.DeletedCompanyContacts = [];
-                result.NewAddedAddresses = [];
-                result.CompanyBannerSets = [];
-                result.EdittedAddresses = [];
-                result.DeletedAddresses = [];
-                result.NewAddedCmsPages = [];
-                result.EditCmsPages = [];
-                result.DeletedCmsPages = [];
-                result.PageCategories = [];
-                result.CmsPageWithWidgetList = [];
-                result.EdittedProductCategories = [];
-                result.DeletedProductCategories = [];
-                result.NewProductCategories = [];
-                result.NewAddedProducts = [];
-                result.EdittedProducts = [];
-                result.Deletedproducts = [];
-                result.Campaigns = [];
-                result.CompanyCostCentres = [];
-                _.each(source.paymentGateway(), function (item) {
-                    result.PaymentGateways.push(item.convertToServerData());
-                });
+        // ReSharper disable InconsistentNaming
+        dirtyFlag = new ko.dirtyFlag({
+            //#region Dirty Flag 
+            // ReSharper restore InconsistentNaming
+            companyId: companyId,
+            name: name,
+            storeWorkflowImageName: storeWorkflowImageName,
+            storeWorkflowImageBinary: storeWorkflowImageBinary,
+            activeBannerSetId: activeBannerSetId,
+            status: status,
+            image: image,
+            url: url,
+            accountOpenDate: accountOpenDate,
+            accountManagerId: accountManagerId,
+            avatRegNumber: avatRegNumber,
+            avatRegReference: avatRegReference,
+            phoneNo: phoneNo,
+            isCalculateTaxByService: isCalculateTaxByService,
+            isCustomer: isCustomer,
+            notes: notes,
+            webAccessCode: webAccessCode,
+            twitterUrl: twitterUrl,
+            mediaLibraries: mediaLibraries,
+            facebookUrl: facebookUrl,
+            linkedinUrl: linkedinUrl,
+            facebookAppId: facebookAppId,
+            facebookAppKey: facebookAppKey,
+            twitterAppId: twitterAppId,
+            twitterAppKey: twitterAppKey,
+            companyType: companyType,
+            type: type,
+            raveReviews: raveReviews,
+            companyTerritories: companyTerritories,
+            addresses: addresses,
+            users: users,
+            secondaryPages: secondaryPages,
+            companyCMYKColors: companyCMYKColors,
+            webMasterTag: webMasterTag,
+            webAnalyticCode: webAnalyticCode,
+            salesAndOrderManagerId1: salesAndOrderManagerId1,
+            salesAndOrderManagerId2: salesAndOrderManagerId2,
+            productionManagerId1: productionManagerId1,
+            productionManagerId2: productionManagerId2,
+            stockNotificationManagerId1: stockNotificationManagerId1,
+            stockNotificationManagerId2: stockNotificationManagerId2,
+            isStoreModePrivate: isStoreModePrivate,
+            isTextWatermark: isTextWatermark,
+            watermarkText: watermarkText,
+            isBrokerPaymentRequired: isBrokerPaymentRequired,
+            isBrokerCanAcceptPaymentOnline: isBrokerCanAcceptPaymentOnline,
+            canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
+            isIncludeVAT: isIncludeVAT,
+            includeEmailBrokerArtworkOrderReport: includeEmailBrokerArtworkOrderReport,
+            includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
+            includeEmailBrokerArtworkOrderJobCard: includeEmailBrokerArtworkOrderJobCard,
+            makeEmailBrokerArtworkOrderProductionReady: makeEmailBrokerArtworkOrderProductionReady,
+            storeImageFileBinary: storeImageFileBinary,
+            storeImageName: storeImageName,
+            isDisplayBanners: isDisplayBanners,
+            storeBackgroudImageImageSource: storeBackgroudImageImageSource,
+            storeBackgroudImageFileName: storeBackgroudImageFileName,
+            isShowGoogleMap: isShowGoogleMap,
+            customCSS: customCSS,
+            companyDomains: companyDomains,
+            isDeliveryTaxAble: isDeliveryTaxAble,
+            pickupAddressId: pickupAddressId,
+            taxLabel: taxLabel,
+            taxRate: taxRate
+            //storeLayoutChange: storeLayoutChange
+            //#endregion
+        }),
+        // Has Changes
+        hasChanges = ko.computed(function () {
+            return dirtyFlag.isDirty();
+        }),
+        //Convert To Server
+        convertToServerData = function (source) {
+            var result = {};
+            result.isDisplaySecondaryPages = source.isDidplayInFooter();
+            result.CompanyId = source.companyId();
+            result.Name = source.name();
+            result.Status = source.status();
+            //result.ImageBytes = source.image();
+            result.URL = source.url();
+            result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
+            result.AccountManagerId = source.accountManagerId();
+            result.AvatRegNumber = source.avatRegNumber();
+            result.PvatRegReference = source.avatRegReference();
+            result.PhoneNo = source.phoneNo();
+            result.ActiveBannerSetId = source.activeBannerSetId();
+            //result.IsCustomer = source.isCustomer();
+            result.IsCustomer = source.type();
+            result.Notes = source.notes();
+            result.WebMasterTag = source.webMasterTag();
+            result.WebAnalyticCode = source.webAnalyticCode();
+            result.WebAccessCode = source.webAccessCode();
+            result.TwitterURL = source.twitterUrl();
+            result.FacebookURL = source.facebookUrl();
+            result.LinkedinURL = source.linkedinUrl();
+            result.facebookAppId = source.facebookAppId();
+            result.facebookAppKey = source.facebookAppKey();
+            result.twitterAppId = source.twitterAppId();
+            result.twitterAppKey = source.twitterAppKey();
+            result.StoreImagePath = source.storeImagePath();
+            result.SalesAndOrderManagerId1 = source.salesAndOrderManagerId1();
+            result.SalesAndOrderManagerId2 = source.salesAndOrderManagerId2();
+            result.ProductionManagerId1 = source.productionManagerId1();
+            result.ProductionManagerId2 = source.productionManagerId2();
+            result.StockNotificationManagerId1 = source.stockNotificationManagerId1();
+            result.StockNotificationManagerId2 = source.stockNotificationManagerId2();
+            result.isStoreModePrivate = source.isStoreModePrivate();
+            result.isTextWatermark = source.isTextWatermark();
+            result.isShowGoogleMap = source.isShowGoogleMap();
+            result.WatermarkText = source.watermarkText();
+            result.isPaymentRequired = source.isBrokerPaymentRequired();
+            result.isCanAcceptPaymentOnline = source.isBrokerCanAcceptPaymentOnline();
+            result.canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval();
+            result.isIncludeVAT = source.isIncludeVAT();
+            result.StoreBackgroundImage = source.storeBackgroudImagePath();
+            result.includeEmailArtworkOrderReport = source.includeEmailBrokerArtworkOrderReport();
+            result.includeEmailArtworkOrderXML = source.includeEmailBrokerArtworkOrderXML();
+            result.includeEmailArtworkOrderJobCard = source.includeEmailBrokerArtworkOrderJobCard();
+            result.makeEmailArtworkOrderProductionReady = source.makeEmailBrokerArtworkOrderProductionReady();
+            result.isDisplayBanners = source.isDisplayBanners();
+            result.IsDeliveryTaxAble = source.isDeliveryTaxAble() === 2 ? false : true;
+            result.PickupAddressId = source.pickupAddressId();
+            result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
+            result.CustomCSS = source.customCSS();
+            result.StoreWorkflowImageName = source.storeWorkflowImageName();
+            result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
+            result.isCalculateTaxByService = source.isCalculateTaxByService();
+            result.TaxLabel = source.taxLabel();
+            result.TaxRate = source.taxRate()
+            result.RaveReviews = [];
+            result.PaymentGateways = [];
+            result.CompanyContacts = [];
+            _.each(source.raveReviews(), function (item) {
+                result.RaveReviews.push(item.convertToServerData());
+            });
+            result.CompanyTerritories = [];
+            _.each(source.companyTerritories(), function (item) {
+                result.CompanyTerritories.push(item.convertToServerData());
+            });
+            result.CompanyCmykColors = [];
+            _.each(source.companyCMYKColors(), function (item) {
+                result.CompanyCmykColors.push(item.convertToServerData());
+            });
+            result.CompanyDomains = [];
+            _.each(source.companyDomains(), function (item) {
+                result.CompanyDomains.push(item.convertToServerData());
+            });
+            result.CompanyCostCenters = [];
+            _.each(source.companyCostCenters(), function (item) {
+                result.CompanyCostCenters.push(item.convertToServerData());
+            });
+            //_.each(source.users(), function (item) {
+            //    result.CompanyContacts.push(item.convertToServerData());
+            //});
+            //#region Arrays
+            result.NewAddedCompanyTerritories = [];
+            result.EdittedCompanyTerritories = [];
+            result.DeletedCompanyTerritories = [];
+            result.NewAddedCompanyContacts = [];
+            result.EdittedCompanyContacts = [];
+            result.DeletedCompanyContacts = [];
+            result.NewAddedAddresses = [];
+            result.CompanyBannerSets = [];
+            result.EdittedAddresses = [];
+            result.DeletedAddresses = [];
+            result.NewAddedCmsPages = [];
+            result.EditCmsPages = [];
+            result.DeletedCmsPages = [];
+            result.PageCategories = [];
+            result.CmsPageWithWidgetList = [];
+            result.EdittedProductCategories = [];
+            result.DeletedProductCategories = [];
+            result.NewProductCategories = [];
+            result.NewAddedProducts = [];
+            result.EdittedProducts = [];
+            result.Deletedproducts = [];
+            result.Campaigns = [];
+            result.CompanyCostCentres = [];
+            _.each(source.paymentGateway(), function (item) {
+                result.PaymentGateways.push(item.convertToServerData());
+            });
 
-                result.ColorPalletes = [];
-                result.StoreBackgroundFile = source.storeBackgroudImageImageSource();
-                result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
-                //#endregion
-                result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
-                result.ImageBytes = source.storeImageFileBinary() === undefined ? null : source.storeImageFileBinary();
-                result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
-                result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
-                result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
-                result.CmsOffers = [];
-                result.MediaLibraries = [];
-                result.FieldVariables = [];
-                result.SmartForms = [];
-                return result;
-            },
-            // Reset
-            reset = function () {
-                dirtyFlag.reset();
-            };
+            result.ColorPalletes = [];
+            result.StoreBackgroundFile = source.storeBackgroudImageImageSource() !== undefined ? source.storeBackgroudImageImageSource() : null;
+            result.StoreBackgroudImageFileName = source.storeBackgroudImageFileName();
+            //#endregion
+            result.ImageName = source.storeImageName() === undefined ? null : source.storeImageName();
+            result.ImageBytes = source.storeImageFileBinary() === undefined ? null : source.storeImageFileBinary();
+            result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
+            result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
+            result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
+            result.CmsOffers = [];
+            result.MediaLibraries = [];
+            result.FieldVariables = [];
+            result.SmartForms = [];
+            return result;
+        },
+        // Reset
+        reset = function () {
+            dirtyFlag.reset();
+        };
         self = {
             //#region SELF
             isDidplayInFooter: isDidplayInFooter,
+            storeBackgroudImagePathWithCacheRemoveTechnique: storeBackgroudImagePathWithCacheRemoveTechnique,
             companyId: companyId,
             name: name,
             storeId: storeId,
@@ -484,6 +495,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isCalculateTaxByService: isCalculateTaxByService,
             phoneNo: phoneNo,
             isCustomer: isCustomer,
+            activeBannerSetId: activeBannerSetId,
             notes: notes,
             webMasterTag: webMasterTag,
             webAnalyticCode: webAnalyticCode,
@@ -690,9 +702,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
+           
         );
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.storeId(source.StoreId);
+       // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
@@ -1544,10 +1558,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             buttonURL = ko.observable(specifiedButtonURL),
             companySetId = ko.observable(specifiedCompanySetId).extend({ required: true }),
             filename = ko.observable(""),
-            fileBinary = ko.observable(specifiedImageSource),
+            fileBinary = ko.observable(),
             fileType = ko.observable(),
-            imageSource = ko.observable(specifiedImageSource),
+            imageSource = ko.observable(),
             filePath = ko.observable(specifiedImageURL),
+            filePathWithCacheRemoveTechnique = ko.computed(function () {
+                if (filePath() !== undefined && filePath() !== null) {
+                    return filePath() + "?" + Date();
+                }
+            }),
             //Set Name For List View
             setName = ko.observable(),
             // Errors
@@ -1602,6 +1621,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             fileType: fileType,
             imageSource: imageSource,
             filePath: filePath,
+            filePathWithCacheRemoveTechnique: filePathWithCacheRemoveTechnique,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -2071,12 +2091,17 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         metaRevisitAfterContent = ko.observable(specifiedMetaRevisitAfterContent),
         categoryId = ko.observable(specifiedCategoryId),
         pageHTML = ko.observable(specifiedPageHTML === undefined ? "Go ahead..." : specifiedPageHTML),
-        imageSrc = ko.observable(specifiedImageSource),
+        imageSrc = ko.observable(),
         fileName = ko.observable(specifiedFileName),
         isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
         defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
         pageBanner = ko.observable(specifiedPageBanner),
-
+        
+        pageBannerWithCacheRemoveTechnique = ko.computed(function () {
+            if (pageBanner() !== undefined && pageBanner() !== null) {
+                return pageBanner() + "?" + Date();
+            }
+        }),
         // Errors
         errors = ko.validation.group({
             pageTitle: pageTitle,
@@ -2155,6 +2180,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pageBanner: pageBanner,
             isValid: isValid,
             isUserDefined: isUserDefined,
+            pageBannerWithCacheRemoveTechnique: pageBannerWithCacheRemoveTechnique,
             errors: errors,
             isEnabled: isEnabled,
             dirtyFlag: dirtyFlag,
@@ -2973,7 +2999,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         );
         return companyContact;
     };
-   
+
     // #endregion ________________COMPANY CONTACT ___________________
 
     // #region __________________  R O L E   ______________________
@@ -4010,22 +4036,26 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
     // #region ______________ Media Library _________________
 
     // ReSharper disable once InconsistentNaming
-    var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource) {
+    var MediaLibrary = function (specifiedMediaId, specifiedFilePath, specifiedFileName, specifiedFileType, specifiedCompanyId, specifiedImageSource,
+        specifiedImageSourcePath) {
         var self,
             id = ko.observable(specifiedMediaId),
             fakeId = ko.observable(),
+            //Contain File Db Path 
             filePath = ko.observable(specifiedFilePath),
             fileName = ko.observable(specifiedFileName),
             fileType = ko.observable(specifiedFileType),
             companyId = ko.observable(specifiedCompanyId),
-            fileSource = ko.observable(specifiedImageSource),
+            fileSource = ko.observable(),
+            //Contain Full image path with cahe remove logic for image
+            imageSourcePath = ko.observable(specifiedImageSourcePath),
             isSelected = ko.observable(false),
 
         //Convert To Server
         convertToServerData = function () {
             return {
                 MediaId: id() === undefined ? 0 : id(),
-                FilePath: filePath(),
+                FilePath: filePath,
                 FileName: fileName(),
                 FileType: fileType(),
                 CompanyId: companyId(),
@@ -4042,6 +4072,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId: companyId,
             fileSource: fileSource,
             isSelected: isSelected,
+            imageSourcePath: imageSourcePath,
             convertToServerData: convertToServerData,
         };
         return self;
@@ -4053,7 +4084,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.FileName,
             source.FileType,
             source.CompanyId,
-        source.ImageSource);
+        source.ImageSource,
+        source.ImageSourcePath);
     };
 
     // #endregion ______________ MediaLibrary _________________

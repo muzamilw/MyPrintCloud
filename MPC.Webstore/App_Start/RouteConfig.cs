@@ -234,7 +234,12 @@ namespace MPC.Webstore
              "CloneFeatureItem/{id}",
              new { controller = "FeaturedProductCarousal", action = "CloneFeatureItem", id = UrlParameter.Optional }
                );
-
+            routes.MapRoute(
+             "CloneProducts",
+             "CloneProducts/{id}",
+             new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
+               );
+            
             routes.MapRoute(
             "CloneItem",
             "CloneItem/{id}",

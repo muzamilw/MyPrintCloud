@@ -29,9 +29,9 @@ namespace MigrationUtility.Preview
             this.ItemVDPPrices = new HashSet<ItemVDPPrice>();
             this.ItemVideos = new HashSet<ItemVideo>();
             this.ProductCategoryItems = new HashSet<ProductCategoryItem>();
+            this.ItemSections = new HashSet<ItemSection>();
             this.TerritoryItems = new HashSet<TerritoryItem>();
             this.ItemStockOptions = new HashSet<ItemStockOption>();
-            this.ItemSections = new HashSet<ItemSection>();
         }
     
         public long ItemId { get; set; }
@@ -141,11 +141,11 @@ namespace MigrationUtility.Preview
         public string JobDescription { get; set; }
         public string InvoiceDescription { get; set; }
         public string JobCode { get; set; }
-        public Nullable<int> JobManagerId { get; set; }
+        public Nullable<System.Guid> JobManagerId { get; set; }
         public Nullable<System.DateTime> JobEstimatedStartDateTime { get; set; }
         public Nullable<System.DateTime> JobEstimatedCompletionDateTime { get; set; }
         public Nullable<System.DateTime> JobCreationDateTime { get; set; }
-        public Nullable<int> JobProgressedBy { get; set; }
+        public Nullable<System.Guid> JobProgressedBy { get; set; }
         public Nullable<int> jobSelectedQty { get; set; }
         public Nullable<int> JobStatusId { get; set; }
         public Nullable<bool> IsJobCardPrinted { get; set; }
@@ -197,7 +197,7 @@ namespace MigrationUtility.Preview
         public string WebDescription { get; set; }
         public Nullable<int> ItemTypeId { get; set; }
         public Nullable<bool> IsOrderedItem { get; set; }
-        public Nullable<int> JobCardPrintedBy { get; set; }
+        public Nullable<System.Guid> JobCardPrintedBy { get; set; }
         public Nullable<System.DateTime> JobCardLastPrintedDate { get; set; }
         public Nullable<int> EstimateProductionTime { get; set; }
         public Nullable<int> SortOrder { get; set; }
@@ -250,6 +250,9 @@ namespace MigrationUtility.Preview
         public Nullable<bool> allowPdfDownload { get; set; }
         public Nullable<bool> allowImageDownload { get; set; }
         public Nullable<long> SmartFormId { get; set; }
+        public Nullable<bool> IsDigitalDownload { get; set; }
+        public Nullable<bool> IsRealStateProduct { get; set; }
+        public Nullable<int> ProductDisplayOptions { get; set; }
     
         public virtual ICollection<DeliveryNoteDetail> DeliveryNoteDetails { get; set; }
         public virtual Estimate Estimate { get; set; }
@@ -266,9 +269,9 @@ namespace MigrationUtility.Preview
         public virtual ICollection<ItemVDPPrice> ItemVDPPrices { get; set; }
         public virtual ICollection<ItemVideo> ItemVideos { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+        public virtual ICollection<ItemSection> ItemSections { get; set; }
         public virtual ICollection<TerritoryItem> TerritoryItems { get; set; }
         public virtual ICollection<ItemStockOption> ItemStockOptions { get; set; }
         public virtual Company Company { get; set; }
-        public virtual ICollection<ItemSection> ItemSections { get; set; }
     }
 }

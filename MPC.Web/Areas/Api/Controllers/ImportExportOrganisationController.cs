@@ -30,12 +30,12 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
       
-        [HttpPost]
+        [HttpGet]
         public bool InsertOrganisation(long parameter1, bool parameter2)
         {
             try
             {
-                return companyService.ImportOrganisation(parameter1, parameter2);
+               return companyService.ImportOrganisation(parameter1, parameter2);
             }
             catch (Exception ex)
             {
@@ -45,8 +45,8 @@ namespace MPC.MIS.Areas.Api.Controllers
          
         }
 
-     
-        [HttpPost]
+
+        [HttpGet]
         public bool ExportOrganisation(long id)
         {
             try

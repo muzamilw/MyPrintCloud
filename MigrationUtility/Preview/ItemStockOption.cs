@@ -28,7 +28,7 @@ namespace MigrationUtility.Preview
         public string ImageURL { get; set; }
     
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }
-        public virtual Item Item { get; set; }
         public virtual StockItem StockItem { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

@@ -32,6 +32,10 @@ namespace MPC.Implementation.MISServices
         {
             return _machineRepository.UpdateMachine(machine, MachineSpoilages);
         }
+        public MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        {
+            return _machineRepository.AddMachine(machine, MachineSpoilages);
+        }
         public bool archiveMachine(long machineId)
         {
             return _machineRepository.archiveMachine(machineId);
@@ -40,7 +44,10 @@ namespace MPC.Implementation.MISServices
         {
            return _machineRepository.GetMachineByID(id);
         }
-
+        public MachineResponseModel CreateMachineByType(bool isGuillotine)
+        {
+            return _machineRepository.CreateMachineByType(isGuillotine);
+        }
         public MachineListResponseModel GetAll(MachineRequestModel request)
         {
             return _machineRepository.GetAllMachine(request);

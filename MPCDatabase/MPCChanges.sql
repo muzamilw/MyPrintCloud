@@ -645,6 +645,10 @@ add originalContentString  nvarchar(MAX) null
 GO
 
 
+/* Execution Date: 12/03/2015 */
+Delete FROM [MPCLive].[dbo].[InkCoverageGroup] where SystemSiteId != 1
+
+Delete FROM [MPCLive].[dbo].[InkCoverageGroup] where GroupName = 'Medium' OR GroupName = 'Very High' OR GroupName = 'Much High'
 /* Execution Date: 12/02/2015 */
 
 GO
@@ -653,5 +657,15 @@ exec sp_rename 'InkCoverageGroup.SystemSiteId', 'OrganisationId'
 
 alter table SystemUser
 add Email varchar(200) null
+
+GO
+
+/* Execution Date: 13/03/2015 */
+
+
+GO
+
+alter table company
+add ActiveBannerSetId bigint null
 
 GO
