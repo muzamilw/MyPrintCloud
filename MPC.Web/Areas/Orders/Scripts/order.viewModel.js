@@ -524,7 +524,8 @@ define("order/order.viewModel",
                     getItemsByCompanyId = function () {
 
                         dataservice.getItemsByCompanyId({
-                            CompanyId: selectedOrder().companyId()
+                            //CompanyId: selectedOrder().companyId()//todo: uncomment it when companies start loading
+                            CompanyId: 32844
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -542,7 +543,8 @@ define("order/order.viewModel",
                         });
                     },
                     //Update Items Data On Item Selection
-                    updateItemsDataOnItemSelection = function(item) {
+                    updateItemsDataOnItemSelection = function (item) {
+                        toastr.success(item.id());
                     },
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();

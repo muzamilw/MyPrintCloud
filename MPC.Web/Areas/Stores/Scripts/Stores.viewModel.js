@@ -1463,9 +1463,10 @@ define("stores/stores.viewModel",
                         //}
                     }),
                     selectShippingAddress = ko.computed(function () {
-                        if (selectedShippingAddressId() != undefined) {
+                        //if (selectedShippingAddressId() != undefined) {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().shippingAddressId() != undefined) {
                             _.each(allCompanyAddressesList(), function (item) {
-                                if (item.addressId() == selectedShippingAddressId()) {
+                                if (item.addressId() == selectedCompanyContact().shippingAddressId()) {
                                     selectedShippingAddress(item);
                                     if (item.city() == null) {
                                         selectedShippingAddress().city(undefined);
@@ -1480,7 +1481,7 @@ define("stores/stores.viewModel",
                                 }
                             });
                         }
-                        if (selectedShippingAddressId() == undefined) {
+                        if (selectedCompanyContact() != undefined && selectedCompanyContact().shippingAddressId() == undefined) {
                             selectedShippingAddress(undefined);
                             if (selectedCompanyContact() != undefined) {
                                 // selectedCompanyContact().shippingAddressId(undefined);
@@ -2427,8 +2428,8 @@ define("stores/stores.viewModel",
                     },
                     selectedCompanyContactEmail = ko.observable(),
                     onEditCompanyContact = function (companyContact) {
-                        companyContactEditorViewModel.selectItem(companyContact);
-                        //selectedCompanyContact(companyContact);
+                        //companyContactEditorViewModel.selectItem(companyContact);
+                        selectedCompanyContact(companyContact);
                         selectedCompanyContactEmail(companyContact.email());
                         isSavingNewCompanyContact(false);
                         view.showCompanyContactDialog();
