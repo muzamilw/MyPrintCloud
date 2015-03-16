@@ -2228,7 +2228,7 @@ namespace MPC.Implementation.WebStoreServices
                // targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
                 if (objPage.BackGroundType != 3)
                 {
-                    if (File.Exists(drURL + "/templatImgBk" + objPage.PageNo.ToString() + ".jpg"))
+                    if (File.Exists(drURL + "templatImgBk" + objPage.PageNo.ToString() + ".jpg"))
                     {
                         objPage.BackgroundFileName =  productID + "/templatImgBk" + objPage.PageNo.ToString() + ".jpg";
                     }
