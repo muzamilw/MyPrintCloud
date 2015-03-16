@@ -8,6 +8,9 @@ using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
+using MPC.Models.RequestModels;
+using System.Linq.Expressions;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Repository.Repositories
 {
@@ -33,6 +36,44 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        #endregion
+        #region Public
+         /// <summary>
+        /// Get Company Cost Centres for Company ID
+        /// </summary>
+        public CostCentreResponse GetCompanyCostCentreByCompanyId(GetCostCentresRequest request)
+        {
+
+           int fromRow = (request.PageNo - 1) * request.PageSize;
+           int toRow = request.PageSize;
+           bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchString);
+           Expression<Func<CompanyCostCentre, bool>> query =
+               s =>
+                   (isSearchFilterSpecified && (s.CostCentre.Name.Contains(request.SearchString)) ||
+                    (s.CostCentre.HeaderCode.Contains(request.SearchString)) ||
+                    !isSearchFilterSpecified)
+                    && (s.CompanyId == request.CompanyId);
+
+           int rowCount = DbSet.Count(query);
+           // ReSharper disable once ConditionalTernaryEqualBranch
+           IEnumerable<CompanyCostCentre> costCentres = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderByDescending(x => x.CompanyId)
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(x => x.CompanyId)
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+           return new CostCentreResponse
+           {
+               RowCount = rowCount,
+               CostCentres = costCentres
+           };
+
+        }
         #endregion
     }
 }
