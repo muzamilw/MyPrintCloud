@@ -229,7 +229,7 @@
         <EntityTypeShape EntityType="pinkcardsModel.TemplateColorStyle" Width="1.5" PointX="14.75" PointY="111.875" IsExpanded="true" />
         <EntityTypeShape EntityType="pinkcardsModel.TemplateFont" Width="1.5" PointX="14.75" PointY="116.375" IsExpanded="true" />
         <EntityTypeShape EntityType="pinkcardsModel.TemplateObject" Width="1.5" PointX="14.75" PointY="125.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="pinkcardsModel.TemplatePage" Width="1.5" PointX="14.75" PointY="120.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="pinkcardsModel.pcTemplatePage" Width="1.5" PointX="14.75" PointY="120.5" IsExpanded="true" />
         <EntityTypeShape EntityType="pinkcardsModel.Template" Width="1.5" PointX="12.5" PointY="116" IsExpanded="true" />
         <EntityTypeShape EntityType="pinkcardsModel.tbl_audittrail" Width="1.5" PointX="48.75" PointY="7.125" IsExpanded="true" />
         <EntityTypeShape EntityType="pinkcardsModel.tbl_audittraildetail" Width="1.5" PointX="48.75" PointY="19.125" IsExpanded="true" />

@@ -105,7 +105,7 @@ define("product/product.viewModel",
                     // Sort Order -  true means asc, false means desc
                     sortIsAsc = ko.observable(true),
                     // Pagination
-                    pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, products)),
+                    pager = ko.observable(new pagination.Pagination({ PageSize: 8 }, products)),
                     // Pagination For Item Relater Dialog
                     itemRelaterPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, productsToRelate)),
                     // Pagination For Press Dialog
@@ -266,7 +266,6 @@ define("product/product.viewModel",
                         selectedCategoryTypeId(undefined);
                         errorList.removeAll();
                         shared.reset();
-                        selectedProduct(undefined);
                     },
                     // On Archive
                     onArchiveProduct = function (item) {
@@ -508,27 +507,37 @@ define("product/product.viewModel",
                             return category.id === categoryId;
                         });
                     },
+                    // Can Edit Template From Editor
+                    canEditTemplate = ko.computed(function() {
+                        if (!selectedProduct()) {
+                            return false;
+                        }
+                        return ((selectedProduct().isFinishedGoodsUi() === '1') && (selectedProduct().template() && selectedProduct().template().id()) &&
+                            (selectedProduct().templateTypeUi() !== '3'));
+                    }),
                     // Edit Template
                     editTemplate = function(product) {
                         view.editTemplate(product);
                     },
                     // Initialize the view model
-                    initialize = function (specifiedView) {
+                    initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, products, getItems));
+                        pager(new pagination.Pagination({ PageSize: 8 }, products, getItems));
 
                         itemRelaterPager(new pagination.Pagination({ PageSize: 5 }, productsToRelate, getItemsToRelate));
                         
                         pressDialogPager(new pagination.Pagination({ PageSize: 5 }, pressItems, getPressItems));
+                        
+                        if (!isOnStoreScreen) {
+                            // Get Base Data
+                            getBaseData();
 
-                        // Get Base Data
-                        getBaseData();
-
-                        // Get Items
-                        getItems();
-
+                            // Get Items
+                            getItems();
+                        }
+                        
                         // Set Open From Flag to false - so that popup don't show until button gets clicked
                         phraseLibrary.isOpenFromPhraseLibrary(false);
                         
@@ -559,6 +568,8 @@ define("product/product.viewModel",
                     // #region For Store
                     // Selected Company Id
                     selectedCompany = ko.observable(),
+                    // Is Product Section Initialized
+                    isProductSectionInitialized = false,
                     // Initialize the view model from Store
                     initializeForStore = function(companyId) {
                         if (selectedCompany() !== companyId) {
@@ -568,11 +579,17 @@ define("product/product.viewModel",
                         var productDetailBinding = $("#productDetailBinding")[0];
                         var productBinding = $("#productBinding")[0];
                         setTimeout(function () {
-                            ko.cleanNode(productBinding);
-                            ko.cleanNode(productDetailBinding);
-                            ko.applyBindings(view.viewModel, productBinding);
-                            ko.applyBindings(view.viewModel, productDetailBinding);
+                            if (!isProductSectionInitialized) {
+                                ko.cleanNode(productBinding);
+                                ko.cleanNode(productDetailBinding);
+                                ko.applyBindings(view.viewModel, productBinding);
+                                ko.applyBindings(view.viewModel, productDetailBinding);
+                                isProductSectionInitialized = true;
+                            }
                         }, 1000);
+
+                        // Get Base Data
+                        getBaseData();
                         
                         // Get Items for Store
                         resetFilter();
@@ -652,7 +669,7 @@ define("product/product.viewModel",
                         }
 
                         var callback =  closeProductEditor;
-                        if (selectedProduct().isFinishedGoodsUi() === '1') {
+                        if (canEditTemplate()) {
                             callback = function () {
                                 promptForDesigner(selectedProduct());
                                 closeProductEditor();
@@ -944,6 +961,9 @@ define("product/product.viewModel",
                                         item.isEnabled(data.IsEnabled);
                                         item.isPublished(data.IsPublished);
                                         item.miniPrice(data.MinPrice || 0);
+                                        item.templateId(data.TemplateId || undefined);
+                                        item.templateType(data.TemplateType || undefined);
+                                        item.thumbnail(data.ThumbnailImageSource || undefined);
                                     }
                                 }
 
@@ -995,6 +1015,7 @@ define("product/product.viewModel",
                                 if (item) {
                                     items.remove(item);
                                 }
+                                closeProductEditor();
                                 toastr.success("Archived Successfully.");
                             },
                             error: function (response) {
@@ -1197,6 +1218,7 @@ define("product/product.viewModel",
                     selectedCompany: selectedCompany,
                     currencyUnit: currencyUnit,
                     lengthUnit: lengthUnit,
+                    canEditTemplate: canEditTemplate,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,

@@ -410,7 +410,7 @@ define("product/product.view",
                 // Edit Template
                 editTemplate = function (product) {
                     var host = window.location.host;
-                    var templateId = product.template() ? product.template().id() : 0;
+                    var templateId = product.template() && product.template().id() ? product.template().id() : product.templateId();
                     var uri = encodeURI("http://" + host + "/Designer/" + product.productName() + "/0/" + templateId + "/" + product.id() +
                         "/" + product.companyId() + "/" + 0 + "/2/" + product.organisationId() + "/" + product.printCropMarks() + "/" + product.drawWatermarkText()
                         + "/false");
@@ -461,7 +461,9 @@ define("product/product.view",
 
         // Initialize the view model
         if (ist.product.view.bindingRoot) {
-            productViewModel.initialize(ist.product.view);
+            var isStoreScreen = $("#isStoreScreen");
+            isStoreScreen = isStoreScreen ? isStoreScreen.val() : false;
+            productViewModel.initialize(ist.product.view, isStoreScreen);
         }
         return ist.product.view;
     });

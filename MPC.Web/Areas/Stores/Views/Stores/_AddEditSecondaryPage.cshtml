@@ -68,7 +68,9 @@
                                                         <label class="control-label text-right tooltip-float">Upload banner (PNG 1000 pixels)</label>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <img width="290" height="217" data-bind="attr: { src: imageSrc }" />
+                                                        @*<img width="290" height="217" data-bind="attr: { src: imageSrc }" />*@
+                                                        <img width="290" height="217" data-bind="visible:imageSrc()===undefined,attr: { src: '@Url.Content("~/")' + pageBannerWithCacheRemoveTechnique() }" />
+                                                        <img width="290" height="217" data-bind="visible:imageSrc()!==undefined,attr: { src: imageSrc }" />
                                                     </div>
                                                     <div class="col-lg-1">
                                                         <div class="fileUpload btn btn-primary" data-bind="click:$root.openMediaLibraryDialogFromSecondaryPage">

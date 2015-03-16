@@ -251,7 +251,7 @@ namespace MigrationUtility
         public virtual DbSet<TemplateColorStyle> TemplateColorStyles { get; set; }
         public virtual DbSet<TemplateFont> TemplateFonts { get; set; }
         public virtual DbSet<TemplateObject> TemplateObjects { get; set; }
-        public virtual DbSet<TemplatePage> TemplatePages { get; set; }
+        public virtual DbSet<pcTemplatePage> pcTemplatePages { get; set; }
         public virtual DbSet<Template> Templates { get; set; }
         public virtual DbSet<tbl_audittrail> tbl_audittrail { get; set; }
         public virtual DbSet<tbl_audittraildetail> tbl_audittraildetail { get; set; }

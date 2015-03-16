@@ -18,7 +18,7 @@ namespace MigrationUtility.Preview
         public Nullable<long> CategoryId { get; set; }
         public Nullable<long> ItemId { get; set; }
     
-        public virtual Item Item { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

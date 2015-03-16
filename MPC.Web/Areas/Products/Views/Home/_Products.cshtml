@@ -116,7 +116,7 @@
     <script id="gridViewTemplate" type="text/html">
         <div class="Top_Cat_Body">
             <div class="LCLB">
-                <div class="PDTC_TL FI_TL">
+                <div class="PDTC_TL FI_TL" data-bind="click: $root.editProduct">
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
                 <div class="productListIcons">
@@ -135,23 +135,11 @@
 
     @* Action Template *@
     <script id="productActionTemplate" type="text/html">
-        <a href="#" class="table-link" title="Edit" data-bind="click: $root.editProduct">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
+        <a href="#" class="table-link" title="Copy" data-bind="click: $root.onCloneProduct">
+            Copy
         </a>
-        <a href="#" class="table-link copy" title="Copy" data-bind="click: $root.onCloneProduct">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-edit fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-        <a href="#" class="table-link danger" title="Archive" data-bind="click: $root.onArchiveProduct.bind($data), visible: !isArchived()">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-            </span>
+        <a href="#" class="table-link" title="Design" data-bind="click: $root.editTemplate, visible: ((isFinishedGoodsUi() === '1') && templateId() && (templateTypeUi() !== '3'))">
+            Design
         </a>
     </script>
 

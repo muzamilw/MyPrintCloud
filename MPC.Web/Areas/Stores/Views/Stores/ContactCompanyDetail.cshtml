@@ -236,8 +236,8 @@
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
                                                     </div>
-                                                    <img style="min-height: 150px; width: 150px;" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img style="min-height: 150px; width: 150px;" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>....</span>
@@ -788,7 +788,8 @@
                                                     <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels)</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <img data-bind="attr: { src: storeBackgroudImageImageSource }" width="400" height="300" />
+                                                    <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()===undefined,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
+                                                    <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()!==undefined,attr: { src: storeBackgroudImageImageSource }" />
                                                 </div>
                                                 <div class="col-lg-1">
                                                     <div class="fileUpload btn btn-primary" data-bind="click:$root.showMediaLibraryDialogFromStoreBackground">
@@ -972,7 +973,7 @@
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
-                                                    <select class="form-control" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:$root.filteredCompanySetId,event:{ change: $root.onChangeBannerSet}"></select>
+                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',event:{ change: $root.onChangeBannerSet},value:activeBannerSetId, validationOnElement: activeBannerSetId"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -1966,8 +1967,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
                 <td data-bind="text: reviewBy"></td>
                 <td data-bind="text: review"></td>
-                <td ><div class="type">
-                <span class="label" data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></span></</div>
+                <td>
+                    <div class="type">
+                        <span class="label" data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></span></
+                    </div>
                 </td>
                 <td id="actionColumn">
                     <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
@@ -2034,8 +2037,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="bannerItemTemplate" type="text/html">
             <tr data-bind="click: $root.selectedCompanyBanner">
                 <td>
-                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="attr:{ src: imageSource }" />
-                    @*<img src="~/Content/themes/Centaurus/img/samples/banner1.jpg" alt="Banner 1" />*@
+                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
+                    <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
                 </td>
                 <td data-bind="text:setName"></td>
                 <td data-bind="text:heading"></td>

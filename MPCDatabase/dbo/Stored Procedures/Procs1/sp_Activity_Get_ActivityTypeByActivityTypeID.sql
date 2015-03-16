@@ -1,5 +1,0 @@
-﻿CREATE PROCEDURE dbo.sp_Activity_Get_ActivityTypeByActivityTypeID
-	@ActivityTypeID int
-AS
-	SELECT tbl_activitytype.ActivityTypeID,tbl_activitytype.ActivityName,tbl_activitytype.ActivityDescription,tbl_activitytype.ActivityColor From tbl_activitytype where ActivityTypeID=@ActivityTypeID
-	RETURN
