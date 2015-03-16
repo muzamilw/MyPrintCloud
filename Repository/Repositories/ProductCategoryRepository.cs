@@ -184,7 +184,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<ProductCategory> GetParentCategories(long? companyId)
         {
-            return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue &&
+            return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
                 (!companyId.HasValue || productCategory.CompanyId == companyId)).ToList();
         }
     }
