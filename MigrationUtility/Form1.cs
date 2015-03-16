@@ -1338,7 +1338,7 @@ namespace MigrationUtility
                         }
 
 
-                        foreach (var item in MPCContext.ProductCategories.Where(g => g.OrganisationId == OrganizationId).ToList())
+                        foreach (var item in MPCContext.ProductCategories.Where(g => g.OrganisationId == OrganizationId && g.CompanyId == corpCustomerID).ToList())
                         {
                             if (item.Description2.Trim() != "0")
                             {
@@ -1425,7 +1425,7 @@ namespace MigrationUtility
                                     itemsection.GuillotineId = MPCContext.Machines.Where(g => g.MachineName == guillotine.MachineName).Single().MachineId;
                                 }
                                 var paper = PCContext.tbl_stockitems.Where(g => g.StockItemID == itemsection.StockItemID1).Single();
-                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode).Single().StockItemId;
+                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
 
 
 
@@ -1580,7 +1580,7 @@ namespace MigrationUtility
 
 
                                 var stock = PCContext.tbl_stockitems.Where(g => g.StockItemID == ootbl_ItemStockOptions.StockID).Single();
-                                oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode).Single().StockItemId;
+                                oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
 
                                 MPCContext.ItemStockOptions.Add(oItemStockOption);
 
