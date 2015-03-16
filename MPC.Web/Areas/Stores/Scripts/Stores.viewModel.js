@@ -577,6 +577,7 @@ define("stores/stores.viewModel",
                             }, {
                                 success: function (data) {
                                     companyTerritoryPager().totalCount(data.RowCount);
+                                    var isStoreDirty = selectedStore().hasChanges();
                                     selectedStore().companyTerritories.removeAll();
                                     _.each(data.CompanyTerritories, function (companyTerritoryItem) {
                                         var companyTerritory = new model.CompanyTerritory.Create(companyTerritoryItem);
@@ -610,6 +611,10 @@ define("stores/stores.viewModel",
                                             }
                                         });
                                     }
+                                    if (!isStoreDirty) {
+                                        selectedStore().reset();
+                                    }
+                                    
                                 },
                                 error: function (response) {
                                     toastr.error("Failed To Load Company territories" + response);
@@ -1525,6 +1530,7 @@ define("stores/stores.viewModel",
                                 IsAsc: sortIsAsc()
                             }, {
                                 success: function (data) {
+                                    var isStoreDirty = selectedStore().hasChanges();
                                     selectedStore().addresses.removeAll();
                                     addressPager().totalCount(data.RowCount);
                                     _.each(data.Addresses, function (addressItem) {
@@ -1580,6 +1586,10 @@ define("stores/stores.viewModel",
                                             });
                                         }
                                     }
+                                    if (!isStoreDirty) {
+                                        selectedStore().reset();
+                                    }
+                                    
                                 },
                                 error: function (response) {
                                     toastr.error("Failed To Load Addresses" + response);
@@ -2187,6 +2197,7 @@ define("stores/stores.viewModel",
                                 IsAsc: sortIsAsc()
                             }, {
                                 success: function (data) {
+                                    var isStoreDirty = selectedStore().hasChanges();
                                     selectedStore().users.removeAll();
                                     contactCompanyPager().totalCount(data.RowCount);
                                     _.each(data.CompanyContacts, function (companyContactItem) {
@@ -2240,6 +2251,10 @@ define("stores/stores.viewModel",
                                         }
 
                                     }
+                                    if (!isStoreDirty) {
+                                        selectedStore().reset();
+                                    }
+                                    
                                 },
                                 error: function (response) {
                                     toastr.error("Failed To Load Users" + response);
@@ -3205,6 +3220,9 @@ define("stores/stores.viewModel",
                     }
                     if (selectedItem.webAccessCode.error) {
                         errorList.push({ name: selectedItem.webAccessCode.domElement.name, element: selectedItem.webAccessCode.domElement });
+                    }
+                    if (selectedItem.activeBannerSetId.error) {
+                        errorList.push({ name: selectedItem.activeBannerSetId.domElement.name, element: selectedItem.activeBannerSetId.domElement });
                     }
                 },
                 // Go To Element

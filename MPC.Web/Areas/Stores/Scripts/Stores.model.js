@@ -243,7 +243,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     return storeBackgroudImagePath() + "?" + Date();
                 }
 
-            });
+            }),
         //store Backgroud Image File Name
         storeBackgroudImageFileName = ko.observable(),
         defaultSpriteImageSource = ko.observable(specifiedDefaultSpriteImageSource),
@@ -702,11 +702,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.CustomCSS,
             source.StoreBackgroundImage,
             source.StoreImagePath
-           
+
         );
         store.isDidplayInFooter(source.isDisplaySecondaryPages != null ? source.isDisplaySecondaryPages : false);
         store.storeId(source.StoreId);
-       // store.activeBannerSetId(source.ActiveBannerSetId);
+        // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
         store.storeWorkflowImageName(source.StoreWorkflowImageName);
         store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
@@ -2096,7 +2096,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         isEnabled = ko.observable(specifiedisEnabled != null ? specifiedisEnabled : true),
         defaultPageKeyWords = ko.observable(specifiedDefaultPageKeyWords),
         pageBanner = ko.observable(specifiedPageBanner),
-        
+
         pageBannerWithCacheRemoveTechnique = ko.computed(function () {
             if (pageBanner() !== undefined && pageBanner() !== null) {
                 return pageBanner() + "?" + Date();
