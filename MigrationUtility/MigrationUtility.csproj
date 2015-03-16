@@ -80,6 +80,9 @@
     <Compile Include="margin.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="pcTemplatePage.cs">
+      <DependentUpon>PinkcardsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="PinkcardsModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -774,6 +777,9 @@
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\TemplateObject.cs">
+      <DependentUpon>MPCPreviewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preview\TemplatePage.cs">
       <DependentUpon>MPCPreviewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preview\TemplateVariable.cs">
@@ -1517,9 +1523,6 @@
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TemplateObject.cs">
-      <DependentUpon>PinkcardsModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TemplatePage.cs">
       <DependentUpon>PinkcardsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="WidgetCustomModel.cs" />

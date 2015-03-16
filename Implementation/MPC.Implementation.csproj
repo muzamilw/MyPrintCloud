@@ -169,6 +169,7 @@
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\PhraseLibraryService.cs" />
     <Compile Include="MISServices\PrefixService.cs" />
+    <Compile Include="MISServices\SectionService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs">

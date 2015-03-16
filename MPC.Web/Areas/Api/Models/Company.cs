@@ -109,6 +109,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? BussinessAddressId { get; set; }
         public int CompanyContactCount { get; set; }
         public int CompanyAddressesCount { get; set; }
+        public long? ActiveBannerSetId { get; set; }
 
         /// <summary>
         /// Tax Label

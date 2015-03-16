@@ -21,7 +21,7 @@ namespace MigrationUtility.Preview
         public Nullable<long> ItemId { get; set; }
     
         public virtual Country Country { get; set; }
-        public virtual Item Item { get; set; }
         public virtual State State { get; set; }
+        public virtual Item Item { get; set; }
     }
 }
