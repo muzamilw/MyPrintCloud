@@ -217,6 +217,7 @@ namespace MPC.Repository.Repositories
                         Addresses = c.Addresses.Take(1).ToList(),
                         CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
+                        c.ActiveBannerSetId,
                     }).ToList().Select(c => new Company
                     {
                         CompanyId = c.CompanyId,
@@ -320,6 +321,7 @@ namespace MPC.Repository.Repositories
                         CmsOffers = c.CmsOffers,
                         CompanyCostCentres = c.CompanyCostCentres,
                         Image = c.Image,
+                        ActiveBannerSetId = c.ActiveBannerSetId,
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
                         CompanyContacts = c.CompanyContacts.ToList()

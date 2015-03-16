@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
                 IsGeneral = source.IsGeneral,
@@ -206,6 +207,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 FlagId = source.FlagId,
                 PhoneNo = source.PhoneNo,
                 IsGeneral = source.IsGeneral,
@@ -274,6 +276,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyId = source.CompanyId,
                 StoreBackgroundFile = source.StoreBackgroundFile,
+                ActiveBannerSetId = source.ActiveBannerSetId,
                 Name = source.Name,
                 ImageBytes = source.ImageBytes,
                 AccountNumber = source.AccountNumber,
