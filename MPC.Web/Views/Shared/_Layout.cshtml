@@ -351,7 +351,11 @@
                                     </a>
                                 </li>
                                 <li id="libilling">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="~/Billing/InvoicesList" class="my-navigator">
+                                        <i class="fa  fa-users"></i>
+                                        <span>Billing & Invoicing</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
                                         <i class="fa fa-users"></i>
                                         <span>Billing & Invoicing</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
@@ -399,10 +403,14 @@
                                                 <span class="label label-primary label-circle pull-right">01</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
                                 <li id="lishipping">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="~/DeliveryNotes/Home/DeliveryNote" class="my-navigator">
+                                        <i class="fa  fa-joomla"></i>
+                                        <span>Shipping & Delivery</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
                                         <i class="fa fa-joomla"></i>
                                         <span>Shipping & Delivery</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
@@ -422,10 +430,14 @@
                                                 <span class="label label-primary label-circle pull-right">09</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
                                 <li id="lipurchases">
-                                    <a href="#" class="dropdown-toggle">
+                                    <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
+                                        <i class="fa  fa-plane"></i>
+                                        <span>Purchase Orders</span>
+                                    </a>
+                                    @*<a href="#" class="dropdown-toggle">
                                         <i class="fa  fa-paper-plane"></i>
                                         <span>Purchase Orders</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
@@ -445,7 +457,7 @@
                                                 <span class="label label-primary label-circle pull-right">09</span>
                                             </a>
                                         </li>
-                                    </ul>
+                                    </ul>*@
                                 </li>
 
                                 <li id="liemails">
@@ -469,132 +481,111 @@
                                     <ul class="submenu">
                                         <li id="listOrganization">
                                             <a href="~/Settings/Home/MyOrganization" class="my-navigator">
+                                                <i class="fa fa-institution"></i>
                                                 <span>My Organization</span>
+                                            </a>
+                                        </li>
+                                        <li id="listMachines">
+                                            <a href="~/Settings/Home/MachinesList" class="my-navigator">
+                                                <i class="fa fa-print"></i>
+                                                <span>Machines</span>
+                                            </a>
+                                        </li>
+                                        <li id="listMachineLookUps">
+                                            <a href="~/Settings/Home/LookupMethods" class="my-navigator">
+                                                <i class="fa fa-bar-chart-o"></i>
+                                                <span>Machine Lookups</span>
+                                            </a>
+                                        </li>
+                                        <li id="listCostCenters">
+                                            <a href="~/Settings/MIS/CostCenters" class="my-navigator">
+                                                <i class="fa fa-money"></i>
+                                                <span>Cost Centers</span>
+                                            </a>
+                                        </li>
+                                        <li id="listDeliveryMethods">
+                                            <a href="~/Settings/Home/DeliveryCostCentres" class="my-navigator">
+                                                <i class="fa fa-envelope-square"></i>
+                                                <span>Delivery Methods</span>
+                                            </a>
+                                        </li>
+                                        <li id="listDeliveryCarriers">
+                                            <a href="~/Settings/Home/DeliveryCarrier" class="my-navigator">
+                                                <i class="fa fa-truck"></i>
+                                                <span>Delivery Carriers</span>
                                             </a>
                                         </li>
                                         <li id="limissettings">
                                             <a href="#" class="dropdown-toggle">
                                                 <i class="fa fa-users"></i>
-                                                <span>MIS</span>
+                                                <span>Utilities</span>
                                                 <i class="fa fa-chevron-circle-right drop-icon"></i>
                                             </a>
                                             <ul class="submenu">
                                                 <li>
                                                     <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
-                                                        Paper Sheet
-                                                    </a>
-                                                </li>
-                                                <li id="liCostCenters">
-                                                    <a href="~/Settings/MIS/CostCenters" class="my-navigator">
-                                                        Cost Centers
+                                                        <i class="fa fa-clipboard"></i>
+                                                        <span>Paper Sizes</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
-                                                        Inventory Categories
-                                                    </a>
-                                                </li>
-                                                <li id="liDeliveryCostCenters">
-                                                    <a href="~/Settings/Home/DeliveryCostCentres" class="my-navigator">
-                                                        Delivery Cost Centers
+                                                        <i class="fa fa-cubes"></i>
+                                                        <span>Inventory Categories</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Settings/Home/DeliveryCarrier" class="my-navigator">
-                                                        Delivery Carrier
+                                                    <a href="~/Settings/MIS/SalesPipeLine" class="my-navigator">
+                                                        <i class="fa fa-pagelines"></i>
+                                                        <span>Sales & Pipeline</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Charts
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SalesPipeLine">
-                                                        Sales and Pipeline
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SectionFlags">
-                                                        Section Flags
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        My Reports
+                                                    <a href="~/Settings/MIS/SectionFlags" class="my-navigator">
+                                                        <i class="fa fa-flag-checkered"></i>
+                                                        <span>Section Flags</span>
                                                     </a>
                                                 </li>
                                                 <li id="liprefixes">
                                                     <a href="~/Settings/MIS/Prefixes" class="my-navigator">
-                                                        Start Numbers
+                                                        <i class="fa fa-sort-numeric-asc"></i>
+                                                        <span>Start Numbers</span>
                                                     </a>
                                                 </li>
-                                            </ul>
-                                        </li>
-                                        <li id="liplansettings">
-                                            <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-users"></i>
-                                                <span>Plant</span>
-                                                <i class="fa fa-chevron-circle-right drop-icon"></i>
-                                            </a>
-                                            <ul class="submenu">
-                                                <li id="liMachineList">
-                                                    <a href="~/Settings/Home/MachinesList" class="my-navigator">
-                                                        Machines
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/Home/LookupMethods">
-                                                        Lookup Methods
-                                                    </a>
-                                                </li>
-
-                                            </ul>
-                                        </li>
-                                        <li id="lisystemsettings">
-                                            <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-share-alt"></i>
-                                                <span>System Utilities</span>
-                                                <i class="fa fa-chevron-circle-right drop-icon"></i>
-                                            </a>
-                                            <ul class="submenu">
-                                                <li>
+                                                <li id="liPhrases">
                                                     <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
-                                                        Phrase Library
+                                                        <i class="fa fa-paw"></i>
+                                                        <span>Phrase Library</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <li id="liImportExport">
                                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Section Flags
+                                                        <i class="fa fa-download"></i>
+                                                        <span>Import Export</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <li id="liArchived">
                                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Import Export
+                                                        <i class="fa fa-archive"></i>
+                                                        <span>Archived</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <li id="liCampaigns">
                                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Archived
+                                                        <i class="fa fa-envelope"></i>
+                                                        <span>Campaign Studio</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                <li id="liMyReports">
                                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Posted Invoices
+                                                        <i class="fa fa-file-text"></i>
+                                                        <span>My Reports</span>
                                                     </a>
                                                 </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Purchase Orders
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        Campaign Studio
-                                                    </a>
-                                                </li>
+                                                
                                             </ul>
                                         </li>
+                                        
                                     </ul>
                                 </li>
                             </ul>

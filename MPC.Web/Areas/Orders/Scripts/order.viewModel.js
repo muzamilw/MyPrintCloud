@@ -13,6 +13,8 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
+                    // Cost Centres
+                    costCentres = ko.observableArray([]),
                     // flag colors
                     sectionFlags = ko.observableArray([]),
                     // company contacts
@@ -71,6 +73,7 @@ define("order/order.viewModel",
                     // #region Observables
                     // filter
                     filterText = ko.observable(),
+                    costCentrefilterText = ko.observable(),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
@@ -83,6 +86,8 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                     // Pagination for Cost Centres
+                    costCentrePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
                     // Default Address
                     defaultAddress = ko.observable(model.Address.Create({})),
                     // Default Company Contact
@@ -336,6 +341,7 @@ define("order/order.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
                         getBaseData();
@@ -480,6 +486,7 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
+                                    debugger;
                                     selectedOrder(model.Estimate.Create(data));
 
                                     if (callback && typeof callback === "function") {
@@ -529,9 +536,45 @@ define("order/order.viewModel",
                         getItemsByCompanyId();
                         openProductFromStoreDialog();
                     },
+                     onAddCostCenter = function () {
+                         getCostCenters();
+                         view.showCostCentersDialog();
+                    },
+                     closeCostCenterDialog = function () {
+                         view.hideRCostCentersDialog();
+                     },
+                     getCostCenters = function () {
+                         dataservice.getCostCenters({
+                         CompanyId: selectedOrder().companyId(),
+                         SearchString: costCentrefilterText(),
+                         PageSize: costCentrePager().pageSize(),
+                         PageNo: costCentrePager().currentPage(),
+                         }, {
+                             success: function (data) {
+                                 if (data != null) {
+                                     costCentrePager().totalCount(data.RowCount);
+                                     costCentres.removeAll();
+                                     _.each(data.CostCentres, function (item) {
+                                         var costCentre = new model.costCentre.Create(item);
+                                         costCentres.push(costCentre);
+                                     });
+                                 }
+                             },
+                             error: function (response) {
+                                 //isLoadingStores(false);
+                                 toastr.error("Failed to Load Company Products . Error: " + response);
+                             }
+                         });
+                     },
+                     resetCostCentrefilter = function () {
+                         costCentrefilterText('');
+                         getCostCenters();
+                     },
+                     costCenterClickLIstner = function () {
+                         view.showCostCentersQuantityDialog();
+                     },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
-
                         dataservice.getItemsByCompanyId({
                             //CompanyId: selectedOrder().companyId()//todo: uncomment it when companies start loading
                             CompanyId: 32844
@@ -572,6 +615,7 @@ define("order/order.viewModel",
                     isItemDetailVisible: isItemDetailVisible,
                     isSectionDetailVisible: isSectionDetailVisible,
                     pager: pager,
+                    costCentrePager:costCentrePager,
                     errorList: errorList,
                     filterText: filterText,
                     pageHeader: pageHeader,
@@ -619,6 +663,13 @@ define("order/order.viewModel",
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
                     onCloseProductFromRetailStore: onCloseProductFromRetailStore,
                     getItemsByCompanyId: getItemsByCompanyId,
+                    onAddCostCenter: onAddCostCenter,
+                    onCloseCostCenterDialog: closeCostCenterDialog,
+                    costCentres: costCentres,
+                    getCostCenters: getCostCenters,
+                    costCentrefilterText: costCentrefilterText,
+                    resetCostCentrefilter: resetCostCentrefilter,
+                    costCenterClickListner: costCenterClickLIstner
                     //#endregion
                     //#endregion
                 };

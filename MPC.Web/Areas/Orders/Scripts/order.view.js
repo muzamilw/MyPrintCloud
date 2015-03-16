@@ -34,6 +34,14 @@ define("order/order.view",
                         $(element).focus();
                     }, 1000);
                 },
+                 // Show Cost Centers the dialog
+                showCostCentersDialog = function () {
+                    $("#costCenters").modal("show");
+                },
+                 // Hide Cost Centers the dialog
+                hideRCostCentersDialog = function () {
+                    $("#costCenters").modal("hide");
+                },   
                 // Show Item Detail Dialog
                 showItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('show');
@@ -49,6 +57,14 @@ define("order/order.view",
                 // Hide Section Detail Dialog
                 hideSectionDetailDialog = function () {
                     $("#orderSectionDetailDialog").modal('hide');
+                },
+               // Show Cost Centers Quantity the dialog
+                showCostCentersQuantityDialog = function () {
+                    $("#costCentersQuanity").modal("show");
+                },
+               // Hide Cost Centers Quantity the dialog
+                hideCostCentersQuantityDialog = function () {
+                    $("#costCentersQuanity").modal("hide");
                 },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
@@ -104,7 +120,11 @@ define("order/order.view",
                 showSectionDetailDialog: showSectionDetailDialog,
                 hideSectionDetailDialog: hideSectionDetailDialog,
                 showProductFromRetailStoreModal: showProductFromRetailStoreModal,
-                hideProductFromRetailStoreModal: hideProductFromRetailStoreModal
+                hideProductFromRetailStoreModal: hideProductFromRetailStoreModal,
+                showCostCentersDialog: showCostCentersDialog,
+                hideRCostCentersDialog: hideRCostCentersDialog,
+                showCostCentersQuantityDialog: showCostCentersQuantityDialog,
+                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog
             };
         })(orderViewModel);
 
