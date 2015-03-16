@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MPC.Models.DomainModels;
+﻿using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
+    /// <summary>
+    /// Company Banner Set Repository
+    /// </summary>
     public interface ICompanyBannerSetRepository : IBaseRepository<CompanyBannerSet, long>
     {
-       
+        /// <summary>
+        /// Returns Active Banner Set for Specified Company
+        /// </summary>
+        CompanyBannerSet GetActiveBannerSetForCompany(long companyId);
     }
 }
