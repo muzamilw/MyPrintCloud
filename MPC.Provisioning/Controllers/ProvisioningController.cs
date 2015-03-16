@@ -99,20 +99,20 @@ namespace MPC.Provisioning.Controllers
             {
 
 
-                //string misFolder = sitePhysicalPath + "\\mis";
-                //ProcessStartInfo startInfo = new ProcessStartInfo();
-                //startInfo.FileName = @"powershell.exe";
-                //startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
-                //startInfo.RedirectStandardOutput = true;
-                //startInfo.RedirectStandardError = true;
-                //startInfo.UseShellExecute = false;
-                //startInfo.CreateNoWindow = true;
-                //Process process = new Process();
-                //process.StartInfo = startInfo;
-                //process.Start();
+                string misFolder = sitePhysicalPath + "\\mis";
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+                startInfo.FileName = @"powershell.exe";
+                startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+                startInfo.UseShellExecute = false;
+                startInfo.CreateNoWindow = true;
+                Process process = new Process();
+                process.StartInfo = startInfo;
+                process.Start();
 
-                //string output = process.StandardOutput.ReadToEnd();
-               string output = "App Created";
+                string output = process.StandardOutput.ReadToEnd();
+               //string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();
@@ -130,7 +130,7 @@ namespace MPC.Provisioning.Controllers
                 {
                     // Create the Command and Parameter objects.
                     SqlCommand command = new SqlCommand(queryString, connection);
-                    long OrganisationId = 4;
+                   
                       
                     try
                     {
@@ -160,17 +160,8 @@ namespace MPC.Provisioning.Controllers
                         bool isCorp = false;
                         Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
                         WebClient oClient = new WebClient();
-                        oClient.OpenReadAsync(uri);
+                        oClient.OpenRead(uri);
 
-
-                        //WebRequest request = null;
-                        //request = WebRequest.Create(uri);
-                        //request.Method = "POST";
-                        //WebResponse response = request.GetResponse();
-
-                        //response = null;
-                       
-                        
 
 
                     }
