@@ -336,7 +336,12 @@
                                    
                                 </li>
                                 <li id="liorderprocessing">
-                                    @Html.Action("OrderMenuItems", "Home", new { area = "" })
+                                    <a href="~/Orders/Home" class="my-navigator">
+                                        <i class="fa  fa-fax"></i>
+                                        <span>Orders Processing</span>
+                                    </a>
+                                    
+                                    @*@Html.Action("OrderMenuItems", "Home", new { area = "" })*@
                                     
                                 </li>
                                 <li id="liproduction">
