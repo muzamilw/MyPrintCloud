@@ -32,7 +32,7 @@ namespace MPC.Implementation.MISServices
         {
             return _machineRepository.UpdateMachine(machine, MachineSpoilages);
         }
-        public MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             return _machineRepository.AddMachine(machine, MachineSpoilages);
         }

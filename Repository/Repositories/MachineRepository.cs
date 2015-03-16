@@ -168,7 +168,7 @@ namespace MPC.Repository.Repositories
             {
                 machine = null,
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
-                Markups = GetAllMarkupList(),
+                Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = null,
                 deFaultPaperSizeName = null,
@@ -180,7 +180,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             try
             {
@@ -272,24 +272,13 @@ namespace MPC.Repository.Repositories
 
                 if (db.SaveChanges() > 0)
                 {
-                    return new MachineResponseModel
-                    {
-                        machine = omachine,
-                        lookupMethods = null,
-                        Markups = null,
-                        StockItemforInk = null,
-                        MachineSpoilageItems = GetMachineSpoilageItems(omachine.MachineId),
-                        deFaultPaperSizeName = null,
-                        deFaultPlatesName = null,
-                        InkCoveragItems = null
 
-                    };
+                    return omachine.MachineId;
+                    
                 }
                 else
                 {
-                    return new MachineResponseModel
-                    {
-                    };
+                    return 0;
                 }
             }
             catch (Exception ex)

@@ -582,9 +582,9 @@
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
 
-        omachine.markupList.removeAll();
-        ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
-        omachine.markupList.valueHasMutated();
+        //omachine.markupList.removeAll();
+        //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
+        //omachine.markupList.valueHasMutated();
        
         
         
@@ -643,7 +643,7 @@
         omachine.gripsideorientaion = machine.gripsideorientaion();
         omachine.gutterdepth = machine.gutterdepth();
         omachine.headdepth = machine.headdepth();
-        omachine.MarkupId = machine.MarkupId();
+        //omachine.MarkupId = machine.MarkupId();
         omachine.PressSizeRatio = machine.PressSizeRatio();
         omachine.Description = machine.Description();
         omachine.Priority = machine.Priority();
@@ -710,9 +710,9 @@
         ko.utils.arrayPushAll(omachine.lookupList(), source.lookupMethods);
         omachine.lookupList.valueHasMutated();
 
-        omachine.markupList.removeAll();
-        ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
-        omachine.markupList.valueHasMutated();
+        //omachine.markupList.removeAll();
+        //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
+        //omachine.markupList.valueHasMutated();
 
 
         for (i = 0; i < 8; i++) {
