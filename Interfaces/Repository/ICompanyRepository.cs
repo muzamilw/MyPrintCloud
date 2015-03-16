@@ -48,8 +48,6 @@ namespace MPC.Interfaces.Repository
         Company GetStoreByStoreId(long companyId);
 
         ExportSets ExportRetailCompany(long CompanyId);
-
-      
         ExportSets ExportCorporateCompany(long CompanyId);
 
         long GetCorporateCompanyIDbyOrganisationID(long OID);
@@ -59,7 +57,6 @@ namespace MPC.Interfaces.Repository
         /// Get Company By Is Customer Type
         /// </summary>
         CompanySearchResponseForCalendar GetByIsCustomerType(CompanyRequestModelForCalendar request);
-
         /// <summary>
         /// Count of live stores
         /// </summary>

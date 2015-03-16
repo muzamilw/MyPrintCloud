@@ -159,7 +159,7 @@
                 <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
             </div>
             <div class="TTL widthAvenior">
-                <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox" />
+                <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox" multiple />
             </div>
             <br />
             <br />
@@ -196,12 +196,14 @@
                         
                         <label id="ltrldeliverydate">Desired Delivery  :</label>
                     </div>
+                    <div id="DesiredDeldate1" class="error_star" style="display: none;">
+                        *
+                    </div>
                     <div class="TTL widthAvenior">
+                        <div id="test"></div>
                         <div id="datepicker"></div>
                         
-                        
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Inquiry date", maxlength = 500 })
-                        
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Inquiry date", maxlength = 500, @readonly = "readonly" })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -226,7 +228,6 @@
                     </div>
                     <div class="TTL widthAvenior">
                         
-
                         @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = "txtTitle2", maxlength = 500 })
                         
                     </div>
@@ -246,9 +247,13 @@
                        
                         <label id="ltrldeliverydate2">Desired Delivery  :</label>
                     </div>
+                    <div id="DesiredDeldate2" class="error_star" style="display: none;">
+                        *
+                    </div>
+
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
                         
                     </div>
                     <div class="clearBoth">
@@ -289,9 +294,13 @@
                         
                         <label id="ltrldeliverydate3">Desired Delivery  :</label>
                     </div>
+                    <div id="DesiredDeldate3" class="error_star" style="display: none;">
+                        *
+                    </div>
+
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = "Desired Delivery ", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = "Desired Delivery ", maxlength = 500, @readonly = "readonly" })
                         
                     </div>
                     <div class="clearBoth">
@@ -366,6 +375,7 @@
         $("#txtInquiryDate1").datepicker();
         $("#txtInquiryDate2").datepicker();
         $("#txtInquiryDate3").datepicker();
+        
 
         $("#AddNewInquiryItemList").click(function () {
 
@@ -392,6 +402,17 @@
                 $("#hfNoOfRec").val((recNo - 1));
             }
         }
+        $("#InquiryAttachment").files(
+       {
+           max: 4,
+           accept: 'psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx',
+           afterFileSelect: function (element, value, master_element) {
+
+           },
+           afterFileRemove: function (element, value, master_element) {
+
+           }
+       });
     });
     function ShowGUI() {
         
@@ -410,8 +431,7 @@
     function AddNew() {
 
         var isValid = true;
-       // isValid = Validate();
-       // alert(isValid);
+      
        if (isValid) {
             var currentRec = parseInt($("#hfNoOfRec").val());
             var numOfRec = currentRec + 1;
@@ -441,97 +461,6 @@
 
         }
 
-        function ValidateRec() {
-            var errorMessage = '';
-            var isValid = true;
-            if ($("#hfIsUserLoggedIn").val() == "false") {
-                if ($("#txtBoxUserName").val().trim() == '') {
-                    var inquirytitlexreq = "First Name Is Required.";
-                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                    $('#divYourNameRq').css('display', 'block');
-                    isValid = false;
-                }
-                else {
-                    $('#divYourNameRq').css('display', 'none');
-                }
-
-                if ($("#txtBoxLastName").val().trim() == '') {
-                    var inquirytitlexreq = "Last Name Required";
-                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                    $('#ltrlLastNameRQ').css('display', 'block');
-                    isValid = false;
-                }
-                else {
-                    $('#ltrlLastNameRQ').css('display', 'none');
-                }
-                //yourNameRequiredLast
-                if ($("#txtBoxUserEmail").val().trim() == '') {
-                    var inquirytitlexreq = "Your Email is Required";
-                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                    $('#divEmailRq').css('display', 'block');
-                    isValid = false;
-                }
-                else {
-                    $('#divEmailRq').css('display', 'none');
-                }
-            }
-                if ($("#txtInquiryTitle").val().trim() == '') {
-                    var inquirytitlexreq = "Your InquiryTitle is Required";
-                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                    $('#InquiryTitleInd2').css('display', 'block');
-                    isValid = false;
-                }
-                else {
-                    $('#InquiryTitleInd2').css('display', 'none');
-                }
-                if ($("#txtTitle1").val().trim() == '') {
-                    var inquirytitlexreq = " Inquiry Item Title is Required";
-                    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                    $('#InquiryTitleInd2').css('display', 'block');
-                    isValid = false;
-                }
-                else {
-                    $('#InquiryTitleInd2').css('display', 'none');
-                }
-                //if ($("#txtInquiryDate1").val().trim() == '') {
-                //    var inquirytitlexreq = " Inquiry Item Title is Required";
-                //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                //    $('#InquiryTitleInd2').css('display', 'block');
-                //    isValid = false;
-                //}
-                //else {
-                //    $('#InquiryTitleInd2').css('display', 'none');
-                //}
-                if(parseInt($("#hfNoOfRec").val()==2))
-                {
-                    if ($("#txtTitle2").val().trim() == '') {
-                        var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
-                        errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                        $("#ItemTitleInd2").css('display', 'block');
-                        isValid = false;
-                    }
-                    else {
-                        $("#InquiryTitleInd2").css('display', 'none');
-                    }
-
-                }
-                if (parseInt($("#hfNoOfRec").val() == 3))
-                {
-                    if ($("#txtTitle3").val().trim() == '') {
-                        var inquirytitlexreq = " Inquiry Item title for 3rd item is Required";
-                        errorMessage = errorMessage + inquirytitlexreq + "<br>";
-                        $("#ItemTitleInd3").css('display', 'block');
-                        isValid = false;
-                    }
-                    else {
-                        $("#ItemTitleInd3").css('display', 'none');
-                    }
-                }
-                alert(errorMessage);
-                ShowPopUp('Message', errorMessage);
-                return isValid;
-            
-        }
 
         function ValidateRec2() {
             var errorMessage = '';
@@ -572,14 +501,165 @@
 
     function Submit()
     {
-        if (ValidateRec() == true)
+        if (ValidateRec())
         {
             alert(ValidateRec());
 
             SubmitData();
         }
-        alert(ValidateRec());
+        
     }
+    function ValidateRec() {
+        var val = $("#hfNoOfRec").val();
+        
+        var errorMessage = '';
+        var isValid = true;
+        if ($("#hfIsUserLoggedIn").val() == "false") {
+            if ($("#txtBoxUserName").val().trim() == '') {
+                var inquirytitlexreq = "First Name Is Required.";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $('#divYourNameRq').css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $('#divYourNameRq').css('display', 'none');
+            }
+            if ($("#LastName").val() == '') {
+                var inquirytitlexreq = "Last Name Required";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $('#ltrlLastNameRQ').css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $('#ltrlLastNameRQ').css('display', 'none');
+            }
+            //yourNameRequiredLast
+            if ($("#UserEmail").val() == '') {
+                var inquirytitlexreq = "Your Email is Required";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $('#divEmailRq').css('display', 'block');
+                isValid = false;
+            }
+            else {
+                Email = $("#UserEmail").val();
+                if (Email != null || Email != "") {
+                    if (ValidateEmail(Email) == true) {
+                       
+                        $('#divEmailRq').css('display', 'none');
+                    }
+                    else {
+                        var Message = "Please Enter Valid Email Address";
+                        errorMessage = errorMessage + Message + "<br>"
+                        isValid = false;
+                    }
+                    // $('#divEmailRq').css('display', 'none');
+                }
+            }
+        }
+        if ($("#txtInquiryTitle").val().trim() == '') {
+            var inquirytitlexreq = "Your InquiryTitle is Required";
+            errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            $('#InquiryTitleInd2').css('display', 'block');
+            isValid = false;
+        }
+        else {
+            $('#InquiryTitleInd2').css('display', 'none');
+        }
+        if ($("#txtTitle1").val().trim() == '') {
+            var inquirytitlexreq = " Inquiry Item Title is Required";
+            errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            $('#ItemTitleInd1').css('display', 'block');
+            isValid = false;
+        }
+        else {
+            $('#ItemTitleInd1').css('display', 'none');
+        }
+        //if ($("#txtInquiryDate1").val().trim() == '') {
+        //    var inquirytitlexreq = " Desired Delivery Dates is Required";
+        //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+        //    $("#DesiredDeldate1").css('display', 'block');
+        //    isValid = false;
+        //}
+        //else {
+        //    $("#DesiredDeldate1").css('display', 'none');
+        //}
+        if (val == 2) {
+           
+            if ($("#txtTitle2").val().trim() == '') {
+                var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $("#ItemTitleInd2").css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $("#InquiryTitleInd2").css('display', 'none');
+            }
+            //if ($("#txtInquiryDate1").val().trim() == '') {
+            //    var inquirytitlexreq = " Desired Delivery Dates is Required";
+            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            //    $("#DesiredDeldate1").css('display', 'block');
+            //    isValid = false;
+            //}
+            //else {
+            //    $("#DesiredDeldate1").css('display', 'none');
+            //}
+
+            //if ($("#txtInquiryDate2").val().trim() == '') {
+            //    var inquirytitlexreq = " Desired Delivery Date is Required";
+            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            //    $("#DesiredDeldate2").css('display', 'block');
+            //    isValid = false;
+            //}
+            //else {
+            //    $("#DesiredDeldate2").css('display', 'none');
+            //}
+        }
+        if (val == 3) {
+            if ($("#txtTitle2").val().trim() == '') {
+                var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $("#ItemTitleInd2").css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $("#InquiryTitleInd2").css('display', 'none');
+            }
+
+            if ($("#txtTitle3").val().trim() == '') {
+                var inquirytitlexreq = " Inquiry Item title for 3rd item is Required";
+                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                $("#ItemTitleInd3").css('display', 'block');
+                isValid = false;
+            }
+            else {
+                $("#ItemTitleInd3").css('display', 'none');
+            }
+
+            //if ($("#txtInquiryDate2").val().trim() == '') {
+            //    var inquirytitlexreq = " Desired Delivery Date is Required";
+            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            //    $("#DesiredDeldate2").css('display', 'block');
+            //    isValid = false;
+            //}
+            //else {
+            //    $("#DesiredDeldate2").css('display', 'none');
+            //}
+            //if ($("#txtInquiryDate3").val().trim() == '') {
+            //    var inquirytitlexreq = " Desired Delivery Date is Required";
+            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            //    $("#DesiredDeldate3").css('display', 'block');
+            //    isValid = false;
+            //}
+            //else {
+            //    $("#DesiredDeldate3").css('display', 'none');
+            //}
+        }
+        
+        ShowPopUp('Message', errorMessage);
+        return isValid;
+
+    }
+
     function SubmitData() {
         var FirstName = $("#txtBoxUserName").val();
         var LastName = $("#LastName").val();
@@ -604,7 +684,7 @@
         $("#").val();
         var data = new FormData();
         var files = $("#InquiryAttachment").get(0).files;
-        alert(files + ' files ');
+    
         if (files.length > 0) {
             data.append("UploadedFile", files[0]);
         }
@@ -619,15 +699,32 @@
 
                 $("#MessgeToDisply").css('visibility', 'visible');
                 $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
-
             },
             error: function (error) {
                 $("#MessgeToDisply").css('visibility', 'visible');
                 $("#MessgeToDisply").html('Error Occured While Updating Profile!');
             }
         });
-
     }
+   
+ 
 
+    function ValidateEmail(email) {
+        var isValid = true;
+        if (email == '') {
+           // var emailxreq = "<%= Resources.MyResource.emailxreq %>";
+          //  ShowPopup('Message', emailxreq);
+            isValid = false;
+        }
+        else {
+            var re = new RegExp("^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$");
+            if (!re.test(email)) {
+               // var PlxenterVEmail = "<%= Resources.MyResource.PlxenterVEmail %>";
+               // ShowPopup('Message', PlxenterVEmail);
+                isValid = false;
+            }
+        }
+        return isValid;
+    }
 </script>
 }

@@ -611,7 +611,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
         private void FillAttachments(long inquiryID, HttpPostedFile Request)
         {
-
             if (Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
@@ -622,22 +621,23 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 if (!System.IO.Directory.Exists(virtualFolderPth))
                     System.IO.Directory.CreateDirectory(virtualFolderPth);
 
-                //for (int i = 0; i < Request.Count; i++)
-                //{
-                //HttpPostedFile postedFile = Request;
+                for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
+                {
+                    HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
 
-                string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(Request.FileName));
+                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(Request.FileName));
 
-                InquiryAttachment inquiryAttachment = new InquiryAttachment();
-                inquiryAttachment.OrignalFileName = Path.GetFileName(Request.FileName);
-                inquiryAttachment.Extension = Path.GetExtension(Request.FileName);
-                inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
-                inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
-                listOfAttachment.Add(inquiryAttachment);
-                Request.SaveAs(virtualFolderPth + fileName);
-                _ItemService.AddInquiryAttachments(listOfAttachment);
+                    InquiryAttachment inquiryAttachment = new InquiryAttachment();
+                    inquiryAttachment.OrignalFileName = Path.GetFileName(Request.FileName);
+                    inquiryAttachment.Extension = Path.GetExtension(Request.FileName);
+                    inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
+                    inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
+                    listOfAttachment.Add(inquiryAttachment);
+                    Request.SaveAs(virtualFolderPth + fileName);
+
+                    _ItemService.AddInquiryAttachments(listOfAttachment);
+                }
             }
-
 
         }
         private Inquiry AddInquiry(Prefix prefix)
