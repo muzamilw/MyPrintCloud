@@ -11829,7 +11829,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <Property Name="IsOverlayObject" Type="Boolean" />
           <NavigationProperty Name="Template" Relationship="Self.FK_Objects_Products" FromRole="TemplateObjects" ToRole="Templates" />
         </EntityType>
-        <EntityType Name="TemplatePage">
+        <EntityType Name="pcTemplatePage">
           <Key>
             <PropertyRef Name="ProductPageId" />
           </Key>
@@ -13252,7 +13252,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
         </Association>
         <Association Name="FK_Templates_TemplatePages">
           <End Role="Templates" Type="Self.Template" Multiplicity="0..1" />
-          <End Role="TemplatePages" Type="Self.TemplatePage" Multiplicity="*" />
+          <End Role="TemplatePages" Type="pinkcardsModel.pcTemplatePage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Templates">
               <PropertyRef Name="ProductID" />
@@ -13487,7 +13487,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           <EntitySet Name="TemplateColorStyles" EntityType="Self.TemplateColorStyle" />
           <EntitySet Name="TemplateFonts" EntityType="Self.TemplateFont" />
           <EntitySet Name="TemplateObjects" EntityType="Self.TemplateObject" />
-          <EntitySet Name="TemplatePages" EntityType="Self.TemplatePage" />
+          <EntitySet Name="pcTemplatePages" EntityType="pinkcardsModel.pcTemplatePage" />
           <EntitySet Name="Templates" EntityType="Self.Template" />
           <EntitySet Name="tbl_audittrail" EntityType="Self.tbl_audittrail" />
           <EntitySet Name="tbl_audittraildetail" EntityType="Self.tbl_audittraildetail" />
@@ -13908,7 +13908,7 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
           </AssociationSet>
           <AssociationSet Name="FK_Templates_TemplatePages" Association="Self.FK_Templates_TemplatePages">
             <End Role="Templates" EntitySet="Templates" />
-            <End Role="TemplatePages" EntitySet="TemplatePages" />
+            <End Role="TemplatePages" EntitySet="pcTemplatePages" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_stocksubcategories_tbl_stockcategories" Association="pinkcardsModel.FK_tbl_stocksubcategories_tbl_stockcategories">
             <End Role="tbl_stockcategories" EntitySet="tbl_stockcategories" />
@@ -18968,8 +18968,8 @@ warning 6002: The table/view 'pinkcards.dbo.tbl_stockitems_issue_log' does not h
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TemplatePages">
-            <EntityTypeMapping TypeName="pinkcardsModel.TemplatePage">
+          <EntitySetMapping Name="pcTemplatePages">
+            <EntityTypeMapping TypeName="pinkcardsModel.pcTemplatePage">
               <MappingFragment StoreEntitySet="TemplatePages">
                 <ScalarProperty Name="ProductPageId" ColumnName="ProductPageId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />

@@ -4,36 +4,42 @@
 @model List<MPC.Models.DomainModels.CompanyBanner>
 
 
+@if (Model != null)
+{
+    <div class="bannerContainer">
+        <div id="top-banner" class="carousel slide hidden-xs " data-interval="6000" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#top-banner" data-slide-to="0" class="active"></li>
+                <li data-target="#top-banner" data-slide-to="1"></li>
+            </ol>
+            <div class="carousel-inner">
 
-<div class="bannerContainer">
-    <div id="top-banner" class="carousel slide hidden-xs " data-interval="6000" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#top-banner" data-slide-to="0" class="active"></li>
-            <li data-target="#top-banner" data-slide-to="1"></li>
-        </ol>
-        <div class="carousel-inner">
-            @foreach (var banner in Model)
-            {
+                @foreach (var banner in Model)
+                {
                 if (index == 1)
                 {
-                    <div class="item text-center active">
-                        <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
-                    </div>
+                <div class="item text-center active">
+                    <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
+                </div>
                 }
                 else
                 {
-                    <div class="item text-center">
-                        <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
-                    </div>
+                <div class="item text-center">
+                    <img id="banner1Img" src="@banner.ImageURL" alt="Banner 1" title="Banner 1" /><div class="carousel-caption" style=""></div>
+                </div>
                 }
                 index++;
 
-            }
+                }
 
+
+
+
+            </div>
+            <a class="left carousel-control" href="#top-banner" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#top-banner" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
-        <a class="left carousel-control" href="#top-banner" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#top-banner" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
     </div>
-</div>
+}
 @section scripts {
-<script src="/Scripts/SlidingBanner.js"></script>
+    <script src="/Scripts/SlidingBanner.js"></script>
 }

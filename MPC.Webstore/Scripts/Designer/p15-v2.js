@@ -82,7 +82,12 @@ function b3_1(caller) {
 function b8_svc(imageID, productID) {
     $.get("/designerapi/TemplateBackgroundImage/DeleteProductBackgroundImage/" + productID + "/" + imageID + "/" + organisationId,
         function (DT) {
-            b8_svc_CallBack(DT);
+            if (DT != "false") {
+                $("#" + imageID).parent().parent().remove();
+                i2(DT);
+                StopLoader();
+                $("#btnAdd").click();
+            }
         });
 }
 function fu03() {
@@ -255,7 +260,31 @@ function c4_RS() {
     });
 }
 
-function pcl42_svc() {
-    // save variables service
-    alert("save variables to db");
+function pcl42_svc(data, cId) {
+ 
+    var to = "/designerApi/SmartForm/SaveUserVariables";
+    var list = {
+        contactId: cId,
+        variables: data
+    };
+    var jsonObjects = JSON.stringify(list, null, 2);
+    var options = {
+        type: "POST",
+        url: to,
+        data: jsonObjects,
+        contentType: "application/json",
+        async: true,
+        complete: function (httpresp, returnstatus) {
+            if (returnstatus == "success") {
+                if (httpresp.responseText == '"true"') {
+                    //do nothing
+                }
+                else {
+                    alert(httpresp.responseText);
+                }
+            }
+        }
+    };
+    var returnText = $.ajax(options).responseText;
+
 }

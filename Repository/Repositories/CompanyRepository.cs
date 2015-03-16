@@ -217,6 +217,7 @@ namespace MPC.Repository.Repositories
                         Addresses = c.Addresses.Take(1).ToList(),
                         CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
+                        c.ActiveBannerSetId,
                     }).ToList().Select(c => new Company
                     {
                         CompanyId = c.CompanyId,
@@ -320,6 +321,7 @@ namespace MPC.Repository.Repositories
                         CmsOffers = c.CmsOffers,
                         CompanyCostCentres = c.CompanyCostCentres,
                         Image = c.Image,
+                        ActiveBannerSetId = c.ActiveBannerSetId,
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
                         CompanyContacts = c.CompanyContacts.ToList()
@@ -641,6 +643,19 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+               List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+               ObjExportOrg.RetailSmartForms = smartForms;
+
+
+                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+               // variables.ToList().ForEach(s => s.ScopeVariables = null);
+                variables.ToList().ForEach(s => s.Company = null);
+               // variables.ToList().ForEach(s => s.SmartFormDetails = null);
+              //  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+                ObjExportOrg.RetailFieldVariables = variables;
+
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -745,8 +760,14 @@ namespace MPC.Repository.Repositories
 
               Mapper.CreateMap<ItemStockOption, ItemStockOption>()
             .ForMember(x => x.Item, opt => opt.Ignore())
-            .ForMember(x => x.StockItem, opt => opt.Ignore())
-            .ForMember(x => x.ItemAddonCostCentres, opt => opt.Ignore());
+            .ForMember(x => x.StockItem, opt => opt.Ignore());
+
+
+              Mapper.CreateMap<ItemAddonCostCentre, ItemAddonCostCentre>()
+          .ForMember(x => x.CostCentre, opt => opt.Ignore())
+          .ForMember(x => x.ItemStockOption, opt => opt.Ignore());
+       
+
 
               Mapper.CreateMap<ProductCategoryItem, ProductCategoryItem>()
           .ForMember(x => x.Item, opt => opt.Ignore())
@@ -792,10 +813,10 @@ namespace MPC.Repository.Repositories
 
               Mapper.CreateMap<ImagePermission, ImagePermission>()
                 .ForMember(x => x.TemplateBackgroundImage, opt => opt.Ignore());
-        
 
 
-              List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateFonts").Include("Template.TemplateFonts").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
+
+              List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions.ItemAddonCostCentres").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateFonts").Include("Template.TemplateFonts").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
               List<Item> oOutputItems = new List<Item>();
              
               if(items != null && items.Count > 0)
@@ -1022,6 +1043,18 @@ namespace MPC.Repository.Repositories
                 ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
+                List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+                ObjExportOrg.SmartForms = smartForms;
+
+
+                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+                // variables.ToList().ForEach(s => s.ScopeVariables = null);
+                variables.ToList().ForEach(s => s.Company = null);
+                // variables.ToList().ForEach(s => s.SmartFormDetails = null);
+                //  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+                ObjExportOrg.FieldVariables = variables;
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -1034,7 +1067,7 @@ namespace MPC.Repository.Repositories
                 }
 
                 ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
-
+                TemplateColorStyle = null;
                 string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateJson1.txt";
