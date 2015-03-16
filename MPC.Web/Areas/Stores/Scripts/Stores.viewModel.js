@@ -240,6 +240,16 @@ define("stores/stores.viewModel",
                         return matchFound;
                     },
                     //#endregion
+                    getStoreHeading = function() {
+                        var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
+                        var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
+                        return value1 + value2;
+                    },
+                    getProductHeading = function() {
+                        var val1 = productViewModel.selectedProduct().productName() != '' && productViewModel.selectedProduct().productName() != undefined ? productViewModel.selectedProduct().productName() : '';
+                        var val2 = productViewModel.selectedProduct().productCode() != '' && productViewModel.selectedProduct().productCode() != undefined ? ' - ' + productViewModel.selectedProduct().productCode() : '';
+                        return val1 + val2;
+                    },
                     storeHeading = ko.computed(function () {
                         if (productViewModel.selectedProduct() == undefined) {
                             productStatus('');
@@ -248,21 +258,18 @@ define("stores/stores.viewModel",
                             } else {
                                 storeStatus("Store Details");
                             }
-                            var value1 = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
-                            var value2 = selectedStore().webAccessCode() != '' && selectedStore().webAccessCode() != undefined ? ' - ' + selectedStore().webAccessCode() : '';
-                            return value1 + value2;
+                            return getStoreHeading();
                         } else {
                             var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             storeStatus(storename);
                             if (productViewModel.selectedProduct().id() > 0) {
                                 productStatus("Modify Product Details");
+                                return getProductHeading();
                             } else {
                                 productStatus("Product Details");
                             }
 
-                            var val1 = productViewModel.selectedProduct().productName() != '' && productViewModel.selectedProduct().productName() != undefined ? productViewModel.selectedProduct().productName() : '';
-                            var val2 = productViewModel.selectedProduct().productCode() != '' && productViewModel.selectedProduct().productCode() != undefined ? ' - ' + productViewModel.selectedProduct().productCode() : '';
-                            return val1 + val2;
+                            return getStoreHeading();
                         }
                     }),
                     //#region _________S T O R E ____________________________________
