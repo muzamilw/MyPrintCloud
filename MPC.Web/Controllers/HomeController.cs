@@ -67,7 +67,7 @@ namespace MPC.MIS.Controllers
             
 
             ValidationInfo validationInfo = null;
-            //using (var client = new HttpClient())
+            using (var client = new HttpClient())
             {
 
 
