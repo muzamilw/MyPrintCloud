@@ -1074,7 +1074,7 @@ $("#btnUpdateImgProp").click(function (event) {
         //}
     }
     StartLoader("Updating image information, please wait...");
-    $.getJSON("services/imageSvcDam/" + imgSelected + "," + imType + "," + title + "," + desc + "," + keywords,
+    $.getJSON("/designerApi/TemplateBackgroundImage/UpdateImage/" + imgSelected + "/" + imType + "/" + title + "/" + desc + "/" + keywords + "/",
 	function (DT) {
 	    StopLoader();
 	    if (IsCalledFrom == 3) {
@@ -1082,14 +1082,14 @@ $("#btnUpdateImgProp").click(function (event) {
 	            k27();
 	        }
 	    }
-	    if (imgLoaderSection == 1) {
-	        $(".search").click();
-	    } else if (imgLoaderSection == 2) {
-	        $(".backgrounds").click();
-	    } else {
-	        $(".uploads").click();
-	    }
-
+	    //if (imgLoaderSection == 1) {
+	    //    $(".search").click();
+	    //} else if (imgLoaderSection == 2) {
+	    //    $(".backgrounds").click();
+	    //} else {
+	    //    $(".uploads").click();
+	    //}
+	    $("#btnAdd").click();
 	});
 
     return false;
