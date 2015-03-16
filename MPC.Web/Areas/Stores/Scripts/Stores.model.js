@@ -2993,7 +2993,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             source.CanUserEditProfile,
             source.canPlaceDirectOrder,
             source.OrganisationId,
-            source.BussinessAddressId,
+            //source.BussinessAddressId,
+            source.AddressId,
             source.RoleName,
             source.FileName
         );

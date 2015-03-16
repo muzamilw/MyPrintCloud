@@ -155,12 +155,13 @@ namespace MPC.Provisioning.Controllers
 
                         // import organisation
                         //string Path = string.Empty;
-                        string sCurrentServer = CurrentServerPath();
+                        string sCurrentServer = ConfigurationManager.AppSettings["instanceUrl"];
                         //Path = sCurrentServer + "/MPC_Content/Organisations/ExportedZip1.zip";
                         bool isCorp = false;
                         Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
                         WebClient oClient = new WebClient();
-                        oClient.OpenRead(uri);
+                        
+                       // oClient.OpenRead(uri);
 
 
 
