@@ -139,6 +139,7 @@ function b8_svc_callBack(DT) {
         $("#" + imageID).parent().parent().remove();
         i2(DT);
         StopLoader();
+        $("#btnAdd").click();
     }
 }
 function c0(cCanvas, TOC) {
@@ -1741,11 +1742,16 @@ function fu14() {
             k16(4, UsImC, "Loader");
             k16(5, UsImCBk, "Loader");
         }
+        if(IsCalledFrom == 2)
+        {
+            $(".userImgControls").css("display", "none");
+            $("#btnFreeImgsCorp").css("display", "block !important");
+        }
 
     }
 
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-       // $("#btnIllustrations").css("", "");
+      
         if (IsCalledFrom == 3) {
             k16(8, UsImC, "Loader");
             k16(6, GlImC, "Loader");
