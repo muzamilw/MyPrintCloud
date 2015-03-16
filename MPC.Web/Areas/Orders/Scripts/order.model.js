@@ -1014,7 +1014,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
 
     // Estimate Factory
-    Estimate.Create = function(source) {
+    Estimate.Create = function (source) {
         var estimate = new Estimate(source.EstimateId, source.EstimateCode, source.EstimateName, source.CompanyId, source.CompanyName, source.ItemsCount,
         source.CreationDate, source.FlagColor, source.SectionFlagId, source.OrderCode, source.IsEstimate, source.ContactId, source.AddressId, source.IsDirectSale,
         source.IsOfficialOrder, source.IsCreditApproved, source.OrderDate, source.StartDeliveryDate, source.FinishDeliveryDate, source.HeadNotes,
@@ -1046,7 +1046,66 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return estimate;
     };
-    
+    // #region __________________  COST CENTRE   ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var costCentre = function (specifiedId, specifiedname) {
+
+        var self,
+            id = ko.observable(specifiedId),
+            name = ko.observable(specifiedname),
+            errors = ko.validation.group({
+
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                id: id,
+                name: name,
+
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            //Convert To Server
+            convertToServerData = function () {
+                return {
+                    CostCentreId: id(),
+                    Name: name()
+                };
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            id: id,
+            name: name,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+   
+    costCentre.Create = function (source) {
+        var cost = new costCentre(
+            source.CostCentreId,
+            source.Name
+            );
+        return cost;
+    };
+    // #endregion __________________  COST CENTRE   ______________________
+
     // Section Flag Factory
     SectionFlag.Create = function (source) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
@@ -1092,6 +1151,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Section Cost Centre Constructor
         SectionCostCentre: SectionCostCentre,
         // Status Enum
-        Status: Status
+        Status: Status,
+        costCentre: costCentre
     };
 });
