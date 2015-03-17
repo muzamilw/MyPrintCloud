@@ -15,7 +15,7 @@ namespace MPC.Interfaces.Repository
         MachineResponseModel CreateMachineByType(bool isGuillotine);
         bool archiveMachine(long id);
         bool UpdateMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
-        MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
+        long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages);
         //   List<Machine> GetMachineList();
         MachineSearchResponse GetMachinesForProduct(MachineSearchRequestModel request);
 
