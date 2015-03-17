@@ -592,7 +592,8 @@ namespace MPC.Repository.Repositories
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
-                        // comp.CompanyTerritories.ToList().ForEach(c => c.CompanyContacts = null);
+                         //comp.CompanyContacts.ToList().ForEach(c => c.TerritoryId = null);
+                         //comp.CompanyContacts.ToList().ForEach(c => c.AddressId = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
                          if (comp.CmsPages != null && comp.CmsPages.Count > 0)
