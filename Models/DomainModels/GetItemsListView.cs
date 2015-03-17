@@ -47,6 +47,10 @@ namespace MPC.Models.DomainModels
         public double? DefaultItemTax { get; set; }
         public bool? IsUploadImage { get; set; }
         public long? CompanyId { get; set; }
+        public long? TemplateId { get; set; }
+        public bool? printCropMarks { get; set; }
+        public bool? drawWaterMarkTxt { get; set; }
+        public int? TemplateType { get; set; }
 
         #endregion
     }

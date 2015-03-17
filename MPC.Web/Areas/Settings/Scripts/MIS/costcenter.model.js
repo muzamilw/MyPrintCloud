@@ -475,10 +475,10 @@
         oCostCenter.deliveryServiceType(source.DeliveryServiceType);
         oCostCenter.carrierId(source.CarrierId);
         
-        oCostCenter.serviceTypesList(ServiceTypesList());
-        _.each(source.CostcentreInstructions, function (item) {
-            oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
-        });
+        //oCostCenter.serviceTypesList(ServiceTypesList());
+        //_.each(source.CostcentreInstructions, function (item) {
+        //    oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
+        //});
         return oCostCenter;
 
     };

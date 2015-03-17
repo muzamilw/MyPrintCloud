@@ -642,6 +642,7 @@ namespace MPC.Repository.Repositories
                                
                                  Page.PageCategory = null;
                                  Page.CompanyId = oRetailCID;
+                                 Page.OrganisationId = OrganisationID;
                                  db.CmsPages.Add(Page);
                              }
                              db.SaveChanges();
@@ -1135,6 +1136,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
+                        ObjCompany.Image = DestinationCompanyLogoFilePath;
 
                     }
 
@@ -2170,7 +2172,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
-
+                        ObjCompany.Image = DestinationCompanyLogoFilePath;
                     }
 
 

@@ -218,6 +218,7 @@ namespace MPC.Repository.Repositories
                         CompanyContacts = c.CompanyContacts.Take(1).ToList(),
                         c.Image,
                         c.ActiveBannerSetId,
+                        c.OrganisationId
                     }).ToList().Select(c => new Company
                     {
                         CompanyId = c.CompanyId,
@@ -322,17 +323,23 @@ namespace MPC.Repository.Repositories
                         CompanyCostCentres = c.CompanyCostCentres,
                         Image = c.Image,
                         ActiveBannerSetId = c.ActiveBannerSetId,
+                        OrganisationId = c.OrganisationId,
                         CompanyTerritories = c.CompanyTerritories.ToList(),
                         Addresses = c.Addresses.ToList(),
                         CompanyContacts = c.CompanyContacts.ToList()
                     }).FirstOrDefault();
-
-
-                //company.RaveReviews = company.RaveReviews.OrderBy(rv => rv.SortOrder).ToList();
-
-                companyResponse.SecondaryPageResponse = new SecondaryPageResponse();
-                companyResponse.SecondaryPageResponse.RowCount = db.CmsPages.Count(cmp => cmp.CompanyId == companyId);
-                companyResponse.SecondaryPageResponse.CmsPages = company != null ? company.CmsPages : new List<CmsPage>();
+                
+                companyResponse.SecondaryPageResponse = new SecondaryPageResponse
+                {
+                    RowCount =
+                        db.CmsPages.Count(
+                            cmp =>
+                        cmp.CompanyId == companyId),
+                    CmsPages =
+                        company != null
+                            ? company.CmsPages
+                            : new List<CmsPage>()
+                };
                 companyResponse.Company = company;
                 return companyResponse;
             }

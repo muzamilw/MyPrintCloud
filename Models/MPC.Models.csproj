@@ -109,6 +109,7 @@
     <Compile Include="Common\ContactByColumn.cs" />
     <Compile Include="Common\ContactClaimValue.cs" />
     <Compile Include="Common\CostCentreMatrix.cs" />
+    <Compile Include="Common\CostCentreOrderByColumn.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
@@ -363,6 +364,7 @@
     <Compile Include="RequestModels\CompanyTerritoryRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactRequestModel.cs" />
     <Compile Include="RequestModels\FieldVariableRequestModel.cs" />
+    <Compile Include="RequestModels\GetCostCentresRequest.cs" />
     <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
@@ -390,6 +392,7 @@
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
