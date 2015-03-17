@@ -208,7 +208,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice
+                MinPrice = source.MinPrice,
+                OrganisationId = source.OrganisationId,
+                CompanyId = source.CompanyId,
+                PrintCropMarks = source.printCropMarks,
+                DrawWaterMarkTxt = source.drawWaterMarkTxt,
+                TemplateId = source.TemplateId,
+                TemplateType = source.TemplateType
             };
             
             // Load Thumbnail Image

@@ -16,31 +16,49 @@
             <div class="clearfix">
             </div>
             <div class="main-box-body main-box clearfix">
-                <div class="table-responsive">
-                    <table id="OrderListtbl" class="table user-list">
-                        <thead>
-                            <tr>
-                                <th><span>Company / Title</span></th>
-                                <th><span>Creation Date</span></th>
-                                <th class="text-center"><span>Flag</span></th>
-                                <th><span>Order Code</span></th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
+                <div class="tabs-wrapper profile-tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active" ><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrders(0);}">All Orders</a></li>
+                        <li ><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrders(4);}">Pending Orders</a></li>
+                        <li ><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrders(5);}">Confirmed Starts</a></li>
+                        <li ><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrders(6);}">In Production</a></li>
+                        <li ><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrders(7);}">Ready For Shipping</a></li>
+                        <li ><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrders(8);}">Invoiced</a></li>
+                        <li ><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrders(9);}">Cancelled Orders</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab-All">
+                            <!-- ko template: { name: 'tabItemsList' } -->
                             <!-- /ko -->
-                        </tbody>
-                    </table>
+                        </div>
+                        <div class="tab-pane fade in" id="tab-PendingOrders">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane fade in" id="tab-ConfirmedStarts">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane fade in" id="tab-InProduction">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane fade in" id="tab-ReadyForShipping">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane fade in" id="tab-Invoiced">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                        <div class="tab-pane fade in" id="tab-CancelledOrders">
+                            <!-- ko template: { name: 'tabItemsList' } -->
+                            <!-- /ko -->
+                        </div>
+                    </div>
                 </div>
-                
-            </div>
-            <div class="clearfix">
-            </div>
-            <div id="pagerDiv">
-                <!-- ko with: pager -->
-                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                <!-- /ko -->
+                <div class="clearfix">
+                </div>
             </div>
         </div>
     </div>
@@ -68,7 +86,7 @@
 
     @* Action Template *@
     <script id="orderActionTemplate" type="text/html">
-        <a href="#" class="table-link">
+        @*<a href="#" class="table-link">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
@@ -85,7 +103,7 @@
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
             </span>
-        </a>
+        </a>*@
     </script>
 
     @* List View Template *@
@@ -93,7 +111,7 @@
         <tr>
             <td>
                 <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/logos/1.jpg")" alt="" />
-                <a data-bind="text: companyName, click: $root.editOrder" class="user-link"></a>
+                <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
                     <span data-bind="text: ' '"></span>
@@ -104,18 +122,44 @@
             <td>
                 <span data-bind="dateString: creationDate"></span>
             </td>
-            <td class="text-center">
+            <td>
                 <span class="label label-success"  data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
             <td>
                 <span data-bind="text: orderCode"></span>
             </td>
-            <td style="width: 20%;">
+            @*<td style="width: 20%;">
                 <!-- ko template: { name: 'orderActionTemplate' } -->
                 <!-- /ko -->
-            </td>
+            </td>*@
         </tr>
     </script>
-
+    
+    @* Tab Items Lists*@
+    <script id="tabItemsList" type="text/html" >
+        <div class="main-box-body main-box clearfix">
+            <div class="table-responsive">
+                <table id="OrderListtbl" class="table user-list">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-4"><span>Company / Title</span></th>
+                            <th class="col-lg-3"><span>Creation Date</span></th>
+                            <th class="col-lg-2"><span>Flag</span></th>
+                            <th class="col-lg-3"><span>Order Code</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
+                        <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="pagerDiv">
+            <!-- ko with: pager -->
+            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+            <!-- /ko -->
+        </div>
+    </script>
 </div>
 

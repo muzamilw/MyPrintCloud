@@ -2,446 +2,1182 @@
     ViewBag.Title = "Estimates List";
 }
 @section leftmenue {
-    
+
 }
 <div class="row">
     <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <ol class="breadcrumb">
-                                    <li><a href="#">Home</a></li>
-                                    <li class="active"><span>Estimates</span></li>
-                                </ol>
-                                <div class="clearfix">
-                                    <h1 class="pull-left">Estimates</h1>
-                                     <div class="pull-right top-page-ui">
-                                        <a href="#" class="btn btn-primary">
-                                            <i class="fa fa-plus-circle fa-lg"></i>Add Estimate</a>
-                                        
-                                    </div>
-                                     <div class="filter-block pull-right">
-                                               @*  <button id="open-wizard" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                                                </button>
-                                                <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
-                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Product
-                                                </a>*@
+        <div class="row">
+            <div class="col-lg-12" id="topArea">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Estimates</span></li>
+                </ol>
+                <div class="clearfix">
+                    <h1 class="pull-left">Estimates</h1>
+                </div>
 
-                                                @*<div id="addcustomer">
-                                                    @Html.Partial("Company/_AddStore")
-                                                </div>*@
-                                      </div>
-                                </div>
+                <div class="col-lg-12" id="filter" style="height:50px;">
+                    <div class="col-lg-10">
+                        <div class="filter-block pull-left col-lg-7" style="margin-top:0px;">
+                            <div class="col-lg-1 pull-left spanfilterlbl">
+                                &nbsp;
+                            </div>
+                            <div class="form-group pull-left">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <i class="fa fa-search search-icon"></i>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="main-box no-header clearfix">
-                                    <div class="main-box-body clearfix">
-                                        <div class="table-responsive">
-                                            <table class="table user-list">
-                                                 <thead>
-                                                    <tr>
-                                                        <th><span>Company / Title</span></th>
-                                                        <th><span>Creation Date</span></th>
-                                                        <th class="text-center"><span>Flag</span></th>
-                                                        <th><span>Estimate Code</span></th>
-                                                        <th>&nbsp;</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                   
-                                                   
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Gavin Newton</a>
-                                                            <span class="user-subhead">Double-Sided A4 &nbsp; (1) Items</span>
-                                                        </td>
-                                                        <td>2004/01/24
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-warning"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                               EST-001-1160
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">I Tech Printing</a>
-                                                            <span class="user-subhead">Progressed Inquiry &nbsp; (1) Items</span>
-                                                        </td>
-                                                        <td>2004/01/24
-                                                        </td>
-                                                        <td class="text-center">
-                                                              <span class="label label-warning"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                            EST-001-1161
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="#" class="user-link">ELM London</a>
-                                                            <span class="user-subhead">Business Card Holder &nbsp; (4) Items</span>
-                                                        </td>
-                                                        <td>2013/12/31
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                            EST-001-1162
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Colour Fast Group</a>
-                                                            <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
-                                                        </td>
-                                                        <td>2013/08/08
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                            EST-001-1163
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Art Graphics</a>
-                                                            <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
-                                                        </td>
-                                                        <td>2013/08/12
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                              EST-001-1164
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
-                                                            <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
-                                                        </td>
-                                                        <td>2013/08/12
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                           EST-001-1165
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
-                                                            <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
-                                                        </td>
-                                                        <td>2013/08/08
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-default"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                           EST-001-1166
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
-                                                            <span class="user-subhead">Webstore New Order &nbsp; (4) Items
-                                                            </span>
-                                                        </td>
-                                                        <td>2013/03/03
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-danger"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                            EST-001-1167
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
-                                                            <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
-                                                        </td>
-                                                        <td>2013/12/31
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-success"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                             EST-001-1168
-
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
-                                                            <a href="~/Estimate/EstimateDetail" class="user-link">Computer Technology Prints</a>
-                                                            <span class="user-subhead">New Estimate &nbsp; (1) Item</span>
-                                                        </td>
-                                                        <td>2013/03/03
-                                                        </td>
-                                                        <td class="text-center">
-                                                            <span class="label label-danger"><i class="fa fa-flag"></i></span>
-                                                        </td>
-                                                        <td>
-                                                             EST-001-1169
-                                                        </td>
-                                                        <td style="width: 20%;">
-                                                            <a href="#" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="~/Estimate/EstimateDetail" class="table-link">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                            <a href="#" class="table-link danger">
-                                                                <span class="fa-stack">
-                                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                                </span>
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div id="pagerDiv">
-                                    <ul class="pagination pull-right">
-                                    <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                        <div class="text-center col-lg-3">
+                            <label class="control-label">Filter By</label>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-info"><i class="fa fa-flag"></i></button>
+                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><span class="label label-warning"><i class="fa fa-flag"></i></span><label class="control-label">  High Priority</label></li>
+                                    <li><span class="label label-danger"><i class="fa fa-flag"></i></span><label class="control-label">  Estimate Not Complte</label></li>
+                                    <li><span class="label label-success"><i class="fa fa-flag"></i></span><label class="control-label">  Ready for Order</label></li>
+                                    <li><span class="label label-default"><i class="fa fa-flag"></i></span><label class="control-label">  Normal</label></li>
                                 </ul>
-                                </div>
-                                
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-2">
+                        <div class="pull-right">
+                            <a class="btn btn-primary">
+                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Estimate
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#tab-EstimateOpen" data-toggle="tab">Open</a></li>
+                            <li><a href="#tab-UnconfirmedOrder" data-toggle="tab">Unconfirmed Orders</a></li>
+                            <li><a href="#tab-EstimateCancelled" data-toggle="tab">Cancelled</a></li>
+                            <li><a href="#tab-EstimateShowAll" data-toggle="tab">Show All</a></li>
+                            <li><a href="#tab-InquiriesOpen" data-toggle="tab">Open Inquiries</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-EstimateOpen">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span>Company / Title</span></th>
+                                                <th><span>Creation Date</span></th>
+                                                <th class="text-center"><span>Flag</span></th>
+                                                <th><span>Estimate Code</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Gavin Newton</a>
+                                                    <span class="user-subhead">Double-Sided A4 &nbsp; (1) Items</span>
+                                                </td>
+                                                <td>
+                                                    2004/01/24
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-warning"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1160
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">I Tech Printing</a>
+                                                    <span class="user-subhead">Progressed Inquiry &nbsp; (1) Items</span>
+                                                </td>
+                                                <td>
+                                                    2004/01/24
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-warning"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1161
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="#" class="user-link">ELM London</a>
+                                                    <span class="user-subhead">Business Card Holder &nbsp; (4) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1162
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Colour Fast Group</a>
+                                                    <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1163
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Art Graphics</a>
+                                                    <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1164
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
+                                                    <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1165
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
+                                                    <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1166
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
+                                                    <span class="user-subhead">
+                                                        Webstore New Order &nbsp; (4) Items
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1167
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
+                                                    <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1168
+
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Computer Technology Prints</a>
+                                                    <span class="user-subhead">New Estimate &nbsp; (1) Item</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    @*<a href="#" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>
+                                                        <a href="~/Estimate/EstimateDetail" class="table-link">
+                                                            <span class="fa-stack">
+                                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        </a>*@
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-UnconfirmedOrder">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span>Company / Title</span></th>
+                                                <th><span>Creation Date</span></th>
+                                                <th class="text-center"><span>Flag</span></th>
+                                                <th><span>Estimate Code</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">I Tech Printing</a>
+                                                    <span class="user-subhead">Progressed Inquiry &nbsp; (1) Items</span>
+                                                </td>
+                                                <td>
+                                                    2004/01/24
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-warning"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1161
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="#" class="user-link">ELM London</a>
+                                                    <span class="user-subhead">Business Card Holder &nbsp; (4) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1162
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Colour Fast Group</a>
+                                                    <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1163
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Art Graphics</a>
+                                                    <span class="user-subhead">New Estimate &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1164
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
+                                                    <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1165
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
+                                                    <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1166
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
+                                                    <span class="user-subhead">
+                                                        Webstore New Order &nbsp; (4) Items
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1167
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
+                                                    <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1168
+
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Computer Technology Prints</a>
+                                                    <span class="user-subhead">New Estimate &nbsp; (1) Item</span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1169
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-EstimateCancelled">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span>Company / Title</span></th>
+                                                <th><span>Creation Date</span></th>
+                                                <th class="text-center"><span>Flag</span></th>
+                                                <th><span>Estimate Code</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">I Tech Printing</a>
+                                                    <span class="user-subhead">Progressed Inquiry &nbsp; (1) Items</span>
+                                                </td>
+                                                <td>
+                                                    2004/01/24
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-warning"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1161
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Colour Fast Group</a>
+                                                    <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1163
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                           
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
+                                                    <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1165
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
+                                                    <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1166
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
+                                                    <span class="user-subhead">
+                                                        Webstore New Order &nbsp; (4) Items
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1167
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
+                                                    <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1168
+
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-EstimateShowAll">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span>Company / Title</span></th>
+                                                <th><span>Creation Date</span></th>
+                                                <th class="text-center"><span>Flag</span></th>
+                                                <th><span>Estimate Code</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">I Tech Printing</a>
+                                                    <span class="user-subhead">Progressed Inquiry &nbsp; (1) Items</span>
+                                                </td>
+                                                <td>
+                                                    2004/01/24
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-warning"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1161
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Colour Fast Group</a>
+                                                    <span class="user-subhead">Complement Slips &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1163
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
+                                                    <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1165
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
+                                                    <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1166
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
+                                                    <span class="user-subhead">
+                                                        Webstore New Order &nbsp; (4) Items
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1167
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
+                                                    <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1168
+
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab-InquiriesOpen">
+                                <div class="table-responsive">
+                                    <table class="table user-list">
+                                        <thead>
+                                            <tr>
+                                                <th><span>Company / Title</span></th>
+                                                <th><span>Creation Date</span></th>
+                                                <th class="text-center"><span>Flag</span></th>
+                                                <th><span>Estimate Code</span></th>
+                                                <th>&nbsp;</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Creative Art</a>
+                                                    <span class="user-subhead">Premium Business Cards &nbsp; (5) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/12
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1165
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Unbound Prints</a>
+                                                    <span class="user-subhead">DL Flyers &nbsp; (2) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/08/08
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-default"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1166
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/arrow_down.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Comrade Circle </a>
+                                                    <span class="user-subhead">
+                                                        Webstore New Order &nbsp; (4) Items
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    2013/03/03
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-danger"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1167
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <img src="~/Content/themes/Centaurus/img/samples/forwardicon.png" alt="" />
+                                                    <a href="~/Estimate/EstimateDetail" class="user-link">Eazy Prints</a>
+                                                    <span class="user-subhead">Tri Fold Brouchers &nbsp; (3) Items</span>
+                                                </td>
+                                                <td>
+                                                    2013/12/31
+                                                </td>
+                                                <td class="text-center">
+                                                    <span class="label label-success"><i class="fa fa-flag"></i></span>
+                                                </td>
+                                                <td>
+                                                    EST-001-1168
+
+                                                </td>
+                                                <td style="width: 20%;">
+                                                    <a href="#" class="table-link danger">
+                                                        <span class="fa-stack">
+                                                            <i class="fa fa-square fa-stack-2x"></i>
+                                                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                        </span>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="pagerDiv">
+                    <ul class="pagination pull-right">
+                        <li><a href="#"><i class="fa fa-chevron-left"></i></a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#"><i class="fa fa-chevron-right"></i></a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts{
     <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
     <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('.bs-example-tooltips a').popover();
-                $('#liestimating').addClass('active');
-            });
-            $(function () {
-                $('#myWizard').wizard();
-                //masked inputs
-                $("#maskedDate").mask("99/99/9999");
-                $("#maskedPhone").mask("(999) 999-9999");
-                $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
-            });
-	</script>
+    <script>
+        $(document).ready(function () {
+            $('.bs-example-tooltips a').popover();
+            $('#liestimating').addClass('active');
+        });
+        $(function () {
+            $('#myWizard').wizard();
+            //masked inputs
+            $("#maskedDate").mask("99/99/9999");
+            $("#maskedPhone").mask("(999) 999-9999");
+            $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
+        });
+    </script>
 }             

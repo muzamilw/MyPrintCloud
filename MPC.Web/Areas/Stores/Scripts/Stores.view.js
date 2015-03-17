@@ -17,6 +17,7 @@ define("stores/stores.view",
                     $("#rave").modal("show");
                     initializeLabelPopovers();
                 },
+               
                 // Hide Activity the dialog
                 hideRaveReviewDialog = function () {
                     $("#rave").modal("hide");

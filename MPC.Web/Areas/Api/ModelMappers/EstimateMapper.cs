@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
+                CompanyId= source.CompanyId,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,

@@ -13,6 +13,8 @@ define("order/order.viewModel",
                     // #region Arrays
                     // orders
                     orders = ko.observableArray([]),
+                    // Cost Centres
+                    costCentres = ko.observableArray([]),
                     // flag colors
                     sectionFlags = ko.observableArray([]),
                     // company contacts
@@ -28,25 +30,32 @@ define("order/order.viewModel",
                     // Job Statuses
                     jobStatuses = ko.observableArray([
                         {
-                            StatusId: 11, StatusName: "Need Assigning"
+                            StatusId: 11,
+                            StatusName: "Need Assigning"
                         },
                         {
-                            StatusId: 12, StatusName: "In Studio"
+                            StatusId: 12,
+                            StatusName: "In Studio"
                         },
                         {
-                            StatusId: 13, StatusName: "In Print/Press"
+                            StatusId: 13,
+                            StatusName: "In Print/Press"
                         },
                         {
-                            StatusId: 14, StatusName: "In Post Press/Bindery"
+                            StatusId: 14,
+                            StatusName: "In Post Press/Bindery"
                         },
                         {
-                            StatusId: 15, StatusName: "Ready for Shipping"
+                            StatusId: 15,
+                            StatusName: "Ready for Shipping"
                         },
                         {
-                            StatusId: 16, StatusName: "Shipped, Not Invoiced"
+                            StatusId: 16,
+                            StatusName: "Shipped, Not Invoiced"
                         },
                         {
-                            StatusId: 17, StatusName: "Not Progressed to Job"
+                            StatusId: 17,
+                            StatusName: "Not Progressed to Job"
                         }
                     ]),
                     // Nominal Codes
@@ -64,10 +73,11 @@ define("order/order.viewModel",
                     // #region Observables
                     // filter
                     filterText = ko.observable(),
+                    costCentrefilterText = ko.observable(),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -76,29 +86,31 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                     // Pagination for Cost Centres
+                    costCentrePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
                     // Default Address
                     defaultAddress = ko.observable(model.Address.Create({})),
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
                         return addressResult || defaultAddress();
                     }),
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -255,19 +267,6 @@ define("order/order.viewModel",
                             selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
                         }
                     },
-                    // Initialize the view model
-                    initialize = function (specifiedView) {
-                        view = specifiedView;
-                        ko.applyBindings(view.viewModel, view.bindingRoot);
-
-                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
-
-                        // Get Base Data
-                        getBaseData();
-
-                        // Get Orders
-                        getOrders();
-                    },
                     // Map List
                     mapList = function (observableList, data, factory) {
                         var list = [];
@@ -295,7 +294,7 @@ define("order/order.viewModel",
                         // Reset Pager
                         pager().reset();
                         // Get Orders
-                        getOrders();
+                        getOrders(currentScreen());
                     },
                     // Reset Filter
                     resetFilter = function () {
@@ -335,6 +334,20 @@ define("order/order.viewModel",
                         return orders.find(function (order) {
                             return order.id() === id;
                         });
+                    },
+                    // Initialize the view model
+                    initialize = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+
+                        // Get Base Data
+                        getBaseData();
+
+                        // Get Orders
+                        getOrders(0);
                     },
                     // #endregion
                     // #region ServiceCalls
@@ -441,8 +454,10 @@ define("order/order.viewModel",
                         });
                     },
                     // Get Orders
-                    getOrders = function () {
+                    getOrders = function (currentTab) {
+                        
                         isLoadingOrders(true);
+                        currentScreen(currentTab);
                         dataservice.getOrders({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
@@ -471,6 +486,7 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
+                                    debugger;
                                     selectedOrder(model.Estimate.Create(data));
 
                                     if (callback && typeof callback === "function") {
@@ -520,11 +536,48 @@ define("order/order.viewModel",
                         getItemsByCompanyId();
                         openProductFromStoreDialog();
                     },
+                     onAddCostCenter = function () {
+                         getCostCenters();
+                         view.showCostCentersDialog();
+                    },
+                     closeCostCenterDialog = function () {
+                         view.hideRCostCentersDialog();
+                     },
+                     getCostCenters = function () {
+                         dataservice.getCostCenters({
+                         CompanyId: selectedOrder().companyId(),
+                         SearchString: costCentrefilterText(),
+                         PageSize: costCentrePager().pageSize(),
+                         PageNo: costCentrePager().currentPage(),
+                         }, {
+                             success: function (data) {
+                                 if (data != null) {
+                                     costCentrePager().totalCount(data.RowCount);
+                                     costCentres.removeAll();
+                                     _.each(data.CostCentres, function (item) {
+                                         var costCentre = new model.costCentre.Create(item);
+                                         costCentres.push(costCentre);
+                                     });
+                                 }
+                             },
+                             error: function (response) {
+                                 //isLoadingStores(false);
+                                 toastr.error("Failed to Load Company Products . Error: " + response);
+                             }
+                         });
+                     },
+                     resetCostCentrefilter = function () {
+                         costCentrefilterText('');
+                         getCostCenters();
+                     },
+                     costCenterClickLIstner = function () {
+                         view.showCostCentersQuantityDialog();
+                     },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
-
                         dataservice.getItemsByCompanyId({
-                            CompanyId: selectedOrder().companyId()
+                            //CompanyId: selectedOrder().companyId()//todo: uncomment it when companies start loading
+                            CompanyId: 32844
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -542,7 +595,8 @@ define("order/order.viewModel",
                         });
                     },
                     //Update Items Data On Item Selection
-                    updateItemsDataOnItemSelection = function(item) {
+                    updateItemsDataOnItemSelection = function (item) {
+                        toastr.success(item.id());
                     },
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
@@ -561,6 +615,7 @@ define("order/order.viewModel",
                     isItemDetailVisible: isItemDetailVisible,
                     isSectionDetailVisible: isSectionDetailVisible,
                     pager: pager,
+                    costCentrePager:costCentrePager,
                     errorList: errorList,
                     filterText: filterText,
                     pageHeader: pageHeader,
@@ -602,11 +657,19 @@ define("order/order.viewModel",
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
+                    getOrders: getOrders,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
                     onCloseProductFromRetailStore: onCloseProductFromRetailStore,
                     getItemsByCompanyId: getItemsByCompanyId,
+                    onAddCostCenter: onAddCostCenter,
+                    onCloseCostCenterDialog: closeCostCenterDialog,
+                    costCentres: costCentres,
+                    getCostCenters: getCostCenters,
+                    costCentrefilterText: costCentrefilterText,
+                    resetCostCentrefilter: resetCostCentrefilter,
+                    costCenterClickListner: costCenterClickLIstner
                     //#endregion
                     //#endregion
                 };

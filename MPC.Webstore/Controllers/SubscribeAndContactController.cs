@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
+using MPC.Webstore.Models;
 
 namespace MPC.Webstore.Controllers
 {
@@ -41,7 +42,37 @@ namespace MPC.Webstore.Controllers
         // GET: SubscribeAndTestimonials
         public ActionResult Index()
         {
-            return PartialView("PartialViews/SubscribeAndContact");
+            AddressViewModel oAddress = null;
+
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+
+            if (StoreBaseResopnse.StoreDetaultAddress != null)
+            {
+                oAddress = new AddressViewModel();
+                oAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                oAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                oAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                oAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                oAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                oAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                {
+                    oAddress.Tel = "Tel: " + StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Fax))
+                {
+                    oAddress.Fax = "Fax: " + StoreBaseResopnse.StoreDetaultAddress.Fax;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
+                {
+                    oAddress.Email = "Email: " + StoreBaseResopnse.StoreDetaultAddress.Email;
+                }
+            }
+            return PartialView("PartialViews/SubscribeAndContact", oAddress);
          
         }
         [HttpPost]

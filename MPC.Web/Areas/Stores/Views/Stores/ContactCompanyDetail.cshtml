@@ -12,7 +12,9 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'"><span data-bind="text:$root.storeStatus"></span></li>
+                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'">
+                            <a href="#" data-bind="click: ist.product.viewModel.onCloseProductEditor"><span data-bind="text:$root.storeStatus"></span></a>
+                        </li>
                         <!-- if ko if : $root.productStatus()!='' -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                         <!-- /ko -->

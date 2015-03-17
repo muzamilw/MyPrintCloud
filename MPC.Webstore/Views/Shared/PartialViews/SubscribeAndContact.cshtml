@@ -1,4 +1,6 @@
-﻿<div id="footer footer-content spacer-top" style="background-color:#5b237a !important;">
+﻿@using System.Globalization
+@model MPC.Webstore.Models.AddressViewModel
+<div id="footer footer-content spacer-top" style="background-color:#5b237a !important;">
 
     <div class="container ">
         <div class="container">
@@ -10,21 +12,34 @@
                                 <h3 class="panel-title">Contact us</h3>
                             </div>
                             <div class="panel-body" style="padding-top: 0px;">
-                                <div itemscope="" itemtype="http://schema.org/Organization">
-                                    <h2 itemprop="name" id="companyname">Company</h2>
-                                    <div itemprop="address" itemscope="" itemtype="http://schema.org/PostalAddress">
-                                        <b>Main address</b>:<br />
-                                        <span itemprop="streetAddress" id="addressline1">
-                                            Address 1..<br />
-                                            Address 2..
-                                        </span><br />
-                                        <span itemprop="postalCode" id="cityandCode">City and Zip Code</span><br />
-                                        <span itemprop="addressLocality" id="stateandCountry">state &amp; Country</span>
-                                    </div>
-                                    Tel:<span itemprop="telephone" id="telno">(xxx) xxx-xxxx </span>
-                                    <br />
-                                    E-mail: <span itemprop="email" id="emailadd">john_doe@company.com</span><br />
-                                    <span itemprop="member" itemscope="" itemtype="http://schema.org/Organization"></span>
+                                <div>
+                                    <h2 itemprop="name" id="companyname">Company Address</h2>
+                                    @if (Model != null)
+                                    {
+                                        <div itemprop="address">
+                                            <b>Main address</b>:<br />
+                                            <span itemprop="streetAddress" id="addressline1">
+                                                Address 1..<br />
+                                                Address 2..
+                                            </span><br />
+                                            <span itemprop="postalCode" id="cityandCode">City and Zip Code</span><br />
+                                            <span itemprop="addressLocality" id="stateandCountry">state &amp; Country</span>
+                                        </div>
+                                        if (Model.Tel != null)
+                                        {
+
+                                            <span id="telno">Tel:@Model.Tel</span>
+
+                                            <br />
+                                        }
+                                        if (Model.Email != null)
+                                        {
+
+                                            <span id="emailadd">Email:@Model.Email</span>
+
+                                            <br />
+                                        }
+                                    }
                                 </div>
                             </div>
                         </div>

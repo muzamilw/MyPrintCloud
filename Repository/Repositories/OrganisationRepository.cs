@@ -642,6 +642,7 @@ namespace MPC.Repository.Repositories
                                
                                  Page.PageCategory = null;
                                  Page.CompanyId = oRetailCID;
+                                 Page.OrganisationId = OrganisationID;
                                  db.CmsPages.Add(Page);
                              }
                              db.SaveChanges();
@@ -1135,6 +1136,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
+                        ObjCompany.Image = DestinationCompanyLogoFilePath;
 
                     }
 
@@ -2170,7 +2172,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
-
+                        ObjCompany.Image = DestinationCompanyLogoFilePath;
                     }
 
 
@@ -2509,9 +2511,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.GridImage);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2557,9 +2559,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File1);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2607,9 +2609,9 @@ namespace MPC.Repository.Repositories
                                 string name = Path.GetFileName(item.File2);
 
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2655,9 +2657,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File3);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2703,9 +2705,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File4);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
@@ -2751,9 +2753,9 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File5);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
 
