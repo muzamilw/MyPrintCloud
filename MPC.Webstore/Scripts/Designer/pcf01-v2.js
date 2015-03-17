@@ -139,6 +139,7 @@ function b8_svc_callBack(DT) {
         $("#" + imageID).parent().parent().remove();
         i2(DT);
         StopLoader();
+        $("#btnAdd").click();
     }
 }
 function c0(cCanvas, TOC) {
@@ -1741,11 +1742,16 @@ function fu14() {
             k16(4, UsImC, "Loader");
             k16(5, UsImCBk, "Loader");
         }
+        if(IsCalledFrom == 2)
+        {
+            $(".userImgControls").css("display", "none");
+            $("#btnFreeImgsCorp").css("display", "block !important");
+        }
 
     }
 
     if (IsCalledFrom == 1 || IsCalledFrom == 3) {
-
+      
         if (IsCalledFrom == 3) {
             k16(8, UsImC, "Loader");
             k16(6, GlImC, "Loader");
@@ -1759,20 +1765,20 @@ function fu14() {
             //   k16(19, GlLogCn, "Loader");
             //   k16(20, GlShpCn, "Loader");
         }
-        if (IsCalledFrom == 1) {
-            if (CustomerID != -999) {
-                k16(10, GlImC, "Loader");
-                k16(11, GlImCBk, "Loader");
-            } else {
-                k16(6, GlImC, "Loader");
-                k16(7, GlImCBk, "Loader");
-                //  k16(14, GlLogCn, "Loader");
-                //   k16(13, GlShpCn, "Loader");
-                //    k16(18, GlLogCnP, "Loader");
-                //    k16(19, GlLogCn, "Loader");
-                //    k16(20, GlShpCn, "Loader");
-            }
-        }
+        //if (IsCalledFrom == 1) {
+        //    if (CustomerID != -999) {
+        //        k16(10, GlImC, "Loader");
+        //        k16(11, GlImCBk, "Loader");
+        //    } else {
+        //        k16(6, GlImC, "Loader");
+        //        k16(7, GlImCBk, "Loader");
+        //        //  k16(14, GlLogCn, "Loader");
+        //        //   k16(13, GlShpCn, "Loader");
+        //        //    k16(18, GlLogCnP, "Loader");
+        //        //    k16(19, GlLogCn, "Loader");
+        //        //    k16(20, GlShpCn, "Loader");
+        //    }
+        //}
     }
 }
 function fu15() {
@@ -2281,7 +2287,7 @@ function k4() {
     var D1AG = canvas.getActiveGroup();
 
     if (D1AG) {
-    } else if (D1AO && D1AO.IsPositionLocked == false) {
+    } else if (D1AO) {
         var l = D1AO.left - D1AO.getWidth() / 2;
         var t = D1AO.top - D1AO.getHeight() / 2;
         l = Math.round(l);

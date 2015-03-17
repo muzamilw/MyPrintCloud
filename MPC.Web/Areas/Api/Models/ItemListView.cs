@@ -43,6 +43,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string ProductCategoryName { get; set; }
         public double MinPrice { get; set; }
         public int? IsSpecialItem { get; set; }
+        public long? CompanyId { get; set; }
+        public long? TemplateId { get; set; }
+        public bool? PrintCropMarks { get; set; }
+        public bool? DrawWaterMarkTxt { get; set; }
+        public int? TemplateType { get; set; }
         public byte[] ThumbnailImage { get; set; }
         public string ThumbnailImageSource
         {

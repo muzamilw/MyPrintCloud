@@ -669,3 +669,27 @@ alter table company
 add ActiveBannerSetId bigint null
 
 GO
+
+
+/* Execution Date: 16/03/2015 */
+
+GO
+
+ALTER VIEW [dbo].[GetItemsListView]
+AS
+SELECT        p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.ProductCode, 
+	(select 
+STUFF((select ', ' + pc.CategoryName
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+        ,1,2,'')) ProductCategoryName,
+ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
+p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
+FROM            dbo.Items p
+
+GO

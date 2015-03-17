@@ -3521,6 +3521,10 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="DefaultItemTax" Type="float" />
           <Property Name="isUploadImage" Type="bit" />
           <Property Name="CompanyId" Type="bigint" />
+          <Property Name="TemplateId" Type="bigint" />
+          <Property Name="printCropMarks" Type="bit" />
+          <Property Name="drawWaterMarkTxt" Type="bit" />
+          <Property Name="TemplateType" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'MPC.dbo.ProductCategoriesView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -5390,7 +5394,11 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetItemsListView].[PriceDiscountPercentage] AS [PriceDiscountPercentage], 
     [GetItemsListView].[DefaultItemTax] AS [DefaultItemTax], 
     [GetItemsListView].[isUploadImage] AS [isUploadImage], 
-    [GetItemsListView].[CompanyId] AS [CompanyId]
+    [GetItemsListView].[CompanyId] AS [CompanyId], 
+    [GetItemsListView].[TemplateId] AS [TemplateId], 
+    [GetItemsListView].[printCropMarks] AS [printCropMarks], 
+    [GetItemsListView].[drawWaterMarkTxt] AS [drawWaterMarkTxt], 
+    [GetItemsListView].[TemplateType] AS [TemplateType]
     FROM [dbo].[GetItemsListView] AS [GetItemsListView]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="ProductCategoriesView" EntityType="Self.ProductCategoriesView" store:Type="Views" store:Schema="dbo">
@@ -9470,6 +9478,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductType" Type="Int32" />
           <Property Name="IsUploadImage" Type="Boolean" />
           <Property Name="CompanyId" Type="Int64" />
+          <Property Name="TemplateId" Type="Int64" />
+          <Property Name="printCropMarks" Type="Boolean" />
+          <Property Name="drawWaterMarkTxt" Type="Boolean" />
+          <Property Name="TemplateType" Type="Int32" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -14145,6 +14157,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
+                <ScalarProperty Name="drawWaterMarkTxt" ColumnName="drawWaterMarkTxt" />
+                <ScalarProperty Name="printCropMarks" ColumnName="printCropMarks" />
+                <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="IsUploadImage" ColumnName="isUploadImage" />
                 <ScalarProperty Name="ProductType" ColumnName="ProductType" />

@@ -39,7 +39,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MachineSpoilageItems = source.MachineSpoilageItems == null ? null : source.MachineSpoilageItems.Select(s => s.CreateFrom()),
                 InkCoveragItems = source.InkCoveragItems == null ? null : source.InkCoveragItems.Select(s => s.CreateFrom()),
                 deFaultPaperSizeName = source.deFaultPaperSizeName == null ? null : source.deFaultPaperSizeName,
-                deFaultPlatesName = source.deFaultPlatesName == null ? null : source.deFaultPlatesName
+                deFaultPlatesName = source.deFaultPlatesName == null ? null : source.deFaultPlatesName,
+                CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol
             };
 
         }

@@ -6133,12 +6133,12 @@ background-repeat: no-repeat;background-position-x: 14px;
 
 .TextObjectPropertyPanal {
     position: absolute;
-    left: 70px;
-    right: 0px;
+  height: 385px;
+right: -65px;
     top: 86px/*42px*/;
     bottom: 178px/*142px*/;
     overflow: hidden;
-    padding: 20px 18px 20px 0;
+    padding: 20px 18px 20px 2px;
     background-color: #3f4652;
     text-align: left;
     border-top-right-radius: 7px;
