@@ -1258,11 +1258,14 @@ namespace MPC.Implementation.MISServices
         {
             // Clone Item
             source.Clone(target);
-            
+
+            // Append Item Code to Product Name and Code
+            AppendItemCodeToClonedProduct(target);
+
             // Clone Item Product Detail
             CloneItemProductDetail(source, target);
 
-            // Clone Item Vdp Prices
+            // Clone Item Vdp Prices 
             CloneItemVdpPrices(source, target);
             
             // Clone Item Sections
@@ -1304,6 +1307,30 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             itemRepository.SaveChanges();
+        }
+
+        /// <summary>
+        /// Appends Item Code to Product Name and Code
+        /// Validates the Product Name and Code Length
+        /// If Exceeds them takes the part of it
+        /// </summary>
+        private static void AppendItemCodeToClonedProduct(Item target)
+        {
+            // Append Item Code in Product Name and Code to distinguish it from copied one
+            target.ProductName += ' ' + target.ItemCode;
+            target.ProductCode += ' ' + target.ItemCode;
+
+            // Validate if Code exceeds the length
+            if (target.ProductCode.Length > 50)
+            {
+                target.ProductCode = target.ProductCode.Substring(0, 49);
+            }
+
+            // Validate if Name exceeds the length
+            if (target.ProductName.Length > 500)
+            {
+                target.ProductName = target.ProductName.Substring(0, 499);
+            }
         }
 
         #endregion

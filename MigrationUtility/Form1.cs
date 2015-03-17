@@ -1140,7 +1140,7 @@ namespace MigrationUtility
 
 
                        Preview.Company oCorpStore = Mapper.Map<tbl_contactcompanies, Company>(otbl_contactcompanies);
-                        oCorpStore.Name = "Corproate Store";
+                        oCorpStore.Name = "Corproate Store 11";
                         
                         oCorpStore.IsCustomer = 3;
                         oCorpStore.TypeId = 52;
@@ -1338,7 +1338,7 @@ namespace MigrationUtility
                         }
 
 
-                        foreach (var item in MPCContext.ProductCategories.Where(g => g.OrganisationId == OrganizationId).ToList())
+                        foreach (var item in MPCContext.ProductCategories.Where(g => g.OrganisationId == OrganizationId && g.CompanyId == corpCustomerID).ToList())
                         {
                             if (item.Description2.Trim() != "0")
                             {
@@ -1425,7 +1425,7 @@ namespace MigrationUtility
                                     itemsection.GuillotineId = MPCContext.Machines.Where(g => g.MachineName == guillotine.MachineName).Single().MachineId;
                                 }
                                 var paper = PCContext.tbl_stockitems.Where(g => g.StockItemID == itemsection.StockItemID1).Single();
-                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode).Single().StockItemId;
+                                itemsection.StockItemID1 = MPCContext.StockItems.Where(g => g.ItemName == paper.ItemName && g.ItemCode == paper.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
 
 
 
@@ -1580,7 +1580,7 @@ namespace MigrationUtility
 
 
                                 var stock = PCContext.tbl_stockitems.Where(g => g.StockItemID == ootbl_ItemStockOptions.StockID).Single();
-                                oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode).Single().StockItemId;
+                                oItemStockOption.StockId = MPCContext.StockItems.Where(g => g.ItemName == stock.ItemName && g.ItemCode == stock.ItemCode && g.OrganisationId == OrganizationId).Single().StockItemId;
 
                                 MPCContext.ItemStockOptions.Add(oItemStockOption);
 
@@ -1642,6 +1642,12 @@ namespace MigrationUtility
 
                                 oItem.TemplateId = oMPCTemplate.ProductId;
 
+                                foreach (var oobject in oMPCTemplate.TemplateObjects    )
+                                {
+                                    oobject.textCase = 0;
+                                }
+
+
                                 MPCContext.SaveChanges();
 
                                 //                            Mpc_content/designer/organisation1/webfonts/   {{CustomerId}}/{{font filename}} + .eot/.ttf/.woff for customer fonts
@@ -1651,25 +1657,32 @@ namespace MigrationUtility
                                 //[3/12/2015 5:52:20 PM] Muhammad Saqib Ali: MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/UserImgs/"  + CustomerID + "/" + filename for template backgroundimage
 
 
-                                if (!Directory.Exists(MPCContentBasePath + "Organisation" + OrganizationId.ToString()))
+
+                             
+
+                                if (!Directory.Exists(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString()))
                                 {
-                                    Directory.CreateDirectory(MPCContentBasePath + "Organisation" + OrganizationId.ToString());
+                                    Directory.CreateDirectory(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString());
                                 }
 
-                                if (!Directory.Exists(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\"))
+                                if (!Directory.Exists(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\"))
                                 {
-                                    Directory.CreateDirectory(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\");
+                                    Directory.CreateDirectory(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\");
                                 }
 
-                                if (!Directory.Exists(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\"))
+                                if (!Directory.Exists(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\"))
                                 {
-                                    Directory.CreateDirectory(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\");
+                                    Directory.CreateDirectory(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\");
                                 }
 
-                                if (!Directory.Exists(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString()))
+                                if (!Directory.Exists(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString()))
                                 {
-                                    Directory.CreateDirectory(MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString());
+                                    Directory.CreateDirectory(MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString());
                                 }
+
+
+
+
 
                                 //tempalte pages
                                 foreach (var oBackground in oTemplate.TemplatePages)
@@ -1677,15 +1690,17 @@ namespace MigrationUtility
                                     if (oBackground.BackGroundType == 1)
                                     {
                                         var sourcepath = goldwelldesignerbasePath + oBackground.BackgroundFileName;
-                                        var destPath = MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\Side" + oBackground.PageNo.ToString() + ".pdf";
+                                        var destPath = MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\Side" + oBackground.PageNo.ToString() + ".pdf";
                                         File.Copy(sourcepath, destPath);
                                         oBackground.BackgroundFileName = oTemplate.ProductID.ToString() + "/Side" + oBackground.PageNo.ToString() + ".pdf";
 
                                         //templatImgBk1.jpg
-                                        if (File.Exists(goldwelldesignerbasePath + oMPCTemplate.ProductId.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg"))
+                                        if (File.Exists(goldwelldesignerbasePath + oTemplate.ProductID.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg"))
                                         {
-                                            string src = goldwelldesignerbasePath + oMPCTemplate.ProductId.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg";
-                                            string dest = MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg";
+                                            string src = goldwelldesignerbasePath + oTemplate.ProductID.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg";
+                                            string dest = MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\" + "templatImgBk" + oBackground.PageNo.ToString() + ".jpg";
+
+                                            File.Copy(src, dest);
                                         }
 
                                     }
@@ -1698,7 +1713,7 @@ namespace MigrationUtility
                                 {
 
                                     var sourcepath = goldwelldesignerbasePath + oBackground.ImageName;
-                                    var destPath = MPCContentBasePath + "Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\" + System.IO.Path.GetFileName(oBackground.ImageName);
+                                    var destPath = MPCContentBasePath + "designer\\Organisation" + OrganizationId.ToString() + "\\Templates\\" + oMPCTemplate.ProductId.ToString() + "\\" + System.IO.Path.GetFileName(oBackground.ImageName);
                                     File.Copy(sourcepath, destPath);
                                     oBackground.ImageName = oTemplate.ProductID.ToString() + "/" + System.IO.Path.GetFileName(oBackground.ImageName);
                                     oBackground.Name = oTemplate.ProductID.ToString() + "/" + System.IO.Path.GetFileName(oBackground.ImageName);

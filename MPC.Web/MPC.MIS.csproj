@@ -299,6 +299,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
     <Compile Include="Areas\Api\Controllers\CalendarBaseController.cs" />
@@ -350,6 +351,7 @@
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
@@ -417,6 +419,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
@@ -1852,6 +1855,8 @@
     <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

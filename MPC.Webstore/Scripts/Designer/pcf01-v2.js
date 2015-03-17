@@ -2287,7 +2287,7 @@ function k4() {
     var D1AG = canvas.getActiveGroup();
 
     if (D1AG) {
-    } else if (D1AO && D1AO.IsPositionLocked == false) {
+    } else if (D1AO) {
         var l = D1AO.left - D1AO.getWidth() / 2;
         var t = D1AO.top - D1AO.getHeight() / 2;
         l = Math.round(l);

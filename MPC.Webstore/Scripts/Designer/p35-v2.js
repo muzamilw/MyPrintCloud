@@ -476,7 +476,7 @@ function g1(D1AO) {
         $("#BtnLockTxtPosition").removeAttr("disabled");
         $("#BtnPrintObj").removeAttr("disabled");
         if (IsEmbedded && !D1AO.IsEditable) {
-            $("#BtnLockEditing").attr("disabled", "disabled");
+          //  $("#BtnLockEditing").attr("disabled", "disabled");
         }
         if (IsEmbedded && D1AO.IsPositionLocked) {
             $("#BtnLockTxtPosition").attr("disabled", "disabled");
@@ -1959,7 +1959,7 @@ $("#BtnLockEditing").click(function () {
     var thisCheck = $(this);
     var D1AO = canvas.getActiveObject();
     if (D1AO.type === 'text' || D1AO.type === 'i-text') {
-
+      
         if (D1AO.get('IsEditable') == true) {
             D1AO.IsEditable = false;
             D1AO.IsTextEditable = false;
