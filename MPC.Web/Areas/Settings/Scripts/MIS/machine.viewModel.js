@@ -166,7 +166,7 @@ define("machine/machine.viewModel",
                                  if (data != null) {
                                      selectedMachine(model.newMachineClientMapper(data));
                                      selectedMachine().reset();
-                                     isEditorVisible(true);
+                                     showMachineDetail();
 
                                  }
                              },
@@ -301,7 +301,8 @@ define("machine/machine.viewModel",
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
-                                    isEditorVisible(true);
+                                    showMachineDetail();
+                                    
                                     
                                 }
                             },
@@ -325,6 +326,10 @@ define("machine/machine.viewModel",
                     },
                     closeMachineDetail = function () {
                         isEditorVisible(false);
+                    },
+                    showMachineDetail = function () {
+                        isEditorVisible(true);
+                        view.initializeLabelPopovers();
                     },
                      // #region Observables
                     // Initialize the view model
@@ -359,7 +364,7 @@ define("machine/machine.viewModel",
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
-                   
+                    showMachineDetail:showMachineDetail,
                     getStockItemsList: getStockItemsList,
                     onPapperSizeStockItemPopup: onPapperSizeStockItemPopup,
                     onPlateStockItemPopup: onPlateStockItemPopup,
