@@ -409,6 +409,7 @@
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveEmail">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteEmail, enable: $root.selectedEmail().id() != undefined">Archive</button>
             </div>
         </div>
     </div>

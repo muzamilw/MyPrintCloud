@@ -2,12 +2,12 @@
 
 <div class="modal fade" id="rave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div style="width:838px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: $root.selectedRaveReview">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Rave Review Details</h4>
             </div>
-            <div class="col-lg-12 outerDiv-Padding form-horizontal" data-bind="with: $root.selectedRaveReview">
+            <div class="col-lg-12 outerDiv-Padding form-horizontal">
                 <div class="form-group">
                     <div class="col-lg-3 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
@@ -75,6 +75,7 @@
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveRaveReview">OK</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseRaveReview" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteRaveReview, enable: $root.selectedRaveReview().reviewId() != undefined">Archive</button>
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 ﻿
 <div class="modal fade my-modal" id="myAddressSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Address</h4>
@@ -102,7 +102,7 @@
                             <input type="text" class="form-control" id="txtCity" data-bind="value: city, validationToolTip: city">
                         </div>
                     </div>
-                    
+
                     <div class="form-group ">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
@@ -318,6 +318,7 @@
                 <div class="modal-footer col-xs-12">
                     <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveAddress">Save</button>
                     <button type="button" class="btn btn-default" data-bind="click: $root.onCloseAddress" style="margin-left:0px;">Close</button>
+                    <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteAddress, enable: $root.selectedAddress().addressId() != undefined">Archive</button>
                 </div>
             </div>
         </div>
