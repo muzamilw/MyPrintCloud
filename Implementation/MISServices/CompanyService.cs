@@ -4630,7 +4630,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
-                return false;
+              
                 throw ex;
 
             }

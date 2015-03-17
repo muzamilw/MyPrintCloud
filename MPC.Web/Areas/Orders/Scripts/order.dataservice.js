@@ -69,6 +69,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get cost centers By CompanyId
+                    amplify.request.define('getCostCentersByCompanyId', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyCostCenters',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -150,7 +156,17 @@ define("order/order.dataservice", function () {
                     error: callbacks.error,
                     data: params
                 });
-            };
+            },
+        // get Cost centres for company
+        getCostCenters = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersByCompanyId',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        };
 
         return {
             getOrder: getOrder,
@@ -160,7 +176,8 @@ define("order/order.dataservice", function () {
             getBaseData: getBaseData,
             cloneOrder: cloneOrder,
             getBaseDataForCompany: getBaseDataForCompany,
-            getItemsByCompanyId: getItemsByCompanyId
+            getItemsByCompanyId: getItemsByCompanyId,
+            getCostCenters: getCostCenters
         };
     })();
 
