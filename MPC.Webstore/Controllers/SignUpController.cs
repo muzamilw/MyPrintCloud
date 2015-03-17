@@ -50,6 +50,23 @@ namespace MPC.Webstore.Controllers
 
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+            {
+                ViewBag.ShowFacebookSignInLink = 1;
+            }
+            else
+            {
+                ViewBag.ShowFacebookSignInLink = 0;
+            }
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+            {
+                ViewBag.ShowTwitterSignInLink = 1;
+            }
+            else
+            {
+                ViewBag.ShowTwitterSignInLink = 0;
+            }
+
             
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
             if (FirstName != null)
@@ -89,10 +106,27 @@ namespace MPC.Webstore.Controllers
                     }
                     string isSocial = Request.Form["hfIsSocial"];
                     string ReturnURL = Request.Form["hfReturnURL"];
-          
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+                    {
+                        ViewBag.ShowFacebookSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowFacebookSignInLink = 0;
+                    }
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+                    {
+                        ViewBag.ShowTwitterSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowTwitterSignInLink = 0;
+                    }
+
                     if (_myCompanyService.GetContactByEmail(model.Email, StoreBaseResopnse.Organisation.OrganisationId) != null)
                     {
                         ViewBag.Message = "You indicated that you are a new customer but an account already exist with this email address " + model.Email;
+                        
                         return View("PartialViews/SignUp");
                     }
                     else if (isSocial == "1")
@@ -130,6 +164,23 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+                    {
+                        ViewBag.ShowFacebookSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowFacebookSignInLink = 0;
+                    }
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+                    {
+                        ViewBag.ShowTwitterSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowTwitterSignInLink = 0;
+                    }
+
                     return View("PartialViews/SignUp");
                 }
             }
@@ -256,14 +307,14 @@ namespace MPC.Webstore.Controllers
                 cep.StoreID = CorpContact.CompanyId;
                 cep.AddressID = CorpContact.CompanyId;
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
+               // Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration);
 
-                SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
+             //   SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
-                _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
+             //   _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 int OrganisationId = (int)StoreBaseResopnse.Company.OrganisationId;
-                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)corpContact.CompanyId, OrganisationId);
+               // _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)corpContact.CompanyId, OrganisationId);
 
             }
             StoreBaseResopnse = null;

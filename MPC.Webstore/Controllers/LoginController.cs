@@ -71,9 +71,29 @@ namespace MPC.Webstore.Controllers
             }
 
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
+
+
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+            {
+                ViewBag.ShowFacebookSignInLink = 1;
+            }
+            else
+            {
+                ViewBag.ShowFacebookSignInLink = 0;
+            }
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+            {
+                ViewBag.ShowTwitterSignInLink = 1;
+            }
+            else
+            {
+                ViewBag.ShowTwitterSignInLink = 0;
+            }
+
+
             if (string.IsNullOrEmpty(ReturnURL))
                 ViewBag.ReturnURL = "Social";
-            else  
+            else
                 ViewBag.ReturnURL = ReturnURL;
             StoreBaseResopnse = null;
             if (!string.IsNullOrEmpty(FirstName))
@@ -84,7 +104,7 @@ namespace MPC.Webstore.Controllers
 
                 if (!string.IsNullOrEmpty(Email))
                 {
-                    user = _myCompanyService.GetContactByEmail(Email,StoreBaseResopnse.Organisation.OrganisationId);
+                    user = _myCompanyService.GetContactByEmail(Email, StoreBaseResopnse.Organisation.OrganisationId);
                 }
                 else
                 {
@@ -144,6 +164,23 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     ViewBag.Message = "Invalid login attempt.";
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+                    {
+                        ViewBag.ShowFacebookSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowFacebookSignInLink = 0;
+                    }
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+                    {
+                        ViewBag.ShowTwitterSignInLink = 1;
+                    }
+                    else
+                    {
+                        ViewBag.ShowTwitterSignInLink = 0;
+                    }
+
                     return View("PartialViews/Login");
                 }
             }
@@ -159,6 +196,22 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     ViewBag.AllowRegisteration = 1;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+                {
+                    ViewBag.ShowFacebookSignInLink = 1;
+                }
+                else
+                {
+                    ViewBag.ShowFacebookSignInLink = 0;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+                {
+                    ViewBag.ShowTwitterSignInLink = 1;
+                }
+                else
+                {
+                    ViewBag.ShowTwitterSignInLink = 0;
                 }
 
                 ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
@@ -200,10 +253,10 @@ namespace MPC.Webstore.Controllers
                     long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
 
                     if (Orderid > 0)
-                        {
-                            UserCookieManager.TemporaryCompanyId = 0;
-                            Response.Redirect("/ShopCart/" + Orderid);
-                        }
+                    {
+                        UserCookieManager.TemporaryCompanyId = 0;
+                        Response.Redirect("/ShopCart/" + Orderid);
+                    }
                     if (ReturnUrl == "Social")
                     {
                         RedirectToLocal(ReturnUrl);
@@ -211,11 +264,12 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         Response.Redirect("/");
-                        
+
                     }
                     return null;
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -226,8 +280,8 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-           // Response.Redirect("/");
-           // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
+            // Response.Redirect("/");
+            // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
         }
     }
