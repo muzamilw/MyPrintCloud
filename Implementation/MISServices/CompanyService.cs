@@ -12,6 +12,7 @@ using System.Web;
 using System.Net.Mime;
 using System.Web;
 using Castle.Core.Internal;
+using Microsoft.IdentityModel.SecurityTokenService;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -928,9 +929,7 @@ namespace MPC.Implementation.MISServices
                 }
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
-
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
-
                     companyDbVersion.CompanyContacts.Add(companyContacts);
                 }
             }
@@ -967,6 +966,7 @@ namespace MPC.Implementation.MISServices
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyCostCentersOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
             companyToBeUpdated = UpdateCompanyDomain(companyToBeUpdated);
+
 
             UpdateTerritories(companySavingModel, companyDbVersion);
             UpdateAddresses(companySavingModel, companyDbVersion);
@@ -1005,11 +1005,22 @@ namespace MPC.Implementation.MISServices
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
 
             UpdateScopeVariables(companySavingModel); // TODO: Check
+            if (companySavingModel.Company.ActiveBannerSetId < 0)
+            {
+                CompanyBannerSet companyBannerSet =
+                    companySavingModel.Company.CompanyBannerSets.FirstOrDefault(
+                        cbs => cbs.FakeId == companySavingModel.Company.ActiveBannerSetId);
+                if (companyBannerSet != null)
+                {
+                    companyDbVersion.ActiveBannerSetId = companyBannerSet.CompanySetId;
+                }
+            }
             companyRepository.SaveChanges();//todo third external savechanges
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
         }
+
 
         /// <summary>
         /// Update Scope Variables
@@ -1020,9 +1031,9 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (CompanyContact companyContact in companySavingModel.Company.CompanyContacts)
                 {
-                    if (companyContact.ScopVariables != null)
+                    if (companyContact.ScopeVariables != null)
                     {
-                        foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+                        foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
                         {
                             if (scopeVariable.ScopeVariableId == 0)
                             {
@@ -1040,6 +1051,63 @@ namespace MPC.Implementation.MISServices
                     }
                 }
                 // scopeVariableRepository.SaveChanges();
+            }
+
+            if (companySavingModel.Company.CompanyTerritories != null)
+            {
+                foreach (CompanyTerritory companyTerritory in companySavingModel.Company.CompanyTerritories)
+                {
+                    if (companyTerritory.ScopeVariables != null)
+                    {
+                        foreach (ScopeVariable scopeVariable in companyTerritory.ScopeVariables)
+                        {
+                            if (scopeVariable.ScopeVariableId == 0)
+                            {
+                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
+                                if (fieldVariable != null)
+                                {
+                                    scopeVariable.VariableId = fieldVariable.VariableId;
+                                }
+
+                                scopeVariable.Id = companyTerritory.TerritoryId;
+                                scopeVariable.Scope = (int)FieldVariableScopeType.Territory;
+                                scopeVariableRepository.Add(scopeVariable);
+                            }
+                        }
+                    }
+                }
+                // scopeVariableRepository.SaveChanges();
+            }
+
+            if (companySavingModel.Company.ScopeVariables != null)
+            {
+                IEnumerable<ScopeVariable> scopeVariables = scopeVariableRepository.GetContactVariableByContactId(companySavingModel.Company.CompanyId, (int)FieldVariableScopeType.Store);
+
+                foreach (ScopeVariable scopeVariable in companySavingModel.Company.ScopeVariables)
+                {
+                    if (scopeVariable.ScopeVariableId == 0)
+                    {
+                        FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                       f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
+                        if (fieldVariable != null)
+                        {
+                            scopeVariable.VariableId = fieldVariable.VariableId;
+                        }
+
+                        scopeVariable.Id = companySavingModel.Company.CompanyId;
+                        scopeVariable.Scope = (int)FieldVariableScopeType.Store;
+                        scopeVariableRepository.Add(scopeVariable);
+                    }
+                    else
+                    {
+                        ScopeVariable scopeVariableDbItem = scopeVariables.FirstOrDefault(scv => scv.ScopeVariableId == scopeVariable.ScopeVariableId);
+                        if (scopeVariableDbItem != null)
+                        {
+                            scopeVariableDbItem.Value = scopeVariable.Value;
+                        }
+                    }
+                }
             }
 
         }
@@ -2318,7 +2386,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-           /* //In case of scope type of variable field is Store
+            //In case of scope type of variable field is Store
             else if (companyId > 0 && fieldVariable.Scope.HasValue && fieldVariable.Scope == (int)FieldVariableScopeType.Store)
             {
                 ScopeVariable scopeVariable = new ScopeVariable();
@@ -2328,7 +2396,7 @@ namespace MPC.Implementation.MISServices
                 scopeVariable.Value = fieldVariable.DefaultValue;
                 scopeVariableRepository.Add(scopeVariable);
                 fieldVariable.ScopeVariables.Add(scopeVariable);
-            }*/
+            }
             fieldVariableRepository.SaveChanges();
             return fieldVariable.VariableId;
         }
@@ -4630,7 +4698,7 @@ namespace MPC.Implementation.MISServices
             }
             catch (Exception ex)
             {
-              
+
                 throw ex;
 
             }
