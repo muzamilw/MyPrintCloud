@@ -99,20 +99,20 @@ namespace MPC.Provisioning.Controllers
             {
 
 
-                string misFolder = sitePhysicalPath + "\\mis";
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-                startInfo.FileName = @"powershell.exe";
-                startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
-                startInfo.RedirectStandardOutput = true;
-                startInfo.RedirectStandardError = true;
-                startInfo.UseShellExecute = false;
-                startInfo.CreateNoWindow = true;
-                Process process = new Process();
-                process.StartInfo = startInfo;
-                process.Start();
+                //string misFolder = sitePhysicalPath + "\\mis";
+                //ProcessStartInfo startInfo = new ProcessStartInfo();
+                //startInfo.FileName = @"powershell.exe";
+                //startInfo.Arguments = @"-File " + HttpContext.Current.Server.MapPath("~/scripts/provisionNew.ps1") + " " + subdomain + " " + sitePhysicalPath + " " + siteOrganisationId + " " + mpcContentFolder + " " + misFolder;
+                //startInfo.RedirectStandardOutput = true;
+                //startInfo.RedirectStandardError = true;
+                //startInfo.UseShellExecute = false;
+                //startInfo.CreateNoWindow = true;
+                //Process process = new Process();
+                //process.StartInfo = startInfo;
+                //process.Start();
 
-                string output = process.StandardOutput.ReadToEnd();
-               //string output = "App Created";
+                //string output = process.StandardOutput.ReadToEnd();
+               string output = "App Created";
             //Assert.IsTrue(output.Contains("StringToBeVerifiedInAUnitTest"));
 
             //string errors = process.StandardError.ReadToEnd();

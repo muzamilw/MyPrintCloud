@@ -533,127 +533,232 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                ObjExportOrg.RetailCompany = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+                Mapper.CreateMap<Company, Company>()
+             .ForMember(x => x.Activities, opt => opt.Ignore())
+                .ForMember(x => x.ColorPalletes, opt => opt.Ignore())
+                .ForMember(x => x.Estimates, opt => opt.Ignore())
+                .ForMember(x => x.Invoices, opt => opt.Ignore())
+                .ForMember(x => x.Items, opt => opt.Ignore())
+                .ForMember(x => x.ProductCategories, opt => opt.Ignore())
+                .ForMember(x => x.CmsPages, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyDomain, CompanyDomain>()
+                .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CmsOffer, CmsOffer>()
+               .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<MediaLibrary, MediaLibrary>()
+              .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyBannerSet, CompanyBannerSet>()
+            .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyBanner, CompanyBanner>()
+             .ForMember(x => x.CompanyBannerSet, opt => opt.Ignore());
 
 
+                Mapper.CreateMap<RaveReview, RaveReview>()
+                 .ForMember(x => x.Company, opt => opt.Ignore());
 
-                // set Company Domain
-
-                ObjExportOrg.RetailCompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
-
-                // set cms offers
-
-                ObjExportOrg.RetailCmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                ObjExportOrg.RetailMediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
+                Mapper.CreateMap<CompanyTerritory, CompanyTerritory>()
+              .ForMember(x => x.Addresses, opt => opt.Ignore())
+              .ForMember(x => x.Company, opt => opt.Ignore())
+              .ForMember(x => x.CompanyContacts, opt => opt.Ignore());
 
 
-                List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
-                bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
+                Mapper.CreateMap<Address, Address>()
+             .ForMember(x => x.Company, opt => opt.Ignore())
+             .ForMember(x => x.CompanyContacts, opt => opt.Ignore())
+             .ForMember(x => x.CompanyTerritory, opt => opt.Ignore())
+             .ForMember(x => x.ShippingCompanyContacts, opt => opt.Ignore())
+             .ForMember(x => x.State, opt => opt.Ignore())
+             .ForMember(x => x.Country, opt => opt.Ignore());
 
-                List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
-                // company banners
-                if (bannerSets != null)
+                 Mapper.CreateMap<CompanyContact, CompanyContact>()
+             .ForMember(x => x.Company, opt => opt.Ignore())
+             .ForMember(x => x.Address, opt => opt.Ignore())
+              .ForMember(x => x.CompanyTerritory, opt => opt.Ignore())
+               .ForMember(x => x.Estimates, opt => opt.Ignore())
+               .ForMember(x => x.Inquiries, opt => opt.Ignore())
+                .ForMember(x => x.Invoices, opt => opt.Ignore())
+                 .ForMember(x => x.NewsLetterSubscribers, opt => opt.Ignore())
+                 .ForMember(x => x.ShippingAddress, opt => opt.Ignore());
+
+
+                 Mapper.CreateMap<Campaign, Campaign>()
+                    .ForMember(x => x.Company, opt => opt.Ignore());
+
+                 Mapper.CreateMap<PaymentGateway, PaymentGateway>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                   .ForMember(x => x.PaymentMethod, opt => opt.Ignore());
+
+                 Mapper.CreateMap<CmsSkinPageWidget, CmsSkinPageWidget>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                   .ForMember(x => x.CmsSkinPageWidgetParams, opt => opt.Ignore())
+                   .ForMember(x => x.Organisation, opt => opt.Ignore())
+                   .ForMember(x => x.Widget, opt => opt.Ignore())
+                   .ForMember(x => x.CmsPage, opt => opt.Ignore());
+
+                 Mapper.CreateMap<CompanyCostCentre, CompanyCostCentre>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                   .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+
+                 Mapper.CreateMap<CompanyCMYKColor, CompanyCMYKColor>()
+                   .ForMember(x => x.Company, opt => opt.Ignore());
+
+
+                 Mapper.CreateMap<SmartForm, SmartForm>()
+                   .ForMember(x => x.Company, opt => opt.Ignore());
+
+                 Mapper.CreateMap<SmartFormDetail, SmartFormDetail>()
+                 .ForMember(x => x.SmartForm, opt => opt.Ignore());
+
+                 Mapper.CreateMap<FieldVariable, FieldVariable>()
+                     .ForMember(x => x.SmartFormDetails, opt => opt.Ignore())
+                   .ForMember(x => x.Company, opt => opt.Ignore());
+
+
+                 db.Database.CommandTimeout = 1080;
+
+                 Company ObjCompany = db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets.CompanyBanners").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("Campaigns").Include("PaymentGateways").Include("CompanyCostCentres").Include("CompanyCmykColors").Include("SmartForms.SmartFormDetails").Include("FieldVariables").Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+
+
+                 //Include("CmsSkinPageWidgets")
+
+                 List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
+
+                if(widgets != null && widgets.Count > 0)
                 {
-                    List<CompanyBannerSet> CompanyBannerSet = bannerSets;
-                    ObjExportOrg.RetailCompanyBannerSet = CompanyBannerSet;
-                    if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
-                    {
-                        foreach (var banner in CompanyBannerSet)
-                        {
-                            if (banner.CompanyBanners != null)
-                            {
-                                if (banner.CompanyBanners.Count > 0)
-                                {
-                                    foreach (var bann in banner.CompanyBanners)
-                                    {
-                                        Lstbanner.Add(bann);
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                    ObjExportOrg.RetailCompanyBanner = Lstbanner.ToList();
+                    ObjCompany.CmsSkinPageWidgets = widgets;
                 }
 
-                //// Secondary Pages
+                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
+                 
+                 ObjExportOrg.RetailCompany = omappedCompany;
 
-                //List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
-
-                //pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
-                //pages.ToList().ForEach(s => s.PageCategory = null);
-
-                //pages.ToList().ForEach(s => s.Company = null);
-
-
-                //ObjExportOrg.RetailSecondaryPages = pages;
-
-
-                //Rave Reviews
-
-                ObjExportOrg.RetailRaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
+              //  ObjExportOrg.RetailCompany = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
 
 
 
-                //  CompanyTerritories
+              //  // set Company Domain
+
+              //  ObjExportOrg.RetailCompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
+
+              //  // set cms offers
+
+              //  ObjExportOrg.RetailCmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                ObjExportOrg.RetailCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
+              //  ObjExportOrg.RetailMediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                //  Addresses
+              //  List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
+              //  bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
+
+              //  List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
+              //  // company banners
+              //  if (bannerSets != null)
+              //  {
+              //      List<CompanyBannerSet> CompanyBannerSet = bannerSets;
+              //      ObjExportOrg.RetailCompanyBannerSet = CompanyBannerSet;
+              //      if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
+              //      {
+              //          foreach (var banner in CompanyBannerSet)
+              //          {
+              //              if (banner.CompanyBanners != null)
+              //              {
+              //                  if (banner.CompanyBanners.Count > 0)
+              //                  {
+              //                      foreach (var bann in banner.CompanyBanners)
+              //                      {
+              //                          Lstbanner.Add(bann);
+              //                      }
+              //                  }
+              //              }
+              //          }
+
+              //      }
+              //      ObjExportOrg.RetailCompanyBanner = Lstbanner.ToList();
+              //  }
+
+              //  //// Secondary Pages
+
+              //  //List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
+
+              //  //pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
+              //  //pages.ToList().ForEach(s => s.PageCategory = null);
+
+              //  //pages.ToList().ForEach(s => s.Company = null);
 
 
-                ObjExportOrg.RetailAddress = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
+              //  //ObjExportOrg.RetailSecondaryPages = pages;
 
 
-                //  contacts
+              //  //Rave Reviews
+
+              //  ObjExportOrg.RetailRaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
 
-                ObjExportOrg.RetailCompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
+
+              //  //  CompanyTerritories
+
+
+              //  ObjExportOrg.RetailCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
+
+
+              //  //  Addresses
+
+
+              //  ObjExportOrg.RetailAddress = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
+
+
+              //  //  contacts
+
+
+              //  ObjExportOrg.RetailCompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
 
              
 
-                List<Campaign> campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
-                campaigns.ToList().ForEach(s => s.Company = null);
-                campaigns.ToList().ForEach(s => s.CampaignImages = null);
+              //  List<Campaign> campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
+              //  campaigns.ToList().ForEach(s => s.Company = null);
+              //  campaigns.ToList().ForEach(s => s.CampaignImages = null);
 
-                ObjExportOrg.RetailCampaigns = campaigns;
+              //  ObjExportOrg.RetailCampaigns = campaigns;
 
-                //   payment gateways
+              //  //   payment gateways
 
-                ObjExportOrg.RetailPaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
+              //  ObjExportOrg.RetailPaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
 
-                // cms skin page widgets
+              //  // cms skin page widgets
 
-                List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
+              //  List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
               
-                widgets.ToList().ForEach(w => w.Company = null);
-                widgets.ToList().ForEach(w => w.Organisation = null);
-                widgets.ToList().ForEach(w => w.Widget = null);
+              //  widgets.ToList().ForEach(w => w.Company = null);
+              //  widgets.ToList().ForEach(w => w.Organisation = null);
+              //  widgets.ToList().ForEach(w => w.Widget = null);
 
-                //  company cost centre
+              //  //  company cost centre
 
-                ObjExportOrg.RetailCompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                // company cmyk colors
-                ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
+              //  ObjExportOrg.RetailCompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-               List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
-               ObjExportOrg.RetailSmartForms = smartForms;
+              //  // company cmyk colors
+              //  ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
-               // variables.ToList().ForEach(s => s.ScopeVariables = null);
-                variables.ToList().ForEach(s => s.Company = null);
-               // variables.ToList().ForEach(s => s.SmartFormDetails = null);
-              //  variables.ToList().ForEach(s => s.VariableOptions = null);
+              // List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+              // ObjExportOrg.RetailSmartForms = smartForms;
 
-                ObjExportOrg.RetailFieldVariables = variables;
+
+              //  List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+              // // variables.ToList().ForEach(s => s.ScopeVariables = null);
+              //  variables.ToList().ForEach(s => s.Company = null);
+              // // variables.ToList().ForEach(s => s.SmartFormDetails = null);
+              ////  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+              //  ObjExportOrg.RetailFieldVariables = variables;
 
 
                 //  template color style
@@ -669,7 +774,7 @@ namespace MPC.Repository.Repositories
 
                ObjExportOrg.RetailTemplateColorStyle = TemplateColorStyle;
 
-                string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+               string JsonRetail = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 // export json file
                 string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/RetailJson1.txt";
                 System.IO.File.WriteAllText(sRetailPath, JsonRetail);
@@ -695,12 +800,28 @@ namespace MPC.Repository.Repositories
 
                 List<ProductCategory> productCategories = new List<ProductCategory>();
 
-                List<ProductCategory> categories = db.ProductCategories.Where(s => s.isArchived != true && s.CompanyId == CompanyId).ToList();
-                categories.ToList().ForEach(p => p.Company = null);
-                categories.ToList().ForEach(p => p.ProductCategoryItems = null);
-                productCategories = categories;
+                Mapper.CreateMap<ProductCategory, ProductCategory>()
+               .ForMember(x => x.Company, opt => opt.Ignore())
+               .ForMember(x => x.ProductCategoryItems, opt => opt.Ignore());
+              
 
-                string JsonRetail = JsonConvert.SerializeObject(productCategories, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                List<ProductCategory> categories = db.ProductCategories.Where(s => s.isArchived != true && s.CompanyId == CompanyId).ToList();
+                //categories.ToList().ForEach(p => p.Company = null);
+                //categories.ToList().ForEach(p => p.ProductCategoryItems = null);
+                //productCategories = categories;
+
+                List<ProductCategory> oOutputProdCat = new List<ProductCategory>();
+
+                if (categories != null && categories.Count > 0)
+                {
+                    foreach (var cat in categories)
+                    {
+                        var omappedItem = Mapper.Map<ProductCategory, ProductCategory>(cat);
+                        oOutputProdCat.Add(omappedItem);
+                    }
+                }
+
+                string JsonRetail = JsonConvert.SerializeObject(oOutputProdCat, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                 if(isCorp)
                 {
                     string sRetailPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Organisations/CorporateProductCategories.txt";
@@ -814,7 +935,7 @@ namespace MPC.Repository.Repositories
               Mapper.CreateMap<ImagePermission, ImagePermission>()
                 .ForMember(x => x.TemplateBackgroundImage, opt => opt.Ignore());
 
-
+              db.Database.CommandTimeout = 1080;
 
               List<Item> items = db.Items.Include("ItemSections.SectionCostcentres.SectionCostCentreResources").Include("ItemStockOptions.ItemAddonCostCentres").Include("ProductCategoryItems").Include("ItemVdpPrices").Include("ItemPriceMatrices").Include("ItemProductDetails").Include("ItemStateTaxes").Include("ItemImages").Include("ItemRelatedItems").Include("ItemVideos").Include("Template.TemplatePages").Include("Template.TemplateObjects").Include("Template.TemplateFonts").Include("Template.TemplateFonts").Include("Template.TemplateBackgroundImages.ImagePermissions").Where(i => i.IsArchived != true && i.CompanyId == CompanyId && i.EstimateId == null).ToList();
               List<Item> oOutputItems = new List<Item>();
@@ -861,18 +982,34 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
+               
 
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
+                Mapper.CreateMap<CmsPage, CmsPage>()
+                .ForMember(x => x.Company, opt => opt.Ignore())
+                .ForMember(x => x.PageCategory, opt => opt.Ignore())
+                .ForMember(x => x.CmsSkinPageWidgets, opt => opt.Ignore());
+
                 List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
 
-                pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
-                pages.ToList().ForEach(s => s.PageCategory = null);
-                pages.ToList().ForEach(s => s.Company = null);
+                //pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
+                //pages.ToList().ForEach(s => s.PageCategory = null);
+                //pages.ToList().ForEach(s => s.Company = null);
 
-                string JsonRetail = JsonConvert.SerializeObject(pages, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+                List<CmsPage> oOutputCMSPage = new List<CmsPage>();
+
+                if (pages != null && pages.Count > 0)
+                {
+                    foreach (var pag in pages)
+                    {
+                        var omappedItem = Mapper.Map<CmsPage, CmsPage>(pag);
+                        oOutputCMSPage.Add(omappedItem);
+                    }
+                }
+
+                string JsonRetail = JsonConvert.SerializeObject(oOutputCMSPage, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
                
                 if(isCorp)
                 {
@@ -933,127 +1070,237 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
 
-                ObjExportOrg.Company = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+                Mapper.CreateMap<Company, Company>()
+             .ForMember(x => x.Activities, opt => opt.Ignore())
+                .ForMember(x => x.ColorPalletes, opt => opt.Ignore())
+                .ForMember(x => x.Estimates, opt => opt.Ignore())
+                .ForMember(x => x.Invoices, opt => opt.Ignore())
+                .ForMember(x => x.Items, opt => opt.Ignore())
+                .ForMember(x => x.ProductCategories, opt => opt.Ignore())
+                .ForMember(x => x.CmsPages, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyDomain, CompanyDomain>()
+                .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CmsOffer, CmsOffer>()
+               .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<MediaLibrary, MediaLibrary>()
+              .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyBannerSet, CompanyBannerSet>()
+            .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyBanner, CompanyBanner>()
+             .ForMember(x => x.CompanyBannerSet, opt => opt.Ignore());
 
 
+                Mapper.CreateMap<RaveReview, RaveReview>()
+                 .ForMember(x => x.Company, opt => opt.Ignore());
 
-                // set Company Domain
-
-                ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
-
-                // set cms offers
-
-                ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
+                Mapper.CreateMap<CompanyTerritory, CompanyTerritory>()
+              .ForMember(x => x.Addresses, opt => opt.Ignore())
+              .ForMember(x => x.Company, opt => opt.Ignore())
+              .ForMember(x => x.CompanyContacts, opt => opt.Ignore());
 
 
-                List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
-                bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
+                Mapper.CreateMap<Address, Address>()
+             .ForMember(x => x.Company, opt => opt.Ignore())
+             .ForMember(x => x.CompanyContacts, opt => opt.Ignore())
+             .ForMember(x => x.CompanyTerritory, opt => opt.Ignore())
+             .ForMember(x => x.ShippingCompanyContacts, opt => opt.Ignore())
+             .ForMember(x => x.State, opt => opt.Ignore())
+             .ForMember(x => x.Country, opt => opt.Ignore());
 
-                List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
-                // company banners
-                if (bannerSets != null)
+                Mapper.CreateMap<CompanyContact, CompanyContact>()
+            .ForMember(x => x.Company, opt => opt.Ignore())
+            .ForMember(x => x.Address, opt => opt.Ignore())
+             .ForMember(x => x.CompanyTerritory, opt => opt.Ignore())
+              .ForMember(x => x.Estimates, opt => opt.Ignore())
+              .ForMember(x => x.Inquiries, opt => opt.Ignore())
+               .ForMember(x => x.Invoices, opt => opt.Ignore())
+                .ForMember(x => x.NewsLetterSubscribers, opt => opt.Ignore())
+                .ForMember(x => x.ShippingAddress, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<Campaign, Campaign>()
+                   .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<PaymentGateway, PaymentGateway>()
+                  .ForMember(x => x.Company, opt => opt.Ignore())
+                  .ForMember(x => x.PaymentMethod, opt => opt.Ignore());
+
+                Mapper.CreateMap<CmsSkinPageWidget, CmsSkinPageWidget>()
+                  .ForMember(x => x.Company, opt => opt.Ignore())
+                  .ForMember(x => x.CmsSkinPageWidgetParams, opt => opt.Ignore())
+                  .ForMember(x => x.Organisation, opt => opt.Ignore())
+                  .ForMember(x => x.Widget, opt => opt.Ignore())
+                  .ForMember(x => x.CmsPage, opt => opt.Ignore());
+
+                Mapper.CreateMap<CompanyCostCentre, CompanyCostCentre>()
+                  .ForMember(x => x.Company, opt => opt.Ignore())
+                  .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<CompanyCMYKColor, CompanyCMYKColor>()
+                  .ForMember(x => x.Company, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<SmartForm, SmartForm>()
+                  .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<SmartFormDetail, SmartFormDetail>()
+                .ForMember(x => x.SmartForm, opt => opt.Ignore());
+
+                Mapper.CreateMap<FieldVariable, FieldVariable>()
+                    .ForMember(x => x.SmartFormDetails, opt => opt.Ignore())
+                  .ForMember(x => x.Company, opt => opt.Ignore());
+
+
+                db.Database.CommandTimeout = 1080;
+
+                Company ObjCompany = db.Companies.Include("CompanyDomains").Include("CmsOffers").Include("MediaLibraries").Include("CompanyBannerSets.CompanyBanners").Include("RaveReviews").Include("CompanyTerritories").Include("Addresses").Include("CompanyContacts").Include("Campaigns").Include("PaymentGateways").Include("CompanyCostCentres").Include("CompanyCmykColors").Include("SmartForms.SmartFormDetails").Include("FieldVariables").Where(c => c.CompanyId == CompanyId).FirstOrDefault();
+
+
+                //Include("CmsSkinPageWidgets")
+
+                List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
+
+                if (widgets != null && widgets.Count > 0)
                 {
-                    List<CompanyBannerSet> CompanyBannerSet = bannerSets;
-                    ObjExportOrg.CompanyBannerSet = CompanyBannerSet;
-                    if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
-                    {
-                        foreach (var banner in CompanyBannerSet)
-                        {
-                            if (banner.CompanyBanners != null)
-                            {
-                                if (banner.CompanyBanners.Count > 0)
-                                {
-                                    foreach (var bann in banner.CompanyBanners)
-                                    {
-                                        Lstbanner.Add(bann);
-                                    }
-                                }
-                            }
-                        }
-
-                    }
-                    ObjExportOrg.CompanyBanner = Lstbanner.ToList();
+                    ObjCompany.CmsSkinPageWidgets = widgets;
                 }
 
-                //// Secondary Pages
+                var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
 
-                //List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
+                ObjExportOrg.Company = omappedCompany;
 
-                //pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
-                //pages.ToList().ForEach(s => s.PageCategory = null);
+                //List<TemplateColorStyle> TemplateColorStyle = new List<TemplateColorStyle>();
+                //ExportOrganisation ObjExportOrg = new ExportOrganisation();
+                //db.Configuration.LazyLoadingEnabled = false;
+                //db.Configuration.ProxyCreationEnabled = false;
 
-                //pages.ToList().ForEach(s => s.Company = null);
-
-
-                //ObjExportOrg.RetailSecondaryPages = pages;
-
-
-                //Rave Reviews
-
-                ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
+                //ObjExportOrg.Company = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
 
 
 
-                //  CompanyTerritories
+                //// set Company Domain
+
+                //ObjExportOrg.CompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
+
+                //// set cms offers
+
+                //ObjExportOrg.CmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
+                //ObjExportOrg.MediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                //  Addresses
+                //List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
+                //bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
+
+                //List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
+                //// company banners
+                //if (bannerSets != null)
+                //{
+                //    List<CompanyBannerSet> CompanyBannerSet = bannerSets;
+                //    ObjExportOrg.CompanyBannerSet = CompanyBannerSet;
+                //    if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
+                //    {
+                //        foreach (var banner in CompanyBannerSet)
+                //        {
+                //            if (banner.CompanyBanners != null)
+                //            {
+                //                if (banner.CompanyBanners.Count > 0)
+                //                {
+                //                    foreach (var bann in banner.CompanyBanners)
+                //                    {
+                //                        Lstbanner.Add(bann);
+                //                    }
+                //                }
+                //            }
+                //        }
+
+                //    }
+                //    ObjExportOrg.CompanyBanner = Lstbanner.ToList();
+                //}
+
+                ////// Secondary Pages
+
+                ////List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
+
+                ////pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
+                ////pages.ToList().ForEach(s => s.PageCategory = null);
+
+                ////pages.ToList().ForEach(s => s.Company = null);
 
 
-                ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
+                ////ObjExportOrg.RetailSecondaryPages = pages;
 
 
-                //  contacts
+                ////Rave Reviews
+
+                //ObjExportOrg.RaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
 
 
-                ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
+
+                ////  CompanyTerritories
+
+
+                //ObjExportOrg.CompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
+
+
+                ////  Addresses
+
+
+                //ObjExportOrg.Address = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
+
+
+                ////  contacts
+
+
+                //ObjExportOrg.CompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
 
 
 
-                List<Campaign> campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
-                campaigns.ToList().ForEach(s => s.Company = null);
-                campaigns.ToList().ForEach(s => s.CampaignImages = null);
+                //List<Campaign> campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
+                //campaigns.ToList().ForEach(s => s.Company = null);
+                //campaigns.ToList().ForEach(s => s.CampaignImages = null);
 
-                ObjExportOrg.Campaigns = campaigns;
+                //ObjExportOrg.Campaigns = campaigns;
 
-                //   payment gateways
+                ////   payment gateways
 
-                ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
+                //ObjExportOrg.PaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
 
-                // cms skin page widgets
+                //// cms skin page widgets
 
-                List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
+                //List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
 
-                widgets.ToList().ForEach(w => w.Company = null);
-                widgets.ToList().ForEach(w => w.Organisation = null);
-                widgets.ToList().ForEach(w => w.Widget = null);
+                //widgets.ToList().ForEach(w => w.Company = null);
+                //widgets.ToList().ForEach(w => w.Organisation = null);
+                //widgets.ToList().ForEach(w => w.Widget = null);
 
-                //  company cost centre
+                ////  company cost centre
 
-                ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                // company cmyk colors
-                ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
+                //ObjExportOrg.CompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
-                ObjExportOrg.SmartForms = smartForms;
+                //// company cmyk colors
+                //ObjExportOrg.CompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
 
 
-                List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
-                // variables.ToList().ForEach(s => s.ScopeVariables = null);
-                variables.ToList().ForEach(s => s.Company = null);
-                // variables.ToList().ForEach(s => s.SmartFormDetails = null);
-                //  variables.ToList().ForEach(s => s.VariableOptions = null);
+                //List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
+                //ObjExportOrg.SmartForms = smartForms;
 
-                ObjExportOrg.FieldVariables = variables;
+
+                //List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
+                //// variables.ToList().ForEach(s => s.ScopeVariables = null);
+                //variables.ToList().ForEach(s => s.Company = null);
+                //// variables.ToList().ForEach(s => s.SmartFormDetails = null);
+                ////  variables.ToList().ForEach(s => s.VariableOptions = null);
+
+                //ObjExportOrg.FieldVariables = variables;
 
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();

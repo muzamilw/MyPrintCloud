@@ -13,6 +13,7 @@ using MPC.Models.Common;
 using System.Data.SqlClient;
 using System.Data.Entity.Core.Objects;
 using System.Linq.Expressions;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -824,35 +825,56 @@ namespace MPC.Repository.Repositories
 				db.Configuration.ProxyCreationEnabled = false;
 				List<CostCenterChoice> choices = new  List<CostCenterChoice>();
 				List<CostCenterChoice> Lstchoices = new List<CostCenterChoice>();
+
+                Mapper.CreateMap<CostCentre, CostCentre>()
+                .ForMember(x => x.CompanyCostCentres, opt => opt.Ignore())
+                .ForMember(x => x.CostCentreType, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreInstruction, CostcentreInstruction>()
+               .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreResource, CostcentreResource>()
+                .ForMember(x => x.CostCentre, opt => opt.Ignore());
+
+                Mapper.CreateMap<CostcentreWorkInstructionsChoice, CostcentreWorkInstructionsChoice>()
+                .ForMember(x => x.CostcentreInstruction, opt => opt.Ignore());
+
+              
+
+
 				CostCentres = db.CostCentres.Include("CostcentreInstructions").Include("CostcentreResources").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.OrganisationId == OrganisationID).ToList();
 
-				CostCentre ff = new CostCentre();
-				
-				if(CostCentres != null && CostCentres.Count > 0)
-				{
-					foreach(var cost in CostCentres)
-					{
-						if(cost.CostCentreId != null)
-						{
-							choices = db.CostCenterChoices.Where(c => c.CostCenterId == cost.CostCentreId).ToList();
-							if(choices != null && choices.Count > 0)
-							{
-								foreach(var ch in choices)
-								{
-									Lstchoices.Add(ch);
-								}
+                List<CostCentre> oOutputCostCentre = new List<CostCentre>();
 
-							}
-						}
+                if (CostCentres != null && CostCentres.Count > 0)
+                {
+                    foreach (var cost in CostCentres)
+                    {
+                        var omappedCost = Mapper.Map<CostCentre, CostCentre>(cost);
+                        oOutputCostCentre.Add(omappedCost);
 
+                        if (cost.CostCentreId != null)
+                        {
+                            choices = db.CostCenterChoices.Where(c => c.CostCenterId == cost.CostCentreId).ToList();
+                            if (choices != null && choices.Count > 0)
+                            {
+                                foreach (var ch in choices)
+                                {
+                                    Lstchoices.Add(ch);
+                                }
 
-					   
-					  
-					}
+                            }
+                    }
+                }
+
 				}
 
-				CostCentreChoices = Lstchoices;
-				return CostCentres;
+
+                CostCentreChoices = Lstchoices;
+                return oOutputCostCentre;
+
+				
+				
 			}
 			catch(Exception ex)
 			{
