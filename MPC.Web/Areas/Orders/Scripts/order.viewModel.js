@@ -60,6 +60,20 @@ define("order/order.viewModel",
                     ]),
                     // Nominal Codes
                     nominalCodes = ko.observableArray([]),
+                    //Filter 
+                    orderType = ko.observableArray([
+                        { name: "ALL", value: "2" },
+                        { name: "Direct  Order", value: "0" },
+                        { name: "Online Order", value: "1" }
+                    ]),
+                     flagItem = function (state) {
+                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                     },
+                      flagSelection = function (state) {
+                          return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                      },
+                    orderTypeFilter = ko.observable(),
+                    filterFlags = ko.observableArray([]),
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
@@ -74,10 +88,11 @@ define("order/order.viewModel",
                     // filter
                     filterText = ko.observable(),
                     costCentrefilterText = ko.observable(),
+                    selectedCostCentre = ko.observable(),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function() {
+                    pageHeader = ko.computed(function () {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -93,24 +108,24 @@ define("order/order.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     // Selected Address
-                    selectedAddress = ko.computed(function() {
+                    selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function(address) {
+                        var addressResult = companyAddresses.find(function (address) {
                             return address.id === selectedOrder().addressId();
                         });
 
                         return addressResult || defaultAddress();
                     }),
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function() {
+                    selectedCompanyContact = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function(contact) {
+                        var contactResult = companyContacts.find(function (contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -124,6 +139,8 @@ define("order/order.viewModel",
                     selectedJobDescription = ko.observable(),
                     //Current Screen
                     currentScreen = ko.observable(),
+                    //Selected Filter Flag on List View
+                    selectedFilterFlag = ko.observable(0),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -198,6 +215,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
@@ -223,6 +241,7 @@ define("order/order.viewModel",
                     // Open Section Detail
                     openSectionDetail = function () {
                         isSectionDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
@@ -341,7 +360,7 @@ define("order/order.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
-costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
                         getBaseData();
@@ -364,9 +383,11 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -453,16 +474,22 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                             }
                         });
                     },
+                    //get Orders Of Current Screen
+                    getOrdersOfCurrentScreen= function() {
+                        getOrders(currentScreen());
+                    },
                     // Get Orders
                     getOrders = function (currentTab) {
-                        
+
                         isLoadingOrders(true);
                         currentScreen(currentTab);
                         dataservice.getOrders({
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
-                            Status: currentScreen()
+                            Status: currentScreen(),
+                            FilterFlag: selectedFilterFlag(),
+                            OrderTypeFilter: orderTypeFilter()
                         }, {
                             success: function (data) {
                                 orders.removeAll();
@@ -486,18 +513,18 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    debugger;
                                     selectedOrder(model.Estimate.Create(data));
-
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
                                 }
                                 isLoadingOrders(false);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -539,16 +566,16 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                      onAddCostCenter = function () {
                          getCostCenters();
                          view.showCostCentersDialog();
-                    },
+                     },
                      closeCostCenterDialog = function () {
                          view.hideRCostCentersDialog();
                      },
                      getCostCenters = function () {
                          dataservice.getCostCenters({
-                         CompanyId: selectedOrder().companyId(),
-                         SearchString: costCentrefilterText(),
-                         PageSize: costCentrePager().pageSize(),
-                         PageNo: costCentrePager().currentPage(),
+                             CompanyId: selectedOrder().companyId(),
+                             SearchString: costCentrefilterText(),
+                             PageSize: costCentrePager().pageSize(),
+                             PageNo: costCentrePager().currentPage(),
                          }, {
                              success: function (data) {
                                  if (data != null) {
@@ -570,9 +597,16 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                          costCentrefilterText('');
                          getCostCenters();
                      },
-                     costCenterClickLIstner = function () {
+                     costCenterClickLIstner = function (costCentre) {
+                         selectedCostCentre(costCentre);
                          view.showCostCentersQuantityDialog();
                      },
+                     hideCostCentreQuantityDialog = function () {
+                         view.hideCostCentersQuantityDialog();
+                     },
+                     hideCostCentreDialog = function () {
+                         view.hideRCostCentersDialog();
+                    },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -601,6 +635,7 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     };
+
                 //#endregion
                 //#endregion
 
@@ -615,7 +650,7 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     isItemDetailVisible: isItemDetailVisible,
                     isSectionDetailVisible: isSectionDetailVisible,
                     pager: pager,
-                    costCentrePager:costCentrePager,
+                    costCentrePager: costCentrePager,
                     errorList: errorList,
                     filterText: filterText,
                     pageHeader: pageHeader,
@@ -654,10 +689,17 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     selectJobDescription: selectJobDescription,
                     openPhraseLibrary: openPhraseLibrary,
                     currentScreen: currentScreen,
+                    orderType: orderType,
+                    orderTypeFilter: orderTypeFilter,
+                    flagItem: flagItem,
+                    flagSelection: flagSelection,
+                    filterFlags: filterFlags,
+                    selectedFilterFlag: selectedFilterFlag,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
                     getOrders: getOrders,
+                    getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
@@ -669,7 +711,10 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     getCostCenters: getCostCenters,
                     costCentrefilterText: costCentrefilterText,
                     resetCostCentrefilter: resetCostCentrefilter,
-                    costCenterClickListner: costCenterClickLIstner
+                    costCenterClickListner: costCenterClickLIstner,
+                    selectedCostCentre: selectedCostCentre,
+                    hideCostCentreQuantityDialog: hideCostCentreQuantityDialog,
+                    hideCostCentreDialog: hideCostCentreDialog
                     //#endregion
                     //#endregion
                 };

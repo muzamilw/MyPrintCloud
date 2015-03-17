@@ -16,6 +16,14 @@ namespace MPC.Models.RequestModels
         /// </summary>
         public int Status { get; set; }
         /// <summary>
+        /// List View Filter For Status Flag
+        /// </summary>
+        public int FilterFlag { get; set; }
+        /// <summary>
+        /// List View Filter For Order Type
+        /// </summary>
+        public int OrderTypeFilter { get; set; }
+        /// <summary>
         /// Order By Column for sorting
         /// </summary>
         public OrderByColumn ItemOrderBy

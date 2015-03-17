@@ -1410,7 +1410,7 @@ function g5_new(e) {
         pcL36('show', '#DivAlignObjs');
 
     }
-    else if (D1AO && (D1AO.IsPositionLocked != true || IsEmbedded == false)) {
+    else if (D1AO && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)) {
         $("#textPropertyPanel, #objPropertyPanel").css("display", "none");
         g2_1(e);
 

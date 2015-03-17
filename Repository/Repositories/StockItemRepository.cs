@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -121,7 +122,33 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.StockItems.Include("StockCostAndPrices").Where(o => o.OrganisationId == OrganisationID).ToList();
+
+                Mapper.CreateMap<StockItem, StockItem>()
+            .ForMember(x => x.ItemSections, opt => opt.Ignore())
+            .ForMember(x => x.SectionCostCentreDetails, opt => opt.Ignore())
+            .ForMember(x => x.StockCategory, opt => opt.Ignore())
+            .ForMember(x => x.StockCategory, opt => opt.Ignore())
+             .ForMember(x => x.StockSubCategory, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<StockCostAndPrice, StockCostAndPrice>()
+           .ForMember(x => x.StockItem, opt => opt.Ignore());
+
+                List<StockItem> stocks = db.StockItems.Include("StockCostAndPrices").Where(o => o.OrganisationId == OrganisationID).ToList();
+
+                List<StockItem> oOutputStockItems = new List<StockItem>();
+
+                if (stocks != null && stocks.Count > 0)
+                {
+                    foreach (var item in stocks)
+                    {
+                        var omappedItem = Mapper.Map<StockItem, StockItem>(item);
+                        oOutputStockItems.Add(omappedItem);
+                    }
+                }
+
+                return oOutputStockItems;
+               
             } 
             catch(Exception ex)
             {

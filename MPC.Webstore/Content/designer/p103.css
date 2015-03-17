@@ -27,7 +27,7 @@ border-radius: 5px;
     float: right;
     width: 744px;
     height: 600px; /* Make it the same size as your images. */
-    background: #E6F5FA url('../assets/loadingSlider.gif') no-repeat 50% 50%;
+    background: #E6F5FA url('../Designer/assets-v2/loadingSlider.gif') no-repeat 50% 50%;
     position: relative;
     margin: 0 auto; /*make the image slider center-aligned */
     background-color: #D3D3D3 !important;
