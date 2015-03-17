@@ -1745,6 +1745,7 @@ function fu14() {
         if(IsCalledFrom == 2)
         {
             $(".userImgControls").css("display", "none");
+            $(".divImageTypes").css("display", "none");
             $("#btnFreeImgsCorp").css("display", "block !important");
         }
 
@@ -3287,13 +3288,16 @@ function k26_Dt(DT) {
     // image set type 13 = global shapes/icons
     $("#radioImagePicture").prop('checked', true);
     if (DT.ImageType == 14) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 15) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 13) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 17) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 16) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 18) {
@@ -3307,6 +3311,10 @@ function k26_Dt(DT) {
     } else {
         $("#radioImagePicture").prop('checked', true);
         // $(".divImageTypes").css("display", "none");
+    }
+    if (IsCalledFrom == 2)
+    {
+        $(".divImageTypes").css("display", "none");
     }
     $(".ImageContainer").css("display", "block");
 }

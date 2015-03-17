@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +16,11 @@ namespace MPC.Models.DomainModels
 
         public virtual ICollection<CompanyBanner> CompanyBanners { get; set; }
         public virtual Company Company { get; set; }
+
+        /// <summary>
+        /// Company Set Fake Id
+        /// </summary>
+        [NotMapped]
+        public long? FakeId { get; set; }
     }
 }

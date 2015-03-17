@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Unity;
+﻿using AutoMapper;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
@@ -33,6 +34,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+               
+
                 return db.Reports.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
             catch(Exception ex)
@@ -45,6 +48,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+               
+
                 return db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
             }
             catch (Exception ex)

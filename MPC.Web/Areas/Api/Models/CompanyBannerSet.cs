@@ -18,6 +18,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string SetName { get; set; }
 
         /// <summary>
+        /// Company Set Fake Id
+        /// </summary>
+        public long? FakeId { get; set; }
+
+        /// <summary>
         /// Company Banners
         /// </summary>
         public List<CompanyBanner> CompanyBanners { get; set; }

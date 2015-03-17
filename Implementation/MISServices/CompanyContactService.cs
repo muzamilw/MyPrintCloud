@@ -33,9 +33,9 @@ namespace MPC.Implementation.MISServices
             companyContactRepository.Update(companyContact);
             companyContactRepository.SaveChanges();
 
-            if (companyContact.ScopVariables != null)
+            if (companyContact.ScopeVariables != null)
             {
-                foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+                foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
                 {
                     scopeVariable.Id = companyContact.ContactId;
                     scopeVariableRepository.Add(scopeVariable);
@@ -50,11 +50,12 @@ namespace MPC.Implementation.MISServices
             UpdateDefaultBehaviourOfContactCompany(companyContact);
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
             companyContactRepository.Update(companyContact);
-            companyContactRepository.SaveChanges();
-            if (companyContact.ScopVariables != null)
+            if (companyContact.ScopeVariables != null)
             {
                 UpdateScopVariables(companyContact);
             }
+            companyContactRepository.SaveChanges();
+
 
             return companyContact;
         }
@@ -65,7 +66,7 @@ namespace MPC.Implementation.MISServices
         private void UpdateScopVariables(CompanyContact companyContact)
         {
             IEnumerable<ScopeVariable> scopeVariables = scopeVariableRepository.GetContactVariableByContactId(companyContact.ContactId, (int)FieldVariableScopeType.Contact);
-            foreach (ScopeVariable scopeVariable in companyContact.ScopVariables)
+            foreach (ScopeVariable scopeVariable in companyContact.ScopeVariables)
             {
                 ScopeVariable scopeVariableDbItem = scopeVariables.FirstOrDefault(
                     scv => scv.ScopeVariableId == scopeVariable.ScopeVariableId);
@@ -74,7 +75,6 @@ namespace MPC.Implementation.MISServices
                     scopeVariableDbItem.Value = scopeVariable.Value;
                 }
             }
-            scopeVariableRepository.SaveChanges();
         }
 
         private void UpdateDefaultBehaviourOfContactCompany(CompanyContact companyContact)

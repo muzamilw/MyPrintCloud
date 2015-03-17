@@ -32,9 +32,7 @@ define("machine/machine.viewModel",
                     UpdatedPapperStockID = ko.observable(),
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
-                    
-                    
-                    gotoElement = function (validation) {
+                   gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
                      setValidationSummary = function (selectedItem) {
@@ -155,7 +153,6 @@ define("machine/machine.viewModel",
                         }
                         CloseMachineEditor();
                     },
-
                     CloseMachineEditor = function () {
                        isEditorVisible(false);
                         errorList.removeAll();
@@ -169,7 +166,7 @@ define("machine/machine.viewModel",
                                  if (data != null) {
                                      selectedMachine(model.newMachineClientMapper(data));
                                      selectedMachine().reset();
-                                     isEditorVisible(true);
+                                     showMachineDetail();
 
                                  }
                              },
@@ -178,8 +175,6 @@ define("machine/machine.viewModel",
                              }
                          });
                      },
-
-                    
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
@@ -215,7 +210,6 @@ define("machine/machine.viewModel",
                              selectedMachine().WashupPrice(0);
                          }
                      },
-
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
                        
@@ -261,7 +255,7 @@ define("machine/machine.viewModel",
                                  selectedMachine().reset();
                                  errorList.removeAll();
                                  
-                                 selectedMachine().MachineId(data.machine.MachineId);
+                                 selectedMachine().MachineId(data);
                                  isEditorVisible(false);
 
                                  toastr.success("Successfully save.");
@@ -287,8 +281,6 @@ define("machine/machine.viewModel",
                              }
                          });
                      },
-                   
-
                     onPapperSizeStockItemPopup = function () {
                         openStockItemDialog(1);//for Paper
                     },
@@ -309,7 +301,8 @@ define("machine/machine.viewModel",
                                 if (data != null) {
                                     selectedMachine(model.machineClientMapper(data));
                                     selectedMachine().reset();
-                                    isEditorVisible(true);
+                                    showMachineDetail();
+                                    
                                     
                                 }
                             },
@@ -331,13 +324,14 @@ define("machine/machine.viewModel",
                             editorViewModel.revertItem();
                         }
                     },
-                    
                     closeMachineDetail = function () {
                         isEditorVisible(false);
                     },
-                   
-                   
-                    // #region Observables
+                    showMachineDetail = function () {
+                        isEditorVisible(true);
+                        view.initializeLabelPopovers();
+                    },
+                     // #region Observables
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         isGuillotineList(false);
@@ -370,7 +364,7 @@ define("machine/machine.viewModel",
                     initialize: initialize,
                     isEditorVisible: isEditorVisible,
                     closeMachineDetail: closeMachineDetail,
-                   
+                    showMachineDetail:showMachineDetail,
                     getStockItemsList: getStockItemsList,
                     onPapperSizeStockItemPopup: onPapperSizeStockItemPopup,
                     onPlateStockItemPopup: onPlateStockItemPopup,
