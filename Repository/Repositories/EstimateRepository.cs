@@ -76,10 +76,15 @@ namespace MPC.Repository.Repositories
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
             bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            bool filterFlagSpecified = request.FilterFlag == 0;
+            //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
+            bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
             Expression<Func<Estimate, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
+                    ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) && 
                     item.OrganisationId == OrganisationId);
 
             IEnumerable<Estimate> items = request.IsAsc
