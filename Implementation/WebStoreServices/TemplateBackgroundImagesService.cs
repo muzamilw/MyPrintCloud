@@ -397,6 +397,11 @@ namespace MPC.Implementation.WebStoreServices
         // update an image record  //added by saqib
         public TemplateBackgroundImage UpdateImage(long imageID, int imType, string imgTitle, string imgDescription, string imgKeywords)
         {
+            imgTitle = imgTitle.Replace("____", " ");
+            imgDescription = imgDescription.Replace("____", " ");
+            imgKeywords = imgKeywords.Replace("____", " ");
+
+
             imgTitle = imgTitle.Replace("___", "/");
             imgDescription = imgDescription.Replace("___", "/");
             imgKeywords = imgKeywords.Replace("___", "/");

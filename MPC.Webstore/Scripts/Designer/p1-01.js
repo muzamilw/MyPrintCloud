@@ -113,7 +113,7 @@ $('#fontUploader').change(function () {
             //  data.append("ItemID", "21");
             $.ajax({
                 type: "POST",
-                url: "/api/Upload/" + url,
+                url: "/designerapi/Upload/PostAsync/" + url,
                 contentType: false,
                 processData: false,
                 data: data,

@@ -12,9 +12,9 @@
 
             <div class="padd_bottom_30 white-container-lightgrey-border rounded_corners">
 
-                <asp:Repeater ID="dlProducts1" runat="server"
+                @*<asp:Repeater ID="dlProducts1" runat="server"
                               OnItemDataBound="dlAllProducts_ItemDataBound" OnItemCommand="dlProducts1_ItemCommand">
-                    <itemtemplate>
+                    <itemtemplate>*@
 
                     @if(ViewData["SaveDesignView"] != null)
                     {
@@ -56,8 +56,8 @@
                         }
                     }
                       
-                    </itemtemplate>
-                </asp:Repeater>
+                    @*</itemtemplate>
+                </asp:Repeater>*@
                 @if(ViewData["SaveDesignView"] == null)
                 {
                     <label ID="lblProductNotFound" class="simpleTextLarge">You have No saved templates</label>
