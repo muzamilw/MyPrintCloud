@@ -495,9 +495,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             int count = HttpContext.Current.Request.Files.Count;
             int Contentlength = HttpContext.Current.Request.ContentLength;
-            var httpPostedFile = HttpContext.Current.Request.Files["UploadedFile0"];
-            var httpPostedFile1 = HttpContext.Current.Request.Files["UploadedFile1"];
-            var httpPostedFile2 = HttpContext.Current.Request.Files["UploadedFile2"];
+           
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;
@@ -568,7 +566,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
                 {
-                    FillAttachments(result, httpPostedFile);
+                    FillAttachments(result);
                 }
             }
             if (result > 0)
@@ -613,9 +611,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         
         }
 
-        private void FillAttachments(long inquiryID, HttpPostedFile Request)
+        private void FillAttachments(long inquiryID)
         {
-            if (Request != null)
+            if (HttpContext.Current.Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
                 string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/" + inquiryID + "";
@@ -627,20 +625,23 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
                 {
-                    HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
+                    //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
+                    HttpPostedFile postedFile=HttpContext.Current.Request.Files["UploadedFile"+i];
 
-                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(Request.FileName));
+                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
 
                     InquiryAttachment inquiryAttachment = new InquiryAttachment();
-                    inquiryAttachment.OrignalFileName = Path.GetFileName(Request.FileName);
-                    inquiryAttachment.Extension = Path.GetExtension(Request.FileName);
+                    inquiryAttachment.OrignalFileName = Path.GetFileName(postedFile.FileName);
+                    inquiryAttachment.Extension = Path.GetExtension(postedFile.FileName);
                     inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
                     inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
                     listOfAttachment.Add(inquiryAttachment);
-                    Request.SaveAs(virtualFolderPth + fileName);
-
-                    _ItemService.AddInquiryAttachments(listOfAttachment);
+                    //Request.SaveAs(virtualFolderPth + fileName);
+                   // HttpContext.Current.Request.SaveAs(virtualFolderPth + fileName);
+                    string filevirtualpath = virtualFolderPth + "/"+fileName;
+                    postedFile.SaveAs(virtualFolderPth + "/" + fileName);
                 }
+                _ItemService.AddInquiryAttachments(listOfAttachment);
             }
 
         }
@@ -664,8 +665,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (hfNoOfRec > 0)
             {
                 int numOfrec = Convert.ToInt32(hfNoOfRec);
-
-                if (numOfrec >= 1)
+                if (numOfrec > 3)
+                {
+                    numOfrec = 3;
+                }
+                if (numOfrec==1)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -679,7 +683,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     listOfInquiries.Add(item1);
                 }
 
-                if (numOfrec >= 2)
+                if (numOfrec== 2)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -701,7 +705,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     listOfInquiries.Add(item2);
                 }
 
-                if (numOfrec >= 3)
+                if (numOfrec == 3)
                 {
                     InquiryItem item1 = new InquiryItem();
 
