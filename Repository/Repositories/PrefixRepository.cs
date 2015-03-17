@@ -7,6 +7,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -82,7 +83,25 @@ namespace MPC.Repository.Repositories
         }
         public List<Prefix> GetPrefixesByOrganisationID(long organisationID)
         {
-            return db.Prefixes.Where(p => p.OrganisationId == organisationID).ToList();
+
+            Mapper.CreateMap<Prefix, Prefix>()
+              .ForMember(x => x.Markup, opt => opt.Ignore());
+
+            List<Prefix> prefix =  db.Prefixes.Where(p => p.OrganisationId == organisationID).ToList();
+
+            List<Prefix> oOutputPrefix = new List<Prefix>();
+
+            if (prefix != null && prefix.Count > 0)
+            {
+                foreach (var item in prefix)
+                {
+                    var omappedItem = Mapper.Map<Prefix, Prefix>(item);
+                    oOutputPrefix.Add(omappedItem);
+                }
+            }
+
+
+            return oOutputPrefix;
         }
         #endregion
 

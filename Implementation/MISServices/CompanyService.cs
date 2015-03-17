@@ -3186,8 +3186,6 @@ namespace MPC.Implementation.MISServices
             List<CostCenterChoice> CostCenterChoice = new List<CostCenterChoice>();
 
 
-
-
             // get organisation to export
             // organisation = ;
             ObjExportOrg.Organisation = organisationRepository.GetOrganizatiobByOrganisationID(OrganisationID);
@@ -3327,6 +3325,7 @@ namespace MPC.Implementation.MISServices
             ExportOrganisation exOrg = new Models.Common.ExportOrganisation();
 
             // get stockcategories based on organisation ID
+
             StockCategories = StockCategoryRepository.GetStockCategoriesByOrganisationID(OrganisationID);
             exOrg.StockCategory = StockCategories;
 
@@ -3440,42 +3439,11 @@ namespace MPC.Implementation.MISServices
         {
             ExportOrganisation exOrg = new Models.Common.ExportOrganisation();
 
+
+
             // get stockitems based on organisationID
             exOrg.StockItem = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
-            if (exOrg.StockItem != null)
-            {
-                exOrg.StockItem.ForEach(s => s.ItemSections = null);
-                exOrg.StockItem.ForEach(s => s.ItemStockOptions = null);
-                exOrg.StockItem.ForEach(s => s.SectionCostCentreDetails = null);
-                exOrg.StockItem.ForEach(s => s.StockCategory = null);
-                exOrg.StockItem.ForEach(s => s.StockSubCategory = null);
-            }
-
-
-            // set stock sale and price]
-            List<StockCostAndPrice> lstSCP = new List<StockCostAndPrice>();
-            if (exOrg.StockItem != null)
-            {
-                if (exOrg.StockItem.Count > 0)
-                {
-                    foreach (var stock in exOrg.StockItem)
-                    {
-
-                        if (stock.StockCostAndPrices != null)
-                        {
-                            if (stock.StockCostAndPrices.Count > 0)
-                            {
-                                foreach (var costP in stock.StockCostAndPrices)
-                                {
-                                    lstSCP.Add(costP);
-                                }
-                                exOrg.StockCostAndPrice = lstSCP;
-                            }
-                        }
-                    }
-                }
-            }
-
+           
 
 
             string Json4 = JsonConvert.SerializeObject(exOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
