@@ -54,6 +54,7 @@
     <Compile Include="ColorDataList.cs" />
     <Compile Include="DesignerSvgParser.cs" />
     <Compile Include="DesignerUtils.cs" />
+    <Compile Include="HashingManager.cs" />
     <Compile Include="LanguageResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
