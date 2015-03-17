@@ -109,6 +109,40 @@ namespace MPC.Models.DomainModels
         /// Map Image Url
         /// </summary>
         public string MapImageUrl { get; set; }
+        [NotMapped]
+        public byte[] MapImageUrlSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(MapImageUrl))
+                {
+                    return null;
+                }
+
+                int firtsAppearingCommaIndex = MapImageUrl.IndexOf(',');
+
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
+
+                if (MapImageUrl.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
+
+                string sourceSubString = MapImageUrl.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
 
         public long? PickupAddressId { get; set; }
 
@@ -198,7 +232,7 @@ namespace MPC.Models.DomainModels
          /// store work flow File Name
          /// </summary>
          [NotMapped]
-         public string StoreWorkflowImageName { get; set; }
+         public string StoreWorkflowImage { get; set; }
 
          /// <summary>
          /// File Source Bytes - byte[] representation of Base64 string FileSource

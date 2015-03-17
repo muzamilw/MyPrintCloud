@@ -3880,6 +3880,8 @@ define("stores/stores.viewModel",
                     selectedStore().companyTerritories.removeAll();
                     selectedStore().users.removeAll();
                     selectedStore().mediaLibraries.removeAll();
+                    selectedStore().mapImageUrlBinary(undefined);
+                    selectedStore().storeWorkflowImage(undefined);
                     allCompanyAddressesList.removeAll();
                     contactCompanyTerritoriesFilter.removeAll();
 
@@ -5126,9 +5128,13 @@ define("stores/stores.viewModel",
                 }),
                 //Store workflow Image Files Loaded Callback
                     storeWorkflowImageLoadedCallback = function (file, data) {
-                        selectedStore().storeWorkflowImageBinary(data);
-                        selectedStore().storeWorkflowImageName(file.name);
-                    };
+                      //  selectedStore().storeWorkflowImageBinary(data);
+                        selectedStore().storeWorkflowImage(data);
+                    },
+                //Store Map Image File Loaded Callback
+                storeMapImageLoadedCallback = function (file, data) {
+                    selectedStore().mapImageUrlBinary(data);
+                };
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -5480,6 +5486,7 @@ define("stores/stores.viewModel",
                     hasChangesOnStore: hasChangesOnStore,
                     calculateTaxByServiceHandler: calculateTaxByServiceHandler,
                     vatHandler: vatHandler,
+                    storeMapImageLoadedCallback: storeMapImageLoadedCallback
                 };
                 //#endregion
             })()

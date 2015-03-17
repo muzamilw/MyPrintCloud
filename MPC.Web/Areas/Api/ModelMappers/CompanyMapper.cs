@@ -19,7 +19,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Company CreateFrom(this DomainModels.Company source)
         {
-            
+
+            //byte[] imageMapBytes = null;
+            //string imageMapPath = HttpContext.Current.Server.MapPath("~/" + source.MapImageUrl); 
+            //if (File.Exists(imageMapPath))
+            //{
+            //    imageMapBytes = File.ReadAllBytes(imageMapPath);
+            //}
+
             byte[] spriteBytes = null;
             string spritePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + source.OrganisationId + "/" + source.CompanyId + "/sprite.png");
             if (File.Exists(spritePath))
@@ -82,6 +89,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == true ? "true" : "false",
+                StoreWorkflowImage= source.StoreWorkflowImage,
                 WatermarkText = source.WatermarkText,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
@@ -115,6 +123,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isCalculateTaxByService = source.isCalculateTaxByService,
                 TaxLabel=source.TaxLabel,
                 TaxRate= source.TaxRate,
+                MapImageUrl= source.MapImageUrl,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -251,6 +260,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 makeEmailArtworkOrderProductionReady = source.makeEmailArtworkOrderProductionReady,
                 TaxLabel = source.TaxLabel,
                 TaxRate = source.TaxRate,
+                MapImageUrl=source.MapImageUrl,
                 CompanyType = source.CompanyType != null ? source.CompanyType.CreateFrom() : null,
                 PickupAddressId = source.PickupAddressId,
                 Addresses = source.Addresses != null ? source.Addresses.Take(10).Select(x => x.CreateFrom()).ToList() : null,
@@ -318,8 +328,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RedirectWebstoreURL = source.RedirectWebstoreURL,
                 isShowGoogleMap = source.isShowGoogleMap,
                 isTextWatermark = source.isTextWatermark == "true" ? true : false,
-                WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText :source.StoreWorkflowImageBytes,
-                StoreWorkflowImageName = source.StoreWorkflowImageName,
+                WatermarkText = source.isTextWatermark == "true" ? source.WatermarkText : source.StoreWorkflowImage,
+                MapImageUrl= source.MapImageUrl,
+                StoreWorkflowImage = source.StoreWorkflowImage,
                 facebookAppId = source.facebookAppId,
                 facebookAppKey = source.facebookAppKey,
                 twitterAppId = source.twitterAppId,
@@ -439,6 +450,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxRate = source.TaxRate,
                 CompanyLogoSource = source.CompanyLogoSource,
                 CompanyLogoName = source.CompanyLogoName,
+                MapImageUrl= source.MapImageUrl,
                 Addresses =
                     source.Addresses != null ? source.Addresses.Select(add => add.CreateFromSupplier()).ToList() : null,
                 CompanyContacts =
