@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -90,8 +91,30 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
                // List<StockCategory> stockcategories = new List<StockCategory>();
-                return db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
-                
+
+                Mapper.CreateMap<StockCategory, StockCategory>()
+               .ForMember(x => x.StockItems, opt => opt.Ignore());
+
+                Mapper.CreateMap<StockSubCategory, StockSubCategory>()
+              .ForMember(x => x.StockCategory, opt => opt.Ignore())
+               .ForMember(x => x.StockItems, opt => opt.Ignore());
+               
+             
+                List<StockCategory> StockCat = db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
+
+
+                List<StockCategory> oOutputStockItems = new List<StockCategory>();
+
+                if (StockCat != null && StockCat.Count > 0)
+                {
+                    foreach (var item in StockCat)
+                    {
+                        var omappedItem = Mapper.Map<StockCategory, StockCategory>(item);
+                        oOutputStockItems.Add(omappedItem);
+                    }
+                }
+                return oOutputStockItems;
+            
             }
             catch(Exception ex)
             {

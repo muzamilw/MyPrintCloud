@@ -371,7 +371,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyDomains = source.CompanyDomains != null ? source.CompanyDomains.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCostCentres = source.CompanyCostCentres != null ? source.CompanyCostCentres.Select(x => x.CreateFrom()).ToList() : null,
                 FieldVariables = source.FieldVariables != null ? source.FieldVariables.Select(x => x.CreateFrom()).ToList() : null,
-                SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null
+                SmartForms = source.SmartForms != null ? source.SmartForms.Select(x => x.CreateFrom()).ToList() : null,
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
             };
 
             return company;

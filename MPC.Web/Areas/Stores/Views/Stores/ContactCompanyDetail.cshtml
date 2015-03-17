@@ -28,7 +28,7 @@
                 <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;" data-bind="with: $root.selectedStore()">
                     <div class="clearfix ">
                         <div class="col-xs-4 pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                             <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
                                 <div id="validationSummaryPopoverBodyForStore">
                                     <ul data-bind="foreach: $root.errorList">
@@ -67,7 +67,7 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
-                                <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
+                                <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Modify Variable</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -975,7 +975,7 @@
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
-                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',event:{ change: $root.onChangeBannerSet},value:activeBannerSetId, validationOnElement: activeBannerSetId"></select>
+                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:activeBannerSetId, validationOnElement: activeBannerSetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -1894,7 +1894,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-ModifyVariable">
+                                <div class="tab-pane clearfix fade" id="tab-StoreVariables" >
                                     <h3 class="group-header">Variables</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
@@ -1907,22 +1907,25 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </header>
                                         <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            @*<th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Description</span></a></th>
-                                                                <th>&nbsp;</th>*@
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @*<!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
-                                                            <!-- /ko -->*@
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                            <div class=" form-horizontal clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
 
+                                                                <th>
+
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'storeVariableTemplate' , foreach: $root.fieldVariablesOfStoreType  } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -2474,8 +2477,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
         <div class="photo-box image-link" style="padding-top: 0">
-            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
-            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
         </div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>
@@ -2513,4 +2516,25 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </td>
     </tr>
 
+</script>
+<script id="storeVariableTemplate" type="text/html">
+    <tr>
+        <td class="modifyVariabletd">
+            <div class="form-group ">
+                <div class="col-lg-3 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                        </a>
+                    </div>
+                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
+                </div>
+                <div class="col-lg-5" data-bind="visible:type() === 2">
+                    <input type="text" class="form-control" id="abc" data-bind="value: value">
+                </div>
+                <div class="col-lg-5" data-bind="visible:type() === 1">
+                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
+                </div>
+            </div>
+    </tr>
 </script>

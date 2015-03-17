@@ -48,6 +48,10 @@
                                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                     <!-- /ko -->
                             </div>
+                            <div class="pull-right">
+                                <button type="reset" class="btn btn-primary" data-bind="click:$root.hideCostCentreDialog">Save</button>
+                                <button type="reset" class="btn btn-default" data-bind="click:$root.hideCostCentreDialog">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -63,6 +67,18 @@
             <span style="font-size: 1.105em; color: black;" data-bind="text: id"></span>
             <br />
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text: name"></span>
+        </td>
+        <td>
+            <br />
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: quantity1"></span>
+        </td>
+        <td>
+            <br />
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: quantity2"></span>
+        </td>
+        <td>
+            <br />
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text: quantity3"></span>
         </td>
     </tr>
 </script>
