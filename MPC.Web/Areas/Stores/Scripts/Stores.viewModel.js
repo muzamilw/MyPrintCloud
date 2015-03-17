@@ -5118,7 +5118,7 @@ define("stores/stores.viewModel",
                         getCompanyContactVariableForEditContact(selectedStore().companyId(), scope);
 
                     }
-                }
+                },
                 //In Case Scope Variables Edit
                 getCompanyContactVariableForEditContact = function (id, scope) {
                     dataservice.getScopeVaribableByContactId({
