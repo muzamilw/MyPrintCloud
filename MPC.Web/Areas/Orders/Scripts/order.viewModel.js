@@ -198,6 +198,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
@@ -223,6 +224,7 @@ define("order/order.viewModel",
                     // Open Section Detail
                     openSectionDetail = function () {
                         isSectionDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
@@ -341,7 +343,7 @@ define("order/order.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
-costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
                         getBaseData();
@@ -364,9 +366,11 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -494,10 +498,12 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                                     }
                                 }
                                 isLoadingOrders(false);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
