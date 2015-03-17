@@ -67,7 +67,7 @@
             MakeReadyCost = ko.observable(),
             DefaultFilmId = ko.observable(),
             DefaultPlateId = ko.observable(),
-            DefaultPaperId = ko.observable(),
+            DefaultPaperId = ko.observable(28509),
             isfilmused = ko.observable(),
             isplateused = ko.observable(),
             ismakereadyused = ko.observable(),
@@ -75,22 +75,21 @@
             maximumsheetweight = ko.observable(),
             maximumsheetheight = ko.observable(),
             maximumsheetwidth = ko.observable(),
-            minimumsheetheight = ko.observable(),
-            minimumsheetwidth = ko.observable(),
-            gripdepth = ko.observable(),
+            minimumsheetheight = ko.observable(50),
+            minimumsheetwidth = ko.observable(50),
+            gripdepth = ko.observable(10),
             gripsideorientaion = ko.observable(),
             Orientation = ko.observableArray([
                     new OrientationModel({ id: "1", name: "Long Side" }),
                     new OrientationModel({ id: "2", name: "Short Side" })]),
             lookupList = ko.observableArray([]),
             markupList = ko.observableArray([]),
-           // stockItemListForPaperSizePlate = ko.observableArray([]),
             deFaultPaperSizeName = ko.observable(),
             deFaultPlatesName = ko.observable(),
             MachineSpoilageItems = ko.observableArray([]),
             MachineInkCoverages = ko.observableArray([]),
-            gutterdepth = ko.observable(),
-            headdepth = ko.observable(),
+            gutterdepth = ko.observable(10),
+            headdepth = ko.observable(10),
             MarkupId = ko.observable(),
             PressSizeRatio = ko.observable(),
             Description = ko.observable().extend({required: true}), 
@@ -131,14 +130,16 @@
             Minimumsheetheight = ko.observable(),
             Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
+            CurrencySymbol = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem.category == "Plates") {
                     deFaultPlatesName(ostockItem.name);
                     DefaultPlateId(ostockItem.id);
-                } else if (ostockItem.category == "Paper") {
-                    DefaultPaperId(ostockItem.id);
-                    deFaultPaperSizeName(ostockItem.name);
                 }
+                //else if (ostockItem.category == "Paper") {
+                //    DefaultPaperId(ostockItem.id);
+                //    deFaultPaperSizeName(ostockItem.name);
+                //}
             },
             errors = ko.validation.group({
                 Description: Description,
@@ -304,7 +305,8 @@
             deFaultPaperSizeName: deFaultPaperSizeName,
             MachineInkCoverages: MachineInkCoverages,
             MachineSpoilageItems: MachineSpoilageItems,
-            onSelectStockItem: onSelectStockItem
+            onSelectStockItem: onSelectStockItem,
+            CurrencySymbol: CurrencySymbol
           
         };
         return self;
@@ -504,7 +506,7 @@
         omachine.MakeReadyCost(source.machine.MakeReadyCost);
         omachine.DefaultFilmId(source.machine.DefaultFilmId);
         omachine.DefaultPlateId(source.machine.DefaultPlateId);
-        omachine.DefaultPaperId(source.machine.DefaultPaperId);
+        //omachine.DefaultPaperId(source.machine.DefaultPaperId);
         omachine.isfilmused(source.machine.isfilmused);
         omachine.isplateused(source.machine.isplateused);
         if (omachine.isplateused()) {
@@ -526,16 +528,25 @@
         } else {
             omachine.WashupPrice(0);
         }
-
+        
+        omachine.CurrencySymbol(source.CurrencySymbol);
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
-        omachine.minimumsheetheight(source.machine.minimumsheetheight);
-        omachine.minimumsheetwidth(source.machine.minimumsheetwidth);
-        omachine.gripdepth(source.machine.gripdepth);
+        //omachine.minimumsheetheight(source.machine.minimumsheetheight);
+        //omachine.minimumsheetwidth(source.machine.minimumsheetwidth);
+        if (!(source.machine.gripdepth == 0 || source.machine.gripdepth == null || source.machine.gripdepth == undefined)) {
+            omachine.gripdepth(source.machine.gripdepth);
+        }
+        if (!(source.machine.headdepth == 0 || source.machine.headdepth == null || source.machine.headdepth == undefined)) {
+            omachine.headdepth(source.machine.headdepth);
+        }
+        if (!(source.machine.gutterdepth == 0 || source.machine.gutterdepth == null || source.machine.gutterdepth == undefined)) {
+            omachine.gutterdepth(source.machine.gutterdepth);
+        }
         omachine.gripsideorientaion(source.machine.gripsideorientaion);
-        omachine.gutterdepth(source.machine.gutterdepth);
-        omachine.headdepth(source.machine.headdepth);
+        
+        
         omachine.MarkupId(source.machine.MarkupId);
         omachine.PressSizeRatio(source.machine.PressSizeRatio);
         omachine.Description(source.machine.Description);
@@ -570,11 +581,11 @@
         omachine.MakeReadyTime(source.machine.MakeReadyTime);
         omachine.WashupTime(source.machine.WashupTime);
         omachine.ReelMakereadyTime(source.machine.ReelMakereadyTime);
-        omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
-        omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
-        omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
-        omachine.Minimumsheetheight(source.machine.Minimumsheetheight);
-        omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
+        //omachine.Maximumsheetweight(source.machine.Maximumsheetweight);
+        //omachine.Maximumsheetheight(source.machine.Maximumsheetheight);
+        //omachine.Maximumsheetwidth(source.machine.Maximumsheetwidth);
+        //omachine.Minimumsheetheight(source.machine.Minimumsheetheight);
+        //omachine.Minimumsheetwidth(source.machine.Minimumsheetwidth);
         omachine.LookupMethodId(source.machine.LookupMethodId);
         omachine.deFaultPaperSizeName(source.deFaultPaperSizeName);
         
