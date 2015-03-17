@@ -109,7 +109,7 @@ namespace MPC.Models.DomainModels
         [NotMapped]
         public string ContactProfileImage { get; set; }
         [NotMapped]
-        public IEnumerable<ScopeVariable> ScopVariables { get; set; }
+        public IEnumerable<ScopeVariable> ScopeVariables { get; set; }
 
     }
 }

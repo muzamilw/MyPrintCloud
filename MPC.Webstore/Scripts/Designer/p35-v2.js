@@ -1032,6 +1032,14 @@ $("#btnUpdateImgProp").click(function (event) {
     while (keywords.indexOf(',') != -1)
         keywords = keywords.replace(",", "__");
 
+
+    while (title.indexOf(' ') != -1)
+        title = title.replace(" ", "____");
+    while (desc.indexOf(' ') != -1)
+        desc = desc.replace(" ", "____");
+    while (keywords.indexOf(' ') != -1)
+        keywords = keywords.replace(" ", "____");
+
     if (keywords == "") {
         keywords = title;
     }
@@ -1997,9 +2005,9 @@ $("#chkboxAutoShrink").click(function () {
 $("#chkboxTxtInputMask").click(function () {
     var thisCheck = $(this);
     if (thisCheck.is(':checked')) {
-        $(".maskingControls").css("display", "block");
+     //   $(".maskingControls").css("display", "block");
     } else {
-        $(".maskingControls").css("display", "none");
+       // $(".maskingControls").css("display", "none");
     }
 
    

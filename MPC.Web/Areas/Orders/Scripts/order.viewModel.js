@@ -88,6 +88,7 @@ define("order/order.viewModel",
                     // filter
                     filterText = ko.observable(),
                     costCentrefilterText = ko.observable(),
+                    selectedCostCentre = ko.observable(),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
@@ -214,6 +215,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
@@ -239,6 +241,7 @@ define("order/order.viewModel",
                     // Open Section Detail
                     openSectionDetail = function () {
                         isSectionDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
@@ -380,9 +383,11 @@ define("order/order.viewModel",
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -508,18 +513,18 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    debugger;
                                     selectedOrder(model.Estimate.Create(data));
-
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
                                 }
                                 isLoadingOrders(false);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -592,9 +597,16 @@ define("order/order.viewModel",
                          costCentrefilterText('');
                          getCostCenters();
                      },
-                     costCenterClickLIstner = function () {
+                     costCenterClickLIstner = function (costCentre) {
+                         selectedCostCentre(costCentre);
                          view.showCostCentersQuantityDialog();
                      },
+                     hideCostCentreQuantityDialog = function () {
+                         view.hideCostCentersQuantityDialog();
+                     },
+                     hideCostCentreDialog = function () {
+                         view.hideRCostCentersDialog();
+                    },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -623,6 +635,7 @@ define("order/order.viewModel",
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     };
+
                 //#endregion
                 //#endregion
 
@@ -698,7 +711,10 @@ define("order/order.viewModel",
                     getCostCenters: getCostCenters,
                     costCentrefilterText: costCentrefilterText,
                     resetCostCentrefilter: resetCostCentrefilter,
-                    costCenterClickListner: costCenterClickLIstner
+                    costCenterClickListner: costCenterClickLIstner,
+                    selectedCostCentre: selectedCostCentre,
+                    hideCostCentreQuantityDialog: hideCostCentreQuantityDialog,
+                    hideCostCentreDialog: hideCostCentreDialog
                     //#endregion
                     //#endregion
                 };

@@ -1049,11 +1049,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // #region __________________  COST CENTRE   ______________________
 
     // ReSharper disable once InconsistentNaming
-    var costCentre = function (specifiedId, specifiedname) {
+    var costCentre = function (specifiedId, specifiedname, specifiedquantity1, specifiedquantity2, specifiedquantity3) {
 
         var self,
             id = ko.observable(specifiedId),
             name = ko.observable(specifiedname),
+            quantity1 = ko.observable(specifiedquantity1),
+            quantity2 = ko.observable(specifiedquantity2),
+            quantity3 = ko.observable(specifiedquantity3),
             errors = ko.validation.group({
 
             }),
@@ -1067,6 +1070,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             dirtyFlag = new ko.dirtyFlag({
                 id: id,
                 name: name,
+                quantity1: quantity1,
+                quantity2: quantity2,
+                quantity3: quantity3
 
             }),
             // Has Changes
@@ -1087,6 +1093,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         self = {
             id: id,
             name: name,
+            quantity1: quantity1,
+            quantity2: quantity2,
+            quantity3: quantity3,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,

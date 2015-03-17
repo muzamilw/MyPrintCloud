@@ -80,11 +80,13 @@
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
+    <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
+    <Compile Include="Repository\ILookupMethodRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />
     <Compile Include="Repository\INewsLetterSubscriberRepository.cs" />
