@@ -67,7 +67,7 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
-                                <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
+                                <li><a href="#tab-StoreVariables" data-toggle="tab">Modify Variable</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -1894,7 +1894,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-ModifyVariable">
+                                <div class="tab-pane clearfix fade" id="tab-StoreVariables">
                                     <h3 class="group-header">Variables</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
@@ -1912,13 +1912,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <thead>
                                                         <tr>
                                                             @*<th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Description</span></a></th>
-                                                                <th>&nbsp;</th>*@
+                                    <th><a href="#"><span>Description</span></a></th>
+                                    <th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @*<!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
-                                                            <!-- /ko -->*@
+                                <!-- /ko -->*@
                                                     </tbody>
                                                 </table>
                                             </div>
