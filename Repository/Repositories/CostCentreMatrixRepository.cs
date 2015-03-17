@@ -7,6 +7,7 @@ using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
 using MPC.Models.Common;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -132,6 +133,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+               
+
+
                 List<CostCentreMatrix> matrices = db.CostCentreMatrices.Where(o => o.OrganisationId == OrganisationID).ToList();
                 List<CostCentreMatrixDetail> lstMatrixDetail = new List<CostCentreMatrixDetail>();
                 if(matrices != null && matrices.Count > 0)

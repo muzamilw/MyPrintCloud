@@ -9,6 +9,7 @@ using System;
 using MPC.Models.Common;
 using System.Web;
 using System.IO;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -66,8 +67,21 @@ namespace MPC.Repository.Repositories
         {
             db.Configuration.LazyLoadingEnabled = false;
             db.Configuration.ProxyCreationEnabled = false;
-          
-            return db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
+
+            Mapper.CreateMap<Organisation, Organisation>()
+           .ForMember(x => x.Country, opt => opt.Ignore())
+           .ForMember(x => x.SystemUsers, opt => opt.Ignore())
+           .ForMember(x => x.Estimates, opt => opt.Ignore())
+           .ForMember(x => x.Currency, opt => opt.Ignore())
+            .ForMember(x => x.CmsSkinPageWidgets, opt => opt.Ignore())
+           .ForMember(x => x.State, opt => opt.Ignore());
+
+
+            Organisation org = db.Organisations.Where(o => o.OrganisationId == organisationId).FirstOrDefault();
+            var omappedItem = Mapper.Map<Organisation, Organisation>(org);
+
+
+            return omappedItem;
         }
         public void InsertOrganisation(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,bool isCorpStore,ExportSets Sets)
         {
@@ -267,7 +281,7 @@ namespace MPC.Repository.Repositories
                                     CostCentreAnswer answer = new CostCentreAnswer();
                                     answer = ans;
 
-                                    answer.QuestionId = question.Id;
+                                    answer.QuestionId = Objquestion.Id;
                                     answer.Id = 0;
                                     db.CostCentreAnswers.Add(answer);
                                 }
@@ -301,7 +315,7 @@ namespace MPC.Repository.Repositories
                                     CostCentreMatrixDetail CCMD = new CostCentreMatrixDetail();
                                     CCMD = matrixD;
                                     CCMD.Id = 0;
-                                    CCMD.MatrixId = matrix.MatrixId;
+                                    CCMD.MatrixId = Objmatrix.MatrixId;
                                     db.CostCentreMatrixDetails.Add(CCMD);
 
                                 }
@@ -355,20 +369,6 @@ namespace MPC.Repository.Repositories
                             SI.StockItemId = 0;
                             SI.OrganisationId = OrganisationID;
                             db.StockItems.Add(SI);
-
-                            if (Sitems.StockCostAndPrices != null && Sitems.StockCostAndPrices.Count > 0)
-                            {
-                                foreach (var costAndPrice in Sitems.StockCostAndPrices)
-                                {
-                                    StockCostAndPrice SCP = new StockCostAndPrice();
-                                    SCP = costAndPrice;
-                                    SCP.CostPriceId = 0;
-                                    SCP.ItemId = Sitems.StockItemId;
-                                    db.StockCostAndPrices.Add(costAndPrice);
-                                    // Sitems.StockCostAndPrices.Add(SCP);
-                                }
-
-                            }
 
                         }
                         db.SaveChanges();
@@ -531,7 +531,7 @@ namespace MPC.Repository.Repositories
                          {
                              foreach (var Page in cmsPages)
                              {
-
+                                 Page.OrganisationId = OrganisationID;
                                  Page.PageCategory = null;
                                  Page.CompanyId = oCID;
                                  db.CmsPages.Add(Page);
@@ -591,7 +591,9 @@ namespace MPC.Repository.Repositories
                          comp.OrganisationId = OrganisationID;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
-                      
+
+                         //comp.CompanyContacts.ToList().ForEach(c => c.TerritoryId = null);
+                         //comp.CompanyContacts.ToList().ForEach(c => c.AddressId = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
                          if (comp.CmsPages != null && comp.CmsPages.Count > 0)
@@ -2172,7 +2174,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
-                        ObjCompany.Image = DestinationCompanyLogoFilePath;
+                        ObjCompany.Image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
                     }
 
 
@@ -2289,7 +2291,26 @@ namespace MPC.Repository.Repositories
                         }
                     }
 
+                    if (ObjCompany.CompanyBannerSets != null && ObjCompany.CompanyBannerSets.Count > 0)
+                    {
+                        foreach (var sets in ObjCompany.CompanyBannerSets)
+                        {
 
+
+                            if(sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
+                            {
+                                foreach(var bann in sets.CompanyBanners)
+                                {
+                                    if(!string.IsNullOrEmpty(bann.ImageURL))
+                                    {
+                                        string name = Path.GetFileName(bann.ImageURL);
+                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
                     if (ObjCompany.ProductCategories != null && ObjCompany.ProductCategories.Count > 0)
                     {
                         foreach (var prodCat in ObjCompany.ProductCategories)

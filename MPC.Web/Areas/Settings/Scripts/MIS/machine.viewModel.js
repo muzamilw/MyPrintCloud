@@ -32,9 +32,7 @@ define("machine/machine.viewModel",
                     UpdatedPapperStockID = ko.observable(),
                    // templateToUse = 'itemMachineTemplate',
                     makeEditable = ko.observable(false),
-                    
-                    
-                    gotoElement = function (validation) {
+                   gotoElement = function (validation) {
                         view.gotoElement(validation.element);
                     },
                      setValidationSummary = function (selectedItem) {
@@ -155,7 +153,6 @@ define("machine/machine.viewModel",
                         }
                         CloseMachineEditor();
                     },
-
                     CloseMachineEditor = function () {
                        isEditorVisible(false);
                         errorList.removeAll();
@@ -178,8 +175,6 @@ define("machine/machine.viewModel",
                              }
                          });
                      },
-
-                    
                     //Save Machine
                     saveMachine = function (item) {
                         if (selectedMachine() != undefined && doBeforeSave()) {
@@ -215,7 +210,6 @@ define("machine/machine.viewModel",
                              selectedMachine().WashupPrice(0);
                          }
                      },
-
                     //Save EDIT Machine
                     saveEdittedMachine = function () {
                        
@@ -287,8 +281,6 @@ define("machine/machine.viewModel",
                              }
                          });
                      },
-                   
-
                     onPapperSizeStockItemPopup = function () {
                         openStockItemDialog(1);//for Paper
                     },
@@ -331,13 +323,10 @@ define("machine/machine.viewModel",
                             editorViewModel.revertItem();
                         }
                     },
-                    
                     closeMachineDetail = function () {
                         isEditorVisible(false);
                     },
-                   
-                   
-                    // #region Observables
+                     // #region Observables
                     // Initialize the view model
                     initialize = function (specifiedView) {
                         isGuillotineList(false);

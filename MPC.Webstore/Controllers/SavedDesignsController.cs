@@ -153,7 +153,7 @@ namespace MPC.Webstore.Controllers
 
                     Response.Redirect(URL);
                     
-                    Response.Redirect("ProductConfirmSelect.aspx?itemid=" + ExistingProduct.ItemID + "&templateid=" + ExistingProduct.TemplateID + "&CategoryId=" + ExistingProduct.ProductCategoryID);
+                 //   Response.Redirect("ProductConfirmSelect.aspx?itemid=" + ExistingProduct.ItemID + "&templateid=" + ExistingProduct.TemplateID + "&CategoryId=" + ExistingProduct.ProductCategoryID);
                 }
                 else if (ExistingProduct.StatusID != 3 && ExistingProduct.IsOrderedItem == true)
                 {
