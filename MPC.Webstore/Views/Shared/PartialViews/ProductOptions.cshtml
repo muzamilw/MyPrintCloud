@@ -1361,8 +1361,6 @@
                 }
             });
         }
-
-
     }
 
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
@@ -1463,7 +1461,6 @@
                         function(DT) {
 
                             ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
-
                         });
 
                 } else {
@@ -1483,7 +1480,6 @@
                                 if ($(response[2])[i].CostCentreID == CostCentreId) {
                                     selectedCostCentreArray.push($(response[2])[i]);
                                 }
-
                             }
                             ShowCostCentrePopup(selectedCostCentreArray, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
                         },

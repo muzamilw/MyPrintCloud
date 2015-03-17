@@ -493,7 +493,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [HttpPost]
         public void UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
         {
-            var httpPostedFile = HttpContext.Current.Request.Files["UploadedFile"];
+            int count = HttpContext.Current.Request.Files.Count;
+            int Contentlength = HttpContext.Current.Request.ContentLength;
+            var httpPostedFile = HttpContext.Current.Request.Files["UploadedFile0"];
+            var httpPostedFile1 = HttpContext.Current.Request.Files["UploadedFile1"];
+            var httpPostedFile2 = HttpContext.Current.Request.Files["UploadedFile2"];
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;

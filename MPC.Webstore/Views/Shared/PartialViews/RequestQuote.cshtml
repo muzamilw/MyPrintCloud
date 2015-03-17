@@ -367,15 +367,15 @@
 @section scripts{
 
 <script>
- 
+
 
     $(document).ready(function () {
-     
-        
+
+
         $("#txtInquiryDate1").datepicker();
         $("#txtInquiryDate2").datepicker();
         $("#txtInquiryDate3").datepicker();
-        
+
 
         $("#AddNewInquiryItemList").click(function () {
 
@@ -386,7 +386,7 @@
         $("#Remove2").click(function () {
 
             Remove(2);
-           
+
 
         });
         $("#Remove3").click(function () {
@@ -402,20 +402,9 @@
                 $("#hfNoOfRec").val((recNo - 1));
             }
         }
-        $("#InquiryAttachment").files(
-       {
-           max: 4,
-           accept: 'psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx',
-           afterFileSelect: function (element, value, master_element) {
-
-           },
-           afterFileRemove: function (element, value, master_element) {
-
-           }
-       });
     });
     function ShowGUI() {
-        
+
         var numofRec = $("#hfNoOfRec").val();
         if (numofRec >= 1) {
             $('#1').css('display', 'block');
@@ -431,7 +420,7 @@
     function AddNew() {
 
         var isValid = true;
-      
+
        if (isValid) {
             var currentRec = parseInt($("#hfNoOfRec").val());
             var numOfRec = currentRec + 1;
@@ -507,11 +496,11 @@
 
             SubmitData();
         }
-        
+
     }
     function ValidateRec() {
         var val = $("#hfNoOfRec").val();
-        
+
         var errorMessage = '';
         var isValid = true;
         if ($("#hfIsUserLoggedIn").val() == "false") {
@@ -544,7 +533,7 @@
                 Email = $("#UserEmail").val();
                 if (Email != null || Email != "") {
                     if (ValidateEmail(Email) == true) {
-                       
+
                         $('#divEmailRq').css('display', 'none');
                     }
                     else {
@@ -584,7 +573,7 @@
         //    $("#DesiredDeldate1").css('display', 'none');
         //}
         if (val == 2) {
-           
+
             if ($("#txtTitle2").val().trim() == '') {
                 var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
                 errorMessage = errorMessage + inquirytitlexreq + "<br>";
@@ -654,7 +643,7 @@
             //    $("#DesiredDeldate3").css('display', 'none');
             //}
         }
-        
+
         ShowPopUp('Message', errorMessage);
         return isValid;
 
@@ -682,21 +671,28 @@
         $("#InquiryAttachment").val();
         $("#").val();
         $("#").val();
-        var data = new FormData();
+
         var files = $("#InquiryAttachment").get(0).files;
-    
+
         if (files.length > 0) {
-            data.append("UploadedFile", files[0]);
+            for (i = 0; i < files.length; i++) {
+                //data.append("file" + i, files[i]);
+                var data = new FormData();
+                data.append("UploadedFile" + i, files[i]);
+                alert(files[i]);
+            }
         }
+     
+        alert('ajax call');
         $.ajax({
             type: "POST",
-            url: "/webstoreapi/costCenter/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
+            @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
+            url: "/WebstoreApi/CostCenter/UpdateDataRequestQuote?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&Mobile=" + Mobile + "&Title=" + Title + "&InquiryItemTitle1= " + InquiryItemTitle1 + "" + "&InquiryItemNotes1=" + InquiryItemNotes1 + "&InquiryItemDeliveryDate1=" + InquiryItemDeliveryDate1 + "&InquiryItemTitle2=" + InquiryItemTitle2 + "&InquiryItemNotes2=" + InquiryItemNotes2 + "&InquiryItemDeliveryDate2=" + InquiryItemDeliveryDate2 + "&InquiryItemTitle3=" + InquiryItemTitle3 + "&InquiryItemNotes3=" + InquiryItemNotes3 + "&InquiryItemDeliveryDate3=" + InquiryItemDeliveryDate3 + "&hfNoOfRec=" + hfNoOfRec + "",
             contentType: false,
             data: data,
             async: true,
             processData: false,
             success: function (response) {
-
                 $("#MessgeToDisply").css('visibility', 'visible');
                 $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
             },
@@ -706,8 +702,6 @@
             }
         });
     }
-   
- 
 
     function ValidateEmail(email) {
         var isValid = true;
@@ -726,5 +720,6 @@
         }
         return isValid;
     }
+
 </script>
 }
