@@ -1046,7 +1046,7 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Work Instructions</h3>
-                                            <div class="table-bordered col-md-6 form-horizontal">
+                                            <div class="table-bordered col-md-9 form-horizontal">
                                                <div class="filter-block pull-right">
                                                     <a href="#" class="btn btn-primary pull-right">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Instruction
@@ -1058,11 +1058,11 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th style="width: 75%"> <span>Instructions</span></th>
-                                                                    <th style="width: 5%">&nbsp;</th>
+                                                                    <th style="width: 10%">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <!-- ko template: { name: WorkInstructionTemplate , foreach: $root.selectedCostCenter().costCenterInstructions } -->
+                                                                <!-- ko template: { name: 'WorkInstructionTemplate' , foreach: $root.selectedCostCenter().costCenterInstructions} -->
                                                                 <!-- /ko -->
                                                             </tbody>
                                                         </table>
@@ -1096,8 +1096,12 @@
 </script>
 <script id="WorkInstructionTemplate" type="text/html">
     <tr>
-        <td><input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: instruction, validationTooltip: instruction" /></td>
-        <td>
+        <td style="width: 75%">
+        <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: instruction, validationTooltip: instruction" /><br />
+            <!-- ko template: { name: 'InstructionChoiceTemplate' } -->
+            <!-- /ko -->
+        </td>
+        <td style="width: 25%">
             <!-- ko template: { name: 'InstructionEditTemplate' } -->
             <!-- /ko -->
         </td>
@@ -1119,7 +1123,7 @@
 </script>
 <script id="InstructionChoiceTemplate" type="text/html">
     <tr>
-        <td><span data-bind="text: costPrice"></span></td>
+        <td><input class="form-control" style="padding-right: 0px;padding-left: 10px;" data-bind="value: choice, validationTooltip: choice" /></td>
         <td>
             <a href="#" class="table-link danger" title="Delete Choice">
                 <span class="fa-stack">

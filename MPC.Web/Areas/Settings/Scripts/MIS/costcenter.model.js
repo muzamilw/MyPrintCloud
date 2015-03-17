@@ -307,8 +307,10 @@
             instruction = ko.observable(specifiedInstruction),
             costCenterOption = ko.observable(specifiedcostCenterOption),
             costCenterId = ko.observable(specifiedCostCentreId),
+            workInstructionChoices = ko.observableArray([]),
              dirtyFlag = new ko.dirtyFlag({
-                 instruction: instruction
+                 instruction: instruction,
+                 workInstructionChoices: workInstructionChoices,
              }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -325,7 +327,8 @@
             instructionId: instructionId,
             instruction: instruction,
             costCenterOption: costCenterOption,
-            costCenterId:costCenterId,
+            costCenterId: costCenterId,
+            workInstructionChoices:workInstructionChoices,
             convertToServerData: convertToServerData
         };
         return self;
@@ -344,8 +347,54 @@
             source.costCenterOption,
             source.CostCentreId
             );
+        //_.each(source.CostcentreInstructions, function (item) {
+        //    oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
         return ccInstruction;
     };
+
+    costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {
+        var
+             self,
+             choiceId = ko.observable(specifiedChoiceId),
+             choice = ko.observable(specifiedChoice),
+             instructionId = ko.observable(specifiedInstructionId),
+              dirtyFlag = new ko.dirtyFlag({
+                  choice: choice
+              }),
+             // Has Changes
+             hasChanges = ko.computed(function () {
+                 return dirtyFlag.isDirty();
+             }),
+             convertToServerData = function () {
+                 return {
+                     Id: choiceId(),
+                     Choice: choice(),
+                     InstructionId: instructionId()
+                 }
+             };
+        self = {
+            choiceId: choiceId,
+            choice: choice,
+            instructionId: instructionId,
+            convertToServerData: convertToServerData
+        };
+        return self;
+
+    };
+    costCenterInstructionChoice.Create = function (source) {
+        var wiChoice = new costCenterInstructionChoice(
+            source.Id,
+            source.Choice,
+            source.InstructionId
+            );
+        return wiChoice;
+    };
+    costCenterInstructionChoice.CreateFromClientModel = function (source) {
+        return new costCenterInstructionChoice(
+            source.Id, source.Choice, source.InstructionId
+        );
+    };
+
     costCenterResource = function (specifiedCostCenterResourceId, specifiedCostCentreId, specifiedResourceId) {
         var
              self,
@@ -475,10 +524,10 @@
         oCostCenter.deliveryServiceType(source.DeliveryServiceType);
         oCostCenter.carrierId(source.CarrierId);
         
-        //oCostCenter.serviceTypesList(ServiceTypesList());
-        //_.each(source.CostcentreInstructions, function (item) {
-        //    oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
-        //});
+       // oCostCenter.serviceTypesList(ServiceTypesList());
+        _.each(source.CostcentreInstructions, function (item) {
+            oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
+        });
         return oCostCenter;
 
     };
