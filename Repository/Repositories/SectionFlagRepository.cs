@@ -77,7 +77,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public IEnumerable<SectionFlag> GetAllForCustomerPriceIndex()
         {
-            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix).ToList();
+            return DbSet.Where(sf => sf.SectionId == (int)SectionEnum.CustomerPriceMatrix && sf.OrganisationId == OrganisationId).ToList();
         }
 
         /// <summary>
