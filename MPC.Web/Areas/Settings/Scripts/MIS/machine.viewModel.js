@@ -261,7 +261,7 @@ define("machine/machine.viewModel",
                                  selectedMachine().reset();
                                  errorList.removeAll();
                                  
-                                 selectedMachine().MachineId(data.machine.MachineId);
+                                 selectedMachine().MachineId(data);
                                  isEditorVisible(false);
 
                                  toastr.success("Successfully save.");

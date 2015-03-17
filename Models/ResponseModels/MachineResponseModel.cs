@@ -10,6 +10,7 @@ namespace MPC.Models.ResponseModels
     public class MachineResponseModel
     {
         public Machine machine { get; set; }
+        public string CurrencySymbol { get; set; }
         public string deFaultPaperSizeName { get; set; }
         public string deFaultPlatesName { get; set; }
         public IEnumerable<LookupMethod> lookupMethods { get; set; }
