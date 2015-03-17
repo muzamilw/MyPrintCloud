@@ -139,7 +139,7 @@ define("order/order.viewModel",
                     //Current Screen
                     currentScreen = ko.observable(),
                     //Selected Filter Flag on List View
-                    selectedFilterFlag = ko.observable(),
+                    selectedFilterFlag = ko.observable(0),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -469,6 +469,10 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    //get Orders Of Current Screen
+                    getOrdersOfCurrentScreen= function() {
+                        getOrders(currentScreen());
+                    },
                     // Get Orders
                     getOrders = function (currentTab) {
 
@@ -682,6 +686,7 @@ define("order/order.viewModel",
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
                     getOrders: getOrders,
+                    getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
