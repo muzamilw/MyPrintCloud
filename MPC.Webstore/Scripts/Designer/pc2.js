@@ -89,7 +89,6 @@ var croppedInstance = null;
             self.zoomIn.call(self);
           });
           $('.imgOrignalCrop').on('mousedown', function (e1) {
-              console.log("called");
               var dragData = {
                   startX: self.img_left,
                   startY: self.img_top,
@@ -198,7 +197,6 @@ var croppedInstance = null;
               }
               self.setCropFirst({ percent: parseFloat(percent), img_width: parseFloat(img_width), img_height: parseFloat(img_height), img_left: parseFloat(img_left), img_top: parseFloat(img_top), sx: sx, sy: sy });
               pcL20_new_MoveImg(self.$image.attr('src'), percent, ActualImHeight, ActualImWidth);
-              console.log(percent + " " + ActualImHeight + " " + ActualImWidth);
           }
         };
       },

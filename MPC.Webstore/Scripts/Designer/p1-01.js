@@ -1,6 +1,13 @@
-﻿$("#uploadImagesMB ,#IdUploadBackgrounds,#uploadBackgroundMn").click(function () {
-     $("#imageUploader").click();
+﻿$("#uploadImagesMB ,#IdUploadBackgrounds").click(function () {
+    $("#imageUploader").click();
+    isBKpnl = false;
    // $("#fontUploader").click();
+    //animatedcollapse.toggle('textPropertPanel');
+});
+$("#uploadBackgroundMn").click(function () {
+    $("#imageUploader").click();
+    isBKpnl = true;
+    // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
 $("#uploadImages, #uploadLogos").click(function (event) {
@@ -17,7 +24,7 @@ $('#imageUploader').change(function () {
     var uploadPath = "Organisation" + organisationId + "/Templates/";
     if (IsCalledFrom == "1" || IsCalledFrom == "2")
     {
-        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + ContactID;
+        uploadPath = "Organisation" + organisationId + "/Templates/" + "UserImgs/" + CustomerID;
     }
     else if (IsCalledFrom == "3" || IsCalledFrom == "4")
     {
@@ -52,7 +59,10 @@ $('#imageUploader').change(function () {
                     if (isBkPnlUploads) {
                         panelType = 3;
                     }
-                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + ContactID + "/"+organisationId + "/" + panelType  + "/" + CustomerID ,
+                    var contactIDlocal = ContactID;
+                    if (IsCalledFrom == 2)
+                        contactIDlocal = CustomerID;
+                    $.getJSON("/designerapi/TemplateBackgroundImage/UploadImageRecord/" + messages[i] + "/" + tID + "/" + IsCalledFrom + "/" + contactIDlocal + "/" + organisationId + "/" + panelType + "/" + CustomerID,
                         function (result) {
                             if (result != "uploadedPDFBK") {
                                 $("#progressbar").css("display", "none");
@@ -64,17 +74,17 @@ $('#imageUploader').change(function () {
                                 }
                                 k27();
                                 isImgUpl = true;
-                                if (IsCalledFrom == 1 || IsCalledFrom == 2) {
-                                    $("#ImgCarouselDiv").tabs("option", "active", 0);
-                                    $("#BkImgContainer").tabs("option", "active", 0);
-                                    $('#divGlobalImages').scrollTop();
-                                    $('#divGlobalBackg').scrollTop();
-                                } else {
-                                    $("#ImgCarouselDiv").tabs("option", "active", 2);
-                                    $("#BkImgContainer").tabs("option", "active", 2);
-                                    $('#divPersonalImages').scrollTop();
-                                    $('#divPersonalBkg').scrollTop();
-                                }
+                                //if (IsCalledFrom == 1 || IsCalledFrom == 2) {
+                                //    $("#ImgCarouselDiv").tabs("option", "active", 0);
+                                //    $("#BkImgContainer").tabs("option", "active", 0);
+                                //    $('#divGlobalImages').scrollTop();
+                                //    $('#divGlobalBackg').scrollTop();
+                                //} else {
+                                //    $("#ImgCarouselDiv").tabs("option", "active", 2);
+                                //    $("#BkImgContainer").tabs("option", "active", 2);
+                                //    $('#divPersonalImages').scrollTop();
+                                //    $('#divPersonalBkg').scrollTop();
+                                //}
                                 StopLoader();
                             } else {
                                 Arc_1();
@@ -126,7 +136,7 @@ $('#fontUploader').change(function () {
                           var ext1 = messages[0].substr(messages[0].lastIndexOf('.') + 1);
                           var fontName = messages[0];
                           fontName = fontName.replace('.' + ext1, '')
-                          UpdateFontToUI($("input[name=FontName]").val(), fontName);
+                          UpdateFontToUI(fontDisplayName, fontName);
                           StopLoader();
                       });
                 },
@@ -137,11 +147,11 @@ $('#fontUploader').change(function () {
             });
         } else 
         {
-            alert("Please enter valid font files.");
+            alert("Please enter valid font files."); StopLoader();
         }
     } else 
     {
-        alert("Only 3 font files allowed per font at a time.");
+        alert("Only 3 font files allowed per font at a time."); StopLoader();
     }
 });
 
@@ -211,7 +221,11 @@ function UpdateFontToUI(fontName, fontFileName) {
     var html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     $('head').append(html);
     var html1 = '<option  id = ' + fontFileName + ' value="' + fontName + '" >' + fontName + '</option>';
+    console.log(fontName + " " + fontFileName);
+    var fname = "'"+ fontName + "'";
     $('#' + "BtnSelectFonts").append(html1);
+    var html2 = '<li style="font-family: ' + fname + '">' + fontName + '</li>';
+    $(".fonts").append(html2);
 }
 function Arc_1() {
     StartLoader("Updating template please wait...");

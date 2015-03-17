@@ -191,14 +191,7 @@ namespace MPC.Webstore.Controllers
                 {
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.ContactFirstName = user.FirstName;
-                    if (user.LastName != null)
-                    {
-                        UserCookieManager.ContactLastName = user.LastName;
-                    }
-                    else
-                    {
-                        UserCookieManager.ContactLastName = "";
-                    }
+                    UserCookieManager.ContactLastName = user.LastName;
                     UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                     UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
 
