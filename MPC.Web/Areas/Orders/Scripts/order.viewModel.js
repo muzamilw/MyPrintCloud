@@ -74,6 +74,7 @@ define("order/order.viewModel",
                     // filter
                     filterText = ko.observable(),
                     costCentrefilterText = ko.observable(),
+                    selectedCostCentre = ko.observable(),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
@@ -486,9 +487,7 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                         }, {
                             success: function (data) {
                                 if (data) {
-                                    debugger;
                                     selectedOrder(model.Estimate.Create(data));
-
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -570,9 +569,16 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                          costCentrefilterText('');
                          getCostCenters();
                      },
-                     costCenterClickLIstner = function () {
+                     costCenterClickLIstner = function (costCentre) {
+                         selectedCostCentre(costCentre);
                          view.showCostCentersQuantityDialog();
                      },
+                     hideCostCentreQuantityDialog = function () {
+                         view.hideCostCentersQuantityDialog();
+                     },
+                     hideCostCentreDialog = function () {
+                         view.hideRCostCentersDialog();
+                    },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -601,6 +607,7 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     };
+
                 //#endregion
                 //#endregion
 
@@ -669,7 +676,10 @@ costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostC
                     getCostCenters: getCostCenters,
                     costCentrefilterText: costCentrefilterText,
                     resetCostCentrefilter: resetCostCentrefilter,
-                    costCenterClickListner: costCenterClickLIstner
+                    costCenterClickListner: costCenterClickLIstner,
+                    selectedCostCentre: selectedCostCentre,
+                    hideCostCentreQuantityDialog: hideCostCentreQuantityDialog,
+                    hideCostCentreDialog: hideCostCentreDialog
                     //#endregion
                     //#endregion
                 };
