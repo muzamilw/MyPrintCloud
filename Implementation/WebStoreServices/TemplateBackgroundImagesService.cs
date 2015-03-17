@@ -483,6 +483,10 @@ namespace MPC.Implementation.WebStoreServices
                         Imname = "UserImgs/Retail/" + contactId.ToString() + "/" + imageName;
                         UploadPathForPDF = "UserImgs/Retail/" + contactId.ToString() + "/";
                     }
+                    if(uploadedFrom == 2)
+                    {
+                        contactId = 0;
+                    }
                     List<TemplateBackgroundImage> listImages = new List<TemplateBackgroundImage>();
                     if (isUploadedPDF)
                     {
