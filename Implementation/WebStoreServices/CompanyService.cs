@@ -187,7 +187,7 @@ namespace MPC.Implementation.WebStoreServices
                 ObjectCache cache = MemoryCache.Default;
                 CacheItemPolicy policy = null;
 
-                MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
+               // MyCompanyDomainBaseReponse responseObject = cache.Get(CacheKeyName) as MyCompanyDomainBaseReponse;
 
                 policy = new CacheItemPolicy();
                 policy.Priority = CacheItemPriority.NotRemovable;
@@ -196,10 +196,9 @@ namespace MPC.Implementation.WebStoreServices
                 policy.RemovedCallback = null;
 
                 Dictionary<long, MyCompanyDomainBaseReponse> stores = cache.Get(CacheKeyName) as Dictionary<long, MyCompanyDomainBaseReponse>;
-                responseObject = null;
-                stores = null;
-                if (stores == null)
+                if (stores.ContainsKey(companyId))
                 {
+                    stores.Remove(companyId);
                     stores = new Dictionary<long, MyCompanyDomainBaseReponse>();
 
 
@@ -214,8 +213,8 @@ namespace MPC.Implementation.WebStoreServices
                     oStore.Organisation = _organisationRepository.GetOrganizatiobByID(Convert.ToInt64(oCompany.OrganisationId));
                     oStore.CmsSkinPageWidgets = _widgetRepository.GetDomainWidgetsById(oCompany.CompanyId);
                     oStore.Banners = _companyBannerRepository.GetCompanyBannersById(Convert.ToInt64(oCompany.ActiveBannerSetId));
-                oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
-                oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
+                    oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
+                    oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                     oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
                     oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oStore.Organisation.CurrencyId));
                     oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));

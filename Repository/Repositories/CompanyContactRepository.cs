@@ -830,7 +830,7 @@ namespace MPC.Repository.Repositories
                              && Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
                        select Contacts;
 
-            return qury.ToList().Where(contct => VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
+           return qury.ToList().Where(contct => VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
 
         }
 
