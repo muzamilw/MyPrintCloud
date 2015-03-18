@@ -168,6 +168,8 @@ namespace MPC.Models.DomainModels
 
         public virtual ICollection<Address> Addresses { get; set; }
         public virtual ICollection<CmsPage> CmsPages { get; set; }
+        [NotMapped]
+        public virtual ICollection<CmsPage> SystemPages { get; set; }
         public virtual ICollection<CmsSkinPageWidget> CmsSkinPageWidgets { get; set; }
         public virtual ICollection<CompanyDomain> CompanyDomains { get; set; }
         public virtual ICollection<RaveReview> RaveReviews { get; set; }
