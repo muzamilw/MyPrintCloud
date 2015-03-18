@@ -100,6 +100,16 @@
             serviceTypesList = ko.observableArray([]),
             deliveryServiceType = ko.observable(),
             carrierId = ko.observable(),
+             isEditPlantCost = ko.observable(false),
+             isEditPlantQuote = ko.observable(false),
+             isEditPlantActualCost = ko.observable(false),
+             isEditStockCost = ko.observable(false),
+             isEditStockQuote = ko.observable(false),
+             isEditStockActualCost = ko.observable(false),
+             isEditLabourCost = ko.observable(false),
+             isEditLabourQuote = ko.observable(false),
+             isEditLabourActualCost = ko.observable(false),
+             isEditTime = ko.observable(false),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -254,6 +264,16 @@
             organisationId: organisationId,
             costCenterResource: costCenterResource,
             costCenterInstructions: costCenterInstructions,
+            isEditPlantCost: isEditPlantCost,
+            isEditPlantQuote: isEditPlantQuote,
+            isEditPlantActualCost: isEditPlantActualCost,
+            isEditStockCost: isEditStockCost,
+            isEditStockQuote: isEditStockQuote,
+            isEditStockActualCost: isEditStockActualCost,
+            isEditLabourCost: isEditLabourCost,
+            isEditLabourQuote: isEditLabourQuote,
+            isEditLabourActualCost: isEditLabourActualCost,
+            isEditTime: isEditTime,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -347,8 +367,9 @@
             source.costCenterOption,
             source.CostCentreId
             );
-        //_.each(source.CostcentreInstructions, function (item) {
-        //    oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
+        _.each(source.CostcentreWorkInstructionsChoices, function (item) {
+            ccInstruction.workInstructionChoices.push(costCenterInstructionChoice.Create(item))
+        });
         return ccInstruction;
     };
 
