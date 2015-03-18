@@ -348,7 +348,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pickupAddressId: pickupAddressId,
             taxLabel: taxLabel,
             taxRate: taxRate,
-            scopeVariables: scopeVariables
+            scopeVariables: scopeVariables,
+            paymentGateway: paymentGateway
             //storeLayoutChange: storeLayoutChange
             //#endregion
         }),

@@ -917,7 +917,10 @@ define("stores/stores.viewModel",
                     // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
                     // #region _________C O M P A N Y    C M Y K   C O L O R  ________
-
+                     newCompanyCmykId = -1,
+                    addNewCompanyCmykId = function () {
+                        newCompanyCmykId = newCompanyCmykId - 1;
+                    },
                     //Selected Company CMYK Color
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = ko.observable(),
@@ -954,6 +957,7 @@ define("stores/stores.viewModel",
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
                             selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                            view.hideCompanyCMYKColorDialog();
                         });
                         confirmation.show();
 
@@ -978,6 +982,8 @@ define("stores/stores.viewModel",
                     },
                     onSaveCompanyCMYKColor = function () {
                         if (doBeforeSaveCompanyCMYKColor() && isSavingNew() === true) {
+                            selectedCompanyCMYKColor().colorId(newCompanyCmykId);
+                            addNewCompanyCmykId();
                             selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
                             view.hideCompanyCMYKColorDialog();
                             isSavingNew(false);
@@ -1125,7 +1131,7 @@ define("stores/stores.viewModel",
                                 deleteBanner(banner);
                             }
                             filteredCompanyBanners.remove(banner);
-
+                              view.hideEditBannerDialog();
                         });
                         confirmation.show();
                     },
@@ -2750,7 +2756,10 @@ define("stores/stores.viewModel",
                 // #endregion
 
                 // #region _________P A Y M E N T    G A T E W A Y _________________
-
+                 newPaymentGatewayId = -1,
+                    addNewPaymentGatewayId = function () {
+                        newPaymentGatewayId = newPaymentGatewayId - 1;
+                    },
                 isAccessCodeSectionVisible = ko.observable(false),
                 paymentMethodName = ko.observable(),
                 //Selected Payment Gateway
@@ -2770,6 +2779,7 @@ define("stores/stores.viewModel",
                     // Ask for confirmation
                     confirmation.afterProceed(function () {
                         selectedStore().paymentGateway.remove(paymentGateway);
+                        view.hidePaymentGatewayDialog();
                     });
                     confirmation.show();
                     return;
@@ -2797,6 +2807,8 @@ define("stores/stores.viewModel",
                                 selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
                             }
                         });
+                        selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
+                        addNewPaymentGatewayId();
                         selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
                         view.hidePaymentGatewayDialog();
                     }
@@ -5439,7 +5451,7 @@ define("stores/stores.viewModel",
                     editedSecondaryPage: editedSecondaryPage,
                     deletedSecondaryPage: deletedSecondaryPage,
                     pageSkinWidgets: pageSkinWidgets,
-                    costCentersList: costCentersList
+                    costCentersList: costCentersList,
                 }),
                 // Has Changes
                 hasChangesOnStore = ko.computed(function () {
