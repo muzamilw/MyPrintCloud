@@ -114,12 +114,9 @@ namespace MPC.Webstore.Controllers
                         Response.Redirect("/");
 
                     }
-                    else 
-                    {
-                        model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-                        StoreBaseResopnse = null;
-                    }
-                   
+
+                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                    StoreBaseResopnse = null;
                  
                 }
                 else
