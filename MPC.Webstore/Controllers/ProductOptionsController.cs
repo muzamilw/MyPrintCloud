@@ -288,7 +288,16 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.Mode = "";
             }
-            ViewData["CostCenters"] = listOfCostCentres;
+
+            if (listOfCostCentres == null || listOfCostCentres.Count == 0)
+            {
+                ViewData["CostCenters"] = null;
+            }
+            else 
+            {
+                ViewData["CostCenters"] = listOfCostCentres;
+            }
+           
 
             AddonObjectList = new List<AddOnCostCenterViewModel>();
 
