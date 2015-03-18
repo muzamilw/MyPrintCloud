@@ -106,12 +106,13 @@ define("product/product.dataservice", function () {
                 });
             },
             // Get Base Data for Designer Category
-            getBaseDataForDesignerCategory = function (callbacks) {
+            getBaseDataForDesignerCategory = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForDesignerCategory',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: param
                 });
             },
             // Get Product Machines

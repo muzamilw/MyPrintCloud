@@ -2060,6 +2060,24 @@
                                             </div>
 
                                         </div>
+                                        <div class="form-group" data-bind="visible: $root.selectedCompany" style="display: none">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label text-right Label-Bold">Smart From</label>
+
+                                            </div>
+                                            <div class="col-lg-6">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group" data-bind="if: $root.selectedCompany() && $root.isDesignerCategoryBaseDataLoaded()">
+                                            <div class="col-lg-3 text-right">
+
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <select class="form-control" data-bind="options: $root.smartForms, optionsText: 'Name', optionsValue: 'SmartFormId', optionsCaption: 'Select...', value: $parent.smartFormId"></select>
+                                            </div>
+
+                                        </div>
 
 
                                     </div>
