@@ -365,7 +365,7 @@ namespace MPC.Implementation.MISServices
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
                 oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
-                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.MISServices.ICostCentersService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
                 
 
