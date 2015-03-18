@@ -718,9 +718,9 @@
                                                         </div>
                                                         <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
-                                                    <div class="col-lg-6 text-right">
+                                                    <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
+                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost" data-bind="checked: isEditPlantCost">
                                                             <label class="onoffswitch-label" for="chkPlantEstimatedCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -730,10 +730,10 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
-                                                        <div class="col-lg-6">
-                                                            <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed"></textarea>
-                                                            <span class="help-block text-right">Estimated Cost</span>
-                                                        </div>
+                                                    <div class="col-lg-6">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed, enable: isEditPlantCost"></textarea>
+                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    </div>
                                                     </div>
                                                 @*Quoted Charge*@
                                                 <div class="form-group">
@@ -747,7 +747,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
+                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge" data-bind="checked: isEditPlantQuote">
                                                             <label class="onoffswitch-label" for="chkPlantQuotedCharge">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -758,7 +758,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed, enable: isEditPlantQuote"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -774,7 +774,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost" data-bind="checked: isEditPlantActualCost">
                                                             <label class="onoffswitch-label" for="chkPlantActualCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -785,7 +785,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed, enable: isEditPlantActualCost"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -818,8 +818,8 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
-                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                            <input type="checkbox" name="chkStockEstimatedCost" class="onoffswitch-checkbox" id="chkStockEstimatedCost" data-bind="checked: isEditStockCost">
+                                                            <label class="onoffswitch-label" for="chkStockEstimatedCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -829,7 +829,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostMaterialUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateStockCost" rows="5" data-bind="value: strCostMaterialUnParsed, enable: isEditStockCost"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -841,12 +841,12 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                        <label for="chkStockQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
-                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                            <input type="checkbox" name="chkStockQuotedCharge" class="onoffswitch-checkbox" id="chkStockQuotedCharge" data-bind="checked: isEditStockQuote">
+                                                            <label class="onoffswitch-label" for="chkStockQuotedCharge">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -856,7 +856,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceMaterialUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtQuoteStockCost" rows="5" data-bind="value: strPriceMaterialUnParsed, enable: isEditStockQuote"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -872,8 +872,8 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
-                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                            <input type="checkbox" name="chkStockActualCost" class="onoffswitch-checkbox" id="chkStockActualCost" data-bind="checked: isEditStockActualCost">
+                                                            <label class="onoffswitch-label" for="chkStockActualCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -883,7 +883,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtStockActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed, enable: isEditStockActualCost"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -912,12 +912,12 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkLabourEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
-                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                            <input type="checkbox" name="chkLabourEstimatedCost" class="onoffswitch-checkbox" id="chkLabourEstimatedCost" data-bind="checked: isEditLabourCost">
+                                                            <label class="onoffswitch-label" for="chkLabourEstimatedCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -927,7 +927,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostLabourUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateLabourCost" rows="5" data-bind="value: strCostLabourUnParsed, enable: isEditLabourCost"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -939,12 +939,12 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                        <label for="chkLabourQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge">
-                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                            <input type="checkbox" name="chkLabourQuotedCharge" class="onoffswitch-checkbox" id="chkLabourQuotedCharge" data-bind="checked: isEditLabourQuote">
+                                                            <label class="onoffswitch-label" for="chkLabourQuotedCharge">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -954,7 +954,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed, enable: isEditLabourQuote"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -966,11 +966,11 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                        <label for="chkLabourActualCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost">
+                                                            <input type="checkbox" name="chkLabourActualCost" class="onoffswitch-checkbox" id="chkLabourActualCost" data-bind="checked: isEditLabourActualCost">
                                                             <label class="onoffswitch-label" for="chkPlantActualCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
@@ -981,7 +981,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtLabourActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed, enable: isEditLabourActualCost"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -1010,12 +1010,12 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkTimeCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost">
-                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                            <input type="checkbox" name="chkTimeCost" class="onoffswitch-checkbox" id="chkTimeCost" data-bind="checked: isEditTime">
+                                                            <label class="onoffswitch-label" for="chkTimeCost">
                                                                 <div class="onoffswitch-inner"></div>
                                                                 <div class="onoffswitch-switch"></div>
                                                             </label>
@@ -1025,7 +1025,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strTimeUnParsed"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateTimeCost" rows="5" data-bind="value: strTimeUnParsed, enable: isEditTime"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -1046,7 +1046,8 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Work Instructions</h3>
-                                            <div class="table-bordered col-md-6 form-horizontal">
+                                            
+                                            <div class="table-bordered col-md-9 form-horizontal">
                                                <div class="filter-block pull-right">
                                                     <a href="#" class="btn btn-primary pull-right">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Instruction
@@ -1057,12 +1058,12 @@
                                                         <table id="costTablle" class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 75%"> <span>Instructions</span></th>
-                                                                    <th style="width: 5%">&nbsp;</th>
+                                                                    <th style="width: 75%"> <span>Instructions & Choices</span></th>
+                                                                    <th style="width: 10%">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <!-- ko template: { name: WorkInstructionTemplate , foreach: $root.selectedCostCenter().costCenterInstructions } -->
+                                                                <!-- ko template: { name: 'WorkInstructionTemplate' , foreach: $root.selectedCostCenter().costCenterInstructions} -->
                                                                 <!-- /ko -->
                                                             </tbody>
                                                         </table>
@@ -1096,8 +1097,18 @@
 </script>
 <script id="WorkInstructionTemplate" type="text/html">
     <tr>
-        <td><input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: instruction, validationTooltip: instruction" /></td>
-        <td>
+        <td style="width: 75%">
+            <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: instruction, validationTooltip: instruction" />
+            <br />
+            <table id="costTablle" class="table table-striped table-hover">
+                
+                <tbody>
+                    <!-- ko template: { name: 'InstructionChoiceTemplate' , foreach:workInstructionChoices} -->
+                    <!-- /ko -->
+                </tbody>
+            </table>
+        </td>
+        <td style="width: 25%; vertical-align:top">
             <!-- ko template: { name: 'InstructionEditTemplate' } -->
             <!-- /ko -->
         </td>
@@ -1119,8 +1130,8 @@
 </script>
 <script id="InstructionChoiceTemplate" type="text/html">
     <tr>
-        <td><span data-bind="text: costPrice"></span></td>
-        <td>
+        <td style="width: 75%"><input class="form-control" style="padding-right: 0px;padding-left: 10px;" data-bind="value: choice, validationTooltip: choice" /></td>
+        <td style="width: 25%">
             <a href="#" class="table-link danger" title="Delete Choice">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>

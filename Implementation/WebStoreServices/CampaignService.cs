@@ -35,9 +35,9 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent)
+        public Campaign GetCampaignRecordByEmailEvent(int iEmailEvent, long OrganisationId, long CompanyId)
         {
-            return _CampaignRepository.GetCampaignRecordByEmailEvent(iEmailEvent);
+            return _CampaignRepository.GetCampaignRecordByEmailEvent(iEmailEvent, OrganisationId, CompanyId);
         }
 
         public bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore,int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0)

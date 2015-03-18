@@ -2005,9 +2005,9 @@ $("#chkboxAutoShrink").click(function () {
 $("#chkboxTxtInputMask").click(function () {
     var thisCheck = $(this);
     if (thisCheck.is(':checked')) {
-        $(".maskingControls").css("display", "block");
+     //   $(".maskingControls").css("display", "block");
     } else {
-        $(".maskingControls").css("display", "none");
+       // $(".maskingControls").css("display", "none");
     }
 
    

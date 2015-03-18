@@ -104,6 +104,14 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(vf => vf.CompanyId == companyId).ToList();
         }
+
+        /// <summary>
+        /// Get System Variables
+        /// </summary>
+        public IEnumerable<FieldVariable> GetSystemVariables()
+        {
+            return DbSet.Where(fv => fv.IsSystem == true && fv.CompanyId == null && fv.OrganisationId == null).ToList();
+        }
         #endregion
     }
 }

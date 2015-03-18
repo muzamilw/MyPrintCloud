@@ -82,24 +82,45 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
+              
+         
             SetUserClaim(UserCookieManager.OrganisationID);
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
-            string CacheKeyName = "CompanyBaseResponse";
+         
+
+             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
-
 
             //iqra to fix the route of error page, consult khurram if required to get it propper.
             if (UserCookieManager.StoreId != 0)
             {
                 Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
+                
+                  
                 if (domainResponse.ContainsKey(UserCookieManager.StoreId))
                 {
                     MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.StoreId];
                     string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                    model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
-                    StoreBaseResopnse = null;
+                    if (!_webstoreAuthorizationChecker.isUserLoggedIn())
+                    {
+                        if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/")))
+                        {
+                            Response.Redirect("/Login");
+                        }
+                    }
+                    else if (_webstoreAuthorizationChecker.isUserLoggedIn() && pageRouteValue.Split('/')[0] == "Login" && StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp)
+                    {
+                        Response.Redirect("/");
+
+                    }
+                    else 
+                    {
+                        model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, pageRouteValue.Split('/')[0], StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                        StoreBaseResopnse = null;
+                    }
+                   
+                 
                 }
                 else
                 {

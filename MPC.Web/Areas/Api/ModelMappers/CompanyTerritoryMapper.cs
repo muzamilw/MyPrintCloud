@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -29,7 +30,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TerritoryName = source.TerritoryName,
                 CompanyId = source.CompanyId,
                 TerritoryCode = source.TerritoryCode,
-                isDefault = source.isDefault
+                isDefault = source.isDefault,
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(ccv => ccv.CreateFrom()).ToList() : null
             };
 
             return companyTerritory;
