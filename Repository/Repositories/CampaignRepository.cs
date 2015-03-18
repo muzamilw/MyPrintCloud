@@ -1003,6 +1003,11 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                if (string.IsNullOrEmpty(oEmailBody.EmailFrom))
+                {
+                    ErrorMsg = "";
+                    return false;
+                }
                 MailMessage objMail = new MailMessage();
                 bool retVal = false;
 
@@ -1015,7 +1020,7 @@ namespace MPC.Repository.Repositories
                 string MailTo = oEmailBody.To;
                 string CC = oEmailBody.Cc;
 
-
+              
                 Attachment data = null;
                 if (oEmailBody.FileAttachment != null)
                 {

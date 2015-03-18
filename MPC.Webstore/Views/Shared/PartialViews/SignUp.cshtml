@@ -89,7 +89,7 @@
 
                         @Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "smallTxtBox", @placeholder = "Last Name" })
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "smallTxtBox cntRegisterLN", @placeholder = "Last Name" })
 
                         @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
@@ -116,7 +116,7 @@
                         <div class="custom_color_heading" id="lbl_WhyRegister">
                             @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.StoreId))
                         </div>
-                        <div class="space5">
+                        <div>
                             &nbsp;
                         </div>
                         <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.StoreId))</p>

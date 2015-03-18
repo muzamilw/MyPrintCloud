@@ -102,7 +102,7 @@ namespace MPC.Webstore.Controllers
                 {
                     MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.StoreId];
                     string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
-                    if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/"))) 
+                    if ((StoreBaseResopnse.Company.IsCustomer == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0 && (pageRouteValue != "Login/" && pageRouteValue != "SignUp/" && pageRouteValue != "ForgotPassword/"))) 
                     {
                         Response.Redirect("/Login");
                     }
