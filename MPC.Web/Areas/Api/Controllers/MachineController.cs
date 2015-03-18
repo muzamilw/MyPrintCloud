@@ -56,11 +56,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             };
         }
 
-        public MachineResponse Put(MachineUpdateRequestModel request)
+        public long Put(MachineUpdateRequestModel request)
         {
             if (ModelState.IsValid)
             {
-                return _machineService.AddMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g => g.CreateFrom())).CreateFrom();
+                return _machineService.AddMachine(request.machine.CreateFrom(), request.MachineSpoilages.Select(g => g.CreateFrom()));
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }

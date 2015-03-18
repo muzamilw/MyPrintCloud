@@ -18,6 +18,7 @@ namespace MPC.Repository.Repositories
 
 
         #region Private
+        private readonly IOrganisationRepository organisationRepository;
         private readonly Dictionary<MachineListColumns, Func<Machine, object>> OrderByClause = new Dictionary<MachineListColumns, Func<Machine, object>>
                     {
                         {MachineListColumns.MachineName, d => d.MachineName},
@@ -37,10 +38,10 @@ namespace MPC.Repository.Repositories
         /// <summary>
         /// Constructor
         /// </summary>
-        public MachineRepository(IUnityContainer container)
+        public MachineRepository(IUnityContainer container, IOrganisationRepository organisationRepository)
             : base(container)
         {
-
+            this.organisationRepository = organisationRepository;
         }
         #endregion
         public MachineListResponseModel GetAllMachine(MachineRequestModel request)
@@ -50,14 +51,14 @@ namespace MPC.Repository.Repositories
             Expression<Func<Machine, bool>> query;
             if (request.isGuillotineList)
             {
-                 query = machine => (machine.IsDisabled == false && machine.MachineCatId==4);
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId == 4);
             }
             else
             {
                 query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4);
             }
 
-           
+
             var machineList = request.IsAsc
                 ? DbSet.Where(query)
                 .OrderBy(OrderByClause[request.MachineOrderBy])
@@ -120,18 +121,18 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw ex;
             }
 
-            
+
         }
-       
+
         public string GetStockItemName(int? itemId)
         {
             if (itemId != null && itemId > 0)
             {
-                StockItem SI= db.StockItems.Where(g => g.StockItemId == itemId).SingleOrDefault();
+                StockItem SI = db.StockItems.Where(g => g.StockItemId == itemId).SingleOrDefault();
                 return SI.ItemName;
             }
             return "";
@@ -145,45 +146,51 @@ namespace MPC.Repository.Repositories
             {
                 IsGuillotine = true;
             }
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new MachineResponseModel
             {
+
                 machine = omachine,
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
-                Markups = GetAllMarkupList(),
+                Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = GetMachineSpoilageItems(MachineID),
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
-                InkCoveragItems = GetInkCoveragItems()
+                InkCoveragItems = GetInkCoveragItems(),
+                CurrencySymbol = organisation.Currency.CurrencySymbol
 
             };
 
-            
+
         }
-        
+
         public MachineResponseModel CreateMachineByType(bool IsGuillotine)
         {
-           
+
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new MachineResponseModel
             {
                 machine = null,
                 lookupMethods = GetAllLookupMethodList(IsGuillotine),
-                Markups = GetAllMarkupList(),
+                Markups = null,
                 StockItemforInk = GetAllStockItemforInk(),
                 MachineSpoilageItems = null,
                 deFaultPaperSizeName = null,
                 deFaultPlatesName = null,
-                InkCoveragItems = GetInkCoveragItems()
+                InkCoveragItems = GetInkCoveragItems(),
+                CurrencySymbol = organisation.Currency.CurrencySymbol
 
             };
 
 
         }
 
-        public MachineResponseModel AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
+        public long AddMachine(Machine machine, IEnumerable<MachineSpoilage> MachineSpoilages)
         {
             try
             {
+                StockItem stockItem = db.StockItems.Where(g => g.CategoryId == 1 && g.OrganisationId == OrganisationId && g.ItemName.Contains("100")).FirstOrDefault();
                 Machine omachine = new Machine();
                 omachine.MachineName = machine.MachineName;
                 omachine.MachineCatId = machine.MachineCatId;
@@ -192,12 +199,16 @@ namespace MPC.Repository.Repositories
                 omachine.SetupCharge = machine.SetupCharge;
                 omachine.WashupPrice = machine.WashupPrice;
                 omachine.WashupCost = machine.WashupCost;
-                omachine.MinInkDuctqty = machine.MinInkDuctqty;
+                omachine.MinInkDuctqty = 0;
                 omachine.worknturncharge = machine.worknturncharge;
                 omachine.MakeReadyCost = machine.MakeReadyCost;
                 omachine.DefaultFilmId = machine.DefaultFilmId;
                 omachine.DefaultPlateId = machine.DefaultPlateId;
-                omachine.DefaultPaperId = machine.DefaultPaperId;
+                if (stockItem != null)
+                {
+                    omachine.DefaultPaperId = Convert.ToInt32(stockItem.StockItemId);
+                }
+
                 omachine.isfilmused = machine.isfilmused;
                 omachine.isplateused = machine.isplateused;
                 omachine.ismakereadyused = machine.ismakereadyused;
@@ -205,8 +216,8 @@ namespace MPC.Repository.Repositories
                 omachine.maximumsheetweight = machine.maximumsheetweight;
                 omachine.maximumsheetheight = machine.maximumsheetheight;
                 omachine.maximumsheetwidth = machine.maximumsheetwidth;
-                omachine.minimumsheetheight = machine.minimumsheetheight;
-                omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                omachine.minimumsheetheight = 50;
+                omachine.minimumsheetwidth = 50;
                 omachine.gripdepth = machine.gripdepth;
                 omachine.gripsideorientaion = machine.gripsideorientaion;
                 omachine.gutterdepth = machine.gutterdepth;
@@ -231,7 +242,7 @@ namespace MPC.Repository.Repositories
                 omachine.Web2MRPrice = machine.Web2MRPrice;
                 omachine.ReelMRCost = machine.ReelMRCost;
                 omachine.ReelMRPrice = machine.ReelMRPrice;
-                omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
+                omachine.IsMaxColorLimit = false;
                 omachine.PressUtilization = machine.PressUtilization;
                 omachine.MakeReadyPrice = machine.MakeReadyPrice;
                 omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors;
@@ -272,24 +283,13 @@ namespace MPC.Repository.Repositories
 
                 if (db.SaveChanges() > 0)
                 {
-                    return new MachineResponseModel
-                    {
-                        machine = omachine,
-                        lookupMethods = null,
-                        Markups = null,
-                        StockItemforInk = null,
-                        MachineSpoilageItems = GetMachineSpoilageItems(omachine.MachineId),
-                        deFaultPaperSizeName = null,
-                        deFaultPlatesName = null,
-                        InkCoveragItems = null
 
-                    };
+                    return omachine.MachineId;
+
                 }
                 else
                 {
-                    return new MachineResponseModel
-                    {
-                    };
+                    return 0;
                 }
             }
             catch (Exception ex)
@@ -312,12 +312,12 @@ namespace MPC.Repository.Repositories
                 omachine.SetupCharge = machine.SetupCharge;
                 omachine.WashupPrice = machine.WashupPrice;
                 omachine.WashupCost = machine.WashupCost;
-                omachine.MinInkDuctqty = machine.MinInkDuctqty;
+                //omachine.MinInkDuctqty = machine.MinInkDuctqty;
                 omachine.worknturncharge = machine.worknturncharge;
                 omachine.MakeReadyCost = machine.MakeReadyCost;
                 omachine.DefaultFilmId = machine.DefaultFilmId;
                 omachine.DefaultPlateId = machine.DefaultPlateId;
-                omachine.DefaultPaperId = machine.DefaultPaperId;
+                // omachine.DefaultPaperId = machine.DefaultPaperId;
                 omachine.isfilmused = machine.isfilmused;
                 omachine.isplateused = machine.isplateused;
                 omachine.ismakereadyused = machine.ismakereadyused;
@@ -325,8 +325,8 @@ namespace MPC.Repository.Repositories
                 omachine.maximumsheetweight = machine.maximumsheetweight;
                 omachine.maximumsheetheight = machine.maximumsheetheight;
                 omachine.maximumsheetwidth = machine.maximumsheetwidth;
-                omachine.minimumsheetheight = machine.minimumsheetheight;
-                omachine.minimumsheetwidth = machine.minimumsheetwidth;
+                // omachine.minimumsheetheight = machine.minimumsheetheight;
+                // omachine.minimumsheetwidth = machine.minimumsheetwidth;
                 omachine.gripdepth = machine.gripdepth;
                 omachine.gripsideorientaion = machine.gripsideorientaion;
                 omachine.gutterdepth = machine.gutterdepth;
@@ -341,7 +341,7 @@ namespace MPC.Repository.Repositories
                 omachine.CostPerCut = machine.CostPerCut;
                 omachine.PricePerCut = machine.PricePerCut;
                 omachine.IsAdditionalOption = machine.IsAdditionalOption;
-                omachine.IsDisabled = machine.IsDisabled;
+                // omachine.IsDisabled = machine.IsDisabled;
                 omachine.LockedBy = machine.LockedBy;
                 omachine.CylinderSizeId = machine.CylinderSizeId;
                 omachine.MaxItemAcrossCylinder = machine.MaxItemAcrossCylinder;
@@ -351,7 +351,7 @@ namespace MPC.Repository.Repositories
                 omachine.Web2MRPrice = machine.Web2MRPrice;
                 omachine.ReelMRCost = machine.ReelMRCost;
                 omachine.ReelMRPrice = machine.ReelMRPrice;
-                omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
+                //omachine.IsMaxColorLimit = machine.IsMaxColorLimit;
                 omachine.PressUtilization = machine.PressUtilization;
                 omachine.MakeReadyPrice = machine.MakeReadyPrice;
                 omachine.InkChargeForUniqueColors = machine.InkChargeForUniqueColors;
@@ -366,8 +366,8 @@ namespace MPC.Repository.Repositories
                 omachine.WashupTime = machine.WashupTime;
                 omachine.ReelMakereadyTime = machine.ReelMakereadyTime;
                 omachine.LookupMethodId = machine.LookupMethodId;
-                omachine.OrganisationId = machine.OrganisationId;
-              
+                // omachine.OrganisationId = machine.OrganisationId;
+
 
                 foreach (var item in machine.MachineInkCoverages)
                 {
@@ -381,9 +381,9 @@ namespace MPC.Repository.Repositories
                     MachineSpoilage obj = db.MachineSpoilages.Where(g => g.MachineSpoilageId == item.MachineSpoilageId).SingleOrDefault();
                     obj.RunningSpoilage = item.RunningSpoilage;
                     obj.SetupSpoilage = item.SetupSpoilage;
-                    
+
                 }
-             
+
                 if (db.SaveChanges() > 0)
                 {
                     return true;
@@ -395,7 +395,7 @@ namespace MPC.Repository.Repositories
             }
             catch (Exception ex)
             {
-                
+
                 throw ex;
             }
 
@@ -436,23 +436,23 @@ namespace MPC.Repository.Repositories
         {
             return db.StockItems.Join(db.StockCategories, SI => SI.CategoryId, SC => SC.CategoryId, (SI, SC) => new { SI, SC }).Where(IC => IC.SC.Code == "INK").Select(IC => IC.SI).ToList();
 
-              //return (from SI in db.StockItems
-              //      join CI in db.StockCategories on SI.CategoryId equals CI.CategoryId
-              //      where CI.Code == "INK"
-              //      select SI).ToList();
+            //return (from SI in db.StockItems
+            //      join CI in db.StockCategories on SI.CategoryId equals CI.CategoryId
+            //      where CI.Code == "INK"
+            //      select SI).ToList();
         }
         public IEnumerable<MachineResource> GetAllMachineResources()
         {
             return db.MachineResources;
         }
-        
+
         public List<Machine> GetMachinesByOrganisationID(long OID)
         {
             try
             {
                 return db.Machines.Where(o => o.OrganisationId == OID).ToList();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -468,6 +468,6 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-      
+
     }
 }

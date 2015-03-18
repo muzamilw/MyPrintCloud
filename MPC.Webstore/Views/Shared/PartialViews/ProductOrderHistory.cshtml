@@ -173,7 +173,7 @@
     <br />
 </div>
 
-<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow: auto; z-index:0; margin-top:10px; visibility:hidden">
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; visibility:hidden">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
@@ -423,7 +423,7 @@
                                                                 <span id="ltrlstate">State:</span>
                                                             </td>
                                                             <td>
-                                                                <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>>
+                                                                <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -603,7 +603,7 @@
                 data: { orderID: orderId },
                 async: true,
                 success: function (response) {
-                   
+                    
                     $("#Grandtotal").text(response.CurrencySymbol + "" + response.GrossTotal);
                     $("#subtotal").text(response.CurrencySymbol + "" + response.SubTotal);
                     $("#Vat").text(response.CurrencySymbol + "" + response.VAT);
@@ -615,32 +615,68 @@
                     $("#OrderDeliveryDate").text(response.DeliveryDateValue);
                     $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
-                    $("#BillingAddressline1").text(response.billingAddress.Address1);
-                    $("#BillingAddressline2").text(response.billingAddress.Address2);
+                    if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
+                        $("#BillingAddressline1").text(response.billingAddress.Address1);
+                    }
+                    if (response.billingAddress.Address2 == null) {
+                        alert(response.billingAddress.Address2);
+                        $("#BillingAddressline2").text('');
+                    }
+                    else { $("#BillingAddressline2").text(response.billingAddress.Address2); }
+                    //if (response.billingAddress.Address2 != 'null') {
+                    //    alert(response.billingAddress.Address2);
+                    //    $("#BillingAddressline2").text(response.billingAddress.Address2);
+                    //}
                     $("#BillingAddressCity").text(response.billingAddress.City);
-                    if ((response.billingAddress.State) != null) {
-                        ("#BillingAddressState").text(response.billingAddress.State.StateName);
-                    }
-                    if (response.billingAddress.Country != null)
+                    // if ((response.billingAddress.State) != null) {
+                  
+                    if (response.BillingState != '')
+                    { ("#BillingAddressState").text(response.BillingState);}
+                    //}
+                   // if (response.billingAddress.Country!= null)
+                    //{
+                    if (response.BillingCountry!= '')
                     {
-                        $("#BillingAddressCountryName").text(response.billingAddress.Country.CountryName);
+                        $("#BillingAddressCountryName").text(response.BillingCountry);
                     }
+                   
+                    //}
                     $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
 
                     $("#BillingAddressContactNumber").text(response.billingAddress.ContactMobile);
 
-                    $("#DeliveryAddressName").text(response.shippingAddress.AddressName)
-                    $("#DeliveryAddressline1").text(response.shippingAddress.Address1)
-                    $("#DeliveryAddressline2").text(response.shippingAddress.Address2)
-                    $("#DeliveryAddressCity").text(response.shippingAddress.City)
-                    if (response.shippingAddress.State != null) {
-                        $("#DeliveryAddressState").text(response.shippingAddress.State.StateName)
-                    }
-                    $("#DeliveryAddressPost").text(response.shippingAddress.PostCode)
-                    if (response.shippingAddress.Country != null)
+                    $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
+
+                    if (response.shippingAddress.Address1 == null)
                     {
-                        $("#DeliveryAddressCountryName").text(response.shippingAddress.Country.CountryName);
+                        $("#DeliveryAddressline1").text('');
                     }
+                    else
+                    {
+                        $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
+                    }
+                    
+                    if (response.shippingAddress.Address2 == null)
+                    {
+                        $("#DeliveryAddressline2").text('');
+                    }
+                    else
+                    {
+                        $("#DeliveryAddressline2").text(response.shippingAddress.Address2);
+                    }
+                    
+                    $("#DeliveryAddressCity").text(response.shippingAddress.City);
+                    //  if (response.shippingAddress.State != null) {
+                    if (response.ShippingState != '') {
+                        $("#DeliveryAddressState").text(response.ShippingState);
+                    }
+                   
+                    
+                    $("#DeliveryAddressPost").text(response.shippingAddress.PostCode)
+                    if (response.ShippingCountry != '') {
+                        $("#DeliveryAddressCountryName").text(response.ShippingCountry);
+                    }
+                   
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
                     var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";

@@ -240,6 +240,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              double Subtotal = 0;
              double vat = 0;
              Order order = _orderService.GetOrderAndDetails(orderID);
+             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
+             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
 
              string CacheKeyName = "CompanyBaseResponse";
              ObjectCache cache = MemoryCache.Default;
@@ -251,8 +253,46 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              obj.GrossTotal=Math.Round(GrandTotal,2);
              obj.VAT=Math.Round(vat,2);
              obj.DeliveryCostCharges=order.DeliveryCost;
-             obj.billingAddress= _orderService.GetBillingAddress(order.BillingAddressID);
-             obj.shippingAddress=_orderService.GetdeliveryAddress(order.DeliveryAddressID);
+             obj.billingAddress= BillingAddress;
+             obj.shippingAddress=ShippingAddress;
+             if (BillingAddress.Country != null)
+             {
+                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.Country.CountryId);
+             }
+             else
+             {
+                 obj.BillingCountry = string.Empty;
+             }
+             if (BillingAddress.State != null)
+             {
+                 obj.BillingState = _companyService.GetStateNameById(BillingAddress.State.StateId);
+             }
+             else
+             {
+                 obj.BillingState = string.Empty;
+             }
+
+
+
+             if (ShippingAddress.Country != null)
+             {
+                 obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.Country.CountryId);
+             }
+             else
+             {
+                 obj.ShippingCountry = string.Empty;
+             }
+
+             if (ShippingAddress.State != null)
+             {
+                 obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.State.StateId);
+             }
+             else
+             {
+                 obj.ShippingState = string.Empty;
+             }
+
+
              obj.CurrencySymbol = StoreBaseResopnse.Currency;
              obj.OrderDateValue = FormatDateValue(order.OrderDate);
              obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);
@@ -745,7 +785,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
            
         //    return View("PartialViews/RequestQuote", Model);
         //}
-
+        
       public class JasonResponseObject
           {
           public Order order;
@@ -758,6 +798,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public string CurrencySymbol;
           public string OrderDateValue;
           public string DeliveryDateValue;
+          public string BillingCountry;
+          public string BillingState;
+          public string ShippingCountry;
+          public string ShippingState;
          }
 
       public class JsonAddressClass

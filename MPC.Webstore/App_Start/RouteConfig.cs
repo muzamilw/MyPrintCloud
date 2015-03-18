@@ -60,6 +60,12 @@ namespace MPC.Webstore
            "PersonalDetailAndOrderPolicy/SaveOrderPolicy",
            new { controller = "PersonalDetailAndOrderPolicy", action = "SaveOrderPolicy", id = UrlParameter.Optional }
         );
+
+            routes.MapRoute(
+      "DashboardGePassword",
+      "Dashboard/GetPassWord",
+      new { controller = "Dashboard", action = "GetPassWord", id = UrlParameter.Optional }
+   );
      //       routes.MapRoute(
      //   "Orderr",
      //   "CostCenter/GetData",

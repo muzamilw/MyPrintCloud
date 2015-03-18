@@ -665,22 +665,15 @@
         var InquiryItemNotes3 = $("#txtItemNote3").val();
         var InquiryItemDeliveryDate3 = $("#txtInquiryDate3").val();
         var hfNoOfRec = $("#hfNoOfRec").val();
-        //$("#InquiryAttachment").val();
-        //$("#").val();
-        //$("#").val();
-
         var files = $("#InquiryAttachment").get(0).files;
         var data = new FormData();
         if (files.length > 0) {
             for (i = 0; i < files.length; i++) {
-                //data.append("file" + i, files[i]);
                
                 data.append("UploadedFile" + i, files[i]);
-                alert(files[i]);
             }
         }
      
-        alert('ajax call');
         $.ajax({
             type: "POST",
             @*"/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,*@
