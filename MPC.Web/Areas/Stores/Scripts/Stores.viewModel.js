@@ -2431,6 +2431,8 @@ define("stores/stores.viewModel",
                         selectedCompanyContact(user);
                         selectedCompanyContact().isWebAccess(true);
                         selectedCompanyContact().isPlaceOrder(true);
+                        selectedCompanyContact().contactId(newSavingCompanyContactIdCount);
+                        addCompanyContactId();
                         if (selectedStore().type() == 4) {
                             if (newAddresses != undefined && newAddresses().length == 0) {
                                 if (newCompanyTerritories.length > 0) {
@@ -2524,73 +2526,73 @@ define("stores/stores.viewModel",
                     scopeVariable.variableOptions.valueHasMutated();
                     return scopeVariable;
                 },
-                    // Delete CompanyContact
-                    onDeleteCompanyContact = function (companyContact) { //CompanyContact
-                        if (companyContact.isDefaultContact()) {
-                            toastr.error("Default Contact Cannot be deleted");
-                            return;
-                        }
-                        // Ask for confirmation
-                        confirmation.afterProceed(function () {
-                            //#region Db Saved Record Id > 0
-                            if (companyContact.contactId() > 0) {
-
-                                if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
-                                    dataservice.deleteCompanyContact({
-                                        CompanyContactId: companyContact.contactId()
-                                    }, {
-                                        success: function (data) {
-                                            if (data) {
-                                                selectedStore().users.remove(companyContact);
-                                                toastr.success("Deleted Successfully");
-                                                isLoadingStores(false);
-                                            } else {
-                                                toastr.error("Contact can not be deleted");
-                                            }
-                                        },
-                                        error: function (response) {
-                                            isLoadingStores(false);
-                                            toastr.error("Error: Failed To Delete Company Contact " + response);
-                                        }
-                                    });
-                                }
-                            }
-                                //#endregion
-                            else {
-                                if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
-
-                                    _.each(newCompanyContacts(), function (item) {
-                                        if (item.contactId() == companyContact.contactId()) {
-                                            newCompanyContacts.remove(companyContact);
-                                        }
-                                    });
-                                    selectedStore().users.remove(companyContact);
-                                }
-                            }
-                            view.hideCompanyContactDialog();
-
-                        });
-                        confirmation.show();
+                // Delete CompanyContact
+                onDeleteCompanyContact = function (companyContact) { //CompanyContact
+                    if (companyContact.isDefaultContact()) {
+                        toastr.error("Default Contact Cannot be deleted");
                         return;
-                    },
-                    selectedCompanyContactEmail = ko.observable(),
-                    onEditCompanyContact = function (companyContact) {
-                        //companyContactEditorViewModel.selectItem(companyContact);
-                        selectedCompanyContact(companyContact);
-                        selectedCompanyContactEmail(companyContact.email());
-                        isSavingNewCompanyContact(false);
-                        view.showCompanyContactDialog();
-                        if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
-                            var scope = 2;
-                            getCompanyContactVariableForEditContact(selectedCompanyContact().contactId(), scope);
+                    }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        //#region Db Saved Record Id > 0
+                        if (companyContact.contactId() > 0) {
 
+                            if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
+                                dataservice.deleteCompanyContact({
+                                    CompanyContactId: companyContact.contactId()
+                                }, {
+                                    success: function (data) {
+                                        if (data) {
+                                            selectedStore().users.remove(companyContact);
+                                            toastr.success("Deleted Successfully");
+                                            isLoadingStores(false);
+                                        } else {
+                                            toastr.error("Contact can not be deleted");
+                                        }
+                                    },
+                                    error: function (response) {
+                                        isLoadingStores(false);
+                                        toastr.error("Error: Failed To Delete Company Contact " + response);
+                                    }
+                                });
+                            }
                         }
-                    },
-                    closeCompanyContact = function () {
-                        selectedBussinessAddressId(undefined);
+                            //#endregion
+                        else {
+                            if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
+
+                                _.each(newCompanyContacts(), function (item) {
+                                    if (item.contactId() == companyContact.contactId()) {
+                                        newCompanyContacts.remove(companyContact);
+                                    }
+                                });
+                                selectedStore().users.remove(companyContact);
+                            }
+                        }
                         view.hideCompanyContactDialog();
-                        isSavingNewCompanyContact(false);
-                    },
+
+                    });
+                    confirmation.show();
+                    return;
+                },
+                selectedCompanyContactEmail = ko.observable(),
+                onEditCompanyContact = function (companyContact) {
+                    //companyContactEditorViewModel.selectItem(companyContact);
+                    selectedCompanyContact(companyContact);
+                    selectedCompanyContactEmail(companyContact.email());
+                    isSavingNewCompanyContact(false);
+                    view.showCompanyContactDialog();
+                    if (selectedCompanyContact().contactId() !== undefined && selectedStore().companyId() !== undefined) {
+                        var scope = 2;
+                        getCompanyContactVariableForEditContact(selectedCompanyContact().contactId(), scope);
+
+                    }
+                },
+                closeCompanyContact = function () {
+                    selectedBussinessAddressId(undefined);
+                    view.hideCompanyContactDialog();
+                    isSavingNewCompanyContact(false);
+                },
                 onCloseCompanyContact = function () {
                     //selectedCompanyContact(undefined);
                     selectedBussinessAddressId(undefined);
@@ -2607,8 +2609,12 @@ define("stores/stores.viewModel",
                     }
                     return flag;
                 },
+                newSavingCompanyContactIdCount = -1,
+                //Add Company Contact Id
+                addCompanyContactId = function () {
+                    newSavingCompanyContactIdCount = newSavingCompanyContactIdCount - 1;
+                },
                 onSaveCompanyContact = function () {
-
                     if (doBeforeSaveCompanyContact()) {
                         //#region Editting Company Case companyid > 0
                         if (selectedStore().companyId() > 0) {
@@ -2665,9 +2671,9 @@ define("stores/stores.viewModel",
                                 });
                         }
                             //#endregion
-                            //#region New Company Case 
+                        //#region New Company Case 
                         else {
-                            if (selectedCompanyContact().contactId() === undefined && isSavingNewCompanyContact() === true) {
+                            if (selectedCompanyContact().contactId() < 0 && isSavingNewCompanyContact() === true) {
                                 if (!findEmailDuplicatesInCompanyContacts()) {
                                     if (selectedCompanyContact().isDefaultContact()) {
                                         _.each(selectedStore().users(), function (user) {
@@ -2693,6 +2699,7 @@ define("stores/stores.viewModel",
                                         }
                                     });
                                     newCompanyContacts.push(selectedCompanyContact());
+                                    addCompanyContactId();
                                     closeCompanyContact();
                                 }
 
@@ -2725,7 +2732,7 @@ define("stores/stores.viewModel",
                 findEmailDuplicatesInCompanyContacts = function () {
                     var flag = false;
                     _.each(newCompanyContacts(), function (companyContact) {
-                        if (companyContact.email() == selectedCompanyContact().email()) {
+                        if (companyContact.email() == selectedCompanyContact().email() && companyContact.contactId() != selectedCompanyContact().contactId()) {
                             selectedCompanyContact().email(undefined);
                             toastr.error('Duplicate Email/Username are not allowed');
                             flag = true;
