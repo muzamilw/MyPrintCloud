@@ -616,6 +616,11 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.MaxHeight == 0) {
         IO.MaxHeight = 50;
     }
+    var Curl = IO.ContentString;
+    if (IO.ContentString.indexOf("MPC_Content"))
+        IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
+
+    alert(IO.ContentString);
     fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -1353,6 +1358,11 @@ function fu02UI() {
         $(".previewBtnContainer").css("display", "none");
         $(".PreviewerDownloadPDF").css("display", "none");
     }
+    if(IsCalledFrom == 2)
+    {
+        $(".maskingControls ").css("display", "block");
+    
+    }
 }
 function fu02() {
     //cID = parseInt(fu01('c'));
@@ -1745,7 +1755,13 @@ function fu14() {
         if(IsCalledFrom == 2)
         {
             $(".userImgControls").css("display", "none");
+            $(".divImageTypes").css("display", "none");
+            $(".bkPanelUserControls").css("display", "none");
+            $("#btnTempBkCorp").css("display", "block !important");
+            $("#btnFreeCorpBkImages").css("display", "block !important");
+            $("#btntemplateBkImagesCorp").css("display", "block !important");
             $("#btnFreeImgsCorp").css("display", "block !important");
+            $("#clearBackground").css("margin-top", "20px"); $("#uploadBackgroundMn").css("margin-top", "20px");
         }
 
     }
@@ -2698,10 +2714,11 @@ function k16(TempImgType, ImC, Caller) {
         strName = "divGlobBkImgContainer";
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
             ImIsEditable = false;
+            if ($('#inputSearchTBkg').val() != "") {
+                searchTerm = $('#inputSearchTBkg').val();
+            }
         }
-        if ($('#inputSearchTBkg').val() != "") {
-            searchTerm = $('#inputSearchTBkg').val();
-        }
+       
         isBackground = true;
     }
     else if (TempImgType == 4) {
@@ -3287,13 +3304,16 @@ function k26_Dt(DT) {
     // image set type 13 = global shapes/icons
     $("#radioImagePicture").prop('checked', true);
     if (DT.ImageType == 14) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 15) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 13) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 17) {
-        $("#radioImageLogo").prop('checked', true); $(".divImageTypes").css("display", "block");
+        $("#radioImageLogo").prop('checked', true);
+        $(".divImageTypes").css("display", "block");
     } else if (DT.ImageType == 16) {
         $("#radioImageShape").prop('checked', true);
     } else if (DT.ImageType == 18) {
@@ -3307,6 +3327,10 @@ function k26_Dt(DT) {
     } else {
         $("#radioImagePicture").prop('checked', true);
         // $(".divImageTypes").css("display", "none");
+    }
+    if (IsCalledFrom == 2)
+    {
+        $(".divImageTypes").css("display", "none");
     }
     $(".ImageContainer").css("display", "block");
 }

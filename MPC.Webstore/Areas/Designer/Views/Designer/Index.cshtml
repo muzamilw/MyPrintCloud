@@ -146,9 +146,9 @@
                                             <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
                                             </li>
                                         <li>
-                                            <a class=" SampleBtn btntxt" id="btnAddheading">CRM</a>
-                                            <a class=" SampleBtn btntxt" id="btnAddSubtitle">Text list</a>
-                                            <a class=" SampleBtn btntxt" id="btnaddbody">Upload font</a>
+                                            <a class=" SampleBtn btntxt" id="" style="display:none !important;">CRM</a>
+                                            <a class=" SampleBtn btntxt" id="">Text list</a>
+                                            <a class=" SampleBtn btntxt btnAUploadFont" id="btnAUploadFont">Upload font</a>
                                         </li>
                                     </ul>
                                     @*<ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
@@ -322,12 +322,14 @@
                     <div class="innerDesigner">
                         <div class="browseCategories bKimgBrowseCategories">
                             <ul class="textControls bkMainPanels" style="height: 129px;">
-                                <li>
+                                <li class="bkPanelUserControls">
                                     <a class=" SampleBtn btntxt freeBackgrounds bkTextBoxes" id=" ">Free <br />Backgrounds</a>
                                     <a class=" SampleBtn btntxt myBackgrounds bkTextBoxes" id=" ">My<br /> Backgrounds</a>
                                     <a class=" SampleBtn btntxt templateBackgrounds bkTextBoxes" id=" ">Template <br />Backgrounds</a>
                                 </li>
-                                <li>
+                                <li class="bkPanelCommonControls">
+                                    <a class=" SampleBtn btntxt freeBackgrounds bkTextBoxes" style="display:none !important;" id="btnFreeCorpBkImages">Free <br />Backgrounds</a>
+                                    <a class=" SampleBtn btntxt templateBackgrounds bkTextBoxes" style="display:none !important;" id="btntemplateBkImagesCorp">Template <br />Backgrounds</a>
                                     <a class=" SampleBtn btntxt BkColors bkTextBoxes" id=" ">Background <br />colours</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="uploadBackgroundMn">Upload<br /> Background</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
@@ -876,7 +878,17 @@
                                     </div>
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine adminControl"></div>
-                                <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
+                                <div class="maskingControls">
+                                    <div class="CaseModeSlider adminControl maskingControls"></div>
+                                    <div class="adminControl maskingControls">
+                                        <div class="lblCaseModeSlider" id="">Normal </div>
+                                        <div class="lblCaseModeSlider" id="">Upper Case </div>
+                                        <div class="lblCaseModeSlider" id="">Lower Case </div>
+                                        <div class="lblCaseModeSlider" id="">Sentence Format </div>
+
+                                    </div>
+                                </div>
+                                @*<div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id="">Text Input Mask </div>
                                     <div class="onoffswitch" style="right: -121px">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxTxtInputMask" >
@@ -885,9 +897,9 @@
                                             <div class="onoffswitch-switch"></div>
                                         </label>
                                     </div>
-                                </div>
+                                </div>*@
 
-                                <div class="maskingControls">
+                                @*<div class="maskingControls">
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                         <div class="lblchckboxControl adminControl" id="" style="margin-right: -9px;">Value is mandatory for this field </div>
                                         <div class="onoffswitch" style="right: -83px">
@@ -906,15 +918,8 @@
                                             <input type="text" id="txtInputMskCntrl" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="CaseModeSlider adminControl maskingControls"></div>
-                                <div class="adminControl maskingControls">
-                                    <div class="lblCaseModeSlider" id="">Normal </div>
-                                    <div class="lblCaseModeSlider" id="">Upper Case </div>
-                                    <div class="lblCaseModeSlider" id="">Lower Case </div>
-                                    <div class="lblCaseModeSlider" id="">Sentence Format </div>
-
-                                </div>
+                                </div>*@
+                              
 
 
 
