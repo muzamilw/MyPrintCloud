@@ -3500,6 +3500,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
           <Property Name="ProductCode" Type="varchar" MaxLength="50" />
           <Property Name="ProductCategoryName" Type="nvarchar(max)" />
+          <Property Name="ProductCategoryIds" Type="nvarchar(max)" />
           <Property Name="MinPrice" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
           <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
@@ -5374,6 +5375,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetItemsListView].[ProductName] AS [ProductName], 
     [GetItemsListView].[ProductCode] AS [ProductCode], 
     [GetItemsListView].[ProductCategoryName] AS [ProductCategoryName], 
+    [GetItemsListView].[ProductCategoryIds] AS [ProductCategoryIds], 
     [GetItemsListView].[MinPrice] AS [MinPrice], 
     [GetItemsListView].[ImagePath] AS [ImagePath], 
     [GetItemsListView].[ThumbnailPath] AS [ThumbnailPath], 
@@ -9482,6 +9484,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="printCropMarks" Type="Boolean" />
           <Property Name="drawWaterMarkTxt" Type="Boolean" />
           <Property Name="TemplateType" Type="Int32" />
+          <Property Name="ProductCategoryIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -14157,6 +14160,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="ProductCategoryIds" ColumnName="ProductCategoryIds" />
                 <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="drawWaterMarkTxt" ColumnName="drawWaterMarkTxt" />
                 <ScalarProperty Name="printCropMarks" ColumnName="printCropMarks" />
