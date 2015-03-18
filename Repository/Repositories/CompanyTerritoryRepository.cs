@@ -32,10 +32,10 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
-            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchFilter);
             Expression<Func<CompanyTerritory, bool>> query =
                 s =>
-                    (isStringSpecified && (s.TerritoryName.Contains(request.SearchString)) || (s.TerritoryCode.Contains(request.SearchString)) ||
+                    (isStringSpecified && (s.TerritoryName.Contains(request.SearchFilter)) || (s.TerritoryCode.Contains(request.SearchFilter)) ||
                      !isStringSpecified) && (s.CompanyId == request.CompanyId);
 
             int rowCount = DbSet.Count(query);
