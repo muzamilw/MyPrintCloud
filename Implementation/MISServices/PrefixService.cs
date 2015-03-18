@@ -49,7 +49,7 @@ namespace MPC.Implementation.MISServices
         public Prefix GetPrefixByOrganisationId()
         {
 
-            return _prefixRepository.Find(_prefixRepository.OrganisationId);
+            return _prefixRepository.GetPrefixByOrganisationId(_prefixRepository.OrganisationId);
         }
         
         #endregion

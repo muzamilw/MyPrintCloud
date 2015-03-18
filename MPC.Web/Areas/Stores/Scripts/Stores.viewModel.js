@@ -2885,10 +2885,23 @@ define("stores/stores.viewModel",
                 //New Added Product Categories List
                 newProductCategories = ko.observableArray([]),
                 //Select Product Category
-                selectProductCategory = function (category) {
+                selectProductCategory = function (category, event) {
                     if (selectedProductCategory() != category) {
                         selectedProductCategory(category);
+                        // Notify the event subscribers
+                        view.productCategorySelectedEvent(ko.isObservable(category.productCategoryId) ?
+                            category.productCategoryId() : category.productCategoryId);
                     }
+                },
+                //Select Child Product Category
+                selectChildProductCategory = function (categoryId, event) {
+                    selectedProductCategory(undefined);
+                    var id = $(event.target).closest('li')[0].id;
+                   if (id) {
+                        // Notify the event subscribers
+                        view.productCategorySelectedEvent(id);
+                   }
+                    event.stopImmediatePropagation();
                 },
                 //Get Category Child List Items
                 getCategoryChildListItems = function (dataRecieved, event) {
@@ -2907,7 +2920,7 @@ define("stores/stores.viewModel",
                         success: function (data) {
                             if (data.ProductCategories != null) {
                                 _.each(data.ProductCategories, function (productCategory) {
-                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                                     ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                                     var category = {
                                         productCategoryId: productCategory.ProductCategoryId,
@@ -5952,7 +5965,8 @@ define("stores/stores.viewModel",
                     fieldVariablesOfAddressType: fieldVariablesOfAddressType,
                     fieldVariablesOfTerritoryType: fieldVariablesOfTerritoryType,
                     fieldVariablesOfStoreType: fieldVariablesOfStoreType,
-                    getScopeVariables: getScopeVariables
+                    getScopeVariables: getScopeVariables,
+                    selectChildProductCategory: selectChildProductCategory
                 };
                 //#endregion
             })()

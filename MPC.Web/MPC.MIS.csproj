@@ -1550,6 +1550,8 @@
     <Content Include="Scripts\App\dashboard.model.js" />
     <Content Include="Scripts\App\dashboard.view.js" />
     <Content Include="Scripts\App\dashboard.viewModel.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />

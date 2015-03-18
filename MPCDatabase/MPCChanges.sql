@@ -694,8 +694,6 @@ FROM            dbo.Items p
 
 GO
 
-
-
 /* Execution Date: 18/03/2015 */
 
 SET ANSI_NULLS ON
@@ -1001,4 +999,31 @@ select @NewTemplateID
 END
 
 
+GO
 
+ALTER VIEW [dbo].[GetItemsListView]
+AS
+SELECT        p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.ProductCode, 
+	(select 
+STUFF((select ', ' + pc.CategoryName
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+        ,1,2,'')) ProductCategoryName, (select 
+STUFF((select ', ' + CAST(pc.ProductCategoryId AS NVARCHAR) 
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+        ,1,2,'')) ProductCategoryIds,
+		 
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+						 p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
+						 p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
+FROM            dbo.Items p
+
+GO
