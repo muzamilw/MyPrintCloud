@@ -504,15 +504,12 @@
 
                                         </div>
                                     </div>
-                                    <div class="tab-pane clearfix fade" id="tab-languageeditor" data-bind="with:languageEditor">
+                                    <div class="tab-pane clearfix fade" id="tab-languageeditor">
                                         <h3 class="group-header">Edit Regional Languages</h3>
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <label for="txtCompanyName" style="color:green;" class="control-label text-right">Modifying Language File for : en-US</label>
-
                                             </div>
-
-
                                         </div>
                                         <div class="main-box-body clearfix">
                                             <div class="table-responsive">
@@ -520,86 +517,12 @@
                                                     <thead>
                                                         <tr>
                                                             <th><a href="#"><span>Caption</span></a></th>
-
                                                             <th><span>Details</span></th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption" placeholder="Default Address" data-bind="value:defaultAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Default Address
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption4" placeholder="Default Shipping Address" data-bind="value:defaultShippingAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Default Shipping Address
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption5" placeholder="PO Number" data-bind="value:pONumber" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                PO Number is required when ordering
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption6" placeholder="Prices" data-bind="value:prices" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Show Prices to Users
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption7" placeholder="User Shipping Addresses" data-bind="value:userShippingAddress" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Users can create Shipping Addresses
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption8" placeholder="Detail" data-bind="value:details" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                Detail
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption9" data-bind="value:newsLetter" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                // NewsLetter subscriber page
-
-                                                            </td>
-
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <input type="text" class="form-control" id="txtCaption10" placeholder="Confirm Design" data-bind="value:confirmDesign" />
-                                                            </td>
-                                                            <td style="width: 442px;">
-                                                                1. Confirm Design //ProductconfirmSelection
-                                                            </td>
-
-                                                        </tr>
-
+                                                        <!-- ko template: { name: 'languageEditorItemTemplate' , foreach: languageEditors } -->
+                                                        <!-- /ko -->
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -653,8 +576,8 @@
     </script>
     <script id="itemMarkupTemplate" type="text/html">
         <tr>
-            <td style="width: 50%"  data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
-            <td style="width: 30%"   data-bind="text: rate"></td>
+            <td style="width: 50%" data-bind="text: name, attr: { id: 'markupName' + $index() }"></td>
+            <td style="width: 30%" data-bind="text: rate"></td>
             <td style="width: 20%">
                 <!-- ko template: { name: 'editActionMarkupTemplate' } -->
                 <!-- /ko -->
@@ -726,25 +649,32 @@
             <!-- /ko -->
         </tr>
     </script>
+
+    <script id="languageEditorItemTemplate" type="text/html">
+        <tr>
+            <td>
+                <input type="text" class="form-control" id="txtCaption" data-bind="value:value" />
+            </td>
+            <td style="width: 442px;" data-bind="text:key"></td>
+        </tr>
+    </script>
 </div>
 @section Scripts{
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
 
             $('.bs-example-tooltips a').popover();
 
         });
 
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
-        $(function ()
-        {
+        $(function () {
             $('#lisettings').addClass('active');
             $('#ligeneralsettings').addClass('active');
             $('#limyorganization').addClass('active');
-            
+
             $('.bs-example-tooltips a').popover();
         });
     </script>
