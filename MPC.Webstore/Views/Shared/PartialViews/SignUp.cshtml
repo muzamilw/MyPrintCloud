@@ -6,53 +6,61 @@
     <div class="row left_right_padding">
 
         <div class="signin_heading_div  col-md-12 col-lg-12 col-xs-12">
-            <label ID="lbl_newCoustomerReg" Class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_newCoustomerReg", UserCookieManager.StoreId))</label>
+            <label id="lbl_newCoustomerReg" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_newCoustomerReg", UserCookieManager.StoreId))</label>
         </div>
         <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
             <div class="sign_up_page_box">
                 <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
 
+                    @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
+                    {
+                        <div id="lbl_RegisterUsing" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RegisterUsing", UserCookieManager.StoreId))</div>
+                        <div class="clearBoth">&nbsp;</div>
 
-                    <div id="lbl_RegisterUsing" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RegisterUsing", UserCookieManager.StoreId))</div>
-                    <div class="clearBoth">&nbsp;</div>
-                   
-                    <div id="cntSocialLink" class="cntSignInWithSocialinks">
-                        <em id="emfacebook" class="emfb"></em>
+                        <div id="cntSocialLink" class="cntSignInWithSocialinks">
+                            @if (ViewBag.ShowFacebookSignInLink == 1)
+                            {
+                                <em id="emfacebook" class="emfb"></em>
 
 
-                        <input id="facebookbtn" type="button" value="Sign up with Facebook" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
+                                <input id="facebookbtn" type="button" value="Sign up with Facebook" class="connectWithfb" onclick="SocialSignUp(1)" /><br />
 
 
-                        <script>
-                            function SocialSignUp(isFacebook) {
-                                var w = 820;
-                                var h = 560;
-                                var left = (screen.width / 2) - (w / 2);
-                                var top = (screen.height / 2) - (h / 2);
-                                if (isFacebook == 1)
-                                    window.open("/Home/oAuth?id=1&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                else
-                                    window.open("/Home/oAuth?id=0&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
-                                return false;
+                                <script>
+                                    function SocialSignUp(isFacebook) {
+                                        var w = 820;
+                                        var h = 560;
+                                        var left = (screen.width / 2) - (w / 2);
+                                        var top = (screen.height / 2) - (h / 2);
+                                        if (isFacebook == 1)
+                                            window.open("/Home/oAuth?id=1&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                        else
+                                            window.open("/Home/oAuth?id=0&isRegWithSM=1&MarketBriefReturnURL=@ViewBag.ReturnURL", "_blank", "toolbar=yes, scrollbars=yes, resizable=yes, width=" + w + ", height=" + h + ", top=" + top + ", left=" + left);
+                                        return false;
+                                    }
+                                </script>}
+                            @if (ViewBag.ShowFacebookSignInLink == 1)
+                            {
+                                <em id="emtwtter" class="emTw"></em>
+                                <input id="facebookbtn" type="button" value="Sign up with Twitter" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
+                                <br />
                             }
-                        </script>
-                        <em id="emtwtter" class="emTw"></em>
-                        <input id="facebookbtn" type="button" value="Sign up with Twitter" class="connectWithtwitter" onclick="SocialSignUp(0)" /><br />
-                        <br />
-                        <br />
-                        <div id="cntOrBottom">
-                            -OR-
+
+                            <br />
+                            <div id="cntOrBottom">
+                                -OR-
+                            </div>
                         </div>
-                    </div>
+                    }
                     <div class="clearBoth">&nbsp;</div>
-                    <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId))</div>
+                    <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)
                         {
                             <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
                         }
-                           
+
                     }
 
                     @using (Html.BeginForm())
@@ -60,7 +68,7 @@
                         <div class="errorMesgLoginPage">
                             <div>@ViewBag.Message</div>
                             <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-                            
+
                         </div>
                         <br />
 
@@ -72,26 +80,26 @@
                         }
                         else
                         {
-                               
+
                             <input type="hidden" name="hfIsSocial" id="isSocial" value="0" />
                         }
 
-                         
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "smallTxtBox cntRegisterFN", @placeholder = ViewData.ModelMetadata.DisplayName })
-           
-                        @Html.ValidationMessageFor(u => u.FirstName,string.Empty, new { @style = "color:red" })
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "smallTxtBox", @placeholder = "Last Name" })
-                      
+                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "smallTxtBox cntRegisterFN", @placeholder = ViewData.ModelMetadata.DisplayName })
+
+                        @Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })
+
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "smallTxtBox cntRegisterLN", @placeholder = "Last Name" })
+
                         @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
-                   
+
                         @Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })
-                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = "Email"})
-                        
-                        
+                        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = "Email" })
+
+
                         @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = "Password" }) <br />
-                       
+
                         @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
                         <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" /><br />
 
@@ -100,14 +108,15 @@
                         </div>
                         <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
                     }
-                      
+
                 </div>
+
                 <div class="signup_width col-md-6 col-lg-6 col-xs-12">
                     <div class="BackgroundColor">
                         <div class="custom_color_heading" id="lbl_WhyRegister">
                             @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.StoreId))
                         </div>
-                        <div class="space5">
+                        <div>
                             &nbsp;
                         </div>
                         <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.StoreId))</p>
@@ -170,7 +179,7 @@
     </div>
 </div>
 @section scripts {
-    <script>     
+    <script>
 
         $(document).ready(function () {
             $('#txtFirstName').val("First Name");
@@ -180,42 +189,42 @@
             $('#txtPhone').val("Phone");
         });
 
-        $('#txtFirstName').focus(function() {
+        $('#txtFirstName').focus(function () {
             if ($('#txtFirstName').val() === 'First Name') {
 
                 $('#txtFirstName').val('');
             }
         });
 
-        $('#txtFirstName').blur(function() {
+        $('#txtFirstName').blur(function () {
             if ($('#txtFirstName').val() === '') {
 
                 $('#txtFirstName').val('First Name');
             }
         });
 
-        $('#txtLastName').focus(function() {
+        $('#txtLastName').focus(function () {
             if ($('#txtLastName').val() === 'Last Name') {
 
                 $('#txtLastName').val('');
             }
         });
 
-        $('#txtLastName').blur(function() {
+        $('#txtLastName').blur(function () {
             if ($('#txtLastName').val() === '') {
 
                 $('#txtLastName').val('Last Name');
             }
         });
 
-        $('#txtPhone').focus(function() {
+        $('#txtPhone').focus(function () {
             if ($('#txtPhone').val() === 'Phone') {
 
                 $('#txtPhone').val('');
             }
         });
 
-        $('#txtPhone').blur(function() {
+        $('#txtPhone').blur(function () {
             if ($('#txtPhone').val() === '') {
 
                 $('#txtPhone').val('Phone');

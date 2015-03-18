@@ -50,6 +50,10 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)
         {
+             string CacheKeyName = "CompanyBaseResponse";
+                    ObjectCache cache = MemoryCache.Default;
+
+             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Model.Title;
@@ -62,27 +66,26 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
+               
                 CompanyContact Contact = new CompanyContact();
                 Contact.FirstName = Model.FirstName;
                 Contact.LastName = Model.LastName;
                 Contact.Email = Model.Email;
                 Contact.Mobile = Model.Mobile;
                 Contact.Password = "password";
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
 
                 long Customer = _myCompanyService.CreateCustomer(Model.FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
 
 
                 if (Customer > 0)
                 {
-                    string CacheKeyName = "CompanyBaseResponse";
-                    ObjectCache cache = MemoryCache.Default;
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-                    MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(UserCookieManager.OrganisationID);
+                   
+                    MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(StoreBaseResopnse.Company.OrganisationId ?? 0);
                     CompanyContact UserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
 
-                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
                     cep.ContactId = NewInqury.ContactId;
 
                     cep.CompanySiteID = 1;
@@ -136,7 +139,7 @@ namespace MPC.Webstore.Controllers
                 CompanyContact UserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                 CampaignEmailParams cep = new CampaignEmailParams();
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
                 cep.ContactId = NewInqury.ContactId;
 
                 cep.CompanySiteID = 1;

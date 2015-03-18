@@ -13,6 +13,11 @@ namespace MPC.Models.RequestModels
         public long? CompanyId { get; set; }
 
         /// <summary>
+        /// Category Id
+        /// </summary>
+        public long? CategoryId { get; set; }
+
+        /// <summary>
         /// Item By Column for sorting
         /// </summary>
         public ItemByColumn ItemOrderBy

@@ -32,7 +32,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         public Prefix Get()
         {
-            return _prefixService.GetPrefixByOrganisationId().CreateFrom();
+            var p = _prefixService.GetPrefixByOrganisationId();
+            return p.CreateFrom();
         }
 
         public Prefix Post(Prefix prefix)

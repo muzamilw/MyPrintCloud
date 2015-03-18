@@ -1361,6 +1361,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
             territory = ko.observable(),
+            scopeVariables = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
@@ -1404,7 +1405,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isPrivate: isPrivate,
                 isDefaultTerrorityBilling: isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping: isDefaultTerrorityShipping,
-                organisationId: organisationId
+                organisationId: organisationId,
+                scopeVariables: scopeVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1442,6 +1444,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
                     Email: email(),
                     OrganisationId: organisationId(),
+                    ScopeVariables: []
                     //Territory: territory().convertToServerData(),
                 };
             },
@@ -1483,6 +1486,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             organisationId: organisationId,
             territory: territory,
             territoryName: territoryName,
+            scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -4191,7 +4195,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue),
             defaultValueForInput = ko.observable(specifiedDefaultValue),
-            inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
+            inputMask = ko.observable(specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(),
@@ -4433,8 +4437,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
-            defaultValue = ko.observable(specifiedDefaultValue),
-            title = ko.observable(specifiedVariableTitle),
+            defaultValue = ko.observable(specifiedDefaultValue === null ? "" : specifiedDefaultValue),
+            title = ko.observable(specifiedVariableTitle === null ? "" : specifiedVariableTitle),
             variableOptions = ko.observableArray([]);
 
         self = {
