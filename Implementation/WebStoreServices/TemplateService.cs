@@ -2765,8 +2765,8 @@ namespace MPC.Implementation.WebStoreServices
 
                     //_itemRepository.ResolveTemplateVariables()
                     //productManager.ResolveTemplateVariables(LocalProductID, SessionParameters.ContactCompany, SessionParameters.CustomerContact, StoreMode.Retail);
-                    if(ItemID > 0)
-                         _itemRepository.VariablesResolve(ItemID, LocalProductID, ContactID);
+                    //if(ItemID > 0)
+                    //     _itemRepository.VariablesResolve(ItemID, LocalProductID, ContactID);
                  
                  
                     return LocalProductID;

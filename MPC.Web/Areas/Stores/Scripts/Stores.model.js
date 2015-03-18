@@ -201,8 +201,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             //store Image Logo
             storeImageFileBinary = ko.observable(),
             storeImageName = ko.observable(),
-            storeWorkflowImageBinary = ko.observable(),
-            storeWorkflowImageName = ko.observable(),
+
+            storeWorkflowImageBinary = ko.observable(undefined),
+            storeWorkflowImage = ko.observable(),
+            mapImageUrl = ko.observable(),
+            mapImageUrlBinary = ko.observable(),
             //company type
             companyType = ko.observable(),
             //type = ko.observable(),
@@ -281,8 +284,10 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             // ReSharper restore InconsistentNaming
             companyId: companyId,
             name: name,
-            storeWorkflowImageName: storeWorkflowImageName,
+            storeWorkflowImage: storeWorkflowImage,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
+            mapImageUrl: mapImageUrl,
+            mapImageUrlBinary:mapImageUrlBinary,
             activeBannerSetId: activeBannerSetId,
             status: status,
             image: image,
@@ -404,11 +409,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.PickupAddressId = source.pickupAddressId();
             result.CompanyType = source.companyType() != undefined ? CompanyType().convertToServerData(source.companyType()) : null;
             result.CustomCSS = source.customCSS();
-            result.StoreWorkflowImageName = source.storeWorkflowImageName();
+            result.StoreWorkflowImage = source.storeWorkflowImage();
             result.StoreWorkflowImageBytes = source.storeWorkflowImageBinary();
+            result.MapImageUrl = source.mapImageUrlBinary();
             result.isCalculateTaxByService = source.isCalculateTaxByService();
             result.TaxLabel = source.taxLabel();
-            result.TaxRate = source.taxRate()
+            result.TaxRate = source.taxRate();
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -533,7 +539,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDisplayBanners: isDisplayBanners,
             storeImageFileBinary: storeImageFileBinary,
             storeImageName: storeImageName,
-            storeWorkflowImageName: storeWorkflowImageName,
+            storeWorkflowImage: storeWorkflowImage,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,
@@ -571,6 +577,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             convertToServerData: convertToServerData,
             reset: reset,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
+            mapImageUrl: mapImageUrl,
+            mapImageUrlBinary:mapImageUrlBinary,
             taxLabel: taxLabel,
             taxRate: taxRate,
             scopeVariables: scopeVariables
@@ -713,11 +721,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.storeId(source.StoreId);
         // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
-        store.storeWorkflowImageName(source.StoreWorkflowImageName);
-        store.storeWorkflowImageBinary(source.WorkflowS2CBytesConverter);
+       // store.storeWorkflowImage(source.StoreWorkflowImage);
+        store.storeWorkflowImageBinary(source.WatermarkText);
+        store.mapImageUrl(source.MapImageUrl);
         store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
+
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -1347,6 +1357,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
             organisationId = ko.observable(specifiedOrganisationId),
             territory = ko.observable(),
+            scopeVariables = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 addressName: addressName,
@@ -1390,7 +1401,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isPrivate: isPrivate,
                 isDefaultTerrorityBilling: isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping: isDefaultTerrorityShipping,
-                organisationId: organisationId
+                organisationId: organisationId,
+                scopeVariables: scopeVariables
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1428,6 +1440,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     isDefaultTerrorityShipping: isDefaultTerrorityShipping(),
                     Email: email(),
                     OrganisationId: organisationId(),
+                    ScopeVariables: []
                     //Territory: territory().convertToServerData(),
                 };
             },
@@ -1469,6 +1482,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             organisationId: organisationId,
             territory: territory,
             territoryName: territoryName,
+            scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -4177,7 +4191,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             waterMark = ko.observable(specifiedWaterMark),
             defaultValue = ko.observable(specifiedDefaultValue),
             defaultValueForInput = ko.observable(specifiedDefaultValue),
-            inputMask = ko.observable((specifiedInputMask === undefined || specifiedInputMask === null) ? "xxx-xxxxx-xxxxx" : specifiedInputMask),
+            inputMask = ko.observable(specifiedInputMask),
             companyId = ko.observable(specifiedCompanyId),
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(),
@@ -4419,8 +4433,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             variableTag = ko.observable(specifiedVariableTag),
             scopeName = ko.observable(specifiedScopeName),
             typeName = ko.observable(specifiedTypeName),
-            defaultValue = ko.observable(specifiedDefaultValue),
-            title = ko.observable(specifiedVariableTitle),
+            defaultValue = ko.observable(specifiedDefaultValue === null ? "" : specifiedDefaultValue),
+            title = ko.observable(specifiedVariableTitle === null ? "" : specifiedVariableTitle),
             variableOptions = ko.observableArray([]);
 
         self = {

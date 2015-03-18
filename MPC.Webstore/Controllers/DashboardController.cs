@@ -399,7 +399,6 @@ namespace MPC.Webstore.Controllers
                     ViewBag.ErrorMes = 5;
                     return PartialView("PartialViews/Dashboard");
                 }
-
             }
             else
             {
@@ -407,10 +406,20 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ErrorMes = 5;
                 return PartialView("PartialViews/Dashboard");
             }
-
-           
-         
             //return View("Index/");
+        }
+        [HttpPost]
+        public JsonResult GetPassWord(string CurrentPassword)
+        { 
+            string password = _myCompanyService.GetPasswordByContactID(_webstoreclaimHelper.loginContactID());
+            if (_myCompanyService.VerifyHashSha1(CurrentPassword, password) == true)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
 
         public void PopulateDashboard()
