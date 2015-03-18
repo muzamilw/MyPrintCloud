@@ -568,6 +568,16 @@ define("product/product.viewModel",
                     // #region For Store
                     // Selected Company Id
                     selectedCompany = ko.observable(),
+                    // Selected Category
+                    selectedCategory = ko.observable(),
+                    // Select Category
+                    categorySelectedEventHandler = function (category) {
+                        if (category && selectedCategory() !== category) {
+                            selectedCategory(category);
+                            // Filter Items on This Category
+                            resetFilter();
+                        }    
+                    },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
                     // Initialize the view model from Store
@@ -1063,7 +1073,8 @@ define("product/product.viewModel",
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
-                            CompanyId: selectedCompany()
+                            CompanyId: selectedCompany(),
+                            CategoryId: selectedCategory()
                         }, {
                             success: function (data) {
                                 products.removeAll();
@@ -1258,7 +1269,8 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     // For Store
-                    initializeForStore: initializeForStore
+                    initializeForStore: initializeForStore,
+                    categorySelectedEventHandler: categorySelectedEventHandler
                     // For Store
                     // Utility Methods
 

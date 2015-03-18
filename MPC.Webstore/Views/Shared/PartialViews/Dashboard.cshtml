@@ -155,14 +155,15 @@
                 <tr>
                     <td>
                         <label id="errorMesg" style="display:none;font-size: 13px;color: red;"></label>
+                        <label id="candNewError" style="display:none;font-size: 13px;color: red;"></label>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <div class="float_left_simple smallfonAvenior">
+                        <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
                             <label id="ltrlPss">Current password:</label>
                         </div>
-                        <div class="float_left_simple cnttxtBox">
+                        <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
                             @*@Html.TextBoxFor(model => model.CurrentPassword, new { id = "txtCurPass", @class = "newTxtBox", @maxlength="50", @value = "Current Password" }) <br />*@
                             <input type="password" id="txtCurPass" name="txtCurPass" maxlength="50" class="newTxtBox" />
                         </div>
@@ -175,13 +176,12 @@
                 </tr>
                 <tr>
                     <td align="right">
-                        <div class="float_left_simple smallfonAvenior">
+                        <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
                             <label id="ltrlnewpass">New Password:</label>
                         </div>
-                        <div class="float_left_simple cnttxtBox">
+                        <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
                             @*@Html.TextBoxFor(model => model.NewPassword, new { id = "txtNewPassword", @class = "newTxtBox", @maxlength="50", @value = "New Password" }) <br />*@
                             <input type="password" id="txtNewPassword" name="txtNewPassword" maxlength="50" class=" newTxtBox" />
-
                         </div>
                         <div class="clearBoth">
                             &nbsp;
@@ -190,10 +190,10 @@
                 </tr>
                 <tr>
                     <td align="right" class="H4B">
-                        <div class="float_left_simple smallfonAvenior">
+                        <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
                             <label id="ltrlconfirmpass">Confirm Password:</label>
                         </div>
-                        <div class="float_left_simple cnttxtBox">
+                        <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
                             @*@Html.TextBoxFor(model => model.NewPassword, new { id = "txtConfirmPassword", @class = "newTxtBox", @maxlength="50", @value = "Confirm Password" }) <br />*@
                             <input type="password" id="txtConfirmPassword" name="txtConfirmPassword" maxlength="50" class="newTxtBox" />
                         </div>
@@ -207,10 +207,10 @@
                         <div class="float_left_simple smallfonAvenior">
                             &nbsp;
                         </div>
-                        <div class="float_left_simple cnttxtBox left_align" style="margin-top: 30px;">
-                            <input type="submit" onclick="ResetPassword();" class="start_creating_btn rounded_corners5" value="Save" />
+                        <div class="float_left_simple cnttxtBox left_align marginLeftfotTextbox" style="margin-top: 30px;">
+                            <input type="submit" onclick="PasswordValidation();" class="start_creating_btn rounded_corners5" value="Save" />
                             @*<asp:Button ID="cmdSave" CssClass="start_creating_btn rounded_corners5" OnClientClick="return Passwordvalidator();"
-                                        runat="server" Text="Save" OnClick="cmdSave_Click" />*@
+            runat="server" Text="Save" OnClick="cmdSave_Click" />*@
                         </div>
                     </td>
                 </tr>
@@ -299,6 +299,7 @@
             if (passwordnew === Confirmpassword) {
 
             } else {
+                alert('didnt match');
                 $("#errorMesg").css("display", "block");
                 $("#errorMesg").text("Password not match.");
                 $("#txtNewPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
@@ -317,14 +318,89 @@
             return false;
         }
 
+        function PasswordValidation()
+        {
+            var CurrentPass = $("#txtCurPass").val();
+            var data = { CurrentPassword: CurrentPass }
+            $.ajax({
+                type: "POST",
+                url: "/Dashboard/GetPassWord",
+                contentType: "application/json",
+                data:JSON.stringify(data),
+                async: true,
+                success: function (response) {
+                    alert(PasswordValidationSummary(response));
+                    if (PasswordValidationSummary(response) == true)
+                    {
+                        alert('all validations true');
+                        ResetPassword();
+                    }
+                }
+            });
+        }
+        function PasswordValidationSummary(Result)
+        {
+            var IsValid = true;
+            $("#errorMesg").css("display", "none");
+            var CurrentPass = $("#txtCurPass").val();
+            var passwordnew = $('#txtNewPassword').val();
+            var Confirmpassword = $('#txtConfirmPassword').val();
+            if (CurrentPass.length == 0) {
+                IsValid = false;
+                $("#txtCurPass").css("border", "1px solid #b33c12");
+            } else {
+                
+               $("#txtCurPass").css("border", "1px solid #c1c6cc");
+            }
+            if (passwordnew.length == 0) {
+                IsValid = false;
+               
+                $("#txtNewPassword").css("border", "1px solid #b33c12");
+
+            } else {
+                
+                $("#txtNewPassword").css("border", "1px solid #c1c6cc");
+            }
+            if (Confirmpassword.length == 0) {
+                
+                $("#txtConfirmPassword").css("border", "1px solid #b33c12");
+
+                IsValid = false;
+            } else {
+               
+                $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
+            }
+            if (CurrentPass != "") {
+                alert(CurrentPass);
+                if (Result == false) {
+                    $("#errorMesg").css("display", "block");
+                    $("#errorMesg").text("Current Password Does Not Match.");
+                    IsValid = false;
+                    $("#txtCurPass").css("border", "1px solid #b33c12");
+                }
+                else {
+                   // $("#txtCurPass").css("border", "1px solid #b33c12");
+                    if (passwordnew != null && Confirmpassword != null) {
+
+                        if (passwordnew != Confirmpassword) {
+                            $("#errorMesg").css("display", "block");
+                            $("#errorMesg").text("New and Confirm Password Does Not Match");
+                            IsValid = false;
+                            $("#txtNewPassword").css("border", "1px solid #b33c12");
+                            $("#txtConfirmPassword").css("border", "1px solid #b33c12");
+                        }
+                    }
+                }
+            }
+            return IsValid;
+        }
+
         function ResetPassword()
         {
+          //  PasswordValidation();
             var CurrentPass = $("#txtCurPass").val();
             var passwordnew = $('#txtNewPassword').val();
             window.location.href = "/Dashboard/ResetPassword/" + CurrentPass + "/" + passwordnew;
         }
     </script>
-  
-
-    
 }

@@ -93,7 +93,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Saved Design";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
                     Detail.Description = "View or reorder your saved design"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
-                    Detail.PageNavigateURl = "/SavedDesignes.aspx";
+                    Detail.PageNavigateURl = "#";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 
@@ -399,7 +399,6 @@ namespace MPC.Webstore.Controllers
                     ViewBag.ErrorMes = 5;
                     return PartialView("PartialViews/Dashboard");
                 }
-
             }
             else
             {
@@ -407,10 +406,20 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ErrorMes = 5;
                 return PartialView("PartialViews/Dashboard");
             }
-
-           
-         
             //return View("Index/");
+        }
+        [HttpPost]
+        public JsonResult GetPassWord(string CurrentPassword)
+        { 
+            string password = _myCompanyService.GetPasswordByContactID(_webstoreclaimHelper.loginContactID());
+            if (_myCompanyService.VerifyHashSha1(CurrentPassword, password) == true)
+            {
+                return Json(true);
+            }
+            else
+            {
+                return Json(false);
+            }
         }
 
         public void PopulateDashboard()
@@ -465,7 +474,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Saved Design";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
                     Detail.Description = "View or reorder your saved design"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
-                    Detail.PageNavigateURl = "/SavedDesignes.aspx";
+                    Detail.PageNavigateURl = "#";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 

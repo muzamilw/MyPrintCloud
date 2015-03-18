@@ -47,6 +47,7 @@
             stockItemNext = ko.observable().extend({ required: true }),
             systemSiteId = ko.observable(),
             prefixId = ko.observable(),
+            organisationId = ko.observable(),
             departmentId = ko.observable(),
             errors = ko.validation.group({
                 enquiryPrefix: enquiryPrefix,
@@ -144,6 +145,7 @@
             systemSiteId: systemSiteId,
             prefixId: prefixId,
             departmentId: departmentId,
+            organisationId:organisationId,
             dirtyFlag: dirtyFlag,
             errors: errors,
             isValid: isValid,
@@ -200,6 +202,7 @@
         oPrefix.stockItemStart(source.StockItemStart);
         oPrefix.departmentId(source.DepartmentId);
         oPrefix.systemSiteId(source.SystemSiteId);
+        oPrefix.organisationId(source.OrganisationId);
         return oPrefix;
 
     };
@@ -249,6 +252,7 @@
         result.StockItemPrefix = source.stockItemPrefix();
         result.StockItemStart = source.stockItemStart();
         result.SystemSiteId = source.systemSiteId();
+        result.OrganisationId = source.organisationId();
         return result;
     };
     

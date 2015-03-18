@@ -422,11 +422,18 @@ define("product/product.view",
                 openUrlInNewWindow = function(url) {
                     window.open(url, "_blank");
                 },
+                // Product Category Selected
+                productCategorySelectedEventHandler = function (event) {
+                    viewModel.categorySelectedEventHandler(event.category);
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;
                     }
+
+                    // subscribe to events
+                    $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
 
                 };
             initialize();
