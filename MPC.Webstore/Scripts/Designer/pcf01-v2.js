@@ -620,7 +620,6 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.ContentString.indexOf("MPC_Content"))
         IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
 
-    alert(IO.ContentString);
     fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -3845,6 +3844,8 @@ function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
         if (IT.Value != null && IT.value != "") {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
+        } else {
+            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
         }
     });
 }
