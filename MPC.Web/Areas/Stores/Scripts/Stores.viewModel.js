@@ -2849,6 +2849,8 @@ define("stores/stores.viewModel",
                 selectProductCategory = function (category) {
                     if (selectedProductCategory() != category) {
                         selectedProductCategory(category);
+                        // Notify the event subscribers
+                        view.productCategorySelectedEvent(category);
                     }
                 },
                 //Get Category Child List Items

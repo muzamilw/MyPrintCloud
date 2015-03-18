@@ -77,6 +77,7 @@ namespace MPC.Repository.Repositories
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
                     (!request.CompanyId.HasValue || item.CompanyId == request.CompanyId) &&
+                 //   (!request.CategoryId.HasValue || item. == request.CompanyId) &&
                     item.OrganisationId == OrganisationId && item.EstimateId == null && (!item.IsArchived.HasValue || item.IsArchived == false ));
 
             IEnumerable<GetItemsListView> items = request.IsAsc
