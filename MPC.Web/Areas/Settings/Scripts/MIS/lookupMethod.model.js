@@ -1,10 +1,10 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
 
-    var lookupMethod = function () {
+    var lookupMethodList = function () {
         var self,
         MethodId = ko.observable(),
         Name = ko.observable(),
-       Type = ko.observable(),
+        Type = ko.observable(),
        self = {
            MethodId: MethodId,
            Name: Name,
@@ -14,9 +14,15 @@
         return self;
 
     };
-
+    var lookupupListClientMapper = function (source) {
+        var lookupMethodList = new lookupMethodList();
+        lookupMethodList.MethodId(source.MethodId);
+        lookupMethodList.Name(source.Name);
+        lookupMethodList.Type(source.Type);
+    }
 
     return {
-        
+        lookupMethodList: lookupMethodList,
+        lookupupListClientMapper: lookupupListClientMapper
     };
 });
