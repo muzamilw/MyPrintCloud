@@ -2641,7 +2641,8 @@ define("stores/stores.viewModel",
                                                 selectedStore().users.splice(0, 0, savedCompanyContact);
                                             }
                                             else {
-                                                companyContactEditorViewModel.acceptItem(savedCompanyContact);
+                                                //companyContactEditorViewModel.acceptItem(savedCompanyContact);
+                                                selectedCompanyContact(savedCompanyContact);
                                             }
 
                                             toastr.success("Saved Successfully");
