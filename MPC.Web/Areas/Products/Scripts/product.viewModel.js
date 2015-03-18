@@ -572,7 +572,7 @@ define("product/product.viewModel",
                     selectedCategory = ko.observable(),
                     // Select Category
                     categorySelectedEventHandler = function (category) {
-                        if (selectedCategory() !== category) {
+                        if (category && selectedCategory() !== category) {
                             selectedCategory(category);
                             // Filter Items on This Category
                             resetFilter();
