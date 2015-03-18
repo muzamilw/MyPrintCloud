@@ -237,6 +237,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             mediaLibraries = ko.observableArray([]),
             //Company Cost Center
             companyCostCenters = ko.observableArray([]),
+            //Scope Variables
+            scopeVariables = ko.observableArray([]),
             //store Backgroud Image Image Source
             storeBackgroudImageImageSource = ko.observable(),
             //store Backgroud Image Path
@@ -345,7 +347,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             isDeliveryTaxAble: isDeliveryTaxAble,
             pickupAddressId: pickupAddressId,
             taxLabel: taxLabel,
-            taxRate: taxRate
+            taxRate: taxRate,
+            scopeVariables: scopeVariables
             //storeLayoutChange: storeLayoutChange
             //#endregion
         }),
@@ -478,6 +481,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.MediaLibraries = [];
             result.FieldVariables = [];
             result.SmartForms = [];
+            result.ScopeVariables = [];
             return result;
         },
         // Reset
@@ -576,7 +580,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             mapImageUrl: mapImageUrl,
             mapImageUrlBinary:mapImageUrlBinary,
             taxLabel: taxLabel,
-            taxRate: taxRate
+            taxRate: taxRate,
+            scopeVariables: scopeVariables
             //#endregion
         };
         return self;
@@ -1148,6 +1153,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId = ko.observable(specifiedCompanyId),
             territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
             isDefault = ko.observable(specifiedisDefault),
+            scopeVariables = ko.observableArray([]),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1178,7 +1184,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                     TerritoryName: territoryName(),
                     CompanyId: companyId(),
                     TerritoryCode: territoryCode(),
-                    isDefault: isDefault()
+                    isDefault: isDefault(),
+                    ScopeVariables: []
                 }
             },
             // Reset
@@ -1191,6 +1198,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId: companyId,
             territoryCode: territoryCode,
             isDefault: isDefault,
+            scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1701,6 +1709,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             convertToServerData = function (source) {
                 var result = {};
                 result.CompanySetId = source.id() === undefined ? 0 : source.id();
+                result.FakeId = source.id() === undefined ? 0 : source.id();
                 result.SetName = source.setName() === undefined ? null : source.setName();;
                 result.CompanyBanners = [];
                 return result;

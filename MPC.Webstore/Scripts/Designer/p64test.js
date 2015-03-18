@@ -16194,6 +16194,7 @@ fabric.Image.fromObject = function (object, callback) {
 * @param {Object} [imgOptions] Options object
 */
 fabric.Image.fromURL = function (url, callback, imgOptions) {
+  
     fabric.util.loadImage(url, function (img) {
         if (img != null) {
             callback(new fabric.Image(img, imgOptions));

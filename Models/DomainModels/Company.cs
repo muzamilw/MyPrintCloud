@@ -104,7 +104,7 @@ namespace MPC.Models.DomainModels
         public double? TaxRate { get; set; }
         public bool? IsDisplayDiscountVoucherCode { get; set; }
         public bool? IsDisplayCorporateBinding { get; set; }
-        
+
         /// <summary>
         /// Map Image Url
         /// </summary>
@@ -190,7 +190,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<FieldVariable> FieldVariables { get; set; }
 
         #region Additional Properties
-      
+
         /// <summary>
         /// Default Sprite Source
         /// </summary>
@@ -220,57 +220,63 @@ namespace MPC.Models.DomainModels
         /// <summary>
         /// Company Logo Source
         /// </summary>
-         [NotMapped]
+        [NotMapped]
         public string CompanyLogoSource { get; set; }
         /// <summary>
         /// Company Logo Name
         /// </summary>
-         [NotMapped]
+        [NotMapped]
         public string CompanyLogoName { get; set; }
 
-         /// <summary>
-         /// store work flow File Name
-         /// </summary>
-         [NotMapped]
+        /// <summary>
+        /// store work flow File Name
+        /// </summary>
+        [NotMapped]
          public string StoreWorkflowImage { get; set; }
 
-         /// <summary>
-         /// File Source Bytes - byte[] representation of Base64 string FileSource
-         /// </summary>
-         [NotMapped]
-         public byte[] StoreWorkFlowFileSourceBytes
-         {
-             get
-             {
-                 if (string.IsNullOrEmpty(WatermarkText))
-                 {
-                     return null;
-                 }
+        /// <summary>
+        /// Scope Variables
+        /// </summary>
+        [NotMapped]
+        public List<ScopeVariable> ScopeVariables { get; set; }
 
-                 int firtsAppearingCommaIndex = WatermarkText.IndexOf(',');
+        /// <summary>
+        /// File Source Bytes - byte[] representation of Base64 string FileSource
+        /// </summary>
+        [NotMapped]
+        public byte[] StoreWorkFlowFileSourceBytes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(WatermarkText))
+                {
+                    return null;
+                }
 
-                 if (firtsAppearingCommaIndex < 0)
-                 {
-                     return null;
-                 }
+                int firtsAppearingCommaIndex = WatermarkText.IndexOf(',');
 
-                 if (WatermarkText.Length < firtsAppearingCommaIndex + 1)
-                 {
-                     return null;
-                 }
+                if (firtsAppearingCommaIndex < 0)
+                {
+                    return null;
+                }
 
-                 string sourceSubString = WatermarkText.Substring(firtsAppearingCommaIndex + 1);
+                if (WatermarkText.Length < firtsAppearingCommaIndex + 1)
+                {
+                    return null;
+                }
 
-                 try
-                 {
-                     return Convert.FromBase64String(sourceSubString.Trim('\0'));
-                 }
-                 catch (FormatException)
-                 {
-                     return null;
-                 }
-             }
-         }
+                string sourceSubString = WatermarkText.Substring(firtsAppearingCommaIndex + 1);
+
+                try
+                {
+                    return Convert.FromBase64String(sourceSubString.Trim('\0'));
+                }
+                catch (FormatException)
+                {
+                    return null;
+                }
+            }
+        }
         #endregion
     }
 }

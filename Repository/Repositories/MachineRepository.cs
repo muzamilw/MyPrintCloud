@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using MPC.Models.Common;
 using System;
 using System.Linq.Expressions;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -450,7 +451,31 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.Machines.Where(o => o.OrganisationId == OID).ToList();
+                Mapper.CreateMap<Machine, Machine>()
+               .ForMember(x => x.ItemSections, opt => opt.Ignore());
+
+                 Mapper.CreateMap<MachineInkCoverage, MachineInkCoverage>()
+               .ForMember(x => x.Machine, opt => opt.Ignore());
+
+                 Mapper.CreateMap<MachineResource, MachineResource>()
+               .ForMember(x => x.Machine, opt => opt.Ignore());
+
+
+
+                 List<Machine> machines = db.Machines.Include("MachineResources").Include("MachineInkCoverages").Where(o => o.OrganisationId == OID).ToList();
+
+                List<Machine> oOutputMachine = new List<Machine>();
+
+                if (machines != null && machines.Count > 0)
+                {
+                    foreach (var item in machines)
+                    {
+                        var omappedItem = Mapper.Map<Machine, Machine>(item);
+                        oOutputMachine.Add(omappedItem);
+                    }
+                }
+
+                return oOutputMachine;
             }
             catch (Exception ex)
             {
@@ -461,7 +486,29 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return db.LookupMethods.Where(o => o.OrganisationId == OID).ToList();
+                Mapper.CreateMap<LookupMethod, LookupMethod>()
+               .ForMember(x => x.MachineClickChargeLookups, opt => opt.Ignore())
+                 .ForMember(x => x.MachineClickChargeZones, opt => opt.Ignore())
+                 .ForMember(x => x.MachineGuillotineCalcs, opt => opt.Ignore())
+                 .ForMember(x => x.MachinePerHourLookups, opt => opt.Ignore())
+                 .ForMember(x => x.MachineSpeedWeightLookups, opt => opt.Ignore());
+
+                List<LookupMethod> methods = db.LookupMethods.Where(o => o.OrganisationId == OID).ToList();
+
+                List<LookupMethod> oOutputLookup = new List<LookupMethod>();
+
+                if (methods != null && methods.Count > 0)
+                {
+                    foreach (var item in methods)
+                    {
+                        var omappedItem = Mapper.Map<LookupMethod, LookupMethod>(item);
+                        oOutputLookup.Add(omappedItem);
+                    }
+                }
+
+
+                return oOutputLookup;
+               
             }
             catch (Exception ex)
             {

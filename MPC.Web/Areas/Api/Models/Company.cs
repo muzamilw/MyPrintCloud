@@ -139,6 +139,8 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public string TaxLabel { get; set; }
         public double? TaxRate { get; set; }
+
+        public List<ScopeVariable> ScopeVariables { get; set; }
         #endregion
 
         #region Public List Properties
@@ -239,7 +241,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
 
         public byte[] Image { get; set; }
-       
+
         /// <summary>
         /// Image Source
         /// </summary>

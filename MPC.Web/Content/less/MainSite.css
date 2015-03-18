@@ -407,6 +407,13 @@
   min-height: 100Px;
   min-width: 100Px;
 }
+.storeSubText {
+  font-size: 0.875em;
+  color: #565050;
+}
+.archiveButton {
+  float: left;
+}
 #inventoryBinding #addInventory {
   margin-top: 25px;
 }

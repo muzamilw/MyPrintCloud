@@ -6,6 +6,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
 using System;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -61,7 +62,28 @@ namespace MPC.Repository.Repositories
                 db.Configuration.LazyLoadingEnabled = false;
 
                 db.Configuration.ProxyCreationEnabled = false;
-                return db.PhraseFields.Include("Phrases").Where(p => p.OrganisationId == OID).ToList();
+
+                Mapper.CreateMap<PhraseField, PhraseField>()
+               .ForMember(x => x.Section, opt => opt.Ignore());
+
+                Mapper.CreateMap<Phrase, Phrase>()
+             .ForMember(x => x.PhraseField, opt => opt.Ignore());
+        
+
+                List<PhraseField> PFs =  db.PhraseFields.Include("Phrases").Where(p => p.OrganisationId == OID).ToList();
+
+
+                List<PhraseField> oOutputPF = new List<PhraseField>();
+
+                if (PFs != null && PFs.Count > 0)
+                {
+                    foreach (var item in PFs)
+                    {
+                        var omappedItem = Mapper.Map<PhraseField, PhraseField>(item);
+                        oOutputPF.Add(omappedItem);
+                    }
+                }
+                return oOutputPF;
             }
             catch (Exception ex)
             {

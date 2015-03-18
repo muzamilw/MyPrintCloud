@@ -1,4 +1,6 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using MPC.Interfaces.MISServices;
+using MPC.MIS.Areas.Api.Models;
+using MPC.MIS.Areas.Api.ModelMappers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 {
     public class LookupMethodController : ApiController
     {
+        private readonly ILookupMethodService _LookupMethodService;
+        public LookupMethodController(ILookupMethodService _LookupMethodService)
+        {
+            this._LookupMethodService = _LookupMethodService;
+        }
         // GET: Api/LookupMethod
         //public LookupMethodResponse Get(long id)
         //{
@@ -17,11 +24,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         //    return new LookupMethodResponse { };
         //}
-        //public List<LookupMethod> Get(long isGuillotine)
-        //{
+        public IEnumerable<LookupMethod> Get()
+        {
 
-
+            return _LookupMethodService.GetAll().Select(g => g.CreateFrom());
             
-        //}
+        }
     }
 }

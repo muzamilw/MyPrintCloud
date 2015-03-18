@@ -215,6 +215,7 @@ define("order/order.viewModel",
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
@@ -240,6 +241,7 @@ define("order/order.viewModel",
                     // Open Section Detail
                     openSectionDetail = function () {
                         isSectionDetailVisible(true);
+                        view.initializeLabelPopovers();
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
@@ -381,9 +383,11 @@ define("order/order.viewModel",
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 toastr.error("Failed to load base data" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
@@ -515,10 +519,12 @@ define("order/order.viewModel",
                                     }
                                 }
                                 isLoadingOrders(false);
+                                view.initializeLabelPopovers();
                             },
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
+                                view.initializeLabelPopovers();
                             }
                         });
                     },
