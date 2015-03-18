@@ -1,4 +1,6 @@
-﻿namespace MPC.MIS.Areas.Api.Models
+﻿using System.Collections.Generic;
+
+namespace MPC.MIS.Areas.Api.Models
 {
     /// <summary>
     /// Address Web Model
@@ -39,5 +41,7 @@
         public bool? isDefaultTerrorityShipping { get; set; }
         public long? OrganisationId { get; set; }
         public CompanyTerritory Territory { get; set; }
+
+        public List<ScopeVariable> ScopeVariables { get; set; }
     }
 }
