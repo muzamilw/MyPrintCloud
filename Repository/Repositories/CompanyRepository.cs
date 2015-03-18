@@ -427,6 +427,45 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request)
+        {
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isTypeSpecified = request.CustomerType != null;
+                long type = request.CustomerType ?? 0;
+                Expression<Func<Company, bool>> query =
+                    s =>
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 1 );
+
+                int rowCount = DbSet.Count(query);
+                IEnumerable<Company> companies = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+                return new CompanyResponse
+                {
+                    RowCount = rowCount,
+                    Companies = companies
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
         /// <summary>
         /// Get Companies list for Supplier List View
         /// </summary>
