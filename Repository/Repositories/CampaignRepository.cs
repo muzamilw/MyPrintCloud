@@ -36,15 +36,17 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent)
+        public Campaign GetCampaignRecordByEmailEvent(long iEmailEvent, long OrganisationId, long CompanyId)
         {
-
-            return db.Campaigns.Where(c => c.EmailEvent == iEmailEvent).FirstOrDefault();
-                //var email = (from c in db.Campaigns
-                //                 where c.EmailEvent == iEmailEvent
-                //                 select c).FirstOrDefault();
-                //return email;
-         
+            try 
+            {
+                return db.Campaigns.Where(c => c.EmailEvent == iEmailEvent && c.CompanyId == CompanyId && c.OrganisationId == OrganisationId).FirstOrDefault();
+            
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
 
@@ -271,7 +273,7 @@ namespace MPC.Repository.Repositories
                 // SalesManager = GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
                 if (SalesManager != null)
                 {
-                    Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event);
+                    Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event, OrganisationId, CompanyId);
                     CampaignEmailParams EmailParams = new CampaignEmailParams();
                     EmailParams.ContactId = ContactId;
                     EmailParams.CompanyId = CompanyId;
@@ -908,7 +910,7 @@ namespace MPC.Repository.Repositories
                                    select c).ToList();
                 if (listOfApprovers.Count() > 0)
                 {
-                    Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateRegistrationForApproval);
+                    Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateRegistrationForApproval, serverSetting.OrganisationId, Companyid);
                     Organisation SeverSettings = serverSetting;
                     foreach (CompanyContact corpRec in listOfApprovers)
                     {
