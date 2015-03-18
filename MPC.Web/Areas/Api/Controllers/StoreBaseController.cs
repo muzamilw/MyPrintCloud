@@ -120,7 +120,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
                 // Themes = themes,
-                PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>()
+                PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>(),
+                SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>()
             };
         }
         #endregion
