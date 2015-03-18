@@ -45,25 +45,29 @@
             <div class="main-box-body main-box clearfix">
                 <div class="main-box-body clearfix">
                     <div class="table-responsive">
-                        <div class="productHeadingsCnt width12Perc">
-                            Product Code
-                        </div>
-                        <div class="productHeadingsCnt width24Perc">
-                            Main Image
-                        </div>
-                        <div class="productHeadingsCnt width13Per">
-                            Product Name
-                        </div>
-                        <div class="productHeadingsCnt width13Per">
-                            Product Price
-                        </div>
-                        <div class="productHeadingsCnt width12Perc">
-                            Categories
-                        </div>
-                        <div class="productHeadingsCnt width12Perc">
-                            Is Published
-                        </div>
                         <table id="ProductListtbl" class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" id="productCodeHeader">
+                                        Code
+                                    </th>
+                                    <th class="text-center" id="productImageHeader">
+                                        Image
+                                    </th>
+                                    <th class="text-center" id="productNameHeader">
+                                        Name
+                                    </th>
+                                    <th class="text-center" id="productPriceHeader">
+                                        Price
+                                    </th>
+                                    <th class="text-center" id="productCategoriesHeader">
+                                        Categories
+                                    </th>
+                                    <th class="text-center" id="productPublishedHeader">
+                                        Published
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <!-- ko template: { name: 'listViewTemplate', foreach: products } -->
                                 <!-- /ko -->
@@ -146,27 +150,23 @@
     @* List View Template *@
     <script id="listViewTemplate" type="text/html">
         <tr>
-            <td class="width12Perc text-center">
+            <td class="text-center">
                 <a data-bind="click: $root.editProduct"><span data-bind="text: productCode"></span></a>
             </td>
-            <td class="width24Perc text-center">
-                <div class="LCLB Product-Body-List">
-                    <div class="PDTC_TL Product-Body-List-TL">
-                        <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
-                    </div>
-                </div>
+            <td class="text-center">
+                <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
             </td>
-            <td class="text-center width13Per">
+            <td class="text-center">
                 <span class="NoneditableName" data-bind="text: productName"></span>
             </td>
-            <td class="text-center width13Per">
+            <td class="text-center">
                 <span class="NoneditablePrice" data-bind="text: '$' + miniPrice()"></span>
             </td>
-            <td class="text-center width12Perc">
+            <td class="text-center">
                 <span class="NoneditableCat" data-bind="text: productCategoryName"></span>
             </td>
-            <td class="text-center width12Perc">
-                <span class="label label-success" data-bind="text: isPublishedUi"></span>
+            <td class="text-center">
+                <span class="label" data-bind="text: isPublishedUi, css: { 'label-success': isPublished, 'label-danger': !isPublished() }"></span>
             </td>
         </tr>
     </script>
