@@ -463,22 +463,18 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-                    vatHandler = function (data) {
+                    vatHandler = function () {
                         var vat = selectedStore().isIncludeVAT();
                         if (vat == 'true') {
                             selectedStore().isCalculateTaxByService('false');
-                        } else {
-                            selectedStore().isCalculateTaxByService('true');
-                        }
+                        } 
                         return true;
                     },
-                    calculateTaxByServiceHandler = function (data) {
+                    calculateTaxByServiceHandler = function () {
                         var tax = selectedStore().isCalculateTaxByService();
                         if (tax == 'true') {
                             selectedStore().isIncludeVAT('false');
-                        } else {
-                            selectedStore().isIncludeVAT('true');
-                        }
+                        } 
                         return true;
                     },
                     //#endregion _____________________  S T O R E ____________________
