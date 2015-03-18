@@ -16,7 +16,8 @@
                         </div>
                         <div class="txtAlignLeft col-md-6 col-sm-6 col-xs-12 col-lg-6 payment_sec NoPadding">
                             <div class="copyTerms">
-                                <label id="lbl_CopyRightMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.StoreId))</label>
+                                <label id="lbl_CopyRightMessage" style="  font-size: 12px;
+  font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlcopyrite", UserCookieManager.StoreId))</label>
                                 <a id="lnkTermsCondtions" class="small_gray_hyperlink S6FooterMLCs hyperTermCond"
                                    href="/pages/@SecondryPagesInfo.TermsAndConditions/@Convert.ToInt32(SecondryPagesInfo.TermsAndConditions)" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkTermsCondtions", UserCookieManager.StoreId))</a>
                             </div>

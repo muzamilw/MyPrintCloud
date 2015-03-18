@@ -689,7 +689,7 @@ function ShowResetPassword(Type, panelHtml) {
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
 
-    document.getElementById("innerLayer").style.width = "730px";
+    document.getElementById("innerLayer").style.width = "645px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
