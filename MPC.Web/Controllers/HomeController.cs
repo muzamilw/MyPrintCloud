@@ -69,8 +69,6 @@ namespace MPC.MIS.Controllers
             ValidationInfo validationInfo = null;
             using (var client = new HttpClient())
             {
-
-
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));

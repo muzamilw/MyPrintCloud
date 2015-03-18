@@ -15,8 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InstructionId = source.InstructionId,
                 Instruction = source.Instruction,
                 CostCentreId = source.CostCentreId,
-                CostCenterOption = source.CostCenterOption
-                
+                CostCenterOption = source.CostCenterOption,
+                CostcentreWorkInstructionsChoices = source.CostcentreWorkInstructionsChoices != null ? source.CostcentreWorkInstructionsChoices.Select(c => c.CreatFrom()).ToList() : null
             };
         }
 
@@ -27,7 +27,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InstructionId = source.InstructionId,
                 Instruction = source.Instruction,
                 CostCentreId = source.CostCentreId,
-                CostCenterOption = source.CostCenterOption
+                CostCenterOption = source.CostCenterOption,
+                CostcentreWorkInstructionsChoices = source.CostcentreWorkInstructionsChoices != null ? source.CostcentreWorkInstructionsChoices.Select(c => c.CreatFrom()).ToList() : null
             };
         }
     }
