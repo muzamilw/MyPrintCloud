@@ -691,11 +691,39 @@ namespace MPC.Implementation.WebStoreServices
                             }
                         }
                         oImg.SetData(DesignerSvgParser.ImageToByteArraybyImageConverter(img));
+                        foreach (XmlNode childrenNode in nodes)
+                        {
+                            sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
+                            sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
+                            swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
+                            sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
+                            oImg.Selection.Inset(sx, sy);
+                            oImg.Selection.Height = sheight;
+                            oImg.Selection.Width = swidth;
+                        }
                         int id = oPdf.AddImageObject(oImg, true);
                     }
                     else
                     {
-                        oPdf.AddImageFile(FilePath);
+                        if (System.IO.Path.GetExtension(FilePath).ToLower().Contains(".tif"))
+                        {
+                            oPdf.AddImageFile(FilePath);
+                        }
+                        else
+                        {
+                            oImg.SetFile(FilePath);
+                            foreach (XmlNode childrenNode in nodes)
+                            {
+                                sx = Convert.ToDouble(childrenNode.SelectSingleNode("sx").InnerText);
+                                sy = Convert.ToDouble(childrenNode.SelectSingleNode("sy").InnerText);
+                                swidth = Convert.ToDouble(childrenNode.SelectSingleNode("swidth").InnerText);
+                                sheight = Convert.ToDouble(childrenNode.SelectSingleNode("sheight").InnerText);
+                                oImg.Selection.Inset(sx, sy);
+                                oImg.Selection.Height = sheight;
+                                oImg.Selection.Width = swidth;
+                            }
+                            oPdf.AddImageObject(oImg, true);
+                        }
                     }
                     
                     oPdf.Transform.Reset();
