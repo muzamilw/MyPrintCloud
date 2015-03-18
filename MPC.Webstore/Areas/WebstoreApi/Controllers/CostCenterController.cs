@@ -516,7 +516,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Contact.Email = Email;
                 Contact.Mobile = Mobile;
                 Contact.Password = "password";
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
 
                 long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
 
@@ -527,7 +527,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                     CampaignEmailParams cep = new CampaignEmailParams();
 
-                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                    Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
                     cep.ContactId = NewInqury.ContactId;
 
                     cep.CompanySiteID = 1;
@@ -574,7 +574,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 CompanyContact UserContact = _companyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                 CampaignEmailParams cep = new CampaignEmailParams();
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
                 cep.ContactId = NewInqury.ContactId;
 
                 cep.CompanySiteID = 1;

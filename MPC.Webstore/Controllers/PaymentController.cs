@@ -232,7 +232,7 @@ namespace MPC.Webstore.Controllers
                                 HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
                             }
 
-                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
+                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
                             cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
                             cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);

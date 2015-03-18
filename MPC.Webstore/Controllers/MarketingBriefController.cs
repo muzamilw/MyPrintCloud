@@ -167,7 +167,7 @@ namespace MPC.Webstore.Controllers
 
          
             string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
-            Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry);
+            Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
 
             CampaignEmailParams EmailParams = new CampaignEmailParams();
             EmailParams.ContactId = _myClaimHelper.loginContactID();

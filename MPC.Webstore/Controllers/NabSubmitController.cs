@@ -328,7 +328,7 @@ namespace MPC.Webstore.Controllers
                                         }
 
 
-                                        Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
+                                        Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
                                         cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
                                         SystemUser EmailOFSM =  _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
                                         cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
