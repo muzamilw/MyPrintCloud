@@ -463,22 +463,18 @@ define("stores/stores.viewModel",
                             }
                         });
                     },
-                    vatHandler = function (data) {
+                    vatHandler = function () {
                         var vat = selectedStore().isIncludeVAT();
                         if (vat == 'true') {
                             selectedStore().isCalculateTaxByService('false');
-                        } else {
-                            selectedStore().isCalculateTaxByService('true');
-                        }
+                        } 
                         return true;
                     },
-                    calculateTaxByServiceHandler = function (data) {
+                    calculateTaxByServiceHandler = function () {
                         var tax = selectedStore().isCalculateTaxByService();
                         if (tax == 'true') {
                             selectedStore().isIncludeVAT('false');
-                        } else {
-                            selectedStore().isIncludeVAT('true');
-                        }
+                        } 
                         return true;
                     },
                     //#endregion _____________________  S T O R E ____________________
@@ -2645,7 +2641,8 @@ define("stores/stores.viewModel",
                                                 selectedStore().users.splice(0, 0, savedCompanyContact);
                                             }
                                             else {
-                                                companyContactEditorViewModel.acceptItem(savedCompanyContact);
+                                                //companyContactEditorViewModel.acceptItem(savedCompanyContact);
+                                                selectedCompanyContact(savedCompanyContact);
                                             }
 
                                             toastr.success("Saved Successfully");
@@ -4014,6 +4011,8 @@ define("stores/stores.viewModel",
                     selectedStore().companyTerritories.removeAll();
                     selectedStore().users.removeAll();
                     selectedStore().mediaLibraries.removeAll();
+                    selectedStore().mapImageUrlBinary(undefined);
+                    selectedStore().storeWorkflowImage(undefined);
                     allCompanyAddressesList.removeAll();
                     contactCompanyTerritoriesFilter.removeAll();
 
@@ -5443,9 +5442,13 @@ define("stores/stores.viewModel",
                 }),
                 //Store workflow Image Files Loaded Callback
                     storeWorkflowImageLoadedCallback = function (file, data) {
-                        selectedStore().storeWorkflowImageBinary(data);
-                        selectedStore().storeWorkflowImageName(file.name);
-                    };
+                      //  selectedStore().storeWorkflowImageBinary(data);
+                        selectedStore().storeWorkflowImage(data);
+                    },
+                //Store Map Image File Loaded Callback
+                storeMapImageLoadedCallback = function (file, data) {
+                    selectedStore().mapImageUrlBinary(data);
+                };
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -5797,10 +5800,11 @@ define("stores/stores.viewModel",
                     hasChangesOnStore: hasChangesOnStore,
                     calculateTaxByServiceHandler: calculateTaxByServiceHandler,
                     vatHandler: vatHandler,
+                    storeMapImageLoadedCallback: storeMapImageLoadedCallback,
                     fieldVariablesOfAddressType: fieldVariablesOfAddressType,
                     fieldVariablesOfTerritoryType: fieldVariablesOfTerritoryType,
                     fieldVariablesOfStoreType: fieldVariablesOfStoreType,
-                    getScopeVariables: getScopeVariables,
+                    getScopeVariables: getScopeVariables
                 };
                 //#endregion
             })()
