@@ -135,8 +135,7 @@
                 </div>
 
                 <div class="modal-footer col-xs-12">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" data-bind="click: $root.onClosePickupDialog">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click: $root.onSavePickupDialog, enable: ($root.selectedPickupAddress().postCode() != undefined && $root.selectedPickupAddress().stateName() != undefined && $root.selectedPickupAddress().countryName() != undefined)">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="enable: ($root.selectedPickupAddress().postCode() != undefined && $root.selectedPickupAddress().stateName() != undefined && $root.selectedPickupAddress().countryName() != undefined)">OK</button>
                 </div>
             </div>
         </div>
