@@ -1,4 +1,4 @@
-﻿define("lookupMethod/lookupMethod.view",
+﻿  define("lookupMethod/lookupMethod.view",
     ["jquery", "lookupMethod/lookupMethod.viewModel"], function ($, lookupMethodViewModel) {//lookupMethodViewModel
 
         var ist = window.ist || {};
