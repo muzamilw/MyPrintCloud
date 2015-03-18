@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsEADFEB84A2C03A6AD737B3287B531DBF8D250FF4A0DB93C4A8A0714C8CC8964B))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsD750FB4A7D292FE2FE803A612F6A31567BDEEF441B20B9F0D2018317C5CD8A3B))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsEADFEB84A2C03A6AD737B3287B531DBF8D250FF4A0DB93C4A8A0714C8CC8964B : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsD750FB4A7D292FE2FE803A612F6A31567BDEEF441B20B9F0D2018317C5CD8A3B : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsEADFEB84A2C03A6AD737B3287B531DBF8D250FF4A0DB93C4A8A0714C8CC8964B()
+        public ViewsForBaseEntitySetsD750FB4A7D292FE2FE803A612F6A31567BDEEF441B20B9F0D2018317C5CD8A3B()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "a7b2de31f601d84b848821d0649e753c1006b35b6397e4dcc5cc8c24ebcafcd0";
-            this.HashOverAllExtentViews = "863782ef2b36f1ece225af6cfb8d947061d7310dd3a5a98a0b9bd85858456a17";
+            this.HashOverMappingClosure = "3e7d88e5f0eeaa5c02f1312d7448eb86fb2a94768c4c6fbbb5b27eaf5c9b7c86";
+            this.HashOverAllExtentViews = "c8cdda51353020e3c1ffa9b0b97d669736f7821d4d1579b864d433ed0e897e17";
             this.ViewCount = 310;
         }
         
@@ -8963,49 +8963,51 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView208()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3338);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3453);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetItemsListView\r\n        [DomainModels.Store");
             viewString.Append(".GetItemsListView](T1.GetItemsListView_ItemId, T1.GetItemsListView_ItemCode, T1.");
             viewString.Append("GetItemsListView_isQtyRanged, T1.GetItemsListView_EstimateId, T1.GetItemsListVie");
             viewString.Append("w_ProductName, T1.GetItemsListView_ProductCode, T1.GetItemsListView_ProductCateg");
-            viewString.Append("oryName, T1.GetItemsListView_MinPrice, T1.GetItemsListView_ImagePath, T1.GetItem");
-            viewString.Append("sListView_ThumbnailPath, T1.GetItemsListView_IconPath, T1.GetItemsListView_IsEna");
-            viewString.Append("bled, T1.GetItemsListView_IsSpecialItem, T1.GetItemsListView_IsPopular, T1.GetIt");
-            viewString.Append("emsListView_IsFeatured, T1.GetItemsListView_IsPromotional, T1.GetItemsListView_I");
-            viewString.Append("sPublished, T1.GetItemsListView_ProductType, T1.GetItemsListView_ProductSpecific");
-            viewString.Append("ation, T1.GetItemsListView_CompleteSpecification, T1.GetItemsListView_IsArchived");
-            viewString.Append(", T1.GetItemsListView_SortOrder, T1.GetItemsListView_OrganisationId, T1.GetItems");
-            viewString.Append("ListView_WebDescription, T1.GetItemsListView_PriceDiscountPercentage, T1.GetItem");
-            viewString.Append("sListView_DefaultItemTax, T1.GetItemsListView_isUploadImage, T1.GetItemsListView");
-            viewString.Append("_CompanyId, T1.GetItemsListView_TemplateId, T1.GetItemsListView_printCropMarks, ");
-            viewString.Append("T1.GetItemsListView_drawWaterMarkTxt, T1.GetItemsListView_TemplateType)\r\n    FRO");
-            viewString.Append("M (\r\n        SELECT \r\n            T.ItemId AS GetItemsListView_ItemId, \r\n       ");
-            viewString.Append("     T.ItemCode AS GetItemsListView_ItemCode, \r\n            T.IsQtyRanged AS Get");
-            viewString.Append("ItemsListView_isQtyRanged, \r\n            T.EstimateId AS GetItemsListView_Estima");
-            viewString.Append("teId, \r\n            T.ProductName AS GetItemsListView_ProductName, \r\n           ");
-            viewString.Append(" T.ProductCode AS GetItemsListView_ProductCode, \r\n            T.ProductCategoryN");
-            viewString.Append("ame AS GetItemsListView_ProductCategoryName, \r\n            T.MinPrice AS GetItem");
-            viewString.Append("sListView_MinPrice, \r\n            T.ImagePath AS GetItemsListView_ImagePath, \r\n ");
-            viewString.Append("           T.ThumbnailPath AS GetItemsListView_ThumbnailPath, \r\n            T.Ic");
-            viewString.Append("onPath AS GetItemsListView_IconPath, \r\n            T.IsEnabled AS GetItemsListVi");
-            viewString.Append("ew_IsEnabled, \r\n            T.IsSpecialItem AS GetItemsListView_IsSpecialItem, \r");
-            viewString.Append("\n            T.IsPopular AS GetItemsListView_IsPopular, \r\n            T.IsFeatur");
-            viewString.Append("ed AS GetItemsListView_IsFeatured, \r\n            T.IsPromotional AS GetItemsList");
-            viewString.Append("View_IsPromotional, \r\n            T.IsPublished AS GetItemsListView_IsPublished,");
-            viewString.Append(" \r\n            T.ProductType AS GetItemsListView_ProductType, \r\n            T.Pr");
-            viewString.Append("oductSpecification AS GetItemsListView_ProductSpecification, \r\n            T.Com");
-            viewString.Append("pleteSpecification AS GetItemsListView_CompleteSpecification, \r\n            T.Is");
-            viewString.Append("Archived AS GetItemsListView_IsArchived, \r\n            T.SortOrder AS GetItemsLi");
-            viewString.Append("stView_SortOrder, \r\n            T.OrganisationId AS GetItemsListView_Organisatio");
-            viewString.Append("nId, \r\n            T.WebDescription AS GetItemsListView_WebDescription, \r\n      ");
-            viewString.Append("      T.PriceDiscountPercentage AS GetItemsListView_PriceDiscountPercentage, \r\n ");
-            viewString.Append("           T.DefaultItemTax AS GetItemsListView_DefaultItemTax, \r\n            T.");
-            viewString.Append("IsUploadImage AS GetItemsListView_isUploadImage, \r\n            T.CompanyId AS Ge");
-            viewString.Append("tItemsListView_CompanyId, \r\n            T.TemplateId AS GetItemsListView_Templat");
-            viewString.Append("eId, \r\n            T.printCropMarks AS GetItemsListView_printCropMarks, \r\n      ");
-            viewString.Append("      T.drawWaterMarkTxt AS GetItemsListView_drawWaterMarkTxt, \r\n            T.T");
-            viewString.Append("emplateType AS GetItemsListView_TemplateType, \r\n            True AS _from0\r\n    ");
-            viewString.Append("    FROM BaseDbContext.GetItemsListViews AS T\r\n    ) AS T1");
+            viewString.Append("oryName, T1.GetItemsListView_ProductCategoryIds, T1.GetItemsListView_MinPrice, T");
+            viewString.Append("1.GetItemsListView_ImagePath, T1.GetItemsListView_ThumbnailPath, T1.GetItemsList");
+            viewString.Append("View_IconPath, T1.GetItemsListView_IsEnabled, T1.GetItemsListView_IsSpecialItem,");
+            viewString.Append(" T1.GetItemsListView_IsPopular, T1.GetItemsListView_IsFeatured, T1.GetItemsListV");
+            viewString.Append("iew_IsPromotional, T1.GetItemsListView_IsPublished, T1.GetItemsListView_ProductT");
+            viewString.Append("ype, T1.GetItemsListView_ProductSpecification, T1.GetItemsListView_CompleteSpeci");
+            viewString.Append("fication, T1.GetItemsListView_IsArchived, T1.GetItemsListView_SortOrder, T1.GetI");
+            viewString.Append("temsListView_OrganisationId, T1.GetItemsListView_WebDescription, T1.GetItemsList");
+            viewString.Append("View_PriceDiscountPercentage, T1.GetItemsListView_DefaultItemTax, T1.GetItemsLis");
+            viewString.Append("tView_isUploadImage, T1.GetItemsListView_CompanyId, T1.GetItemsListView_Template");
+            viewString.Append("Id, T1.GetItemsListView_printCropMarks, T1.GetItemsListView_drawWaterMarkTxt, T1");
+            viewString.Append(".GetItemsListView_TemplateType)\r\n    FROM (\r\n        SELECT \r\n            T.Item");
+            viewString.Append("Id AS GetItemsListView_ItemId, \r\n            T.ItemCode AS GetItemsListView_Item");
+            viewString.Append("Code, \r\n            T.IsQtyRanged AS GetItemsListView_isQtyRanged, \r\n           ");
+            viewString.Append(" T.EstimateId AS GetItemsListView_EstimateId, \r\n            T.ProductName AS Get");
+            viewString.Append("ItemsListView_ProductName, \r\n            T.ProductCode AS GetItemsListView_Produ");
+            viewString.Append("ctCode, \r\n            T.ProductCategoryName AS GetItemsListView_ProductCategoryN");
+            viewString.Append("ame, \r\n            T.ProductCategoryIds AS GetItemsListView_ProductCategoryIds, ");
+            viewString.Append("\r\n            T.MinPrice AS GetItemsListView_MinPrice, \r\n            T.ImagePath");
+            viewString.Append(" AS GetItemsListView_ImagePath, \r\n            T.ThumbnailPath AS GetItemsListVie");
+            viewString.Append("w_ThumbnailPath, \r\n            T.IconPath AS GetItemsListView_IconPath, \r\n      ");
+            viewString.Append("      T.IsEnabled AS GetItemsListView_IsEnabled, \r\n            T.IsSpecialItem A");
+            viewString.Append("S GetItemsListView_IsSpecialItem, \r\n            T.IsPopular AS GetItemsListView_");
+            viewString.Append("IsPopular, \r\n            T.IsFeatured AS GetItemsListView_IsFeatured, \r\n        ");
+            viewString.Append("    T.IsPromotional AS GetItemsListView_IsPromotional, \r\n            T.IsPublish");
+            viewString.Append("ed AS GetItemsListView_IsPublished, \r\n            T.ProductType AS GetItemsListV");
+            viewString.Append("iew_ProductType, \r\n            T.ProductSpecification AS GetItemsListView_Produc");
+            viewString.Append("tSpecification, \r\n            T.CompleteSpecification AS GetItemsListView_Comple");
+            viewString.Append("teSpecification, \r\n            T.IsArchived AS GetItemsListView_IsArchived, \r\n  ");
+            viewString.Append("          T.SortOrder AS GetItemsListView_SortOrder, \r\n            T.Organisatio");
+            viewString.Append("nId AS GetItemsListView_OrganisationId, \r\n            T.WebDescription AS GetIte");
+            viewString.Append("msListView_WebDescription, \r\n            T.PriceDiscountPercentage AS GetItemsLi");
+            viewString.Append("stView_PriceDiscountPercentage, \r\n            T.DefaultItemTax AS GetItemsListVi");
+            viewString.Append("ew_DefaultItemTax, \r\n            T.IsUploadImage AS GetItemsListView_isUploadIma");
+            viewString.Append("ge, \r\n            T.CompanyId AS GetItemsListView_CompanyId, \r\n            T.Tem");
+            viewString.Append("plateId AS GetItemsListView_TemplateId, \r\n            T.printCropMarks AS GetIte");
+            viewString.Append("msListView_printCropMarks, \r\n            T.drawWaterMarkTxt AS GetItemsListView_");
+            viewString.Append("drawWaterMarkTxt, \r\n            T.TemplateType AS GetItemsListView_TemplateType,");
+            viewString.Append(" \r\n            True AS _from0\r\n        FROM BaseDbContext.GetItemsListViews AS T");
+            viewString.Append("\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GetItemsListView", viewString.ToString());
         }
         
@@ -9014,7 +9016,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView209()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3345);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3460);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetItemsListViews\r\n        [DomainModels.GetI");
             viewString.Append("temsListView](T1.GetItemsListView_ItemId, T1.GetItemsListView_ItemCode, T1.GetIt");
             viewString.Append("emsListView_EstimateId, T1.GetItemsListView_ProductName, T1.GetItemsListView_Pro");
@@ -9029,34 +9031,36 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("stView_PriceDiscountPercentage, T1.GetItemsListView_DefaultItemTax, T1.GetItemsL");
             viewString.Append("istView_ProductType, T1.GetItemsListView_IsUploadImage, T1.GetItemsListView_Comp");
             viewString.Append("anyId, T1.GetItemsListView_TemplateId, T1.GetItemsListView_printCropMarks, T1.Ge");
-            viewString.Append("tItemsListView_drawWaterMarkTxt, T1.GetItemsListView_TemplateType)\r\n    FROM (\r\n");
-            viewString.Append("        SELECT \r\n            T.ItemId AS GetItemsListView_ItemId, \r\n            ");
-            viewString.Append("T.ItemCode AS GetItemsListView_ItemCode, \r\n            T.EstimateId AS GetItemsL");
-            viewString.Append("istView_EstimateId, \r\n            T.ProductName AS GetItemsListView_ProductName,");
-            viewString.Append(" \r\n            T.ProductCode AS GetItemsListView_ProductCode, \r\n            T.Pr");
-            viewString.Append("oductCategoryName AS GetItemsListView_ProductCategoryName, \r\n            T.MinPr");
-            viewString.Append("ice AS GetItemsListView_MinPrice, \r\n            T.ImagePath AS GetItemsListView_");
-            viewString.Append("ImagePath, \r\n            T.ThumbnailPath AS GetItemsListView_ThumbnailPath, \r\n  ");
-            viewString.Append("          T.IconPath AS GetItemsListView_IconPath, \r\n            T.IsEnabled AS ");
-            viewString.Append("GetItemsListView_IsEnabled, \r\n            T.IsSpecialItem AS GetItemsListView_Is");
-            viewString.Append("SpecialItem, \r\n            T.IsPopular AS GetItemsListView_IsPopular, \r\n        ");
-            viewString.Append("    T.IsFeatured AS GetItemsListView_IsFeatured, \r\n            T.IsPromotional A");
-            viewString.Append("S GetItemsListView_IsPromotional, \r\n            T.IsPublished AS GetItemsListVie");
-            viewString.Append("w_IsPublished, \r\n            T.ProductSpecification AS GetItemsListView_ProductS");
-            viewString.Append("pecification, \r\n            T.CompleteSpecification AS GetItemsListView_Complete");
-            viewString.Append("Specification, \r\n            T.IsArchived AS GetItemsListView_IsArchived, \r\n    ");
-            viewString.Append("        T.SortOrder AS GetItemsListView_SortOrder, \r\n            T.isQtyRanged A");
-            viewString.Append("S GetItemsListView_IsQtyRanged, \r\n            T.OrganisationId AS GetItemsListVi");
-            viewString.Append("ew_OrganisationId, \r\n            T.WebDescription AS GetItemsListView_WebDescrip");
-            viewString.Append("tion, \r\n            T.PriceDiscountPercentage AS GetItemsListView_PriceDiscountP");
-            viewString.Append("ercentage, \r\n            T.DefaultItemTax AS GetItemsListView_DefaultItemTax, \r\n");
-            viewString.Append("            T.ProductType AS GetItemsListView_ProductType, \r\n            T.isUpl");
-            viewString.Append("oadImage AS GetItemsListView_IsUploadImage, \r\n            T.CompanyId AS GetItem");
-            viewString.Append("sListView_CompanyId, \r\n            T.TemplateId AS GetItemsListView_TemplateId, ");
-            viewString.Append("\r\n            T.printCropMarks AS GetItemsListView_printCropMarks, \r\n           ");
-            viewString.Append(" T.drawWaterMarkTxt AS GetItemsListView_drawWaterMarkTxt, \r\n            T.Templa");
-            viewString.Append("teType AS GetItemsListView_TemplateType, \r\n            True AS _from0\r\n        F");
-            viewString.Append("ROM DomainModelsStoreContainer.GetItemsListView AS T\r\n    ) AS T1");
+            viewString.Append("tItemsListView_drawWaterMarkTxt, T1.GetItemsListView_TemplateType, T1.GetItemsLi");
+            viewString.Append("stView_ProductCategoryIds)\r\n    FROM (\r\n        SELECT \r\n            T.ItemId AS");
+            viewString.Append(" GetItemsListView_ItemId, \r\n            T.ItemCode AS GetItemsListView_ItemCode,");
+            viewString.Append(" \r\n            T.EstimateId AS GetItemsListView_EstimateId, \r\n            T.Prod");
+            viewString.Append("uctName AS GetItemsListView_ProductName, \r\n            T.ProductCode AS GetItems");
+            viewString.Append("ListView_ProductCode, \r\n            T.ProductCategoryName AS GetItemsListView_Pr");
+            viewString.Append("oductCategoryName, \r\n            T.MinPrice AS GetItemsListView_MinPrice, \r\n    ");
+            viewString.Append("        T.ImagePath AS GetItemsListView_ImagePath, \r\n            T.ThumbnailPath");
+            viewString.Append(" AS GetItemsListView_ThumbnailPath, \r\n            T.IconPath AS GetItemsListView");
+            viewString.Append("_IconPath, \r\n            T.IsEnabled AS GetItemsListView_IsEnabled, \r\n          ");
+            viewString.Append("  T.IsSpecialItem AS GetItemsListView_IsSpecialItem, \r\n            T.IsPopular A");
+            viewString.Append("S GetItemsListView_IsPopular, \r\n            T.IsFeatured AS GetItemsListView_IsF");
+            viewString.Append("eatured, \r\n            T.IsPromotional AS GetItemsListView_IsPromotional, \r\n    ");
+            viewString.Append("        T.IsPublished AS GetItemsListView_IsPublished, \r\n            T.ProductSp");
+            viewString.Append("ecification AS GetItemsListView_ProductSpecification, \r\n            T.CompleteSp");
+            viewString.Append("ecification AS GetItemsListView_CompleteSpecification, \r\n            T.IsArchive");
+            viewString.Append("d AS GetItemsListView_IsArchived, \r\n            T.SortOrder AS GetItemsListView_");
+            viewString.Append("SortOrder, \r\n            T.isQtyRanged AS GetItemsListView_IsQtyRanged, \r\n      ");
+            viewString.Append("      T.OrganisationId AS GetItemsListView_OrganisationId, \r\n            T.WebDe");
+            viewString.Append("scription AS GetItemsListView_WebDescription, \r\n            T.PriceDiscountPerce");
+            viewString.Append("ntage AS GetItemsListView_PriceDiscountPercentage, \r\n            T.DefaultItemTa");
+            viewString.Append("x AS GetItemsListView_DefaultItemTax, \r\n            T.ProductType AS GetItemsLis");
+            viewString.Append("tView_ProductType, \r\n            T.isUploadImage AS GetItemsListView_IsUploadIma");
+            viewString.Append("ge, \r\n            T.CompanyId AS GetItemsListView_CompanyId, \r\n            T.Tem");
+            viewString.Append("plateId AS GetItemsListView_TemplateId, \r\n            T.printCropMarks AS GetIte");
+            viewString.Append("msListView_printCropMarks, \r\n            T.drawWaterMarkTxt AS GetItemsListView_");
+            viewString.Append("drawWaterMarkTxt, \r\n            T.TemplateType AS GetItemsListView_TemplateType,");
+            viewString.Append(" \r\n            T.ProductCategoryIds AS GetItemsListView_ProductCategoryIds, \r\n  ");
+            viewString.Append("          True AS _from0\r\n        FROM DomainModelsStoreContainer.GetItemsListVi");
+            viewString.Append("ew AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GetItemsListViews", viewString.ToString());
         }
         

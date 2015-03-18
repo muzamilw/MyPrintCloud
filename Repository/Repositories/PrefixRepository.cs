@@ -103,6 +103,12 @@ namespace MPC.Repository.Repositories
 
             return oOutputPrefix;
         }
+
+        public Prefix GetPrefixByOrganisationId(long OrgId)
+        {
+            return db.Prefixes.Where(p => p.OrganisationId == OrgId).ToList().FirstOrDefault();
+        }
+       
         #endregion
 
 
