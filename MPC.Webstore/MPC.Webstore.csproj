@@ -324,6 +324,7 @@
     <Compile Include="Areas\Designer\Controllers\DesignerController.cs" />
     <Compile Include="Areas\Designer\DesignerAreaRegistration.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\CostCenterController.cs" />
+    <Compile Include="Areas\WebstoreApi\Controllers\FileAttachmentsController.cs" />
     <Compile Include="Areas\WebstoreApi\Controllers\RealEstateController.cs" />
     <Compile Include="Areas\WebstoreApi\WebstoreApiAreaRegistration.cs" />
     <Compile Include="Common\Constants.cs" />
@@ -421,9 +422,13 @@
     <Content Include="Content\Designer\assets-v2\align1.png" />
     <Content Include="Content\Designer\assets-v2\align2.png" />
     <Content Include="Content\Designer\assets-v2\align3.png" />
+    <Content Include="Content\Designer\assets-v2\arrowMoveDown.png" />
+    <Content Include="Content\Designer\assets-v2\arrowMoveUp.png" />
     <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
     <Content Include="Content\Designer\assets-v2\dummyclose_button.png" />
+    <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
+    <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />

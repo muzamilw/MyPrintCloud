@@ -336,7 +336,7 @@ namespace MPC.Repository.Repositories
                         }
                         // here 
 
-                        VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                      //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
                     }
 
                 }

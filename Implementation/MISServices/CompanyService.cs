@@ -957,6 +957,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
+            UpdateStoreMapImage(companySavingModel, companyDbVersion); // under work
             var productCategories = new List<ProductCategory>();
             List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList() : null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
@@ -997,7 +999,7 @@ namespace MPC.Implementation.MISServices
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
-            UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
+          
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
@@ -1303,9 +1305,33 @@ namespace MPC.Implementation.MISServices
         {
             if (companySavingModel.Company.isTextWatermark == false)
             {
-                companyDbVersion.WatermarkText = SaveStoreWorkflowImage(companySavingModel);
+                string path=SaveStoreWorkflowImage(companySavingModel);
+                if (path != null)
+                {
+                    companyDbVersion.WatermarkText = path;
+                }
+                else
+                {
+                    companySavingModel.Company.WatermarkText = companyDbVersion.WatermarkText;
+                }
             }
         }
+        private void UpdateStoreMapImage(CompanySavingModel companySavingModel, Company companyDbVersion)
+        {
+            if (companySavingModel.Company.isShowGoogleMap == 3)
+            {
+                string path = SaveMapImage(companySavingModel);
+                if (path != null)
+                {
+                    companyDbVersion.MapImageUrl = path;
+                }
+                else
+                {
+                    companySavingModel.Company.MapImageUrl = companyDbVersion.MapImageUrl;
+                }
+            }
+        }
+        
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
@@ -2292,7 +2318,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string SaveStoreWorkflowImage(CompanySavingModel companyContact)
         {
-            if (companyContact.Company.StoreWorkFlowFileSourceBytes != null)
+            if (companyContact.Company.StoreWorkflowImage != null)
             {
                 string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.Company.CompanyId + "/Contacts");
 
@@ -2310,11 +2336,43 @@ namespace MPC.Implementation.MISServices
                     }
                 }
 
-                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_Watermark.png";
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId +"_"+DateTime.Now.Second+"_Watermark.png";
                 File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
                 companyContact.Company.WatermarkText = savePath;
+                return savePath;
+            }
+            return null;
+        }
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveMapImage(CompanySavingModel companyContact)
+        {
+            if (companyContact.Company.MapImageUrl != null)
+            {
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyContact.Company.CompanyId + "/MapImage");
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                else
+                {
+                    DirectoryInfo dir = new DirectoryInfo(directoryPath);
+                    foreach (FileInfo fi in dir.GetFiles())
+                    {
+                        fi.IsReadOnly = false;
+                        fi.Delete();
+                    }
+                }
+
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_MapImage_"+DateTime.Now.Second+".png";
+                File.WriteAllBytes(savePath, companyContact.Company.MapImageUrlSourceBytes);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                companyContact.Company.MapImageUrl = savePath;
                 return savePath;
             }
             return null;

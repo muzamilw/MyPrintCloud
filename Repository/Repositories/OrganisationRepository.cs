@@ -1041,7 +1041,19 @@ namespace MPC.Repository.Repositories
                        
 
                          db.SaveChanges();
-                        dbContextTransaction.Commit(); 
+                        dbContextTransaction.Commit();
+
+                        string SourceImportOrg = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation");
+
+                        if(Directory.Exists(SourceImportOrg))
+                        {
+                            //DirectoryInfo dir = new DirectoryInfo(SourceImportOrg);
+
+                            //Directory.GetFiles(SourceImportOrg).ToList().ForEach(File.Delete);
+                            //Directory.GetDirectories(SourceImportOrg).ToList().ForEach(Directory.Delete);
+
+                            Directory.Delete(SourceImportOrg,true);
+                        }
                         
                        // 
                    // }
@@ -1200,7 +1212,7 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
-
+                    Dictionary<string, string> dictionaryMediaIds = new Dictionary<string, string>();
                     // copy media files
                     if (ObjCompany.MediaLibraries != null && ObjCompany.MediaLibraries.Count > 0)
                     {
@@ -1209,6 +1221,7 @@ namespace MPC.Repository.Repositories
                             string OldMediaFilePath = string.Empty;
                             string NewMediaFilePath = string.Empty;
                             string OldMediaID = string.Empty;
+                            string NewMediaID = string.Empty;
                             if (media.FilePath != null)
                             {
                                 string name = Path.GetFileName(media.FilePath);
@@ -1218,7 +1231,10 @@ namespace MPC.Repository.Repositories
                                     OldMediaID = SplitMain[0];
 
                                 }
+                                if (media.MediaId > 0)
+                                    NewMediaID = Convert.ToString(media.MediaId);
 
+                                dictionaryMediaIds.Add(OldMediaID, NewMediaID);
 
                                 OldMediaFilePath = Path.GetFileName(media.FilePath);
                                 NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
@@ -1254,12 +1270,62 @@ namespace MPC.Repository.Repositories
 
                                 }
                                 media.FilePath = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath;
+
+                                // set banners path
+
                             }
 
                         }
                     }
 
+                    if (ObjCompany.CompanyBannerSets != null && ObjCompany.CompanyBannerSets.Count > 0)
+                    {
+                        foreach (var sets in ObjCompany.CompanyBannerSets)
+                        {
 
+
+                            if (sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
+                            {
+                                foreach (var bann in sets.CompanyBanners)
+                                {
+                                    if (!string.IsNullOrEmpty(bann.ImageURL))
+                                    {
+                                        string OldMediaID = string.Empty;
+                                        string newMediaID = string.Empty;
+                                        string name = Path.GetFileName(bann.ImageURL);
+                                        string[] SplitMain = name.Split('_');
+                                        if (SplitMain[0] != string.Empty)
+                                        {
+                                            OldMediaID = SplitMain[0];
+
+                                        }
+                                        if(dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+                                          newMediaID = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault().ToString();
+
+                                        string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
+
+                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+
+                    if (ObjCompany.CmsPages != null && ObjCompany.CmsPages.Count > 0)
+                    {
+                        foreach (var pages in ObjCompany.CmsPages)
+                        {
+                            if (!string.IsNullOrEmpty(pages.PageBanner))
+                            {
+                                //string OldMediaID = string.Empty;
+                                //string newMediaID = string.Empty;
+                                string name = Path.GetFileName(pages.PageBanner);
+                                pages.PageBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+                            }
+
+                        }
+                    }
                     if (ObjCompany.ProductCategories != null && ObjCompany.ProductCategories.Count > 0)
                     {
                         foreach (var prodCat in ObjCompany.ProductCategories)
@@ -2232,6 +2298,7 @@ namespace MPC.Repository.Repositories
                             }
                         }
                     }
+                    Dictionary<string, string> dictionaryMediaIds = new Dictionary<string, string>();
 
                     // copy media files
                     if (ObjCompany.MediaLibraries != null && ObjCompany.MediaLibraries.Count > 0)
@@ -2241,6 +2308,7 @@ namespace MPC.Repository.Repositories
                             string OldMediaFilePath = string.Empty;
                             string NewMediaFilePath = string.Empty;
                             string OldMediaID = string.Empty;
+                            string NewMediaID = string.Empty;
                             if (media.FilePath != null)
                             {
                                 string name = Path.GetFileName(media.FilePath);
@@ -2251,6 +2319,10 @@ namespace MPC.Repository.Repositories
 
                                 }
 
+                                if (media.MediaId > 0)
+                                    NewMediaID = Convert.ToString(media.MediaId);
+
+                                dictionaryMediaIds.Add(OldMediaID, NewMediaID);
 
                                 OldMediaFilePath = Path.GetFileName(media.FilePath);
                                 NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
@@ -2297,20 +2369,47 @@ namespace MPC.Repository.Repositories
                         {
 
 
-                            if(sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
+                            if (sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
                             {
-                                foreach(var bann in sets.CompanyBanners)
+                                foreach (var bann in sets.CompanyBanners)
                                 {
-                                    if(!string.IsNullOrEmpty(bann.ImageURL))
+                                    if (!string.IsNullOrEmpty(bann.ImageURL))
                                     {
+                                        string OldMediaID = string.Empty;
+                                        string newMediaID = string.Empty;
                                         string name = Path.GetFileName(bann.ImageURL);
-                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+                                        string[] SplitMain = name.Split('_');
+                                        if (SplitMain[0] != string.Empty)
+                                        {
+                                            OldMediaID = SplitMain[0];
+
+                                        }
+                                        if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+                                            newMediaID = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault().ToString();
+
+                                        string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
+
+                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
                                     }
                                 }
                             }
 
                         }
                     }
+
+                    if (ObjCompany.CmsPages != null && ObjCompany.CmsPages.Count > 0)
+                    {
+                        foreach (var pages in ObjCompany.CmsPages)
+                        {
+                            if (!string.IsNullOrEmpty(pages.PageBanner))
+                             {
+                                 string name = Path.GetFileName(pages.PageBanner);
+                                 pages.PageBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+                             }
+                             
+                        }
+                    }
+
                     if (ObjCompany.ProductCategories != null && ObjCompany.ProductCategories.Count > 0)
                     {
                         foreach (var prodCat in ObjCompany.ProductCategories)

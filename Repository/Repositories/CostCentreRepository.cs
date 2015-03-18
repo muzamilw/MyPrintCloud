@@ -150,7 +150,7 @@ namespace MPC.Repository.Repositories
 
 				try
 				{
-                    return db.CostCentres.Include("CostcentreInstructions").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
+                    return db.CostCentres.Include("CostcentreInstructions").Include("CostcentreInstructions.CostcentreWorkInstructionsChoices").Where(c => c.CostCentreId == CostCentreID).SingleOrDefault();
 
 				}
 				catch (Exception ex)

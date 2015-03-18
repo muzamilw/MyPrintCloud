@@ -133,7 +133,10 @@ namespace MPC.Implementation.MISServices
             {
                 Create(address);
             }
-            Update(address);
+            else
+            {
+                Update(address);
+            }
             var addressToBeReturn = addressRepository.GetAddressById(address.AddressId);
             return addressToBeReturn;
         }

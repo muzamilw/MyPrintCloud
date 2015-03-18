@@ -3083,7 +3083,7 @@ div.fontSelector {
 }
 
 .closePanelButtonQuickText {
-    background-image: url('../assets/dummyclose_button.png');
+    background-image: url('assets-v2//dummyclose_button.png');
     background-repeat: no-repeat;
     height: 32px;
     width: 32px;
@@ -4799,7 +4799,7 @@ h2 + .gallery {
     margin-bottom: 0px;
     margin-top: 2px;
     cursor: pointer;
-    background: url('../assets/arrowMoveDown.png');
+    background: url('assets-v2/arrowMoveDown.png');
 }
 
 .btnMoveLayerUp {
@@ -4811,7 +4811,7 @@ h2 + .gallery {
     margin-bottom: 0px;
     margin-top: 2px;
     cursor: pointer;
-    background: url('../assets/arrowMoveUp.png');
+    background: url('assets-v2//arrowMoveUp.png');
 }
 
 #mainTopMenu {
@@ -4919,7 +4919,7 @@ h2 + .gallery {
 }
 
 .closePanelButton {
-    background-image: url('../assets/dummyclose_button.png');
+    background-image: url('assets-v2//dummyclose_button.png');
     background-repeat: no-repeat;
     height: 32px;
     width: 32px;
@@ -5372,7 +5372,7 @@ margin-left:1px;
 .vertLine {
     margin-top: 18px;
     margin-bottom:18px;
-    background-image: url('../assets/vert-line.png');
+    background-image: url('assets-v2//vert-line.png');
     height: 2px;
   
     width: 288px;
@@ -6792,4 +6792,8 @@ font-size: 13px;
 
 .requiredSFObj{
     box-shadow: inset 3px 3px 12px rgba(255, 0, 0, 0.25), 0 2px 4px #FF000A !important;
+}
+
+.bkPanelCommonControls {
+    margin:0px 0px !important;
 }
