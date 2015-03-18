@@ -1562,6 +1562,8 @@ define("stores/stores.viewModel",
                     contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Secondary Page Pager
                     secondaryPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
+                    //Secondary Page Pager
+                    systemPagePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Variable Page
                     fieldVariablePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                     //Smart Form Pager
@@ -2037,6 +2039,7 @@ define("stores/stores.viewModel",
                     getSecondoryPages = function () {
                         dataservice.getSecondaryPages({
                             CompanyId: selectedStore().companyId(),
+                            IsUserDefined: true,
                             PageSize: secondaryPagePager().pageSize(),
                             PageNo: secondaryPagePager().currentPage(),
                             SortBy: sortOn(),
@@ -2050,6 +2053,27 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 toastr.error("Failed To Load Secondary Pages" + response);
+                            }
+                        });
+                    },
+                     //Get System Pages
+                    getSystemPages = function () {
+                        dataservice.getSecondaryPages({
+                            CompanyId: selectedStore().companyId(),
+                            IsUserDefined: false,
+                            PageSize: systemPagePager().pageSize(),
+                            PageNo: systemPagePager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                selectedStore().SystemPages.removeAll();
+                                _.each(data.CmsPages, function (cmsPage) {
+                                    selectedStore().SystemPages.push(model.SecondaryPageListView.Create(cmsPage));
+                                });
+                            },
+                            error: function (response) {
+                                toastr.error("Failed To Load System Pages" + response);
                             }
                         });
                     },
@@ -3691,6 +3715,13 @@ define("stores/stores.viewModel",
                                 secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount);
                                 _.each(data.SecondaryPageResponse.CmsPages, function (item) {
                                     selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(item));
+                                });
+                                // here
+                                // System Page List And Pager
+                                systemPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().systemPages, getSystemPages));
+                                systemPagePager().totalCount(data.SecondaryPageResponse.SystemPagesRowCount);
+                                _.each(data.SecondaryPageResponse.SystemPages, function (item) {
+                                    selectedStore().systemPages.push(model.SecondaryPageListView.Create(item));
                                 });
                                 storeImage(data.ImageSource);
                                 companyBannerSetList.removeAll();
@@ -5802,7 +5833,9 @@ define("stores/stores.viewModel",
                     fieldVariablesOfAddressType: fieldVariablesOfAddressType,
                     fieldVariablesOfTerritoryType: fieldVariablesOfTerritoryType,
                     fieldVariablesOfStoreType: fieldVariablesOfStoreType,
-                    getScopeVariables: getScopeVariables
+                    getScopeVariables: getScopeVariables,
+                    systemPagePager: systemPagePager,
+                    getSystemPages: getSystemPages
                 };
                 //#endregion
             })()
