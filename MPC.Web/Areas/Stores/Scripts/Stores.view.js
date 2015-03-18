@@ -207,6 +207,13 @@ define("stores/stores.view",
                     $('.bs-example-tooltips a').popover();
                     // ReSharper restore UnknownCssClass
                 },
+                // Product Category Selected Event 
+                productCategorySelectedEvent = function(category) {
+                    $.event.trigger({
+                        type: "ProductCategorySelected",
+                        category: category
+                    });
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -253,7 +260,8 @@ define("stores/stores.view",
                 initializeForm: initializeForm,
                 gotoElement: gotoElement,
                 viewModel: viewModel,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                productCategorySelectedEvent: productCategorySelectedEvent
             };
         })(storesViewModel);
 

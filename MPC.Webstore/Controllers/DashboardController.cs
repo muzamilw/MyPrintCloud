@@ -93,7 +93,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Saved Design";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
                     Detail.Description = "View or reorder your saved design"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
-                    Detail.PageNavigateURl = "/SavedDesignes.aspx";
+                    Detail.PageNavigateURl = "#";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 
@@ -474,7 +474,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "Saved Design";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
                     Detail.Description = "View or reorder your saved design"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
-                    Detail.PageNavigateURl = "/SavedDesignes.aspx";
+                    Detail.PageNavigateURl = "#";
                     Detail.IsChangePassword = false;
                     DashBordItems.Add(Detail);
 

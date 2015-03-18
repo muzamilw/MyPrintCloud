@@ -67,7 +67,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                ViewBag.AllowRegisteration = 1;
+                ViewBag.AllowRegisteration = 0;
             }
 
             ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
@@ -95,7 +95,7 @@ namespace MPC.Webstore.Controllers
                 ViewBag.ReturnURL = "Social";
             else
                 ViewBag.ReturnURL = ReturnURL;
-            StoreBaseResopnse = null;
+            
             if (!string.IsNullOrEmpty(FirstName))
             {
                 string returnUrl = string.Empty;
@@ -112,7 +112,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (user != null)
                 {
-                    return VerifyUser(user, returnUrl);
+                    return VerifyUser(user, returnUrl, StoreBaseResopnse);
 
                 }
                 else
@@ -136,12 +136,12 @@ namespace MPC.Webstore.Controllers
             string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             if (ModelState.IsValid)
             {
                 CompanyContact user = null;
-                //MyCompanyDomainBaseResponse baseResponse = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                
+                
                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                 {
                     user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
@@ -159,107 +159,46 @@ namespace MPC.Webstore.Controllers
                         UserCookieManager.isWritePresistentCookie = false;
                     string ReturnURL = Request.Form["hfReturnURL"];
 
-                    StoreBaseResopnse = null;
-                    return VerifyUser(user, returnUrl);
+                    return VerifyUser(user, returnUrl, StoreBaseResopnse);
                 }
                 else
                 {
                     ViewBag.Message = "Invalid login attempt.";
-                    if (StoreBaseResopnse != null)
-                    {
-                        if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
-                        {
-                            ViewBag.ShowFacebookSignInLink = 1;
-                        }
-                        else
-                        {
-                            ViewBag.ShowFacebookSignInLink = 0;
-                        }
-                        if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
-                        {
-                            ViewBag.ShowTwitterSignInLink = 1;
-                        }
-                        else
-                        {
-                            ViewBag.ShowTwitterSignInLink = 0;
-                        }
-                    }
-                    else 
-                    {
-                        ViewBag.ShowTwitterSignInLink = 0;
-                        ViewBag.ShowFacebookSignInLink = 1;
-                    }
+                    SetViewFlags(StoreBaseResopnse);
 
-
-                    StoreBaseResopnse = null;
                     return View("PartialViews/Login");
                 }
             }
             else
             {
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-                if (StoreBaseResopnse != null)
-                {
-                    if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
-                    {
-                        ViewBag.AllowRegisteration = 1;
-                    }
-                    else
-                    {
-                        ViewBag.AllowRegisteration = 0;
-                    }
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
-                    {
-                        ViewBag.ShowFacebookSignInLink = 1;
-                    }
-                    else
-                    {
-                        ViewBag.ShowFacebookSignInLink = 0;
-                    }
-                    if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
-                    {
-                        ViewBag.ShowTwitterSignInLink = 1;
-                    }
-                    else
-                    {
-                        ViewBag.ShowTwitterSignInLink = 0;
-                    }
-                    ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
-                }
-                else 
-                {
-                    ViewBag.ShowTwitterSignInLink = 0;
-                    ViewBag.ShowFacebookSignInLink = 0;
-                    ViewBag.AllowRegisteration = 0;
-                    ViewBag.CompanyName = "";
-                }
+                SetViewFlags(StoreBaseResopnse);
 
-
-                StoreBaseResopnse = null;
                 return View("PartialViews/Login");
             }
 
         }
 
-        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl)
+        private ActionResult VerifyUser(CompanyContact user, string ReturnUrl, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
             try
             {
                 if (user.isArchived.HasValue && user.isArchived.Value == true)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
-
+                    SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
                 if (user.Company.IsDisabled == 1)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("DisabledAccount", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
+                    SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
+                    SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
                 else
@@ -305,6 +244,46 @@ namespace MPC.Webstore.Controllers
             // Response.Redirect("/");
             // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
             return null;
+        }
+
+        private void SetViewFlags(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
+        {
+            if (StoreBaseResopnse != null)
+            {
+                if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
+                {
+                    ViewBag.AllowRegisteration = 1;
+                }
+                else
+                {
+                    ViewBag.AllowRegisteration = 0;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
+                {
+                    ViewBag.ShowFacebookSignInLink = 1;
+                }
+                else
+                {
+                    ViewBag.ShowFacebookSignInLink = 0;
+                }
+                if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.twitterAppKey))
+                {
+                    ViewBag.ShowTwitterSignInLink = 1;
+                }
+                else
+                {
+                    ViewBag.ShowTwitterSignInLink = 0;
+                }
+                ViewBag.CompanyName = StoreBaseResopnse.Company.Name;
+            }
+            else
+            {
+                ViewBag.ShowTwitterSignInLink = 0;
+                ViewBag.ShowFacebookSignInLink = 0;
+                ViewBag.AllowRegisteration = 0;
+                ViewBag.CompanyName = "";
+            }
+
         }
     }
 }

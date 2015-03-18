@@ -7,7 +7,7 @@
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 
-@using (Html.BeginForm(new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
 
     <div id="PDetailDiv" class="order_container container content_area rounded_corners">
@@ -211,14 +211,16 @@
 
         var text = $("#txtOrderPolicy").val();
 
-
         $.ajax({
 
             type: "POST",
             url: "/PersonalDetailAndOrderPolicy/SaveOrderPolicy?id=" + text + ""
 
         });
-
+        HideLoader();
     }
-
+    function Cancel()
+    {
+        HideLoader();
+    }
 </script>
