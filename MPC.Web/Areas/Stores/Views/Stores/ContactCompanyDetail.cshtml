@@ -27,8 +27,8 @@
             <div class="row" id="user-profile" data-bind="visible: !ist.product.viewModel.isProductDetailsVisible()">
                 <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;" data-bind="with: $root.selectedStore()">
                     <div class="clearfix ">
-                        <div class="col-xs-4 pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Validation Errors</a>
+                        <div class="col-xs-6 pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopupForStore', popoverId: 'validationSummaryPopoverBodyForStore' }" style="display: none">Invalid data: Click here to see details.</a>
                             <div class="well well-small validationSummaryModal" id="validationSummaryPopupForStore" style="display: none">
                                 <div id="validationSummaryPopoverBodyForStore">
                                     <ul data-bind="foreach: $root.errorList">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-2">
                         </div>
                         <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
@@ -67,7 +67,7 @@
                                 <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
-                                <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable</a></li>
+                                <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Modify Variable</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
@@ -77,7 +77,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Your Customer Name or Store Name" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Your Customer Name or Store Name" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -91,7 +91,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="A Retail Store allows anyone to design or upload online and place an order. Corporate Stores are private stores and require users to be known to you." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -120,7 +120,7 @@
                                                 @*data-bind="visible: type() == 'Corporate' || type() == 3"*@
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique code for the Webstore, creates a unique URL (No Hyphens or Spaces) ABC Print = abcprint" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Unique code for the Webstore, creates a unique URL (No Hyphens or Spaces) ABC Print = abcprint" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -135,7 +135,7 @@
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
 
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
+                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="http://pinkcards.com" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
 
@@ -151,7 +151,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default Phone Number displayed on main page" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default Phone Number displayed on main page" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -159,7 +159,7 @@
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                                        <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus"><i class="fa fa-phone"></i></span>
                                                         <input type="text" class="form-control" id="maskedPhone" data-bind="value: phoneNo">
                                                     </div>
                                                     <span class="help-block text-right">This phone number is displayed on the store for quick contact</span>
@@ -168,7 +168,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Internal Use Only for CRM Notes" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -238,8 +238,8 @@
                                                 <div class="main-box-body clearfix">
                                                     <div class="profile-status">
                                                     </div>
-                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
-                                                    <img height="150" width="150" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
+                                                    <img width="150" data-bind="visible:storeImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + storeImagePath() }" />
+                                                    <img width="150" data-bind="visible:storeImageFileBinary()!==undefined,attr: { src: storeImageFileBinary }" />
                                                     <div class="pull-right">
                                                         <div class="fileUpload btn btn-primary">
                                                             <span>....</span>
@@ -276,7 +276,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Date when your customers account was opened with your business *optional*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Date when your customers account was opened with your business *optional*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -290,7 +290,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your employee who is responsible for managing accounts (normally a customer service representative – CSR) this users details will be populated on order reports" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your employee who is responsible for managing accounts (normally a customer service representative – CSR) this users details will be populated on order reports" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -306,7 +306,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax identification number. " data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax identification number. " data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -320,7 +320,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter your customers ABN, VAT ID, PST or Tax reference number" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -341,7 +341,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facebook URL for social media icons displayed on the store (https://www.facebook.com/MyPrintCloud)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facebook URL for social media icons displayed on the store (https://www.facebook.com/MyPrintCloud)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -355,7 +355,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -369,7 +369,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key provided when you have applied for APP ID" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key provided when you have applied for APP ID" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -383,7 +383,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Account URL for social media icons displayed on the store" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Account URL for social media icons displayed on the store" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -397,7 +397,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Twitter Application ID ( https://dev.twitter.com/apps/new)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Twitter Application ID ( https://dev.twitter.com/apps/new)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -411,7 +411,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key Provided when you have applied for APP ID" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key Provided when you have applied for APP ID" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -425,7 +425,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your LinkedIn account URL for social media icons displayed on the store.
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your LinkedIn account URL for social media icons displayed on the store.
 (https://www.linkedin.com/company/my-print-cloud?trk=top_nav_home)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
@@ -440,7 +440,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Store Home page URL used within template population  (http://www.myprintcloud.com/)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Store Home page URL used within template population  (http://www.myprintcloud.com/)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -502,8 +502,8 @@
                                                 <div class="filter-block">
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                                <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                                <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
                                                         </div>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
                                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -519,7 +519,7 @@
                                                                 <th class="col-lg-4">Name</th>
                                                                 <th class="col-lg-4">Code</th>
                                                                 <th class="col-lg-3">Is Default</th>
-                                                                <th>&nbsp;</th>
+                                                                @*<th>&nbsp;</th>*@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -565,16 +565,16 @@
                                                     <table class="table table-striped table-hover">
                                                         <thead>
                                                             <tr>
-                                                                <th>Address Name</></th>
-                                                                <th>City</th>
+                                                                <th class="col-lg-3">Address Name</></th>
+                                                                <th class="col-lg-2">City</th>
                                                                 @*<th><a href="#"><span>Territory</span></a></th>*@
                                                                 <!--ko if: type() == 4-->
-                                                                <th>Company Default Shipping Address</th>
+                                                                <th class="col-lg-3">Company Default Shipping Address</th>
                                                                 <!--/ko-->
                                                                 <!--ko if: type() == 3-->
-                                                                <th>Territory Default Billing Address</th>
+                                                                <th class="col-lg-3">Territory Default Billing Address</th>
                                                                 <!--/ko-->
-                                                                <th>Company Default Address</th>
+                                                                <th class="col-lg-3">Company Default Address</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -606,7 +606,7 @@
                                                     <div class="filter-block pull-right col-xs-5">
                                                         <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
                                                             <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyContact"></i>
                                                         </div>
                                                         <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyContact" class="btn btn-primary pull-right">
                                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -623,12 +623,12 @@
                                                                 @*<th class="col-lg-1"></th>*@
                                                                 <th>Name</th>
                                                                 <th>Role</th>
-                                                                <th>Has Web Access</th>
-                                                                <th>Can Place Order</th>
-                                                                <th>Approval Required</th>
+                                                                <th>Web Access</th>
+                                                                <th>Place Order</th>
+                                                                <th>Place Order Without Approval</th>
                                                                 <th>Can See Prices</th>
                                                                 <th>Credit Limit</th>
-                                                                <th></th>
+                                                                @*<th></th>*@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -653,7 +653,7 @@
                                             <div class="form-group form-horizontal">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Orders are placed.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Orders are placed.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -667,7 +667,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Orders are placed.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Orders are placed.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -681,7 +681,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which production manager gets notification of a new jobs progressed to production.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which production manager gets notification of a new jobs progressed to production.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -695,7 +695,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which production manager gets notification of a new jobs progressed to production.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which production manager gets notification of a new jobs progressed to production.  To add new users access the user manager under settings tab within this MIS" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -709,7 +709,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Inventory stock levels reach minimum levels and require re-ordering" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Inventory stock levels reach minimum levels and require re-ordering" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -723,7 +723,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Inventory stock levels reach minimum levels and require re-ordering" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select which Internal manager gets notification when Inventory stock levels reach minimum levels and require re-ordering" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -745,7 +745,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Current Theme" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Current Theme" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -761,7 +761,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Available Themes" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Available Themes" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -782,7 +782,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload a background image used behind the home page of the Webstore, default size is 2149 x 713 pixels and the best format is  a 72dpi PNG format, other sizes can be utilized, remember to consider mobile and tablet device use." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload a background image used behind the home page of the Webstore, default size is 2149 x 713 pixels and the best format is  a 72dpi PNG format, other sizes can be utilized, remember to consider mobile and tablet device use." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -809,7 +809,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -829,7 +829,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -847,7 +847,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -865,7 +865,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show your Google map location on the Contact Us Page.  Choose from entering your ideal locations or using your default organizational default address, or upload your own map." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show your Google map location on the Contact Us Page.  Choose from entering your ideal locations or using your default organizational default address, or upload your own map." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -896,7 +896,7 @@
                                             <div class="form-group" id="MapImage" style="display:none;">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Map" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Map" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -921,7 +921,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Bulk upload icons, thumbnails, logos and image files required to be used within a store, prevents you from having to upload 1 image at a time when creating new products." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Bulk upload icons, thumbnails, logos and image files required to be used within a store, prevents you from having to upload 1 image at a time when creating new products." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -955,7 +955,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Banner panel on the store Home page. Load in images to display on your retail or corporate store. Banner will scroll images across page if you add more than one." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Banner panel on the store Home page. Load in images to display on your retail or corporate store. Banner will scroll images across page if you add more than one." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -975,7 +975,7 @@
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
                                                 <div class="form-group pull-left col-xs-4">
-                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',event:{ change: $root.onChangeBannerSet},value:activeBannerSetId, validationOnElement: activeBannerSetId"></select>
+                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:activeBannerSetId, validationOnElement: activeBannerSetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -989,7 +989,7 @@
                                                                     <th>Image</th>
                                                                     <th>Set Name</th>
                                                                     <th>Title</th>
-                                                                    <th>&nbsp;</th>
+                                                                    @*<th>&nbsp;</th>*@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1020,7 +1020,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Download make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Download make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1059,7 +1059,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1118,7 +1118,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google or customer jquery scripts here.  *Advanced Users Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google or customer jquery scripts here.  *Advanced Users Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1132,7 +1132,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google Analytics scripts to find your Google analytics script visit www.google.com/analytics" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google Analytics scripts to find your Google analytics script visit www.google.com/analytics" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1165,8 +1165,8 @@
                                                             <tr>
                                                                 <th class="col-lg-4"><span>Name</span></th>
                                                                 <th class="col-lg-4"><span>Description</span></th>
-                                                                <th class="col-lg-3"><span>Display on Webstore</span></th>
-                                                                <th>&nbsp;</th>
+                                                                <th class="col-lg-4"><span>Display on Webstore</span></th>
+                                                                @*<th>&nbsp;</th>*@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -1189,7 +1189,7 @@
                                                     <tr>
                                                         <th style="width: 435px"><a href="#"><span>Title</span></a></th>
                                                         <th style="width: 432px"><a href="#" class="asc"><span>Event</span></a></th>
-                                                        <th>&nbsp;</th>
+                                                        @*<th>&nbsp;</th>*@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1213,7 +1213,7 @@
                                                         <th style="width: 405px"><a href="#"><span>Title</span></a></th>
                                                         <th><a href="#" class="asc"><span>Campaign Start Date</span></a></th>
                                                         <th style="text-align: center;"><span>Status</span></th>
-                                                        <th style="width: 83px;">&nbsp;</th>
+                                                        @*<th style="width: 83px;">&nbsp;</th>*@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1238,7 +1238,7 @@
                                                         <th><span>X Days After</span></th>
                                                         <th><a href="#" class="asc"><span>Event</span></a></th>
                                                         <th style="text-align: center;"><span>Status</span></th>
-                                                        <th style="width: 83px;">&nbsp;</th>
+                                                        @*<th style="width: 83px;">&nbsp;</th>*@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -1256,7 +1256,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Private - Prevents users and territories from seeing orders and addresses of other users within each store
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Private - Prevents users and territories from seeing orders and addresses of other users within each store
 Public  - allows users to see other users addresses and orders." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
@@ -1282,7 +1282,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter in text or Upload a PNG image that will watermark proofs for this product. Note only proofs e-mailed or downloaded by customer have watermarks, press ready artwork do not contain watermarks" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter in text or Upload a PNG image that will watermark proofs for this product. Note only proofs e-mailed or downloaded by customer have watermarks, press ready artwork do not contain watermarks" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1339,7 +1339,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Decide if users will pay online or checkout without payment.  NOTE: this is a global option for a retail store but controlled on a contact-by-contact basis under the user settings within this store.  Must enable online payments to force visitors to pay online" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1462,7 +1462,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1487,7 +1487,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1512,7 +1512,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Default tax uplift (Defined also by individual products).  Does not apply to USA customers" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1521,14 +1521,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
                                                         <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
-                                                        <span class="input-group-addon">%</span>
+                                                        <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="< No Text >" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1674,7 +1674,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the page you would like to work on (retail, corporate store, etc.)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the page you would like to work on (retail, corporate store, etc.)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1700,7 +1700,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is delivery cost taxed?" data-original-title="" title="">
+                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Is delivery cost taxed?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1725,7 +1725,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Zip Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Zip Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1894,7 +1894,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane clearfix fade" id="tab-ModifyVariable">
+                                <div class="tab-pane clearfix fade" id="tab-StoreVariables" >
                                     <h3 class="group-header">Variables</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
@@ -1907,22 +1907,25 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                         </header>
                                         <div class="main-box-body clearfix">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            @*<th><a href="#"><span>Name</span></a></th>
-                                                                <th><a href="#"><span>Description</span></a></th>
-                                                                <th>&nbsp;</th>*@
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @*<!-- ko template: { name: 'smartFormItemTemplate' , foreach: $root.smartForms } -->
-                                                            <!-- /ko -->*@
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                            <div class=" form-horizontal clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th></th>
 
+                                                                <th>
+
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'storeVariableTemplate' , foreach: $root.fieldVariablesOfStoreType  } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1967,17 +1970,17 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemRaveReviewTemplate" type="text/html">
             <tr data-bind="click: $root.selectRaveReview, css: { selectedRow: $data === $root.selectedRaveReview}">
-                <td data-bind="text: reviewBy"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: reviewBy,click : $root.onEditRaveReview"></a></td>
                 <td data-bind="text: review"></td>
                 <td>
                     <div class="type">
                         <span class="label" data-bind="text: isDisplay() ? 'YES' : 'NO', css: { 'label-success': isDisplay, 'label-danger': !isDisplay() }"></span></
                     </div>
                 </td>
-                <td id="actionColumn">
-                    <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>
+                @*<td id="actionColumn">
+                        <!-- ko template: { name: "actionsRaveReviewTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         <script id="actionsCompanyCMYKColorTemplate" type="text/html">
@@ -2023,17 +2026,17 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyTerritoryTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}">
-                <td data-bind="text: territoryName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: territoryName,click : $root.onEditCompanyTerritory"></a></td>
                 <td data-bind="text: territoryCode"></td>
                 <td>
                     <div class="type">
                         <span class="label" data-bind="text: isDefault() == true ? 'Yes' : 'No' , css: { 'label-success': (isDefault() == true),'label-danger': (isDefault() != true)}"></span>
                     </div>
                 </td>
-                <td id="actionColumn" class="text-right">
-                    <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>
+                @*<td id="actionColumn" class="text-right">
+                        <!-- ko template: { name: "actionsCompanyTerritoryTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         <script id="bannerItemTemplate" type="text/html">
@@ -2064,8 +2067,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <tr>
                 <td>
                     @*<img src="" alt="" data-bind="attr: { src: imageSource }" />*@
-                    <span style="color:#3cdfef;display:block;font-size:1.25em;padding-top:3px;" data-bind="text:pageTitle"></span>
-                    <span class="user-subhead" data-bind="text:metaTitle"></span>
+                    <a href="#" class="store-user-link" data-bind="text: pageTitle,click : $root.onEditSecondaryPage"></a>
+                    <a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle,click : $root.onEditSecondaryPage"></a>
                 </td>
                 <td data-bind="text:categoryName"></td>
                 <td class="text-center">
@@ -2074,26 +2077,26 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td class="text-center">
                     <span class="label" data-bind="text: isUserDefined() ? 'Yes' : 'No', css:{ 'label-success': isUserDefined, 'label-danger': !isUserDefined() }"></span>
                 </td>
-                <td style="width: 20%;">
-                    <a href="#" class="table-link">
-                        <span class="fa-stack">
-                            <i class="fa fa-square fa-stack-2x"></i>
-                            <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                    <a href="" class="table-link" data-bind="click:$root.onEditSecondaryPage">
-                        <span class="fa-stack">
-                            <i class="fa fa-square fa-stack-2x"></i>
-                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                    <a href="#" class="table-link danger" data-bind="click:$root.onDeleteSecondaryPage">
-                        <span class="fa-stack">
-                            <i class="fa fa-square fa-stack-2x"></i>
-                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </td>
+                @*<td style="width: 20%;">
+                        <a href="#" class="table-link">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        <a href="" class="table-link" data-bind="click:$root.onEditSecondaryPage">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="table-link danger" data-bind="click:$root.onDeleteSecondaryPage">
+                            <span class="fa-stack">
+                                <i class="fa fa-square fa-stack-2x"></i>
+                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </td>*@
             </tr>
         </script>
 
@@ -2113,7 +2116,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemAddressTemplate" type="text/html">
             <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
-                <td data-bind="text: addressName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
                 <td data-bind="text: city"></td>
                 @*<td data-bind="text: territoryName"></td>*@
 
@@ -2151,11 +2154,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-danger">No </span>
                 </td>
                 <!-- /ko -->
-
-                <td id="actionColumn" class="text-right">
-                    <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>
+                @*<td id="actionColumn" class="text-right">
+                        <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
 
@@ -2180,11 +2182,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
                     </div>
                     <div class="details col-lg-1">
-                        <div class="name">
-                            <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
-                        </div>
-                        <div class="time online" data-bind="text: email">
-                        </div>
+                        <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
+                        <a href="#" class="store-user-link storeSubText" data-bind="text: email,click : $root.onEditCompanyContact"></a>
+                        @*<div class="name">
+                                <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                            </div>
+                            <div class="time online" data-bind="text: email">
+                            </div>*@
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;">
@@ -2226,10 +2230,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
-                <td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                    <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>
+                @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
+                        <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         <script id="actionsPaymentGatewayTemplate" type="text/html">
@@ -2363,23 +2367,23 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="workflowEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 1 -->
     <tr>
-        <td data-bind="text:campaignName"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="text:eventName"></td>
-        <td class="text-right">
-            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
+        @*<td class="text-right">
+                <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>*@
     </tr>
     <!-- /ko -->
 </script>
 <script id="oneTimeMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 3 -->
     <tr>
-        <td data-bind="text:campaignName"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="dateString:startDateTime"></td>
         <!-- ko if: isEnabled -->
         <td class="text-center">
@@ -2391,27 +2395,27 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <span class="label label-default">Inactive</span>
         </td>
         <!-- /ko -->
-        <td class="text-right">
-            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-            <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
+        @*<td class="text-right">
+                <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>*@
     </tr>
     <!-- /ko -->
 </script>
 <script id="intervalMarketingEmailItemTemplate" type="text/html">
     <!-- ko if: campaignType() === 2 -->
     <tr>
-        <td data-bind="text:campaignName"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
         <td data-bind="text:sendEmailAfterDays "></td>
         <td data-bind="text:eventName"></td>
         <!-- ko if: isEnabled -->
@@ -2424,20 +2428,20 @@ Public  - allows users to see other users addresses and orders." data-original-t
             <span class="label label-default">Inactive</span>
         </td>
         <!-- /ko -->
-        <td class="text-right">
-            <a href="" class="table-link" data-bind="click:$root.onEditEmail">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-            <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
-                <span class="fa-stack">
-                    <i class="fa fa-square fa-stack-2x"></i>
-                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                </span>
-            </a>
-        </td>
+        @*<td class="text-right">
+                <a href="" class="table-link" data-bind="click:$root.onEditEmail">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+                <a href="#" class="table-link danger" data-bind="click:$root.onDeleteEmail">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>*@
     </tr>
     <!-- /ko -->
 </script>
@@ -2474,8 +2478,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
 <script id="mediaLibraryItemTemplate" type="text/html">
     <li class="col-md-3 col-sm-3 col-xs-6">
         <div class="photo-box image-link" style="padding-top: 0">
-            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
-            <img class="photo-box image-link" style="padding-top: 0" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSource()===undefined,attr: { src: '@Url.Content("~/")' + imageSourcePath() }" alt="" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSource()!==undefined,attr: { src: fileSource }" />
         </div>
         <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
     </li>
@@ -2513,4 +2517,25 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </td>
     </tr>
 
+</script>
+<script id="storeVariableTemplate" type="text/html">
+    <tr>
+        <td class="modifyVariabletd">
+            <div class="form-group ">
+                <div class="col-lg-3 text-right">
+                    <div class="bs-example-tooltips tooltip-float-width">
+                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                            @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                        </a>
+                    </div>
+                    <label for="abc" class="control-label text-right tooltip-float" data-bind="text:title"></label>
+                </div>
+                <div class="col-lg-5" data-bind="visible:type() === 2">
+                    <input type="text" class="form-control" id="abc" data-bind="value: value">
+                </div>
+                <div class="col-lg-5" data-bind="visible:type() === 1">
+                    <select class="form-control" data-bind="options: variableOptions, optionsText: 'value', optionsValue: 'value',value:optionId, validationTooltip: optionId,event: { change: $root.onVariableOptionDropDownChange }"></select>
+                </div>
+            </div>
+    </tr>
 </script>

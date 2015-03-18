@@ -2,7 +2,7 @@
 @using MPC.Models.Common;
 @model MPC.Models.DomainModels.RequestQuote
 
-@using (Html.BeginForm("Index", "RequestQuote", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm())
 {
 
 <div class="content_area container">
@@ -323,7 +323,7 @@
             </div>
             <div class="quote_cancel_button">
                
-                <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" />
+                <input id="btnCancel" class="start_creating_btn rounded_corners5" type="button" value="Cancel" onclick="CancelBtn()" />
             </div>
            
             <div class="clearBoth">
@@ -710,6 +710,9 @@
         }
         return isValid;
     }
-
+    function CancelBtn()
+    {
+        window.location.href = "/Dashboard";
+    }
 </script>
 }

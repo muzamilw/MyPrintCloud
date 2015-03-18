@@ -242,7 +242,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              Order order = _orderService.GetOrderAndDetails(orderID);
              Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
              Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
-
              string CacheKeyName = "CompanyBaseResponse";
              ObjectCache cache = MemoryCache.Default;
              MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
@@ -272,8 +271,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                  obj.BillingState = string.Empty;
              }
 
-
-
              if (ShippingAddress.Country != null)
              {
                  obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.Country.CountryId);
@@ -291,8 +288,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              {
                  obj.ShippingState = string.Empty;
              }
-
-
              obj.CurrencySymbol = StoreBaseResopnse.Currency;
              obj.OrderDateValue = FormatDateValue(order.OrderDate);
              obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);

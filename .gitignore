@@ -111,6 +111,6 @@ UpgradeLog.htm
 *.cs.orig
 *.cs.orig
 
-MPC.Web/Web.config
+MPC.Web/config/Web.connectionstrings.config
 
 MPC.Webstore/ccAssembly/TestUserCostCentres.dll

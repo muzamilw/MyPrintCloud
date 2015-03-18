@@ -10,6 +10,7 @@ using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Repository.BaseRepository;
+using AutoMapper;
 
 namespace MPC.Repository.Repositories
 {
@@ -64,7 +65,7 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<PaperSize> GetAll()
         {
-            return DbSet.OrderBy(s => s.Name).ToList();
+            return DbSet.Where(s => s.OrganisationId == OrganisationId).OrderBy(s => s.Name).ToList();
         }
 
         /// <summary>
@@ -104,6 +105,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+               
+
                 return db.PaperSizes.Where(o => o.OrganisationId == OrganisationId).ToList();
             }
             catch(Exception ex)

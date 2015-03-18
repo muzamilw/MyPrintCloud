@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -14,5 +15,8 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<CompanyContact> CompanyContacts { get; set; }
 
         public virtual ICollection<Address> Addresses { get; set; }
+
+        [NotMapped]
+        public IEnumerable<ScopeVariable> ScopeVariables { get; set; }
     }
 }
