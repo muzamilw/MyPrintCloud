@@ -150,6 +150,7 @@ define("stores/stores.view",
                  // Show Veriable Defination the dialog
                 showVeriableDefinationDialog = function () {
                     $("#veriableDefinationModal").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Veriable Defination the dialog
                 hideVeriableDefinationDialog = function () {
@@ -158,6 +159,7 @@ define("stores/stores.view",
                 // Show Smart Form Dialog
                 showSmartFormDialog = function () {
                     $("#smartFormDialog").modal("show");
+                    initializeLabelPopovers();
                 },
                 // Hide Smart Form Dialog
                 hideSmartFormDialog = function () {

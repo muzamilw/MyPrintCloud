@@ -1,7 +1,7 @@
 ﻿
 <div class="modal fade" id="myTerritorySetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" aria-hidden="true">
     <div style="width: 838px;" class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content" data-bind="with: $root.selectedCompanyTerritory">
             <div class="modal-header" id="dialgHeaderPadding">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Add/Edit Territory</h4>
@@ -23,7 +23,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Name" data-original-title="" title="">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Name" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -37,7 +37,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Code" data-original-title="" title="">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Territory Code" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -51,7 +51,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check If Is Default Territory" data-original-title="" title="">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check If Is Default Territory" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -104,6 +104,7 @@
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveCompanyTerritory">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseCompanyTerritory" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyTerritory, enable: $root.selectedCompanyTerritory().territoryId() != undefined">Archive</button>
             </div>
         </div>
     </div>
