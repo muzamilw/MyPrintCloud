@@ -87,13 +87,18 @@ define("order/order.viewModel",
                     // #region Observables
                     // filter
                     filterText = ko.observable(),
+                     // Selected Product
+                    selectedProduct = ko.observable(model.Item.Create({})),
                     costCentrefilterText = ko.observable(),
                     selectedCostCentre = ko.observable(),
+                    orderCodeHeader = ko.observable(''),
+                    itemCodeHeader = ko.observable(''),
+                    sectionHeader = ko.observable(''),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                        return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
+                            return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -131,8 +136,7 @@ define("order/order.viewModel",
 
                         return contactResult || defaultCompanyContact();
                     }),
-                    // Selected Product
-                    selectedProduct = ko.observable(model.Item.Create({})),
+                   
                     // Selected Section
                     selectedSection = ko.observable(),
                     // Selected Job Description
@@ -150,6 +154,7 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
+                        orderCodeHeader(data.code());
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
@@ -164,6 +169,11 @@ define("order/order.viewModel",
                             confirmation.afterCancel(function () {
                                 selectedOrder().reset();
                                 closeOrderEditor();
+                                orderCodeHeader('');
+                                sectionHeader('');
+                                itemCodeHeader('');
+                                isSectionDetailVisible(false);
+                                isItemDetailVisible(false);
                             });
                             confirmation.show();
                             return;
@@ -209,6 +219,7 @@ define("order/order.viewModel",
                     },
                     // Edit Item
                     editItem = function (item) {
+                        itemCodeHeader(item.code());
                         selectedProduct(item);
                         openItemDetail();
                     },
@@ -219,7 +230,10 @@ define("order/order.viewModel",
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
+                        itemCodeHeader('');
+                        sectionHeader('');
                         isItemDetailVisible(false);
+                        isSectionDetailVisible(false);
                     },
                     // Save Product
                     saveProduct = function () {
@@ -235,6 +249,7 @@ define("order/order.viewModel",
                     },
                     // Edit Section
                     editSection = function (item) {
+                        sectionHeader("SECTION - "+item.sectionNo());
                         selectedSection(item);
                         openSectionDetail();
                     },
@@ -245,7 +260,9 @@ define("order/order.viewModel",
                     },
                     // Close Section Detail
                     closeSectionDetail = function () {
+                        sectionHeader('');
                         isSectionDetailVisible(false);
+
                     },
                     // Select Job Description
                     selectJobDescription = function (jobDescription, e) {
@@ -432,6 +449,7 @@ define("order/order.viewModel",
                                 if (navigateCallback && typeof navigateCallback === "function") {
                                     navigateCallback();
                                 }
+                                orderCodeHeader('');
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -695,6 +713,9 @@ define("order/order.viewModel",
                     flagSelection: flagSelection,
                     filterFlags: filterFlags,
                     selectedFilterFlag: selectedFilterFlag,
+                    orderCodeHeader : orderCodeHeader ,
+                    itemCodeHeader :itemCodeHeader,
+                    sectionHeader :sectionHeader,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -714,7 +735,8 @@ define("order/order.viewModel",
                     costCenterClickListner: costCenterClickLIstner,
                     selectedCostCentre: selectedCostCentre,
                     hideCostCentreQuantityDialog: hideCostCentreQuantityDialog,
-                    hideCostCentreDialog: hideCostCentreDialog
+                    hideCostCentreDialog: hideCostCentreDialog,
+                    selectedSection: selectedSection
                     //#endregion
                     //#endregion
                 };

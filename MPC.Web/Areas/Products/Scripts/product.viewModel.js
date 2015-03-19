@@ -860,7 +860,7 @@ define("product/product.viewModel",
                     },
                     // Get Base Data
                     getBaseData = function () {
-                        dataservice.getBaseData({
+                        dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
                                 countries.removeAll();
@@ -1150,7 +1150,7 @@ define("product/product.viewModel",
                     },
                     // Get Category Child List Items
                     getChildCategories = function (id, event) {
-                        dataservice.getProductCategoryChilds({
+                        dataservice.getProductCategoryChildsForProduct({
                             id: id,
                         }, {
                             success: function (data) {

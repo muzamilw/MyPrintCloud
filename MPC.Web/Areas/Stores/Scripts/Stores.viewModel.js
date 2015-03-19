@@ -253,7 +253,7 @@ define("stores/stores.viewModel",
                         return val1 + val2;
                     },
                     storeHeading = ko.computed(function () {
-                        if (productViewModel.selectedProduct() == undefined) {
+                        if (!productViewModel.isProductDetailsVisible()) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
                                 storeStatus("Modify Store Details");
@@ -264,7 +264,7 @@ define("stores/stores.viewModel",
                         } else {
                             var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             storeStatus(storename);
-                            if (productViewModel.selectedProduct().id() > 0) {
+                            if (productViewModel.isProductDetailsVisible()) {
                                 productStatus("Modify Product Details");
                                 return getProductHeading();
                             } else {

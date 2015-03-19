@@ -289,6 +289,7 @@
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_perhourlookup" />
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" />
         <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="39.375" PointY="29.75" />
+        <AssociationConnector Association="DomainModels.FK_CategoryTerritory_ProductCategory" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
