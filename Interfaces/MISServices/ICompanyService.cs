@@ -96,7 +96,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        void ApplyTheme(string themeName, long companyId);
+        void ApplyTheme(int themeId,string themeName, long companyId);
 
         /// <summary>
         /// Get Cms Tags For Cms Page Load Default page keywords
