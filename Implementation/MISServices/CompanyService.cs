@@ -95,6 +95,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyCostCenterRepository companyCostCenterRepository;
         private readonly ICmsTagReporistory cmsTagReporistory;
         private readonly ICompanyBannerSetRepository bannerSetRepository;
+        private readonly ICampaignRepository campaignRepository;
 
         #endregion
 
@@ -961,12 +962,13 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Company UpdateCompany(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
+            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
+            companyDbVersion.OrganisationId = companyRepository.OrganisationId;
             UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
             UpdateStoreMapImage(companySavingModel, companyDbVersion); // under work
             var productCategories = new List<ProductCategory>();
             List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList() : null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
-            //companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
@@ -980,9 +982,10 @@ namespace MPC.Implementation.MISServices
             //UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
 
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
-            UpdateCampaigns(companySavingModel.Company.Campaigns, companyDbVersion);
+            ///
+            UpdateCampaigns(companySavingModel, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
-            UpdateColorPallete(companySavingModel.Company, companyDbVersion);
+            // UpdateColorPallete(companySavingModel.Company, companyDbVersion);
             if (companyToBeUpdated.ImageBytes != null)
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
@@ -1003,11 +1006,14 @@ namespace MPC.Implementation.MISServices
             SaveCompanyCss(companySavingModel.Company);
             UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
-          
+
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
-            UpdateCampaignImages(companySavingModel.Company.Campaigns, companyDbVersion);
+
+            UpdateCampaignImages(companySavingModel, companyDbVersion);
+
+
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
 
             UpdateScopeVariables(companySavingModel); // TODO: Check
@@ -1233,18 +1239,20 @@ namespace MPC.Implementation.MISServices
             #endregion
 
         }
-        public void UpdateCampaignImages(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        public void UpdateCampaignImages(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            if (campaigns != null)
+            if (companyDbVersion.Campaigns != null)
             {
-                foreach (var campaign in campaigns)
+                foreach (var campaign in companyDbVersion.Campaigns)
                 {
                     if (campaign.CampaignImages != null)
                     {
                         foreach (var campaignImage in campaign.CampaignImages)
                         {
-                            campaignImage.ImagePath = SaveCampaignImage(campaignImage, companyDbVersion.CompanyId);
-
+                            if (campaignImage.ImageByteSource != null)
+                            {
+                                campaignImage.ImagePath = SaveCampaignImage(campaignImage, companyDbVersion.CompanyId);
+                            }
                         }
                     }
                 }
@@ -1309,7 +1317,7 @@ namespace MPC.Implementation.MISServices
         {
             if (companySavingModel.Company.isTextWatermark == false)
             {
-                string path=SaveStoreWorkflowImage(companySavingModel);
+                string path = SaveStoreWorkflowImage(companySavingModel);
                 if (path != null)
                 {
                     companyDbVersion.WatermarkText = path;
@@ -1335,7 +1343,7 @@ namespace MPC.Implementation.MISServices
                 }
             }
         }
-        
+
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
@@ -1705,59 +1713,71 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Update Campaigns
         /// </summary>
-        private void UpdateCampaigns(IEnumerable<Campaign> campaigns, Company companyDbVersion)
+        private void UpdateCampaigns(CompanySavingModel companySavingModel, Company companyDbVersion)
         {
-            #region update Campaign
 
-            if (campaigns != null)
+            #region New Campaigns
+
+            if (companySavingModel.NewAddedCampaigns != null)
             {
                 if (companyDbVersion.Campaigns == null)
                 {
                     companyDbVersion.Campaigns = new Collection<Campaign>();
                 }
-                foreach (var campaign in campaigns)
+                foreach (Campaign campaign in companySavingModel.NewAddedCampaigns)
                 {
-                    #region Campaign
                     //New Added
                     if (campaign.CampaignId == 0)
                     {
                         campaign.CompanyId = companyDbVersion.CompanyId;
                         companyDbVersion.Campaigns.Add(campaign);
                     }
-                    else
+                }
+            }
+            #endregion
+
+            #region update Campaign
+
+            if (companySavingModel.EdittedCampaigns != null)
+            {
+
+                foreach (var campaign in companySavingModel.EdittedCampaigns)
+                {
+                    #region Campaign
+
+
+                    Campaign campaignDbItem =
+                        companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
+                    if (campaignDbItem != null)
                     {
-                        Campaign campaignDbItem =
-                            companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
-                        if (campaignDbItem != null)
-                        {
-                            campaignDbItem.CampaignName = campaign.CampaignName;
-                            campaignDbItem.Description = campaign.Description;
-                            campaignDbItem.CampaignType = campaign.CampaignType;
-                            campaignDbItem.IsEnabled = campaign.IsEnabled;
-                            campaignDbItem.IncludeCustomers = campaign.IncludeCustomers;
-                            campaignDbItem.IncludeSuppliers = campaign.IncludeSuppliers;
-                            campaignDbItem.IncludeProspects = campaign.IncludeProspects;
-                            campaignDbItem.IncludeNewsLetterSubscribers = campaign.IncludeNewsLetterSubscribers;
-                            campaignDbItem.IncludeFlag = campaign.IncludeFlag;
-                            campaignDbItem.FlagIDs = campaign.FlagIDs;
-                            campaignDbItem.CustomerTypeIDs = campaign.CustomerTypeIDs;
-                            campaignDbItem.GroupIDs = campaign.GroupIDs;
-                            campaignDbItem.SubjectA = campaign.SubjectA;
-                            campaignDbItem.HTMLMessageA = campaign.HTMLMessageA;
-                            campaignDbItem.StartDateTime = campaign.StartDateTime;
-                            campaignDbItem.FromAddress = campaign.FromAddress;
-                            campaignDbItem.ReturnPathAddress = campaign.ReturnPathAddress;
-                            campaignDbItem.ReplyToAddress = campaign.ReplyToAddress;
-                            campaignDbItem.EmailLogFileAddress2 = campaign.EmailLogFileAddress2;
-                            campaignDbItem.EmailEvent = campaign.EmailEvent;
-                            campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
-                            campaignDbItem.FromName = campaign.FromName;
-                            campaignDbItem.IncludeType = campaign.IncludeType;
-                            campaignDbItem.IncludeCorporateCustomers = campaign.IncludeCorporateCustomers;
-                            campaignDbItem.EnableLogFiles = campaign.EnableLogFiles;
-                            campaignDbItem.EmailLogFileAddress3 = campaign.EmailLogFileAddress3;
-                        }
+                        campaignDbItem.CampaignName = campaign.CampaignName;
+                        campaignDbItem.Description = campaign.Description;
+                        campaignDbItem.CampaignType = campaign.CampaignType;
+                        campaignDbItem.IsEnabled = campaign.IsEnabled;
+                        campaignDbItem.IncludeCustomers = campaign.IncludeCustomers;
+                        campaignDbItem.IncludeSuppliers = campaign.IncludeSuppliers;
+                        campaignDbItem.IncludeProspects = campaign.IncludeProspects;
+                        campaignDbItem.IncludeNewsLetterSubscribers = campaign.IncludeNewsLetterSubscribers;
+                        campaignDbItem.IncludeFlag = campaign.IncludeFlag;
+                        campaignDbItem.FlagIDs = campaign.FlagIDs;
+                        campaignDbItem.CustomerTypeIDs = campaign.CustomerTypeIDs;
+                        campaignDbItem.GroupIDs = campaign.GroupIDs;
+                        campaignDbItem.SubjectA = campaign.SubjectA;
+                        campaignDbItem.HTMLMessageA = campaign.HTMLMessageA;
+                        campaignDbItem.StartDateTime = campaign.StartDateTime;
+                        campaignDbItem.FromAddress = campaign.FromAddress;
+                        campaignDbItem.ReturnPathAddress = campaign.ReturnPathAddress;
+                        campaignDbItem.ReplyToAddress = campaign.ReplyToAddress;
+                        campaignDbItem.EmailLogFileAddress2 = campaign.EmailLogFileAddress2;
+                        campaignDbItem.EmailEvent = campaign.EmailEvent;
+                        campaignDbItem.SendEmailAfterDays = campaign.SendEmailAfterDays;
+                        campaignDbItem.FromName = campaign.FromName;
+                        campaignDbItem.IncludeType = campaign.IncludeType;
+                        campaignDbItem.IncludeCorporateCustomers = campaign.IncludeCorporateCustomers;
+                        campaignDbItem.EnableLogFiles = campaign.EnableLogFiles;
+                        campaignDbItem.EmailLogFileAddress3 = campaign.EmailLogFileAddress3;
                     }
+
 
                     #endregion
 
@@ -1767,12 +1787,12 @@ namespace MPC.Implementation.MISServices
                     {
                         foreach (var campaignImage in campaign.CampaignImages)
                         {
-                            Campaign campaignDbItem =
+                            Campaign campaignDbItem1 =
                             companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaign.CampaignId);
-                            if (campaignImage.CampaignImageId == 0 && campaignDbItem != null)
+                            if (campaignImage.CampaignImageId == 0 && campaignDbItem1 != null)
                             {
-                                campaignImage.CampaignId = campaignDbItem.CampaignId;
-                                campaignDbItem.CampaignImages.Add(campaignImage);
+                                campaignImage.CampaignId = campaignDbItem1.CampaignId;
+                                campaignDbItem1.CampaignImages.Add(campaignImage);
                             }
                         }
                     }
@@ -1783,30 +1803,20 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             #region Delete Campaigns
-
-            //find missing items
-            List<Campaign> missingCampaignListItems = new List<Campaign>();
-            if (companyDbVersion.Campaigns != null)
             {
-
-
-                foreach (var dbversionCampaignItem in companyDbVersion.Campaigns)
+                if (companySavingModel.DeletedCampaigns != null)
                 {
-                    if (campaigns != null && campaigns.All(x => x.CampaignId != dbversionCampaignItem.CampaignId))
+                    foreach (Campaign campaignItem in companySavingModel.DeletedCampaigns)
                     {
-                        missingCampaignListItems.Add(dbversionCampaignItem);
-                    }
-                    //In case user delete all Campaigns
-                    if (campaigns == null)
-                    {
-                        missingCampaignListItems.Add(dbversionCampaignItem);
+                        Campaign missingCampaignItem =
+                          companyDbVersion.Campaigns.FirstOrDefault(c => c.CampaignId == campaignItem.CampaignId);
+                        if (missingCampaignItem != null)
+                        {
+                            companyDbVersion.Campaigns.Remove(missingCampaignItem);
+                        }
                     }
                 }
-                //remove missing items
-                foreach (Campaign missingCampaignItem in missingCampaignListItems)
-                {
-                    companyDbVersion.Campaigns.Remove(missingCampaignItem);
-                }
+
             }
             #endregion
         }
@@ -2340,7 +2350,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
 
-                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId +"_"+DateTime.Now.Second+"_Watermark.png";
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_" + DateTime.Now.Second + "_Watermark.png";
                 File.WriteAllBytes(savePath, companyContact.Company.StoreWorkFlowFileSourceBytes);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -2372,7 +2382,7 @@ namespace MPC.Implementation.MISServices
                     }
                 }
 
-                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_MapImage_"+DateTime.Now.Second+".png";
+                string savePath = directoryPath + "\\" + companyContact.Company.CompanyId + "_MapImage_" + DateTime.Now.Second + ".png";
                 File.WriteAllBytes(savePath, companyContact.Company.MapImageUrlSourceBytes);
                 int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
                 savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
@@ -2783,19 +2793,19 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
-        private void AddThemeBanners(string themeName, long companyId)
+        private void AddThemeBanners(int themeId, string themeName, long companyId)
         {
             string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
-            CopyThemeBanners(source, target, companyId);
+            CopyThemeBanners(themeId, source, target, companyId);
 
         }
 
         /// <summary>
         /// Copy Banners From 
         /// </summary>
-        public void CopyThemeBanners(string sourceDirectory, string targetDirectory, long companyId)
+        public void CopyThemeBanners(int themeId, string sourceDirectory, string targetDirectory, long companyId)
         {
             DirectoryInfo source = new DirectoryInfo(sourceDirectory);
             DirectoryInfo target = new DirectoryInfo(targetDirectory);
@@ -2872,6 +2882,11 @@ namespace MPC.Implementation.MISServices
 
                 i = (i + 1);
             }
+            Company company = companyRepository.Find(companyId);
+            if (company != null)
+            {
+                company.CurrentThemeId = themeId;
+            }
 
             mediaLibraryRepository.SaveChanges();
         }
@@ -2926,13 +2941,14 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository)
         {
             if (bannerSetRepository == null)
             {
                 throw new ArgumentNullException("bannerSetRepository");
             }
             this.companyRepository = companyRepository;
+            this.campaignRepository = campaignRepository;
             this.smartFormRepository = smartFormRepository;
             this.cmsTagReporistory = cmsTagReporistory;
             this.bannerSetRepository = bannerSetRepository;
@@ -3297,17 +3313,25 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        public void ApplyTheme(string themeName, long companyId)
+        public void ApplyTheme(int themeId, string themeName, long companyId)
         {
             ApplyThemeCss(themeName, companyId);
             ApplyThemeSpriteImage(themeName, companyId);
             ApplyThemeWidgets(themeName, companyId);
-            AddThemeBanners(themeName, companyId);
+            AddThemeBanners(themeId, themeName, companyId);
             string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
             ApplyThemeFonts(source, target);
 
+        }
+
+        /// <summary>
+        /// Get Campaign Detail By Campaign ID
+        /// </summary>
+        public Campaign GetCampaignById(long campaignId)
+        {
+            return campaignRepository.Find(campaignId);
         }
 
         /// <summary>
