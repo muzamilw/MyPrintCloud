@@ -92,6 +92,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemHeight = source.ItemHeight,
                 ItemWidth = source.ItemWidth,
                 CompanyId = source.CompanyId,
+                SmartFormId = source.SmartFormId,
                 ItemProductDetail = source.ItemProductDetails != null && source.ItemProductDetails.Count > 0 ?
                 source.ItemProductDetails.FirstOrDefault().CreateFrom() : null,
                 Template = source.Template != null ? source.Template.CreateFrom() : new Template(),
@@ -312,6 +313,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemWeight = source.ItemWeight,
                 ItemHeight = source.ItemHeight,
                 ItemWidth = source.ItemWidth,
+                SmartFormId = source.SmartFormId,
                 Template = source.Template != null ? source.Template.CreateFrom() : new DomainModels.Template(),
                 ItemVdpPrices = source.ItemVdpPrices != null ? source.ItemVdpPrices.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVdpPrice>(),
                 ItemVideos = source.ItemVideos != null ? source.ItemVideos.Select(vdp => vdp.CreateFrom()).ToList() : new List<DomainModels.ItemVideo>(),
