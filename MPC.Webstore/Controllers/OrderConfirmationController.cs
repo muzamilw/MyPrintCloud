@@ -133,6 +133,7 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             
 
             bool result = false;
@@ -150,11 +151,10 @@ namespace MPC.Webstore.Controllers
             cep.CompanySiteID = UserCookieManager.OrganisationID;
             cep.EstimateID = Convert.ToInt32(OrderId);
             cep.ItemID = _ItemService.GetFirstItemIdByOrderId(OrderId);
-            Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder);
+            Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
             if (user != null)
             {
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-            
+               
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
                     cep.StoreID = UserCookieManager.StoreId;

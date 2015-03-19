@@ -47,6 +47,8 @@ define("product/product.viewModel",
                     categoryRegions = ko.observableArray([]),
                     // Category Types
                     categoryTypes = ko.observableArray([]),
+                    // Smart Forms
+                    smartForms = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
                     // Currency Unit fOr Organisation 
@@ -568,6 +570,16 @@ define("product/product.viewModel",
                     // #region For Store
                     // Selected Company Id
                     selectedCompany = ko.observable(),
+                    // Selected Category
+                    selectedCategory = ko.observable(),
+                    // Select Category
+                    categorySelectedEventHandler = function (category) {
+                        if (category && selectedCategory() !== category) {
+                            selectedCategory(category);
+                            // Filter Items on This Category
+                            resetFilter();
+                        }    
+                    },
                     // Is Product Section Initialized
                     isProductSectionInitialized = false,
                     // Initialize the view model from Store
@@ -809,6 +821,12 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(categoryTypes(), itemsList);
                         categoryTypes.valueHasMutated();
                     },
+                    // Map Smart Forms
+                    mapSmartForms = function (data) {
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(smartForms(), data);
+                        smartForms.valueHasMutated();
+                    },
                     // Map Paper Sizes
                     mapPaperSizes = function (data) {
                         var itemsList = [];
@@ -842,7 +860,7 @@ define("product/product.viewModel",
                     },
                     // Get Base Data
                     getBaseData = function () {
-                        dataservice.getBaseData({
+                        dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
                                 countries.removeAll();
@@ -905,11 +923,12 @@ define("product/product.viewModel",
                             return;
                         }
                         
-                        dataservice.getBaseDataForDesignerCategory({
+                        dataservice.getBaseDataForDesignerCategory({ id: selectedCompany() || 0 }, {
                             success: function (data) {
                                 templateCategories.removeAll();
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
+                                smartForms.removeAll();
                                 if (data) {
                                     // Map Product Categories
                                     mapDesignerCategories(data.TemplateCategories);
@@ -919,6 +938,9 @@ define("product/product.viewModel",
 
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
+                                    
+                                    // Map Smart Forms
+                                    mapSmartForms(data.SmartForms);
                                 }
 
                                 isDesignerCategoryBaseDataLoaded(true);
@@ -1063,7 +1085,8 @@ define("product/product.viewModel",
                             SearchString: filterText(),
                             PageSize: pager().pageSize(),
                             PageNo: pager().currentPage(),
-                            CompanyId: selectedCompany()
+                            CompanyId: selectedCompany(),
+                            CategoryId: selectedCategory()
                         }, {
                             success: function (data) {
                                 products.removeAll();
@@ -1127,7 +1150,7 @@ define("product/product.viewModel",
                     },
                     // Get Category Child List Items
                     getChildCategories = function (id, event) {
-                        dataservice.getProductCategoryChilds({
+                        dataservice.getProductCategoryChildsForProduct({
                             id: id,
                         }, {
                             success: function (data) {
@@ -1219,6 +1242,7 @@ define("product/product.viewModel",
                     currencyUnit: currencyUnit,
                     lengthUnit: lengthUnit,
                     canEditTemplate: canEditTemplate,
+                    isDesignerCategoryBaseDataLoaded: isDesignerCategoryBaseDataLoaded,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1258,7 +1282,9 @@ define("product/product.viewModel",
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
                     // For Store
-                    initializeForStore: initializeForStore
+                    initializeForStore: initializeForStore,
+                    categorySelectedEventHandler: categorySelectedEventHandler,
+                    smartForms: smartForms
                     // For Store
                     // Utility Methods
 

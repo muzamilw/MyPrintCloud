@@ -65,6 +65,7 @@ namespace MPC.Models.DomainModels
         
         public virtual Company Company { get; set; }
         public virtual ICollection<ProductCategoryItem> ProductCategoryItems { get; set; }
+        public virtual ICollection<CategoryTerritory> CategoryTerritories { get; set; }
 
         #region Additional Properties
         /// <summary>

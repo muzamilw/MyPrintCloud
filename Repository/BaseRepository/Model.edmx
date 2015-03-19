@@ -491,6 +491,7 @@
           <Property Name="isAddCropMarks" Type="bit" />
           <Property Name="isCalculateTaxByService" Type="bit" />
           <Property Name="ActiveBannerSetId" Type="bigint" />
+          <Property Name="CurrentThemeId" Type="bigint" />
         </EntityType>
         <EntityType Name="CompanyBanner">
           <Key>
@@ -3500,6 +3501,7 @@ warning 6002: The table/view 'MPC.dbo.GetItemsListView' does not have a primary 
           <Property Name="ProductName" Type="nvarchar" MaxLength="500" />
           <Property Name="ProductCode" Type="varchar" MaxLength="50" />
           <Property Name="ProductCategoryName" Type="nvarchar(max)" />
+          <Property Name="ProductCategoryIds" Type="nvarchar(max)" />
           <Property Name="MinPrice" Type="float" Nullable="false" />
           <Property Name="ImagePath" Type="nvarchar" MaxLength="1000" />
           <Property Name="ThumbnailPath" Type="nvarchar" MaxLength="1000" />
@@ -3742,6 +3744,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Principal>
             <Dependent Role="CampaignEmailVariable">
               <PropertyRef Name="SectionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CategoryTerritory_ProductCategory">
+          <End Role="ProductCategory" Type="Self.ProductCategory" Multiplicity="0..1" />
+          <End Role="CategoryTerritory" Type="Self.CategoryTerritory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="CategoryTerritory">
+              <PropertyRef Name="ProductCategoryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -5374,6 +5388,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
     [GetItemsListView].[ProductName] AS [ProductName], 
     [GetItemsListView].[ProductCode] AS [ProductCode], 
     [GetItemsListView].[ProductCategoryName] AS [ProductCategoryName], 
+    [GetItemsListView].[ProductCategoryIds] AS [ProductCategoryIds], 
     [GetItemsListView].[MinPrice] AS [MinPrice], 
     [GetItemsListView].[ImagePath] AS [ImagePath], 
     [GetItemsListView].[ThumbnailPath] AS [ThumbnailPath], 
@@ -5494,6 +5509,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_CampaignEmailVariable_Section" Association="Self.FK_CampaignEmailVariable_Section">
             <End Role="Section" EntitySet="Section" />
             <End Role="CampaignEmailVariable" EntitySet="CampaignEmailVariable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryTerritory_ProductCategory" Association="Self.FK_CategoryTerritory_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategory" />
+            <End Role="CategoryTerritory" EntitySet="CategoryTerritory" />
           </AssociationSet>
           <AssociationSet Name="FK_CmsOffer_Company" Association="Self.FK_CmsOffer_Company">
             <End Role="Company" EntitySet="Company" />
@@ -6677,6 +6696,10 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="MachineSpeedWeightLookup" EntitySet="MachineSpeedWeightLookups" />
           </AssociationSet>
           <EntitySet Name="SystemUsers" EntityType="DomainModels.SystemUser" />
+          <AssociationSet Name="FK_CategoryTerritory_ProductCategory" Association="DomainModels.FK_CategoryTerritory_ProductCategory">
+            <End Role="ProductCategory" EntitySet="ProductCategories" />
+            <End Role="CategoryTerritory" EntitySet="CategoryTerritories" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -6808,6 +6831,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="includeEmailArtworkOrderJobCard" Type="Boolean" />
           <Property Name="makeEmailArtworkOrderProductionReady" Type="Boolean" />
           <Property Name="ActiveBannerSetId" Type="Int64" />
+          <Property Name="CurrentThemeId" Type="Int64" />
           </EntityType>
         <EntityType Name="ChartOfAccount">
           <Key>
@@ -7029,6 +7053,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="IsShowProductShortDescription" Type="Boolean" />
           <NavigationProperty Name="Company" Relationship="DomainModels.FK_tbl_ProductCategory_tbl_contactcompanies" FromRole="ProductCategory" ToRole="Company" />
           <NavigationProperty Name="ProductCategoryItems" Relationship="DomainModels.FK_ProductCategoryItem_ProductCategory" FromRole="ProductCategory" ToRole="ProductCategoryItem" />
+          <NavigationProperty Name="CategoryTerritories" Relationship="DomainModels.FK_CategoryTerritory_ProductCategory" FromRole="ProductCategory" ToRole="CategoryTerritory" />
           </EntityType>
         <EntityType Name="Widget">
           <Key>
@@ -7133,6 +7158,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductCategoryId" Type="Int64" />
           <Property Name="TerritoryId" Type="Int64" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="ProductCategory" Relationship="DomainModels.FK_CategoryTerritory_ProductCategory" FromRole="CategoryTerritory" ToRole="ProductCategory" />
         </EntityType>
         <EntityType Name="CmsPage">
           <Key>
@@ -9482,6 +9508,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="printCropMarks" Type="Boolean" />
           <Property Name="drawWaterMarkTxt" Type="Boolean" />
           <Property Name="TemplateType" Type="Int32" />
+          <Property Name="ProductCategoryIds" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_CompanyCMYKColor_Company">
           <End Type="DomainModels.Company" Role="Company" Multiplicity="0..1" />
@@ -12103,6 +12130,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="UserAuthToken" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
+        <Association Name="FK_CategoryTerritory_ProductCategory">
+          <End Type="DomainModels.ProductCategory" Role="ProductCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.CategoryTerritory" Role="CategoryTerritory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ProductCategory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Principal>
+            <Dependent Role="CategoryTerritory">
+              <PropertyRef Name="ProductCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -12112,6 +12151,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="DomainModels.Company">
               <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="CurrentThemeId" ColumnName="CurrentThemeId" />
                 <ScalarProperty Name="ActiveBannerSetId" ColumnName="ActiveBannerSetId" />
                 <ScalarProperty Name="makeEmailArtworkOrderProductionReady" ColumnName="makeEmailArtworkOrderProductionReady" />
                 <ScalarProperty Name="includeEmailArtworkOrderJobCard" ColumnName="includeEmailArtworkOrderJobCard" />
@@ -14157,6 +14197,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetItemsListViews">
             <EntityTypeMapping TypeName="DomainModels.GetItemsListView">
               <MappingFragment StoreEntitySet="GetItemsListView">
+                <ScalarProperty Name="ProductCategoryIds" ColumnName="ProductCategoryIds" />
                 <ScalarProperty Name="TemplateType" ColumnName="TemplateType" />
                 <ScalarProperty Name="drawWaterMarkTxt" ColumnName="drawWaterMarkTxt" />
                 <ScalarProperty Name="printCropMarks" ColumnName="printCropMarks" />

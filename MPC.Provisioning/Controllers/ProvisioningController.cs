@@ -143,8 +143,8 @@ namespace MPC.Provisioning.Controllers
                        
                         //creating default user
                         //must save the user ID as userid coming from core
-                        command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser])";
-                        command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0)";
+                        command.CommandText = "INSERT INTO [SystemUser] ([SystemUserId],[UserName],[OrganizationId],[FullName],[RoleId],[CostPerHour],[IsSystemUser],[Email])";
+                        command.CommandText += " values ('" + ID + "','" + username + "'," + siteOrganisationId + ",'" + ContactFullName + "','1',0,0,'" + Email + "')";
 
 
                         result = command.ExecuteNonQuery();

@@ -10,7 +10,7 @@ namespace MPC.Interfaces.WebStoreServices
 {
     public interface ICampaignService
     {
-        Campaign GetCampaignRecordByEmailEvent(int iEmailEvent);
+        Campaign GetCampaignRecordByEmailEvent(int iEmailEvent, long OrganisationId, long CompanyId);
 
         bool emailBodyGenerator(Campaign oCampaign, CampaignEmailParams variablValues, CompanyContact userRecord, StoreMode ModeOfStore, int OrganisationId, string password = "", string shopReceiptHtml = "", string emailOfSubscribedUsers = "", string emailOfSalesManager = "", string ReceiverName = "", string secondEmail = "", List<string> AttachmentsList = null, string PostCodes = "", DateTime? SubscriptionEndDate = null, string PayyPalGatwayEmail = "", string brokerCompanyName = "", string SubscriptionPath = "", string MarkBreifSumm = "", string Email1 = "", int UnOrderedTotalItems = 0, string UnOrderedItemsTotal = "", int SavedDesignsCount = 0);
 

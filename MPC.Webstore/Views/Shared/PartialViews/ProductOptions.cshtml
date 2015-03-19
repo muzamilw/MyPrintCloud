@@ -76,10 +76,13 @@
                             &nbsp;
                         </div>
                         <br />
-                       
+                       @if (ViewData["CostCenters"] != null)
+                       {
                         <div class="marginLeft Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
                             <label id="lbl_RefiningOptions">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.StoreId))</label>
                         </div>
+                       
+                      
                         <div class="width365pxM250p">
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                             {
@@ -114,7 +117,7 @@
 
                             }
                     </div>
-
+                       }
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -1361,8 +1364,6 @@
                 }
             });
         }
-
-
     }
 
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
@@ -1463,7 +1464,6 @@
                         function(DT) {
 
                             ShowCostCentrePopup(DT[2], CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
-
                         });
 
                 } else {
@@ -1483,7 +1483,6 @@
                                 if ($(response[2])[i].CostCentreID == CostCentreId) {
                                     selectedCostCentreArray.push($(response[2])[i]);
                                 }
-
                             }
                             ShowCostCentrePopup(selectedCostCentreArray, CostCentreId, @ViewBag.ClonedItem.ItemId, ControlId, "New", "@ViewBag.Currency", TotalItemPrice);
                         },

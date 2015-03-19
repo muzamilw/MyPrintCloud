@@ -761,10 +761,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.model.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.view.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
@@ -1550,6 +1550,8 @@
     <Content Include="Scripts\App\dashboard.model.js" />
     <Content Include="Scripts\App\dashboard.view.js" />
     <Content Include="Scripts\App\dashboard.viewModel.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
+    <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
@@ -1857,6 +1859,8 @@
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
+    <None Include="config\Web.connectionstrings.config" />
+    <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />

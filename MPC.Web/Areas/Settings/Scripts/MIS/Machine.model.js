@@ -1,4 +1,39 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
+    ko.bindingHandlers.autoNumeric = {
+        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              bindings = bindingsAccessor(),
+              settings = bindings.settings,
+              value = valueAccessor();
+         
+            $el.autoNumeric(settings);
+            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
+            $el.change(function () {
+                value(parseFloat($el.autoNumeric('get'), 10));
+            });
+        },
+        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              newValue = ko.utils.unwrapObservable(valueAccessor()),
+              elementValue = $el.autoNumeric('get'),
+              valueHasChanged = (newValue != elementValue);
+
+            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
+                valueHasChanged = true;
+            }
+                        
+            if (valueHasChanged) {
+                if (newValue != undefined) {
+                    $el.autoNumeric('set', newValue);
+                }
+                
+                
+            }
+        }
+    };
+
+
+
     var machineList = function () {
         var
             self,
@@ -57,14 +92,14 @@
             MachineId = ko.observable(),
             MachineName = ko.observable(),
             MachineCatId = ko.observable(),
-            ColourHeads = ko.observable(),
+            ColourHeads = ko.observable(0),
             isPerfecting = ko.observable(),
-            SetupCharge = ko.observable(),
-            WashupPrice = ko.observable(),
-            WashupCost = ko.observable(),
+            SetupCharge = ko.observable(0),
+            WashupPrice = ko.observable(0),
+            WashupCost = ko.observable(0),
             MinInkDuctqty = ko.observable(),
-            worknturncharge = ko.observable(),
-            MakeReadyCost = ko.observable(),
+            worknturncharge = ko.observable(0),
+            MakeReadyCost = ko.observable(0),
             DefaultFilmId = ko.observable(),
             DefaultPlateId = ko.observable(),
             DefaultPaperId = ko.observable(28509),
@@ -72,9 +107,9 @@
             isplateused = ko.observable(),
             ismakereadyused = ko.observable(),
             iswashupused = ko.observable(),
-            maximumsheetweight = ko.observable(),
-            maximumsheetheight = ko.observable(),
-            maximumsheetwidth = ko.observable(),
+            maximumsheetweight = ko.observable(0),
+            maximumsheetheight = ko.observable(0),
+            maximumsheetwidth = ko.observable(0),
             minimumsheetheight = ko.observable(50),
             minimumsheetwidth = ko.observable(50),
             gripdepth = ko.observable(10),
@@ -93,12 +128,12 @@
             MarkupId = ko.observable(),
             PressSizeRatio = ko.observable(),
             Description = ko.observable().extend({required: true}), 
-            Priority = ko.observable(),
+            Priority = ko.observable(0),
             DirectCost = ko.observable(),
             Image = ko.observable(),
-            MinimumCharge = ko.observable(),
-            CostPerCut = ko.observable(),
-            PricePerCut = ko.observable(),
+            MinimumCharge = ko.observable(0),
+            CostPerCut = ko.observable(0),
+            PricePerCut = ko.observable(0),
             IsAdditionalOption = ko.observable(),
             IsDisabled = ko.observable(),
             LockedBy = ko.observable(),
@@ -112,8 +147,8 @@
             ReelMRPrice = ko.observable(),
             IsMaxColorLimit = ko.observable(),
             PressUtilization = ko.observable(),
-            MakeReadyPrice = ko.observable(),
-            InkChargeForUniqueColors = ko.observable(),
+            MakeReadyPrice = ko.observable(0),
+            InkChargeForUniqueColors = ko.observable(0),
             CompanyId = ko.observable(),
             FlagId = ko.observable(),
             IsScheduleable = ko.observable(),

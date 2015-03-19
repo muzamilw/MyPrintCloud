@@ -164,6 +164,7 @@
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
+    <Compile Include="MISServices\LookupMethodService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
     <Compile Include="MISServices\OrderForCrmService.cs" />
     <Compile Include="MISServices\OrderService.cs" />

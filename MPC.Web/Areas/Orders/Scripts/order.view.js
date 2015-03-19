@@ -76,6 +76,12 @@ define("order/order.view",
                     $("#productFromRetailStoreModal").modal('hide');
                 },
                 //#endregion
+                // Initialize Label Popovers
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    // ReSharper restore UnknownCssClass
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -124,7 +130,8 @@ define("order/order.view",
                 showCostCentersDialog: showCostCentersDialog,
                 hideRCostCentersDialog: hideRCostCentersDialog,
                 showCostCentersQuantityDialog: showCostCentersQuantityDialog,
-                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog
+                hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
+                initializeLabelPopovers: initializeLabelPopovers
             };
         })(orderViewModel);
 

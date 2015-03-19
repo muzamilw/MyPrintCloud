@@ -396,6 +396,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsDigitalDownload { get; set; }
         public bool? IsRealStateProduct { get; set; }
         public int? ProductDisplayOptions { get; set; }
+        public long? SmartFormId { get; set; }
 
         /// <summary>
         /// Being used for Template Service generateTemplateFromPdf method, if mode is 2 then preserves

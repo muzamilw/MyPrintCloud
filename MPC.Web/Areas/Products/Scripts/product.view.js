@@ -34,7 +34,7 @@ define("product/product.view",
                 // Show Video the dialog
                 showVideoDialog = function () {
                     $("#productVideoDialog").modal("show");
-                    initializeLabelPopovers();
+                    setTimeout(initializeLabelPopovers, 1000);
                 },
                 // Hide Video the dialog
                 hideVideoDialog = function () {
@@ -369,42 +369,44 @@ define("product/product.view",
                 // Initialize Product Min-Max Slider
                 initializeProductMinMaxSlider = function () {
                     $(document).ready(function () {
-                        if (!viewModel.selectedCompany() || isSliderInitialized) {
-                            return;
-                        }
-                        $('.slider-minmax').noUiSlider({
-                            range: [0, 100],
-                            start: [100],
-                            handles: 1,
-                            connect: 'upper',
-                            slide: function () {
-
-
-                            },
-                            set: function () {
-                                var val = $(this).val();
-                                if (val >= 60) {
-
-                                    $('.Top_Cat_Body').css("width", "22%");
-                                    $('.FI_TL').css("height", "210px");
-                                    $('.productListIcons').css("width", "239px");
-                                } else if (val >= 40) {
-
-                                    $('.Top_Cat_Body').css("width", "18%");
-                                    $('.FI_TL').css("height", "210px");
-                                    $('.productListIcons').css("width", "194px");
-                                } else if (val <= 20) {
-
-                                    $('.Top_Cat_Body').css("width", "13%");
-                                    $('.FI_TL').css("height", "140px");
-                                    $('.productListIcons').css("width", "139px");
-                                }
+                        setTimeout(function() {
+                            if (!viewModel.selectedCompany() || isSliderInitialized) {
+                                return;
                             }
+                            $('.slider-minmax').noUiSlider({
+                                range: [0, 100],
+                                start: [100],
+                                handles: 1,
+                                connect: 'upper',
+                                slide: function () {
 
-                        });
-                        $('.slider-minmax').val(100, true);
 
-                        isSliderInitialized = true;
+                                },
+                                set: function () {
+                                    var val = $(this).val();
+                                    if (val >= 60) {
+
+                                        $('.Top_Cat_Body').css("width", "22%");
+                                        $('.FI_TL').css("height", "210px");
+                                        $('.productListIcons').css("width", "239px");
+                                    } else if (val >= 40) {
+
+                                        $('.Top_Cat_Body').css("width", "18%");
+                                        $('.FI_TL').css("height", "210px");
+                                        $('.productListIcons').css("width", "194px");
+                                    } else if (val <= 20) {
+
+                                        $('.Top_Cat_Body').css("width", "13%");
+                                        $('.FI_TL').css("height", "140px");
+                                        $('.productListIcons').css("width", "139px");
+                                    }
+                                }
+
+                            });
+                            $('.slider-minmax').val(100, true);
+
+                            isSliderInitialized = true;
+                        }, 1000);
                     });
                 },
                 // Edit Template
@@ -420,11 +422,18 @@ define("product/product.view",
                 openUrlInNewWindow = function(url) {
                     window.open(url, "_blank");
                 },
+                // Product Category Selected
+                productCategorySelectedEventHandler = function (event) {
+                    viewModel.categorySelectedEventHandler(event.category);
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
                         return;
                     }
+
+                    // subscribe to events
+                    $(document).on("ProductCategorySelected", productCategorySelectedEventHandler);
 
                 };
             initialize();

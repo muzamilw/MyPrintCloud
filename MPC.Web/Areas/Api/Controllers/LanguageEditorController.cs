@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
@@ -36,9 +38,9 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Read Resource File By Global Language Id
         /// </summary>
         /// <returns></returns>
-        public LanguageEditor Get([FromUri]int organisationId, long lanuageId)
+        public List<LanguageEditor> Get([FromUri]int organisationId, long lanuageId)
         {
-            return myOrganizationService.ReadResourceFileByLanguageId(organisationId, lanuageId).CreateFrom();
+            return myOrganizationService.ReadResourceFileByLanguageId(organisationId, lanuageId).Select(le => le.CreateFrom()).ToList();
         }
     }
 }

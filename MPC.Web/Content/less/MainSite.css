@@ -118,6 +118,38 @@
 #productBinding #gridZoomSlider {
   width: 100%;
 }
+#productBinding #ListForm th {
+  background: #f3f3f3;
+  border-right: 1px solid white;
+}
+#productBinding #ListForm #Top_Cat_ThumbnailPath {
+  width: 150px;
+  height: 150px;
+}
+#productBinding #ListForm #productCodeHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productImageHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productNameHeader {
+  width: 20%;
+  max-width: 20%;
+}
+#productBinding #ListForm #productPriceHeader {
+  width: 10%;
+  max-width: 10%;
+}
+#productBinding #ListForm #productCategoriesHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#productBinding #ListForm #productPublishedHeader {
+  width: 12%;
+  max-width: 12%;
+}
 #productBinding #pressDialog #pressDialogMainContainer {
   width: 838px;
 }
@@ -281,11 +313,40 @@
 #storesBinding #productBinding #gridZoomSlider {
   width: 100%;
 }
+#storesBinding #productBinding #ListForm th {
+  background: #f3f3f3;
+  border-right: 1px solid white;
+}
+#storesBinding #productBinding #ListForm #Top_Cat_ThumbnailPath {
+  width: 150px;
+  height: 150px;
+}
+#storesBinding #productBinding #ListForm #productCodeHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productBinding #ListForm #productImageHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productBinding #ListForm #productNameHeader {
+  width: 20%;
+  max-width: 20%;
+}
+#storesBinding #productBinding #ListForm #productPriceHeader {
+  width: 10%;
+  max-width: 10%;
+}
+#storesBinding #productBinding #ListForm #productCategoriesHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productBinding #ListForm #productPublishedHeader {
+  width: 12%;
+  max-width: 12%;
+}
 #storesBinding #productBinding .filter-block .form-group {
   margin-bottom: 0;
-}
-#storesBinding #productBinding .productListIcons {
-  width: 20%;
 }
 #storesBinding #productDetailBinding .activeView {
   background-color: #ff7e47;
@@ -309,11 +370,40 @@
 #storesBinding #productDetailBinding #gridZoomSlider {
   width: 100%;
 }
+#storesBinding #productDetailBinding #ListForm th {
+  background: #f3f3f3;
+  border-right: 1px solid white;
+}
+#storesBinding #productDetailBinding #ListForm #Top_Cat_ThumbnailPath {
+  width: 150px;
+  height: 150px;
+}
+#storesBinding #productDetailBinding #ListForm #productCodeHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productDetailBinding #ListForm #productImageHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productDetailBinding #ListForm #productNameHeader {
+  width: 20%;
+  max-width: 20%;
+}
+#storesBinding #productDetailBinding #ListForm #productPriceHeader {
+  width: 10%;
+  max-width: 10%;
+}
+#storesBinding #productDetailBinding #ListForm #productCategoriesHeader {
+  width: 12%;
+  max-width: 12%;
+}
+#storesBinding #productDetailBinding #ListForm #productPublishedHeader {
+  width: 12%;
+  max-width: 12%;
+}
 #storesBinding #productDetailBinding .filter-block .form-group {
   margin-bottom: 0;
-}
-#storesBinding #productDetailBinding .productListIcons {
-  width: 20%;
 }
 #storesBinding #productDetailBinding #stockDialog #stockDialogMainContainer {
   width: 838px;
@@ -406,6 +496,13 @@
 .categoryImage {
   min-height: 100Px;
   min-width: 100Px;
+}
+.storeSubText {
+  font-size: 0.875em;
+  color: #565050;
+}
+.archiveButton {
+  float: left;
 }
 #inventoryBinding #addInventory {
   margin-top: 25px;

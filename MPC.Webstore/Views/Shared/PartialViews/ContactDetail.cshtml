@@ -162,9 +162,7 @@
 
                             <div class="TTL widthAvenior">
                                 <span class="error-message ECompanyName" style="display: none;">can't be blank</span><br>
-                                <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox" maxlength="100"
-    tabindex="8" value="@ViewBag.CompanyName    " />
-
+                                <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox " maxlength="500" tabindex="8" value="@ViewBag.CompanyName" />
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -186,8 +184,8 @@
                                 </div>
 
                                 <div id="coorporateUserFields">
-                                    @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
-                            {
+                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                  {
                                 <div>
 
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
@@ -201,8 +199,8 @@
                                     </div>
                                     <br />
                                 </div>
-                            }
-                                    @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
+                                }
+                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                             {
                                 <div>
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
@@ -424,7 +422,7 @@
 
                                     &nbsp;&nbsp;
 
-                                    <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" />
+                                    <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
                                 </div>
                             </div>
 
@@ -474,8 +472,7 @@
                 var AdditionalField4 = $("#AdditionalField4").val();
                 var AdditionalField5 = $("#AdditionalField5").val();
                 var Image = $("#fuImageUpload").val();
-                alert(Image);
-
+               
                 var IsEmailSubscription = $("#Select")[0].checked;
                 var IsNewsLetterSubscription = $("#News")[0].checked;
                 
@@ -500,7 +497,7 @@
       
         $("#MessgeToDisply").css('visibility', 'visible');
         $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
-       
+        window.location.href = "/Dashboard";
     },
     error: function (error) {
         $("#MessgeToDisply").css('visibility', 'visible');
@@ -514,7 +511,7 @@
 
                 var data = new FormData();
                 var files = $("#fuImageUpload").get(0).files;
-                alert(files + ' files ');
+               
                 // Add the uploaded image content to the form data collection
                 if (files.length > 0) {
                     data.append("UploadedImage", files[0]);
@@ -533,6 +530,11 @@
                     ShowPopUp('Error Occured While Adding Address', error);
                 }
             });
+            }
+
+            function Cancel()
+            {
+                window.location.href = "/Dashboard";
             }
 </script>
         }

@@ -21,5 +21,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Category Types
         /// </summary>
         public IEnumerable<CategoryType> CategoryTypes { get; set; }
+
+        /// <summary>
+        /// Smart Forms
+        /// </summary>
+        public IEnumerable<SmartFormForListView> SmartForms { get; set; }
     }
 }

@@ -112,10 +112,35 @@ namespace MPC.MIS.Areas.Api.Models
         public long? ActiveBannerSetId { get; set; }
 
         /// <summary>
+        /// Map Image Url
+        /// </summary>
+        public string MapImageUrl { get; set; }
+
+        public byte[] MapImageS2CBytes { get; set; }
+        /// <summary>
+        /// Default Sprite Image Source
+        /// </summary>
+        public string MapImageSource
+        {
+            get
+            {
+                if (MapImageS2CBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(MapImageS2CBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
+
+        /// <summary>
         /// Tax Label
         /// </summary>
         public string TaxLabel { get; set; }
         public double? TaxRate { get; set; }
+
+        public List<ScopeVariable> ScopeVariables { get; set; }
         #endregion
 
         #region Public List Properties
@@ -216,7 +241,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
 
         public byte[] Image { get; set; }
-       
+
         /// <summary>
         /// Image Source
         /// </summary>
@@ -343,7 +368,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string StoreWorkflowImageBytes { get; set; }
 
         // client to server
-        public string StoreWorkflowImageName { get; set; }
+        public string StoreWorkflowImage { get; set; }
 
         public byte[] WorkflowS2CBytes { get; set; }
 

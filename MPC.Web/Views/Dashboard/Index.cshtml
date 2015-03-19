@@ -994,10 +994,10 @@
             if (tourcookie != "1") {
                 createCookie("tourviewed", "1", 10);
 
-                $("#myprintcloud-help").css("top", "-250");
+                $("#myprintcloud-help").css("top", ($(window).height() - $("#myprintcloud-help").height())/2 + "px");
                 $("#myprintcloud-help").css("display", "block");
                 $(".disabled-div").css("display", "block");
-                $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+                $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
 
 
                 $(window).resize(function () {
@@ -1430,7 +1430,7 @@
 
                        $("#myprintcloud-help").css("top", "-250");
                        $("#myprintcloud-help").css("display", "block");
-                       $("#myprintcloud-help").animate({ "top": "370" }, 500, 'linear');
+                       $("#myprintcloud-help").animate({ "top": ($(window).height() - $("#myprintcloud-help").height()) / 2 }, 500, 'linear');
                        $("#myprintcloud-help").css("left", "41%");
                 
                        lastTop = [];lastLeft = [];

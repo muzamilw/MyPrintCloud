@@ -28,6 +28,7 @@ namespace MPC.MIS.Areas.Api.Models
         public SmartFormResponse SmartFormResponse { get; set; }
         public IEnumerable<FieldVariableForSmartForm> FieldVariableForSmartForms { get; set; }
         public IEnumerable<SkinForTheme> Themes { get; set; }
+        public IEnumerable<FieldVariableForSmartForm> SystemVariablesForSmartForms { get; set; }
         /// <summary>
         /// Default Sprite Image
         /// </summary>
