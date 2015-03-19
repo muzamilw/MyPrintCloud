@@ -3454,6 +3454,7 @@ warning 6002: The table/view 'MPC.dbo.GetCategoryProducts' does not have a prima
             <PropertyRef Name="MinPrice" />
             <PropertyRef Name="ProductCategoryId" />
           </Key>
+          <Property Name="CompanyId" Type="bigint" />
           <Property Name="ItemId" Type="bigint" Nullable="false" />
           <Property Name="ItemCode" Type="varchar" MaxLength="50" />
           <Property Name="isQtyRanged" Type="bit" />
@@ -5345,6 +5346,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </EntitySet>
           <EntitySet Name="GetCategoryProducts" EntityType="Self.GetCategoryProducts" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [GetCategoryProducts].[CompanyId] AS [CompanyId], 
     [GetCategoryProducts].[ItemId] AS [ItemId], 
     [GetCategoryProducts].[ItemCode] AS [ItemCode], 
     [GetCategoryProducts].[isQtyRanged] AS [isQtyRanged], 
@@ -10213,6 +10215,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="ProductCategoryId" Type="Int64" Nullable="false" />
           <Property Name="TemplateId" Type="Int64" />
           <Property Name="DesignerCategoryId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int64" />
         </EntityType>
         <EntityType Name="ItemStateTax">
           <Key>
@@ -14649,6 +14652,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySetMapping Name="GetCategoryProducts">
             <EntityTypeMapping TypeName="DomainModels.GetCategoryProduct">
               <MappingFragment StoreEntitySet="GetCategoryProducts">
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
                 <ScalarProperty Name="DesignerCategoryId" ColumnName="DesignerCategoryId" />
                 <ScalarProperty Name="TemplateId" ColumnName="TemplateId" />
                 <ScalarProperty Name="ProductCategoryId" ColumnName="ProductCategoryId" />

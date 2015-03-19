@@ -117,6 +117,9 @@ namespace MPC.Repository
             unityContainer.RegisterType<INewsLetterSubscriberRepository, NewsLetterSubscriberRepository>();
             unityContainer.RegisterType<ICmsTagReporistory, CmsTagReporistory>();
             unityContainer.RegisterType<ICompanyBannerSetRepository, CompanyBannerSetRepository>();
+            unityContainer.RegisterType<ILookupMethodRepository, LookupMethodRepository>();
+            unityContainer.RegisterType<ICategoryTerritoryRepository, CategoryTerritoryRepository>();
+
         }
     }
 }
