@@ -64,5 +64,7 @@ namespace MPC.Interfaces.Repository
 
         CompanyResponse SearchCompaniesForSupplier(CompanyRequestModel request);
 
+        CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request);
+
     }
 }

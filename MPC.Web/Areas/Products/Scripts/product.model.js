@@ -35,7 +35,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedProductDisplayOptions, specifiedIsRealStateProduct, specifiedIsUploadImage, specifiedIsDigitalDownload, specifiedPrintCropMarks,
         specifiedDrawWatermarkText, specifiedOrganisationId, specifiedCompanyId, specifiedIsAddCropMarks, specifiedDrawBleedArea, specifiedAllowPdfDownload,
         specifiedIsMultiPagePdf, specifiedAllowImageDownload, specifiedItemLength, specifiedItemWidth, specifiedItemHeight, specifiedItemWeight,
-        specifiedTemplateId, callbacks, constructorParams) {
+        specifiedTemplateId, specifiedSmartFormId, callbacks, constructorParams) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
@@ -425,6 +425,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             companyId = ko.observable(specifiedCompanyId || undefined),
             // Template Id
             templateId = ko.observable(specifiedTemplateId || undefined),
+            // Smart Form Id
+            smartFormId = ko.observable(specifiedSmartFormId || undefined),
             // Item Product Detail
             itemProductDetail = ko.observable(ItemProductDetail.Create(specifiedItemProductDetail || { ItemId: id() })),
             // Item Vdp Prices
@@ -1268,6 +1270,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemWeight: itemWeight,
                 itemHeight: itemHeight,
                 itemWidth: itemWidth,
+                smartFormId: smartFormId,
                 itemProductDetail: itemProductDetail,
                 itemVdpPrices: itemVdpPrices,
                 itemVideos: itemVideos,
@@ -1425,6 +1428,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     ItemWeight: itemWeight(),
                     ItemHeight: itemHeight(),
                     ItemWidth: itemWidth(),
+                    SmartFormId: smartFormId(),
                     ThumbnailImageName: thumbnailFileName(),
                     ThumbnailImageByte: thumbnailFileSource(),
                     GridImageSourceName: gridImageFileName(),
@@ -1570,6 +1574,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             organisationId: organisationId,
             companyId: companyId,
             templateId: templateId,
+            smartFormId: smartFormId,
             canStartDesignerEmpty: canStartDesignerEmpty,
             itemProductDetail: itemProductDetail,
             itemVideos: itemVideos,
@@ -3232,7 +3237,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Scalar, source.ZoomFactor, source.IsCmyk, source.TemplateType, source.ProductDisplayOptions, source.IsRealStateProduct, source.IsUploadImage,
             source.IsDigitalDownload, source.PrintCropMarks, source.DrawWaterMarkTxt, source.OrganisationId, source.CompanyId, source.IsAddCropMarks,
             source.DrawBleedArea, source.AllowPdfDownload, source.IsMultiPagePdf, source.AllowImageDownload, source.ItemLength, source.ItemWidth, source.ItemHeight,
-            source.ItemWeight, source.TemplateId, callbacks, constructorParams);
+            source.ItemWeight, source.TemplateId, source.SmartFormId, callbacks, constructorParams);
 
         // Map Item Vdp Prices if any
         if (source.ItemVdpPrices && source.ItemVdpPrices.length > 0) {

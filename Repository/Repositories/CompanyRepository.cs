@@ -186,7 +186,7 @@ namespace MPC.Repository.Repositories
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
-                        CmsPages = c.CmsPages.Take(5).Select(cms => new
+                        CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
                             cms.PageId,
                             cms.PageTitle,
@@ -197,6 +197,17 @@ namespace MPC.Repository.Repositories
                             cms.PageCategory,
                             cms.PageBanner
                         }).ToList(),
+                       SystemPages = c.CmsPages.Where(page => page.isUserDefined == false).Take(5).Select(cms => new
+                       {
+                           cms.PageId,
+                           cms.PageTitle,
+                           cms.isDisplay,
+                           cms.isEnabled,
+                           cms.Meta_Title,
+                           cms.isUserDefined,
+                           cms.PageCategory,
+                           cms.PageBanner
+                       }).ToList(),
                         c.CompanyCMYKColors,
                         c.CompanyBannerSets,
                         Campaigns = c.Campaigns.Select(cam => new
@@ -306,6 +317,17 @@ namespace MPC.Repository.Repositories
                             PageCategory = cms.PageCategory,
                             PageBanner = cms.PageBanner
                         }).ToList(),
+                        SystemPages = c.SystemPages.Select(cms => new CmsPage
+                        {
+                            PageId = cms.PageId,
+                            PageTitle = cms.PageTitle,
+                            isDisplay = cms.isDisplay,
+                            isEnabled = cms.isEnabled,
+                            Meta_Title = cms.Meta_Title,
+                            isUserDefined = cms.isUserDefined,
+                            PageCategory = cms.PageCategory,
+                            PageBanner = cms.PageBanner
+                        }).ToList(),
                         CompanyCMYKColors = c.CompanyCMYKColors,
                         CompanyBannerSets = c.CompanyBannerSets,
                         Campaigns = c.Campaigns.Select(cam => new Campaign
@@ -336,10 +358,19 @@ namespace MPC.Repository.Repositories
                     RowCount =
                         db.CmsPages.Count(
                             cmp =>
-                        cmp.CompanyId == companyId),
+                        cmp.CompanyId == companyId && cmp.isUserDefined==true),
                     CmsPages =
                         company != null
                             ? company.CmsPages
+                            : new List<CmsPage>(),
+
+                    SystemPagesRowCount = 
+                db.CmsPages.Count(
+                    cmp =>
+                cmp.CompanyId == companyId && cmp.isUserDefined == false),
+                    SystemPages =
+                        company != null
+                            ? company.SystemPages
                             : new List<CmsPage>()
                 };
                 companyResponse.Company = company;
@@ -396,6 +427,45 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request)
+        {
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
+                bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+                bool isTypeSpecified = request.CustomerType != null;
+                long type = request.CustomerType ?? 0;
+                Expression<Func<Company, bool>> query =
+                    s =>
+                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 1 );
+
+                int rowCount = DbSet.Count(query);
+                IEnumerable<Company> companies = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(companyOrderByClause[request.CompanyByColumn])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
+                return new CompanyResponse
+                {
+                    RowCount = rowCount,
+                    Companies = companies
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
         /// <summary>
         /// Get Companies list for Supplier List View
         /// </summary>
@@ -846,7 +916,7 @@ namespace MPC.Repository.Repositories
              
                 JsonRetail = string.Empty;
                 GC.Collect();
-                return productCategories;
+                return oOutputProdCat;
 
             }
             catch (Exception ex)
@@ -1038,7 +1108,7 @@ namespace MPC.Repository.Repositories
                 JsonRetail = string.Empty;
                 GC.Collect();
 
-                return pages;
+                return oOutputCMSPage;
             }
             catch (Exception ex)
             {
