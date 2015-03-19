@@ -77,7 +77,7 @@ namespace MPC.Repository.Repositories
                 int fromRow = (request.PageNo - 1) * request.PageSize;
                 int toRow = request.PageSize;
                 IEnumerable<CmsPage> CmsPages =
-                DbSet.Where(x => x.CompanyId == request.CompanyId).OrderBy(x => x.PageId)
+                DbSet.Where(x => x.CompanyId == request.CompanyId && x.isUserDefined == request.IsUserDefined).OrderBy(x => x.PageId)
                         .Skip(fromRow)
                     .Take(toRow)
                     .ToList();

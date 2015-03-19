@@ -139,6 +139,7 @@ namespace MPC.Implementation.MISServices
                     smartForm.OrganisationId = companyRepository.OrganisationId;
                 }
             }
+            companySaving.Company.OrganisationId = companyRepository.OrganisationId;
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges(); // TODO: Remove it from here
             var companyId = companySaving.Company.CompanyId;
@@ -962,7 +963,7 @@ namespace MPC.Implementation.MISServices
             var productCategories = new List<ProductCategory>();
             List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList() : null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
-            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
+            //companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);

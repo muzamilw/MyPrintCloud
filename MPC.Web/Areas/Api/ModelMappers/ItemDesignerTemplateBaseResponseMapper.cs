@@ -23,7 +23,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CategoryRegions = source.CategoryRegions != null ? source.CategoryRegions.Select(cc => cc.CreateFrom()) :
                 new List<CategoryRegion>(),
                 CategoryTypes = source.CategoryTypes != null ? source.CategoryTypes.Select(cc => cc.CreateFrom()) : 
-                new List<CategoryType>()
+                new List<CategoryType>(),
+                SmartForms = source.SmartForms != null ? source.SmartForms.Select(cc => cc.CreateFromForListView()) :
+                new List<SmartFormForListView>()
             };
         }
         

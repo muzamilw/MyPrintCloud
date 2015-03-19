@@ -47,6 +47,8 @@ define("product/product.viewModel",
                     categoryRegions = ko.observableArray([]),
                     // Category Types
                     categoryTypes = ko.observableArray([]),
+                    // Smart Forms
+                    smartForms = ko.observableArray([]),
                     // Paper Sizes
                     paperSizes = ko.observableArray([]),
                     // Currency Unit fOr Organisation 
@@ -819,6 +821,12 @@ define("product/product.viewModel",
                         ko.utils.arrayPushAll(categoryTypes(), itemsList);
                         categoryTypes.valueHasMutated();
                     },
+                    // Map Smart Forms
+                    mapSmartForms = function (data) {
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(smartForms(), data);
+                        smartForms.valueHasMutated();
+                    },
                     // Map Paper Sizes
                     mapPaperSizes = function (data) {
                         var itemsList = [];
@@ -915,11 +923,12 @@ define("product/product.viewModel",
                             return;
                         }
                         
-                        dataservice.getBaseDataForDesignerCategory({
+                        dataservice.getBaseDataForDesignerCategory({ id: selectedCompany() || 0 }, {
                             success: function (data) {
                                 templateCategories.removeAll();
                                 categoryRegions.removeAll();
                                 categoryTypes.removeAll();
+                                smartForms.removeAll();
                                 if (data) {
                                     // Map Product Categories
                                     mapDesignerCategories(data.TemplateCategories);
@@ -929,6 +938,9 @@ define("product/product.viewModel",
 
                                     // Map Category Types
                                     mapCategoryTypes(data.CategoryTypes);
+                                    
+                                    // Map Smart Forms
+                                    mapSmartForms(data.SmartForms);
                                 }
 
                                 isDesignerCategoryBaseDataLoaded(true);
@@ -1230,6 +1242,7 @@ define("product/product.viewModel",
                     currencyUnit: currencyUnit,
                     lengthUnit: lengthUnit,
                     canEditTemplate: canEditTemplate,
+                    isDesignerCategoryBaseDataLoaded: isDesignerCategoryBaseDataLoaded,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,
@@ -1270,7 +1283,8 @@ define("product/product.viewModel",
                     editTemplate: editTemplate,
                     // For Store
                     initializeForStore: initializeForStore,
-                    categorySelectedEventHandler: categorySelectedEventHandler
+                    categorySelectedEventHandler: categorySelectedEventHandler,
+                    smartForms: smartForms
                     // For Store
                     // Utility Methods
 

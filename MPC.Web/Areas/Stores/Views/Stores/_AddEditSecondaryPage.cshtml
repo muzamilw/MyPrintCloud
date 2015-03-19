@@ -312,7 +312,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveSecondaryPage, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
-                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable: $root.selectedSecondaryPage().id() != undefined">Archive</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteSecondaryPage, enable:isUserDefined() && $root.selectedSecondaryPage().id() != undefined">Archive</button>
             </div>
         </div>
     </div>
