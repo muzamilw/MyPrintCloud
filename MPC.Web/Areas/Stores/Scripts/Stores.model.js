@@ -351,7 +351,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pickupAddressId: pickupAddressId,
             taxLabel: taxLabel,
             taxRate: taxRate,
-            scopeVariables: scopeVariables
+            scopeVariables: scopeVariables,
+            paymentGateway: paymentGateway
             //storeLayoutChange: storeLayoutChange
             //#endregion
         }),
@@ -467,6 +468,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Deletedproducts = [];
             result.Campaigns = [];
             result.CompanyCostCentres = [];
+           
             _.each(source.paymentGateway(), function (item) {
                 result.PaymentGateways.push(item.convertToServerData());
             });
@@ -1158,6 +1160,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
             isDefault = ko.observable(specifiedisDefault),
             scopeVariables = ko.observableArray([]),
+             isSelected = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1202,6 +1205,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId: companyId,
             territoryCode: territoryCode,
             isDefault: isDefault,
+            isSelected: isSelected,
             scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,

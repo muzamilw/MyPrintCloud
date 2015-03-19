@@ -348,4 +348,10 @@ namespace MPC.Models.Common
         PopularProducts = 2,
         SpecialProducts = 3
     }
+    public enum BreadCrumbMode : int
+    {
+        CategoryBrowsing = 1,
+        MyAccount = 2
+    }
+
 }
