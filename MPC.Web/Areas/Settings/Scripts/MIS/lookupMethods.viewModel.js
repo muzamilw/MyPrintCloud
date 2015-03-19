@@ -1,13 +1,14 @@
-﻿define("lookupMethod/lookupMethod.viewModel",
-    ["jquery", "amplify", "ko", "lookupMethod/lookupMethod.dataservice", "lookupMethod/lookupMethod.model", "common/confirmation.viewModel"],
+﻿define("lookupMethods/lookupMethods.viewModel",
+    ["jquery", "amplify", "ko", "lookupMethods/lookupMethods.dataservice", "lookupMethods/lookupMethods.model", "common/confirmation.viewModel"],
     function ($, amplify, ko, dataservice, model, confirmation) {
         var ist = window.ist || {};
-        ist.lookupMethod = {
+        ist.lookupMethods = {
 
             viewModel: (function () {
                 var
                     view,
                     errorList = ko.observableArray([]),
+                    isEditorVisible = ko.observable(),
                     lookupClickCharge = ko.observable(),
                     lookupSpeedWeight = ko.observable(),
                     lookupPerHour = ko.observable(),
@@ -19,7 +20,13 @@
                     lookupPerHourList = ko.observableArray([]),
                     lookupClickChargeZonesList = ko.observableArray([]),
                     lookupGuillotineClickChargeList = ko.observableArray([]),
-                    lookupMeterPerHourClickChargeList = ko.observableArray([])
+                    lookupMeterPerHourClickChargeList = ko.observableArray([]),
+                     initialize = function (specifiedView) {
+                         view = specifiedView;
+                         ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                         GetLookupList();
+                     },
                 GetLookupList = function () {
 
                     dataservice.GetLookupList({
@@ -86,7 +93,9 @@
                 }
 
                 return {
+                    initialize:initialize,
                     errorList: errorList,
+                    isEditorVisible:isEditorVisible,
                     GetLookupList: GetLookupList,
                     lookupClickChargeList: lookupClickChargeList,
                     lookupSpeedWeightList: lookupSpeedWeightList,
@@ -97,6 +106,6 @@
                 }
             })()
         };
-        return ist.lookupMethod.viewModel;
+        return ist.lookupMethods.viewModel;
 
     });
