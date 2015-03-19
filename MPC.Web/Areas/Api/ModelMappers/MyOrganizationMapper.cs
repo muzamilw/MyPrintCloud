@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
@@ -70,7 +71,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                MisLogo = source.MISLogo,
                TaxRegistrationNo = source.TaxRegistrationNo,
                Image = bytes,
-               LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
+               LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : new List<LanguageEditor>(),
            };
         }
 
@@ -104,7 +105,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemWeightUnit = source.SystemWeightUnit,
                 Markups = source.Markups != null ? source.Markups.Select(markup => markup.CreateFrom()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(chartOfAcc => chartOfAcc.CreateFrom()).ToList() : null,
-                LanguageEditor = source.LanguageEditor != null ? source.LanguageEditor.CreateFrom() : null,
+                LanguageEditors = source.LanguageEditors != null ? source.LanguageEditors.Select(le => le.CreateFrom()).ToList() : null,
             };
         }
 

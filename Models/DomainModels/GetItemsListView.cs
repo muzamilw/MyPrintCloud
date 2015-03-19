@@ -51,6 +51,7 @@ namespace MPC.Models.DomainModels
         public bool? printCropMarks { get; set; }
         public bool? drawWaterMarkTxt { get; set; }
         public int? TemplateType { get; set; }
+        public string ProductCategoryIds { get; set; }
 
         #endregion
     }

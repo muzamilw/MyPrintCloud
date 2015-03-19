@@ -39,14 +39,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Designer Template Base Data
         /// </summary>
-        public Models.ItemDesignerTemplateBaseResponse Get()
+        public Models.ItemDesignerTemplateBaseResponse Get(int? id)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return itemService.GetBaseDataForDesignerTemplate().CreateFrom();
+            return itemService.GetBaseDataForDesignerTemplate(id).CreateFrom();
         }
 
         #endregion

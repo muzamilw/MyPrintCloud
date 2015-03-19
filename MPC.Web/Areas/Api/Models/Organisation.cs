@@ -261,7 +261,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Language Editor
         /// </summary>
-        public LanguageEditor LanguageEditor { get; set; }
+        public List<LanguageEditor> LanguageEditors { get; set; }
         #endregion
     }
 }

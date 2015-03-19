@@ -139,6 +139,7 @@ namespace MPC.Implementation.MISServices
                     smartForm.OrganisationId = companyRepository.OrganisationId;
                 }
             }
+            companySaving.Company.OrganisationId = companyRepository.OrganisationId;
             companyRepository.Add(companySaving.Company);
             companyRepository.SaveChanges(); // TODO: Remove it from here
             var companyId = companySaving.Company.CompanyId;
@@ -962,7 +963,7 @@ namespace MPC.Implementation.MISServices
             var productCategories = new List<ProductCategory>();
             List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList() : null;
             //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
-            companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
+            //companySavingModel.Company.OrganisationId = companyRepository.OrganisationId;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
@@ -1052,7 +1053,7 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                // scopeVariableRepository.SaveChanges();
+
             }
 
             if (companySavingModel.Company.CompanyTerritories != null)
@@ -1079,9 +1080,37 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                // scopeVariableRepository.SaveChanges();
+
             }
 
+            //Address Scope variables
+            if (companySavingModel.Company.Addresses != null)
+            {
+                foreach (Address address in companySavingModel.Company.Addresses)
+                {
+                    if (address.ScopeVariables != null)
+                    {
+                        foreach (ScopeVariable scopeVariable in address.ScopeVariables)
+                        {
+                            if (scopeVariable.ScopeVariableId == 0)
+                            {
+                                FieldVariable fieldVariable = companySavingModel.Company.FieldVariables.FirstOrDefault(
+                               f => f.FakeIdVariableId == scopeVariable.FakeVariableId);
+                                if (fieldVariable != null)
+                                {
+                                    scopeVariable.VariableId = fieldVariable.VariableId;
+                                }
+
+                                scopeVariable.Id = address.AddressId;
+                                scopeVariable.Scope = (int)FieldVariableScopeType.Address;
+                                scopeVariableRepository.Add(scopeVariable);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //Store Scope Variables
             if (companySavingModel.Company.ScopeVariables != null)
             {
                 IEnumerable<ScopeVariable> scopeVariables = scopeVariableRepository.GetContactVariableByContactId(companySavingModel.Company.CompanyId, (int)FieldVariableScopeType.Store);
@@ -3070,7 +3099,8 @@ namespace MPC.Implementation.MISServices
                 Countries = countryRepository.GetAll(),
                 //CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
-                CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId()
+                CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId(),
+                SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
             };
         }
         public void SaveFile(string filePath, long companyId)
@@ -3569,7 +3599,7 @@ namespace MPC.Implementation.MISServices
 
             // get stockitems based on organisationID
             exOrg.StockItem = stockItemRepository.GetStockItemsByOrganisationID(OrganisationID);
-           
+
 
 
             string Json4 = JsonConvert.SerializeObject(exOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });

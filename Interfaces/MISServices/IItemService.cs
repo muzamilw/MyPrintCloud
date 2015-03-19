@@ -60,7 +60,7 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Base Data For Designer Template
         /// </summary>
-        ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate();
+        ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate(long? companyId);
 
         /// <summary>
         /// Get Machines for Press Selection Dialog

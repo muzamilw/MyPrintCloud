@@ -272,6 +272,10 @@ define("myOrganization/myOrganization.viewModel",
                             success: function (data) {
                                 filteredStates.removeAll();
                                 var org = model.CompanySitesClientMapper(data);
+                                _.each(data.LanguageEditors, function (item) {
+                                    org.languageEditors.push(model.LanguageEditor.Create(item));
+                                });
+
                                 selectedMyOrganization(org);
                                 selectedMyOrganization().reset();
 
@@ -337,9 +341,9 @@ define("myOrganization/myOrganization.viewModel",
                         return flag;
                     },
                      // Go To Element
-                  gotoElement = function (validation) {
-                      view.gotoElement(validation.element);
-                  },
+                    gotoElement = function (validation) {
+                        view.gotoElement(validation.element);
+                    },
                     // Do Before Logic
                     doBeforeSaveMarkups = function () {
                         var flag = true;
@@ -530,7 +534,11 @@ define("myOrganization/myOrganization.viewModel",
                             }, {
                                 success: function (data) {
                                     if (data != null) {
-                                        selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
+                                        selectedMyOrganization().languageEditors.removeAll();
+                                        _.each(data, function (item) {
+                                            selectedMyOrganization().languageEditors.push(model.LanguageEditor.Create(item));
+                                        });
+                                        //selectedMyOrganization().languageEditor(model.LanguageEditor.Create(data));
                                     }
                                 },
                                 error: function (response) {

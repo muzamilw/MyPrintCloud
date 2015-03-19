@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -46,5 +47,12 @@ namespace MPC.Models.DomainModels
         public virtual Company Company { get; set; }
         public virtual Country Country { get; set; }
         public virtual State State { get; set; }
+
+        #region Additional Properties
+
+        [NotMapped]
+        public List<ScopeVariable> ScopeVariables { get; set; }
+
+        #endregion
     }
 }
