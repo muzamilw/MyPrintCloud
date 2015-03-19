@@ -154,7 +154,8 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
-                        orderCodeHeader(data.code());
+                        var code = data.code() == undefined || '' ? 'ORDER CODE' : data.code();
+                        orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
