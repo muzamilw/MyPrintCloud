@@ -28,6 +28,7 @@ using MPC.Repository.Repositories;
 using Newtonsoft.Json;
 using System.Web.UI.WebControls;
 using System.Net.Http.Headers;
+using MPC.Common;
 using Newtonsoft.Json.Linq;
 
 namespace MPC.Implementation.MISServices
@@ -931,6 +932,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var companyContacts in companySavingModel.NewAddedCompanyContacts)
                 {
                     companyContacts.OrganisationId = companyContactRepository.OrganisationId;
+                    companyContacts.Password = HashingManager.ComputeHashSHA1(companyContacts.Password);
                     companyDbVersion.CompanyContacts.Add(companyContacts);
                 }
             }
@@ -939,6 +941,7 @@ namespace MPC.Implementation.MISServices
             {
                 foreach (var companyContact in companySavingModel.EdittedCompanyContacts)
                 {
+                    companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
                     companyContactRepository.Update(companyContact);
                 }
             }

@@ -237,7 +237,15 @@ function Arc_1() {
           IT.ProductID = IT.ProductId;
           IT.ProductPageID = IT.ProductPageId;
       });
+      Template = DT;
+      TP = [];
+      $.each(Template.TemplatePages, function (i, IT) {
+          TP.push(IT);
+      });
+      Template.TemplatePages = [];
+      CzRnd = fabric.util.getRandomInt(1, 100);
+      d5(SP, true);
       StopLoader();
   });
-
+    //fu04
 }
