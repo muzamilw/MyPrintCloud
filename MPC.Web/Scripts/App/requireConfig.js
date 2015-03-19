@@ -28,6 +28,7 @@
             "crm": ist.siteUrl + "/Areas/CRM/Scripts",
             "calendar": ist.siteUrl + "/Areas/CRM/Scripts",
             "order": ist.siteUrl + "/Areas/Orders/Scripts",
+            "lookupMethods": ist.siteUrl + "/Areas/Settings/Scripts/MIS",
         }
     });
 
