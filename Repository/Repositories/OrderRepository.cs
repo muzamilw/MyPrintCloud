@@ -217,7 +217,7 @@ namespace MPC.Repository.Repositories
                     else
                         shopCart.BillingAddressID = 0;
                     shopCart.ShippingAddressID = tblOrder.AddressId;
-
+                  
                 }
 
             }

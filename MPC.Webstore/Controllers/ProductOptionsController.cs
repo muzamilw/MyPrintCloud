@@ -176,7 +176,7 @@ namespace MPC.Webstore.Controllers
 
             ViewBag.AttachmentCount = clonedItem.ItemAttachments == null ? 0 : clonedItem.ItemAttachments.Count;
 
-            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID);
+            DefaultSettings(referenceItemId, ItemMode, clonedItem.ItemId, OrderID, StoreBaseResopnse);
             StoreBaseResopnse = null;
             TempData["ItemMode"] = ItemMode;
             return View("PartialViews/ProductOptions");
@@ -185,11 +185,14 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(ItemCartViewModel cartObject, string ReferenceItemId)
          {
+             string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
              var ITemMode = TempData["ItemMode"];
             string QuestionQueueJason = "";
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
             if (!string.IsNullOrEmpty(cartObject.ItemPrice) || !string.IsNullOrEmpty(cartObject.JsonPriceMatrix) || !string.IsNullOrEmpty(cartObject.StockId))
             {
-                MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
+                
                 List<AddOnCostsCenter> ccObjectList = null;
                 if (cartObject.JsonAddOnsPrice != null)
                 {
@@ -233,22 +236,41 @@ namespace MPC.Webstore.Controllers
                     }
                 }
 
+                //double itemPrice = Convert.ToDouble(cartObject.ItemPrice);
 
+                //if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                //{
+                //}
 
                 if (true) // upload design
                 {
                     if (false) // calculate tax by service
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), 0, Convert.ToString(ITemMode), 0, QuestionQueueJason); // set files count
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionQueueJason); // set files count
                     }
                     else
                     {
-                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0, Convert.ToString(ITemMode), 0, QuestionQueueJason); // set files count
+                        if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                        {
+                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionQueueJason); // set files count
+                        }
+                        else 
+                        {
+                            _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode),false, 0, QuestionQueueJason); // set files count
+                        }
                     }
                 }
                 else
                 {
-                    _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(baseResponseCompany.Company.OrganisationId), baseResponseCompany.Company.TaxRate ?? 0, Convert.ToString(ITemMode), 0, QuestionQueueJason);
+                    if (StoreBaseResopnse.Company.isIncludeVAT == true && Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                    {
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate), Convert.ToString(ITemMode), true, 0, QuestionQueueJason);
+
+                    }
+                    else 
+                    {
+                        _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.StoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode),false, 0, QuestionQueueJason);
+                    }
                 }
                 Response.Redirect("/ShopCart/" + UserCookieManager.OrderId);
 
@@ -257,7 +279,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId));
+                DefaultSettings(Convert.ToInt64(ReferenceItemId), "", Convert.ToInt64(cartObject.ItemId), Convert.ToInt64(cartObject.OrderId), StoreBaseResopnse);
 
                 return View("PartialViews/ProductOptions");
             }
@@ -265,8 +287,9 @@ namespace MPC.Webstore.Controllers
 
         }
 
-        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId)
+        private void DefaultSettings(long ReferenceItemId, string mode, long ClonedItemId, long OrderId, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse)
         {
+            
             List<ProductPriceMatrixViewModel> PriceMatrixObjectList = null;
 
             List<AddOnCostCenterViewModel> AddonObjectList = null;
@@ -413,8 +436,9 @@ namespace MPC.Webstore.Controllers
             {
                 if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
                 {
-                    if (UserCookieManager.isIncludeTax)
+                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
                     {
+                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
                         if (referenceItem.DefaultItemTax != null)
                         {
                             matrixItem.PricePaperType1 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(referenceItem.DefaultItemTax));
@@ -430,25 +454,41 @@ namespace MPC.Webstore.Controllers
                             matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11), Convert.ToDouble(referenceItem.DefaultItemTax));
 
                         }
+                        else if(Convert.ToDouble(StoreBaseResopnse.Company.TaxRate) > 0)
+                        {
+                            matrixItem.PricePaperType1 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PricePaperType2 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PricePaperType3 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType4 = matrixItem.PriceStockType4 == null ? 0 : Utils.CalculateTaxOnPrice(matrixItem.PriceStockType4 ?? 0, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType5 = matrixItem.PriceStockType5 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType6 = matrixItem.PriceStockType6 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType7 = matrixItem.PriceStockType7 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType8 = matrixItem.PriceStockType8 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType9 = matrixItem.PriceStockType9 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType10 = matrixItem.PriceStockType10 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                            matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+
+                        }
                         else
                         {
-                            matrixItem.PricePaperType1 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                            matrixItem.PricePaperType2 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                            matrixItem.PricePaperType3 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType4 = matrixItem.PriceStockType4 == null ? 0 : Utils.CalculateTaxOnPrice(matrixItem.PriceStockType4 ?? 0, UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType5 = matrixItem.PriceStockType5 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType6 = matrixItem.PriceStockType6 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType7 = matrixItem.PriceStockType7 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType8 = matrixItem.PriceStockType8 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType9 = matrixItem.PriceStockType9 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType10 = matrixItem.PriceStockType10 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10), UserCookieManager.TaxRate);
-                            matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11), UserCookieManager.TaxRate);
-
+                            ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                            matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
+                            matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
+                            matrixItem.PricePaperType3 = matrixItem.PricePaperType3;
+                            matrixItem.PriceStockType4 = matrixItem.PriceStockType4 == null ? 0 : matrixItem.PriceStockType4;
+                            matrixItem.PriceStockType5 = matrixItem.PriceStockType5 == null ? 0 : matrixItem.PriceStockType5;
+                            matrixItem.PriceStockType6 = matrixItem.PriceStockType6 == null ? 0 : matrixItem.PriceStockType6;
+                            matrixItem.PriceStockType7 = matrixItem.PriceStockType7 == null ? 0 : matrixItem.PriceStockType7;
+                            matrixItem.PriceStockType8 = matrixItem.PriceStockType8 == null ? 0 : matrixItem.PriceStockType8;
+                            matrixItem.PriceStockType9 = matrixItem.PriceStockType9 == null ? 0 : matrixItem.PriceStockType9;
+                            matrixItem.PriceStockType10 = matrixItem.PriceStockType10 == null ? 0 : matrixItem.PriceStockType10;
+                            matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : matrixItem.PriceStockType11;
                         }
 
                     }
                     else
                     {
+                        ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
                         matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
                         matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
                         matrixItem.PricePaperType3 = matrixItem.PricePaperType3;
@@ -464,23 +504,25 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    if (UserCookieManager.isIncludeTax)
+                    if (StoreBaseResopnse.Company.isIncludeVAT == true)
                     {
-                        matrixItem.PricePaperType1 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                        matrixItem.PricePaperType2 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                        matrixItem.PricePaperType3 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType4 = matrixItem.PriceStockType4 == null ? 0 : Utils.CalculateTaxOnPrice(matrixItem.PriceStockType4 ?? 0, UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType5 = matrixItem.PriceStockType5 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType6 = matrixItem.PriceStockType6 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType7 = matrixItem.PriceStockType7 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType8 = matrixItem.PriceStockType8 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType9 = matrixItem.PriceStockType9 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType10 = matrixItem.PriceStockType10 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10), UserCookieManager.TaxRate);
-                        matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11), UserCookieManager.TaxRate);
+                        ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                        matrixItem.PricePaperType1 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType1, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PricePaperType2 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType2, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PricePaperType3 = Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PricePaperType3, CultureInfo.CurrentCulture), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType4 = matrixItem.PriceStockType4 == null ? 0 : Utils.CalculateTaxOnPrice(matrixItem.PriceStockType4 ?? 0, Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType5 = matrixItem.PriceStockType5 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType5), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType6 = matrixItem.PriceStockType6 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType6), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType7 = matrixItem.PriceStockType7 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType7), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType8 = matrixItem.PriceStockType8 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType8), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType9 = matrixItem.PriceStockType9 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType9), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType10 = matrixItem.PriceStockType10 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType10), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
+                        matrixItem.PriceStockType11 = matrixItem.PriceStockType11 == null ? 0 : Utils.CalculateTaxOnPrice(Convert.ToDouble(matrixItem.PriceStockType11), Convert.ToDouble(StoreBaseResopnse.Company.TaxRate));
 
                     }
                     else
                     {
+                        ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
                         matrixItem.PricePaperType1 = matrixItem.PricePaperType1;
                         matrixItem.PricePaperType2 = matrixItem.PricePaperType2;
                         matrixItem.PricePaperType3 = matrixItem.PricePaperType3;
