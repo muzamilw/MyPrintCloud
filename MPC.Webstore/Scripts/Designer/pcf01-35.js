@@ -421,6 +421,16 @@ function f2(c, m, y, k, ColorHex, Sname) {
             canvas.renderAll();
 
         });
+        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+            $.each(TO, function (i, IT) {
+                if (IT.ObjectID == Obj.ObjectID) {
+                    IT.IsSpotColor = true;
+                    IT.SpotColorName = Sname;
+                    return;
+                }
+            });
+        }
+
     } else if (D1AO) {
         if (D1AO.type == 'text') {
             D1AO.setColor(ColorHex);
@@ -445,7 +455,15 @@ function f2(c, m, y, k, ColorHex, Sname) {
         }
 
         canvas.renderAll();
-
+        if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+            $.each(TO, function (i, IT) {
+                if (IT.ObjectID == D1AO.ObjectID) {
+                    IT.IsSpotColor = true;
+                    IT.SpotColorName = Sname;
+                    return;
+                }
+            });
+        }
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -483,6 +501,20 @@ function f5(c, m, y, k) {
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        Sname = window.prompt("Enter Spot Color Name Here! (Once a color is created, you cannot change its name or color)", "Spot Color 1");
+        if (Sname == null || Sname == "") {
+            return false;
+        } else {
+            $.getJSON("/designerapi/TemplateColorStyles/SaveCorpColor/" + Sname + "/" + c + "/" + m + "/" + y + "/" + k + "/" + CustomerID,
+				function (DT) {
+				    var PID = DT;
+				    var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+				    $('#tabsActiveColors').append(html);
+
+				});
+        }
+    }
     f2(c, m, y, k, Color, Sname);
 }
 function f6_1() {
@@ -1708,6 +1740,39 @@ function j4(e) {
         }
         //alert();
     }
+}
+function j7(i, n) {
+
+    $.getJSON("/designerapi/TemplateColorStyles/UpdateCorpColor/" + i + "/" + n,
+		function (DT) {
+		    //alert(DT);
+		    // var html = "<div class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "></div><div class='ColorPalletCorpName'>" + Sname + "</div>";
+		    //$('#DivColorContainer').append(html);
+		    if (n == "DeActive") {
+		        // var somvar = $("#somediv").html();
+		        $("#pallet" + i).clone(true).appendTo('#tabsInActiveColors');
+		        $("#textColor" + i).clone(true).appendTo('#tabsInActiveColors');
+		        $('#tabsActiveColors #pallet' + i).remove();
+		        $('#tabsActiveColors #textColor' + i).remove();
+		        $('#btnClr' + i).remove();
+		        var html = "<button  id ='btnClr" + i + "' class='btnActiveColor' title='Activate this color' onclick='j7(" + i + ",&quot;Active&quot;);'></button>";
+		        $("#pallet" + i).append(html);
+		    } else {
+		        $("#pallet" + i).clone(true).appendTo('#tabsActiveColors');
+		        $("#textColor" + i).clone(true).appendTo('#tabsActiveColors');
+		        $('#tabsInActiveColors #pallet' + i).remove();
+		        $('#tabsInActiveColors #textColor' + i).remove();
+		        $('#btnClr' + i).remove();
+		        var html = "<button  id ='btnClr" + i + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + i + ",&quot;DeActive&quot;);'></button>";
+		        $("#pallet" + i).append(html);
+		    }
+		});
+
+
+    // alert(n);  // DeActive
+    //pallet
+    //textColor
+
 }
 function l2(event) {
     if (event.keyCode == ctrlKey) D1CD = false;
