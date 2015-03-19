@@ -1,0 +1,31 @@
+﻿@using MPC.Models.Common
+@{
+    var CumbsList = Model as List<BreadCrumbModel>;
+}
+@if (CumbsList != null && CumbsList.Count > 1)
+{
+        <div class="BreadCrumbMenu left_align">
+
+
+            <h1>
+                @foreach (var crumb in CumbsList)
+                {
+                    if (crumb.IsEnable == false)
+                    {
+                        <a id="aLinkItem" href="#" class="crumb_notActive left_align">
+                            @crumb.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="aLinkItem" href="@crumb.Url" class="crumb_Active left_align">
+                            @crumb.Name
+                        </a><label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
+                    }
+
+                }
+            </h1>
+            <div class="clearBoth"></div>
+        </div>
+
+}

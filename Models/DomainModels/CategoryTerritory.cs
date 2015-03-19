@@ -9,9 +9,11 @@ namespace MPC.Models.DomainModels
     public partial class CategoryTerritory
     {
         public long CategoryTerritoryId { get; set; }
-        public Nullable<long> CompanyId { get; set; }
-        public Nullable<long> ProductCategoryId { get; set; }
-        public Nullable<long> TerritoryId { get; set; }
-        public Nullable<long> OrganisationId { get; set; }
+        public long? CompanyId { get; set; }
+        public long? ProductCategoryId { get; set; }
+        public long? TerritoryId { get; set; }
+        public long? OrganisationId { get; set; }
+
+        public virtual ProductCategory ProductCategory { get; set; }
     }
 }

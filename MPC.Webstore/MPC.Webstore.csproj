@@ -334,6 +334,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
+    <Compile Include="Controllers\BreadCrumbController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
@@ -794,6 +795,7 @@
     <Content Include="Views\Shared\PartialViews\SubscribeAndTestimonials.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductParentCategories.cshtml" />
     <Content Include="Views\Shared\PartialViews\SubscribeAndContact.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BreadCrumb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -802,7 +804,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\SubscribeAndContact\" />
+    <Folder Include="Views\BreadCrumb\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
