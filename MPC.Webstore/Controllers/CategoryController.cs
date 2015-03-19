@@ -95,7 +95,7 @@ namespace MPC.Webstore.Controllers
                 BindCategoryData(subCategoryList);
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
-
+                productList = productList.Where(p => p.CompanyId == UserCookieManager.StoreId).ToList();
                 //  pnlAllProductTopLevel.Visible = true;
                 if (productList != null && productList.Count > 0)
                 {
