@@ -1488,11 +1488,39 @@ function b3_lDimensions() {
  //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
 }
 function fu05_svcCall(DT) {
-    $.each(DT, function (i, IT) {
-        fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
-    });
-    var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
-    $('.ColorOptionContainer').append(html);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4)
+    {
+        var html = "<div id='tabs'><ul class='tabsList'><li><a href='#tabsActiveColors'>Active</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+        $.each(DT, function (i, IT) {
+            fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+        $("#tabs").tabs();
+    } else
+    {
+        $.each(DT, function (i, IT) {
+            fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+    }
+
+}
+function fu05_svca7(c, m, y, k, Sname, IsACT, PID) {
+    var Color = getColorHex(c, m, y, k);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        if (IsACT == true) {
+            var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsActiveColors').append(html);
+
+        } else {
+            var html = "<div  id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnActiveColor' title='Activate this color'  onclick='j7(" + PID + ",&quot;Active&quot;);' ></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsInActiveColors').append(html);
+        }
+    } 
 }
 function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
     var Color = getColorHex(c, m, y, k);
