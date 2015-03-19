@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
                 {
                     if (_myClaimHelper.loginContactRoleID() == Convert.ToInt32(Roles.Adminstrator))
                     {
-                        subCategoryList = _myCompanyService.GetChildCategories(CategoryID);
+                        subCategoryList = _myCompanyService.GetChildCategories(CategoryID, UserCookieManager.StoreId);
                     }
                     else
                     {
@@ -89,13 +89,12 @@ namespace MPC.Webstore.Controllers
                 }
                 else // retail case
                 {
-                    subCategoryList = _myCompanyService.GetChildCategories(CategoryID);
+                    subCategoryList = _myCompanyService.GetChildCategories(CategoryID, UserCookieManager.StoreId);
                 }
 
                 BindCategoryData(subCategoryList);
 
                 var productList = _myCompanyService.GetRetailOrCorpPublishedProducts(CategoryID);
-
 
                 //  pnlAllProductTopLevel.Visible = true;
                 if (productList != null && productList.Count > 0)

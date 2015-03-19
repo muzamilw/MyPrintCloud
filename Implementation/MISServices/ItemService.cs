@@ -645,7 +645,7 @@ namespace MPC.Implementation.MISServices
                     return;
                 }
 
-                templateService.generateTemplateFromPDF(mapPath,
+                templateService.generateTemplateFromPDF(HttpContext.Current.Server.MapPath( "~/" +mapPath),
                     templateTypeMode.HasValue ? templateTypeMode.Value : 2,
                     itemTarget.TemplateId.Value, organisationId);
             }
