@@ -3020,6 +3020,12 @@ define("stores/stores.viewModel",
                     // $('#productCatFirstTab').addClass('active');
                     //$('.nav-tabs li:eq(0) a').tab('show');
                     //$('a[href=#productCatFirstTab]').click();
+                    //Resetting all list of territories (making isSelected fields False)
+                    _.each(addressTerritoryList(), function (territory) {
+                        if (territory.isSelected()) {
+                            territory.isSelected(false);
+                        }
+                    });
                     $("#categoryTabItems li a").first().trigger("click");
                 },
                 //Delete Product Category
@@ -3060,6 +3066,8 @@ define("stores/stores.viewModel",
                                     selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
                                     selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                     view.showStoreProductCategoryDialog();
                                 }
@@ -3094,6 +3102,8 @@ define("stores/stores.viewModel",
                                     updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                     productCategoryStatus("Modify Category Details");
                                     isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
                                     view.showStoreProductCategoryDialog();
                                 }
                                 isLoadingStores(false);
@@ -3109,6 +3119,25 @@ define("stores/stores.viewModel",
                         editNewAddedProductCategory();
                     }
 
+                },
+                //Update Product Category Territories
+                UpdateProductCategoryTerritories = function (categoryTerritories) {
+                    //#region Update Category Territories
+                    //Resetting all list of territories (making isSelected fields False)
+                    _.each(addressTerritoryList(), function (territory) {
+                        if (territory.isSelected()) {
+                            territory.isSelected(false);
+                        }
+                    });
+                    //Setting IsSelected Fields of territories
+                    _.each(categoryTerritories, function (categoryTerritory) {
+                        _.each(addressTerritoryList(), function (territory) {
+                            if (territory.territoryId() == categoryTerritory.TerritoryId) {
+                                territory.isSelected(true);
+                            }
+                        });
+                    });
+                    //#endregion
                 },
                 //Edit New Added Product Category
                 editNewAddedProductCategory = function () {
