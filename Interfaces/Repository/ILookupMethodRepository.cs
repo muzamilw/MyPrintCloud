@@ -9,6 +9,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface ILookupMethodRepository: IBaseRepository<LookupMethod, long>
     {
-
+       
     }
 }
