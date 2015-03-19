@@ -518,6 +518,7 @@ namespace MPC.Implementation.WebStoreServices
                             GenerateThumbNail(sourcePath, destPath, 98);
 
                         }
+                        _templateImagesRepository.insertImageRecord(listImages).ToString();
                     }
                     else
                     {

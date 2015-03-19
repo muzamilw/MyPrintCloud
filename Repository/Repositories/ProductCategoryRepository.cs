@@ -76,10 +76,10 @@ namespace MPC.Repository.Repositories
         
         }
 
-        public List<ProductCategory> GetChildCategories(long categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
 
-            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
                 return childCategoresList;
        
 
@@ -186,6 +186,15 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(productCategory => !productCategory.ParentCategoryId.HasValue && productCategory.OrganisationId == OrganisationId &&
                 (!companyId.HasValue || productCategory.CompanyId == companyId)).ToList();
+        }
+
+        public List<ProductCategory> GetChildCategories(long categoryId)
+        {
+
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            return childCategoresList;
+
+
         }
     }
 }

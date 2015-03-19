@@ -1,4 +1,6 @@
-﻿<div>
+﻿
+
+<div>
     <div class="col-lg-12 form-horizontal">
         <h3 class="group-header">Order Detail</h3>
         <div class="col-lg-6">
@@ -11,7 +13,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control OpenStockPopup-Class1" id="txtCompany" data-bind="value: companyName, enable: false" />
+                        <input type="text" class="form-control OpenStockPopup-Class1" id="txtCompany" data-bind="value: companyName, enable: false" style="width:80%;" />
                         <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
                             <i class="fa fa-lg"></i>&nbsp;....
                         </a>
@@ -34,45 +36,50 @@
 
                     <label class="control-label text-right tooltip-float">Address Name</label>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-5">
                     <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
+                <div class="col-lg-1"> 
+                   
+                    <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
+                        <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
+                    </a>
+                </div>
 
             </div>
-            <div class="form-group">
-                <div class="col-lg-4 text-right">
-
-                    <label class="control-label tooltip-float">Address 1</label>
-                </div>
-                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
-                    <div>
-                        <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
-                        @*<input type="text" class="form-control" id="address1" data-bind="value: address1, enable: false" />*@
+            <div id="popoveraddress" style="display:none;">
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <label class="control-label tooltip-float">Address 1</label>
+                    </div>
+                    <div class="col-lg-6" data-bind="with: $root.selectedAddress">
+                        <div>
+                            <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
+                            @*<input type="text" class="form-control" id="address1" data-bind="value: address1, enable: false" />*@
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-lg-4 text-right">
-
-                    <label class="control-label tooltip-float">Tel</label>
-                </div>
-                <div class="col-lg-6" data-bind="with: $root.selectedAddress">
-                    <div>
-                        <label id="telephone" data-bind="text: telephone1" class="form-control" style="border:none"></label>
-                        @*<input type="text" data-bind="value: telephone1, enable: false" class="form-control" id="telephone">*@
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <label class="control-label tooltip-float">Tel</label>
+                    </div>
+                    <div class="col-lg-6" data-bind="with: $root.selectedAddress">
+                        <div>
+                            <label id="telephone" data-bind="text: telephone1" class="form-control" style="border:none"></label>
+                            @*<input type="text" data-bind="value: telephone1, enable: false" class="form-control" id="telephone">*@
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-4 text-right">
-                    <label class="control-label tooltip-float">Email</label>
-                </div>
-                <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
-                    <div>
-                        <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
-                        
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <label class="control-label tooltip-float">Email</label>
+                    </div>
+                    <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
+                        <div>
+                            <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -140,7 +147,6 @@
             
             <div class="form-group">
                 <div class="col-lg-4 text-right">
-
                     <label class="control-label text-right tooltip-float">Order Flag</label>
                 </div>
 
@@ -298,3 +304,26 @@
 
 </div>
 
+<script type="text/javascript" >
+    
+    function addAddress()
+    {
+        var e = document.getElementById("popoveraddress");
+        var p = document.getElementById("addresspullicon");
+
+        if (e.style.display == "none")
+        {
+            p.className = "fa fa-chevron-circle-down drop-icon";
+            e.style.display = "block";
+        }
+        else if (e.style.display == "block")
+        {
+            p.className = "fa fa-chevron-circle-right drop-icon";
+            e.style.display = "none";
+
+        }
+    }
+        
+   
+    
+</script>
