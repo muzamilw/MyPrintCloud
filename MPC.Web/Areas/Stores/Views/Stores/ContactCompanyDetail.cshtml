@@ -12,10 +12,15 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'">
+                        <li data-bind="css: $root.productStatus() ?  '' : 'active'">
+                            <!-- ko if : $root.productStatus -->
                             <a href="#" data-bind="click: ist.product.viewModel.onCloseProductEditor"><span data-bind="text:$root.storeStatus"></span></a>
+                            <!-- /ko -->
+                            <!-- ko if : !$root.productStatus() -->
+                            <span data-bind="text:$root.storeStatus"></span>
+                            <!-- /ko -->
                         </li>
-                        <!-- if ko if : $root.productStatus()!='' -->
+                        <!-- ko if : $root.productStatus -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                         <!-- /ko -->
                     </ol>
