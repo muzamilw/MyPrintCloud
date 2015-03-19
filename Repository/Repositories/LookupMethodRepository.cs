@@ -27,6 +27,11 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public IEnumerable<LookupMethod> GetAll()
+        {
+            return DbSet.Where(g => g.OrganisationId == OrganisationId || g.OrganisationId == 0).ToList();
+        }
+
         #endregion
     }
 }
