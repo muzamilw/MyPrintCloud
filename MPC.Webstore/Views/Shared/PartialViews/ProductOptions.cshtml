@@ -299,14 +299,9 @@
                 </div>
                 <div class="float_left_simple grossTotaldiv">
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.StoreId))</label>
-                    @if (MPC.Webstore.Common.UserCookieManager.isIncludeTax == true)
-                    {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">inc. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
-                    }
-                    else
-                    {
-                        @*<label id="lblTaxLabel" class="Fsize13 float_right marginLeft">ex. VAT</label>*@<label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label><label id="lblTaxLabel" class="Fsize13 float_right marginLeft"></label>
-                    }
+                    
+                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft">@ViewBag.VATLabel</label>
+                    
                     <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
