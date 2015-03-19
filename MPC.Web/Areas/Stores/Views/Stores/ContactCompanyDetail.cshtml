@@ -2200,13 +2200,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
-                        <!--ko if: roleName() == 'Administrator' -->
+                        <!--ko if: roleName() == "Administrator" -->
                         <span class="label label-primary" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'Manager' -->
+                        <!--ko if: roleName() == "Manager" -->
                         <span class="label label-success" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'User' -->
+                        <!--ko if: roleName() == "User" -->
                         <span class="label label-info" data-bind="text: roleName "></span>
                         <!-- /ko -->
 
