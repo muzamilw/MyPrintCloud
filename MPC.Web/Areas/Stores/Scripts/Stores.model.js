@@ -127,7 +127,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
-    , specifiedIsDidplayInFooter) {
+    , specifiedIsDidplayInFooter, specifiedCurrentThemeId) {
         var self,
             storeId = ko.observable(undefined),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -147,6 +147,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
             storeImagePath = ko.observable(specifiedStoreImagePath),
+            currentThemeId = ko.observable(),
+            currentThemeName = ko.observable(),
             //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
             //    required: {
             //        onlyIf: function () {
@@ -482,6 +484,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
             result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
             result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
+            result.CurrentThemeId = source.currentThemeId() === undefined ? null : source.currentThemeId();
             result.CmsOffers = [];
             result.MediaLibraries = [];
             result.FieldVariables = [];
@@ -509,6 +512,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             accountOpenDate: accountOpenDate,
             accountManagerId: accountManagerId,
             avatRegNumber: avatRegNumber,
+            currentThemeId: currentThemeId,
             avatRegReference: avatRegReference,
             isCalculateTaxByService: isCalculateTaxByService,
             phoneNo: phoneNo,
@@ -548,6 +552,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeImageFileBinary: storeImageFileBinary,
             storeImageName: storeImageName,
             storeWorkflowImage: storeWorkflowImage,
+            currentThemeName: currentThemeName,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,

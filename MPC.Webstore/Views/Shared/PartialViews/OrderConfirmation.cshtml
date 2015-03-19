@@ -330,7 +330,7 @@
                                             </td>
                                             <td align="right" width="20%">
                                                 <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal"  
-                                                           Style="margin-right: 13px;" >@ViewBag.Currency@GrossTotal</label>
+                                                           Style="margin-right: 13px;" >@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                             </td>
                                         </tr>
                                     </table>

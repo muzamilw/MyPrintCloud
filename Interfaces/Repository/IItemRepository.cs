@@ -56,7 +56,7 @@ namespace MPC.Interfaces.Repository
 
         bool RemoveCloneItem(long itemID, out List<ArtWorkAttatchment> itemAttatchmetList, out Template clonedTemplateToRemove);
 
-        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueuItem = "");
+        bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice, long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId, double TaxRate, string ItemMode,  bool isInculdeTax,int CountOfUploads = 0, string QuestionQueuItem = "");
 
         List<ProductItem> GetRelatedItemsList();
 
