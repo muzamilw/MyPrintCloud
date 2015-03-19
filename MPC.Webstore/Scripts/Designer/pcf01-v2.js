@@ -675,12 +675,12 @@ function d2() {
         m0();
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
+              //  if (ite.Orientation == 1) {
                     d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
-                }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                }
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     } else {
@@ -691,12 +691,12 @@ function d2() {
         }
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
+              //  if (ite.Orientation == 1) {
                     d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
-                }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                }
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     }
@@ -734,7 +734,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            if (IT.Orientation == 1) {
+          //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
                 } else {
@@ -746,21 +746,21 @@ function d5_sub(pageID, isloading) {
                     canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
                 }
 
-            }
-            else {
-                if (IT.Width != null && IT.Width != 0) {
-                    canvas.setHeight(IT.Width * dfZ1l);
-                } else {
-                    canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-                }
-                if (IT.Height != null && IT.Height != 0) {
-                    canvas.setWidth(IT.Height * dfZ1l);
-                } else {
-                    canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
-                }
+            //}
+            //else {
+            //    if (IT.Width != null && IT.Width != 0) {
+            //        canvas.setHeight(IT.Width * dfZ1l);
+            //    } else {
+            //        canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
+            //    }
+            //    if (IT.Height != null && IT.Height != 0) {
+            //        canvas.setWidth(IT.Height * dfZ1l);
+            //    } else {
+            //        canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+            //    }
 
 
-            }
+            //}
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
             var val = $("#canvasDocument").width() - $(".page").width();
