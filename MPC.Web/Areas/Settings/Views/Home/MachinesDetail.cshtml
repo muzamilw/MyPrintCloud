@@ -155,7 +155,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" data-bind="value:Priority">
+                                                <input type="text" class="form-control" id="txtPriority" placeholder="Enter Priority" data-bind="autoNumeric:Priority, settings:{mDec:0}">
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -237,7 +237,7 @@
 
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="value:maximumsheetwidth" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="120" id="qty11" data-bind="autoNumeric:maximumsheetwidth, settings:{mDec:3} " />
                                                     <span class="help-block text-right">Width (inch)</span>
                                                 </div>
                                                 <div class="col-xs-2" style="text-align: center;margin-top: 8px;">
@@ -247,7 +247,7 @@
                                                 </div>
                                                 <div class="col-xs-5">
 
-                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="value:maximumsheetheight" />
+                                                    <input type="text" class="form-control txtBox-contentAlignRight" value="80" id="qty31" data-bind="autoNumeric:maximumsheetheight, settings:{mDec:3}" />
                                                     <span class="help-block text-right">Height (inch)</span>
                                                 </div>
 
@@ -272,7 +272,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" data-bind="value:maximumsheetweight" />
+                                                    <input type="text" value="350" placeholder="Enter Maximum Sheet Weight" class="form-control txtBox-contentAlignRight" id="Estimateitle" data-bind="autoNumeric:maximumsheetweight, settings:{mDec:2}" />
                                                     <span class="help-block text-right">lbs</span>
 
                                                 </div>
@@ -341,7 +341,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" data-bind="value:gripdepth" />
+                                                    <input type="text" placeholder="Enter Grip Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gripdepth, settings:{mDec:3}" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -366,7 +366,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" data-bind="value:headdepth" />
+                                                    <input type="text" placeholder="Enter Head Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:headdepth, settings:{mDec:3}" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -391,7 +391,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" data-bind="value:gutterdepth" />
+                                                    <input type="text" placeholder="Enter Side Gutter Depth" class="form-control txtBox-contentAlignRight" data-bind="autoNumeric:gutterdepth, settings:{mDec:3}" />
                                                     <span class="help-block text-right">inch</span>
 
                                                 </div>
@@ -424,7 +424,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 75%;" data-bind="value:ColourHeads" />
+                                                    <input type="text" value="4" placeholder="Enter Number" class="form-control txtBox-contentAlignRight" style="width: 75%;" data-bind="autoNumeric:ColourHeads, settings:{mDec:0,vMin:0,vMax:8} " />
                                                     <span class="help-block text-right"></span>
 
                                                 </div>
@@ -597,7 +597,7 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
                                             <div class="col-xs-4" style="width: 23%; padding:0">
                                                 
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Enter Setup Charge" data-bind="value: SetupCharge" />
+                                                <input type="text" class="form-control txtBox-contentAlignRight" value="20" id="qty11" placeholder="Setup Charge" data-bind="autoNumeric: SetupCharge , settings:{mDec:2}" />
 
                                             </div>
                                             <div class="col-lg-6 text-right" data-bind="visible: ismakereadyused">
@@ -611,10 +611,10 @@ This make ready charge is not to be confused with the press set up charge for â€
                                                 <label class="control-label text-right">Plate Makeready Price Per Head</label>
 
                                             </div>
-                                            <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
+                                            <span data-bind="text:CurrencySymbol, visible: ismakereadyused" class="CurrencySymbol"></span>
                                             <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible: ismakereadyused">
 
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="value: MakeReadyPrice" />
+                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Plate MakeReady Charge" data-bind="autoNumeric: MakeReadyPrice, settings:{mDec:2}" />
 
                                             </div>
 
@@ -657,7 +657,7 @@ This make ready charge is not to be confused with the press set up charge for â€
                                         <div class="col-lg-6">
                                             <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
                                             <div class="col-xs-4" style="width: 23%; padding:0">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Enter Volume of Ink Duct Per Head" data-bind="value: MinimumCharge">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" placeholder="Volume of Ink Duct Per Head" data-bind="autoNumeric: MinimumCharge, settings:{mDec:2}">
                                                 @*<span class="help-block text-right">lbs</span>*@
                                             </div>
                                             <div class="col-lg-6 text-right" data-bind="visible:iswashupused">
@@ -671,7 +671,7 @@ This make ready charge is not to be confused with the press set up charge for â€
                                             </div>
                                             <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
                                             <div class="col-xs-4" style="width: 22%; padding:0" data-bind="visible:iswashupused">
-                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Enter Washup Charge" data-bind="value: WashupPrice" />
+                                                <input type="text" class="form-control txtBox-contentAlignRight" value="14" id="qty31" placeholder="Washup Charge" data-bind="autoNumeric: WashupPrice, settings:{mDec:2}" />
 
                                             </div>
                                         </div>
@@ -691,7 +691,7 @@ This make ready charge is not to be confused with the press set up charge for â€
 
                                         <div class="col-lg-6">
                                             <span class="CurrencySymbol" data-bind="text:CurrencySymbol"></span>
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="width:23%;" placeholder="Enter Premium Per Head" data-bind="value: worknturncharge">
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="width:23%;" placeholder="Premium Per Head" data-bind="autoNumeric: worknturncharge, settings:{mDec:2}">
                                             @*<span class="help-block text-right" style="width:22%;">lbs</span>*@
                                         </div>
 
@@ -738,7 +738,7 @@ This make ready charge is not to be confused with the press set up charge for â€
 
                                             <div class="col-lg-6">
                                                 <span data-bind="text:CurrencySymbol" class="CurrencySymbol"></span>
-                                                <input type="text" class="form-control" style="width:25%;" data-bind="value:InkChargeForUniqueColors">
+                                                <input type="text" class="form-control" style="width:25%;" data-bind="autoNumeric:InkChargeForUniqueColors, settings:{mDec:2}">
                                                 <span class="help-block text-right" style="width:25%;"></span>
                                             </div>
 

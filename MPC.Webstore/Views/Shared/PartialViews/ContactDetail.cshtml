@@ -184,8 +184,8 @@
                                 </div>
 
                                 <div id="coorporateUserFields">
-                                    @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
-                            {
+                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                  {
                                 <div>
 
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
@@ -199,8 +199,8 @@
                                     </div>
                                     <br />
                                 </div>
-                            }
-                                    @if (UserCookieManager.StoreId == (int)StoreMode.Corp)
+                                }
+                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                             {
                                 <div>
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
