@@ -34,7 +34,7 @@
 
 
 define("lookupMethods/lookupMethods.view",
-    ["jquery", "lookupMethods/lookupMethods.viewModel"], function ($, lookupMethodsViewModel) {//machineViewModel
+    ["jquery", "lookupMethods/lookupMethods.viewModel"], function ($, lookupMethodsViewModel) {//lookupMethodsViewModel
 
         var ist = window.ist || {};
 
