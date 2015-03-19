@@ -42,7 +42,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IFavoriteDesignRepository _favoriteRepository;
         private readonly INewsLetterSubscriberRepository _newsLetterSubscriberRepository;
         private readonly IRaveReviewRepository _raveReviewRepository;
-
+        private readonly IOrderRepository _orderrepository;
         private string pageTitle = string.Empty;
         private string MetaKeywords = string.Empty;
         private string MetaDEsc = string.Empty;
@@ -59,7 +59,7 @@ namespace MPC.Implementation.WebStoreServices
             IPageCategoryRepository pageCategoryRepository, ICompanyContactRepository companyContactRepository, ICurrencyRepository currencyRepository
             , IGlobalLanguageRepository globalLanguageRepository, IOrganisationRepository organisationRepository, ISystemUserRepository systemUserRepository, IItemRepository itemRepository, IAddressRepository addressRepository, IMarkupRepository markuprepository
             , ICountryRepository countryRepository, IStateRepository stateRepository, IFavoriteDesignRepository favoriteRepository, IStateRepository StateRepository, ICompanyTerritoryRepository CompanyTerritoryRepository
-            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository)
+            , INewsLetterSubscriberRepository newsLetterSubscriberRepository, IRaveReviewRepository raveReviewRepository, IOrderRepository _orderrepository)
         {
             this._CompanyRepository = companyRepository;
             this._widgetRepository = widgetRepository;
@@ -81,6 +81,7 @@ namespace MPC.Implementation.WebStoreServices
             this._favoriteRepository = favoriteRepository;
             this._newsLetterSubscriberRepository = newsLetterSubscriberRepository;
             this._raveReviewRepository = raveReviewRepository;
+            this._orderrepository = _orderrepository;
         }
         
         #endregion
@@ -1384,6 +1385,11 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+       public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+       {
+           return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
+       }
+
     }
 
 

@@ -137,9 +137,9 @@
      </text>),
    
     
-   grid.Column("Download", format:@<text>@if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                         {<button id="view" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
-   
+   grid.Column("Download", format:@<text>@if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+   {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+
    }</text>),
     
     grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -353,9 +353,7 @@
                                     </td>
                                     <td>
                                         
-                                       
                                             <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                       
                                     </td>
                                 </tr>
                             </table>
@@ -370,7 +368,6 @@
                                width="100%">
                             <tr>
                                 <td>
-                                    
                                         <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                             <div class="product_detail_sup_padding">
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -619,7 +616,7 @@
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
                     }
                     if (response.billingAddress.Address2 == null) {
-                        alert(response.billingAddress.Address2);
+                       
                         $("#BillingAddressline2").text('');
                     }
                     else { $("#BillingAddressline2").text(response.billingAddress.Address2); }

@@ -180,7 +180,7 @@ namespace MPC.Webstore.Controllers
                             BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
                         }
 
-                        BCDetail.PageNavigateURl = "#";
+                        BCDetail.PageNavigateURl = "/ProductPendingOrders";
 
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);

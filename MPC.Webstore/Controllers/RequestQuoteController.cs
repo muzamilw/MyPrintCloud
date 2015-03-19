@@ -45,7 +45,7 @@ namespace MPC.Webstore.Controllers
             }
 
             return View("PartialViews/RequestQuote", Quote);
-
+            
         }
         [HttpPost]
         public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)

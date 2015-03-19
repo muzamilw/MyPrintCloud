@@ -13,7 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     
     {
-
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
         void ResetDefaultShippingAddress(Address address);

@@ -54,6 +54,12 @@ namespace MPC.Webstore
            "RequestQuote",
            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
         );
+            routes.MapRoute(
+            "ProductPendingOrders",
+            "ProductPendingOrders",
+            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+         );
+
 
             routes.MapRoute(
            "orderPolicy",

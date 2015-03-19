@@ -11,6 +11,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface IOrderRepository : IBaseRepository<Estimate,long>
     {
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         List<Order> GetAllCorpOrders(long ContactCompany, OrderStatus? orderStatus, string fromDate, string toDate, string orderRefNumber);
         string FormatDateValue(DateTime? dateTimeValue);
         ShoppingCart ExtractShoppingCartForOrder(Estimate tblEstimate);
