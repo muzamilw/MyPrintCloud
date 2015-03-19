@@ -1901,7 +1901,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <th><a href="#"><span>Variable Scope</span></a></th>
                                                             <th><a href="#"><span>Type</span></a></th>
                                                             <th><a href="#"><span>Tag</span></a></th>
-                                                            <th>&nbsp;</th>
+                                                            @*<th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1941,7 +1941,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <tr>
                                                             <th><a href="#"><span>Name</span></a></th>
                                                             <th><a href="#"><span>Description</span></a></th>
-                                                            <th>&nbsp;</th>
+                                                            @*<th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -2056,15 +2056,15 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyCMYKColorTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyCMYKColorCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}">
-                <td data-bind="text: colorName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: colorName,click : $root.onEditCompanyCMYKColor"></a></td>
                 <td data-bind="text: colorC"></td>
                 <td data-bind="text: colorM"></td>
                 <td data-bind="text: colorY"></td>
                 <td data-bind="text: colorK"></td>
-                <td id="actionColumn">
+                @*<td id="actionColumn">
                     <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="actionsCompanyTerritoryTemplate" type="text/html">
@@ -2102,9 +2102,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
                     <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
                 </td>
-                <td data-bind="text:setName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: setName,click : $root.onEditCompanyBanner"></a></td>
                 <td data-bind="text:heading"></td>
-                <td class="text-right">
+                @*<td class="text-right">
                     <a class="table-link" title="Edit Banner" data-bind="click:$root.onEditCompanyBanner">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>
@@ -2117,7 +2117,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                         </span>
                     </a>
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
@@ -2250,13 +2250,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
-                        <!--ko if: roleName() == 'Administrator' -->
+                        <!--ko if: roleName() == "Administrator" -->
                         <span class="label label-primary" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'Manager' -->
+                        <!--ko if: roleName() == "Manager" -->
                         <span class="label label-success" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'User' -->
+                        <!--ko if: roleName() == "User" -->
                         <span class="label label-info" data-bind="text: roleName "></span>
                         <!-- /ko -->
 
@@ -2309,7 +2309,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemPaymentGatewayTemplate" type="text/html">
             <tr data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
-                <td data-bind="text: paymentMethodName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: paymentMethodName,click : $root.onEditPaymentGateway"></a></td>
                 <td data-bind="text: businessEmail"></td>
                 <!--ko if: isActive() === true -->
                 <td>
@@ -2321,10 +2321,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-warning">Inactive</span>
                 </td>
                 <!-- /ko -->
-                <td id="actionColumn">
+                @*<td id="actionColumn">
                     <!-- ko template: { name: "actionsPaymentGatewayTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="itemProductCategoriesTemplate" type="text/html">
@@ -2545,33 +2545,33 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 <script id="filedVariablesItemTemplate" type="text/html">
     <tr>
-        <td data-bind="text:variableName"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: variableName,click : $root.onEditFieldVariable"></a></td>
         <td data-bind="text:scopeName"></td>
         <td data-bind="text:typeName"></td>
         <td data-bind="text:variableTag"></td>
-        <td class="text-right">
+        @*<td class="text-right">
             <a href="" class="table-link" data-bind="click:$root.onEditFieldVariable">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </td>
+        </td>*@
     </tr>
 
 </script>
 <script id="smartFormItemTemplate" type="text/html">
     <tr>
-        <td data-bind="text:name"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditSmartForm"></a></td>
         <td data-bind="text:heading"></td>
-        <td class="text-right">
+        @*<td class="text-right">
             <a href="" class="table-link" data-bind="click:$root.onEditSmartForm">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </td>
+        </td>*@
     </tr>
 
 </script>

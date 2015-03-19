@@ -347,6 +347,7 @@
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CategoryTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />

@@ -6797,3 +6797,74 @@ font-size: 13px;
 .bkPanelCommonControls {
     margin:0px 0px !important;
 }
+.tabsList li a {
+    text-indent:0 !important;
+    border-radius: 10px !important;
+
+}
+.tabsList li  {
+    width:87px !important;   border-radius: 10px !important;
+}
+
+.ColorPalletCorp {
+  height: 20px;
+  width: 199px;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  border-width: 2px;
+  border-color: Silver;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  border-bottom-width: 0px;
+}
+.ColorPalletCorpName {
+  height: 17px;
+  width: 199px;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-width: 2px;
+  border-color: Silver;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  border-top-width: 0px;
+  color: white;
+  font-size: 13px;
+}
+
+.ColorTabsContainer
+{
+    display: block;
+    padding: 0px !important;
+    margin-left: -4px;
+}
+
+.btnDeactiveColor
+{
+    background: url('assets-v2/deactive.png');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px; /*margin-bottom: -6px;*/
+    margin-top: 5px;
+    border: none;
+    margin-left: 175px;
+    cursor: pointer;
+}
+
+.btnActiveColor
+{
+    background: url('assets-v2/active.png');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px; /*margin-bottom: -6px;*/
+    margin-top: 5px;
+    border: none;
+    margin-left: 175px;
+    cursor: pointer;
+}
