@@ -171,7 +171,7 @@ define("stores/stores.viewModel",
                     //Delete Company Domain
                     onDeleteCompanyDomainItem = function (companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
-                            toastr.error("Default Company Domain cannot be deleted");
+                            toastr.error("Default Company Domain cannot be deleted", "", ist.toastrOptions);
                             return;
                         }
                         // Ask for confirmation
@@ -216,14 +216,14 @@ define("stores/stores.viewModel",
                                 } else if (selectedStore().webAccessCode() !== undefined && selectedStore().defaultCompanyDomainCopy() != undefined &&
                                     selectedStore().webAccessCode() !== selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]) {
                                     selectedStore().webAccessCode(selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]);
-                                    toastr.error('Company Domain cannot be duplicated');
+                                    toastr.error('Company Domain cannot be duplicated', "", ist.toastrOptions);
                                 }
                                 if (selectedStore().companyDomains() != undefined && selectedCompanyDomainItem() != undefined &&
                                     selectedCompanyDomainItem() != selectedStore().companyDomains()[selectedStore().companyDomains().length - 1]) {
                                     _.each(selectedStore().companyDomains(), function (companyDomainItem) {
                                         if (selectedCompanyDomainItem().domain() === companyDomainItem.domain() && selectedCompanyDomainItem() != companyDomainItem) {
                                             selectedCompanyDomainItem().domain(undefined);
-                                            toastr.error('Company Domain cannot be duplicated');
+                                            toastr.error('Company Domain cannot be duplicated', "", ist.toastrOptions);
                                         }
                                     });
                                 }
@@ -370,7 +370,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Delete . Error: " + response);
+                                toastr.error("Failed to Delete . Error: " + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -397,7 +397,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Stores " + response);
+                                toastr.error("Error: Failed To load Stores " + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -464,7 +464,7 @@ define("stores/stores.viewModel",
                                 toastr.success("Theme Apply Successfully .");
                             },
                             error: function (response) {
-                                toastr.error("Failed to Theme apply .");
+                                toastr.error("Failed to Theme apply .", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -632,7 +632,7 @@ define("stores/stores.viewModel",
 
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed To Load Company territories" + response);
+                                    toastr.error("Failed To Load Company territories" + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -717,17 +717,17 @@ define("stores/stores.viewModel",
                                                     }
                                                 });
                                             } else {
-                                                toastr.error("Territory can not be deleted. It might exist in Address or Contact");
+                                                toastr.error("Territory can not be deleted. It might exist in Address or Contact", "", ist.toastrOptions);
                                             }
                                         },
                                         error: function (response) {
                                             isLoadingStores(false);
-                                            toastr.error("Error: Failed To Delete Company Territory " + response);
+                                            toastr.error("Error: Failed To Delete Company Territory " + response, "", ist.toastrOptions);
                                         }
                                     });
 
                                 } else {
-                                    toastr.error("Make New Default territory first");
+                                    toastr.error("Make New Default territory first", "", ist.toastrOptions);
                                 }
                             }
                                 //#endregion
@@ -735,7 +735,7 @@ define("stores/stores.viewModel",
                             else {
                                 companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                 if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
-                                    toastr.error("Make New Default territory first");
+                                    toastr.error("Make New Default territory first", "", ist.toastrOptions);
 
                                 } else {
                                     // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
@@ -743,7 +743,7 @@ define("stores/stores.viewModel",
                                     if (newAddresses != undefined) {
                                         _.each(newAddresses(), function (address) {
                                             if (address.territoryId() == companyTerritory.territoryId()) {
-                                                toastr.error("Error: Territory can not deleted as it exist in new created address");
+                                                toastr.error("Error: Territory can not deleted as it exist in new created address", "", ist.toastrOptions);
                                                 flag = false;
                                             }
                                         });
@@ -751,7 +751,7 @@ define("stores/stores.viewModel",
                                     if (newCompanyContacts != undefined) {
                                         _.each(newCompanyContacts(), function (contact) {
                                             if (contact.territoryId() == companyTerritory.territoryId()) {
-                                                toastr.error("Error: Territory can not deleted as it exist in new created contact");
+                                                toastr.error("Error: Territory can not deleted as it exist in new created contact", "", ist.toastrOptions);
                                                 flag = false;
                                             }
                                         });
@@ -774,7 +774,7 @@ define("stores/stores.viewModel",
                                         }
 
                                     } else { //flag == false
-                                        toastr.error("Territory Exist in Address Or Contact. Please delete them first");
+                                        toastr.error("Territory Exist in Address Or Contact. Please delete them first", "", ist.toastrOptions);
                                     }
                                     // }
                                 }
@@ -856,7 +856,7 @@ define("stores/stores.viewModel",
                                         },
                                         error: function (response) {
                                             isLoadingStores(false);
-                                            toastr.error("Error: Failed To Save Company Territory " + response);
+                                            toastr.error("Error: Failed To Save Company Territory " + response, "", ist.toastrOptions);
                                         }
                                     });
 
@@ -1148,7 +1148,7 @@ define("stores/stores.viewModel",
                                 toastr.success("Successfully removed.");
                             },
                             error: function () {
-                                toastr.error("Failed to remove.");
+                                toastr.error("Failed to remove.", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -1365,7 +1365,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function () {
-                                toastr.error("Failed to load base data.");
+                                toastr.error("Failed to load base data.", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -1656,7 +1656,7 @@ define("stores/stores.viewModel",
 
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed To Load Addresses" + response);
+                                    toastr.error("Failed To Load Addresses" + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -1784,7 +1784,7 @@ define("stores/stores.viewModel",
                     // Delete Address
                     onDeleteAddress = function (address) {
                         if (address.isDefaultTerrorityBilling() || address.isDefaultTerrorityShipping() || address.isDefaultAddress()) {
-                            toastr.error("Address can not be deleted as it is either Default Billing/ Default Shipping or is default address");
+                            toastr.error("Address can not be deleted as it is either Default Billing/ Default Shipping or is default address", "", ist.toastrOptions);
                             return;
                         } else {
                             // Ask for confirmation
@@ -1812,16 +1812,16 @@ define("stores/stores.viewModel",
                                                         shippingAddresses.remove(address);
                                                         allCompanyAddressesList.remove(address);
                                                     } else {
-                                                        toastr.error("Address can not be deleted. It might exist in Contact");
+                                                        toastr.error("Address can not be deleted. It might exist in Contact", "", ist.toastrOptions);
                                                     }
                                                 },
                                                 error: function (response) {
                                                     isLoadingStores(false);
-                                                    toastr.error("Error: Failed To Delete Address " + response);
+                                                    toastr.error("Error: Failed To Delete Address " + response, "", ist.toastrOptions);
                                                 }
                                             });
                                         } else {
-                                            toastr.error("Address can not be deleted as it contains default values");
+                                            toastr.error("Address can not be deleted as it contains default values", "", ist.toastrOptions);
                                         }
                                     }
                                 }
@@ -1840,7 +1840,7 @@ define("stores/stores.viewModel",
                                     if (flag) {
                                         selectedStore().addresses.remove(address);
                                     } else {
-                                        toastr.error("Address can not be deleted as it exist in User");
+                                        toastr.error("Address can not be deleted as it exist in User", "", ist.toastrOptions);
                                     }
 
                                 }
@@ -1956,7 +1956,7 @@ define("stores/stores.viewModel",
                                         },
                                         error: function (response) {
                                             isLoadingStores(false);
-                                            toastr.error("Error: Failed To Save Address " + response);
+                                            toastr.error("Error: Failed To Save Address " + response, "", ist.toastrOptions);
                                         }
                                     });
                             }
@@ -2093,7 +2093,7 @@ define("stores/stores.viewModel",
                                 });
                             },
                             error: function (response) {
-                                toastr.error("Failed To Load Secondary Pages" + response);
+                                toastr.error("Failed To Load Secondary Pages" + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -2114,7 +2114,7 @@ define("stores/stores.viewModel",
                                 });
                             },
                             error: function (response) {
-                                toastr.error("Failed To Load System Pages" + response);
+                                toastr.error("Failed To Load System Pages" + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -2139,7 +2139,7 @@ define("stores/stores.viewModel",
                                     }
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed to load Secondary Page Detail . Error: " + response);
+                                    toastr.error("Failed to load Secondary Page Detail . Error: " + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -2149,7 +2149,7 @@ define("stores/stores.viewModel",
                     //Delete Secondary Page
                     onDeleteSecondaryPage = function (secondaryPage) {
                         if (secondaryPage.isUserDefined() != true) {
-                            toastr.error("System Page can not be deleted!");
+                            toastr.error("System Page can not be deleted!", "", ist.toastrOptions);
                             return;
                         }
                         if (!secondaryPage.id()) {
@@ -2197,7 +2197,7 @@ define("stores/stores.viewModel",
                              }
                          },
                          error: function (response) {
-                             toastr.error("Failed to load defaults.");
+                             toastr.error("Failed to load defaults.", "", ist.toastrOptions);
                          }
                      });
                  },
@@ -2413,7 +2413,7 @@ define("stores/stores.viewModel",
 
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed To Load Users" + response);
+                                    toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -2590,7 +2590,7 @@ define("stores/stores.viewModel",
                 // Delete CompanyContact
                 onDeleteCompanyContact = function (companyContact) { //CompanyContact
                     if (companyContact.isDefaultContact()) {
-                        toastr.error("Default Contact Cannot be deleted");
+                        toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                         return;
                     }
                     // Ask for confirmation
@@ -2608,12 +2608,12 @@ define("stores/stores.viewModel",
                                             toastr.success("Deleted Successfully");
                                             isLoadingStores(false);
                                         } else {
-                                            toastr.error("Contact can not be deleted");
+                                            toastr.error("Contact can not be deleted", "", ist.toastrOptions);
                                         }
                                     },
                                     error: function (response) {
                                         isLoadingStores(false);
-                                        toastr.error("Error: Failed To Delete Company Contact " + response);
+                                        toastr.error("Error: Failed To Delete Company Contact " + response, "", ist.toastrOptions);
                                     }
                                 });
                             }
@@ -2722,7 +2722,7 @@ define("stores/stores.viewModel",
                                     },
                                     error: function (response) {
                                         isLoadingStores(false);
-                                        toastr.error("Error: Failed To Save Contact " + response);
+                                        toastr.error("Error: Failed To Save Contact " + response, "", ist.toastrOptions);
                                         if (response == "Duplicate Email/Username are not allowed") {
                                             selectedCompanyContact().email(selectedCompanyContactEmail());
                                         } else {
@@ -2795,7 +2795,7 @@ define("stores/stores.viewModel",
                     _.each(newCompanyContacts(), function (companyContact) {
                         if (companyContact.email() == selectedCompanyContact().email() && companyContact.contactId() != selectedCompanyContact().contactId()) {
                             selectedCompanyContact().email(undefined);
-                            toastr.error('Duplicate Email/Username are not allowed');
+                            toastr.error('Duplicate Email/Username are not allowed', "", ist.toastrOptions);
                             flag = true;
                         }
                     });
@@ -2981,7 +2981,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Error: Failed To load Categories " + response);
+                            toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -3076,7 +3076,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Category " + response);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
                             }
                         });
                     } else {
@@ -3111,7 +3111,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Category " + response);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
                             }
                         });
                         //selectedProductCategory(productCategory);
@@ -3256,7 +3256,7 @@ define("stores/stores.viewModel",
                                 },
                                 error: function (response) {
                                     isLoadingStores(false);
-                                    toastr.error("Error: Failed To Save Category " + response);
+                                    toastr.error("Error: Failed To Save Category " + response, "", ist.toastrOptions);
                                 }
                             });
                     }
@@ -3757,7 +3757,7 @@ define("stores/stores.viewModel",
                                     }
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed to Update . Error: " + response);
+                                    toastr.error("Failed to Update . Error: " + response, "", ist.toastrOptions);
                                     isStoreEditorVisible(false);
                                 }
                             });
@@ -3887,7 +3887,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Stores . Error: " + response);
+                            toastr.error("Failed to Load Stores . Error: " + response, "", ist.toastrOptions);
                             view.initializeLabelPopovers();
                         }
                     });
@@ -4328,7 +4328,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -4351,7 +4351,7 @@ define("stores/stores.viewModel",
                         }
                     }
                     if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
+                        toastr.error("Before add widget please select page !", "", ist.toastrOptions);
                     }
                 },
                 //Get Widget detail on drag drop
@@ -4372,7 +4372,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -4401,7 +4401,7 @@ define("stores/stores.viewModel",
                         }
                     }
                     if (selectedCurrentPageId() === undefined) {
-                        toastr.error("Before add widget please select page !");
+                        toastr.error("Before add widget please select page !", "", ist.toastrOptions);
                     }
                 },
                 //Click on plus sign , add widget to page
@@ -4422,7 +4422,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5154,11 +5154,11 @@ define("stores/stores.viewModel",
 
                             if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
-                                toastr.error(exceptionMessage);
+                                toastr.error(exceptionMessage, "", ist.toastrOptions);
 
                             } else {
 
-                                toastr.error("Failed to saved.");
+                                toastr.error("Failed to saved.", "", ist.toastrOptions);
                             }
 
                         }
@@ -5209,7 +5209,7 @@ define("stores/stores.viewModel",
                         });
                         if (fieldVariableName !== undefined) {
                             flag = true;
-                            toastr.error("Field Variable already exist with same Name.");
+                            toastr.error("Field Variable already exist with same Name.", "", ist.toastrOptions);
                         }
                     }
                     if (selectedFieldVariable().variableTag()) {
@@ -5218,7 +5218,7 @@ define("stores/stores.viewModel",
                         });
                         if (fieldVariableTag !== undefined) {
                             flag = true;
-                            toastr.error("Field Variable already exist with same Tag.");
+                            toastr.error("Field Variable already exist with same Tag.", "", ist.toastrOptions);
                         }
                     }
 
@@ -5298,7 +5298,7 @@ define("stores/stores.viewModel",
                             //fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
                         },
                         error: function (response) {
-                            toastr.error("Failed To Load Users" + response);
+                            toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5318,7 +5318,7 @@ define("stores/stores.viewModel",
                             }
                         },
                         error: function (response) {
-                            toastr.error("Failed to load Detail . Error: ");
+                            toastr.error("Failed to load Detail . Error: ", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5408,7 +5408,7 @@ define("stores/stores.viewModel",
                             }
                         },
                         error: function (response) {
-                            toastr.error("Failed to load.");
+                            toastr.error("Failed to load.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5461,7 +5461,7 @@ define("stores/stores.viewModel",
                             }
                         },
                         error: function (response) {
-                            toastr.error("Failed to load.");
+                            toastr.error("Failed to load.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5591,7 +5591,7 @@ define("stores/stores.viewModel",
 
                             } else {
 
-                                toastr.error("Failed to save.");
+                                toastr.error("Failed to save.", "", ist.toastrOptions);
                             }
 
                         }
@@ -5637,7 +5637,7 @@ define("stores/stores.viewModel",
                                 });
                             },
                             error: function (response) {
-                                toastr.error("Failed To Load Smart Forms.");
+                                toastr.error("Failed To Load Smart Forms.", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -5669,7 +5669,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to load Detail.");
+                                toastr.error("Failed to load Detail.", "", ist.toastrOptions);
                             }
                         });
                     },
