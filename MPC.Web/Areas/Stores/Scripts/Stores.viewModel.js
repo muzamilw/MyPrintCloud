@@ -450,7 +450,13 @@ define("stores/stores.viewModel",
                                 return item.SkinId == selectedTheme();
                             });
                             if (theme) {
-                                getgetThemeDetailByFullZipPath(theme.FullZipPath);
+                                confirmation.messageText("Do you want to apply theme? " +
+                                    "Your current changes for banner, secondary pages, css, sprite will be overridden.");
+                                confirmation.afterProceed(function () {
+                                    getgetThemeDetailByFullZipPath(theme.FullZipPath);
+                                });
+                                confirmation.afterCancel();
+                                confirmation.show();
                             }
                         }
                     },
