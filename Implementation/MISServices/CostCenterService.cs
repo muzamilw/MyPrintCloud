@@ -365,7 +365,7 @@ namespace MPC.Implementation.MISServices
                 oSource += "imports MPC.Models.Common" + Environment.NewLine;
                 oSource += "Imports System.Reflection" + Environment.NewLine;
                 oSource += "Imports Microsoft.Practices.Unity" + Environment.NewLine;
-                oSource += "Imports ICostCentreService = MPC.Interfaces.MISServices.ICostCentersService" + Environment.NewLine;
+                oSource += "Imports ICostCentreService = MPC.Interfaces.WebStoreServices.ICostCentreService" + Environment.NewLine;
                 oSource += "Namespace UserCostCentres" + Environment.NewLine;
                 
 
@@ -655,7 +655,7 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
+        ///     Compile the code with the source provided (Source provided will be in the form of text string)and generate dll.
         /// </summary>
         ///         ''' 
         public object CompileBinaries(string sOutputPath, string Source, string CompanyName)
