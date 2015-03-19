@@ -212,6 +212,7 @@ namespace MPC.Repository.Repositories
                         c.CompanyBannerSets,
                         Campaigns = c.Campaigns.Select(cam => new
                         {
+                            cam.CampaignId,
                             cam.CampaignName,
                             cam.CampaignType,
                             cam.StartDateTime,
@@ -333,6 +334,7 @@ namespace MPC.Repository.Repositories
                         Campaigns = c.Campaigns.Select(cam => new Campaign
                         {
                             CampaignName = cam.CampaignName,
+                            CampaignId = cam.CampaignId,
                             CampaignType = cam.CampaignType,
                             StartDateTime = cam.StartDateTime,
                             SendEmailAfterDays = cam.SendEmailAfterDays,

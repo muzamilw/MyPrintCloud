@@ -260,6 +260,8 @@
   border: 1px solid silver;
   margin-top: 20px;
   margin-bottom: 5px;
+  max-height: 460px;
+  overflow-y: auto;
 }
 #storesBinding #filter {
   height: 62px !important;
