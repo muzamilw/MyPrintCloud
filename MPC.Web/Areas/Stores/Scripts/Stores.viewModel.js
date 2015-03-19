@@ -4008,7 +4008,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Stores . Error: " + response);
+                            toastr.error("Failed to Load Stores . Error: " + response, "Please ReOpen Store", ist.toastrOptions);
                             view.initializeLabelPopovers();
                         }
                     });
@@ -4096,7 +4096,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Failed to Load Stores Base Data. Error: " + response);
+                                toastr.error("Failed to Load Stores Base Data. Error: " + response, "Please Reload", ist.toastrOptions);
                             }
                         });
                     }
