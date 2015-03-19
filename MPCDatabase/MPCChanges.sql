@@ -1001,29 +1001,25 @@ END
 
 GO
 
-ALTER VIEW [dbo].[GetItemsListView]
-AS
-SELECT        p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.ProductCode, 
-	(select 
+ALTER view [dbo].[GetCategoryProducts] as
+SELECT        p.CompanyId,p.ItemId, p.ItemCode, p.isQtyRanged, p.EstimateId, p.ProductName, p.ProductCode, 
+ (select 
 STUFF((select ', ' + pc.CategoryName
 from dbo.ProductCategoryItem pci 
 join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
 where pci.ItemId = p.ItemId
 FOR XML PATH(''), TYPE
             ).value('.', 'NVARCHAR(MAX)') 
-        ,1,2,'')) ProductCategoryName, (select 
-STUFF((select ', ' + CAST(pc.ProductCategoryId AS NVARCHAR) 
-from dbo.ProductCategoryItem pci 
-join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
-where pci.ItemId = p.ItemId
-FOR XML PATH(''), TYPE
-            ).value('.', 'NVARCHAR(MAX)') 
-        ,1,2,'')) ProductCategoryIds,
-		 
+
+        ,1,2,'')) as ProductCategoryName,
+   
                          ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
                          p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
-						 p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
-						 p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
+       p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage,CAST ( p.isTemplateDesignMode as int) as isTemplateDesignMode, p.DefaultItemTax, p.isUploadImage,p.isMarketingBrief,pcat.ProductCategoryId,p.TemplateId,p.DesignerCategoryId
 FROM            dbo.Items p
+inner join dbo.ProductCategoryItem pc2 on p.ItemId = pc2.ItemId
+inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
+
 
 GO
+
