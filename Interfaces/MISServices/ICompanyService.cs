@@ -103,6 +103,10 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         string GetCmsTagForCmsPage();
 
+        /// <summary>
+        /// Get Campaign Detail By Campaign ID
+        /// </summary>
+        Campaign GetCampaignById(long campaignId);
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID);

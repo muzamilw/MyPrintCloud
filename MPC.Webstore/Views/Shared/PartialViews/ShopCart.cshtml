@@ -201,13 +201,20 @@
                                             </td>
                                         </tr>
 
-                                            subtotal = Utils.FormatDecimalValueToTwoDecimal(_priceTotal.ToString(), ViewBag.Currency);
-                                            VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
-                                            GrossTotal = _priceTotal + _vatTotal;
+                                         subtotal = _priceTotal.ToString();
+                                            
 
                                      }
 
                                     }
+                                    @{
+                                       
+                                       _vatTotal = Convert.ToDouble(_vatTotal) + Model.DeliveryTaxValue;
+                                       GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal);
+                                       subtotal = Utils.FormatDecimalValueToTwoDecimal(subtotal.ToString(), ViewBag.Currency);
+                                       VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
+                                    }
+                                   
                                 </tbody>
                             </table>
 
@@ -216,6 +223,9 @@
 
                                 <div class="cntsubHeadings">
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.StoreId))</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">VAT</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total</label>
 
                                    
                                 </div>
@@ -223,7 +233,9 @@
 
                                     <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
 
-                                  
+                                    <label class="Fsize14 colorBlack displayClear">@Model.DeliveryCost</label>
+                                    <label  class="Fsize14 colorBlack displayClear">@VatTotal</label>
+                                    <label  class="Fsize14 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                 </div>
                                 <div class="clearBoth">
                                 </div>

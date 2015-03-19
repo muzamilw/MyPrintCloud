@@ -348,6 +348,12 @@ namespace MPC.Models.Common
         PopularProducts = 2,
         SpecialProducts = 3
     }
+
+    public enum ClickChargeReturnType
+    {
+        Cost = 1,
+        Price = 2
+    }
     public enum BreadCrumbMode : int
     {
         CategoryBrowsing = 1,

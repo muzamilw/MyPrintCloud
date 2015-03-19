@@ -28,5 +28,9 @@ namespace MPC.Models.RequestModels
         public List<PageCategory> PageCategories { get; set; }
 
         public List<CmsPageWithWidgetList> CmsPageWithWidgetList { get; set; }
+
+        public List<Campaign> NewAddedCampaigns { get; set; }
+        public List<Campaign> EdittedCampaigns { get; set; }
+        public List<Campaign> DeletedCampaigns { get; set; }
     }
 }

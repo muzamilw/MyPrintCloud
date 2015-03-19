@@ -27,43 +27,7 @@
         return self;
     };
 
-    sectionFlagsListView = function (specifiedsectionId, specifiedsectionName, specifiedsecOrder, specifiedparentId, specifiedhref, specifiedsectionImage, specifiedindependent
-                           ) {
-        var
-            self,
-            //Unique ID
-            sectionId = ko.observable(specifiedsectionId),
-            //Name
-            sectionName = ko.observable(specifiedsectionName),
-            //Description
-            secOrder = ko.observable(specifiedsecOrder),
-            //Type
-            parentId = ko.observable(specifiedparentId),
-
-            href = ko.observable(specifiedhref),
-
-            sectionImage = ko.observable(specifiedsectionImage),
-
-            independent = ko.observable(specifiedindependent)
-
-           
-        self = {
-            sectionId: sectionId,
-            sectionName: sectionName,
-            secOrder: secOrder,
-            parentId: parentId,
-            href: href,
-            sectionImage: sectionImage,
-            independent: independent
-        };
-        return self;
-    };
-
-    sectionFlagsListView.Create = function (source) {
-        return new sectionFlagsListView(source.sectionId, source.sectionName, source.secOrder, source.parentId, source.href, source.sectionImage, source.independent);
-    };
-
-    var sectionFlagsClientMapper = function (source) {
+  var sectionFlagsClientMapper = function (source) {
         var osectionflags = new sectionflags();
         osectionflags.sectionId(source.SectionId);
         osectionflags.sectionName(source.SectionName);

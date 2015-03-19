@@ -655,7 +655,7 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        ///     Compile the code with the source frovided (Source provided will be in the form of text string)and generate dll.
+        ///     Compile the code with the source provided (Source provided will be in the form of text string)and generate dll.
         /// </summary>
         ///         ''' 
         public object CompileBinaries(string sOutputPath, string Source, string CompanyName)

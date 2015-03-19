@@ -487,6 +487,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.FieldVariables = [];
             result.SmartForms = [];
             result.ScopeVariables = [];
+            result.NewAddedCampaigns = [];
+            result.EdittedCampaigns = [];
+            result.DeletedCampaigns = [];
             return result;
         },
         // Reset
@@ -1857,8 +1860,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Description = source.description() === undefined ? null : source.description();
             result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
             result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
-            //result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-            result.StartDateTime = moment(new Date()).format(ist.utcFormat);
+            result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+           // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
             result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
             result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
             result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();
