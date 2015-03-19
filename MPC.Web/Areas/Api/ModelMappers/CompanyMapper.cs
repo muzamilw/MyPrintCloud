@@ -474,7 +474,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                         source.SecondaryPageResponse.CmsPages != null
                             ? source.SecondaryPageResponse.CmsPages.Select(x => x.CreateFromForListView()).ToList()
                             : null,
-                    RowCount = source.SecondaryPageResponse.RowCount
+                    RowCount = source.SecondaryPageResponse.RowCount,
+
+                    SystemPages = 
+                        source.SecondaryPageResponse.SystemPages != null
+                            ? source.SecondaryPageResponse.SystemPages.Select(x => x.CreateFromForListView()).ToList()
+                            : null,
+                    SystemPagesRowCount = source.SecondaryPageResponse.SystemPagesRowCount
 
                 }
             };

@@ -10,7 +10,7 @@
 
 
 
-<script>
+@*<script>
     $(document).ready(function ()
     {
         
@@ -42,7 +42,7 @@
        
         $('.bs-example-tooltips a').popover();
     });
-</script>
+</script>*@
 <style>
     .treeviewSub
     {
@@ -208,21 +208,18 @@
 </div>
 
 @section Scripts{
-    <script src="~/Scripts/jquery.form.js"></script>
+    @*<script src="~/Scripts/jquery.form.js"></script>*@
 
     <script>
-        require(["lookupmethod/lookupmethod.view", "common/confirmation.view"]);
+            require(["lookupMethods/lookupMethods.view", "common/confirmation.view"]);
+
         $(function () {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
             $('#liLookup').addClass('active');
 
         });
-        $(document).ready(function () {
-
-            //min/max slider
-            $('[data-toggle="popover"]').popover();
-        });
+        
 
     </script>
 }

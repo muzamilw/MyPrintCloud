@@ -761,10 +761,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.model.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.view.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />

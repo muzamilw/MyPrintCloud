@@ -17,14 +17,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new LanguageEditor
             {
-                DefaultAddress = source.DefaultAddress,
-                DefaultShippingAddress = source.DefaultShippingAddress,
-                ConfirmDesign = source.ConfirmDesign,
-                Details = source.Details,
-                NewsLetter = source.NewsLetter,
-                PONumber = source.PONumber,
-                Prices = source.Prices,
-                UserShippingAddress = source.UserShippingAddress,
+                Key = source.Key,
+                Value = source.Value,
             };
         }
 
@@ -35,14 +29,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new DomainModels.LanguageEditor
             {
-                DefaultAddress = source.DefaultAddress,
-                DefaultShippingAddress = source.DefaultShippingAddress,
-                ConfirmDesign = source.ConfirmDesign,
-                Details = source.Details,
-                NewsLetter = source.NewsLetter,
-                PONumber = source.PONumber,
-                Prices = source.Prices,
-                UserShippingAddress = source.UserShippingAddress,
+                Key = source.Key,
+                Value = source.Value,
             };
         }
 
