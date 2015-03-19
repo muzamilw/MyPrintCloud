@@ -68,9 +68,6 @@ namespace MPC.Webstore.Common
             {
                 return "";
             }
-            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
-
-
         }
 
         public static DateTime AddBusinessdays(decimal ProductionDays, DateTime StartingDay)
@@ -107,7 +104,6 @@ namespace MPC.Webstore.Common
         public static string FormatDecimalValueToZeroDecimal(string valueToFormat)
         {
 
-            // return string.Format("{0:n}", Math.Round(Convert.ToDouble(valueToFormat.Replace(".",",")), 2));
             return string.Format("{0:0}", Math.Round(Convert.ToDouble(valueToFormat), 2));
 
         }
@@ -202,7 +198,17 @@ namespace MPC.Webstore.Common
             value = value.Replace("+", "");
             return value;
         }
+        public static string BuildCategoryUrl(string pageName, string CategoryName, string CategoryId)
+        {
+            string queryString = string.Empty;
 
+            if (!string.IsNullOrWhiteSpace(pageName))
+                queryString = string.Format("{0}{1}{2}", "/", pageName, "/");
+
+            CategoryName = specialCharactersEncoder(CategoryName);
+            queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
+            return queryString;
+        }
     }
     public static class CommonHtmlExtensions
     {

@@ -531,11 +531,11 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public List<ProductCategory> GetChildCategories(long categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
             try
             {
-                return _productCategoryRepository.GetChildCategories(categoryId);
+                return _productCategoryRepository.GetChildCategories(categoryId, CompanyId);
             }
             catch (Exception ex)
             {

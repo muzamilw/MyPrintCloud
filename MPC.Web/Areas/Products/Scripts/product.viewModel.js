@@ -73,6 +73,8 @@ define("product/product.viewModel",
                         });
                     }),
                     // #endregion Arrays
+                    // True if page has errors
+                    pageHasErrors = ko.observable(false),
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
                     // Is List View Active
@@ -860,7 +862,7 @@ define("product/product.viewModel",
                     },
                     // Get Base Data
                     getBaseData = function () {
-                        dataservice.getBaseData({
+                        dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
                                 countries.removeAll();
@@ -910,7 +912,8 @@ define("product/product.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to load base data" + response);
+                                pageHasErrors(true);
+                                toastr.error("Failed to load base data. Error: " + response, "Please Reload", ist.toastrOptions);
                             }
                         });
                     },
@@ -1150,7 +1153,7 @@ define("product/product.viewModel",
                     },
                     // Get Category Child List Items
                     getChildCategories = function (id, event) {
-                        dataservice.getProductCategoryChilds({
+                        dataservice.getProductCategoryChildsForProduct({
                             id: id,
                         }, {
                             success: function (data) {
@@ -1243,6 +1246,7 @@ define("product/product.viewModel",
                     lengthUnit: lengthUnit,
                     canEditTemplate: canEditTemplate,
                     isDesignerCategoryBaseDataLoaded: isDesignerCategoryBaseDataLoaded,
+                    pageHasErrors: pageHasErrors,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,

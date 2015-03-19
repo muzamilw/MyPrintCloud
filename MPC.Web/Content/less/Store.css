@@ -114,9 +114,6 @@
 #storesBinding #productBinding .filter-block .form-group {
   margin-bottom: 0;
 }
-#storesBinding #productBinding .productListIcons {
-  width: 154px;
-}
 #storesBinding #productDetailBinding .activeView {
   background-color: #ff7e47;
   color: white;
@@ -173,9 +170,6 @@
 }
 #storesBinding #productDetailBinding .filter-block .form-group {
   margin-bottom: 0;
-}
-#storesBinding #productDetailBinding .productListIcons {
-  width: 154px;
 }
 #storesBinding #productDetailBinding #stockDialog #stockDialogMainContainer {
   width: 838px;

@@ -34,7 +34,13 @@ var ist = {
     // Resource Text
     resourceText: { showing: "Showing ", of: "of", defaultHeaderText: "Confirmation" },
     // SiteUrl
-    siteUrl: ""
+    siteUrl: "",
+    // Toaster Error Options
+    toastrOptions : {
+        tapToDismiss: true,
+        extendedTimeOut: 0,
+        timeOut: 0 // Set timeOut to 0 to make it sticky
+    }
 };
 
 // Busy Indicator

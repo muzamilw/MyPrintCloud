@@ -918,7 +918,7 @@ namespace MPC.Repository.Repositories
              
                 JsonRetail = string.Empty;
                 GC.Collect();
-                return productCategories;
+                return oOutputProdCat;
 
             }
             catch (Exception ex)
@@ -1110,7 +1110,7 @@ namespace MPC.Repository.Repositories
                 JsonRetail = string.Empty;
                 GC.Collect();
 
-                return pages;
+                return oOutputCMSPage;
             }
             catch (Exception ex)
             {

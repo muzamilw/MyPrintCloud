@@ -171,7 +171,7 @@ define("stores/stores.viewModel",
                     //Delete Company Domain
                     onDeleteCompanyDomainItem = function (companyDomain) {
                         if (selectedStore().companyDomains().length > 0 && selectedStore().companyDomains()[selectedStore().companyDomains().length - 1] == companyDomain) {
-                            toastr.error("Default Company Domain cannot be deleted");
+                            toastr.error("Default Company Domain cannot be deleted", "", ist.toastrOptions);
                             return;
                         }
                         // Ask for confirmation
@@ -216,14 +216,14 @@ define("stores/stores.viewModel",
                                 } else if (selectedStore().webAccessCode() !== undefined && selectedStore().defaultCompanyDomainCopy() != undefined &&
                                     selectedStore().webAccessCode() !== selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]) {
                                     selectedStore().webAccessCode(selectedStore().defaultCompanyDomainCopy().domain().split('/')[2]);
-                                    toastr.error('Company Domain cannot be duplicated');
+                                    toastr.error('Company Domain cannot be duplicated', "", ist.toastrOptions);
                                 }
                                 if (selectedStore().companyDomains() != undefined && selectedCompanyDomainItem() != undefined &&
                                     selectedCompanyDomainItem() != selectedStore().companyDomains()[selectedStore().companyDomains().length - 1]) {
                                     _.each(selectedStore().companyDomains(), function (companyDomainItem) {
                                         if (selectedCompanyDomainItem().domain() === companyDomainItem.domain() && selectedCompanyDomainItem() != companyDomainItem) {
                                             selectedCompanyDomainItem().domain(undefined);
-                                            toastr.error('Company Domain cannot be duplicated');
+                                            toastr.error('Company Domain cannot be duplicated', "", ist.toastrOptions);
                                         }
                                     });
                                 }
@@ -253,7 +253,7 @@ define("stores/stores.viewModel",
                         return val1 + val2;
                     },
                     storeHeading = ko.computed(function () {
-                        if (productViewModel.selectedProduct() == undefined) {
+                        if (!productViewModel.isProductDetailsVisible()) {
                             productStatus('');
                             if (selectedStore() != null && selectedStore().companyId() > 0) {
                                 storeStatus("Modify Store Details");
@@ -264,7 +264,7 @@ define("stores/stores.viewModel",
                         } else {
                             var storename = selectedStore().name() != '' && selectedStore().name() != undefined ? selectedStore().name() : '';
                             storeStatus(storename);
-                            if (productViewModel.selectedProduct().id() > 0) {
+                            if (productViewModel.isProductDetailsVisible()) {
                                 productStatus("Modify Product Details");
                                 return getProductHeading();
                             } else {
@@ -370,7 +370,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Delete . Error: " + response);
+                                toastr.error("Failed to Delete . Error: " + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -397,7 +397,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To load Stores " + response);
+                                toastr.error("Error: Failed To load Stores " + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -464,7 +464,7 @@ define("stores/stores.viewModel",
                                 toastr.success("Theme Apply Successfully .");
                             },
                             error: function (response) {
-                                toastr.error("Failed to Theme apply .");
+                                toastr.error("Failed to Theme apply .", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -632,7 +632,7 @@ define("stores/stores.viewModel",
 
                                 },
                                 error: function (response) {
-                                    toastr.error("Failed To Load Company territories" + response);
+                                    toastr.error("Failed To Load Company territories" + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -717,17 +717,17 @@ define("stores/stores.viewModel",
                                                     }
                                                 });
                                             } else {
-                                                toastr.error("Territory can not be deleted. It might exist in Address or Contact");
+                                                toastr.error("Territory can not be deleted. It might exist in Address or Contact", "", ist.toastrOptions);
                                             }
                                         },
                                         error: function (response) {
                                             isLoadingStores(false);
-                                            toastr.error("Error: Failed To Delete Company Territory " + response);
+                                            toastr.error("Error: Failed To Delete Company Territory " + response, "", ist.toastrOptions);
                                         }
                                     });
 
                                 } else {
-                                    toastr.error("Make New Default territory first");
+                                    toastr.error("Make New Default territory first", "", ist.toastrOptions);
                                 }
                             }
                                 //#endregion
@@ -735,7 +735,7 @@ define("stores/stores.viewModel",
                             else {
                                 companyTerritoryPager().totalCount(companyTerritoryPager().totalCount() - 1);
                                 if (companyTerritory.isDefault() && selectedStore().companyTerritories().length == 1) {
-                                    toastr.error("Make New Default territory first");
+                                    toastr.error("Make New Default territory first", "", ist.toastrOptions);
 
                                 } else {
                                     // if (selectedStore() != undefined && (selectedStore().newAddedAddresses !== undefined && selectedStore().newAddedCompanyContacts !== undefined && selectedStore().newAddedAddresses().length > 0 || selectedStore().newAddedCompanyContacts().length > 0)) {
@@ -743,7 +743,7 @@ define("stores/stores.viewModel",
                                     if (newAddresses != undefined) {
                                         _.each(newAddresses(), function (address) {
                                             if (address.territoryId() == companyTerritory.territoryId()) {
-                                                toastr.error("Error: Territory can not deleted as it exist in new created address");
+                                                toastr.error("Error: Territory can not deleted as it exist in new created address", "", ist.toastrOptions);
                                                 flag = false;
                                             }
                                         });
@@ -751,7 +751,7 @@ define("stores/stores.viewModel",
                                     if (newCompanyContacts != undefined) {
                                         _.each(newCompanyContacts(), function (contact) {
                                             if (contact.territoryId() == companyTerritory.territoryId()) {
-                                                toastr.error("Error: Territory can not deleted as it exist in new created contact");
+                                                toastr.error("Error: Territory can not deleted as it exist in new created contact", "", ist.toastrOptions);
                                                 flag = false;
                                             }
                                         });
@@ -774,7 +774,7 @@ define("stores/stores.viewModel",
                                         }
 
                                     } else { //flag == false
-                                        toastr.error("Territory Exist in Address Or Contact. Please delete them first");
+                                        toastr.error("Territory Exist in Address Or Contact. Please delete them first", "", ist.toastrOptions);
                                     }
                                     // }
                                 }
@@ -856,7 +856,7 @@ define("stores/stores.viewModel",
                                         },
                                         error: function (response) {
                                             isLoadingStores(false);
-                                            toastr.error("Error: Failed To Save Company Territory " + response);
+                                            toastr.error("Error: Failed To Save Company Territory " + response, "", ist.toastrOptions);
                                         }
                                     });
 
@@ -922,7 +922,10 @@ define("stores/stores.viewModel",
                     // #endregion __________________ C O M P A N Y   T E R R I T O R Y __________________
 
                     // #region _________C O M P A N Y    C M Y K   C O L O R  ________
-
+                     newCompanyCmykId = -1,
+                    addNewCompanyCmykId = function () {
+                        newCompanyCmykId = newCompanyCmykId - 1;
+                    },
                     //Selected Company CMYK Color
                     // ReSharper disable InconsistentNaming
                     selectedCompanyCMYKColor = ko.observable(),
@@ -959,6 +962,7 @@ define("stores/stores.viewModel",
                         // Ask for confirmation
                         confirmation.afterProceed(function () {
                             selectedStore().companyCMYKColors.remove(companyCMYKColor);
+                            view.hideCompanyCMYKColorDialog();
                         });
                         confirmation.show();
 
@@ -983,6 +987,8 @@ define("stores/stores.viewModel",
                     },
                     onSaveCompanyCMYKColor = function () {
                         if (doBeforeSaveCompanyCMYKColor() && isSavingNew() === true) {
+                            selectedCompanyCMYKColor().colorId(newCompanyCmykId);
+                            addNewCompanyCmykId();
                             selectedStore().companyCMYKColors.splice(0, 0, selectedCompanyCMYKColor());
                             view.hideCompanyCMYKColorDialog();
                             isSavingNew(false);
@@ -1130,7 +1136,7 @@ define("stores/stores.viewModel",
                                 deleteBanner(banner);
                             }
                             filteredCompanyBanners.remove(banner);
-
+                            view.hideEditBannerDialog();
                         });
                         confirmation.show();
                     },
@@ -1142,7 +1148,7 @@ define("stores/stores.viewModel",
                                 toastr.success("Successfully removed.");
                             },
                             error: function () {
-                                toastr.error("Failed to remove.");
+                                toastr.error("Failed to remove.", "", ist.toastrOptions);
                             }
                         });
                     },
@@ -1452,7 +1458,7 @@ define("stores/stores.viewModel",
                             }
                         },
                         error: function () {
-                            toastr.error("Failed to load base data.");
+                                toastr.error("Failed to load base data.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -1743,7 +1749,7 @@ define("stores/stores.viewModel",
 
                             },
                             error: function (response) {
-                                toastr.error("Failed To Load Addresses" + response);
+                                    toastr.error("Failed To Load Addresses" + response, "", ist.toastrOptions);
                             }
                         });
                     }
@@ -1871,7 +1877,7 @@ define("stores/stores.viewModel",
                 // Delete Address
                 onDeleteAddress = function (address) {
                     if (address.isDefaultTerrorityBilling() || address.isDefaultTerrorityShipping() || address.isDefaultAddress()) {
-                        toastr.error("Address can not be deleted as it is either Default Billing/ Default Shipping or is default address");
+                            toastr.error("Address can not be deleted as it is either Default Billing/ Default Shipping or is default address", "", ist.toastrOptions);
                         return;
                     } else {
                         // Ask for confirmation
@@ -1899,16 +1905,16 @@ define("stores/stores.viewModel",
                                                     shippingAddresses.remove(address);
                                                     allCompanyAddressesList.remove(address);
                                                 } else {
-                                                    toastr.error("Address can not be deleted. It might exist in Contact");
+                                                        toastr.error("Address can not be deleted. It might exist in Contact", "", ist.toastrOptions);
                                                 }
                                             },
                                             error: function (response) {
                                                 isLoadingStores(false);
-                                                toastr.error("Error: Failed To Delete Address " + response);
+                                                    toastr.error("Error: Failed To Delete Address " + response, "", ist.toastrOptions);
                                             }
                                         });
                                     } else {
-                                        toastr.error("Address can not be deleted as it contains default values");
+                                            toastr.error("Address can not be deleted as it contains default values", "", ist.toastrOptions);
                                     }
                                 }
                             }
@@ -1927,7 +1933,7 @@ define("stores/stores.viewModel",
                                 if (flag) {
                                     selectedStore().addresses.remove(address);
                                 } else {
-                                    toastr.error("Address can not be deleted as it exist in User");
+                                        toastr.error("Address can not be deleted as it exist in User", "", ist.toastrOptions);
                                 }
 
                             }
@@ -2043,12 +2049,12 @@ define("stores/stores.viewModel",
                                     },
                                     error: function (response) {
                                         isLoadingStores(false);
-                                        toastr.error("Error: Failed To Save Address " + response);
+                                            toastr.error("Error: Failed To Save Address " + response, "", ist.toastrOptions);
                                     }
                                 });
                         }
                             //#endregion
-                            //#region New Company Case 
+                                //#region New Company Case 
 
                         else {
                             if (selectedAddress().addressId() < 0) {
@@ -2180,7 +2186,7 @@ define("stores/stores.viewModel",
                             });
                         },
                         error: function (response) {
-                            toastr.error("Failed To Load Secondary Pages" + response);
+                                toastr.error("Failed To Load Secondary Pages" + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -2201,7 +2207,7 @@ define("stores/stores.viewModel",
                             });
                         },
                         error: function (response) {
-                            toastr.error("Failed To Load System Pages" + response);
+                                toastr.error("Failed To Load System Pages" + response, "", ist.toastrOptions);
                         }
                     });
                 },
@@ -2226,7 +2232,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to load Secondary Page Detail . Error: " + response);
+                                    toastr.error("Failed to load Secondary Page Detail . Error: " + response, "", ist.toastrOptions);
                             }
                         });
                     }
@@ -2236,7 +2242,7 @@ define("stores/stores.viewModel",
                 //Delete Secondary Page
                 onDeleteSecondaryPage = function (secondaryPage) {
                     if (secondaryPage.isUserDefined() != true) {
-                        toastr.error("System Page can not be deleted!");
+                            toastr.error("System Page can not be deleted!", "", ist.toastrOptions);
                         return;
                     }
                     if (!secondaryPage.id()) {
@@ -2284,7 +2290,7 @@ define("stores/stores.viewModel",
                          }
                      },
                      error: function (response) {
-                         toastr.error("Failed to load defaults.");
+                             toastr.error("Failed to load defaults.", "", ist.toastrOptions);
                      }
                  });
              },
@@ -2500,45 +2506,45 @@ define("stores/stores.viewModel",
 
                             },
                             error: function (response) {
-                                toastr.error("Failed To Load Users" + response);
+                                    toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
                             }
                         });
                     }
                     else if (isUserAndAddressesTabOpened() && selectedStore().companyId() == undefined && isEditorVisible()) {
                         selectedStore().users.removeAll();
                         //check on client side, push all if new added work
-                        if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
-                            if (contactCompanyTerritoryFilter() != undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
-                                        selectedStore().users.push(companyContactItem);
-                                    }
-                                });
-                            } else {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    selectedStore().users.push(companyContactItem);
-                                });
-                            }
-                        }
-                        //check on client side, if filter is not null
-                        if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
-                            if (contactCompanyTerritoryFilter() == undefined) {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
-                                        selectedStore().users.push(companyContactItem);
-                                    }
-                                });
-                            } else {
-                                _.each(newCompanyContacts(), function (companyContactItem) {
-                                    if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                            if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
+                                if (contactCompanyTerritoryFilter() != undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
                                         if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
                                             selectedStore().users.push(companyContactItem);
                                         }
-                                    }
-                                });
+                                    });
+                                } else {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
+                                        selectedStore().users.push(companyContactItem);
+                                    });
+                                }
                             }
+                            //check on client side, if filter is not null
+                            if (searchCompanyContactFilter() != "" && searchCompanyContactFilter() != undefined) {
+                                if (contactCompanyTerritoryFilter() == undefined) {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
+                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                            selectedStore().users.push(companyContactItem);
+                                        }
+                                    });
+                                } else {
+                                    _.each(newCompanyContacts(), function (companyContactItem) {
+                                        if (companyContactItem.email().indexOf(searchCompanyContactFilter()) != -1 || companyContactItem.firstName().indexOf(searchCompanyContactFilter()) != -1) {
+                                            if (companyContactItem.territoryId() == contactCompanyTerritoryFilter()) {
+                                                selectedStore().users.push(companyContactItem);
+                                            }
+                                        }
+                                    });
+                                }
 
-                        }
+                            }
                     }
 
                 },
@@ -2677,7 +2683,7 @@ define("stores/stores.viewModel",
                 // Delete CompanyContact
             onDeleteCompanyContact = function (companyContact) { //CompanyContact
                 if (companyContact.isDefaultContact()) {
-                    toastr.error("Default Contact Cannot be deleted");
+                        toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
                     return;
                 }
                 // Ask for confirmation
@@ -2695,12 +2701,12 @@ define("stores/stores.viewModel",
                                         toastr.success("Deleted Successfully");
                                         isLoadingStores(false);
                                     } else {
-                                        toastr.error("Contact can not be deleted");
+                                            toastr.error("Contact can not be deleted", "", ist.toastrOptions);
                                     }
                                 },
                                 error: function (response) {
                                     isLoadingStores(false);
-                                    toastr.error("Error: Failed To Delete Company Contact " + response);
+                                        toastr.error("Error: Failed To Delete Company Contact " + response, "", ist.toastrOptions);
                                 }
                             });
                         }
@@ -2809,7 +2815,7 @@ define("stores/stores.viewModel",
                                 },
                                 error: function (response) {
                                     isLoadingStores(false);
-                                    toastr.error("Error: Failed To Save Contact " + response);
+                                        toastr.error("Error: Failed To Save Contact " + response, "", ist.toastrOptions);
                                     if (response == "Duplicate Email/Username are not allowed") {
                                         selectedCompanyContact().email(selectedCompanyContactEmail());
                                     } else {
@@ -2819,7 +2825,7 @@ define("stores/stores.viewModel",
                             });
                     }
                         //#endregion
-                        //#region New Company Case 
+                            //#region New Company Case 
                     else {
                         if (selectedCompanyContact().contactId() < 0 && isSavingNewCompanyContact() === true) {
                             if (!findEmailDuplicatesInCompanyContacts()) {
@@ -2882,7 +2888,7 @@ define("stores/stores.viewModel",
                 _.each(newCompanyContacts(), function (companyContact) {
                     if (companyContact.email() == selectedCompanyContact().email() && companyContact.contactId() != selectedCompanyContact().contactId()) {
                         selectedCompanyContact().email(undefined);
-                        toastr.error('Duplicate Email/Username are not allowed');
+                            toastr.error('Duplicate Email/Username are not allowed', "", ist.toastrOptions);
                         flag = true;
                     }
                 });
@@ -2902,7 +2908,10 @@ define("stores/stores.viewModel",
                 // #endregion
 
                 // #region _________P A Y M E N T    G A T E W A Y _________________
-
+                 newPaymentGatewayId = -1,
+                    addNewPaymentGatewayId = function () {
+                        newPaymentGatewayId = newPaymentGatewayId - 1;
+                    },
             isAccessCodeSectionVisible = ko.observable(false),
             paymentMethodName = ko.observable(),
                 //Selected Payment Gateway
@@ -2922,6 +2931,7 @@ define("stores/stores.viewModel",
                 // Ask for confirmation
                 confirmation.afterProceed(function () {
                     selectedStore().paymentGateway.remove(paymentGateway);
+                        view.hidePaymentGatewayDialog();
                 });
                 confirmation.show();
                 return;
@@ -2949,6 +2959,8 @@ define("stores/stores.viewModel",
                             selectedPaymentGateway().paymentMethodName(paymentMethod.methodName());
                         }
                     });
+                        selectedPaymentGateway().paymentGatewayId(newPaymentGatewayId);
+                        addNewPaymentGatewayId();
                     selectedStore().paymentGateway.splice(0, 0, selectedPaymentGateway());
                     view.hidePaymentGatewayDialog();
                 }
@@ -3014,10 +3026,10 @@ define("stores/stores.viewModel",
             selectChildProductCategory = function (categoryId, event) {
                 selectedProductCategory(undefined);
                 var id = $(event.target).closest('li')[0].id;
-                if (id) {
+                    if (id) {
                     // Notify the event subscribers
                     view.productCategorySelectedEvent(id);
-                }
+                    }
                 event.stopImmediatePropagation();
             },
                 //Select Child Product Category
@@ -3062,7 +3074,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Error: Failed To load Categories " + response);
+                            toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                     }
                 });
             },
@@ -3101,6 +3113,12 @@ define("stores/stores.viewModel",
                 // $('#productCatFirstTab').addClass('active');
                 //$('.nav-tabs li:eq(0) a').tab('show');
                 //$('a[href=#productCatFirstTab]').click();
+                    //Resetting all list of territories (making isSelected fields False)
+                    _.each(addressTerritoryList(), function (territory) {
+                        if (territory.isSelected()) {
+                            territory.isSelected(false);
+                        }
+                    });
                 $("#categoryTabItems li a").first().trigger("click");
             },
                 //Delete Product Category
@@ -3141,6 +3159,8 @@ define("stores/stores.viewModel",
                                 selectedProductCategoryForEditting(model.ProductCategory.Create(data));
                                 updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                 isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
                                 selectedProductCategoryForEditting().parentCategoryId(data.ParentCategoryId);
                                 view.showStoreProductCategoryDialog();
                             }
@@ -3149,7 +3169,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Error: Failed To load Category " + response);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
                         }
                     });
                 } else {
@@ -3175,6 +3195,8 @@ define("stores/stores.viewModel",
                                 updateParentCategoryList(selectedProductCategoryForEditting().productCategoryId());
                                 productCategoryStatus("Modify Category Details");
                                 isSavingNewProductCategory(false);
+                                    //Update Product category Territories
+                                    UpdateProductCategoryTerritories(data.CategoryTerritories);
                                 view.showStoreProductCategoryDialog();
                             }
                             isLoadingStores(false);
@@ -3182,7 +3204,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Error: Failed To load Category " + response);
+                                toastr.error("Error: Failed To load Category " + response, "", ist.toastrOptions);
                         }
                     });
                     //selectedProductCategory(productCategory);
@@ -3191,6 +3213,25 @@ define("stores/stores.viewModel",
                 }
 
             },
+                //Update Product Category Territories
+                UpdateProductCategoryTerritories = function (categoryTerritories) {
+                    //#region Update Category Territories
+                    //Resetting all list of territories (making isSelected fields False)
+                    _.each(addressTerritoryList(), function (territory) {
+                        if (territory.isSelected()) {
+                            territory.isSelected(false);
+                        }
+                    });
+                    //Setting IsSelected Fields of territories
+                    _.each(categoryTerritories, function (categoryTerritory) {
+                        _.each(addressTerritoryList(), function (territory) {
+                            if (territory.territoryId() == categoryTerritory.TerritoryId) {
+                                territory.isSelected(true);
+                            }
+                        });
+                    });
+                    //#endregion
+                },
                 //Edit New Added Product Category
             editNewAddedProductCategory = function () {
                 var result = _.find(newProductCategories(), function (productCategory) {
@@ -3238,9 +3279,18 @@ define("stores/stores.viewModel",
 
                 if (doBeforeSaveProductCategory()) {
                     selectedProductCategoryForEditting().companyId(selectedStore().companyId());
+
+                        //#region Category Territories
+                        var productCategoryToSave = selectedProductCategoryForEditting().convertToServerData();
+                        productCategoryToSave.CategoryTerritories = [];
+                        _.each(addressTerritoryList(), function (territory) {
+                            if (territory.isSelected()) {
+                                productCategoryToSave.CategoryTerritories.push(territory.convertToServerData());
+                            }
+                        });
+                        //#endregion
                     dataservice.saveProductCategory(
-                        selectedProductCategoryForEditting().convertToServerData()
-                        //productCategory: model.ProductCategory().convertToServerData(selectedProductCategoryForEditting())
+                            productCategoryToSave
                         , {
                             success: function (data) {
 
@@ -3299,7 +3349,7 @@ define("stores/stores.viewModel",
                             },
                             error: function (response) {
                                 isLoadingStores(false);
-                                toastr.error("Error: Failed To Save Category " + response);
+                                    toastr.error("Error: Failed To Save Category " + response, "", ist.toastrOptions);
                             }
                         });
                 }
@@ -3770,7 +3820,6 @@ define("stores/stores.viewModel",
                     //updateCostCentersOnStoreSaving();
                     //#endregion
 
-
                     dataservice.saveStore(
                         storeToSave, {
                             success: function (data) {
@@ -3812,7 +3861,7 @@ define("stores/stores.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to Update . Error: " + response);
+                                    toastr.error("Failed to Update . Error: " + response, "", ist.toastrOptions);
                                 isStoreEditorVisible(false);
                             }
                         });
@@ -3942,7 +3991,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Failed to Load Stores . Error: " + response);
+                            toastr.error("Failed to Load Stores . Error: " + response, "", ist.toastrOptions);
                         view.initializeLabelPopovers();
                     }
                 });
@@ -4112,7 +4161,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Failed to Load Stores . Error: " + response);
+                            toastr.error("Failed to Load Stores . Error: " + response, "Please ReOpen Store", ist.toastrOptions);
                         view.initializeLabelPopovers();
                     }
                 });
@@ -4200,7 +4249,7 @@ define("stores/stores.viewModel",
                         },
                         error: function (response) {
                             isLoadingStores(false);
-                            toastr.error("Failed to Load Stores Base Data. Error: " + response);
+                                toastr.error("Failed to Load Stores Base Data. Error: " + response, "Please Reload", ist.toastrOptions);
                         }
                     });
                 }
@@ -4386,7 +4435,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                     }
                 });
             },
@@ -4409,7 +4458,7 @@ define("stores/stores.viewModel",
                     }
                 }
                 if (selectedCurrentPageId() === undefined) {
-                    toastr.error("Before add widget please select page !");
+                        toastr.error("Before add widget please select page !", "", ist.toastrOptions);
                 }
             },
                 //Get Widget detail on drag drop
@@ -4430,7 +4479,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                     }
                 });
             },
@@ -4459,7 +4508,7 @@ define("stores/stores.viewModel",
                     }
                 }
                 if (selectedCurrentPageId() === undefined) {
-                    toastr.error("Before add widget please select page !");
+                        toastr.error("Before add widget please select page !", "", ist.toastrOptions);
                 }
             },
                 //Click on plus sign , add widget to page
@@ -4480,7 +4529,7 @@ define("stores/stores.viewModel",
                     },
                     error: function (response) {
                         isLoadingStores(false);
-                        toastr.error("Failed to Load Page Widgets . Error: " + response);
+                            toastr.error("Failed to Load Page Widgets . Error: " + response, "", ist.toastrOptions);
                     }
                 });
             },
@@ -5212,11 +5261,11 @@ define("stores/stores.viewModel",
 
                         if (exceptionType === ist.exceptionType.MPCGeneralException) {
 
-                            toastr.error(exceptionMessage);
+                                toastr.error(exceptionMessage, "", ist.toastrOptions);
 
                         } else {
 
-                            toastr.error("Failed to saved.");
+                                toastr.error("Failed to saved.", "", ist.toastrOptions);
                         }
 
                     }
@@ -5267,7 +5316,7 @@ define("stores/stores.viewModel",
                     });
                     if (fieldVariableName !== undefined) {
                         flag = true;
-                        toastr.error("Field Variable already exist with same Name.");
+                            toastr.error("Field Variable already exist with same Name.", "", ist.toastrOptions);
                     }
                 }
                 if (selectedFieldVariable().variableTag()) {
@@ -5276,7 +5325,7 @@ define("stores/stores.viewModel",
                     });
                     if (fieldVariableTag !== undefined) {
                         flag = true;
-                        toastr.error("Field Variable already exist with same Tag.");
+                            toastr.error("Field Variable already exist with same Tag.", "", ist.toastrOptions);
                     }
                 }
 
@@ -5356,7 +5405,7 @@ define("stores/stores.viewModel",
                         //fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
                     },
                     error: function (response) {
-                        toastr.error("Failed To Load Users" + response);
+                            toastr.error("Failed To Load Users" + response, "", ist.toastrOptions);
                     }
                 });
             },
@@ -5376,7 +5425,7 @@ define("stores/stores.viewModel",
                         }
                     },
                     error: function (response) {
-                        toastr.error("Failed to load Detail . Error: ");
+                            toastr.error("Failed to load Detail . Error: ", "", ist.toastrOptions);
                     }
                 });
             },
@@ -5466,7 +5515,7 @@ define("stores/stores.viewModel",
                         }
                     },
                     error: function (response) {
-                        toastr.error("Failed to load.");
+                            toastr.error("Failed to load.", "", ist.toastrOptions);
                     }
                 });
             },
@@ -5519,7 +5568,7 @@ define("stores/stores.viewModel",
                         }
                     },
                     error: function (response) {
-                        toastr.error("Failed to load.");
+                            toastr.error("Failed to load.", "", ist.toastrOptions);
                     }
                 });
             },
@@ -5649,7 +5698,7 @@ define("stores/stores.viewModel",
 
                         } else {
 
-                            toastr.error("Failed to save.");
+                                toastr.error("Failed to save.", "", ist.toastrOptions);
                         }
 
                     }
@@ -5695,7 +5744,7 @@ define("stores/stores.viewModel",
                             });
                         },
                         error: function (response) {
-                            toastr.error("Failed To Load Smart Forms.");
+                                toastr.error("Failed To Load Smart Forms.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5727,7 +5776,7 @@ define("stores/stores.viewModel",
                             }
                         },
                         error: function (response) {
-                            toastr.error("Failed to load Detail.");
+                                toastr.error("Failed to load Detail.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -5757,7 +5806,7 @@ define("stores/stores.viewModel",
             }),
                 //Store workflow Image Files Loaded Callback
                 storeWorkflowImageLoadedCallback = function (file, data) {
-                    //  selectedStore().storeWorkflowImageBinary(data);
+                        //  selectedStore().storeWorkflowImageBinary(data);
                     selectedStore().storeWorkflowImage(data);
                 },
                 //Store Map Image File Loaded Callback

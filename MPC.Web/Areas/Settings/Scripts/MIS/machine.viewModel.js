@@ -357,7 +357,7 @@ define("machine/machine.viewModel",
                     saveMachine: saveMachine,
                     errorList:errorList,
                     saveEdittedMachine: saveEdittedMachine,
-                    
+              
                     closeEditDialog: closeEditDialog,
                     searchFilter: searchFilter,
                     onEditItem: onEditItem,

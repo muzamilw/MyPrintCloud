@@ -140,6 +140,7 @@
                 <hr />
                 <button type="button" class="btn btn-primary" data-bind="click:$root.onSaveCompanyBanner, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click:$root.onCloseCompanyBanner" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-danger archiveButton" data-bind="click:$root.onDeleteCompanyBanner, enable: $root.selectedCompanyBanner().id() != undefined">Archive</button>
             </div>
         </div>
     </div>

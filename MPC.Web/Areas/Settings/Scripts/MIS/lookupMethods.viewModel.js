@@ -1,14 +1,15 @@
-﻿define("lookupMethod/lookupMethod.viewModel",
-    ["jquery", "amplify", "ko", "lookupMethod/lookupMethod.dataservice", "lookupMethod/lookupMethod.model", "common/confirmation.viewModel"],
+﻿define("lookupMethods/lookupMethods.viewModel",
+    ["jquery", "amplify", "ko", "lookupMethods/lookupMethods.dataservice", "lookupMethods/lookupMethods.model", "common/confirmation.viewModel"],
     function ($, amplify, ko, dataservice, model, confirmation) {
         var ist = window.ist || {};
-        ist.lookupMethod = {
+        ist.lookupMethods = {
 
             viewModel: (function () {
                 var
                     view,
                     errorList = ko.observableArray([]),
-                    lookupClickCharge = ko.observable(),
+                    isEditorVisible = ko.observable(false),
+                    lookupClickCharge = ko.observable("Test"),
                     lookupSpeedWeight = ko.observable(),
                     lookupPerHour = ko.observable(),
                     lookupClickChargeZones = ko.observable(),
@@ -19,7 +20,15 @@
                     lookupPerHourList = ko.observableArray([]),
                     lookupClickChargeZonesList = ko.observableArray([]),
                     lookupGuillotineClickChargeList = ko.observableArray([]),
-                    lookupMeterPerHourClickChargeList = ko.observableArray([])
+                    lookupMeterPerHourClickChargeList = ko.observableArray([]),
+                    selectedClickCharge = ko.observable(),
+                    isClickChargeEditorVisible = ko.observable(),
+                     initialize = function (specifiedView) {
+                         view = specifiedView;
+                         ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                         GetLookupList();
+                     },
                 GetLookupList = function () {
 
                     dataservice.GetLookupList({
@@ -38,18 +47,18 @@
                                 _.each(data, function (item) {
 
                                     if (item.MethodId == 1) {
-                                        lookupClickCharge = model.lookupupListClientMapper(item);
+                                        lookupClickCharge(item.Name); // model.lookupupListClientMapper(item);
                                     }
                                     else if (item.MethodId == 3) {
-                                        lookupSpeedWeight = model.lookupupListClientMapper(item);
+                                        lookupSpeedWeight(item.Name); // model.lookupupListClientMapper(item);
                                     } else if (item.MethodId == 4) {
-                                        lookupPerHour = model.lookupupListClientMapper(item);
+                                        lookupPerHour(item.Name); // model.lookupupListClientMapper(item);
                                     } else if (item.MethodId == 5) {
-                                        lookupClickChargeZones = model.lookupupListClientMapper(item);
+                                        lookupClickChargeZones(item.Name); // model.lookupupListClientMapper(item);
                                     } else if (item.MethodId == 6) {
-                                        lookupGuillotineClickCharge = model.lookupupListClientMapper(item);
+                                        lookupGuillotineClickCharge(item.Name); // model.lookupupListClientMapper(item);
                                     } else if (item.MethodId == 8) {
-                                        lookupMeterPerHourClickCharge = model.lookupupListClientMapper(item);
+                                        lookupMeterPerHourClickCharge(item.Name); // model.lookupupListClientMapper(item);
                                     } else {
                                         var module = model.lookupupListClientMapper(item);
                                         if (module.Type() == 1) {
@@ -84,19 +93,32 @@
                         }
                     });
                 }
-
+                GetClickChargeById = function (oClickCharge) {
+                    isClickChargeEditorVisible(true);
+                }
                 return {
+                    initialize:initialize,
                     errorList: errorList,
+                    isEditorVisible:isEditorVisible,
                     GetLookupList: GetLookupList,
+                    lookupClickCharge: lookupClickCharge,
+                    lookupSpeedWeight: lookupSpeedWeight,
+                    lookupPerHour: lookupPerHour,
+                    lookupClickChargeZones: lookupClickChargeZones,
+                    lookupGuillotineClickCharge: lookupGuillotineClickCharge,
+                    lookupMeterPerHourClickCharge: lookupMeterPerHourClickCharge,
                     lookupClickChargeList: lookupClickChargeList,
                     lookupSpeedWeightList: lookupSpeedWeightList,
                     lookupPerHourList: lookupPerHourList,
                     lookupClickChargeZonesList: lookupClickChargeZonesList,
                     lookupGuillotineClickChargeList: lookupGuillotineClickChargeList,
-                    lookupMeterPerHourClickChargeList: lookupMeterPerHourClickChargeList
+                    lookupMeterPerHourClickChargeList: lookupMeterPerHourClickChargeList,
+                    isClickChargeEditorVisible: isClickChargeEditorVisible,
+                    GetClickChargeById: GetClickChargeById,
+                    selectedClickCharge: selectedClickCharge
                 }
             })()
         };
-        return ist.lookupMethod.viewModel;
+        return ist.lookupMethods.viewModel;
 
     });
