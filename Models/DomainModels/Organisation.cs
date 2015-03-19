@@ -262,7 +262,7 @@ namespace MPC.Models.DomainModels
         /// Language Editor
         /// </summary>
         [NotMapped]
-        public LanguageEditor LanguageEditor { get; set; }
+        public List<LanguageEditor> LanguageEditors { get; set; }
 
         #endregion
     }

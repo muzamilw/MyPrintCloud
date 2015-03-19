@@ -1004,6 +1004,7 @@ namespace MPC.Models.ModelMappers
             target.ItemWeight = source.ItemWeight;
             target.ItemHeight = source.ItemHeight;
             target.ItemWidth = source.ItemWidth;
+            target.SmartFormId = source.SmartFormId;
            
             // Update Images
             UpdateImages(source, target);

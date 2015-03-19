@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
@@ -72,11 +73,13 @@ namespace MPC.Repository.Repositories
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
+            string productCategoryId = request.CategoryId.HasValue ? request.CategoryId.ToString() : null;
 
             Expression<Func<GetItemsListView, bool>> query =
                 item =>
                     ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
                     (!request.CompanyId.HasValue || item.CompanyId == request.CompanyId) &&
+                    (!request.CategoryId.HasValue || (!string.IsNullOrEmpty(item.ProductCategoryIds) && item.ProductCategoryIds.Contains(productCategoryId))) &&
                     item.OrganisationId == OrganisationId && item.EstimateId == null && (!item.IsArchived.HasValue || item.IsArchived == false ));
 
             IEnumerable<GetItemsListView> items = request.IsAsc

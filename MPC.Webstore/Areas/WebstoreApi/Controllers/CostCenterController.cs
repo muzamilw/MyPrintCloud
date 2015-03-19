@@ -240,7 +240,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              double Subtotal = 0;
              double vat = 0;
              Order order = _orderService.GetOrderAndDetails(orderID);
-
+             Address BillingAddress = _orderService.GetBillingAddress(order.BillingAddressID);
+             Address ShippingAddress = _orderService.GetdeliveryAddress(order.DeliveryAddressID);
              string CacheKeyName = "CompanyBaseResponse";
              ObjectCache cache = MemoryCache.Default;
              MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
@@ -251,8 +252,42 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              obj.GrossTotal=Math.Round(GrandTotal,2);
              obj.VAT=Math.Round(vat,2);
              obj.DeliveryCostCharges=order.DeliveryCost;
-             obj.billingAddress= _orderService.GetBillingAddress(order.BillingAddressID);
-             obj.shippingAddress=_orderService.GetdeliveryAddress(order.DeliveryAddressID);
+             obj.billingAddress= BillingAddress;
+             obj.shippingAddress=ShippingAddress;
+             if (BillingAddress.Country != null)
+             {
+                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.Country.CountryId);
+             }
+             else
+             {
+                 obj.BillingCountry = string.Empty;
+             }
+             if (BillingAddress.State != null)
+             {
+                 obj.BillingState = _companyService.GetStateNameById(BillingAddress.State.StateId);
+             }
+             else
+             {
+                 obj.BillingState = string.Empty;
+             }
+
+             if (ShippingAddress.Country != null)
+             {
+                 obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.Country.CountryId);
+             }
+             else
+             {
+                 obj.ShippingCountry = string.Empty;
+             }
+
+             if (ShippingAddress.State != null)
+             {
+                 obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.State.StateId);
+             }
+             else
+             {
+                 obj.ShippingState = string.Empty;
+             }
              obj.CurrencySymbol = StoreBaseResopnse.Currency;
              obj.OrderDateValue = FormatDateValue(order.OrderDate);
              obj.DeliveryDateValue = FormatDateValue(order.DeliveryDate);
@@ -493,7 +528,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         [HttpPost]
         public void UpdateDataRequestQuote(string FirstName, string LastName, string Email, string Mobile, string Title, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemDeliveryDate1, string InquiryItemTitle2, string InquiryItemNotes2, string InquiryItemDeliveryDate2, string InquiryItemTitle3, string InquiryItemNotes3, string InquiryItemDeliveryDate3, string hfNoOfRec)
         {
-            var httpPostedFile = HttpContext.Current.Request.Files["UploadedFile"];
+            int count = HttpContext.Current.Request.Files.Count;
+            int Contentlength = HttpContext.Current.Request.ContentLength;
+           
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;
@@ -564,7 +601,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             {
                 if (HttpContext.Current.Request.ContentLength < iMaxFileSize)
                 {
-                    FillAttachments(result, httpPostedFile);
+                    FillAttachments(result);
                 }
             }
             if (result > 0)
@@ -609,10 +646,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         
         }
 
-        private void FillAttachments(long inquiryID, HttpPostedFile Request)
+        private void FillAttachments(long inquiryID)
         {
-
-            if (Request != null)
+            if (HttpContext.Current.Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
                 string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/" + inquiryID + "";
@@ -622,22 +658,26 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 if (!System.IO.Directory.Exists(virtualFolderPth))
                     System.IO.Directory.CreateDirectory(virtualFolderPth);
 
-                //for (int i = 0; i < Request.Count; i++)
-                //{
-                //HttpPostedFile postedFile = Request;
+                for (int i = 0; i < HttpContext.Current.Request.Files.Count; i++)
+                {
+                    //HttpPostedFile postedFile = HttpContext.Current.Request.Files[i];
+                    HttpPostedFile postedFile=HttpContext.Current.Request.Files["UploadedFile"+i];
 
-                string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(Request.FileName));
+                    string fileName = string.Format("{0}{1}", Guid.NewGuid().ToString(), Path.GetFileName(postedFile.FileName));
 
-                InquiryAttachment inquiryAttachment = new InquiryAttachment();
-                inquiryAttachment.OrignalFileName = Path.GetFileName(Request.FileName);
-                inquiryAttachment.Extension = Path.GetExtension(Request.FileName);
-                inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
-                inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
-                listOfAttachment.Add(inquiryAttachment);
-                Request.SaveAs(virtualFolderPth + fileName);
+                    InquiryAttachment inquiryAttachment = new InquiryAttachment();
+                    inquiryAttachment.OrignalFileName = Path.GetFileName(postedFile.FileName);
+                    inquiryAttachment.Extension = Path.GetExtension(postedFile.FileName);
+                    inquiryAttachment.AttachmentPath = "/" + folderPath + fileName;
+                    inquiryAttachment.InquiryId = Convert.ToInt32(inquiryID);
+                    listOfAttachment.Add(inquiryAttachment);
+                    //Request.SaveAs(virtualFolderPth + fileName);
+                   // HttpContext.Current.Request.SaveAs(virtualFolderPth + fileName);
+                    string filevirtualpath = virtualFolderPth + "/"+fileName;
+                    postedFile.SaveAs(virtualFolderPth + "/" + fileName);
+                }
                 _ItemService.AddInquiryAttachments(listOfAttachment);
             }
-
 
         }
         private Inquiry AddInquiry(Prefix prefix)
@@ -660,8 +700,11 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             if (hfNoOfRec > 0)
             {
                 int numOfrec = Convert.ToInt32(hfNoOfRec);
-
-                if (numOfrec >= 1)
+                if (numOfrec > 3)
+                {
+                    numOfrec = 3;
+                }
+                if (numOfrec==1)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -675,7 +718,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     listOfInquiries.Add(item1);
                 }
 
-                if (numOfrec >= 2)
+                if (numOfrec== 2)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -697,7 +740,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     listOfInquiries.Add(item2);
                 }
 
-                if (numOfrec >= 3)
+                if (numOfrec == 3)
                 {
                     InquiryItem item1 = new InquiryItem();
 
@@ -737,7 +780,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
            
         //    return View("PartialViews/RequestQuote", Model);
         //}
-
+        
       public class JasonResponseObject
           {
           public Order order;
@@ -750,6 +793,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public string CurrencySymbol;
           public string OrderDateValue;
           public string DeliveryDateValue;
+          public string BillingCountry;
+          public string BillingState;
+          public string ShippingCountry;
+          public string ShippingState;
          }
 
       public class JsonAddressClass

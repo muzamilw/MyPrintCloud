@@ -55,6 +55,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemSectionRepository itemSectionRepository;
         private readonly IItemImageRepository itemImageRepository;
         private readonly IOrganisationRepository organizationRepository;
+        private readonly ISmartFormRepository smartFormRepository;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -1349,7 +1350,7 @@ namespace MPC.Implementation.MISServices
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
-            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository)
+            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository)
         {
             if (itemRepository == null)
             {
@@ -1463,7 +1464,12 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("organizationRepository");
             }
+            if (smartFormRepository == null)
+            {
+                throw new ArgumentNullException("smartFormRepository");
+            }
             this.organizationRepository = organizationRepository;
+            this.smartFormRepository = smartFormRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1687,7 +1693,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Base Data For Designer Template
         /// </summary>
-        public ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate()
+        public ItemDesignerTemplateBaseResponse GetBaseDataForDesignerTemplate(long? companyId)
         {
             List<ProductCategory> templateCategories;
             List<CategoryRegion> categoryRegions;
@@ -1719,11 +1725,22 @@ namespace MPC.Implementation.MISServices
 
             }
 
+// ReSharper disable SuggestUseVarKeywordEvident
+            List<SmartForm> smartForms = new List<SmartForm>();
+// ReSharper restore SuggestUseVarKeywordEvident
+            if (companyId.HasValue)
+            {
+                // Get Smart Forms for company
+                smartForms = smartFormRepository.GetAllForCompany(companyId.Value).ToList();
+            }
+            
+
             return new ItemDesignerTemplateBaseResponse
             {
                 TemplateCategories = templateCategories,
                 CategoryRegions = categoryRegions,
-                CategoryTypes = categoryTypes
+                CategoryTypes = categoryTypes,
+                SmartForms = smartForms
             };
         }
 

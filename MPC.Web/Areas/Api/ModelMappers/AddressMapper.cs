@@ -1,4 +1,5 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Linq;
+using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -50,7 +51,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        StateId = source.StateId,
                        StateName = source.State != null ? source.State.StateName : string.Empty,
                        CountryId = source.CountryId,
-                       CountryName = source.Country != null? source.Country.CountryName : string.Empty,
+                       CountryName = source.Country != null ? source.Country.CountryName : string.Empty,
                        PostCode = source.PostCode,
                        Fax = source.Fax,
                        Email = source.Email,
@@ -107,7 +108,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 isDefaultTerrorityBilling = source.isDefaultTerrorityBilling,
                 isDefaultTerrorityShipping = source.isDefaultTerrorityShipping,
-                OrganisationId = source.OrganisationId
+                OrganisationId = source.OrganisationId,
+                ScopeVariables = source.ScopeVariables != null ? source.ScopeVariables.Select(sv => sv.CreateFrom()).ToList() : null
             };
         }
 

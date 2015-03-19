@@ -21,5 +21,7 @@ namespace MPC.Interfaces.Repository
         bool PrefixUseMarkupId(long markupId);
 
         List<Prefix> GetPrefixesByOrganisationID(long organisationID);
+
+        Prefix GetPrefixByOrganisationId(long OrgId);
     }
 }
