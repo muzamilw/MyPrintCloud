@@ -56,6 +56,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Campaign Detail By Id
+                    amplify.request.define('getCampaignDetailById', 'ajax', {
+                        url: ist.siteUrl + '/Api/GetCampaignDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to Get Smart Form Details By Smart Form Id
                     amplify.request.define('getSmartFormDetailBySmartFormId', 'ajax', {
                         url: ist.siteUrl + '/Api/GetSmartFormDetail',
@@ -327,6 +333,17 @@
                     data: params
                 });
             },
+            //Get Campaign Detail By Id
+            getCampaignDetailById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCampaignDetailById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
              //Get Smart Form Detail By Smart Form Id
                 getSmartFormDetailBySmartFormId = function (params, callbacks) {
                     initialize();
@@ -664,6 +681,7 @@
             deleteCompanyBanner: deleteCompanyBanner,
             getThemeDetail: getThemeDetail,
             getCmsTags: getCmsTags,
+            getCampaignDetailById: getCampaignDetailById,
         };
     })();
 

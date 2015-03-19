@@ -133,7 +133,19 @@ namespace MPC.MIS.Areas.Api.Controllers
                     company.CmsPageWithWidgetList != null
                         ? company.CmsPageWithWidgetList.Select(
                             x => x.CreateFrom()).ToList()
-                        : null
+                        : null,
+                NewAddedCampaigns = company.NewAddedCampaigns != null
+                ? company.NewAddedCampaigns.Select(
+                    x => x.CreateFrom()).ToList()
+                : null,
+                EdittedCampaigns = company.EdittedCampaigns != null
+             ? company.EdittedCampaigns.Select(
+                 x => x.CreateFrom()).ToList()
+             : null,
+                DeletedCampaigns = company.DeletedCampaigns != null
+                ? company.DeletedCampaigns.Select(
+                    x => x.CreateFrom()).ToList()
+                : null,
             };
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();

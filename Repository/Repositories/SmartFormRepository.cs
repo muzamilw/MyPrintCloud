@@ -52,6 +52,13 @@ namespace MPC.Repository.Repositories
             return DbSet.Find(id);
         }
 
+        /// <summary>
+        /// Get All Smart Froms
+        /// </summary>
+        public IEnumerable<SmartForm> GetAllForCompany(long companyId)
+        {
+            return DbSet.Where(sm => sm.CompanyId == companyId).OrderBy(sm => sm.Name).ToList();
+        }
 
         public List<VariableList> GetVariablesData(bool isRealestateproduct, long companyId, long organisationId)
         {

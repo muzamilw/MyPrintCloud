@@ -9,14 +9,17 @@
         margin-bottom:10px;
     }
 </style>
+@*with: selectedClickCharge()*@
+
+<div data-bind="visible: $root.isClickChargeEditorVisible(),with: selectedClickCharge()" style="display: none">
+    
 
 
-
-    <div>
-        <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Lookup Calculation</h3>
-    </div>
-<br />
-    <div class="form-group">
+        <div>
+            <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Lookup Calculation</h3>
+        </div>
+        <br />
+        <div class="form-group">
             <div class="col-lg-5 text-right">
                 <div class="bs-example-tooltips tooltip-float-width">
                     <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
@@ -29,7 +32,7 @@
                 <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Click Chnage Lookup">
             </div>
         </div>
-        
+
         <div class="form-group">
             <div class="col-lg-5 text-right">
                 <div class="bs-example-tooltips tooltip-float-width">
@@ -39,11 +42,11 @@
                 </div>
                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the number of chargeable sheets</label>
             </div>
-            <div class ="col-lg-6">
+            <div class="col-lg-6">
                 <input type="text" class="form-control" id="txtAddressLine1" placeholder="Chargeable Sheets">
-           </div>
+            </div>
         </div>
-       
+
         <div class="form-group">
             <div class="col-lg-5 text-right">
                 <div class="bs-example-tooltips tooltip-float-width">
@@ -61,29 +64,30 @@
                     <span class="input-group-addon">.00</span>
                 </div>
 
-               
-        </div>
+
             </div>
-         
-            <div class="form-group">
-                <div class="col-lg-5 text-right">
-                    <div class="bs-example-tooltips tooltip-float-width">
-                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Price of the chargeable sheets" data-original-title="" title="">
-                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                        </a>
-                    </div>
-                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter Price of the chargeable sheets</label>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-5 text-right">
+                <div class="bs-example-tooltips tooltip-float-width">
+                    <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Price of the chargeable sheets" data-original-title="" title="">
+                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                    </a>
                 </div>
-                <div class="col-lg-6">
+                <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter Price of the chargeable sheets</label>
+            </div>
+            <div class="col-lg-6">
 
-                    <div class="input-group">
-                        <span class="input-group-addon">$</span>
-                        <input type="text" class="form-control" id="txtAddressLine1" placeholder="Price Chargeable Sheet">
-                        <span class="input-group-addon">.00</span>
-                    </div>
-
-
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" id="txtAddressLine1" placeholder="Price Chargeable Sheet">
+                    <span class="input-group-addon">.00</span>
                 </div>
 
 
-</div>
+            </div>
+
+
+        </div>
+    </div>

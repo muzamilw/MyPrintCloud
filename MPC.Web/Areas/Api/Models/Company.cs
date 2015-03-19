@@ -181,6 +181,12 @@ namespace MPC.MIS.Areas.Api.Models
         public List<FieldVariable> FieldVariables { get; set; }
         public List<SmartForm> SmartForms { get; set; }
 
+        #region Campaigns
+        public List<Campaign> NewAddedCampaigns { get; set; }
+        public List<Campaign> EdittedCampaigns { get; set; }
+        public List<Campaign> DeletedCampaigns { get; set; }
+        #endregion
+
         #region CMS Pages
 
         public List<CmsPage> NewAddedCmsPages { get; set; }
@@ -390,6 +396,8 @@ namespace MPC.MIS.Areas.Api.Models
         }
 
         #endregion
+
+
         #endregion
     }
 }

@@ -1178,54 +1178,54 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         else if (objProductPage.BackGroundType == 2) //background color
                         {
-                            if (objProductPage.Orientation == 1) //standard 
-                            {
+                          //  if (objProductPage.Orientation == 1) //standard 
+                          //  {
                                 doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                                 doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                            }
-                            else
-                            {
-                                doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                                doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                            //}
+                            //else
+                            //{
+                            //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                            //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                            }
+                            //}
                             doc.AddPage();
                             LoadBackColor(ref doc, objProductPage);
                         }
                         else if (objProductPage.BackGroundType == 3) //background Image
                         {
 
-                            if (objProductPage.Orientation == 1) //standard 
-                            {
-                                doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                          //  if (objProductPage.Orientation == 1) //standard 
+                          //  {
+                               doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                                 doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                            }
-                            else
-                            {
-                                doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                                doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                            //}
+                            //else
+                            //{
+                            //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                            //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                            }
+                            //}
                             doc.AddPage();
                             LoadBackGroundImage(ref doc, objProductPage, ProductFolderPath);
                         }
                     }
                     else
                     {
-                        if (objProductPage.Orientation == 1) //standard 
-                        {
+                        //if (objProductPage.Orientation == 1) //standard 
+                        //{
                             doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                             doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                        }
-                        else
-                        {
-                            doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                            doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                        //}
+                        //else
+                        //{
+                        //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                        //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                        }
+                        //}
                         doc.AddPage();
                     }
                 }
@@ -1476,18 +1476,18 @@ namespace MPC.Implementation.WebStoreServices
                             }
                             else if (objProductPage.BackGroundType == 2) //background color
                             {
-                                if (objProductPage.Orientation == 1) //standard 
-                                {
+                                //if (objProductPage.Orientation == 1) //standard 
+                                //{
                                     doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                                     doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                                }
-                                else
-                                {
-                                    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                                    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                                //}
+                                //else
+                                //{
+                                //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                                //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                                }
+                                //}
                                 doc.AddPage();
                                 doc.PageNumber = objProductPage.PageNo.Value;
                                 LoadBackColor(ref doc, objProductPage);
@@ -1495,18 +1495,18 @@ namespace MPC.Implementation.WebStoreServices
                             else if (objProductPage.BackGroundType == 3) //background Image
                             {
 
-                                if (objProductPage.Orientation == 1) //standard 
-                                {
+                                //if (objProductPage.Orientation == 1) //standard 
+                                //{
                                     doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                                     doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                                }
-                                else
-                                {
-                                    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                                    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                                //}
+                                //else
+                                //{
+                                //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                                //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                                }
+                                //}
                                 doc.AddPage();
                                 doc.PageNumber = objProductPage.PageNo.Value;
                                 LoadBackGroundImage(ref doc, objProductPage, ProductFolderPath);
@@ -1514,18 +1514,18 @@ namespace MPC.Implementation.WebStoreServices
                         }
                         else
                         {
-                            if (objProductPage.Orientation == 1) //standard 
-                            {
+                            //if (objProductPage.Orientation == 1) //standard 
+                            //{
                                 doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
                                 doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
 
-                            }
-                            else
-                            {
-                                doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
-                                doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
+                            //}
+                            //else
+                            //{
+                            //    doc.MediaBox.Height = objProduct.PDFTemplateWidth.Value;
+                            //    doc.MediaBox.Width = objProduct.PDFTemplateHeight.Value;
 
-                            }
+                            //}
                             doc.AddPage();
                             doc.PageNumber = objProductPage.PageNo.Value;
                         }
@@ -2220,12 +2220,12 @@ namespace MPC.Implementation.WebStoreServices
         public Template GetTemplate(long productID)
         {
             var product= _templateRepository.GetTemplate(productID,true);
-            if (product.Orientation == 2) //rotating the canvas in case of vert orientation
-            {
-                double tmp = product.PDFTemplateHeight.Value;
-                product.PDFTemplateHeight = product.PDFTemplateWidth;
-                product.PDFTemplateWidth = tmp;
-            }
+            //if (product.Orientation == 2) //rotating the canvas in case of vert orientation
+            //{
+            //    double tmp = product.PDFTemplateHeight.Value;
+            //    product.PDFTemplateHeight = product.PDFTemplateWidth;
+            //    product.PDFTemplateWidth = tmp;
+            //}
             return product;
         }
 

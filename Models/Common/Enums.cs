@@ -354,4 +354,10 @@ namespace MPC.Models.Common
         Cost = 1,
         Price = 2
     }
+    public enum BreadCrumbMode : int
+    {
+        CategoryBrowsing = 1,
+        MyAccount = 2
+    }
+
 }

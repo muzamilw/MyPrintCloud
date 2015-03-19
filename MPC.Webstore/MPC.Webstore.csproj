@@ -334,6 +334,7 @@
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BillingShippingAddressManagerController.cs" />
+    <Compile Include="Controllers\BreadCrumbController.cs" />
     <Compile Include="Controllers\CategoriesAndProductsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\CategoryHeaderController.cs" />
@@ -418,6 +419,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Designer\assets-v2\active.png" />
     <Content Include="Content\Designer\assets-v2\addlist.png" />
     <Content Include="Content\Designer\assets-v2\align1.png" />
     <Content Include="Content\Designer\assets-v2\align2.png" />
@@ -426,6 +428,7 @@
     <Content Include="Content\Designer\assets-v2\arrowMoveUp.png" />
     <Content Include="Content\Designer\assets-v2\back-hover.png" />
     <Content Include="Content\Designer\assets-v2\back.png" />
+    <Content Include="Content\Designer\assets-v2\deactive.png" />
     <Content Include="Content\Designer\assets-v2\dummyclose_button.png" />
     <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
@@ -794,6 +797,7 @@
     <Content Include="Views\Shared\PartialViews\SubscribeAndTestimonials.cshtml" />
     <Content Include="Views\Shared\PartialViews\ProductParentCategories.cshtml" />
     <Content Include="Views\Shared\PartialViews\SubscribeAndContact.cshtml" />
+    <Content Include="Views\Shared\PartialViews\BreadCrumb.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -802,7 +806,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\SubscribeAndContact\" />
+    <Folder Include="Views\BreadCrumb\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
