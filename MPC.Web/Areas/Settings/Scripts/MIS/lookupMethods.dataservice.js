@@ -1,4 +1,8 @@
-﻿define("lookupMethod/lookupMethod.dataservice", function () {
+﻿/*
+    Data service module with ajax calls to the server
+*/
+define("lookupMethods/lookupMethods.dataservice", function () {
+
     var dataService = (function () {
         var
              isInitialized = false,
@@ -30,7 +34,4 @@
     })();
 
     return dataService;
-
-
-
 });

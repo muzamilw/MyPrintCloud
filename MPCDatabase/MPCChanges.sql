@@ -1023,3 +1023,20 @@ inner join dbo.ProductCategory pcat on pc2.CategoryId = pcat.ProductCategoryId
 
 GO
 
+
+/* Execution Date: 19/03/2015 */
+
+GO
+
+delete from categoryterritory
+where productcategoryid not in (select productcategoryid from ProductCategory)
+
+alter table categoryterritory
+add constraint FK_CategoryTerritory_ProductCategory
+foreign key (ProductCategoryId)
+references ProductCategory (ProductCategoryId)
+
+alter table company
+add CurrentThemeId bigint null
+
+GO
