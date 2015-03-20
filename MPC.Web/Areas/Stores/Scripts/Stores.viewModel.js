@@ -1393,7 +1393,7 @@ define("stores/stores.viewModel",
                         }
                     }
                     makeCkeditorDropable();
-                }
+                },
                 getCampaignDetail = function (campaign) {
                     dataservice.getCampaignDetailById({
                         campaignId: campaign.id(),
@@ -1411,7 +1411,7 @@ define("stores/stores.viewModel",
                             toastr.error("Failed to load Detail . Error: ");
                         }
                     });
-                }
+                },
                 // Delete Email
                 onDeleteEmail = function (email) {
                     // Ask for confirmation
@@ -1439,7 +1439,7 @@ define("stores/stores.viewModel",
                     if (campaignItem) {
                         editedCampaigns.remove(campaignItem);
                     }
-                }
+                },
                 //Get Campaign Base
                 getCampaignBaseData = function (callBack) {
                     dataservice.getCampaignBaseData({
@@ -2829,6 +2829,11 @@ define("stores/stores.viewModel",
                                         else {
                                             //companyContactEditorViewModel.acceptItem(savedCompanyContact);
                                             selectedCompanyContact(savedCompanyContact);
+                                            _.each(selectedStore().users(), function (user) {
+                                                if (user.contactId() == savedCompanyContact.contactId()) {
+                                                    user.roleName(savedCompanyContact.roleName());
+                                                }
+                                            });
                                         }
 
                                         toastr.success("Saved Successfully");
