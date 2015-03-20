@@ -40,7 +40,13 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             var result = new
             {
                 ItemId = item.ItemId,
-                SmartFormId = item.SmartFormId
+                SmartFormId = item.SmartFormId,
+                allowPdfDownload = item.allowPdfDownload,
+                allowImageDownload = item.allowImageDownload,
+                drawWaterMarkTxt = item.drawWaterMarkTxt,
+                drawBleedArea = item.drawBleedArea,
+                printCropMarks = item.printCropMarks,
+                isMultipagePDF = item.isMultipagePDF
             };
 
             var formatter = new JsonMediaTypeFormatter();
