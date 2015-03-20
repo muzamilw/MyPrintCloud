@@ -1778,7 +1778,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
