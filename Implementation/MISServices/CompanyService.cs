@@ -1295,7 +1295,9 @@ namespace MPC.Implementation.MISServices
                 //foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 foreach (var companyContact in companyDbVersion.CompanyContacts)
                 {
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    string path=SaveCompanyContactProfileImage(companyContact);
+                    if(path!=null)
+                        companyContact.image = SaveCompanyContactProfileImage(companyContact);
                 }
             }
             if (companySavingModel.EdittedCompanyContacts != null)
