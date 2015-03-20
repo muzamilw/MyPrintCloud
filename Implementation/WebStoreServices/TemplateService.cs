@@ -151,6 +151,8 @@ namespace MPC.Implementation.WebStoreServices
             obj.Tint = tempObj.Tint;
             obj.VAllignment = tempObj.VAllignment;
             obj.watermarkText = tempObj.watermarkText;
+            obj.originalContentString = tempObj.ContentString;
+            obj.originalTextStyles = tempObj.textStyles;
             return obj;
 
         }
