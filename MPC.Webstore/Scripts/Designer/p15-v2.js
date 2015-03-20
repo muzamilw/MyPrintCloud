@@ -137,6 +137,25 @@ function fu04() {
               } else {
                   $(".QuickTxt").css("visibility", "hidden");
               }
+              if(item.allowPdfDownload == true)
+              {
+                  $(".previewBtnContainer").css("display", "block");
+                  $(".PreviewerDownloadPDF").css("display", "block");
+              }
+              if(item.allowImageDownload == true)
+              {
+                  $(".PreviewerDownloadImg").css("display", "block");
+              }
+              if(item.isMultipagePDF == true)
+              {
+                  isMultiPageProduct = true;
+              }
+              if (item.printCropMarks == false) {
+                  printCropMarks = false;
+              }
+              if (item.drawWaterMarkTxt == false) {
+                  printWaterMarks = false;
+              }
           });
         if (IsCalledFrom == 4) {
             //  c4_RS_eU(); // load realestate property images
