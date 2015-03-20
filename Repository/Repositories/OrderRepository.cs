@@ -339,10 +339,10 @@ namespace MPC.Repository.Repositories
 
                         if (item.IsOrderedItem.HasValue && item.IsOrderedItem.Value) //gets only attatchments which are added to cart
                         {
-                            var Section = db.ItemSections.Where(i => i.ItemId == item.RefItemId & i.SectionNo == 1).FirstOrDefault();
+                            var Section = db.ItemSections.Where(i => i.ItemId == item.ItemId & i.SectionNo == 1).FirstOrDefault();
 
-                            if (item.ItemSections != null)
-                                StockID = item.ItemSections.Where(i => i.ItemId == item.ItemId & i.SectionNo == 1).Select(o => o.StockItemID1).FirstOrDefault();
+                            if (Section != null)
+                                StockID = Section.StockItemID1;
                             else
                                 StockID = 0;
                             StockName = db.ItemStockOptions.Where(i => i.StockId == StockID && i.ItemId == item.RefItemId).Select(o => o.StockLabel).FirstOrDefault();
@@ -430,16 +430,11 @@ namespace MPC.Repository.Repositories
             ArtWorkAttatchment artWorkAttatchment = null;
             ItemAttachment tblItemAttchment = null;
 
+          
 
             if (tblItem.ItemAttachments != null && tblItem.ItemAttachments.Count > 0)
             {
-                //Find the pdf he loaded
 
-                //  tblItemAttchment = tblItem.tbl_item_attachments.Where(attatchment => string.Compare(attatchment.FileType, ".pdf", true) == 0 && attatchment.CustomerID == tblItem.ContactCompanyID && string.Compare(attatchment.Type, Model.UploadFileTypes.Artwork.ToString(), true) == 0).Take(1).FirstOrDefault();
-
-
-
-                // tblItemAttchment = tblItem.tbl_item_attachments.Where(attatchment => attatchment.CustomerID == tblItem.ContactCompanyID && string.Compare(attatchment.Type, Model.UploadFileTypes.Artwork.ToString(), true) == 0).Take(1).FirstOrDefault();
                 List<ItemAttachment> newlistAttach = tblItem.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).Take(2).ToList();
                 tblItemAttchment = newlistAttach[0];
 
@@ -459,7 +454,30 @@ namespace MPC.Repository.Repositories
                 }
 
             }
+            else 
+            {
+                List<ItemAttachment> newlistAttach = db.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
+                if (newlistAttach != null && tblItem.ItemAttachments.Count > 0) 
+                {
+                    tblItemAttchment = newlistAttach[0];
 
+                    if (tblItemAttchment != null)
+                    {
+                        if (tblItemAttchment.FileName.Contains("overlay"))
+                        {
+                            tblItemAttchment = newlistAttach[1];
+                        }
+                        artWorkAttatchment = new ArtWorkAttatchment();
+
+                        artWorkAttatchment.FileName = tblItemAttchment.FileName;
+                        artWorkAttatchment.FileTitle = tblItemAttchment.FileTitle;
+                        artWorkAttatchment.FileExtention = tblItemAttchment.FileType;
+                        artWorkAttatchment.FolderPath = tblItemAttchment.FolderPath;
+                        artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
+                    }
+                }
+             
+            }
 
             artWorkAttatchment = artWorkAttatchment ?? new ArtWorkAttatchment();
 
@@ -479,21 +497,24 @@ namespace MPC.Repository.Repositories
                 tblItemFirstSection = tblItem.ItemSections.Where(itmSect => itmSect.SectionNo.HasValue && itmSect.SectionNo.Value == 1).FirstOrDefault();
                 if (tblItemFirstSection != null)
                 {
-                    tblSectionCostList = tblItemFirstSection.SectionCostcentres.Where(sectCostCenter => sectCostCenter.IsOptionalExtra == 1).ToList();
+                    if (tblItemFirstSection.SectionCostcentres != null && tblItemFirstSection.SectionCostcentres.Count > 0)
+                    {
+                        tblSectionCostList = tblItemFirstSection.SectionCostcentres.Where(sectCostCenter => sectCostCenter.IsOptionalExtra == 1).ToList();
 
-                    tblSectionCostList.ForEach(
-                        sectCostCenter =>
-                        {
-                            AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
+                        tblSectionCostList.ForEach(
+                            sectCostCenter =>
                             {
-                                AddOnName = sectCostCenter.CostCentre.Name,
-                                CostCenterID = (int)sectCostCenter.CostCentreId,
-                                ItemID = (int)tblItemFirstSection.ItemId,
-                                EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
-                            };
+                                AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
+                                {
+                                    AddOnName = sectCostCenter.CostCentre.Name,
+                                    CostCenterID = (int)sectCostCenter.CostCentreId,
+                                    ItemID = (int)tblItemFirstSection.ItemId,
+                                    EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
+                                };
 
-                            itemAddOnsList.Add(addonCostCenter); // cost center of particular item
-                        });
+                                itemAddOnsList.Add(addonCostCenter); // cost center of particular item
+                            });
+                    }
 
                 }
 

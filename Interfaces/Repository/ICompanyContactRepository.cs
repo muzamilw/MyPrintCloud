@@ -105,7 +105,7 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId);
 
-        bool VerifyHashSha1(string plainText, string compareWithSalt);
+        //bool VerifyHashSha1(string plainText, string compareWithSalt);
 
         string GetPasswordByContactID(long ContactID);
 
