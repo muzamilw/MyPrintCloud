@@ -629,8 +629,8 @@
                                                                 <th>Role</th>
                                                                 <th>Web Access</th>
                                                                 <th>Place Order</th>
-                                                                <th>Place Order Without Approval</th>
-                                                                <th>Can See Prices</th>
+                                                                <th>Approval Required</th>
+                                                                <th>See Prices</th>
                                                                 <th>Credit Limit</th>
                                                                 @*<th></th>*@
                                                             </tr>
@@ -2277,7 +2277,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
-                        <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() == true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() == true),'label-danger': (canUserPlaceOrderWithoutApproval() != true)}"></span>
+                        <span class="label" data-bind="text: canUserPlaceOrderWithoutApproval() != true ? 'Yes' : 'No', css: { 'label-success': (canUserPlaceOrderWithoutApproval() != true),'label-danger': (canUserPlaceOrderWithoutApproval() == true)}"></span>
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;">
