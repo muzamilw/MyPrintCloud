@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets9ADB09208C58A349AE1DD6CF3086251C5AC4D476538DFD7A557591827966D7C9))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,18 +17,18 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets9ADB09208C58A349AE1DD6CF3086251C5AC4D476538DFD7A557591827966D7C9 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets9ADB09208C58A349AE1DD6CF3086251C5AC4D476538DFD7A557591827966D7C9()
+        public ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "c50446786107867fccf3e164a7546d3f88a6463509d0455568206480314261c7";
-            this.HashOverAllExtentViews = "2b55da54a84596897f9dc1c548b36e9f316d68ee9d619134a59ea6e379300057";
+            this.HashOverMappingClosure = "550043a7bd0a4d8b6aeb0a8a3533c049ac1983df155c77dabe08ca9e339c21ad";
+            this.HashOverAllExtentViews = "bbac6f39c50c6efa0cb32d63c56e1def135c20052c9bab6fe6a54c386deaea8b";
             this.ViewCount = 310;
         }
         
@@ -9215,52 +9215,54 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView216()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3598);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3692);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetCategoryProducts\r\n        [DomainModels.St");
-            viewString.Append("ore.GetCategoryProducts](T1.GetCategoryProducts_ItemId, T1.GetCategoryProducts_I");
-            viewString.Append("temCode, T1.GetCategoryProducts_isQtyRanged, T1.GetCategoryProducts_EstimateId, ");
-            viewString.Append("T1.GetCategoryProducts_ProductName, T1.GetCategoryProducts_ProductCode, T1.GetCa");
-            viewString.Append("tegoryProducts_ProductCategoryName, T1.GetCategoryProducts_MinPrice, T1.GetCateg");
-            viewString.Append("oryProducts_ImagePath, T1.GetCategoryProducts_ThumbnailPath, T1.GetCategoryProdu");
-            viewString.Append("cts_IconPath, T1.GetCategoryProducts_IsEnabled, T1.GetCategoryProducts_IsSpecial");
-            viewString.Append("Item, T1.GetCategoryProducts_IsPopular, T1.GetCategoryProducts_IsFeatured, T1.Ge");
-            viewString.Append("tCategoryProducts_IsPromotional, T1.GetCategoryProducts_IsPublished, T1.GetCateg");
-            viewString.Append("oryProducts_ProductType, T1.GetCategoryProducts_ProductSpecification, T1.GetCate");
-            viewString.Append("goryProducts_CompleteSpecification, T1.GetCategoryProducts_IsArchived, T1.GetCat");
-            viewString.Append("egoryProducts_SortOrder, T1.GetCategoryProducts_OrganisationId, T1.GetCategoryPr");
-            viewString.Append("oducts_WebDescription, T1.GetCategoryProducts_PriceDiscountPercentage, T1.GetCat");
-            viewString.Append("egoryProducts_isTemplateDesignMode, T1.GetCategoryProducts_DefaultItemTax, T1.Ge");
-            viewString.Append("tCategoryProducts_isUploadImage, T1.GetCategoryProducts_isMarketingBrief, T1.Get");
-            viewString.Append("CategoryProducts_ProductCategoryId, T1.GetCategoryProducts_TemplateId, T1.GetCat");
-            viewString.Append("egoryProducts_DesignerCategoryId)\r\n    FROM (\r\n        SELECT \r\n            T.It");
-            viewString.Append("emId AS GetCategoryProducts_ItemId, \r\n            T.ItemCode AS GetCategoryProdu");
-            viewString.Append("cts_ItemCode, \r\n            T.isQtyRanged AS GetCategoryProducts_isQtyRanged, \r\n");
-            viewString.Append("            T.EstimateId AS GetCategoryProducts_EstimateId, \r\n            T.Prod");
-            viewString.Append("uctName AS GetCategoryProducts_ProductName, \r\n            T.ProductCode AS GetCa");
-            viewString.Append("tegoryProducts_ProductCode, \r\n            T.ProductCategoryName AS GetCategoryPr");
-            viewString.Append("oducts_ProductCategoryName, \r\n            T.MinPrice AS GetCategoryProducts_MinP");
-            viewString.Append("rice, \r\n            T.ImagePath AS GetCategoryProducts_ImagePath, \r\n            ");
-            viewString.Append("T.ThumbnailPath AS GetCategoryProducts_ThumbnailPath, \r\n            T.IconPath A");
-            viewString.Append("S GetCategoryProducts_IconPath, \r\n            T.IsEnabled AS GetCategoryProducts");
-            viewString.Append("_IsEnabled, \r\n            T.IsSpecialItem AS GetCategoryProducts_IsSpecialItem, ");
-            viewString.Append("\r\n            T.IsPopular AS GetCategoryProducts_IsPopular, \r\n            T.IsFe");
-            viewString.Append("atured AS GetCategoryProducts_IsFeatured, \r\n            T.IsPromotional AS GetCa");
-            viewString.Append("tegoryProducts_IsPromotional, \r\n            T.IsPublished AS GetCategoryProducts");
-            viewString.Append("_IsPublished, \r\n            T.ProductType AS GetCategoryProducts_ProductType, \r\n");
-            viewString.Append("            T.ProductSpecification AS GetCategoryProducts_ProductSpecification, ");
-            viewString.Append("\r\n            T.CompleteSpecification AS GetCategoryProducts_CompleteSpecificati");
-            viewString.Append("on, \r\n            T.IsArchived AS GetCategoryProducts_IsArchived, \r\n            ");
-            viewString.Append("T.SortOrder AS GetCategoryProducts_SortOrder, \r\n            T.OrganisationId AS ");
-            viewString.Append("GetCategoryProducts_OrganisationId, \r\n            T.WebDescription AS GetCategor");
-            viewString.Append("yProducts_WebDescription, \r\n            T.PriceDiscountPercentage AS GetCategory");
-            viewString.Append("Products_PriceDiscountPercentage, \r\n            T.isTemplateDesignMode AS GetCat");
-            viewString.Append("egoryProducts_isTemplateDesignMode, \r\n            T.DefaultItemTax AS GetCategor");
-            viewString.Append("yProducts_DefaultItemTax, \r\n            T.isUploadImage AS GetCategoryProducts_i");
-            viewString.Append("sUploadImage, \r\n            T.isMarketingBrief AS GetCategoryProducts_isMarketin");
-            viewString.Append("gBrief, \r\n            T.ProductCategoryId AS GetCategoryProducts_ProductCategory");
-            viewString.Append("Id, \r\n            T.TemplateId AS GetCategoryProducts_TemplateId, \r\n            ");
-            viewString.Append("T.DesignerCategoryId AS GetCategoryProducts_DesignerCategoryId, \r\n            Tr");
-            viewString.Append("ue AS _from0\r\n        FROM BaseDbContext.GetCategoryProducts AS T\r\n    ) AS T1");
+            viewString.Append("ore.GetCategoryProducts](T1.GetCategoryProducts_CompanyId, T1.GetCategoryProduct");
+            viewString.Append("s_ItemId, T1.GetCategoryProducts_ItemCode, T1.GetCategoryProducts_isQtyRanged, T");
+            viewString.Append("1.GetCategoryProducts_EstimateId, T1.GetCategoryProducts_ProductName, T1.GetCate");
+            viewString.Append("goryProducts_ProductCode, T1.GetCategoryProducts_ProductCategoryName, T1.GetCate");
+            viewString.Append("goryProducts_MinPrice, T1.GetCategoryProducts_ImagePath, T1.GetCategoryProducts_");
+            viewString.Append("ThumbnailPath, T1.GetCategoryProducts_IconPath, T1.GetCategoryProducts_IsEnabled");
+            viewString.Append(", T1.GetCategoryProducts_IsSpecialItem, T1.GetCategoryProducts_IsPopular, T1.Get");
+            viewString.Append("CategoryProducts_IsFeatured, T1.GetCategoryProducts_IsPromotional, T1.GetCategor");
+            viewString.Append("yProducts_IsPublished, T1.GetCategoryProducts_ProductType, T1.GetCategoryProduct");
+            viewString.Append("s_ProductSpecification, T1.GetCategoryProducts_CompleteSpecification, T1.GetCate");
+            viewString.Append("goryProducts_IsArchived, T1.GetCategoryProducts_SortOrder, T1.GetCategoryProduct");
+            viewString.Append("s_OrganisationId, T1.GetCategoryProducts_WebDescription, T1.GetCategoryProducts_");
+            viewString.Append("PriceDiscountPercentage, T1.GetCategoryProducts_isTemplateDesignMode, T1.GetCate");
+            viewString.Append("goryProducts_DefaultItemTax, T1.GetCategoryProducts_isUploadImage, T1.GetCategor");
+            viewString.Append("yProducts_isMarketingBrief, T1.GetCategoryProducts_ProductCategoryId, T1.GetCate");
+            viewString.Append("goryProducts_TemplateId, T1.GetCategoryProducts_DesignerCategoryId)\r\n    FROM (\r");
+            viewString.Append("\n        SELECT \r\n            T.CompanyId AS GetCategoryProducts_CompanyId, \r\n  ");
+            viewString.Append("          T.ItemId AS GetCategoryProducts_ItemId, \r\n            T.ItemCode AS Ge");
+            viewString.Append("tCategoryProducts_ItemCode, \r\n            T.isQtyRanged AS GetCategoryProducts_i");
+            viewString.Append("sQtyRanged, \r\n            T.EstimateId AS GetCategoryProducts_EstimateId, \r\n    ");
+            viewString.Append("        T.ProductName AS GetCategoryProducts_ProductName, \r\n            T.Produc");
+            viewString.Append("tCode AS GetCategoryProducts_ProductCode, \r\n            T.ProductCategoryName AS");
+            viewString.Append(" GetCategoryProducts_ProductCategoryName, \r\n            T.MinPrice AS GetCategor");
+            viewString.Append("yProducts_MinPrice, \r\n            T.ImagePath AS GetCategoryProducts_ImagePath, ");
+            viewString.Append("\r\n            T.ThumbnailPath AS GetCategoryProducts_ThumbnailPath, \r\n          ");
+            viewString.Append("  T.IconPath AS GetCategoryProducts_IconPath, \r\n            T.IsEnabled AS GetCa");
+            viewString.Append("tegoryProducts_IsEnabled, \r\n            T.IsSpecialItem AS GetCategoryProducts_I");
+            viewString.Append("sSpecialItem, \r\n            T.IsPopular AS GetCategoryProducts_IsPopular, \r\n    ");
+            viewString.Append("        T.IsFeatured AS GetCategoryProducts_IsFeatured, \r\n            T.IsPromot");
+            viewString.Append("ional AS GetCategoryProducts_IsPromotional, \r\n            T.IsPublished AS GetCa");
+            viewString.Append("tegoryProducts_IsPublished, \r\n            T.ProductType AS GetCategoryProducts_P");
+            viewString.Append("roductType, \r\n            T.ProductSpecification AS GetCategoryProducts_ProductS");
+            viewString.Append("pecification, \r\n            T.CompleteSpecification AS GetCategoryProducts_Compl");
+            viewString.Append("eteSpecification, \r\n            T.IsArchived AS GetCategoryProducts_IsArchived, ");
+            viewString.Append("\r\n            T.SortOrder AS GetCategoryProducts_SortOrder, \r\n            T.Orga");
+            viewString.Append("nisationId AS GetCategoryProducts_OrganisationId, \r\n            T.WebDescription");
+            viewString.Append(" AS GetCategoryProducts_WebDescription, \r\n            T.PriceDiscountPercentage ");
+            viewString.Append("AS GetCategoryProducts_PriceDiscountPercentage, \r\n            T.isTemplateDesign");
+            viewString.Append("Mode AS GetCategoryProducts_isTemplateDesignMode, \r\n            T.DefaultItemTax");
+            viewString.Append(" AS GetCategoryProducts_DefaultItemTax, \r\n            T.isUploadImage AS GetCate");
+            viewString.Append("goryProducts_isUploadImage, \r\n            T.isMarketingBrief AS GetCategoryProdu");
+            viewString.Append("cts_isMarketingBrief, \r\n            T.ProductCategoryId AS GetCategoryProducts_P");
+            viewString.Append("roductCategoryId, \r\n            T.TemplateId AS GetCategoryProducts_TemplateId, ");
+            viewString.Append("\r\n            T.DesignerCategoryId AS GetCategoryProducts_DesignerCategoryId, \r\n");
+            viewString.Append("            True AS _from0\r\n        FROM BaseDbContext.GetCategoryProducts AS T\r");
+            viewString.Append("\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GetCategoryProducts", viewString.ToString());
         }
         
@@ -9269,7 +9271,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView217()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3540);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3632);
             viewString.Append("\r\n    SELECT VALUE -- Constructing GetCategoryProducts\r\n        [DomainModels.Ge");
             viewString.Append("tCategoryProduct](T1.GetCategoryProduct_ItemId, T1.GetCategoryProduct_ItemCode, ");
             viewString.Append("T1.GetCategoryProduct_isQtyRanged, T1.GetCategoryProduct_EstimateId, T1.GetCateg");
@@ -9285,36 +9287,37 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("tegoryProduct_PriceDiscountPercentage, T1.GetCategoryProduct_isTemplateDesignMod");
             viewString.Append("e, T1.GetCategoryProduct_DefaultItemTax, T1.GetCategoryProduct_isUploadImage, T1");
             viewString.Append(".GetCategoryProduct_isMarketingBrief, T1.GetCategoryProduct_ProductCategoryId, T");
-            viewString.Append("1.GetCategoryProduct_TemplateId, T1.GetCategoryProduct_DesignerCategoryId)\r\n    ");
-            viewString.Append("FROM (\r\n        SELECT \r\n            T.ItemId AS GetCategoryProduct_ItemId, \r\n  ");
-            viewString.Append("          T.ItemCode AS GetCategoryProduct_ItemCode, \r\n            T.isQtyRanged");
-            viewString.Append(" AS GetCategoryProduct_isQtyRanged, \r\n            T.EstimateId AS GetCategoryPro");
-            viewString.Append("duct_EstimateId, \r\n            T.ProductName AS GetCategoryProduct_ProductName, ");
-            viewString.Append("\r\n            T.ProductCode AS GetCategoryProduct_ProductCode, \r\n            T.P");
-            viewString.Append("roductCategoryName AS GetCategoryProduct_ProductCategoryName, \r\n            T.Mi");
-            viewString.Append("nPrice AS GetCategoryProduct_MinPrice, \r\n            T.ImagePath AS GetCategoryP");
-            viewString.Append("roduct_ImagePath, \r\n            T.ThumbnailPath AS GetCategoryProduct_ThumbnailP");
-            viewString.Append("ath, \r\n            T.IconPath AS GetCategoryProduct_IconPath, \r\n            T.Is");
-            viewString.Append("Enabled AS GetCategoryProduct_IsEnabled, \r\n            T.IsSpecialItem AS GetCat");
-            viewString.Append("egoryProduct_IsSpecialItem, \r\n            T.IsPopular AS GetCategoryProduct_IsPo");
-            viewString.Append("pular, \r\n            T.IsFeatured AS GetCategoryProduct_IsFeatured, \r\n          ");
-            viewString.Append("  T.IsPromotional AS GetCategoryProduct_IsPromotional, \r\n            T.IsPublish");
-            viewString.Append("ed AS GetCategoryProduct_IsPublished, \r\n            T.ProductType AS GetCategory");
-            viewString.Append("Product_ProductType, \r\n            T.ProductSpecification AS GetCategoryProduct_");
-            viewString.Append("ProductSpecification, \r\n            T.CompleteSpecification AS GetCategoryProduc");
-            viewString.Append("t_CompleteSpecification, \r\n            T.IsArchived AS GetCategoryProduct_IsArch");
-            viewString.Append("ived, \r\n            T.SortOrder AS GetCategoryProduct_SortOrder, \r\n            T");
-            viewString.Append(".OrganisationId AS GetCategoryProduct_OrganisationId, \r\n            T.WebDescrip");
-            viewString.Append("tion AS GetCategoryProduct_WebDescription, \r\n            T.PriceDiscountPercenta");
-            viewString.Append("ge AS GetCategoryProduct_PriceDiscountPercentage, \r\n            T.isTemplateDesi");
-            viewString.Append("gnMode AS GetCategoryProduct_isTemplateDesignMode, \r\n            T.DefaultItemTa");
-            viewString.Append("x AS GetCategoryProduct_DefaultItemTax, \r\n            T.isUploadImage AS GetCate");
-            viewString.Append("goryProduct_isUploadImage, \r\n            T.isMarketingBrief AS GetCategoryProduc");
-            viewString.Append("t_isMarketingBrief, \r\n            T.ProductCategoryId AS GetCategoryProduct_Prod");
-            viewString.Append("uctCategoryId, \r\n            T.TemplateId AS GetCategoryProduct_TemplateId, \r\n  ");
-            viewString.Append("          T.DesignerCategoryId AS GetCategoryProduct_DesignerCategoryId, \r\n     ");
-            viewString.Append("       True AS _from0\r\n        FROM DomainModelsStoreContainer.GetCategoryProduc");
-            viewString.Append("ts AS T\r\n    ) AS T1");
+            viewString.Append("1.GetCategoryProduct_TemplateId, T1.GetCategoryProduct_DesignerCategoryId, T1.Ge");
+            viewString.Append("tCategoryProduct_CompanyId)\r\n    FROM (\r\n        SELECT \r\n            T.ItemId A");
+            viewString.Append("S GetCategoryProduct_ItemId, \r\n            T.ItemCode AS GetCategoryProduct_Item");
+            viewString.Append("Code, \r\n            T.isQtyRanged AS GetCategoryProduct_isQtyRanged, \r\n         ");
+            viewString.Append("   T.EstimateId AS GetCategoryProduct_EstimateId, \r\n            T.ProductName AS");
+            viewString.Append(" GetCategoryProduct_ProductName, \r\n            T.ProductCode AS GetCategoryProdu");
+            viewString.Append("ct_ProductCode, \r\n            T.ProductCategoryName AS GetCategoryProduct_Produc");
+            viewString.Append("tCategoryName, \r\n            T.MinPrice AS GetCategoryProduct_MinPrice, \r\n      ");
+            viewString.Append("      T.ImagePath AS GetCategoryProduct_ImagePath, \r\n            T.ThumbnailPath");
+            viewString.Append(" AS GetCategoryProduct_ThumbnailPath, \r\n            T.IconPath AS GetCategoryPro");
+            viewString.Append("duct_IconPath, \r\n            T.IsEnabled AS GetCategoryProduct_IsEnabled, \r\n    ");
+            viewString.Append("        T.IsSpecialItem AS GetCategoryProduct_IsSpecialItem, \r\n            T.IsP");
+            viewString.Append("opular AS GetCategoryProduct_IsPopular, \r\n            T.IsFeatured AS GetCategor");
+            viewString.Append("yProduct_IsFeatured, \r\n            T.IsPromotional AS GetCategoryProduct_IsPromo");
+            viewString.Append("tional, \r\n            T.IsPublished AS GetCategoryProduct_IsPublished, \r\n       ");
+            viewString.Append("     T.ProductType AS GetCategoryProduct_ProductType, \r\n            T.ProductSpe");
+            viewString.Append("cification AS GetCategoryProduct_ProductSpecification, \r\n            T.CompleteS");
+            viewString.Append("pecification AS GetCategoryProduct_CompleteSpecification, \r\n            T.IsArch");
+            viewString.Append("ived AS GetCategoryProduct_IsArchived, \r\n            T.SortOrder AS GetCategoryP");
+            viewString.Append("roduct_SortOrder, \r\n            T.OrganisationId AS GetCategoryProduct_Organisat");
+            viewString.Append("ionId, \r\n            T.WebDescription AS GetCategoryProduct_WebDescription, \r\n  ");
+            viewString.Append("          T.PriceDiscountPercentage AS GetCategoryProduct_PriceDiscountPercentag");
+            viewString.Append("e, \r\n            T.isTemplateDesignMode AS GetCategoryProduct_isTemplateDesignMo");
+            viewString.Append("de, \r\n            T.DefaultItemTax AS GetCategoryProduct_DefaultItemTax, \r\n     ");
+            viewString.Append("       T.isUploadImage AS GetCategoryProduct_isUploadImage, \r\n            T.isMa");
+            viewString.Append("rketingBrief AS GetCategoryProduct_isMarketingBrief, \r\n            T.ProductCate");
+            viewString.Append("goryId AS GetCategoryProduct_ProductCategoryId, \r\n            T.TemplateId AS Ge");
+            viewString.Append("tCategoryProduct_TemplateId, \r\n            T.DesignerCategoryId AS GetCategoryPr");
+            viewString.Append("oduct_DesignerCategoryId, \r\n            T.CompanyId AS GetCategoryProduct_Compan");
+            viewString.Append("yId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreContainer.GetCa");
+            viewString.Append("tegoryProducts AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GetCategoryProducts", viewString.ToString());
         }
         

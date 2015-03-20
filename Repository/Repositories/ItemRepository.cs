@@ -2032,7 +2032,7 @@ namespace MPC.Repository.Repositories
 
         public bool UpdateCloneItem(long clonedItemID, double orderedQuantity, double itemPrice, double addonsPrice,
             long stockItemID, List<AddOnCostsCenter> newlyAddedCostCenters, int Mode, long OrganisationId,
-            double TaxRate, string ItemMode, int CountOfUploads = 0, string QuestionQueuItem = "")
+            double TaxRate, string ItemMode, bool isInculdeTax, int CountOfUploads = 0, string QuestionQueuItem = "")
         {
             try
             {
@@ -2067,21 +2067,43 @@ namespace MPC.Repository.Repositories
 
                     clonedItem.IsOrderedItem = true;
 
+                   
 
-                    netTotal = itemPrice + addonsPrice;
-
-                    netTotal = netTotal + markupRate ?? 0;
-
-                    if (clonedItem.DefaultItemTax != null)
+                    if (isInculdeTax == true)
                     {
-                        grossTotal = netTotal + CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-                        clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                        if (clonedItem.DefaultItemTax != null)
+                        {
+                            double currTax = (itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
+                            itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
+
+                            itemPrice = itemPrice - (currTax - ((currTax * TaxRate) / 100));
+                            netTotal = itemPrice + addonsPrice;
+
+                            netTotal = netTotal + markupRate ?? 0;
+                            grossTotal = netTotal + CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                        }
+                        else
+                        {
+                            double currTax = (itemPrice * TaxRate / 100);
+                            itemPrice = itemPrice - (currTax - (currTax * TaxRate / 100));
+
+                            netTotal = itemPrice + addonsPrice;
+
+                            netTotal = netTotal + markupRate ?? 0;
+                            grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
+                            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
+                        }
                     }
-                    else
+                    else 
                     {
+                        netTotal = itemPrice + addonsPrice;
+
+                        netTotal = netTotal + markupRate ?? 0;
                         grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
                         clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
                     }
+
 
                     //******************Existing item update*********************
 

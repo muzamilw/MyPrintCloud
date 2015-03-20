@@ -388,17 +388,17 @@ define("product/product.view",
 
                                         $('.Top_Cat_Body').css("width", "22%");
                                         $('.FI_TL').css("height", "210px");
-                                        $('.productListIcons').css("width", "239px");
+                                        $('.productIcons').css("width", "22%");
                                     } else if (val >= 40) {
 
                                         $('.Top_Cat_Body').css("width", "18%");
                                         $('.FI_TL').css("height", "210px");
-                                        $('.productListIcons').css("width", "194px");
+                                        $('.productIcons').css("width", "18%");
                                     } else if (val <= 20) {
 
                                         $('.Top_Cat_Body').css("width", "13%");
                                         $('.FI_TL').css("height", "140px");
-                                        $('.productListIcons').css("width", "139px");
+                                        $('.productIcons').css("width", "13%");
                                     }
                                 }
 
