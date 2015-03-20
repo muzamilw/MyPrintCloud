@@ -349,16 +349,27 @@
             costCenterOption: costCenterOption,
             costCenterId: costCenterId,
             workInstructionChoices:workInstructionChoices,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
     };
 
     costCenterInstruction.CreateFromClientModel = function (source) {
-        return new costCenterInstruction(
-            source.InstructionId, source.Instruction, source.CostCenterOption
-        );
+        var result = {};
+        result.InstructionId = source.instructionId();
+        result.Instruction = source.instruction();
+        result.CostCenterOption = source.costCenterOption();
+        result.CostcentreWorkInstructionsChoices = [];
+        _.each(source.workInstructionChoices(), function (item) {
+            result.CostcentreWorkInstructionsChoices.push(item.convertToServerData());
+        });
+        return result;
+        //return new costCenterInstruction(
+        //    source.InstructionId, source.Instruction, source.CostCenterOption
+        //);
     };
     costCenterInstruction.Create = function (source) {
         var ccInstruction = new costCenterInstruction(
@@ -397,7 +408,9 @@
             choiceId: choiceId,
             choice: choice,
             instructionId: instructionId,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
@@ -492,9 +505,9 @@
         oCostCenter.strActualCostLabourParsed(source.strActualCostLabourParsed);
         oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed === undefined || source.strActualCostLabourUnParsed === null ? 'ActualLabourCost = 0' : source.strActualCostLabourUnParsed);
         oCostCenter.strActualCostMaterialParsed(source.strActualCostMaterialParsed);
-        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? 'ActualMaterialCost = 0' : source.strActualCostMaterialUnParsed);
+        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? '' : source.strActualCostMaterialUnParsed);
         oCostCenter.strTimeParsed(source.strTimeParsed);
-        oCostCenter.strTimeUnParsed(source.strTimeUnParsed);
+        oCostCenter.strTimeUnParsed(source.strTimeUnParsed === undefined || source.strTimeUnParsed === null ? 'EstimatedTime = 0' : source.strTimeUnParsed);
         oCostCenter.isDisabled(source.IsDisabled);
         oCostCenter.isDirectCost(source.IsDirectCost);
         oCostCenter.setupSpoilage(source.SetupSpoilage);
@@ -685,7 +698,10 @@
         result.OrganisationId = source.organisationId();
         result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
-        
+        result.CostcentreInstructions = [];
+        _.each(source.costCenterInstructions(), function (item) {
+            result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));
+        });
         return result;
     };
     

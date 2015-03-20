@@ -81,14 +81,14 @@ namespace MPC.Implementation.MISServices
         public CostCentre Add(CostCentre costcenter)
         {
            // _costCenterRepository.Add(costcenter);
-          //  _costCenterRepository.SaveChanges();
+            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", true);
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards");
+            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", false);
             
             return costcenter;
         }
@@ -121,11 +121,11 @@ namespace MPC.Implementation.MISServices
             };
         }
 
-        public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName)
+        public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName, bool isNew)
         {
             long _CostCentreID = costcenter.CostCentreId;
             //creating a costcentre code file and updating it and compile it.
-            bool IsNewCostCentre = false;
+            bool IsNewCostCentre = isNew;
             CostCentreTemplate oTemplate = _costCenterRepository.LoadCostCentreTemplate(2);
             string Header, Footer, Middle;
             double SetupCost = costcenter.SetupCost ?? 0;
@@ -275,7 +275,7 @@ namespace MPC.Implementation.MISServices
 
                 if (_CostCentreID == 0)
                 {
-                    _CostCentreID = this.GetMaxCostCentreID();
+                    _CostCentreID = this.GetMaxCostCentreID(); 
                     IsNewCostCentre = true;
                 }
 
@@ -342,9 +342,11 @@ namespace MPC.Implementation.MISServices
                 Footer.Insert(iStart, sActualCostString);
 
                 sCode.Append(Footer);
-
-
-                CostCentre oCostCentre = GetCostCentreById(_CostCentreID);
+                CostCentre oCostCentre = null;
+                if (!IsNewCostCentre)
+                    oCostCentre = GetCostCentreById(_CostCentreID);
+                else
+                    oCostCentre = costcenter;
 
 
                 oCostCentre.CodeFileName = "CLS_" + _CostCentreID.ToString();
@@ -452,8 +454,18 @@ namespace MPC.Implementation.MISServices
                 }
 
                 oCostCentre.CompleteCode = sCode.ToString();
+
+                if (IsNewCostCentre)
+                {
+                    _costCenterRepository.InsertCostCentre(oCostCentre);
+                }
+                else
+                {
+                    _costCenterRepository.UpdateCostCentre(costcenter);
+                }
             }
-            _costCenterRepository.UpdateCostCentre(costcenter);
+            
+            
         }
 
         public string TokenParse(string sText)

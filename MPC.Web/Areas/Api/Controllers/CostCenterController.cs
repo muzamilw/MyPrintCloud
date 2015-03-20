@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -45,12 +47,28 @@ namespace MPC.MIS.Areas.Api.Controllers
         {
             return _costCenterService.GetCostCentreById(id).CreateFrom();
         }
-
+        [ApiException]
         public CostCentre Post(CostCentre costcenter)
         {
             if (ModelState.IsValid)
             {
-                return _costCenterService.Update(costcenter.CreateFrom()).CreateFrom();
+                try
+                {
+                    if (costcenter.CostCentreId <= 0)
+                    {
+                        return _costCenterService.Add(costcenter.CreateFrom()).CreateFrom();
+                    }
+                    else
+                    {
+                        return _costCenterService.Update(costcenter.CreateFrom()).CreateFrom();
+                    }
+
+                }
+                catch (Exception exception)
+                {
+                    throw new MPCException(exception.Message, 0);
+                }
+                
             }
             throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
         }
