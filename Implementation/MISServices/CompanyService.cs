@@ -2795,19 +2795,19 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Update Media Library File Path
         /// </summary>
-        private void AddThemeBanners(string themeName, long companyId)
+        private void AddThemeBanners(int themeId, string themeName, long companyId)
         {
             string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + companyRepository.OrganisationId + "/" + companyId);
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/banners");
-            CopyThemeBanners(source, target, companyId);
+            CopyThemeBanners(themeId, source, target, companyId);
 
         }
 
         /// <summary>
         /// Copy Banners From 
         /// </summary>
-        public void CopyThemeBanners(string sourceDirectory, string targetDirectory, long companyId)
+        public void CopyThemeBanners(int themeId, string sourceDirectory, string targetDirectory, long companyId)
         {
             DirectoryInfo source = new DirectoryInfo(sourceDirectory);
             DirectoryInfo target = new DirectoryInfo(targetDirectory);
@@ -2883,6 +2883,11 @@ namespace MPC.Implementation.MISServices
                 }
 
                 i = (i + 1);
+            }
+            Company company = companyRepository.Find(companyId);
+            if (company != null)
+            {
+                company.CurrentThemeId = themeId;
             }
 
             mediaLibraryRepository.SaveChanges();
@@ -3310,12 +3315,12 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        public void ApplyTheme(string themeName, long companyId)
+        public void ApplyTheme(int themeId, string themeName, long companyId)
         {
             ApplyThemeCss(themeName, companyId);
             ApplyThemeSpriteImage(themeName, companyId);
             ApplyThemeWidgets(themeName, companyId);
-            AddThemeBanners(themeName, companyId);
+            AddThemeBanners(themeId, themeName, companyId);
             string target = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId + "/fonts");
             string source =
                 HttpContext.Current.Server.MapPath("~/MPC_Content/Themes/" + themeName + "/fonts");
