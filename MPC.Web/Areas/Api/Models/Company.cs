@@ -18,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? CreditLimit { get; set; }
         public string Terms { get; set; }
         public long TypeId { get; set; }
+        public long? CurrentThemeId { get; set; }
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }

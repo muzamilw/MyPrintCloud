@@ -1370,6 +1370,21 @@ namespace MPC.Repository.Repositories
             }
 
         }
+        public Item GetItemByTemplateIdDesigner(long templateId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+
+                return db.Items.Where(i => i.TemplateId == templateId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public ProductItem GetItemAndDetailsByItemID(long itemId)
         {
             try
