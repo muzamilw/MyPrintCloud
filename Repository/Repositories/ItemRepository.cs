@@ -18,6 +18,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using WebSupergoo.ABCpdf8;
+using System.Globalization;
 
 
 namespace MPC.Repository.Repositories
@@ -2065,13 +2066,22 @@ namespace MPC.Repository.Repositories
                     Item clonedItem = null;
 
                     clonedItem = db.Items.Where(i => i.ItemId == clonedItemID).FirstOrDefault();
-                    // markup id is not mapped
-                    //long? markupid = db.Organisations.Where(o => o.OrganisationId == OrganisationId).Select(m => m.MarkupId).FirstOrDefault();
+                   
+                    long? markupid = 1;
 
-                    //if (markupid != null || markupid > 0)
-                    //{
-                    //    markupRate = db.Markups.Where(m => m.MarkUpId == markupid).Select(r => r.MarkUpRate).FirstOrDefault();
-                    //}
+                   
+                    Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
+
+                    if (OrgMarkup != null)
+                    {
+                        markupid = OrgMarkup.MarkUpId;
+                        markupRate = (int)OrgMarkup.MarkUpRate;
+                    }
+                    else
+                    {
+                        markupid = 0;
+                        markupRate = 0;
+                    }
 
                     if (CountOfUploads > 0)
                     {
@@ -2102,7 +2112,6 @@ namespace MPC.Repository.Repositories
                         {
                             double currTax = (itemPrice * TaxRate / 100);
                             itemPrice = itemPrice - (currTax - (currTax * TaxRate / 100));
-
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
@@ -2121,8 +2130,11 @@ namespace MPC.Repository.Repositories
 
 
                     //******************Existing item update*********************
+                    clonedItem.Qty1MarkUp1Value = markupRate;
 
-                    clonedItem.Qty1BaseCharge1 = itemPrice + addonsPrice;
+                    clonedItem.Qty1MarkUpId1 = (int)markupid;
+
+                    clonedItem.Qty1BaseCharge1 = netTotal;
 
                     clonedItem.Qty1NetTotal = netTotal;
 
@@ -2140,15 +2152,10 @@ namespace MPC.Repository.Repositories
                     FirstItemSection.BaseCharge1 = clonedItem.Qty1BaseCharge1;
 
 
-                    //if (markupid != null || markupid > 0)
-                    //{
-                    //    FirstItemSection.Qty1MarkUpID = (int)markupid;
-                    //}
-                    //else
-                    //{
-                    FirstItemSection.Qty1MarkUpID = 1;
+                  
+                    FirstItemSection.Qty1MarkUpID = (int)markupid;
                     FirstItemSection.QuestionQueue = QuestionQueuItem;
-                    //}
+                    
 
                     bool isNewSectionCostCenter = false;
 
@@ -2171,14 +2178,9 @@ namespace MPC.Repository.Repositories
                     if (sectionCC == null)
                     {
                         sectionCC = new SectionCostcentre();
-                        //if (markupid != null || markupid > 0)
-                        //{
-                        //    sectionCC.Qty1MarkUpID = (int)markupid;
-                        //}
-                        //else
-                        //{
+                      
                         sectionCC.Qty1MarkUpID = 1;
-                        // }
+                       
 
                         isNewSectionCostCenter = true;
                     }
