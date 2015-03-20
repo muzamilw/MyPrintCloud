@@ -683,12 +683,6 @@ define("product/product.viewModel",
                         }
 
                         var callback =  closeProductEditor;
-                        if (canEditTemplate()) {
-                            callback = function () {
-                                promptForDesigner(selectedProduct());
-                                closeProductEditor();
-                            };
-                        }
                         saveProduct(callback, navigateCallback);
                     },
                     // Prompt for Designer
@@ -711,8 +705,13 @@ define("product/product.viewModel",
                         return flag;
                     },
                     // On Clone Product
-                    onCloneProduct = function(data) {
-                        cloneProduct(data, openProductEditor);
+                    onCloneProduct = function (data) {
+                        confirmation.messageText("Do you want to copy product?");
+                        confirmation.afterProceed(function () {
+                            cloneProduct(data, openProductEditor);
+                        });
+                        confirmation.afterCancel();
+                        confirmation.show();
                     },
                     // Go To Element
                     gotoElement = function (validation) {
@@ -973,6 +972,23 @@ define("product/product.viewModel",
 
                                     // Update Min Price
                                     selectedProduct().miniPrice(data.MinPrice || 0);
+                                    
+                                    // Update Template
+                                    if (data.Template) {
+                                        selectedProduct().template().id(data.Template.ProductId);
+                                        selectedProduct().templateId(data.Template.ProductId);
+                                    }
+                                    
+                                    if (canEditTemplate()) {
+                                        var newCallback = callback;
+                                        callback = function () {
+                                            promptForDesigner(selectedProduct());
+                                            if (callback && typeof callback === "function") {
+                                                newCallback();
+                                            }
+                                            
+                                        };
+                                    }
 
                                     // Add to top of list
                                     products.splice(0, 0, selectedProduct());
