@@ -433,6 +433,7 @@
     <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
+    <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
     <Content Include="Content\Designer\assets-v2\bold.png" />
@@ -577,6 +578,7 @@
     <Content Include="Content\Images\olsonReviewImg.PNG" />
     <Content Include="Content\Images\prev-horizontal.png" />
     <Content Include="Content\Images\ProfileImage.png" />
+    <Content Include="Content\Images\re-order.png" />
     <Content Include="Content\Images\RealEstateLogo.png" />
     <Content Include="Content\Images\repeat.png" />
     <Content Include="Content\Images\SeaBluefeature.png" />
@@ -587,6 +589,7 @@
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
@@ -806,7 +809,6 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
-    <Folder Include="Views\BreadCrumb\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
