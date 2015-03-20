@@ -463,8 +463,14 @@ define("stores/stores.viewModel",
                                 return item.SkinId == selectedTheme();
                             });
                             if (theme) {
-                                selectedStore().currentThemeName(theme.Name);
-                                getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath);
+                                confirmation.messageText("Do you want to apply theme? " +
+                                    "Your current changes for banner, secondary pages, css, sprite will be overridden.");
+                                confirmation.afterProceed(function () {
+                                    selectedStore().currentThemeName(theme.Name);
+                                    getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath)
+                                });
+                                confirmation.afterCancel();
+                                confirmation.show();
                             }
                         }
                     },
