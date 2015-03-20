@@ -498,105 +498,6 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
-                                    <!--ko if: type() != 4-->
-                                    <div class="col-lg-12">
-                                        <h3 class="group-header">Territories</h3>
-                                        <div class="col-lg-12 clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <div class="filter-block">
-                                                    <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
-                                                        </div>
-                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
-                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </header>
-                                            <div class="main-box-body clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="col-lg-4">Name</th>
-                                                                <th class="col-lg-4">Code</th>
-                                                                <th class="col-lg-3">Is Default</th>
-                                                                @*<th>&nbsp;</th>*@
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <footer class="main-box-header pull-right">
-                                                <div id="pagerDiv">
-                                                    <!-- ko with: $root.companyTerritoryPager -->
-                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                    <!-- /ko -->
-                                                </div>
-                                            </footer>
-                                        </div>
-                                    </div>
-                                    <!--/ko-->
-                                    <div class="col-lg-12">
-                                        <h3 class="group-header">Addresses</h3>
-                                        <div class="col-lg-12 clearfix">
-                                            <header class="main-box-header clearfix">
-                                                <!--ko if: $root.selectedStore().type() != 4-->
-                                                <div class="filter-block form-group pull-left col-xs-4">
-                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
-                                                </div>
-                                                <!--/ko-->
-                                                <div class="filter-block">
-                                                    <div class="filter-block pull-right col-xs-5">
-                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
-                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
-                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
-                                                        </div>
-                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
-                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </header>
-                                            <div class="main-box-body clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-hover">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="col-lg-3">Address Name</></th>
-                                                                <th class="col-lg-2">City</th>
-                                                                @*<th><a href="#"><span>Territory</span></a></th>*@
-                                                                <!--ko if: type() == 4-->
-                                                                <th class="col-lg-3">Company Default Shipping Address</th>
-                                                                <!--/ko-->
-                                                                <!--ko if: type() == 3-->
-                                                                <th class="col-lg-3">Territory Default Billing Address</th>
-                                                                <!--/ko-->
-                                                                <th class="col-lg-3">Company Default Address</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                            <footer class="main-box-header pull-right">
-                                                <div id="pagerDivAddress">
-                                                    <!-- ko with: $root.addressPager -->
-                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                    <!-- /ko -->
-                                                </div>
-                                            </footer>
-                                        </div>
-                                    </div>
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Users</h3>
                                         <div class="col-lg-12 clearfix">
@@ -651,6 +552,106 @@
                                             </footer>
                                         </div>
                                     </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <h3 class="group-header">Addresses</h3>
+                                        <div class="col-lg-12 clearfix">
+                                            <header class="main-box-header clearfix">
+                                                <!--ko if: $root.selectedStore().type() != 4-->
+                                                <div class="filter-block form-group pull-left col-xs-4">
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Select Territory...', value: $root.addressTerritoryFilter"></select>
+                                                </div>
+                                                <!--/ko-->
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchAddressFilter, validationOnElement: $root.searchAddressFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchAddress"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewAddress" class="btn btn-primary pull-right">
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-lg-3">Address Name</></th>
+                                                                <th class="col-lg-2">City</th>
+                                                                @*<th><a href="#"><span>Territory</span></a></th>*@
+                                                                <!--ko if: type() == 4-->
+                                                                <th class="col-lg-3">Company Default Shipping Address</th>
+                                                                <!--/ko-->
+                                                                <!--ko if: type() == 3-->
+                                                                <th class="col-lg-3">Territory Default Billing Address</th>
+                                                                <!--/ko-->
+                                                                <th class="col-lg-3">Company Default Address</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemAddressTemplate' , foreach: $root.selectedStore().addresses } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <footer class="main-box-header pull-right">
+                                                <div id="pagerDivAddress">
+                                                    <!-- ko with: $root.addressPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                    <!--ko if: type() != 4-->
+                                    <div class="col-lg-12">
+                                        <h3 class="group-header">Territories</h3>
+                                        <div class="col-lg-12 clearfix">
+                                            <header class="main-box-header clearfix">
+                                                <div class="filter-block">
+                                                    <div class="filter-block pull-right col-xs-5">
+                                                        <div class="form-group pull-left col-xs-8" style="padding-right: 0px; margin-right: 0px;">
+                                                            <input type="text" class="form-control " placeholder="Search ..." data-bind="value: $root.searchCompanyTerritoryFilter, validationOnElement: $root.searchCompanyTerritoryFilter">
+                                                            <i class="fa fa-search search-icon" data-bind="click:$root.searchCompanyTerritory"></i>
+                                                        </div>
+                                                        <a data-toggle="modal" data-bind="click: $root.onCreateNewCompanyTerritory" class="btn btn-primary pull-right">
+                                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </header>
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-lg-4">Name</th>
+                                                                <th class="col-lg-4">Code</th>
+                                                                <th class="col-lg-3">Is Default</th>
+                                                                @*<th>&nbsp;</th>*@
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: 'itemCompanyTerritoryTemplate' , foreach: $root.selectedStore().companyTerritories } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <footer class="main-box-header pull-right">
+                                                <div id="pagerDiv">
+                                                    <!-- ko with: $root.companyTerritoryPager -->
+                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                    <!-- /ko -->
+                                                </div>
+                                            </footer>
+                                        </div>
+                                    </div>
+                                    <!--/ko-->
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Managers</h3>
                                         <div class="col-lg-9 form-horizontal clearfix">
