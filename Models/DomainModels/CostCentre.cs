@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MPC.Models.DomainModels
 {
@@ -134,6 +135,9 @@ namespace MPC.Models.DomainModels
         public int? DeliveryType { get; set; }
         public string DeliveryServiceType { get; set; }
         public long? CarrierId { get; set; }
+
+        [NotMapped]
+        public string ImageBytes { get; set; }
 
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }

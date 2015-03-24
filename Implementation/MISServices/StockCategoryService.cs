@@ -34,6 +34,7 @@ namespace MPC.Implementation.MISServices
         public StockCategory Add(StockCategory stockCategory)
         {
             //stockCategory.CompanyId = 324234;todo
+            stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
             stockCategoryRepository.Add(stockCategory);
             stockCategoryRepository.SaveChanges();
             return stockCategory;
@@ -41,6 +42,7 @@ namespace MPC.Implementation.MISServices
 
         public StockCategory Update(StockCategory stockCategory)
         {
+            stockCategory.OrganisationId = stockCategoryRepository.OrganisationId;
             var stockDbVersion = stockCategoryRepository.Find(stockCategory.CategoryId);
             #region Sub Stock Categories Items
             //Add  SubStockCategories 

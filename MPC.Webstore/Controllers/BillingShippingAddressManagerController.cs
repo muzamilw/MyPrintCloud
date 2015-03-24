@@ -32,7 +32,6 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
             }
 
-            
             return View("PartialViews/BillingShippingAddressManager");
         }
 

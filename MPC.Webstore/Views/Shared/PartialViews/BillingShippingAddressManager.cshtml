@@ -421,7 +421,6 @@
                 var PHtml = $("#UpdateModelPopUp").html();
 
                 ShippingBillingDetails("", PHtml);
-
                 $("#txtAddressName").val(response.Address.AddressName);
                 $("#txtFAO").val(response.Address.FAO);
                 $('#txtAddress1').val(response.Address.Address1);
@@ -511,9 +510,7 @@
                 StatesDD.html('');
                 //StatesDD.append($('<option></option>').val(0).html('Select State'));
                 $.each(response.State, function (id, option) {
-                   
                     StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
-
                 });
             }
         });
@@ -759,7 +756,6 @@
                 });
             }
         });
-
     }
     $(document).on('change', '#DDCountry', function () {
         var CountryID = $(this).val();

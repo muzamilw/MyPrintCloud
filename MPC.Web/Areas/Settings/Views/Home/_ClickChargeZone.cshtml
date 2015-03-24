@@ -1,25 +1,11 @@
-﻿<style>
-   
-    .aligndivs
-    {
-        display:inline;
-        float:left;
-        
-        margin-right:10px;
-        margin-bottom:10px;
-    }
-</style>
-
-<div>
-
+﻿
+<div data-bind="visible: $root.isClickChargeZonesEditorVisible(), with: selectedClickChargeZones()" style="display: none">
     <div>
         <h3 style="padding-right:10px;margin:0px;">Specify values for the click charge Zone Calculation</h3>
     </div>
-
     <br />
-    
     <div class="form-group">
-        <div class="col-lg-5 text-right">
+        <div class="col-lg-5 text-right col-padding">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -27,45 +13,38 @@
             </div>
             <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the name of the Lookup method</label>
         </div>
-        <div class="col-lg-6">
-            <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Click Chnage Lookup">
+        <div class="col-lg-6 col-padding" data-bind="with:$root.selectedlookup() ">
+            <input type="text" name="Store Name" class="form-control" data-bind="value:Name" placeholder="Click Chnage Lookup">
 
         </div>
     </div>
-
-   
     <div class="form-group">
-        <div style="margin-top:20px;">
-            <div class="aligndivs" style="text-align:right;width:265px;display:inline;">
-
-            </div>
-            <div class="aligndivs">
-                <div class="checkbox-nice" style="display:inline;position:relative;">
-                    <input type="checkbox" id="checkbox-1" style="position:relative;">
-                    <label for="checkbox-1">
-                        Accumulate click charge rate across all parts
-                    </label>
-                </div>
-            </div>
-        </div>
+        @*<div style="margin-top:20px;">*@
+        @*<div class="aligndivs" style="text-align:right;width:265px;display:inline;">*@
+        <div class="col-lg-5"> </div>
+        @*<div class="col-lg-6 col-padding">*@
+        @*class="aligndivs"*@
+        <div class="checkbox-nice col-lg-6 col-padding" style="display:inline;position:relative;">
+            <input type="checkbox" id="checkbox-1" style="position:relative;" data-bind="checked:isaccumulativecharge">
+            <label for="checkbox-1" style="padding-left: 5px;">
+                Accumulate click charge rate across all parts
+            </label>
 
 
-
-        <div style="margin-top:20px;">
-            <div class="aligndivs" style="text-align:right;width:265px;display:inline;">
-            </div>
-            <div class="aligndivs">
-                <div class="checkbox-nice" style="display:inline;position:relative;">
-                    <input type="checkbox" id="checkbox-2" style="position:relative;">
-                    <label for="checkbox-2">
-                        Accumulate click charge rate across all parts
-                    </label>
-                </div>
-            </div>
         </div>
 
     </div>
-
+    <div class="form-group">
+        <div class="col-lg-5"> </div>
+        @*<div class="col-lg-6 col-padding" style="margin-top: 3px;">*@
+            <div class="checkbox-nice col-lg-7 col-padding" style="display:inline;position:relative;">
+                <input type="checkbox" id="checkbox-2" style="position:relative;" data-bind="checked:IsRoundUp">
+                <label for="checkbox-2" style="display:inline; padding-left: 5px;">
+                    Roundup the number of clicks to the maximum range value
+                </label>
+           
+        </div>
+    </div>
     <div class="form-group">
         <div style="margin-top:20px;">
             <div class="aligndivs" style="text-align:right;width:265px;display:inline;">
@@ -82,377 +61,387 @@
             </div>
         </div>
 
-     </div>
-     
+    </div>
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="form-group">
         <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">From</label>
         </div>
         <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">0</label>
-        </div>
+                <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From1" style="float:right;"></label>
+            </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">To</label>
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric: To1 , settings:{mDec:0}"  placeholder="0" style="width:68px;">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets1, settings:{mDec:0}" placeholder="0" style="width:68px;">
         </div>
         <div class="aligndivs">
             <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost1, settings:{mDec:2}" placeholder="0" style="width:68px;">
         </div>
-     </div>
-
-        <div class="form-group">
-
-            <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-            </div>
-            <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">101</label>
-            </div>
-            <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-
-
-           </div>
-
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice1, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
 
     <div class="form-group">
+
         <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
         </div>
         <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">201</label>
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From2" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:To2, settings:{mDec:0}" placeholder="0" style="width:68px;">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets2, settings:{mDec:0}" placeholder="0" style="width:68px;">
         </div>
         <div class="aligndivs">
             <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost2, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice2, settings:{mDec:2}" placeholder="0" style="width:68px;">
         </div>
 
-     </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">301</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-     </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">401</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-      </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">501</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-      </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">1001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-     </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">5001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-     </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">10001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-     </div>
-
-        <div class="form-group">
-
-
-            <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-            </div>
-            <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">50001</label>
-            </div>
-            <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-          </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">90001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-       </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">100001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        </div>
-        <div class="form-group">
-
-
-            <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-            </div>
-            <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-                <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">110001</label>
-            </div>
-            <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            <div class="aligndivs">
-                <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-            </div>
-            </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">120001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-      </div>
-
-    <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">130001</label>
-        </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="0" style="width:68px;">
-        </div>
-</div>
 
     </div>
+
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From3" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To3, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets3, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost3, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice3, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From4" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To4, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets4, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost4, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice4, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From5" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To5, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets5, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost5, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice5, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From6" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To6, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets6, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost6, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice6, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From7" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To7, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets7, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost7, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice7, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From8" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To8, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets8, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost8, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice8, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From9" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To9, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets9, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost9, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice9, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+
+
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From10" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To10, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets10, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost10, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice10, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From11" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To11, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets11, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost11, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice11, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From12" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To12, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets12, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost12, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice12, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+    <div class="form-group">
+
+
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From13" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To13, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets13, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost13, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice13, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From14" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To14, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets14, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost14, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice14, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
+        </div>
+        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+            <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From15" style="float:right;"></label>
+        </div>
+        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:To15, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets15, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost15, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+        <div class="aligndivs">
+            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
+            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice15, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        </div>
+    </div>
+
+</div>

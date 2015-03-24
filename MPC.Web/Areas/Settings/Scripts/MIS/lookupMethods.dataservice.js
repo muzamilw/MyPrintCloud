@@ -9,26 +9,43 @@ define("lookupMethods/lookupMethods.dataservice", function () {
              initialize = function () {
                  if (!isInitialized) {
 
-                     amplify.request.define('GetLookupList', 'ajax', {
+                     amplify.request.define('GetLookup', 'ajax', {
                          url: ist.siteUrl + '/Api/LookupMethod',
                          datatype: 'json',
                          type: 'Get'
                      });
 
+                     amplify.request.define('saveLookup', 'ajax', {
+                         url: ist.siteUrl + '/Api/LookupMethod',
+                         dataType: 'json',
+                         contentType: 'application/json; charset=utf-8',
+                         decoder: amplify.request.decoders.istStatusDecoder,
+                         type: 'POST'
+                     });
                      isInitialized = true;
                  }
              },
-             GetLookupList = function (params, callbacks) {
+              saveLookup = function (param, callbacks) {
+                  initialize();
+                  return amplify.request({
+                      resourceId: 'saveLookup',
+                      success: callbacks.success,
+                      error: callbacks.error,
+                      data: JSON.stringify(param)
+                  });
+              },
+             GetLookup = function (params, callbacks) {
                  initialize();
                  return amplify.request({
-                     resourceId: 'GetLookupList',
+                     resourceId: 'GetLookup',
                      success: callbacks.success,
                      error: callbacks.error,
                      data: params
                  });
              };
         return {
-            GetLookupList: GetLookupList
+            GetLookup: GetLookup,
+            saveLookup: saveLookup
         }
 
     })();

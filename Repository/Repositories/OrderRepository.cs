@@ -2577,7 +2577,87 @@ namespace MPC.Repository.Repositories
                 return 0;
             }
         }
+        public  List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        {
+            List<Order> ordersList = null;
+            int orderStatusID = (int)OrderStatus.PendingCorporateApprovel;
+                var query = from tblOrd in db.Estimates
+                            join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
+                            join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
+                            join tblContactCompany in db.Companies on tblContacts.CompanyId equals tblContactCompany.CompanyId
+                            orderby tblOrd.Order_Date descending
+                            where tblOrd.ContactId == (isApprover ? tblOrd.ContactId : contactUserID)   // only that specifc user
+                            && tblOrd.isEstimate == false
+                            && tblStatuses.StatusType == 2 //The status type should be 2 only for orders                            
+                            && tblOrd.StatusId == orderStatusID // only pending approvel
+                            && tblContactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                            select new Order()
+                            {
+                                OrderID = tblOrd.EstimateId,
+                                OrderCode = tblOrd.Order_Code,
+                                ProductName = tblOrd.Estimate_Name,
+                                StatusID = tblOrd.StatusId,
+                                StatusName = tblStatuses.StatusName,
+                                StatusTypeID = tblStatuses.StatusType,
+                                ContactUserID = tblOrd.ContactId,
+                                CustomerID = tblOrd.CompanyId,
+                                OrderDate = tblOrd.Order_Date,
+                                DeliveryDate = tblOrd.StartDeliveryDate,
+                                YourRef = tblOrd.CustomerPO,
+                                ContactTerritoryID = tblContacts.TerritoryId,
+                                CustomerName = tblContacts.FirstName + " " + tblContacts.LastName,
+                            };
+                ordersList = query.ToList<Order>();
+                ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+                ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
 
+                return ordersList;
+        }
+
+        public  long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus,Guid OrdermangerID, string BrokerPO = "")
+        {
+            long result = 0;
+            Estimate tblOrder = null;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+
+            // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+          //  DbTransaction dbTrans = null;
+            try
+            {
+                short orderStatusID = (short)orderStatus;
+
+                tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+
+                if (tblOrder != null)
+                {
+                    tblOrder.StatusId = orderStatusID;
+
+                    tblOrder.OrderManagerId = OrdermangerID;
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        result = tblOrder.ContactId??0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //if (result > 0)
+                //    DALUtility.CommitTransaction(dbTrans, dbContext);
+                //else
+                //    DALUtility.RollBackTransaction(dbTrans, dbContext);
+
+                //dbContext = null;
+                //dbTrans = null;
+            }
+
+            return result;
+        }
 
 
     }

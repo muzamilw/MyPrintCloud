@@ -120,6 +120,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrganisationId = source.OrganisationId,
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId=source.CarrierId,
+                ImageBytes = source.ImageBytes,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null
             };
@@ -224,6 +225,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OrganisationId = source.OrganisationId,
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId = source.CarrierId,
+                ImageBytes = source.ImageBytes,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null ? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null
             };

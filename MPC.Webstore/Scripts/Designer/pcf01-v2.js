@@ -982,7 +982,7 @@ function fu02UI() {
         }
     });
     $('.scrollPaneImgDam').slimscroll({
-        height: height + 320
+        height: height + 400
     }).bind('slimscrolling', function (e, pos) {
         var he = $(".scrollPaneImgDam").parent().find(".slimScrollBar").height();
         // var val = pos + he;
@@ -2890,6 +2890,10 @@ function k16(TempImgType, ImC, Caller) {
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
             ImIsEditable = false;
         }
+    }
+    if (searchTerm == undefined)
+    {
+        searchTerm = "___notFound";
     }
     jsonPath += "Services/imageSvcDam/" + IsCalledFrom + "," + TempImgType + "," + tID + "," + CustomerID + "," + ContactID + "," + Territory + "," + ImC + "," + searchTerm
     // int isCalledFrom, int imageSetType, long productId, long contactCompanyID, long contactID, long territoryId, int pageNumner, string SearchKeyword, long OrganisationID

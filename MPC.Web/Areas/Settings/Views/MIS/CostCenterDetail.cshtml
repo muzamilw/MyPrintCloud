@@ -137,11 +137,12 @@
                                             <div class="col-lg-3 col-md-4 col-sm-4">
                                                 <div class="clearfix">
                                                     <div class="main-box-body clearfix">
-                                                        <img style="min-height: 150px; width: 150px;" />
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
                                                         <div class="pull-right">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>....</span>
-                                                                <input type="file" class="upload" id="image_files" />
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                             </div>
                                                         </div>
                                                         <div class="profile-stars">
@@ -535,33 +536,39 @@
                                             <h3 class="group-header">Quantity input method </h3>
                                             <div class="col-lg-7">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                        
                                                         <label for="optionsinput">
                                                             Use From variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-md-1 radio">
+                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:quantityVariableId"></select>
                                                         <span class="help-block text-right">Select Variable</span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                        
                                                         <label for="optionsinput">
                                                             Prompt Question
                                                         </label>
+                                                    </div>
+                                                    <div class="col-md-1 radio">
+                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: quantityQuestionString, validationTooltip: quantityQuestionString">
@@ -653,38 +660,46 @@
                                             <h3 class="group-header">Time input method </h3>
                                             <div class="col-lg-7">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                        
+                                                        
                                                         <label for="optionsinput">
                                                             Use From variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioVariableInputTime" value="true">
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId"></select>
-                                                        <span class="help-block text-right">Select Variable</span>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                        
                                                         <label for="optionsinput">
                                                             Prompt Question
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
-                                                        <span class="help-block text-right">Quantity prompt question</span>
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="false">
+                                                        
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
+                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
