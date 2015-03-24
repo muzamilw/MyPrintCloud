@@ -3059,17 +3059,7 @@ define("stores/stores.viewModel",
                 }
                 event.stopImmediatePropagation();
             },
-                //Select Child Product Category
-            selectChildProductCategory = function (categoryId, event) {
-                selectedProductCategory(undefined);
-                var id = $(event.target).closest('li')[0].id;
-                if (id) {
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(id);
-                }
-                event.stopImmediatePropagation();
-            },
-                //Get Category Child List Items
+            //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').length > 0) {

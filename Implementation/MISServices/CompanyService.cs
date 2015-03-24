@@ -966,9 +966,7 @@ namespace MPC.Implementation.MISServices
             companyDbVersion.OrganisationId = companyRepository.OrganisationId;
             UpdateStoreWorkflowImage(companySavingModel, companyDbVersion); // under work
             UpdateStoreMapImage(companySavingModel, companyDbVersion); // under work
-            var productCategories = new List<ProductCategory>();
             List<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains != null ? companyDbVersion.CompanyDomains.ToList() : null;
-            //IEnumerable<CompanyDomain> companyDomainsDbVersion = companyDbVersion.CompanyDomains;
             var companyToBeUpdated = UpdateRaveReviewsOfUpdatingCompany(companySavingModel.Company);
             companyToBeUpdated = UpdatePaymentGatewaysOfUpdatingCompany(companyToBeUpdated);
             companyToBeUpdated = UpdateCmykColorsOfUpdatingCompany(companyToBeUpdated, companyDbVersion);
@@ -979,13 +977,9 @@ namespace MPC.Implementation.MISServices
             UpdateTerritories(companySavingModel, companyDbVersion);
             UpdateAddresses(companySavingModel, companyDbVersion);
             UpdateCompanyContacts(companySavingModel, companyDbVersion);
-            //UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
-
-            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
-            ///
+            UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);
             UpdateCampaigns(companySavingModel, companyDbVersion);
-            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
-            // UpdateColorPallete(companySavingModel.Company, companyDbVersion);
+            UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);
             if (companyToBeUpdated.ImageBytes != null)
             {
                 companySavingModel.Company.Image = SaveCompanyProfileImage(companySavingModel.Company);
@@ -994,17 +988,16 @@ namespace MPC.Implementation.MISServices
             {
                 companySavingModel.Company.Image = companyDbVersion.Image;
             }
-            companyRepository.Update(companyToBeUpdated); // TODO: Remove it
+            companyRepository.Update(companyToBeUpdated);
             companyRepository.Update(companySavingModel.Company);
             UpdateCmsOffers(companySavingModel.Company, companyDbVersion);
             UpdateMediaLibrary(companySavingModel.Company, companyDbVersion);
             BannersUpdate(companySavingModel.Company, companyDbVersion);
-            companyRepository.SaveChanges();//todo second external savechanges //uncomment By Rafiq bcz media Id Need for save image 
+            companyRepository.SaveChanges();
             //Save Files
-            companyToBeUpdated.ProductCategories = productCategories;//todo have savechanges while adding new for images saving
             SaveSpriteImage(companySavingModel.Company);
             SaveCompanyCss(companySavingModel.Company);
-            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion);//todo have savechanges 
+            UpdateMediaLibraryFilePath(companySavingModel.Company, companyDbVersion); 
             UpdateContactProfileImage(companySavingModel, companyDbVersion);
 
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
@@ -1016,7 +1009,7 @@ namespace MPC.Implementation.MISServices
 
             UpdateSmartFormVariableIds(companySavingModel.Company.SmartForms, companyDbVersion);
 
-            UpdateScopeVariables(companySavingModel); // TODO: Check
+            UpdateScopeVariables(companySavingModel);
             if (companySavingModel.Company.ActiveBannerSetId < 0)
             {
                 CompanyBannerSet companyBannerSet =
@@ -1027,7 +1020,7 @@ namespace MPC.Implementation.MISServices
                     companyDbVersion.ActiveBannerSetId = companyBannerSet.CompanySetId;
                 }
             }
-            companyRepository.SaveChanges();//todo third external savechanges
+            companyRepository.SaveChanges();
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
             return companySavingModel.Company;
@@ -1732,6 +1725,7 @@ namespace MPC.Implementation.MISServices
                     if (campaign.CampaignId == 0)
                     {
                         campaign.CompanyId = companyDbVersion.CompanyId;
+                        campaign.OrganisationId = companyRepository.OrganisationId;
                         companyDbVersion.Campaigns.Add(campaign);
                     }
                 }

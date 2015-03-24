@@ -76,5 +76,27 @@ namespace MPC.MIS.Areas.Api.Models
         /// File Name
         /// </summary>
         public string FileName { get; set; }
+
+        /// <summary>
+        /// File Bytes Original
+        /// </summary>
+        public byte[] FileOriginalBytes { get; set; }
+
+        /// <summary>
+        /// File Original Source
+        /// </summary>
+        public string FileOriginalSource
+        {
+            get
+            {
+                if (FileOriginalBytes == null)
+                {
+                    return string.Empty;
+                }
+
+                string base64 = Convert.ToBase64String(FileOriginalBytes);
+                return string.Format("data:{0};base64,{1}", "image/jpg", base64);
+            }
+        }
     }
 }

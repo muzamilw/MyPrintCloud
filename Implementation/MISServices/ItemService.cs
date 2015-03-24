@@ -592,7 +592,7 @@ namespace MPC.Implementation.MISServices
                             File.Delete(filePath);
                         }
                     }
-                    
+
                 }
 
                 // First Time Upload
@@ -1317,7 +1317,7 @@ namespace MPC.Implementation.MISServices
                         target.File2 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1356,7 +1356,7 @@ namespace MPC.Implementation.MISServices
                         target.File3 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1741,6 +1741,20 @@ namespace MPC.Implementation.MISServices
             }
 
             Item item = itemRepository.Find(id);
+
+            // Get Pdf File in case of Template Type 2
+            if (item.TemplateType == 2 && item.Template != null)
+            {
+                string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                HttpServerUtility server = HttpContext.Current.Server;
+                string mapPath =
+                    server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + item.ItemId +
+                                   "/Templates/random_CorporateTemplateUpload.pdf");
+                if (File.Exists(mapPath))
+                {
+                    item.Template.FileOriginalBytes = File.ReadAllBytes(mapPath);
+                }
+            }
 
             if (item == null)
             {
