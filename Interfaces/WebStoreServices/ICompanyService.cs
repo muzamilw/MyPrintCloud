@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     
     {
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
@@ -62,7 +63,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId, long CompanyId);
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 

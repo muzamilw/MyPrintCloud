@@ -532,11 +532,11 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public List<ProductCategory> GetChildCategories(long categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
             try
             {
-                return _productCategoryRepository.GetChildCategories(categoryId);
+                return _productCategoryRepository.GetChildCategories(categoryId, CompanyId);
             }
             catch (Exception ex)
             {
@@ -1389,7 +1389,10 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
        }
-
+      public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
+       {
+           return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID);
+       }
     }
 
 

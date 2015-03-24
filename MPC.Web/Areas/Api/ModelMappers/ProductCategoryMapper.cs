@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
@@ -87,7 +88,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 //ThumbnailStreamId = source.ThumbnailStreamId,
                 //ImageStreamId = source.ImageStreamId,
                 Image = imagePathBytes,
-                ThumbNail = thumbnailPathBytes
+                ThumbNail = thumbnailPathBytes,
+                CategoryTerritories = source.CategoryTerritories != null ? source.CategoryTerritories.Select(x=> x.CreateFromCategoryTerritory()).ToList(): null
             };
 
             return productCategory;
@@ -148,8 +150,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsShowProductDescription = source.IsShowProductDescription,
                 IsShowProductShortDescription = source.IsShowProductShortDescription,
                 ImageBytes = source.ImageBytes,
-                ThumbNailBytes = source.ThumbnailBytes
-                
+                ThumbNailBytes = source.ThumbnailBytes,
+                CategoryTerritories = source.CategoryTerritories != null ? source.CategoryTerritories.Select(x => x.CreateFromTerritory()).ToList() : null
             };
         }
 
@@ -181,5 +183,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ScaleFactor = source.ScaleFactor
             };
         }
+
     }
 }

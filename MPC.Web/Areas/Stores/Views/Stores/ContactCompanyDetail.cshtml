@@ -12,10 +12,15 @@
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
                         <li><a href="~/Stores/Stores/Index" class="my-navigator">Stores</a></li>
-                        <li data-bind="css: $root.productStatus() != '' ?  '' : 'active'">
+                        <li data-bind="css: $root.productStatus() ?  '' : 'active'">
+                            <!-- ko if : $root.productStatus -->
                             <a href="#" data-bind="click: ist.product.viewModel.onCloseProductEditor"><span data-bind="text:$root.storeStatus"></span></a>
+                            <!-- /ko -->
+                            <!-- ko if : !$root.productStatus() -->
+                            <span data-bind="text:$root.storeStatus"></span>
+                            <!-- /ko -->
                         </li>
-                        <!-- if ko if : $root.productStatus()!='' -->
+                        <!-- ko if : $root.productStatus -->
                         <li class="active"><span data-bind="text:$root.productStatus"></span></li>
                         <!-- /ko -->
                     </ol>
@@ -62,9 +67,8 @@
                                 <li><a href="#tab-approvalPolicies" data-toggle="tab">Store Workflow</a></li>
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
                                 <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Delivery Add Ons</a></li>
-                                <li><a href="#tab-specialoffer" data-toggle="tab">Discount Policies</a></li>
-                                <li><a href="#tab-loyaltyPoints" data-toggle="tab">Loyalty Points</a></li>
-                                <li><a href="#tab-CMYKColors" data-toggle="tab">CMYK Colors</a></li>
+                                <li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>
+                                <li><a href="#tab-CMYKColors" data-toggle="tab">Brand Color</a></li>
                                 <li><a href="#tab-VariableDef" data-toggle="tab">Variable Defination</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
                                 <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Variable</a></li>
@@ -1070,7 +1074,7 @@
                                     </div>
                                     <div class="col-md-12 form-horizontal">
                                         <h3 class="group-header">Secondary Pages</h3>
-                                        <div class="col-md-10 form-horizontal">
+                                        <div class="col-md-9 form-horizontal">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -1090,36 +1094,81 @@
                                                     </div>
                                                     <span class="help-block text-right"></span>
                                                 </div>
-                                            </div>
-                                            <div data-bind="click:$root.onAddSecondaryPage" style="margin-right:17px;" class="btn btn-primary pull-right">
-                                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
-                                            </div>
-                                            <div class="main-box-body clearfix">
-                                                <div class="table-responsive">
-                                                    <table class="table user-list">
-                                                        <thead>
-                                                            <tr>
-                                                                <th><span>Title</span></th>
-                                                                <th><span>Page Category</span></th>
-                                                                <th class="text-center"><span>Status</span></th>
-                                                                <th class="text-center"><span>User Defined</span></th>
-                                                                <th>&nbsp;</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!-- ko template: { name: 'secondaryPageItemTemplate' , foreach: $root.selectedStore().secondaryPages } -->
-                                                            <!-- /ko -->
-                                                        </tbody>
-                                                    </table>
+                                                <div data-bind="click:$root.onAddSecondaryPage" style="margin-right: 14px" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                 </div>
                                             </div>
-                                            <div id="pagerDiv">
-                                                <ul class="pagination pull-right">
-                                                    <!-- ko with: $root.secondaryPagePager -->
-                                                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                    <!-- /ko -->
-                                                </ul>
+                                           
+                                            <!---->
+                                            <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
+                                                <div class="tabs-wrapper profile-tabs">
+                                                    <ul class="nav nav-tabs">
+                                                        <li class="active"><a href="#tab-CampaignInformation" data-toggle="tab">User Defined</a></li>
+                                                        <li><a href="#tab-dataSource" data-toggle="tab">System Pages</a></li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade in active" id="tab-CampaignInformation">
+                                                                <div class="col-md-12 form-horizontal">
+                                                                    <div class="main-box-body clearfix">
+                                                                        <div class="table-responsive">
+                                                                            <table class="table user-list">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th><span>Title</span></th>
+                                                                                        <th><span>Page Category</span></th>
+                                                                                        <th class="text-center"><span>Status</span></th>
+                                                                                        <th>&nbsp;</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <!-- ko template: { name: 'secondaryPageItemTemplate' , foreach: $root.selectedStore().secondaryPages } -->
+                                                                                    <!-- /ko -->
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="pagerDiv">
+                                                                        <ul class="pagination pull-right">
+                                                                            <!-- ko with: $root.secondaryPagePager -->
+                                                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                                            <!-- /ko -->
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-dataSource">
+                                                                <div class="col-md-12 form-horizontal">
+                                                                <div class="main-box-body clearfix">
+                                                                    <div class="table-responsive">
+                                                                        <table class="table user-list">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th><span>Title</span></th>
+                                                                                    <th><span>Page Category</span></th>
+                                                                                    <th class="text-center"><span>Status</span></th>
+                                                                                    <th>&nbsp;</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <!-- ko template: { name: 'secondaryPageItemTemplate' , foreach: $root.selectedStore().systemPages } -->
+                                                                                <!-- /ko -->
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div id="pagerDiv">
+                                                                    <ul class="pagination pull-right">
+                                                                        <!-- ko with: $root.systemPagePager -->
+                                                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                                        <!-- /ko -->
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <!---->
                                         </div>
                                     </div>
                                     <div class="clearfix">
@@ -1775,9 +1824,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                 </div>
                                 <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-specialoffer" data-bind="with: $root.selectedStore">
-                                    <h3 class="group-header">Special Offers</h3>
-                                </div>
-                                <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-loyaltyPoints" data-bind="with: $root.selectedStore">
+                                    <h3 class="group-header" style="margin-bottom: 200px;">Special Offers</h3>
                                     <h3 class="group-header">Loyalty Points</h3>
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
@@ -1851,7 +1898,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <th><a href="#"><span>Variable Scope</span></a></th>
                                                             <th><a href="#"><span>Type</span></a></th>
                                                             <th><a href="#"><span>Tag</span></a></th>
-                                                            <th>&nbsp;</th>
+                                                            @*<th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1891,7 +1938,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         <tr>
                                                             <th><a href="#"><span>Name</span></a></th>
                                                             <th><a href="#"><span>Description</span></a></th>
-                                                            <th>&nbsp;</th>
+                                                            @*<th>&nbsp;</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -2006,15 +2053,15 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyCMYKColorTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyCMYKColorCompanyCMYKColor, css: { selectedRow: $data === $root.selectedRaveReview}">
-                <td data-bind="text: colorName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: colorName,click : $root.onEditCompanyCMYKColor"></a></td>
                 <td data-bind="text: colorC"></td>
                 <td data-bind="text: colorM"></td>
                 <td data-bind="text: colorY"></td>
                 <td data-bind="text: colorK"></td>
-                <td id="actionColumn">
+                @*<td id="actionColumn">
                     <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="actionsCompanyTerritoryTemplate" type="text/html">
@@ -2052,9 +2099,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()===undefined,attr: { src: '@Url.Content("~/")' + filePathWithCacheRemoveTechnique() }" />
                     <img id="companyImage" src="#" alt="" style="height: 110px; width: 410px;" data-bind="visible:imageSource()!==undefined,attr: { src: imageSource }" />
                 </td>
-                <td data-bind="text:setName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: setName,click : $root.onEditCompanyBanner"></a></td>
                 <td data-bind="text:heading"></td>
-                <td class="text-right">
+                @*<td class="text-right">
                     <a class="table-link" title="Edit Banner" data-bind="click:$root.onEditCompanyBanner">
                         <span class="fa-stack">
                             <i class="fa fa-square fa-stack-2x"></i>
@@ -2067,7 +2114,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                             <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
                         </span>
                     </a>
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="secondaryPageItemTemplate" type="text/html">
@@ -2081,9 +2128,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td class="text-center">
                     <span class="label" data-bind="text: isEnabled() ? 'Active' : 'In-Active', css:{ 'label-success': isEnabled, 'label-danger': !isEnabled() }"></span>
                 </td>
-                <td class="text-center">
+                @*<td class="text-center">
                     <span class="label" data-bind="text: isUserDefined() ? 'Yes' : 'No', css:{ 'label-success': isUserDefined, 'label-danger': !isUserDefined() }"></span>
-                </td>
+                </td>*@
                 @*<td style="width: 20%;">
                         <a href="#" class="table-link">
                             <span class="fa-stack">
@@ -2200,13 +2247,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
-                        <!--ko if: roleName() == 'Administrator' -->
+                        <!--ko if: roleName() == "Administrator" -->
                         <span class="label label-primary" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'Manager' -->
+                        <!--ko if: roleName() == "Manager" -->
                         <span class="label label-success" data-bind="text: roleName "></span>
                         <!-- /ko -->
-                        <!--ko if: roleName() == 'User' -->
+                        <!--ko if: roleName() == "User" -->
                         <span class="label label-info" data-bind="text: roleName "></span>
                         <!-- /ko -->
 
@@ -2259,7 +2306,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemPaymentGatewayTemplate" type="text/html">
             <tr data-bind="click: $root.selectPaymentGateway, css: { selectedRow: $data === $root.selectedPaymentGateway}">
-                <td data-bind="text: paymentMethodName"></td>
+                <td><a href="#" class="store-user-link" data-bind="text: paymentMethodName,click : $root.onEditPaymentGateway"></a></td>
                 <td data-bind="text: businessEmail"></td>
                 <!--ko if: isActive() === true -->
                 <td>
@@ -2271,10 +2318,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <span class="label label-warning">Inactive</span>
                 </td>
                 <!-- /ko -->
-                <td id="actionColumn">
+                @*<td id="actionColumn">
                     <!-- ko template: { name: "actionsPaymentGatewayTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                     <!-- /ko -->
-                </td>
+                </td>*@
             </tr>
         </script>
         <script id="itemProductCategoriesTemplate" type="text/html">
@@ -2495,33 +2542,33 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
 <script id="filedVariablesItemTemplate" type="text/html">
     <tr>
-        <td data-bind="text:variableName"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: variableName,click : $root.onEditFieldVariable"></a></td>
         <td data-bind="text:scopeName"></td>
         <td data-bind="text:typeName"></td>
         <td data-bind="text:variableTag"></td>
-        <td class="text-right">
+        @*<td class="text-right">
             <a href="" class="table-link" data-bind="click:$root.onEditFieldVariable">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </td>
+        </td>*@
     </tr>
 
 </script>
 <script id="smartFormItemTemplate" type="text/html">
     <tr>
-        <td data-bind="text:name"></td>
+        <td><a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditSmartForm"></a></td>
         <td data-bind="text:heading"></td>
-        <td class="text-right">
+        @*<td class="text-right">
             <a href="" class="table-link" data-bind="click:$root.onEditSmartForm">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-        </td>
+        </td>*@
     </tr>
 
 </script>

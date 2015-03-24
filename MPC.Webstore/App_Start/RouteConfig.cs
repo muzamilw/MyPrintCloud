@@ -68,6 +68,19 @@ namespace MPC.Webstore
         );
 
             routes.MapRoute(
+           "ApproverOrder",
+           "ProductPendingOrders/Save",
+           new { controller = "ProductPendingOrders", action = "Save", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+           "RejectOrder",
+           "ProductPendingOrders/ApporRejectOrder",
+           new { controller = "ProductPendingOrders", action = "ApporRejectOrder", id = UrlParameter.Optional }
+        );
+
+
+            routes.MapRoute(
       "DashboardGePassword",
       "Dashboard/GetPassWord",
       new { controller = "Dashboard", action = "GetPassWord", id = UrlParameter.Optional }

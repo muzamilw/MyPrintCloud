@@ -2593,6 +2593,50 @@ namespace MPC.Repository.Repositories
                 return ordersList;
         }
 
+        public  long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus,Guid OrdermangerID, string BrokerPO = "")
+        {
+            long result = 0;
+            Estimate tblOrder = null;
+            //string CacheKeyName = "CompanyBaseResponse";
+            //ObjectCache cache = MemoryCache.Default;
+
+            // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+          //  DbTransaction dbTrans = null;
+            try
+            {
+                short orderStatusID = (short)orderStatus;
+
+                tblOrder = db.Estimates.Where(estm => estm.EstimateId == orderID).FirstOrDefault();
+
+                if (tblOrder != null)
+                {
+                    tblOrder.StatusId = orderStatusID;
+
+                    tblOrder.OrderManagerId = OrdermangerID;
+
+                    if (db.SaveChanges() > 0)
+                    {
+                        result = tblOrder.ContactId??0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                //if (result > 0)
+                //    DALUtility.CommitTransaction(dbTrans, dbContext);
+                //else
+                //    DALUtility.RollBackTransaction(dbTrans, dbContext);
+
+                //dbContext = null;
+                //dbTrans = null;
+            }
+
+            return result;
+        }
 
 
     }

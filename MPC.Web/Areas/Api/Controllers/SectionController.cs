@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
+using MPC.MIS.Areas.Api.ModelMappers;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -22,11 +23,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
-        //public IEnumerable<Section> getSectionLibray()
-        //{
+        public IEnumerable<Section> getSectionLibray()
+        {
 
-        //    //return _SectionService.GetSectionsForPhraseLibrary().Select(g => g.CreateFromCampaign()).ToList();
+            return _SectionService.GetSectionsForPhraseLibrary().Select(g => g.CreateFromCampaign()).ToList();
 
-        //}
+        }
     }
 }

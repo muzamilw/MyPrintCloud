@@ -44,7 +44,6 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-
                 return View();
             }
         }

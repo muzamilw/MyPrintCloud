@@ -44,7 +44,7 @@ define("product/product.dataservice", function () {
                     });
                     
                     // Define request to get base data
-                    amplify.request.define('getBaseData', 'ajax', {
+                    amplify.request.define('getBaseDataForProduct', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemBase',
                         dataType: 'json',
                         type: 'GET'
@@ -58,7 +58,7 @@ define("product/product.dataservice", function () {
                     });
 
                     // Define request to get product category childs
-                    amplify.request.define('getProductCategoryChilds', 'ajax', {
+                    amplify.request.define('getProductCategoryChildsForProduct', 'ajax', {
                         url: ist.siteUrl + '/Api/ProductCategory',
                         dataType: 'json',
                         type: 'GET'
@@ -97,21 +97,22 @@ define("product/product.dataservice", function () {
                 }
             },
             // Get base data
-            getBaseData = function (callbacks) {
+            getBaseDataForProduct = function (callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getBaseData',
+                    resourceId: 'getBaseDataForProduct',
                     success: callbacks.success,
                     error: callbacks.error,
                 });
             },
             // Get Base Data for Designer Category
-            getBaseDataForDesignerCategory = function (callbacks) {
+            getBaseDataForDesignerCategory = function (param, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getBaseDataForDesignerCategory',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: param
                 });
             },
             // Get Product Machines
@@ -195,10 +196,10 @@ define("product/product.dataservice", function () {
                 });
             },
             // get ProductCategory Childs
-            getProductCategoryChilds = function (params, callbacks) {
+            getProductCategoryChildsForProduct = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getProductCategoryChilds',
+                    resourceId: 'getProductCategoryChildsForProduct',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -210,9 +211,9 @@ define("product/product.dataservice", function () {
             getItems: getItems,
             saveItem: saveItem,
             archiveItem: archiveItem,
-            getBaseData: getBaseData,
+            getBaseDataForProduct: getBaseDataForProduct,
             getItemPriceMatricesForItemByFlagId: getItemPriceMatricesForItemByFlagId,
-            getProductCategoryChilds: getProductCategoryChilds,
+            getProductCategoryChildsForProduct: getProductCategoryChildsForProduct,
             getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
             getMachines: getMachines,
             cloneItem: cloneItem,

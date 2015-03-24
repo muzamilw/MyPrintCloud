@@ -136,6 +136,7 @@ namespace MPC.Webstore.Controllers
             {
 
                 MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+
                 CompanyContact UserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                 CampaignEmailParams cep = new CampaignEmailParams();
 

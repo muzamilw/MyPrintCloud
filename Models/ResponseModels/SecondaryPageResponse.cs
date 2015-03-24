@@ -17,5 +17,15 @@ namespace MPC.Models.ResponseModels
         /// List of Cms Pages
         /// </summary>
         public IEnumerable<CmsPage> CmsPages { get; set; }
+
+        /// <summary>
+        /// Row Count
+        /// </summary>
+        public int SystemPagesRowCount { get; set; }
+
+        /// <summary>
+        /// List of Cms Pages
+        /// </summary>
+        public IEnumerable<CmsPage> SystemPages { get; set; }
     }
 }

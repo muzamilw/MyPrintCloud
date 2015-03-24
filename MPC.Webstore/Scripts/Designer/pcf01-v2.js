@@ -620,7 +620,6 @@ function d1(cCanvas, IO, isCenter) {
     if (IO.ContentString.indexOf("MPC_Content"))
         IO.ContentString = IO.ContentString.replace("/MPC_Content/", "");
 
-    alert(IO.ContentString);
     fabric.Image.fromURL("/MPC_Content/" + IO.ContentString, function (IOL) {
         IOL.set({
             left: (IO.PositionX + IO.MaxWidth / 2) * dfZ1l,
@@ -676,12 +675,12 @@ function d2() {
         m0();
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
+              //  if (ite.Orientation == 1) {
                     d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
-                }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                }
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     } else {
@@ -692,12 +691,12 @@ function d2() {
         }
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-                if (ite.Orientation == 1) {
+              //  if (ite.Orientation == 1) {
                     d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
-                }
-                else {
-                    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
-                }
+                //}
+                //else {
+                //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
+                //}
             }
         });
     }
@@ -735,7 +734,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-            if (IT.Orientation == 1) {
+          //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
                 } else {
@@ -747,21 +746,21 @@ function d5_sub(pageID, isloading) {
                     canvas.setWidth(Template.PDFTemplateWidth * dfZ1l);
                 }
 
-            }
-            else {
-                if (IT.Width != null && IT.Width != 0) {
-                    canvas.setHeight(IT.Width * dfZ1l);
-                } else {
-                    canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
-                }
-                if (IT.Height != null && IT.Height != 0) {
-                    canvas.setWidth(IT.Height * dfZ1l);
-                } else {
-                    canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
-                }
+            //}
+            //else {
+            //    if (IT.Width != null && IT.Width != 0) {
+            //        canvas.setHeight(IT.Width * dfZ1l);
+            //    } else {
+            //        canvas.setHeight(Template.PDFTemplateWidth * dfZ1l);
+            //    }
+            //    if (IT.Height != null && IT.Height != 0) {
+            //        canvas.setWidth(IT.Height * dfZ1l);
+            //    } else {
+            //        canvas.setWidth(Template.PDFTemplateHeight * dfZ1l);
+            //    }
 
 
-            }
+            //}
             $(".page").css("height", ((Template.PDFTemplateHeight * dfZ1l) + 20) + "px");
             $(".page").css("width", ((Template.PDFTemplateWidth * dfZ1l) + 0) + "px");
             var val = $("#canvasDocument").width() - $(".page").width();
@@ -1489,11 +1488,39 @@ function b3_lDimensions() {
  //   $(".zoomToolBar").html(" Zoom " + Math.floor(D1CS * 100) + " % ");
 }
 function fu05_svcCall(DT) {
-    $.each(DT, function (i, IT) {
-        fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteID);
-    });
-    var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
-    $('.ColorOptionContainer').append(html);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4)
+    {
+        var html = "<div id='tabs'><ul class='tabsList'><li><a href='#tabsActiveColors'>Active</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+        $.each(DT, function (i, IT) {
+            fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+        $("#tabs").tabs();
+    } else
+    {
+        $.each(DT, function (i, IT) {
+            fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
+        });
+        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
+    }
+
+}
+function fu05_svca7(c, m, y, k, Sname, IsACT, PID) {
+    var Color = getColorHex(c, m, y, k);
+    if (IsCalledFrom == 2 || IsCalledFrom == 4) {
+        if (IsACT == true) {
+            var html = "<div id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnDeactiveColor' title='Deactivate this color' onclick='j7(" + PID + ",&quot;DeActive&quot;);'></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsActiveColors').append(html);
+
+        } else {
+            var html = "<div  id ='pallet" + PID + "' class ='ColorPalletCorp' style='background-color:" + Color + "' onclick='f2(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;" + ",&quot;" + Sname + "&quot;);'" + "><button  id ='btnClr" + PID + "' class='btnActiveColor' title='Activate this color'  onclick='j7(" + PID + ",&quot;Active&quot;);' ></button></div><div  id ='textColor" + PID + "' class='ColorPalletCorpName'>" + Sname + "</div>";
+            html += "";
+            $('#tabsInActiveColors').append(html);
+        }
+    } 
 }
 function fu05_ClHtml(c, m, y, k, Sname, IsACT, PID) {
     var Color = getColorHex(c, m, y, k);
@@ -3845,6 +3872,8 @@ function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
         if (IT.Value != null && IT.value != "") {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
+        } else {
+            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
         }
     });
 }
