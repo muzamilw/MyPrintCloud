@@ -3124,6 +3124,22 @@ namespace MPC.Implementation.MISServices
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
             };
         }
+        /// <summary>
+        /// Base Data for Crm Screen (prospect/customer and suppliers)
+        /// </summary>
+        /// <returns></returns>
+        public CrmBaseResponse GetBaseDataForCrm()
+        {
+            return new CrmBaseResponse
+            {
+                SystemUsers = systemUserRepository.GetAll(),
+                CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                States = stateRepository.GetAll(),
+                Countries = countryRepository.GetAll(),
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM)
+            };
+        }
         public void SaveFile(string filePath, long companyId)
         {
             Company company = companyRepository.GetCompanyById(companyId).Company;
