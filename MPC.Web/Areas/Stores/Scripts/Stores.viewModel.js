@@ -3666,13 +3666,16 @@ define("stores/stores.viewModel",
                         storeToSave.FieldVariables.push(field);
                     });
                     //Smart Forms
-                    _.each(smartForms(), function (item) {
-                        var smartFormServer = item.convertToServerData(item);
-                        _.each(item.smartFormDetails(), function (smartFormDetail) {
-                            smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                    if (selectedStore().companyId() === 0 || selectedStore().companyId() === undefined) {
+                        _.each(smartForms(), function (item) {
+                            var smartFormServer = item.convertToServerData(item);
+                            _.each(item.smartFormDetails(), function (smartFormDetail) {
+                                smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                            });
+                            storeToSave.SmartForms.push(smartFormServer);
                         });
-                        storeToSave.SmartForms.push(smartFormServer);
-                    });
+                    }
+                   
 
                     //endregion
                     //#region Company Territories
