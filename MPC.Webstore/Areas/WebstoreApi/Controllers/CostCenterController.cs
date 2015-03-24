@@ -492,8 +492,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             }
         }
 
-       
-
         public void DeleteFile(string completePath)
         {
             try
@@ -682,7 +680,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         }
         private Inquiry AddInquiry(Prefix prefix)
         {
-
             // Get order prefix and update the order next number
             //  tbl_prefixes prefix = PrefixManager.GetDefaultPrefix(context);
             Inquiry inquiry = new Inquiry();
@@ -691,7 +688,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             prefix.EnquiryNext = prefix.EnquiryNext + 1;
 
             return inquiry;
-
         }
         private List<InquiryItem> FillItems(string InquiryItemDeliveryDate1, string InquiryItemDeliveryDate2, string InquiryItemDeliveryDate3, string InquiryItemTitle1, string InquiryItemNotes1, string InquiryItemTitle2, string InquiryItemNotes2,string InquiryItemTitle3,string InquiryItemNotes3, int hfNoOfRec)
         {

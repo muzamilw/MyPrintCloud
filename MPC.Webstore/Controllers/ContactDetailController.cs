@@ -25,6 +25,10 @@ namespace MPC.Webstore.Controllers
        }
        public ActionResult Index()
         {
+            long OrgaanisationId = UserCookieManager.OrganisationID;
+
+            int storeMode = UserCookieManager.StoreMode;
+           // long contactRoleID= _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID()).ContactRoleId;
             CompanyContact contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
             if (UserCookieManager.StoreMode ==(int)StoreMode.Retail)
             {
@@ -40,7 +44,6 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-
                 return View();
             }
         }

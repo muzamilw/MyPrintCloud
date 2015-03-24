@@ -726,3 +726,137 @@ function ConfirmDeleteSaveDesignPopup(ItemID) {
 
     return false;
 }
+function ConfirmPopUpForApprove() {
+
+    var Type = "Alert!";
+    var Message = "Are you sure you want to approve order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" id="ApproveOk"  class="btn btn-primary" value="Yes" onclick="Show()" /><input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="HideLoader()"></button></div></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+
+}
+
+function ConfirmPopUpForReject() {
+
+    var Type = "Alert!";
+    var Message = "Are you sure you want to reject order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input id="Save" type="submit" class="btn btn-primary" value="Yes" /><button type="button" id="cancel" class="btn btn-primary">No</button></div></div></div>';
+
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+
+}
+function ShowMyPopUp()
+{
+    var title = 'Alert';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="Po" cols="40" rows="5"  class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button><button type="button" id="Close" class="btn btn-primary" onclick="Cancel()">Close</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    // document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+
+function ShowPopUpForConfirmApprove() {
+
+    var title = 'Po number';
+    //<textarea name="Text1" cols="40" rows="5" class="rounded_corners5 text_boxPolicy" id="txtPolicy" readonly="readonly" >@ViewBag.CorpCompany.CorporateOrderingPolicy</textarea>
+    // var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="txtOrderPolicy"  class="rounded_corners5 text_box" value=' + Tvalue + ' /><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderSave" class="btn btn-primary" onclick="Order()">Save</button></div></div>';
+    var container = '<div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + title + '</h4></div><div class="modal-body"> <input type="text" id="MyPoNo" class="rounded_corners5 text_box" ></input><div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><button type="button" id="OrderApproveOK" class="btn btn-primary" onclick="oKApproveOrder()">Yes</button><button type="button" id="Close" class="btn btn-primary"  onclick="HideLoader()">No</button></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+    
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "187px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
+function ConfirmPopUpForReject()
+{
+    var Type = "Alert!";
+    var Message = "Are you sure you want to Reject order?"
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="button" id="ApproveOk"  class="btn btn-primary" value="Yes" onclick="RejectOrder()" /><input type="button" id="ApproveCancel" class="btn btn-primary" value="No" onclick="HideLoader()"></button></div></div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 500) / 2);
+    var top = parseInt((bws.height - 170) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "500px";
+    document.getElementById("innerLayer").style.height = "170px";
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}
