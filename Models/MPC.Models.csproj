@@ -397,6 +397,7 @@
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
+    <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />
     <Compile Include="ResponseModels\ItemDesignerTemplateBaseResponse.cs" />
