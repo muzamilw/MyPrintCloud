@@ -281,7 +281,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
             if (allBindingsAccessor().openFrom() === "Campaign" || allBindingsAccessor().openFrom() === "SecondaryPage") {
                 CKEDITOR.config.toolbar = [
-                    ['Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
+                    ['Source','Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
                     '/', ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Font', 'FontSize']
                 ];
             } else {
