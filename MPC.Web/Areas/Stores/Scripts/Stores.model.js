@@ -127,7 +127,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         , specifiedIsDeliveryTaxAble, specifiedPickupAddressId,
         specifiedmakeEmailBrokerArtworkOrderProductionReady, specifiedStoreImageFileBinary, specifiedStoreBackgroudImageSource, specifiedIsShowGoogleMap,
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
-    , specifiedIsDidplayInFooter) {
+    , specifiedIsDidplayInFooter, specifiedCurrentThemeId) {
         var self,
             storeId = ko.observable(undefined),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
@@ -147,6 +147,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webAnalyticCode = ko.observable(specifiedWebAnalyticCode),
             type = ko.observable(),
             storeImagePath = ko.observable(specifiedStoreImagePath),
+            currentThemeId = ko.observable(),
+            currentThemeName = ko.observable(),
             //webAccessCode = ko.observable(specifiedWebAccessCode).extend({
             //    required: {
             //        onlyIf: function () {
@@ -351,7 +353,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             pickupAddressId: pickupAddressId,
             taxLabel: taxLabel,
             taxRate: taxRate,
-            scopeVariables: scopeVariables
+            scopeVariables: scopeVariables,
+            paymentGateway: paymentGateway
             //storeLayoutChange: storeLayoutChange
             //#endregion
         }),
@@ -467,6 +470,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Deletedproducts = [];
             result.Campaigns = [];
             result.CompanyCostCentres = [];
+           
             _.each(source.paymentGateway(), function (item) {
                 result.PaymentGateways.push(item.convertToServerData());
             });
@@ -480,11 +484,15 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.DefaultSpriteSource = source.defaultSpriteImageSource() === undefined ? null : source.defaultSpriteImageSource();
             result.UserDefinedSpriteSource = source.userDefinedSpriteImageSource() === undefined ? null : source.userDefinedSpriteImageSource();
             result.UserDefinedSpriteFileName = source.userDefinedSpriteImageFileName() === undefined ? null : source.userDefinedSpriteImageFileName();
+            result.CurrentThemeId = source.currentThemeId() === undefined ? null : source.currentThemeId();
             result.CmsOffers = [];
             result.MediaLibraries = [];
             result.FieldVariables = [];
             result.SmartForms = [];
             result.ScopeVariables = [];
+            result.NewAddedCampaigns = [];
+            result.EdittedCampaigns = [];
+            result.DeletedCampaigns = [];
             return result;
         },
         // Reset
@@ -504,6 +512,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             accountOpenDate: accountOpenDate,
             accountManagerId: accountManagerId,
             avatRegNumber: avatRegNumber,
+            currentThemeId: currentThemeId,
             avatRegReference: avatRegReference,
             isCalculateTaxByService: isCalculateTaxByService,
             phoneNo: phoneNo,
@@ -543,6 +552,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeImageFileBinary: storeImageFileBinary,
             storeImageName: storeImageName,
             storeWorkflowImage: storeWorkflowImage,
+            currentThemeName: currentThemeName,
             type: type,
             raveReviews: raveReviews,
             companyTerritories: companyTerritories,
@@ -1158,6 +1168,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             territoryCode = ko.observable(specifiedTerritoryCode).extend({ required: true }),
             isDefault = ko.observable(specifiedisDefault),
             scopeVariables = ko.observableArray([]),
+             isSelected = ko.observable(),
             // Errors
             errors = ko.validation.group({
                 territoryName: territoryName,
@@ -1202,6 +1213,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             companyId: companyId,
             territoryCode: territoryCode,
             isDefault: isDefault,
+            isSelected: isSelected,
             scopeVariables: scopeVariables,
             isValid: isValid,
             errors: errors,
@@ -1766,7 +1778,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
@@ -1853,8 +1865,8 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Description = source.description() === undefined ? null : source.description();
             result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
             result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
-            //result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-            result.StartDateTime = moment(new Date()).format(ist.utcFormat);
+            result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
+           // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
             result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
             result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
             result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();

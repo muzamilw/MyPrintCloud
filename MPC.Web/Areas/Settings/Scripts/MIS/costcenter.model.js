@@ -159,8 +159,8 @@
                 strPriceLabourUnParsed: strPriceLabourUnParsed,
                 strActualCostLabourUnParsed: strActualCostLabourUnParsed,
                 strTimeUnParsed: strTimeUnParsed,
-                carrierId: carrierId
-
+                carrierId: carrierId,
+                costCenterInstructions: costCenterInstructions
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
@@ -349,16 +349,27 @@
             costCenterOption: costCenterOption,
             costCenterId: costCenterId,
             workInstructionChoices:workInstructionChoices,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
     };
 
     costCenterInstruction.CreateFromClientModel = function (source) {
-        return new costCenterInstruction(
-            source.InstructionId, source.Instruction, source.CostCenterOption
-        );
+        var result = {};
+        result.InstructionId = source.instructionId();
+        result.Instruction = source.instruction();
+        result.CostCenterOption = source.costCenterOption();
+        result.CostcentreWorkInstructionsChoices = [];
+        _.each(source.workInstructionChoices(), function (item) {
+            result.CostcentreWorkInstructionsChoices.push(item.convertToServerData());
+        });
+        return result;
+        //return new costCenterInstruction(
+        //    source.InstructionId, source.Instruction, source.CostCenterOption
+        //);
     };
     costCenterInstruction.Create = function (source) {
         var ccInstruction = new costCenterInstruction(
@@ -397,7 +408,9 @@
             choiceId: choiceId,
             choice: choice,
             instructionId: instructionId,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
@@ -476,25 +489,25 @@
         oCostCenter.middleCode(source.MiddleCode);
         oCostCenter.footerCode(source.FooterCode);
         oCostCenter.strCostPlantParsed(source.strCostPlantParsed);
-        oCostCenter.strCostPlantUnParsed(source.strCostPlantUnParsed);
+        oCostCenter.strCostPlantUnParsed(source.strCostPlantUnParsed === undefined || source.strCostPlantUnParsed === null ? 'EstimatedPlantCost = 0' : source.strCostPlantUnParsed);
         oCostCenter.strCostLabourParsed(source.strCostLabourParsed);
-        oCostCenter.strCostLabourUnParsed(source.strCostLabourUnParsed);
+        oCostCenter.strCostLabourUnParsed(source.strCostLabourUnParsed === undefined || source.strCostLabourUnParsed === null? 'EstimatedLabourCost = 0' : source.strCostLabourUnParsed);
         oCostCenter.strCostMaterialParsed(source.strCostMaterialParsed);
-        oCostCenter.strCostMaterialUnParsed(source.strCostMaterialUnParsed);
+        oCostCenter.strCostMaterialUnParsed(source.strCostMaterialUnParsed === undefined || source.strCostMaterialUnParsed === null ? 'EstimatedMaterialCost = 0' : source.strCostMaterialUnParsed);
         oCostCenter.strPricePlantParsed(source.strPricePlantParsed);
-        oCostCenter.strPricePlantUnParsed(source.strPricePlantUnParsed);
+        oCostCenter.strPricePlantUnParsed(source.strPricePlantUnParsed === undefined || source.strPricePlantUnParsed === null ? 'QuotedPlantPrice = 0' : source.strPricePlantUnParsed);
         oCostCenter.strPriceLabourParsed(source.strPriceLabourParsed);
-        oCostCenter.strPriceLabourUnParsed(source.strPriceLabourUnParsed);
+        oCostCenter.strPriceLabourUnParsed(source.strPriceLabourUnParsed === undefined || source.strPriceLabourUnParsed === null ? 'QuotedLabourPrice = 0' : source.strPriceLabourUnParsed);
         oCostCenter.strPriceMaterialParsed(source.strPriceMaterialParsed);
-        oCostCenter.strPriceMaterialUnParsed(source.strPriceMaterialUnParsed);
+        oCostCenter.strPriceMaterialUnParsed(source.strPriceMaterialUnParsed === undefined || source.strPriceMaterialUnParsed === null ? 'QuotedMaterialPrice = 0' : source.strPriceMaterialUnParsed);
         oCostCenter.strActualCostPlantParsed(source.strActualCostPlantParsed);
-        oCostCenter.strActualCostPlantUnParsed(source.strActualCostPlantUnParsed);
+        oCostCenter.strActualCostPlantUnParsed(source.strActualCostPlantUnParsed === undefined || source.strActualCostPlantUnParsed === null ? 'ActualPlantCost = 0' : source.strActualCostPlantUnParsed);
         oCostCenter.strActualCostLabourParsed(source.strActualCostLabourParsed);
-        oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed);
+        oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed === undefined || source.strActualCostLabourUnParsed === null ? 'ActualLabourCost = 0' : source.strActualCostLabourUnParsed);
         oCostCenter.strActualCostMaterialParsed(source.strActualCostMaterialParsed);
-        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed);
+        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? '' : source.strActualCostMaterialUnParsed);
         oCostCenter.strTimeParsed(source.strTimeParsed);
-        oCostCenter.strTimeUnParsed(source.strTimeUnParsed);
+        oCostCenter.strTimeUnParsed(source.strTimeUnParsed === undefined || source.strTimeUnParsed === null ? 'EstimatedTime = 0' : source.strTimeUnParsed);
         oCostCenter.isDisabled(source.IsDisabled);
         oCostCenter.isDirectCost(source.IsDirectCost);
         oCostCenter.setupSpoilage(source.SetupSpoilage);
@@ -685,7 +698,10 @@
         result.OrganisationId = source.organisationId();
         result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
-        
+        result.CostcentreInstructions = [];
+        _.each(source.costCenterInstructions(), function (item) {
+            result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));
+        });
         return result;
     };
     

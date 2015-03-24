@@ -10,6 +10,7 @@ using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using MPC.Models.Common;
 using System.Globalization;
+using MPC.Common;
 
 namespace MPC.Implementation.WebStoreServices
 {
@@ -531,11 +532,11 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public List<ProductCategory> GetChildCategories(long categoryId)
+        public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
             try
             {
-                return _productCategoryRepository.GetChildCategories(categoryId);
+                return _productCategoryRepository.GetChildCategories(categoryId, CompanyId);
             }
             catch (Exception ex)
             {
@@ -1238,7 +1239,7 @@ namespace MPC.Implementation.WebStoreServices
         {
             try
             {
-                return _CompanyContactRepository.VerifyHashSha1(plainText, compareWithSalt);
+                return HashingManager.VerifyHashSha1(plainText, compareWithSalt);
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         ProductCategory GetCategoryById(long categoryId);
 
-        List<ProductCategory> GetChildCategories(long categoryId);
+        List<ProductCategory> GetChildCategories(long categoryId, long CompanyId);
 
         List<ProductCategory> GetAllChildCorporateCatalogByTerritory(long customerId, long ContactId, long ParentCatId);
 

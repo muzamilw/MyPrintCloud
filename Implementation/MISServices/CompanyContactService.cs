@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Windows.Forms;
+using MPC.Common;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
@@ -159,7 +160,8 @@ namespace MPC.Implementation.MISServices
         {
             if (!CheckDuplicatesOfContactEmailInStore(companyContact))
             {
-                if (companyContact.ContactId == 0)
+                companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
+                if (companyContact.ContactId <= 0)
                 {
                     return Create(companyContact);
                 }

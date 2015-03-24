@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using Microsoft.IdentityModel.SecurityTokenService;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -18,6 +19,7 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IProductCategoryRepository productCategoryRepository;
+        private readonly ICategoryTerritoryRepository categoryTerritoryRepository;
 
         private void SaveProductCategoryThumbNailImage(ProductCategory productCategory)
         {
@@ -75,6 +77,7 @@ namespace MPC.Implementation.MISServices
         {
             productCategory.OrganisationId = productCategoryRepository.OrganisationId;
             productCategoryRepository.Add(productCategory);
+            AddCategoryTerritories(productCategory);
             productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);
             productCategoryRepository.Update(productCategory);
@@ -85,21 +88,85 @@ namespace MPC.Implementation.MISServices
         private ProductCategory Update(ProductCategory productCategory)
         {
             productCategoryRepository.Update(productCategory);
+            UpdateCategoryTerritories(productCategory);
             productCategoryRepository.SaveChanges();
             SaveProductCategoryThumbNailImage(productCategory);
             productCategoryRepository.Update(productCategory);
             productCategoryRepository.SaveChanges();
             return productCategory;
         }
+
+        private void AddCategoryTerritories(ProductCategory productCategory)
+        {
+            if (productCategory.CategoryTerritories != null)
+            {
+                foreach (var categoryTerritory in productCategory.CategoryTerritories)
+                {
+                    categoryTerritory.CompanyId = productCategory.CompanyId;
+                    categoryTerritory.OrganisationId = productCategoryRepository.OrganisationId;
+                    categoryTerritory.ProductCategoryId = productCategory.ProductCategoryId;
+                    categoryTerritory.TerritoryId = categoryTerritory.TerritoryId;
+                    categoryTerritoryRepository.Add(categoryTerritory);
+                }
+            }
+        }
+        private void UpdateCategoryTerritories(ProductCategory productCategory)
+        {
+            var productCategoryDbVersion = productCategoryRepository.GetCategoryById(productCategory.ProductCategoryId);
+            #region Company Cost Centers
+            //Add  Company Cost Centers
+            if (productCategory.CategoryTerritories != null)
+            {
+                List<CategoryTerritory> newlist = productCategory.CategoryTerritories.Where(
+                    c => productCategoryDbVersion.CategoryTerritories.All(cc => cc.CategoryTerritoryId != c.CategoryTerritoryId)).ToList();
+
+                foreach (var item in newlist)
+                {
+                    item.CompanyId = productCategory.CompanyId;
+                    item.OrganisationId = productCategoryRepository.OrganisationId;
+                    item.ProductCategoryId = productCategory.ProductCategoryId;
+                    //productCategory.CompanyCostCentres.Add(item);
+                    categoryTerritoryRepository.Add(item);
+                }
+            }
+            if (productCategory.CategoryTerritories != null)
+            {
+                List<CategoryTerritory> missingItemsList = productCategoryDbVersion.CategoryTerritories.Where(
+                    c => productCategory.CategoryTerritories.All(cc => cc.CategoryTerritoryId != c.CategoryTerritoryId)).ToList();
+                //remove missing items
+                foreach (CategoryTerritory missingCategoryTerritory in missingItemsList)
+                {
+                    CategoryTerritory dbVersionMissingItem = productCategoryDbVersion.CategoryTerritories.First(x => x.CategoryTerritoryId == missingCategoryTerritory.CategoryTerritoryId && x.CompanyId == missingCategoryTerritory.CompanyId);
+                    categoryTerritoryRepository.Delete(dbVersionMissingItem);
+                    productCategoryDbVersion.CategoryTerritories.Remove(dbVersionMissingItem);
+
+                }
+            }
+            else if (productCategory.CategoryTerritories == null && productCategoryDbVersion.CategoryTerritories != null && productCategoryDbVersion.CategoryTerritories.Count > 0)
+            {
+                List<CategoryTerritory> lisRemoveAllItemsList = productCategoryDbVersion.CategoryTerritories.ToList();
+                foreach (CategoryTerritory missingCategoryTerritory in lisRemoveAllItemsList)
+                {
+                    CategoryTerritory dbVersionMissingItem = productCategoryDbVersion.CategoryTerritories.First(x => x.CategoryTerritoryId == missingCategoryTerritory.CategoryTerritoryId && x.CompanyId == missingCategoryTerritory.CompanyId);
+                    categoryTerritoryRepository.Delete(dbVersionMissingItem);
+                    productCategoryDbVersion.CategoryTerritories.Remove(dbVersionMissingItem);
+                }
+            }
+
+            #endregion
+
+        }
         //#endregion
         #endregion
 
         #region Constructor
 
-        public CategoryService(IProductCategoryRepository productCategoryRepository)
+        public CategoryService(IProductCategoryRepository productCategoryRepository, ICategoryTerritoryRepository categoryTerritoryRepository)
         {
             this.productCategoryRepository = productCategoryRepository;
+            this.categoryTerritoryRepository = categoryTerritoryRepository;
         }
+
         #endregion
 
         #region Public

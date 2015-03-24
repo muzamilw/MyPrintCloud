@@ -3696,29 +3696,29 @@ if it's not present, don't show loader */
 
 .PreviewerDownloadPDF,.PreviewerDownloadImg {
     line-height: .5;
-    position: absolute;
-    top: 30px;
-    right: 120px;
-    text-shadow: 0 -1px 1px rbga(0,0,0,.4);
-    font-weight: normal;
-    cursor: pointer;
-    padding: 15px;
-    display: inline-block;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    -khtml-border-radius: 4px;
-    padding-left: 15px;
-    font-size: 18px;
-    -webkit-box-shadow: 0 8px 6px -6px #666;
-    -moz-box-shadow: 0 8px 6px -6px #666;
-    box-shadow: 0 8px 6px -6px #666;
-    background: #8FC041;
-    float: right;
-    margin-top: -17px;
-    margin-right: 6px;
-    cursor: pointer;
-    text-decoration: none;
+  position: absolute;
+  top: 30px;
+  right: 120px;
+  text-shadow: 0 -1px 1px rbga(0,0,0,.4);
+  font-weight: normal;
+  cursor: pointer;
+  padding: 13px;
+  display: inline-block;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -khtml-border-radius: 4px;
+  padding-left: 15px;
+  font-size: 18px;
+  -webkit-box-shadow: 0 8px 6px -6px #666;
+  -moz-box-shadow: 0 8px 6px -6px #666;
+  box-shadow: 0 8px 6px -6px #666;
+  background: #8FC041;
+  float: right;
+  margin-top: -11px;
+  margin-right: 20px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
     .PreviewerDownloadPDF:hover ,.PreviewerDownloadImg:hover {
@@ -6796,4 +6796,75 @@ font-size: 13px;
 
 .bkPanelCommonControls {
     margin:0px 0px !important;
+}
+.tabsList li a {
+    text-indent:0 !important;
+    border-radius: 10px !important;
+
+}
+.tabsList li  {
+    width:87px !important;   border-radius: 10px !important;
+}
+
+.ColorPalletCorp {
+  height: 20px;
+  width: 199px;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  border-width: 2px;
+  border-color: Silver;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  border-bottom-width: 0px;
+}
+.ColorPalletCorpName {
+  height: 17px;
+  width: 199px;
+  float: left;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-width: 2px;
+  border-color: Silver;
+  border-style: solid;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  border-top-width: 0px;
+  color: white;
+  font-size: 13px;
+}
+
+.ColorTabsContainer
+{
+    display: block;
+    padding: 0px !important;
+    margin-left: -4px;
+}
+
+.btnDeactiveColor
+{
+    background: url('assets-v2/deactive.png');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px; /*margin-bottom: -6px;*/
+    margin-top: 5px;
+    border: none;
+    margin-left: 175px;
+    cursor: pointer;
+}
+
+.btnActiveColor
+{
+    background: url('assets-v2/active.png');
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px; /*margin-bottom: -6px;*/
+    margin-top: 5px;
+    border: none;
+    margin-left: 175px;
+    cursor: pointer;
 }

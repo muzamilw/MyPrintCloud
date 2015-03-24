@@ -113,16 +113,27 @@ namespace MPC.Webstore.Controllers
 
         private void SetDefaultAddress(MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse) 
         {
-            ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
-            string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
-                                                                ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
-                                                                : string.Empty;
 
-            string state = StoreBaseResopnse.StoreDetaultAddress.State != null
-                ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
-                : string.Empty;
-            string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
-            ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
+            if (StoreBaseResopnse.StoreDetaultAddress != null)
+            {
+                ViewBag.DefaultAddress = StoreBaseResopnse.StoreDetaultAddress;
+
+                string country = StoreBaseResopnse.StoreDetaultAddress.Country != null
+                                                                    ? StoreBaseResopnse.StoreDetaultAddress.Country.CountryName
+                                                                    : string.Empty;
+
+                string state = StoreBaseResopnse.StoreDetaultAddress.State != null
+                    ? StoreBaseResopnse.StoreDetaultAddress.State.StateName
+                    : string.Empty;
+                string MapInfoWindow = StoreBaseResopnse.StoreDetaultAddress.AddressName + "<br>" + StoreBaseResopnse.StoreDetaultAddress.Address1 + StoreBaseResopnse.StoreDetaultAddress.Address2 + "<br>" + StoreBaseResopnse.StoreDetaultAddress.City + "," + state + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode;
+                ViewBag.googleMapScript = @"<script> var isGeoCode = true; var addressline = '" + StoreBaseResopnse.StoreDetaultAddress.Address1 + "," + StoreBaseResopnse.StoreDetaultAddress.Address2 + "," + StoreBaseResopnse.StoreDetaultAddress.City + "," + country + "," + StoreBaseResopnse.StoreDetaultAddress.PostCode + "';var info='" + MapInfoWindow + "';</script>";
+            }
+            else 
+            {
+                ViewBag.DefaultAddress = null;
+                throw new Exception("Default address not found");
+            }
+          
         }
 
     }

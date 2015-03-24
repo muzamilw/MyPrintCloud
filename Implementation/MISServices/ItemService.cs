@@ -289,7 +289,7 @@ namespace MPC.Implementation.MISServices
             // Set Paper Sizes
             SetPaperSizesForNonPrintItemSection(line);
         }
-        
+
         /// <summary>
         /// Create Item Section
         /// </summary>
@@ -397,7 +397,7 @@ namespace MPC.Implementation.MISServices
         private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
         {
             string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
-                itemStockOption.ItemStockOptionId +"_"+ StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
+                itemStockOption.ItemStockOptionId + "_" + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 itemStockOption.FileName,
                 itemStockOption.FileSource,
                 itemStockOption.FileSourceBytes);
@@ -573,10 +573,26 @@ namespace MPC.Implementation.MISServices
             if (!string.IsNullOrEmpty(fileSource))
             {
                 // Look if file already exists then replace it
-                if (!string.IsNullOrEmpty(existingImage) && File.Exists(existingImage))
+                if (!string.IsNullOrEmpty(existingImage))
                 {
-                    // Remove Existing File
-                    File.Delete(existingImage);
+                    if (Path.IsPathRooted(existingImage))
+                    {
+                        if (File.Exists(existingImage))
+                        {
+                            // Remove Existing File
+                            File.Delete(existingImage);
+                        }
+                    }
+                    else
+                    {
+                        string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
+                        if (File.Exists(filePath))
+                        {
+                            // Remove Existing File
+                            File.Delete(filePath);
+                        }
+                    }
+                    
                 }
 
                 // First Time Upload
@@ -645,7 +661,7 @@ namespace MPC.Implementation.MISServices
                     return;
                 }
 
-                templateService.generateTemplateFromPDF(mapPath,
+                templateService.generateTemplateFromPDF(HttpContext.Current.Server.MapPath("~/" + mapPath),
                     templateTypeMode.HasValue ? templateTypeMode.Value : 2,
                     itemTarget.TemplateId.Value, organisationId);
             }
@@ -785,7 +801,7 @@ namespace MPC.Implementation.MISServices
                 targetItemAddonCostCentre.ItemStockOptionId = targetItemStockOption.ItemStockOptionId;
                 targetItemStockOption.ItemAddonCostCentres.Add(targetItemAddonCostCentre);
                 itemAddonCostCentre.Clone(targetItemAddonCostCentre);
-            }     
+            }
         }
 
         /// <summary>
@@ -996,12 +1012,32 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
         {
-            if (string.IsNullOrEmpty((itemStockOption.ImageURL)) || !File.Exists(itemStockOption.ImageURL))
+            if (string.IsNullOrEmpty((itemStockOption.ImageURL)))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
+            byte[] fileBytes;
+            if (Path.IsPathRooted(itemStockOption.ImageURL))
+            {
+                if (!File.Exists(itemStockOption.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(itemStockOption.ImageURL);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + itemStockOption.ImageURL);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
             string imageUrl = SaveImage(mapPath, string.Empty,
                 itemStockOption.ItemStockOptionId + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
                 "image.png",
@@ -1031,12 +1067,31 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneItemImage(string mapPath, ItemImage itemImage)
         {
-            if (string.IsNullOrEmpty((itemImage.ImageURL)) || !File.Exists(itemImage.ImageURL))
+            if (string.IsNullOrEmpty(itemImage.ImageURL))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(itemImage.ImageURL);
+            byte[] fileBytes;
+            if (Path.IsPathRooted(itemImage.ImageURL))
+            {
+                if (!File.Exists(itemImage.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(itemImage.ImageURL);
+            }
+            else
+            {
+                if (!File.Exists("~/" + itemImage.ImageURL))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes("~/" + itemImage.ImageURL);
+            }
+
             string imageUrl = SaveImage(mapPath, string.Empty,
                 itemImage.ProductImageId + "_ItemImage_",
                 "image.png",
@@ -1054,12 +1109,32 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneImagePath(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.ImagePath)) || !File.Exists(target.ImagePath))
+            if (string.IsNullOrEmpty(target.ImagePath))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.ImagePath);
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.ImagePath))
+            {
+                if (!File.Exists(target.ImagePath))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.ImagePath);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.ImagePath);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
             string imagePathUrl = SaveImage(mapPath, string.Empty,
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ImagePath_",
                 "imagePath.png",
@@ -1078,13 +1153,33 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneGridImage(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.GridImage)) || !File.Exists(target.GridImage))
+            if (string.IsNullOrEmpty(target.GridImage))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.GridImage);
-            string gridImageUrl = SaveImage(mapPath, target.GridImage,
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.GridImage))
+            {
+                if (!File.Exists(target.GridImage))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.GridImage);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.GridImage);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
+            string gridImageUrl = SaveImage(mapPath, string.Empty,
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_GridImage_",
                 "gridImage.png",
                 "gridImage",
@@ -1102,13 +1197,33 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneThumbnailPath(Item target, string mapPath)
         {
-            if (string.IsNullOrEmpty((target.ThumbnailPath)) || !File.Exists(target.ThumbnailPath))
+            if (string.IsNullOrEmpty(target.ThumbnailPath))
             {
                 return;
             }
 
-            byte[] fileBytes = File.ReadAllBytes(target.ThumbnailPath);
-            string thumbnailImageUrl = SaveImage(mapPath, target.ThumbnailPath,
+            byte[] fileBytes;
+            if (Path.IsPathRooted(target.ThumbnailPath))
+            {
+                if (!File.Exists(target.ThumbnailPath))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(target.ThumbnailPath);
+            }
+            else
+            {
+                string path = HttpContext.Current.Server.MapPath("~/" + target.ThumbnailPath);
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                fileBytes = File.ReadAllBytes(path);
+            }
+
+            string thumbnailImageUrl = SaveImage(mapPath, string.Empty,
                 target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_ThumbnailPath_",
                 "thumbnailPath.png",
                 "thumbnail",
@@ -1126,94 +1241,198 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void CloneItemFiles(Item target, string mapPath)
         {
-            byte[] fileBytes;
-            string extension;
+            byte[] fileBytes = null;
+            string extension = string.Empty;
             string path;
-            if (!string.IsNullOrEmpty((target.File1)) && File.Exists(target.File1))
+            if (!string.IsNullOrEmpty(target.File1))
             {
-                fileBytes = File.ReadAllBytes(target.File1);
-                extension = Path.GetExtension(target.File1);
-                path = SaveImage(mapPath, string.Empty,
-                target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
-                "file1" + extension,
-                "file1",
-                fileBytes);
-
-                if (path != null)
+                if (Path.IsPathRooted(target.File1))
                 {
-                    // Update File1
-                    target.File1 = path;
+                    if (File.Exists(target.File1))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File1);
+                        extension = Path.GetExtension(target.File1);
+                    }
                 }
-            }
-            
-            
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File1);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
 
-            if (!string.IsNullOrEmpty((target.File2)) && File.Exists(target.File2))
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
+                    target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File1_",
+                    "file1" + extension,
+                    "file1",
+                    fileBytes);
+
+                    if (path != null)
+                    {
+                        // Update File1
+                        target.File1 = path;
+                    }
+                }
+
+            }
+
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File2))
             {
-                fileBytes = File.ReadAllBytes(target.File2);
-                extension = Path.GetExtension(target.File2);
-                path = SaveImage(mapPath, string.Empty,
+                if (Path.IsPathRooted(target.File2))
+                {
+                    if (File.Exists(target.File2))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File2);
+                        extension = Path.GetExtension(target.File2);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File2);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
                     target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File2_",
                     "file2" + extension,
                     "file2",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File2
-                    target.File2 = path;
+                    if (path != null)
+                    {
+                        // Update File2
+                        target.File2 = path;
+                    }
                 }
+                
             }
-            
-            if (!string.IsNullOrEmpty((target.File3)) && File.Exists(target.File3))
+
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File3))
             {
-                fileBytes = File.ReadAllBytes(target.File3);
-                extension = Path.GetExtension(target.File3);
-                path = SaveImage(mapPath, string.Empty,
+                if (Path.IsPathRooted(target.File3))
+                {
+                    if (File.Exists(target.File3))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File3);
+                        extension = Path.GetExtension(target.File3);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File3);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
                     target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File3_",
                     "file3" + extension,
                     "file3",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File3
-                    target.File3 = path;
+                    if (path != null)
+                    {
+                        // Update File3
+                        target.File3 = path;
+                    }
                 }
+                
             }
 
-            if (!string.IsNullOrEmpty((target.File4)) && File.Exists(target.File4))
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File4))
             {
-                fileBytes = File.ReadAllBytes(target.File4);
-                extension = Path.GetExtension(target.File4);
-                path = SaveImage(mapPath, string.Empty,
+                if (Path.IsPathRooted(target.File4))
+                {
+                    if (File.Exists(target.File4))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File4);
+                        extension = Path.GetExtension(target.File4);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File4);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
                     target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File4_",
                     "file4" + extension,
                     "file4",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File4
-                    target.File4 = path;
+                    if (path != null)
+                    {
+                        // Update File4
+                        target.File4 = path;
+                    }
                 }
 
             }
 
-            if (!string.IsNullOrEmpty((target.File5)) && File.Exists(target.File5))
+            fileBytes = null;
+            extension = string.Empty;
+            if (!string.IsNullOrEmpty(target.File5))
             {
-                fileBytes = File.ReadAllBytes(target.File5);
-                extension = Path.GetExtension(target.File5);
-                path = SaveImage(mapPath, string.Empty,
+                if (Path.IsPathRooted(target.File5))
+                {
+                    if (File.Exists(target.File5))
+                    {
+                        fileBytes = File.ReadAllBytes(target.File5);
+                        extension = Path.GetExtension(target.File5);
+                    }
+                }
+                else
+                {
+                    string filePath = HttpContext.Current.Server.MapPath("~/" + target.File5);
+                    if (File.Exists(filePath))
+                    {
+                        fileBytes = File.ReadAllBytes(filePath);
+                        extension = Path.GetExtension(filePath);
+                    }
+                }
+
+                if (fileBytes != null && !string.IsNullOrEmpty(extension))
+                {
+                    path = SaveImage(mapPath, string.Empty,
                      target.ItemId + "_" + StringHelper.SimplifyString(target.ProductName) + "_File5_",
                     "file5" + extension,
                     "file5",
                     fileBytes);
 
-                if (path != null)
-                {
-                    // Update File5
-                    target.File5 = path;
+                    if (path != null)
+                    {
+                        // Update File5
+                        target.File5 = path;
+                    }
                 }
             }
         }
@@ -1268,7 +1487,7 @@ namespace MPC.Implementation.MISServices
 
             // Clone Item Vdp Prices 
             CloneItemVdpPrices(source, target);
-            
+
             // Clone Item Sections
             CloneItemSections(source, target);
 
@@ -1292,7 +1511,7 @@ namespace MPC.Implementation.MISServices
 
             // Save Changes
             itemRepository.SaveChanges();
-            
+
             // Copy Files and place them under new Product folder
             CloneProductImages(target);
 
@@ -1300,7 +1519,7 @@ namespace MPC.Implementation.MISServices
             // That will clone Template deeply
             if (source.TemplateId.HasValue)
             {
-                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ? 
+                long templateId = templateService.CopyTemplate(source.TemplateId.Value, 0, string.Empty, target.OrganisationId.HasValue ?
                     target.OrganisationId.Value : itemRepository.OrganisationId);
 
                 target.TemplateId = templateId;
@@ -1594,7 +1813,7 @@ namespace MPC.Implementation.MISServices
         {
             // Get Db Version
             Item itemTarget = GetById(item.ItemId) ?? CreateNewItem();
-            
+
             // Check for Code Duplication
             bool isDuplicateCode = itemRepository.IsDuplicateProductCode(item.ProductCode, item.ItemId);
             if (isDuplicateCode)
@@ -1639,7 +1858,7 @@ namespace MPC.Implementation.MISServices
 
             // Update Template Pages Background Image
             UpdateTemplatePagesBackgroundFileNames(item, itemTarget);
-            
+
             // Save Changes
             itemRepository.SaveChanges();
 
@@ -1685,7 +1904,7 @@ namespace MPC.Implementation.MISServices
                 States = stateRepository.GetAll(),
                 Suppliers = companyRepository.GetAllSuppliers(),
                 PaperSizes = paperSizeRepository.GetAll(),
-                LengthUnit =  organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
+                LengthUnit = organisation != null && organisation.LengthUnit != null ? organisation.LengthUnit.UnitName : string.Empty,
                 CurrencyUnit = organisation != null && organisation.Currency != null ? organisation.Currency.CurrencyCode : string.Empty
             };
         }
@@ -1725,15 +1944,15 @@ namespace MPC.Implementation.MISServices
 
             }
 
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             List<SmartForm> smartForms = new List<SmartForm>();
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             if (companyId.HasValue)
             {
                 // Get Smart Forms for company
                 smartForms = smartFormRepository.GetAllForCompany(companyId.Value).ToList();
             }
-            
+
 
             return new ItemDesignerTemplateBaseResponse
             {
@@ -1752,7 +1971,7 @@ namespace MPC.Implementation.MISServices
         {
             return machineRepository.GetMachinesForProduct(request);
         }
-        
+
         /// <summary>
         /// Clone Product
         /// </summary>
@@ -1767,10 +1986,10 @@ namespace MPC.Implementation.MISServices
 
             // Clone
             CloneItem(source, target);
-            
+
             // Load Item Full
             target = itemRepository.GetItemWithDetails(target.ItemId);
-            
+
             // Get Updated Minimum Price
             target.MinPrice = itemRepository.GetMinimumProductValue(target.ItemId);
 
@@ -1778,7 +1997,7 @@ namespace MPC.Implementation.MISServices
             return target;
         }
 
-        
+
         /// <summary>
         /// Get Stock Items
         /// Used in Products - Stock Item Selection
@@ -1788,7 +2007,7 @@ namespace MPC.Implementation.MISServices
             return stockItemRepository.GetStockItemsForProduct(request);
         }
 
-        
+
 
         /// <summary>
         /// Get Item Price Matrices for Item by Section Flag

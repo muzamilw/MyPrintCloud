@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="pull-right">
-            <button id="open-wizard" data-bind="click: createProduct" class="btn btn-primary pull-right">
+            <button id="open-wizard" data-bind="click: createProduct, enable: !pageHasErrors()" class="btn btn-primary pull-right">
                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
             </button>
         </div>
@@ -118,12 +118,12 @@
                 <div class="PDTC_TL FI_TL" data-bind="click: $root.editProduct">
                     <img src="" alt="image" data-bind="attr: { src: thumbnail }" class="Top_Cat_ThumbnailPath" />
                 </div>
-                <div class="productListIcons">
+                <div class="productIcons">
                     <!-- ko template: { name: 'productActionTemplate' } -->
                     <!-- /ko -->
                 </div>
             </div>
-            <div>
+            <div class="lblProductName">
                 <span data-bind="text: productNameForGrid"></span>
             </div>
             <div class="">
