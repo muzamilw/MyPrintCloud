@@ -1054,7 +1054,7 @@ define("product/product.viewModel",
                                 // Remove that product from list
                                 var item = getItemByIdLocal(id);
                                 if (item) {
-                                    items.remove(item);
+                                    products.remove(item);
                                 }
                                 closeProductEditor();
                                 toastr.success("Archived Successfully.");

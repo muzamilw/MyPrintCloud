@@ -1377,11 +1377,11 @@ namespace MPC.Implementation.WebStoreServices
                         doc.SetInfo(doc.Page, "/ArtBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(ArtBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(ArtBoxSize)).ToString());
 
                     }
-                    //if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
-                    //{
-                    //    BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
-                    //    doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
-                    //}
+                    if (System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"] != null)
+                    {
+                        BleedBoxSize = Convert.ToDouble(System.Configuration.ConfigurationManager.AppSettings["BleedBoxSize"]);
+                        doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(BleedBoxSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(BleedBoxSize)).ToString());
+                    }
                     if(bleedareaSize != 0 ){
                          
                         doc.SetInfo(doc.Page, "/BleedBox:Rect", (doc.MediaBox.Left + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Top + DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Width - DesignerUtils.MMToPoint(bleedareaSize)).ToString() + " " + (doc.MediaBox.Height - DesignerUtils.MMToPoint(bleedareaSize)).ToString());

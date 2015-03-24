@@ -20,13 +20,14 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly IStatusService _StatusService;
         private readonly IOrderService _orderService;
-        
+        private readonly ICompanyService _CompanyService;
 
-        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService)
+        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService =_StatusService;
             this._orderService = _orderService;
+            this._CompanyService = _CompanyService;
         }
         public ActionResult Index()
         {

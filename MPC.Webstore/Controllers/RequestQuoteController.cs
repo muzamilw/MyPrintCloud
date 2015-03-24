@@ -45,7 +45,7 @@ namespace MPC.Webstore.Controllers
             }
 
             return View("PartialViews/RequestQuote", Quote);
-
+            
         }
         [HttpPost]
         public ActionResult Index(RequestQuote Model, HttpPostedFileBase uploadFile, string hfNoOfRec)
@@ -136,6 +136,7 @@ namespace MPC.Webstore.Controllers
             {
 
                 MPC.Models.DomainModels.Company loginUserCompany = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+
                 CompanyContact UserContact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
                 CampaignEmailParams cep = new CampaignEmailParams();
 

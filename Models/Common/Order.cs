@@ -29,7 +29,7 @@ namespace MPC.Models.Common
         public int DiscountVoucherID { get; set; }
         public double VoucherDiscountRate { get; set; }
         public Int16? ClientStatusID { get; set; }
-        public int? ContactTerritoryID { get; set; }
+        public long? ContactTerritoryID { get; set; }
         public string ContactMobile { get; set; }
         public string ContactEmail { get; set; }
         public string PlacedBy { get; set; }
