@@ -8,22 +8,17 @@
             <div class="modal-body">
                 <div>
                     <div class="filter-body" id="filter">
-                        <div class="filter-block pull-left">
-                            <div class="pull-left spanfilterlbl">
-                                Search: &nbsp;
+                        <form data-bind="submit: $root.filterProductsToRelate">
+                            <div class="filter-block pull-left">
+                                <div class="form-group pull-left">
+                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.filterTextForRelatedItems">
+                                    <i class="fa fa-search search-icon" data-bind=""></i>
+                                </div>
                             </div>
-                            <div class="form-group pull-left">
-                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.filterTextForRelatedItems">
-                                <i class="fa fa-search search-icon" data-bind="click: $root.filterProductsToRelate"></i>
-                            </div>
-                            <div class="pull-right">
-                                <button type="submit" class="btn btn-primary" data-bind="click:$root.filterProductsToRelate">Search</button>
-                                <button type="reset" class="btn btn-default" data-bind="click: $root.resetFilteredProducts">Reset</button>
+                        </form>
+                            <div class="clearfix">
                             </div>
                         </div>
-                        <div class="clearfix">
-                        </div>
-                    </div>
                     <div class="row clear-fix">
                         <div class="col-lg-12">
                             <div class="main-box no-header clearfix">
@@ -43,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="pagerDiv">
+                            <div id="pagerDiv" class="pull-right">
                                 <!-- ko with: $root.itemRelaterPager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                 <!-- /ko -->
