@@ -980,9 +980,7 @@ namespace MPC.Implementation.MISServices
             UpdateAddresses(companySavingModel, companyDbVersion);
             UpdateCompanyContacts(companySavingModel, companyDbVersion);
             //UpdateProductCategoriesOfUpdatingCompany(companySavingModel, productCategories);
-
             UpdateSecondaryPagesCompany(companySavingModel, companyDbVersion);//todo have savechanges
-            ///
             UpdateCampaigns(companySavingModel, companyDbVersion);
             UpdateCmsSkinPageWidget(companySavingModel.CmsPageWithWidgetList, companyDbVersion);//todo have savechanges
             // UpdateColorPallete(companySavingModel.Company, companyDbVersion);
@@ -1010,7 +1008,6 @@ namespace MPC.Implementation.MISServices
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
-
             UpdateCampaignImages(companySavingModel, companyDbVersion);
 
 
@@ -1164,10 +1161,14 @@ namespace MPC.Implementation.MISServices
                     if (smartForm.SmartFormDetails != null)
                         foreach (var smartFormDetail in smartForm.SmartFormDetails)
                         {
-                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                            if (smartFormDetail.FakeVariableId != null)
+                            {
+                                FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
                                 fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
-                            if (fieldVariable != null)
-                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                                if (fieldVariable != null)
+                                    smartFormDetail.VariableId = fieldVariable.VariableId; 
+                            }
+                           
                         }
 
                 }
@@ -1295,7 +1296,9 @@ namespace MPC.Implementation.MISServices
                 //foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 foreach (var companyContact in companyDbVersion.CompanyContacts)
                 {
-                    companyContact.image = SaveCompanyContactProfileImage(companyContact);
+                    string path = SaveCompanyContactProfileImage(companyContact);
+                    if (path != null)
+                        companyContact.image = SaveCompanyContactProfileImage(companyContact);
                 }
             }
             if (companySavingModel.EdittedCompanyContacts != null)

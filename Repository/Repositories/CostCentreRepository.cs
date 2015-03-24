@@ -470,7 +470,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-
+                oCostCentre.OrganisationId = this.OrganisationId;
 				db.CostCentres.Add(oCostCentre);
 				if (db.SaveChanges() > 0)
 				{
@@ -493,8 +493,35 @@ namespace MPC.Repository.Repositories
 			{
 
 				CostCentre result = db.CostCentres.Where(c => c.CostCentreId == oCostCentre.CostCentreId).FirstOrDefault();
-
-				result = oCostCentre;
+                result = oCostCentre;
+                if (oCostCentre.ImageBytes != null)
+                {
+                    result.ThumbnailImageURL = oCostCentre.ThumbnailImageURL;
+                    result.ImageBytes = null;
+                }
+                    
+                if(oCostCentre.CostcentreInstructions != null)
+                {
+                    foreach (var inst in oCostCentre.CostcentreInstructions)
+                    {
+                        CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
+                        obj.Instruction = inst.Instruction;
+                    }
+                }
+                if (oCostCentre.CostcentreInstructions != null)
+                {
+                   foreach (var inst in oCostCentre.CostcentreInstructions)
+                    {
+                       if(inst.CostcentreWorkInstructionsChoices != null)
+                       {
+                           foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                           {
+                               CostcentreWorkInstructionsChoice obj = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                               obj.Choice = ch.Choice;
+                           }
+                       }
+                    }
+                }
 
 				if (db.SaveChanges() > 0)
 				{
