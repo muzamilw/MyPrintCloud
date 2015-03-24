@@ -257,7 +257,7 @@ define("calendar/calendar.viewModel",
                 saveActivity = function () {
                     dataservice.saveActivity(selectedActivity().convertToServerData(), {
                         success: function (data) {
-                            if (data !== null) { //&& loggedInUserId() === selectedActivity().systemUserId()
+                            if (data !== null && loggedInUserId().toLowerCase() === selectedActivity().systemUserId().toLowerCase()) {
                                 var activity = selectedActivity();
 
                                 var sectionFlag = sectionFlags.find(function (sFlag) {
