@@ -14,6 +14,7 @@
                decimal _numOfProductionDays = 0;
                decimal numberOfDaysAddedTodelivery = 0;
                decimal ProductProductionTime = 0;
+               var ThumnbString = "Thumb.png";
 
 }
     <div class="container content_area">
@@ -180,14 +181,14 @@
                                                      //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                      pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                     imgToShowURL = "";// completeImgPath;
+                                                     imgToShowURL = FolderPathOfAttachment + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                                  }
                                              }
                                              else
                                              {
                                                  if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                                  {
-                                                     string completeImgPath = Html.GetAppBasePath() + prod.ThumbnailPath;
+                                                     string completeImgPath =  prod.ThumbnailPath;
                                                      pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
                                                      imgToShowURL = completeImgPath;
                                                  }
@@ -330,7 +331,7 @@
                                             </td>
                                             <td align="right" width="20%">
                                                 <label class="CartFonts colorBlack Fsize15" ID="lblGrandTotal"  
-                                                           Style="margin-right: 13px;" >@ViewBag.Currency@GrossTotal</label>
+                                                           Style="margin-right: 13px;" >@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                             </td>
                                         </tr>
                                     </table>

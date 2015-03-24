@@ -142,7 +142,7 @@ namespace MPC.Common
             }
 
         }
-        public bool VerifyHashSha1(string plainText, string compareWithSalt)
+        public static bool VerifyHashSha1(string plainText, string compareWithSalt)
         {
             bool result = false;
 

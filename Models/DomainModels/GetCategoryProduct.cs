@@ -33,12 +33,10 @@
         public int? isTemplateDesignMode { get; set; }
         public double? DefaultItemTax { get; set; }
         public bool? isUploadImage { get; set; }
-
         public bool? isMarketingBrief { get; set; }
-
         public long ProductCategoryId { get; set; }
         public long? TemplateId { get; set; }
-
         public int? DesignerCategoryId { get; set; }
+        public long? CompanyId { get; set; }
     }
 }

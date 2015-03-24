@@ -24,6 +24,8 @@
   border: 1px solid silver;
   margin-top: 20px;
   margin-bottom: 5px;
+  max-height: 460px;
+  overflow-y: auto;
 }
 #storesBinding #filter {
   height: 62px !important;
@@ -112,6 +114,33 @@
 #storesBinding #productBinding .filter-block .form-group {
   margin-bottom: 0;
 }
+#storesBinding #productBinding .productIcons {
+  display: none;
+  margin-top: -38px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: absolute;
+  width: 22%;
+  background-color: #fffffb;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+#storesBinding #productBinding .LCLB .PDTC_TL {
+  min-height: 100px !important;
+}
+#storesBinding #productBinding .LCLB .FI_TL {
+  max-height: 145px !important;
+}
+#storesBinding #productBinding .Top_Cat_Body .productText {
+  height: 12px;
+  line-height: 12px;
+  overflow: hidden;
+}
+#storesBinding #productBinding .LCLB:hover .productIcons {
+  display: block;
+}
 #storesBinding #productDetailBinding .activeView {
   background-color: #ff7e47;
   color: white;
@@ -168,6 +197,33 @@
 }
 #storesBinding #productDetailBinding .filter-block .form-group {
   margin-bottom: 0;
+}
+#storesBinding #productDetailBinding .productIcons {
+  display: none;
+  margin-top: -38px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  position: absolute;
+  width: 22%;
+  background-color: #fffffb;
+  -webkit-transition: all 0.2s ease-in-out;
+  -moz-transition: all 0.2s ease-in-out;
+  -o-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+#storesBinding #productDetailBinding .LCLB .PDTC_TL {
+  min-height: 100px !important;
+}
+#storesBinding #productDetailBinding .LCLB .FI_TL {
+  max-height: 145px !important;
+}
+#storesBinding #productDetailBinding .Top_Cat_Body .productText {
+  height: 12px;
+  line-height: 12px;
+  overflow: hidden;
+}
+#storesBinding #productDetailBinding .LCLB:hover .productIcons {
+  display: block;
 }
 #storesBinding #productDetailBinding #stockDialog #stockDialogMainContainer {
   width: 838px;

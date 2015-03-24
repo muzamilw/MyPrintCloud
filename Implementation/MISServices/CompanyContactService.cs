@@ -161,7 +161,7 @@ namespace MPC.Implementation.MISServices
             if (!CheckDuplicatesOfContactEmailInStore(companyContact))
             {
                 companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
-                if (companyContact.ContactId == 0)
+                if (companyContact.ContactId <= 0)
                 {
                     return Create(companyContact);
                 }

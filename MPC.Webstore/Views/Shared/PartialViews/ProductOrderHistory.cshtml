@@ -27,6 +27,7 @@
         <div>
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
+                  
                     <div class="heading_h8 cntFilteringCritariaLeft">
                         @*<asp:Literal ID="ltrlSearchOrder" runat="server" Text=" Search Orders"></asp:Literal>*@
                         @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
@@ -37,6 +38,7 @@
                         <table border="0" cellpadding="5" cellspacing="5" class="cntFilteringCritariaRight">
                             <tr>
                                 <td>
+                                   
                                     @*<label class="ltrlSearchOrder" id="HistryBtn" style="visibility:hidden;">Search Orders</label>*@
                                     @*<span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>*@
                                 </td>
@@ -59,7 +61,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
+                                    
                                     <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
                                 </td>
                                 <td>
@@ -71,8 +73,8 @@
                                 <td>
 
                                     @Html.TextBoxFor(model=>model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
-                                </td>
-                                <td>
+                              http://mpc/store/goldw001  </td>
+                                <td>http://mpc/store/goldw001
 
                                     @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
 
@@ -81,6 +83,9 @@
                                     <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
                                 </td>
                                 <td>
+                                 
+                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
+                                   
                                     @*<div class="float_left_simple">
                                         
                                         <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
@@ -121,7 +126,7 @@
     headerStyle: "WebGridheader",
     rowStyle: "gridViewRowStyleForWebGrid",
     alternatingRowStyle:"gridViewRowStyleForWebGrid",   
-    columns: new[] {
+    columns: new[] {http://mpc/store/goldw001
 
     grid.Column("OrderCode","OrderCode"),
     grid.Column("YourRef","Your PO reference"),
@@ -133,7 +138,7 @@
                 new { OrderId = item.OrderID }, new { @class = "myclass" }) </text>),*@
    
     
-     grid.Column("View", format:@<text><button id="view" value="View" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
+     grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
      </text>),
    
     
@@ -142,7 +147,7 @@
 
    }</text>),
     
-    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
+    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
    </text>),
     
     }
@@ -154,7 +159,7 @@
                             <%--Modal Popupextender--%>
                             <ajaxToolkit:ModalPopupExtender ID="mpeOrderDetails" BehaviorID="mpeOrderDetails"
                                                             TargetControlID="hdnTargetCtrlUpload" PopupControlID="pnlOrderDetails" BackgroundCssClass="ModalPopupBG"
-                                                            runat="server" Drag="true" DropShadow="false" />
+                             http://mpc/store/goldw001                               runat="server" Drag="true" DropShadow="false" />
                             <input type="hidden" id="hdnTargetCtrlUpload" runat="server" />
                             <asp:Panel ID="pnlOrderDetails" runat="server" CssClass="FileUploaderPopup_Mesgbox LCLB rounded_corners"
                                        Style="display: none; width: 920px;">
@@ -163,7 +168,7 @@
                                 </div>
                             </asp:Panel>
                         </div>*@
-                    </div>
+                    </div>http://mpc/store/goldw001
                 </div>
             </div>
         </div>
@@ -185,7 +190,7 @@
                                         <span class="simpleTextBold" id="spnordernum">Order Number:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
-                                        @*<label id="lblOrderNumber" class="txtBold" />*@
+                                       
                                         <span id="OrderCode" class="txtBold"></span>
                                     </td>
                                     <td>
@@ -193,8 +198,9 @@
                                     </td>
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderstatus">Status:</span>
-                                    </td>
+                             http://mpc/store/goldw001       </td>
                                     <td class="textAlignLeft simpleText" style="width: 200px">
+                                        
                                         @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
 
                                         <span id="OrderStatus" class="txtBold clrOrderDetail"></span>
@@ -202,16 +208,17 @@
                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="textAlignRight">
+                                   http://mpc/store/goldw001 <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
-                                        @*<asp:label id="lblOrderDate" class="txtBold" />*@
+                                       
                                         <span id="OrderDate" class="txtBold"></span>
                                     </td>
                                     <td>
                                         &nbsp;
                                     </td>
+                                 
                                     @*<td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnClientStatus" >Status:</span>
                                     </td>*@
@@ -220,23 +227,24 @@
                               <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
                                  </td>
                               <td class="textAlignLeft simpleText">
-                                  <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
+                        http://mpc/store/goldw001          <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
                                     <span id="OrderDeliveryDate" class="txtBold"></span>
                                     </td>
 
-                                    @*</td>*@
+                                   
                                 </tr>
                                 <tr>
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="Span1">Placed By:</span>
                                     </td>
-                                    <td class="textAlignLeft simpleText">
-                                        @*<Label ID="lblPlacedBy"  Class="txtBold" />*@
+                             http://mpc/store/goldw001       <td class="textAlignLeft simpleText">
+                                        
                                         <span id="OrderPlaceBy" class="txtBold"></span>
                                     </td>
                                     <td>
                                         &nbsp;
                                     </td>
+                                   
                                     @*<td class="textAlignRight">
                                         <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
                                     </td>
@@ -255,6 +263,7 @@
                     <div class="cntPLOrderDetails">
 
                         <div id="GridTable"></div>
+                      
                         @*<asp:GridView ID="grdViewShopCart" SkinID="ProductOrderHistoryGrid" DataKeyNames="ItemID"
                           runat="server" OnRowDataBound="grdViewShopCart_RowDataBound">
                 <columns>
@@ -310,7 +319,7 @@
                     <asp:templatefield headertext="Total" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
                         <itemtemplate>
                             <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
-                        </itemtemplate>
+                        </itemtemphttp://mpc/store/goldw001late>
                     </asp:templatefield>
                 </columns>
             </asp:GridView>*@
@@ -318,7 +327,7 @@
                 </td>
             </tr>
             <tr id="PnalTotalBox">
-                <td align="right">
+                <td align="http://mpc/store/goldw001right">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
@@ -344,16 +353,17 @@
                                         <span id="spnvattotal">Vat Total:</span>
                                     </td>
                                     <td>
-                                            <label id="lblVatTotal"><span id="Vat"></span></label>
+                         http://mpc/store/goldw001                   <label id="lblVatTotal"><span id="Vat"></span></label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                    </td>
-                                    <td>
+                                  http://mpc/store/goldw001      <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                 http://mpc/store/goldw001   </td>
+                                  http://mpc/store/goldw001  <td>
                                         
                                             <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
+http://mpc/store/goldw001
                                     </td>
                                 </tr>
                             </table>
@@ -365,9 +375,10 @@
                 <td>
                     <div>
                         <table id="PnlAddresses" border="0" cellpadding="0" cellspacing="0"
-                               width="100%">
+                               widhttp://mpc/store/goldw001th="100%">
                             <tr>
-                                <td>
+                                <td>http://mpc/store/goldw001
+                                    
                                         <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                             <div class="product_detail_sup_padding">
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -382,7 +393,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: 33%">
-                                                                <span id="spnbillingname">Billing Name:</span>
+                                                       http://mpc/store/goldw001         <span id="spnbillingname">Billing Name:</span>
                                                             </td>
                                                             <td style="width: 67%">
 
@@ -418,7 +429,7 @@
                                                         <tr>
                                                             <td>
                                                                 <span id="ltrlstate">State:</span>
-                                                            </td>
+                                                      http://mpc/store/goldw001      </td>
                                                             <td>
                                                                 <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>
                                                             </td>
@@ -458,7 +469,7 @@
                                     
                                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                         <div class="product_detail_sup_padding">
-                                           
+                                           http://mpc/store/goldw001
                                             
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
                                                     <thead>
@@ -501,7 +512,7 @@
                                                                 <Label ID="lblShipAddCity" Class="txtBold">@*@ViewBag.DeliveryAddress.City*@<span id="DeliveryAddressCity"></span></Label>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                http://mpc/store/goldw001        <tr>
                                                             <td>
                                                                 <span id="spnstate2">State:</span>
                                                             </td>
@@ -552,7 +563,7 @@
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
-            $("#txtToDate").datepicker();
+            $("#txtToDate").datepicker();http://mpc/store/goldw001
 
         });
 
@@ -573,7 +584,7 @@
                 data: JSON.stringify(d),
                 success: function (response) {
                 }
-            });
+            });http://mpc/store/goldw001
         }
 
         function DownLoad(orderId)
@@ -609,7 +620,7 @@
                     $("#OrderStatus").text(response.order.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
                     $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
-                    $("#OrderDeliveryDate").text(response.DeliveryDateValue);
+                    $("#OrderDeliveryDate").text(reshttp://mpc/store/goldw001ponse.DeliveryDateValue);
                     $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
                     if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
@@ -648,7 +659,7 @@
                     {
                         $("#DeliveryAddressline1").text('');
                     }
-                    else
+                    elsehttp://mpc/store/goldw001
                     {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
                     }

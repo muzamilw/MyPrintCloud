@@ -23,7 +23,7 @@
                                         {
                                             <ul class="uSecPageList  themeFontColor">
                                                 <li>
-                                                    <a href="/pages/@page.PageTitle/@page.PageId" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
+                                                    <a href="/pages/@Utils.specialCharactersEncoder(page.PageTitle)/@page.PageId" id="secPages" class="uSecPageList" style="color:white !important;">@page.PageTitle</a>
                                                 </li>
                                             </ul>
                                         }

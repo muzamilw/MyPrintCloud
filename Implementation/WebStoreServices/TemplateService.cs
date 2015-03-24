@@ -27,6 +27,7 @@ namespace MPC.Implementation.WebStoreServices
         public string fontSize { get; set; }
         public string fontWeight { get; set; }
         public string fontStyle { get; set; }
+
         public string characterIndex { get; set; }
         public string textCMYK { get; set; }
     }
@@ -150,6 +151,8 @@ namespace MPC.Implementation.WebStoreServices
             obj.Tint = tempObj.Tint;
             obj.VAllignment = tempObj.VAllignment;
             obj.watermarkText = tempObj.watermarkText;
+            obj.originalContentString = tempObj.ContentString;
+            obj.originalTextStyles = tempObj.textStyles;
             return obj;
 
         }
@@ -1054,6 +1057,7 @@ namespace MPC.Implementation.WebStoreServices
                                 oPdf.Transform.Reset();
                                 oPdf.Transform.Rotate(45, oPdf.MediaBox.Width / 2, oPdf.MediaBox.Height / 2);
                                 oPdf.AddHtml(waterMarkTxt);
+                                oPdf.Transform.Reset();
                             }
                             else
                             {
@@ -2471,9 +2475,15 @@ namespace MPC.Implementation.WebStoreServices
             GenerateTemplatePdf(TemplateID, OrganisationID, printCropMarks, printWaterMarks, isroundCorners,true,0,isMultipageProduct);
         }
         // called from MIS and webstore to regenerate template PDF files  // added by saqib ali
-        public void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct)
+        //draw bleed area is flag iin item 
+        // bleed area size is present in organisation 
+        public void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct,bool drawBleedArea, double bleedAreaSize)
         {
-            GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false, 0, isMultipageProduct);
+           if(drawBleedArea == false)
+           {
+               bleedAreaSize = 0;
+           }
+           GenerateTemplatePdf(productID, OrganisationID, printCuttingMargins, false, false, false, bleedAreaSize, isMultipageProduct);
 
         }
         // called from webstore to save template locally // added by saqib ali // not tested yet
