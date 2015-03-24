@@ -403,7 +403,6 @@ namespace MPC.Repository.Repositories
                             int scope = obj.FieldVariable.Scope.Value;
                             if (scope == (int)FieldVariableScopeType.Address)
                             {
-                                // address logic will go here
                                 var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
                                 if (scopeObj != null)
                                 {
