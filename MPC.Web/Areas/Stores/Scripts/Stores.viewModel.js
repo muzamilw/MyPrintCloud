@@ -3860,7 +3860,7 @@ define("stores/stores.viewModel",
                                     selectedStore().companyId(data.CompanyId);
                                     selectedStore().storeImageFileBinary(data.StoreImagePath);
                                     if (selectedStore().type() == "4") {
-                                        selectedStore().type("Retail Customer");
+                                        selectedStore().type("Retail");
                                     } else if (selectedStore().type() == "3") {
                                         selectedStore().type("Corporate");
                                     }
@@ -3874,7 +3874,7 @@ define("stores/stores.viewModel",
                                             store.status(selectedStore().status());
                                             store.storeImageFileBinary(data.StoreImagePath);
                                             if (selectedStore().type() == "4") {
-                                                store.type("Retail Customer");
+                                                store.type("Retail");
                                             } else if (selectedStore().type() == "3") {
                                                 store.type("Corporate");
                                             }

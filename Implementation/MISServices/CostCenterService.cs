@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Web;
 using Microsoft.VisualBasic;
@@ -87,9 +88,9 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Update(CostCentre costcenter)
         {
+            costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", false);
-            
+            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", false);            
             return costcenter;
         }
         public bool Delete(long costcenterId)
@@ -925,6 +926,29 @@ namespace MPC.Implementation.MISServices
             {
                 throw new Exception("GetCompleteCodeofAllCostCentres", ex);
             }
+        }
+
+        private string SaveCostCenterImage(CostCentre costcenter)
+        {
+            if (costcenter.ImageBytes != null)
+            {
+                string base64 = costcenter.ImageBytes.Substring(costcenter.ImageBytes.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
+
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/CostCentres/" + _costCenterRepository.OrganisationId + "/" + costcenter.CostCentreId);
+
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath = directoryPath + "\\thumbnail.png";
+                File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
         }
 
         #endregion

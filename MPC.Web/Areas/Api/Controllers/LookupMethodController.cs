@@ -18,16 +18,24 @@ namespace MPC.MIS.Areas.Api.Controllers
             this._LookupMethodService = _LookupMethodService;
         }
         // GET: Api/LookupMethod
-        //public LookupMethodResponse Get(long id)
-        //{
+        public LookupMethodResponse Get(long MethodId)
+        {
 
+            return _LookupMethodService.GetlookupById(MethodId).CreateFrom();
 
-        //    return new LookupMethodResponse { };
-        //}
+        }
+        
         public IEnumerable<LookupMethod> Get()
         {
 
             return _LookupMethodService.GetAll().Select(g => g.CreateFrom());
+            
+        }
+        public bool Post(LookupMethodResponse response)
+        {
+
+          
+            return _LookupMethodService.UpdateLookup(response.CreateFrom());
             
         }
     }

@@ -100,7 +100,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //    store.type("Supplier");
         //}
         if (source.IsCustomer == 4) {//changed from 1
-            store.type("Retail Customer");
+            store.type("Retail");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");

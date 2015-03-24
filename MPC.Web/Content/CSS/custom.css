@@ -181,5 +181,16 @@ z-index:1000000011;
     border: 1px solid silver;
     box-shadow: 1px 1px 1px silver;
 }
-
+  .col-padding{
+    padding-left: 5px!important;
+  padding-right: 3px!important;
+}
       
+   .aligndivs
+    {
+        display:inline;
+        float:left;
+        
+        margin-right:6px;
+        margin-bottom:10px;
+    }
