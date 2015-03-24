@@ -1048,3 +1048,11 @@ alter table company
 add CurrentThemeId bigint null
 
 GO
+
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Fedex','fedex.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('UPS','ups.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Other',null, null,null)
+GO

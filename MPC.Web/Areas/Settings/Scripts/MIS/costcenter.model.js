@@ -99,6 +99,8 @@
             costCenterInstructions = ko.observableArray([]),
             serviceTypesList = ko.observableArray([]),
             deliveryServiceType = ko.observable(),
+            costcentreImageFileBinary = ko.observable(),
+            costcentreImageName = ko.observable(),
             carrierId = ko.observable(),
              isEditPlantCost = ko.observable(false),
              isEditPlantQuote = ko.observable(false),
@@ -160,7 +162,12 @@
                 strActualCostLabourUnParsed: strActualCostLabourUnParsed,
                 strTimeUnParsed: strTimeUnParsed,
                 carrierId: carrierId,
-                costCenterInstructions: costCenterInstructions
+                costCenterInstructions: costCenterInstructions,
+                deliveryCharges: deliveryCharges,
+                isPublished: isPublished,
+                deliveryServiceType: deliveryServiceType,
+                estimateProductionTime: estimateProductionTime,
+                costcentreImageName:costcentreImageName
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
@@ -281,7 +288,9 @@
             reset: reset,
             serviceTypesList: serviceTypesList,
             deliveryServiceType: deliveryServiceType,
-            carrierId: carrierId
+            carrierId: carrierId,
+            costcentreImageFileBinary: costcentreImageFileBinary,
+            costcentreImageName: costcentreImageName
         };
         return self;
     };
@@ -698,6 +707,7 @@
         result.OrganisationId = source.organisationId();
         result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
+        result.ImageBytes = source.costcentreImageFileBinary() === undefined ? null : source.costcentreImageFileBinary();
         result.CostcentreInstructions = [];
         _.each(source.costCenterInstructions(), function (item) {
             result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));

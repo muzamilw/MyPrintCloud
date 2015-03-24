@@ -1003,7 +1003,6 @@ namespace MPC.Implementation.MISServices
             SaveCompanyBannerImages(companySavingModel.Company, companyDbVersion);
             SaveStoreBackgroundImage(companySavingModel.Company, companyDbVersion);
             UpdateSecondaryPageImagePath(companySavingModel, companyDbVersion);
-
             UpdateCampaignImages(companySavingModel, companyDbVersion);
 
 
@@ -1157,10 +1156,14 @@ namespace MPC.Implementation.MISServices
                     if (smartForm.SmartFormDetails != null)
                         foreach (var smartFormDetail in smartForm.SmartFormDetails)
                         {
-                            FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
+                            if (smartFormDetail.FakeVariableId != null)
+                            {
+                                FieldVariable fieldVariable = companyDbVersion.FieldVariables.FirstOrDefault(
                                 fv => fv.FakeIdVariableId == smartFormDetail.FakeVariableId);
-                            if (fieldVariable != null)
-                                smartFormDetail.VariableId = fieldVariable.VariableId;
+                                if (fieldVariable != null)
+                                    smartFormDetail.VariableId = fieldVariable.VariableId; 
+                            }
+                           
                         }
 
                 }
@@ -1288,8 +1291,8 @@ namespace MPC.Implementation.MISServices
                 //foreach (var companyContact in companySavingModel.NewAddedCompanyContacts)
                 foreach (var companyContact in companyDbVersion.CompanyContacts)
                 {
-                    string path=SaveCompanyContactProfileImage(companyContact);
-                    if(path!=null)
+                    string path = SaveCompanyContactProfileImage(companyContact);
+                    if (path != null)
                         companyContact.image = SaveCompanyContactProfileImage(companyContact);
                 }
             }
@@ -3116,6 +3119,22 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
                 CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId(),
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
+            };
+        }
+        /// <summary>
+        /// Base Data for Crm Screen (prospect/customer and suppliers)
+        /// </summary>
+        /// <returns></returns>
+        public CrmBaseResponse GetBaseDataForCrm()
+        {
+            return new CrmBaseResponse
+            {
+                SystemUsers = systemUserRepository.GetAll(),
+                CompanyContactRoles = companyContactRoleRepository.GetAll(),
+                RegistrationQuestions = registrationQuestionRepository.GetAll(),
+                States = stateRepository.GetAll(),
+                Countries = countryRepository.GetAll(),
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM)
             };
         }
         public void SaveFile(string filePath, long companyId)

@@ -1290,7 +1290,7 @@ define("crm/crm.viewModel",
                             if (data != null) {
                                 selectedStore().addresses.removeAll();
                                 selectedStore(model.Store.Create(data.Company));
-
+                                selectedStore().type(data.Company.IsCustomer);
                                 addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                                 contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
                                 addressPager().totalCount(data.Company.CompanyAddressesCount);
@@ -1529,18 +1529,27 @@ define("crm/crm.viewModel",
                                         var tempCustomerListView = new model.customerViewListModel();
                                         tempCustomerListView.id(data.CompanyId);
                                         tempCustomerListView.name(data.Name);
-                                        tempCustomerListView.creationdate(data.CompanyId);
+                                        tempCustomerListView.creationdate(data.CreationDate);
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
                                         tempCustomerListView.storeImageFileBinary(data.ImageSource);
-                                        //if (source.Status == "Inactive")
-                                        //    tempCustomerListView.statusClass('label label-danger');
-                                        //if (source.Status == "Active")
-                                        //    tempCustomerListView.statusClass('label label-success');
-                                        //if (source.Status == "Banned")
-                                        //    tempCustomerListView.statusClass('label label-default');
-                                        //if (source.Status == "Pending")
-                                        //    tempCustomerListView.statusClass('label label-warning');
+                                        
+                                        if (data.Status == 0) {
+                                            tempCustomerListView.status("Inactive");
+                                            tempCustomerListView.statusClass('label label-danger');
+                                        }
+                                        if (data.Status == 1) {
+                                            tempCustomerListView.status("Active");
+                                            tempCustomerListView.statusClass('label label-success');
+                                        }
+                                        if (data.Status == 2) {
+                                            tempCustomerListView.status("Banned");
+                                            tempCustomerListView.statusClass('label label-default');
+                                        }
+                                        if (data.Status == 3) {
+                                            tempCustomerListView.status("Pending");
+                                            tempCustomerListView.statusClass('label label-warning');
+                                        }
                                         tempCustomerListView.email("");
                                         customersForListView.splice(0, 0, tempCustomerListView);
                                     }
@@ -1568,8 +1577,9 @@ define("crm/crm.viewModel",
                                         var tempItem = new model.CrmSupplierListViewModel();
                                         tempItem.companyId(data.CompanyId);
                                         tempItem.name(data.Name);
+                                        tempItem.createdDate(data.CreationDate);
                                         tempItem.status(data.Status);
-                                        tempItem.storeImageFileBinary(data.ImageSource);
+                                        tempItem.storeImageFileBinary(data.StoreImagePath);
                                         suppliers.splice(0, 0, tempItem);
                                     }
                                     //#endregion
@@ -1653,7 +1663,6 @@ define("crm/crm.viewModel",
                    },
                   // Gets Invoices data
                   getsDataForInvoiceTab = function () {
-                      debugger
                     dataservice.getInvoices({
                         CompanyId: selectedStore().companyId(),
                         PageSize: invoicePager().pageSize(),
