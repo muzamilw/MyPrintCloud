@@ -1,23 +1,13 @@
-﻿<style>
-   
-    .aligndivs
-    {
-        display:inline;
-        float:left;
-        
-        margin-right:10px;
-        margin-bottom:10px;
-    }
-</style>
+﻿
 
-
+<div data-bind="visible: $root.isPerHourEditorVisible(), with: selectedPerHour()" style="display: none">
 
     <div>
         <h3 style="padding-right:10px;margin:0px;">Specify values for the per hour Lookup Calculation</h3>
     </div>
-<br />
+    <br />
     <div class="form-group">
-        <div class="col-lg-5 text-right">
+        <div class="col-lg-6 text-right">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the name of the Lookup method" data-original-title="" title="">
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -25,14 +15,14 @@
             </div>
             <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the name of the Lookup method</label>
         </div>
-        <div class="col-lg-6">
-            <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Click Chnage Lookup">
+        <div class="col-lg-6" data-bind="with:$root.selectedlookup() ">
+            <input type="text" name="Store Name" class="form-control" data-bind="value:Name" placeholder="Click Chnage Lookup">
 
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-lg-5 text-right">
+        <div class="col-lg-6 text-right">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter the speed per hour sheets" data-original-title="" title="">
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -41,12 +31,12 @@
             <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the speed per hour sheets</label>
         </div>
         <div class="col-lg-6">
-            <input type="text" class="form-control" id="txtAddressLine1" placeholder="Chargeable Sheets">
+            <input type="text" class="form-control" data-bind="autoNumeric: Speed , settings:{mDec:2}" placeholder="Chargeable Sheets">
         </div>
     </div>
 
     <div class="form-group">
-        <div class="col-lg-5 text-right">
+        <div class="col-lg-6 text-right">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Cost per hourly charge" data-original-title="" title="">
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -58,7 +48,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="Cost Per Hourly Sheet">
+                <input type="text" class="form-control" data-bind="autoNumeric: SpeedCost , settings:{mDec:2}" placeholder="Cost Per Hourly Sheet">
                 <span class="input-group-addon">.00</span>
             </div>
 
@@ -67,7 +57,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-lg-5 text-right">
+        <div class="col-lg-6 text-right">
             <div class="bs-example-tooltips tooltip-float-width">
                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Price per hourly charge" data-original-title="" title="">
                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
@@ -79,12 +69,13 @@
 
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" class="form-control" id="txtAddressLine1" placeholder="Price Per Hourly Sheet">
+                <input type="text" class="form-control" data-bind="autoNumeric: SpeedPrice , settings:{mDec:2}" placeholder="Price Per Hourly Sheet">
                 <span class="input-group-addon">.00</span>
             </div>
 
 
         </div>
 
-       
+
     </div>
+</div>

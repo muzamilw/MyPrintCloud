@@ -9,7 +9,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class MachineClickChargeZoneMapper
     {
-        public static DomainModel.MachineClickChargeZone CreateFrom(ApiModel.MachineClickChargeZone source)
+        public static DomainModel.MachineClickChargeZone CreateFrom(this ApiModel.MachineClickChargeZone source)
         {
             return new DomainModel.MachineClickChargeZone
             {
@@ -96,7 +96,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
             };
         }
-        public static ApiModel.MachineClickChargeZone CreateFrom(DomainModel.MachineClickChargeZone source)
+        public static ApiModel.MachineClickChargeZone CreateFrom(this DomainModel.MachineClickChargeZone source)
         {
             return new ApiModel.MachineClickChargeZone
             {

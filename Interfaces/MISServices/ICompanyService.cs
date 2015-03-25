@@ -107,6 +107,11 @@ namespace MPC.Interfaces.MISServices
         /// Get Campaign Detail By Campaign ID
         /// </summary>
         Campaign GetCampaignById(long campaignId);
+        /// <summary>
+        /// Base Data for Crm Screen (prospect/customer and suppliers)
+        /// </summary>
+        /// <returns></returns>
+        CrmBaseResponse GetBaseDataForCrm();
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID);

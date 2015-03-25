@@ -28,6 +28,10 @@
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
                   
+                    <div class="heading_h8 cntFilteringCritariaLeft">
+                        @*<asp:Literal ID="ltrlSearchOrder" runat="server" Text=" Search Orders"></asp:Literal>*@
+                        @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
+                    </div>
                     <div>
 @using (Html.BeginForm())
 {
@@ -35,6 +39,8 @@
                             <tr>
                                 <td>
                                    
+                                    @*<label class="ltrlSearchOrder" id="HistryBtn" style="visibility:hidden;">Search Orders</label>*@
+                                    @*<span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>*@
                                 </td>
                                 <td>
                                     <span id="spntdfromdate" class="heading_h8">From Date</span>
@@ -67,8 +73,8 @@
                                 <td>
 
                                     @Html.TextBoxFor(model=>model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
-                                </td>
-                                <td>
+                              http://mpc/store/goldw001  </td>
+                                <td>http://mpc/store/goldw001
 
                                     @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
 
@@ -80,6 +86,17 @@
                                  
                                         <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
                                    
+                                    @*<div class="float_left_simple">
+                                        
+                                        <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
+
+                                    </div>*@
+                                    @*<div class="float_left_simple left_margin">*@
+                                       
+                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes()" value="Clear" />
+                                    @*</div>
+                                    <div class="clearBoth">
+                                    </div>*@
                                 </td>
                             </tr>
                         </table>
@@ -109,7 +126,7 @@
     headerStyle: "WebGridheader",
     rowStyle: "gridViewRowStyleForWebGrid",
     alternatingRowStyle:"gridViewRowStyleForWebGrid",   
-    columns: new[] {
+    columns: new[] {http://mpc/store/goldw001
 
     grid.Column("OrderCode","OrderCode"),
     grid.Column("YourRef","Your PO reference"),
@@ -125,9 +142,9 @@
      </text>),
    
     
-   grid.Column("Download", format:@<text>@if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                         {<button id="view" value="Download" style="height:50px; width: 50px;border:none; background: url('Content/Images/download-icon.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
-   
+   grid.Column("Download", format:@<text>@if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+   {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+
    }</text>),
     
     grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -137,8 +154,21 @@
     
     )
     
-                    
-                    </div>
+                        @*<uc8:CustomPagerControl ID="grdViewOrdHistoryPager" runat="server" />
+                        <div>
+                            <%--Modal Popupextender--%>
+                            <ajaxToolkit:ModalPopupExtender ID="mpeOrderDetails" BehaviorID="mpeOrderDetails"
+                                                            TargetControlID="hdnTargetCtrlUpload" PopupControlID="pnlOrderDetails" BackgroundCssClass="ModalPopupBG"
+                             http://mpc/store/goldw001                               runat="server" Drag="true" DropShadow="false" />
+                            <input type="hidden" id="hdnTargetCtrlUpload" runat="server" />
+                            <asp:Panel ID="pnlOrderDetails" runat="server" CssClass="FileUploaderPopup_Mesgbox LCLB rounded_corners"
+                                       Style="display: none; width: 920px;">
+                                <div class="white_background pad20">
+                                    <uc9:OrderDetailsControl ID="orderDetailsControl" runat="server" />
+                                </div>
+                            </asp:Panel>
+                        </div>*@
+                    </div>http://mpc/store/goldw001
                 </div>
             </div>
         </div>
@@ -168,15 +198,17 @@
                                     </td>
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderstatus">Status:</span>
-                                    </td>
+                             http://mpc/store/goldw001       </td>
                                     <td class="textAlignLeft simpleText" style="width: 200px">
                                         
+                                        @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
+
                                         <span id="OrderStatus" class="txtBold clrOrderDetail"></span>
 
                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="textAlignRight">
+                                   http://mpc/store/goldw001 <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
@@ -187,11 +219,15 @@
                                         &nbsp;
                                     </td>
                                  
+                                    @*<td class="textAlignRight">
+                                        <span class="simpleTextBold" id="spnClientStatus" >Status:</span>
+                                    </td>*@
+                               
                                     <td class="textAlignRight">
                               <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
                                  </td>
                               <td class="textAlignLeft simpleText">
-                                  <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
+                        http://mpc/store/goldw001          <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
                                     <span id="OrderDeliveryDate" class="txtBold"></span>
                                     </td>
 
@@ -201,7 +237,7 @@
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="Span1">Placed By:</span>
                                     </td>
-                                    <td class="textAlignLeft simpleText">
+                             http://mpc/store/goldw001       <td class="textAlignLeft simpleText">
                                         
                                         <span id="OrderPlaceBy" class="txtBold"></span>
                                     </td>
@@ -209,6 +245,13 @@
                                         &nbsp;
                                     </td>
                                    
+                                    @*<td class="textAlignRight">
+                                        <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                    </td>
+                                    <td class="textAlignLeft simpleText">
+                                        @*<label id="lblOrderDeliveryStartDate" class="txtBold" />*@
+                                        @*<span id="OrderDeliveryDate" class="txtBold"></span>*@
+                                    @*</td>*@
                                 </tr>
                             </tbody>
                         </table>
@@ -221,11 +264,70 @@
 
                         <div id="GridTable"></div>
                       
+                        @*<asp:GridView ID="grdViewShopCart" SkinID="ProductOrderHistoryGrid" DataKeyNames="ItemID"
+                          runat="server" OnRowDataBound="grdViewShopCart_RowDataBound">
+                <columns>
+                    <asp:templatefield headerstyle-horizontalalign="Left" itemstyle-verticalalign="Top">
+                        <itemtemplate>
+                            <table border="0" cellpadding="2" cellspacing="0">
+                                <tr>
+                                    <td valign="middle">
+                                        <input type="hidden" id="txtHdnFileName" runat="server" value='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FileName")%>' />
+                                        <div class="gallery">
+                                            <a id="lnkPdfFile" runat="server" href='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FolderPath")%>'>
+                                                <asp:Image ID="imgPdf" SkinID="imgArtWorkIcon" runat="server" />
+                                            </a>
+                                        </div>
+                                    </td>
+                                    <td valign="middle"></td>
+                                </tr>
+                            </table>
+                        </itemtemplate>
+                    </asp:templatefield>
+                    <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left"
+                                       itemstyle-horizontalalign="Left">
+                        <itemtemplate>
+                            <div>
+                                <span>
+                                    <strong>
+                                        <%# DataBinder.Eval(Container.DataItem, "ProductName")%>
+                                    </strong>
+                                </span>
+                                <asp:Label ID="lblAddonsHeading" runat="server">with following addons :</asp:Label>
+                            </div>
+                            <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text">
+                            </asp:BulletedList>
+                        </itemtemplate>
+                    </asp:templatefield>
+                    <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                        <itemtemplate>
+                            <span>
+                                <%# DataBinder.Eval(Container.DataItem, "Qty1") %>
+                            </span>
+                        </itemtemplate>
+                    </asp:templatefield>
+                    <asp:templatefield headertext="Price" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                        <itemtemplate>
+                            <asp:Label ID="lblItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
+                        </itemtemplate>
+                    </asp:templatefield>
+                    <asp:templatefield headertext="VAT" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                        <itemtemplate>
+                            <asp:Label ID="lblVatStateTax" runat="server" />
+                        </itemtemplate>
+                    </asp:templatefield>
+                    <asp:templatefield headertext="Total" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
+                        <itemtemplate>
+                            <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
+                        </itemtemphttp://mpc/store/goldw001late>
+                    </asp:templatefield>
+                </columns>
+            </asp:GridView>*@
                     </div>
                 </td>
             </tr>
             <tr id="PnalTotalBox">
-                <td align="right">
+                <td align="http://mpc/store/goldw001right">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
@@ -251,18 +353,17 @@
                                         <span id="spnvattotal">Vat Total:</span>
                                     </td>
                                     <td>
-                                            <label id="lblVatTotal"><span id="Vat"></span></label>
+                         http://mpc/store/goldw001                   <label id="lblVatTotal"><span id="Vat"></span></label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                    </td>
-                                    <td>
+                                  http://mpc/store/goldw001      <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                 http://mpc/store/goldw001   </td>
+                                  http://mpc/store/goldw001  <td>
                                         
-                                       
                                             <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                       
+http://mpc/store/goldw001
                                     </td>
                                 </tr>
                             </table>
@@ -274,9 +375,9 @@
                 <td>
                     <div>
                         <table id="PnlAddresses" border="0" cellpadding="0" cellspacing="0"
-                               width="100%">
+                               widhttp://mpc/store/goldw001th="100%">
                             <tr>
-                                <td>
+                                <td>http://mpc/store/goldw001
                                     
                                         <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                             <div class="product_detail_sup_padding">
@@ -292,7 +393,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: 33%">
-                                                                <span id="spnbillingname">Billing Name:</span>
+                                                       http://mpc/store/goldw001         <span id="spnbillingname">Billing Name:</span>
                                                             </td>
                                                             <td style="width: 67%">
 
@@ -328,7 +429,7 @@
                                                         <tr>
                                                             <td>
                                                                 <span id="ltrlstate">State:</span>
-                                                            </td>
+                                                      http://mpc/store/goldw001      </td>
                                                             <td>
                                                                 <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>
                                                             </td>
@@ -368,7 +469,7 @@
                                     
                                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                         <div class="product_detail_sup_padding">
-                                           
+                                           http://mpc/store/goldw001
                                             
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
                                                     <thead>
@@ -411,7 +512,7 @@
                                                                 <Label ID="lblShipAddCity" Class="txtBold">@*@ViewBag.DeliveryAddress.City*@<span id="DeliveryAddressCity"></span></Label>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                http://mpc/store/goldw001        <tr>
                                                             <td>
                                                                 <span id="spnstate2">State:</span>
                                                             </td>
@@ -462,7 +563,7 @@
         $(document).ready(function () {
 
             $("#txtFromDate").datepicker();
-            $("#txtToDate").datepicker();
+            $("#txtToDate").datepicker();http://mpc/store/goldw001
 
         });
 
@@ -483,7 +584,7 @@
                 data: JSON.stringify(d),
                 success: function (response) {
                 }
-            });
+            });http://mpc/store/goldw001
         }
 
         function DownLoad(orderId)
@@ -519,14 +620,14 @@
                     $("#OrderStatus").text(response.order.StatusName);
                     $("#OrderDate").text(response.OrderDateValue);
                     $("#OrderPlaceBy").text(response.order.PlacedBy + "" + '(' + response.order.CompanyName + ')');
-                    $("#OrderDeliveryDate").text(response.DeliveryDateValue);
+                    $("#OrderDeliveryDate").text(reshttp://mpc/store/goldw001ponse.DeliveryDateValue);
                     $("#DelCharge").text(response.CurrencySymbol+""+response.DeliveryCostCharges);
                     $("#BillingAddressName").text(response.billingAddress.AddressName);
                     if (response.billingAddress.Address1 != null || response.billingAddress.Address1 != '') {
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
                     }
                     if (response.billingAddress.Address2 == null) {
-                        alert(response.billingAddress.Address2);
+                       
                         $("#BillingAddressline2").text('');
                     }
                     else { $("#BillingAddressline2").text(response.billingAddress.Address2); }
@@ -558,7 +659,7 @@
                     {
                         $("#DeliveryAddressline1").text('');
                     }
-                    else
+                    elsehttp://mpc/store/goldw001
                     {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
                     }

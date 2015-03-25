@@ -33,6 +33,36 @@ define("costcenter/costcenter.viewModel",
                                                 { Id: 6, Text: 'Lookup' },
                                                 { Id: 7, Text: 'Stock Items' }
                     ]),
+                    fedexServiceTypes = ko.observableArray([{ Id: 1, Text: 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' },
+                                                { Id: 2, Text: 'FEDEX_1_DAY_FREIGHT' },
+                                                { Id: 3, Text: 'FEDEX_2_DAY' },
+                                                { Id: 4, Text: 'FEDEX_2_DAY_AM' },
+                                                { Id: 5, Text: 'FEDEX_2_DAY_FREIGHT' },
+                                                { Id: 6, Text: 'FEDEX_3_DAY_FREIGHT' },
+                                                { Id: 7, Text: 'FEDEX_DISTANCE_DEFERRED' },
+                                                { Id: 8, Text: 'FEDEX_EXPRESS_SAVER' },
+                                                { Id: 9, Text: 'FEDEX_FIRST_FREIGHT' },
+                                                { Id: 10, Text: 'FEDEX_FREIGHT_ECONOMY' },
+                                                { Id: 11, Text: 'FEDEX_FREIGHT_PRIORITY' },
+                                                { Id: 12, Text: 'FEDEX_GROUND' },
+                                                { Id: 13, Text: 'FEDEX_NEXT_DAY_AFTERNOON' },
+                                                { Id: 14, Text: 'FEDEX_NEXT_DAY_EARLY_MORNING' },
+                                                { Id: 15, Text: 'FEDEX_NEXT_DAY_END_OF_DAY' },
+                                                { Id: 16, Text: 'FEDEX_NEXT_DAY_FREIGHT' },
+                                                { Id: 17, Text: 'FEDEX_NEXT_DAY_MID_MORNING' },
+                                                { Id: 18, Text: 'GROUND_HOME_DELIVERY' },
+                                                { Id: 19, Text: 'FIRST_OVERNIGHT' },
+                                                { Id: 20, Text: 'INTERNATIONAL_ECONOMY' },
+                                                { Id: 21, Text: 'INTERNATIONAL_ECONOMY_FREIGHT' },
+                                                { Id: 22, Text: 'INTERNATIONAL_FIRST' },
+                                                { Id: 23, Text: 'INTERNATIONAL_PRIORITY' },
+                                                { Id: 24, Text: 'INTERNATIONAL_PRIORITY_FREIGHT' },
+                                                { Id: 25, Text: 'PRIORITY_OVERNIGHT' },
+                                                { Id: 26, Text: 'SAME_DAY' },
+                                                { Id: 27, Text: 'SAME_DAY_CITY' },
+                                                { Id: 28, Text: 'SMART_POST' },
+                                                { Id: 29, Text: 'STANDARD_OVERNIGHT' }
+                    ]),
 
                     getVariableTreeChildListItems = function (dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
@@ -82,6 +112,8 @@ define("costcenter/costcenter.viewModel",
                     searchFilter = ko.observable(),
                     isEditorVisible = ko.observable(),
                     selectedCostCenter = ko.observable(),
+                    selectedInstruction = ko.observable(),
+                    selectedChoice = ko.observable(),
                     templateToUse = function(ocostCenter) {
                         return (ocostCenter === selectedCostCenter() ? 'editCostCenterTemplate' : 'itemCostCenterTemplate');
                     },
@@ -102,6 +134,10 @@ define("costcenter/costcenter.viewModel",
                             }
                         });
                     },
+                     costcenterImageFilesLoadedCallback = function (file, data) {
+                         selectedCostCenter().costcentreImageFileBinary(data);
+                         selectedCostCenter().costcentreImageName(file.name);
+                     },
                     onDeleteCostCenter = function(oCostCenter) {
                         if (!oCostCenter.CostCentreId()) {
                             costCentersList.remove(oCostCenter);
@@ -235,7 +271,11 @@ define("costcenter/costcenter.viewModel",
                         newcostcenter.quantitySourceType('1');
                         newcostcenter.calculationMethodType('2');
                     },
-                    
+                    createWorkInstruction = function () {
+                        var wi = new model.costCenterInstruction();
+                        selectedInstruction(wi);
+                        selectedCostCenter.costCenterInstructions.splice(0, 0, wi);
+                    },
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
@@ -372,7 +412,9 @@ define("costcenter/costcenter.viewModel",
                     deliveryCarriers: deliveryCarriers,
                     variablesTreePrent: variablesTreePrent,
                     createCostCenter: createCostCenter,
-                    setDataForNewCostCenter: setDataForNewCostCenter
+                    setDataForNewCostCenter: setDataForNewCostCenter,
+                    fedexServiceTypes: fedexServiceTypes,
+                    costcenterImageFilesLoadedCallback: costcenterImageFilesLoadedCallback
                 };
             })()
         };
