@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update Company
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Company Post(Company company)
         {
             if (!ModelState.IsValid)
@@ -153,6 +154,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Company Delete(CompanyRequestModel model)
         {
             return companyService.DeleteCompany(model.CompanyId).CreateFrom();

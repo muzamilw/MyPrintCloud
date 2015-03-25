@@ -3115,9 +3115,8 @@ namespace MPC.Implementation.MISServices
                 Widgets = widgetRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                //CmsPages = cmsPageRepository.GetCmsPagesForOrders(),
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
-                CostCentres = costCentreRepository.GetAllCompanyCentersByOrganisationId(),
+                CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
             };
         }

@@ -11,7 +11,9 @@ using System.Web.Http;
 using Castle.Core.Internal;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
 
@@ -38,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public void Get([FromUri] int themeId, string fullZipPath, long companyId)
         {
             if (!ModelState.IsValid)
