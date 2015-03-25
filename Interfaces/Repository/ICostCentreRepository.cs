@@ -60,5 +60,7 @@ namespace MPC.Interfaces.Repository
         IEnumerable<CostCentre> GetAllCompanyCentersByOrganisationId();
 
         List<CostCentre> GetCostCentersByOrganisationID(long OrganisationID, out List<CostCenterChoice> CostCentreChoices);
+
+        CostCenterVariablesResponseModel GetCostCenterVariablesTree();
     }
 }

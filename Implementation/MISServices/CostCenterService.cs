@@ -951,6 +951,11 @@ namespace MPC.Implementation.MISServices
             return null;
         }
 
+        public CostCenterVariablesResponseModel GetCostCenterVariablesTree()
+        {
+            return _costCenterRepository.GetCostCenterVariablesTree();
+        }
+
         #endregion
 
     }
