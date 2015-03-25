@@ -84,5 +84,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Parent Product Categories for Company
         /// </summary>
         IEnumerable<ProductCategory> GetProductCategoriesForCompany(long? companyId);
+
+        bool DeleteItem(long ItemID, long OrganisationID);
     }
 }

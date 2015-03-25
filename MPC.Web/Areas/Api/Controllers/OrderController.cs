@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -43,6 +44,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Order By Id
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public Estimate Get(int id)
         {
             if (id <= 0)
@@ -56,6 +58,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Orders
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public GetOrdersResponse Get([FromUri] GetOrdersRequest request)
         {
             if (request == null || !ModelState.IsValid)
@@ -70,6 +73,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Post
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public Estimate Post(Estimate request)
         {
             if (request == null || !ModelState.IsValid)
@@ -84,6 +88,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Delete
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public void Delete(OrderDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.OrderId <= 0)

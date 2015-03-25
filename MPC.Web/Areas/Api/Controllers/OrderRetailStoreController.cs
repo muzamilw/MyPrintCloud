@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 using Item = MPC.Models.DomainModels.Item;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -29,6 +31,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         public ItemSearchResponse Get([FromUri]int companyId)
         {
             IEnumerable<Item> items = itemService.GetItemsByCompanyId(companyId);
