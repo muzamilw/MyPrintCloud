@@ -72,18 +72,18 @@
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
             <div class="input-group">
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveEdittedLookup" id="saveBtn">Save</button>
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup" id="saveBtn">Save</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">Click Charge</a></li>
-                    <li><a href="#">Speed Weight</a></li>
-                    <li><a href="#">Per Hour</a></li>
-                    <li><a href="#">Click Charge Zones</a></li>
-                    <li><a href="#">Guillotine Click Charge</a></li>
-                    <li><a href="#">Meter Per Hour Meter Charge</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('1');}">Click Charge</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('3');}">Speed Weight</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('4');}">Per Hour</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('5');}">Click Charge Zones</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('6');}">Guillotine Click Charge</a></li>
+                    <li><a data-bind="click: function(){ AddLookup('8');}">Meter Per Hour Meter Charge</a></li>
                 </ul>
                 &nbsp;&nbsp;&nbsp;
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" id="saveBtn">Delete Lookup</button>
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.DeleteLookup, enable: IsSelected">Delete Lookup</button>
             </div>
         </div>
         <div class="col-lg-12 main-box clearfix col-padding">
@@ -178,13 +178,16 @@
             </div>
         </div>
     </div>
-
+    <!-- ko stopBinding: true -->
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    
+    <!-- /ko -->
 </div>
 <script id="lookupTemplate" type="text/html">
     <ol class="dd-list" id="treeviewClickCharge">
         <li class="dd-item dd-item-list">
             <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-            <div class="dd-handle" data-bind="text:Name, click:$root.GetClickChargeById"></div>
+            <div class="dd-handle" data-bind="text:Name, click:$root.GetMachineLookupById"></div>
         </li>
     </ol>
 

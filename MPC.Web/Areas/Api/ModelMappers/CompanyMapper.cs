@@ -126,6 +126,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxLabel=source.TaxLabel,
                 TaxRate= source.TaxRate,
                 MapImageUrl= source.MapImageUrl,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+               isWhiteLabel = source.isWhiteLabel,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -244,6 +246,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 twitterAppKey = source.twitterAppKey,
                 isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
@@ -367,6 +371,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isCalculateTaxByService = source.isCalculateTaxByService ,
                 TaxLabel = source.TaxLabel,
                 TaxRate = source.TaxRate,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =

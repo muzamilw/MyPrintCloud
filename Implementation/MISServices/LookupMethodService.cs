@@ -34,5 +34,17 @@ namespace MPC.Implementation.MISServices
         {
             return _LookupMethodRepository.UpdateLookup(response);
         }
+        public LookupMethod AddLookup(LookupMethodResponse response)
+        {
+            return _LookupMethodRepository.AddLookup(response);
+        }
+        public bool DeleteGuillotinePTVId(long id)
+        {
+            return _LookupMethodRepository.DeleteGuillotinePTVId(id);
+        }
+        public bool DeleteMachineLookup(long id)
+        {
+            return _LookupMethodRepository.DeleteMachineLookup(id);
+        }
     }
 }

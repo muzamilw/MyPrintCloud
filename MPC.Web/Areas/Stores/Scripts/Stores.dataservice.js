@@ -44,6 +44,12 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to delete Product Category By Id 
+                    amplify.request.define('deleteProductCategoryById', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -268,6 +274,16 @@
                 initialize();
                 return amplify.request({
                     resourceId: 'getProductCategoryById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+             // get Product Category By Id
+            deleteProductCategoryById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteProductCategoryById',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -682,6 +698,7 @@
             getThemeDetail: getThemeDetail,
             getCmsTags: getCmsTags,
             getCampaignDetailById: getCampaignDetailById,
+            deleteProductCategoryById: deleteProductCategoryById
         };
     })();
 
