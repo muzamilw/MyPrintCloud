@@ -22,6 +22,19 @@ define("lookupMethods/lookupMethods.dataservice", function () {
                          decoder: amplify.request.decoders.istStatusDecoder,
                          type: 'POST'
                      });
+                     amplify.request.define('saveNewLookup', 'ajax', {
+                         url: ist.siteUrl + '/Api/LookupMethod',
+                         dataType: 'json',
+                         contentType: 'application/json; charset=utf-8',
+                         decoder: amplify.request.decoders.istStatusDecoder,
+                         type: 'PUT'
+                     });
+                     amplify.request.define('deleteLookup', 'ajax', {
+                         url: ist.siteUrl + '/Api/LookupMethod',
+                         dataType: 'json',
+                         type: 'DELETE'
+                     });
+
                      isInitialized = true;
                  }
              },
@@ -34,6 +47,25 @@ define("lookupMethods/lookupMethods.dataservice", function () {
                       data: JSON.stringify(param)
                   });
               },
+              saveNewLookup = function (param, callbacks) {
+                  initialize();
+                  return amplify.request({
+                      resourceId: 'saveNewLookup',
+                      success: callbacks.success,
+                      error: callbacks.error,
+                      data: JSON.stringify(param)
+                  });
+              },
+              
+        deleteLookup = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteLookup',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
              GetLookup = function (params, callbacks) {
                  initialize();
                  return amplify.request({
@@ -45,7 +77,9 @@ define("lookupMethods/lookupMethods.dataservice", function () {
              };
         return {
             GetLookup: GetLookup,
-            saveLookup: saveLookup
+            saveLookup: saveLookup,
+            saveNewLookup: saveNewLookup,
+            deleteLookup: deleteLookup
         }
 
     })();

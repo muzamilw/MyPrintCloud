@@ -423,6 +423,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
