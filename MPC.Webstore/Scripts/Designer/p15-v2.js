@@ -213,7 +213,7 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-           
+              console.log("call returned");
               SvcLoad2ndTemplate();
 
           });
