@@ -50,73 +50,76 @@ namespace MPC.Webstore.Controllers
        [HttpPost]
        public ActionResult Index(CompanyContact Model, HttpPostedFileBase fuImageUpload,string MarketAndPromotion,string NewsLetterSubscription)
        {
-               bool result = false;
-               CompanyContact UpdateContact = new CompanyContact();
-               UpdateContact.FirstName = Model.FirstName;
-               UpdateContact.LastName = Model.LastName;
-               UpdateContact.Email = Model.Email;
-               UpdateContact.JobTitle = Model.JobTitle;
-               UpdateContact.HomeTel1 = Model.HomeTel1;
-               UpdateContact.Mobile = Model.Mobile;
-               UpdateContact.FAX = Model.FAX;
-               UpdateContact.quickWebsite = Model.quickWebsite;
-               UpdateContact.image = UpdateImage(fuImageUpload, Model);
-               UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
-               if (MarketAndPromotion.Equals("true"))
-               {
-                   UpdateContact.IsEmailSubscription = true;
-               }
-               else
-               {
-                   UpdateContact.IsEmailSubscription = false;
-               }
-               if (NewsLetterSubscription.Equals("true"))
-               {
-                   UpdateContact.IsNewsLetterSubscription = true;
-               }
-               else
-               {
-                   UpdateContact.IsNewsLetterSubscription = false;
-               }
+               //bool result = false;
+               //CompanyContact UpdateContact = new CompanyContact();
+               //UpdateContact.FirstName = Model.FirstName;
+               //UpdateContact.LastName = Model.LastName;
+               //UpdateContact.Email = Model.Email;
+               //UpdateContact.JobTitle = Model.JobTitle;
+               //UpdateContact.HomeTel1 = Model.HomeTel1;
+               //UpdateContact.Mobile = Model.Mobile;
+               //UpdateContact.FAX = Model.FAX;
+               //UpdateContact.quickWebsite = Model.quickWebsite;
+               //UpdateContact.image = UpdateImage(fuImageUpload, Model);
+               //UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
+               //if (MarketAndPromotion.Equals("true"))
+               //{
+               //    UpdateContact.IsEmailSubscription = true;
+               //}
+               //else
+               //{
+               //    UpdateContact.IsEmailSubscription = false;
+               //}
+               //if (NewsLetterSubscription.Equals("true"))
+               //{
+               //    UpdateContact.IsNewsLetterSubscription = true;
+               //}
+               //else
+               //{
+               //    UpdateContact.IsNewsLetterSubscription = false;
+               //}
 
-               if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
-               {
+               //if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+               //{
 
-                   Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
-                   if (Company != null)
-                   {
-                       Company.Name = Request.Form["txtCompanyName"].ToString();
-                       Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
-                       result = _myCompanyService.UpdateCompanyName(Company);
-                   }
-                   result = _myCompanyService.UpdateCompanyContactForRetail(UpdateContact);
-               }
-               else
-               {
-                   UpdateContact.POBoxAddress = Model.POBoxAddress;
-                   UpdateContact.CorporateUnit = Model.CorporateUnit;
-                   UpdateContact.OfficeTradingName = Model.OfficeTradingName;
-                   UpdateContact.ContractorName = Model.ContractorName;
-                   UpdateContact.BPayCRN = Model.BPayCRN;
-                   UpdateContact.ABN = Model.ABN;
-                   UpdateContact.ACN = Model.ACN;
-                   UpdateContact.AdditionalField1 = Model.AdditionalField1;
-                   UpdateContact.AdditionalField2 = Model.AdditionalField2;
-                   UpdateContact.AdditionalField3 = Model.AdditionalField3;
-                   UpdateContact.AdditionalField4 = Model.AdditionalField4;
-                   UpdateContact.AdditionalField5 = Model.AdditionalField5;
-                   UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
-                   result = _myCompanyService.UpdateCompanyContactForCorporate(UpdateContact);
-               }
-               if (result)
-               {
-                   ViewBag.Message = "Your profile updated successfully.";
-               }
-               else
-               {
-                   ViewBag.Message = "Sorry, no profile updated.";
-               }
-             
+               //    Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
+               //    if (Company != null)
+               //    {
+               //        Company.Name = Request.Form["txtCompanyName"].ToString();
+               //        Company.CompanyId = _webstoreAuthorizationChecker.loginContactCompanyID();
+               //        result = _myCompanyService.UpdateCompanyName(Company);
+               //    }
+               //    result = _myCompanyService.UpdateCompanyContactForRetail(UpdateContact);
+               //}
+               //else
+               //{
+               //    UpdateContact.POBoxAddress = Model.POBoxAddress;
+               //    UpdateContact.CorporateUnit = Model.CorporateUnit;
+               //    UpdateContact.OfficeTradingName = Model.OfficeTradingName;
+               //    UpdateContact.ContractorName = Model.ContractorName;
+               //    UpdateContact.BPayCRN = Model.BPayCRN;
+               //    UpdateContact.ABN = Model.ABN;
+               //    UpdateContact.ACN = Model.ACN;
+               //    UpdateContact.AdditionalField1 = Model.AdditionalField1;
+               //    UpdateContact.AdditionalField2 = Model.AdditionalField2;
+               //    UpdateContact.AdditionalField3 = Model.AdditionalField3;
+               //    UpdateContact.AdditionalField4 = Model.AdditionalField4;
+               //    UpdateContact.AdditionalField5 = Model.AdditionalField5;
+               //    UpdateContact.ContactId = _webstoreAuthorizationChecker.loginContactID();
+               //    result = _myCompanyService.UpdateCompanyContactForCorporate(UpdateContact);
+               //}
+               //if (result)
+               //{
+               //    ViewBag.Message = "Your profile updated successfully.";
+               //}
+               //else
+               //{
+               //    ViewBag.Message = "Sorry, no profile updated.";
+               //}
+               UserCookieManager.ContactFirstName = Model.FirstName;
+
+               UserCookieManager.ContactLastName = Model.LastName;
+
               return View("PartialViews/ContactDetail", Model);
        }
 
@@ -233,10 +236,7 @@ namespace MPC.Webstore.Controllers
                    ViewBag.Message = "Sorry, no profile updated.";
                }
 
-               UserCookieManager.ContactFirstName = Model.FirstName;
-
-               UserCookieManager.ContactLastName = Model.LastName;
-
+             
         
         }
        
