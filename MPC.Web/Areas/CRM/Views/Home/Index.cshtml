@@ -47,7 +47,8 @@
                                     <!-- ko  foreach: $root.customersForListView  -->
                                     <tr data-bind="click: $root.selectStore">
                                         <td>
-                                            <img data-bind="attr: { src: storeImageFileBinary }" alt="" />
+                                            @*<img data-bind="attr: { src: storeImageFileBinary }" alt="" />*@
+                                            <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
                                         </td>
                                         <td>
                                             <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>

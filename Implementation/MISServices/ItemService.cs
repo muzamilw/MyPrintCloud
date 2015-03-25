@@ -2056,6 +2056,8 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+
+                itemRepository.DeleteItemBySP(ItemID);
                 List<string> ImagesPath = new List<string>();
                 Item DelItem = itemRepository.GetItemByItemID(ItemID);
 

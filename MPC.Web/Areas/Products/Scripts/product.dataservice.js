@@ -63,7 +63,12 @@ define("product/product.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+                    // Define request to delete product category childs
+                    amplify.request.define('deleteProductCategoryChildsForProduct', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCategory',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
                     // Define request to get base data
                     amplify.request.define('getBaseDataForDesignerCategory', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemDesignerTemplateBase',

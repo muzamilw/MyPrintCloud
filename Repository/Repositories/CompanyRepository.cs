@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using AutoMapper;
 using System.Web;
 using System.IO;
+using System.Configuration;
 
 
 namespace MPC.Repository.Repositories
@@ -195,6 +196,8 @@ namespace MPC.Repository.Repositories
                         c.FacebookURL,
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
+                        c.isWhiteLabel,
+                        c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
@@ -267,6 +270,8 @@ namespace MPC.Repository.Repositories
                         VATRegReference = c.VATRegReference,
                         FlagId = c.FlagId,
                         PhoneNo = c.PhoneNo,
+                        IsDisplayDiscountVoucherCode = c.IsDisplayDiscountVoucherCode,
+                        isWhiteLabel = c.isWhiteLabel,
                         IsGeneral = c.IsGeneral,
                         WebAccessCode = c.WebAccessCode,
                         isArchived = c.isArchived,
@@ -2086,8 +2091,11 @@ namespace MPC.Repository.Repositories
                         long oRetailCID = 0;
                         long oCIDWOP = 0;
                         long oRetailCIDWOP = 0;
-
-                        if (StoreName == "Retail Store With Products")
+                        string SName = ConfigurationManager.AppSettings["RetailStoreName"];
+                        string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+                        string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
+                        string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
+                        if (StoreName == SName)
                         {
                             Company comp = new Company();
                             comp = objExpRetail.RetailCompany;
@@ -2225,7 +2233,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
                         }
-                        else if(StoreName == "Retail Store Without Products")
+                        else if (StoreName == SNameWOP)
                         {
                             Company comp = new Company();
                             comp = objExpRetailWOP.RetailCompany;
@@ -2363,7 +2371,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
                         }
-                        else if (StoreName == "Corporate Store With Products")
+                        else if (StoreName == SCName)
                         {
                             Company comp = new Company();
                             comp = objExpCorporate.Company;
@@ -2504,7 +2512,7 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
-                        else if(StoreName == "Corporate Store Without Products")
+                        else if(StoreName == SCNameWOP)
                         {
                             Company comp = new Company();
                             comp = objExpCorporateWOP.Company;
@@ -2597,7 +2605,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var cat in prodCats)
                                 {
-                                    if (cat.ProductCategoryId != null)
+                                    if (cat.ProductCategoryId != null && cat.ProductCategoryId > 0)
                                         cat.ContentType = cat.ProductCategoryId.ToString(); // 8888
                                     //if(cat.ParentCategoryId != null)
                                     //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
@@ -2657,21 +2665,21 @@ namespace MPC.Repository.Repositories
                         string DestinationLanguageFilePath = string.Empty;
 
 
-                        if (StoreName == "Retail Store With Products")
+                        if (StoreName == SName)
                         {
                             CopyCompanyFiles(oRetailCID, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.RetailOldCompanyID);
                         }
-                        else if (StoreName == "Retail Store Without Products")
+                        else if (StoreName == SNameWOP)
                         {
-                            CopyCompanyFiles(oRetailCIDWOP, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.RetailOldCompanyID);
+                            CopyCompanyFiles(oRetailCIDWOP, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.RetailOldCompanyIDWOP);
                         }
-                        else if (StoreName == "Corporate Store With Products")
+                        else if (StoreName == SCName)
                         {
-                            CopyCompanyFiles(oCID, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.RetailOldCompanyID);
+                            CopyCompanyFiles(oCID, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.OldCompanyID);
                         }
-                        else if (StoreName == "Corporate Store Without Products")
+                        else if (StoreName == SCNameWOP)
                         {
-                            CopyCompanyFiles(oCIDWOP, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.RetailOldCompanyID);
+                            CopyCompanyFiles(oCIDWOP, DestinationsPath, ImportIDs.OldOrganisationID, ImportIDs.NewOrganisationID, ImportIDs.OldCompanyIDWOP);
                         }
 
 

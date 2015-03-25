@@ -1252,6 +1252,7 @@ define("crm/crm.viewModel",
                     }
                     else {
                         selectedStore().type(2);
+                        selectedStore().isCustomer(2);
                     }
                     isEditorVisible(true);
                 },
@@ -1532,7 +1533,7 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.creationdate(data.CreationDate);
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
-                                        tempCustomerListView.storeImageFileBinary(data.ImageSource);
+                                        tempCustomerListView.storeImageFileBinary(data.StoreImagePath);
                                         
                                         if (data.Status == 0) {
                                             tempCustomerListView.status("Inactive");
@@ -1581,6 +1582,49 @@ define("crm/crm.viewModel",
                                         tempItem.status(data.Status);
                                         tempItem.storeImageFileBinary(data.StoreImagePath);
                                         suppliers.splice(0, 0, tempItem);
+                                    }
+                                    else if (selectedStore().companyId() > 0) {
+                                        //#region Prospect or Customer updation
+                                        if (selectedStore().type() == 0 || selectedStore().type() == 1) {
+                                            _.each(customersForListView(), function(customer) {
+                                                if (customer.id() == selectedStore().companyId()) {
+                                                    customer.name(data.Name);
+                                                    customer.creationdate(data.CreationDate);
+                                                    customer.status(data.Status);
+                                                    customer.storeImageFileBinary(data.StoreImagePath);
+                                                    if (data.Status == 0) {
+                                                        customer.status("Inactive");
+                                                        customer.statusClass('label label-danger');
+                                                    }
+                                                    if (data.Status == 1) {
+                                                        customer.status("Active");
+                                                        customer.statusClass('label label-success');
+                                                    }
+                                                    if (data.Status == 2) {
+                                                        customer.status("Banned");
+                                                        customer.statusClass('label label-default');
+                                                    }
+                                                    if (data.Status == 3) {
+                                                        customer.status("Pending");
+                                                        customer.statusClass('label label-warning');
+                                                    }
+                                                }
+                                            });
+                                        }
+                                        //#endregion
+                                        //#region Supplier updation
+                                        if (selectedStore().type() == 2) {
+                                            _.each(suppliers(), function(supplier) {
+                                                if (supplier.companyId() == selectedStore().companyId()) {
+                                                    supplier.name(data.Name);
+                                                    supplier.createdDate(data.CreationDate);
+                                                    supplier.status(data.Status);
+                                                    supplier.storeImageFileBinary(data.StoreImagePath);
+                                                }
+                                            });
+                                        }
+                                        //#endregion
+                                    selectedStore().storeImageFileBinary(data.StoreImagePath);
                                     }
                                     //#endregion
                                     //selectedStore().storeId(data.StoreId);
