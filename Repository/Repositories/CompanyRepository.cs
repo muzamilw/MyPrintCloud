@@ -186,6 +186,8 @@ namespace MPC.Repository.Repositories
                         c.FacebookURL,
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
+                        c.isWhiteLabel,
+                        c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
@@ -258,6 +260,8 @@ namespace MPC.Repository.Repositories
                         VATRegReference = c.VATRegReference,
                         FlagId = c.FlagId,
                         PhoneNo = c.PhoneNo,
+                        IsDisplayDiscountVoucherCode = c.IsDisplayDiscountVoucherCode,
+                        isWhiteLabel = c.isWhiteLabel,
                         IsGeneral = c.IsGeneral,
                         WebAccessCode = c.WebAccessCode,
                         isArchived = c.isArchived,
