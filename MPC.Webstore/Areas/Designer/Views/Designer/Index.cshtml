@@ -151,6 +151,45 @@
                                             <a class=" SampleBtn btntxt btnAUploadFont" id="btnAUploadFont">Upload font</a>
                                         </li>
                                     </ul>
+                                    <div id="FontUploadingMsgDiv" class="panelItemsLeftAligned leftalignTxt largeText">
+                                        <br>
+                                        <div class="titletxt">
+                                            Important. (Font Uploading)
+                                        </div>
+                                        <br>
+                                        For each font you wish to upload, download the font kit from font squirrel font
+                                        kit generator (http://www.fontsquirrel.com/fontface).
+                                     
+                                        <br>
+                                        <br>
+                                        <p class="Step1FontUpload">
+                                            <span class="titletxt">Step 1: </span>Select the 3 font files (.woff, .eot and .ttf
+                                            files) from Font face for that font family.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step2FontUpload">
+                                            <span class="titletxt">Step 2 :</span> Enter in exact FONT Family name as it appears
+                                            in the TTF Font Definaton field.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step3FontUpload">
+                                            <span class="titletxt">Step 3:</span> Confirm that this font is free from any copyright
+                                            infringements.
+                                            <br>
+                                            <br>
+                                        </p>
+                                        <p class="Step4FontUpload">
+                                            <span class="titletxt">Step 4:</span> Click on upload button to complete the new
+                                            font addition.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step5FontUpload">
+                                            <span class="titletxt">Step 5:</span> The new font should appear in your font style
+                                            list as the name you entered in Step 2.
+                                            <br>
+                                            <br>
+                                        </p>
+                                    </div>
                                     @*<ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
                                         <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c3">
                                             <a title="CRM" class="btnACRM">
@@ -330,7 +369,7 @@
                                 <li class="bkPanelCommonControls">
                                     <a class=" SampleBtn btntxt freeBackgrounds bkTextBoxes" style="display:none !important;" id="btnFreeCorpBkImages">Free <br />Backgrounds</a>
                                     <a class=" SampleBtn btntxt templateBackgrounds bkTextBoxes" style="display:none !important;" id="btntemplateBkImagesCorp">Template <br />Backgrounds</a>
-                                    <a class=" SampleBtn btntxt BkColors bkTextBoxes" id=" ">Background <br />colours</a>
+                                    <a class=" SampleBtn btntxt BkColors bkTextBoxes" id=" ">Background <br />Colors</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="uploadBackgroundMn">Upload<br /> Background</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
                                 </li>
@@ -556,10 +595,10 @@
 
                                     <div class="textPropertyPanel2" style="padding-top: 20px;">
                                         <div class="propertyPanelControlDiv">
-                                            <button id="AddColorShape" class="BtnChngeClr" title="Colour picker">
+                                            <button id="AddColorShape" class="BtnChngeClr" title="Color picker">
                                                 Color
                                             </button>
-                                            <button id="" class="BtnChngeClr OpacityBtn" title="Colour picker">
+                                            <button id="" class="BtnChngeClr OpacityBtn" title="Color picker">
                                                 Opacity
                                             </button>
                                             <div class="inputObjectAlphaSlider"></div>
@@ -643,8 +682,8 @@
                                     <div class="DivBlockWithNoHeight vertLine"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
-                                        <div class="onoffswitch" style="right: -100px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox"> Make Overlay Layer</p>  </div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
                                             <label class="onoffswitch-label" for="chkboxOverlayImg">
                                                 <div class="onoffswitch-inner"></div>
@@ -653,8 +692,8 @@
                                         </div>
                                     </div>
                                     <div class="propertyPanelControlDiv adminControl">
-                                        <div class="lblchckboxControl" id="">Print Object On PDF </div>
-                                        <div class="onoffswitch" style="right: -100px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
                                             <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
                                                 <div class="onoffswitch-inner"></div>
@@ -666,8 +705,8 @@
                                     <div class="DivBlockWithNoHeight vertLine adminControl"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
-                                        <div class="onoffswitch" style="right: -9px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Allow End User to CHANGE Formatting </p></div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
                                             <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
                                                 <div class="onoffswitch-inner"></div>
@@ -735,7 +774,7 @@
                                         <img src="~/Content/Designer/assets-v2/lineHeight.png" class="iconsPropPanel imgLineHeight" style="padding-left: 2px;" />
                                         <input name="txtLineHeight" id="txtLineHeight" class="textButtonControl inputCharSpacing zindex100" />
 
-                                        <button id="BtnChngeClr" class="BtnColorPicker BtnChngeClr" title="Colour picker">
+                                        <button id="BtnChngeClr" class="BtnColorPicker BtnChngeClr" title="Color picker">
                                             Color
                                         </button>
                                     </div>
@@ -826,8 +865,8 @@
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
-                                    <div class="onoffswitch" style="right: -100px">
+                                    <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Overlay Layer </p> </div>
+                                    <div class="onoffswitch" >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
                                         <label class="onoffswitch-label" for="chkboxOverlayTxt">
                                             <div class="onoffswitch-inner"></div>
@@ -836,8 +875,8 @@
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl" id="">Print Object On PDF </div>
-                                    <div class="onoffswitch" style="right: -100px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                    <div class="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
                                         <label class="onoffswitch-label" for="BtnPrintObj">
                                             <div class="onoffswitch-inner"></div>
@@ -847,8 +886,8 @@
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">Lock Formatting for End User</div>
-                                    <div class="onoffswitch" style="right: -55px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Lock Formatting for End User </p></div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
                                         <label class="onoffswitch-label" for="BtnAllowOnlyTxtChange">
                                             <div class="onoffswitch-inner"></div>
@@ -858,8 +897,8 @@
                                 </div>
 
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">End User can not EDIT Text </div>
-                                    <div class="onoffswitch" style="right: -62px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">End User can not EDIT Text </p></div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
                                         <label class="onoffswitch-label" for="BtnLockEditing">
                                             <div class="onoffswitch-inner"></div>
@@ -868,8 +907,8 @@
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl" id="">Auto Shrink Text to fit in Text Box </div>
-                                    <div class="onoffswitch" style="right: -38px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Auto Shrink Text to fit in Text Box</p> </div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
                                         <label class="onoffswitch-label" for="chkboxAutoShrink">
                                             <div class="onoffswitch-inner"></div>
@@ -1040,7 +1079,7 @@
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background colour and image to your design. </p>
+                <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
             </div>
         </div>
     </div>
@@ -1056,7 +1095,7 @@
             </li>
             <li class="textToolbarColor">
                 <a id="AddColorTxtRetailNew" class="pickAColor" href="#" title="Pick a color">
-                    <span style="background-color: orange;" class="spanTxtcolour">Pick a color</span>
+                    <span style="background-color: orange;" class="spanTxtcolor">Pick a color</span>
                 </a>
             </li>
             <li class="elementToolbarDelete enabled"><a title="Delete" id="btnDeleteTxt">Delete</a></li>
@@ -1091,7 +1130,7 @@
             <li class="elementToolbarCrop  elementCrop"><a id="BtnCropImgRetail" href="#" title="Crop">Crop</a></li>
             <li class="elementToolbarColor elementColorImg">
                 <a id="AddColorImgRetailNew" class="pickAColor" href="#" title="Pick a color">
-                    <span class="spanRectColour" style="background-color: rgb(0, 0, 0);">Pick a color</span>
+                    <span class="spanRectcolor" style="background-color: rgb(0, 0, 0);">Pick a color</span>
                 </a>
             </li>
 
@@ -1134,7 +1173,7 @@
                 </div>
             </div>
             <div id="DivLblMoveSlider" class="largeText" style="margin-top: 14px; margin-left: 10px;">
-                Move the Slider to Change Colour Percentage
+                Move the Slider to Change Color Percentage
             </div>
             <div id="sliders">
                 <div id="DivColorC">
@@ -1199,7 +1238,7 @@
             <div class="ColorPallet" style="background-color: rgb(138, 113, 60); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(30,40,80,30,&quot;#8A713C&quot;,&quot;null&quot;);"></div>
             <div class="ColorPallet" style="background-color: rgb(0, 114, 54); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(100,0,100,40,&quot;#007236&quot;,&quot;null&quot;);"></div>
             <div class="ColorPallet" style="background-color: rgb(0, 125, 151); border-top-left-radius: 7px; border-top-right-radius: 7px; border-bottom-left-radius: 7px; border-bottom-right-radius: 7px;" onclick="f2(100,5,20,30,&quot;#007D97&quot;,&quot;null&quot;);"></div>
-            <button id="AddColorGroupRetail" class="" title="Colour picker">MORE</button>
+            <button id="AddColorGroupRetail" class="" title="Color picker">MORE</button>
         </div>
     </div>
     <div class="divVariableContainer propertyPanel" id="divVariableContainer">

@@ -18,7 +18,7 @@
 <div class="container content_area">
 
     <div class="left_right_padding row">
-      
+        @{Html.RenderAction("Index", "BreadCrumb");}
         <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
             <h1>
                 <label ID="lblTitle" class="sign_in_catheading">@Model.CategoryName</label>
@@ -296,8 +296,6 @@
                             }
                         
                         </div>
-
-                      
 
                         <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
                             <label ID="lbl_Proof"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.StoreId))</label>

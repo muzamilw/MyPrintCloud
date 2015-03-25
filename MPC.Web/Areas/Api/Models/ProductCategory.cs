@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -65,6 +66,8 @@ namespace MPC.MIS.Areas.Api.Models
         public string ThumbnailName { get; set; }
         //public Guid? ImageStreamId { get; set; }
        // public Guid? ThumbnailStreamId { get; set; }
+
+        public ICollection<CompanyTerritory> CategoryTerritories { get; set; }
         public string ImageSource
         {
             get

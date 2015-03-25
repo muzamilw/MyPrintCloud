@@ -41,7 +41,7 @@
                     });
                     // Define request to get Store
                     amplify.request.define('getBaseData', 'ajax', {
-                        url: ist.siteUrl + '/Api/StoreBase',
+                        url: ist.siteUrl + '/Api/CrmBase',
                         dataType: 'json',
                         type: 'GET'
                     });

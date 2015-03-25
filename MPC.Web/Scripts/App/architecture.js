@@ -34,7 +34,13 @@ var ist = {
     // Resource Text
     resourceText: { showing: "Showing ", of: "of", defaultHeaderText: "Confirmation" },
     // SiteUrl
-    siteUrl: ""
+    siteUrl: "",
+    // Toaster Error Options
+    toastrOptions : {
+        tapToDismiss: true,
+        extendedTimeOut: 0,
+        timeOut: 0 // Set timeOut to 0 to make it sticky
+    }
 };
 
 // Busy Indicator
@@ -275,7 +281,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
             if (allBindingsAccessor().openFrom() === "Campaign" || allBindingsAccessor().openFrom() === "SecondaryPage") {
                 CKEDITOR.config.toolbar = [
-                    ['Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
+                    ['Source','Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
                     '/', ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Font', 'FontSize']
                 ];
             } else {

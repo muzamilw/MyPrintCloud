@@ -20,9 +20,14 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public bool Check(AuthorizationCheckRequest request)
         {
-            if (IsPortalAdministrator())
+            if (IsPortalAdministrator() && HasValidCompany())
             {
                 return true;
+            }
+
+            if (!HasValidCompany())
+            {
+                return false;
             }
             
             return HasRequiredPortalRole(request.RequiredPortalRoles)
@@ -75,6 +80,15 @@ namespace MPC.Implementation.MISServices
         public bool HasRequiredAccessRight(SecurityAccessRight requiredAccessRight)
         {
             return HasRequiredAccessRights(new[] { requiredAccessRight });
+        }
+
+        /// <summary>
+        /// Check if the user has valid company
+        /// </summary>
+        public bool HasValidCompany()
+        {
+            IEnumerable<OrganisationClaimValue> organisationClaimValues = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(MpcClaimTypes.Organisation);
+            return organisationClaimValues != null && organisationClaimValues.First(org => org.OrganisationId > 0) != null;
         }
 
         #endregion

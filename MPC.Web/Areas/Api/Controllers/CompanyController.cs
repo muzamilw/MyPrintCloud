@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -35,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Companies Of Organisation
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = companyService.GetAllCompaniesOfOrganisation(request);
@@ -48,7 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Company By Id
         /// </summary>
-        /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyResponse Get([FromUri]int companyId)
         {
             CompanyResponse companyResponse = companyService.GetCompanyById(companyId).CreateFrom();
@@ -133,7 +135,19 @@ namespace MPC.MIS.Areas.Api.Controllers
                     company.CmsPageWithWidgetList != null
                         ? company.CmsPageWithWidgetList.Select(
                             x => x.CreateFrom()).ToList()
-                        : null
+                        : null,
+                NewAddedCampaigns = company.NewAddedCampaigns != null
+                ? company.NewAddedCampaigns.Select(
+                    x => x.CreateFrom()).ToList()
+                : null,
+                EdittedCampaigns = company.EdittedCampaigns != null
+             ? company.EdittedCampaigns.Select(
+                 x => x.CreateFrom()).ToList()
+             : null,
+                DeletedCampaigns = company.DeletedCampaigns != null
+                ? company.DeletedCampaigns.Select(
+                    x => x.CreateFrom()).ToList()
+                : null,
             };
 
             return companyService.SaveCompany(companySavingModel).CreateFrom();

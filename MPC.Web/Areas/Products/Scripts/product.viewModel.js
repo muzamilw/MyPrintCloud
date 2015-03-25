@@ -73,6 +73,8 @@ define("product/product.viewModel",
                         });
                     }),
                     // #endregion Arrays
+                    // True if page has errors
+                    pageHasErrors = ko.observable(false),
                     // #region Busy Indicators
                     isLoadingProducts = ko.observable(false),
                     // Is List View Active
@@ -510,10 +512,20 @@ define("product/product.viewModel",
                         });
                     },
                     // Can Edit Template From Editor
-                    canEditTemplate = ko.computed(function() {
+                    canEditTemplate = function(product) {
+                        if (!product) {
+                            return false;
+                        }
+                        
+                        return ((product.isFinishedGoodsUi() === '1') && (product.template() && product.template().id()) &&
+                            (product.templateTypeUi() !== '3'));
+                    },
+                    // Can Edit Template
+                    canEditTemplateFromEditor = ko.computed(function () {
                         if (!selectedProduct()) {
                             return false;
                         }
+                        
                         return ((selectedProduct().isFinishedGoodsUi() === '1') && (selectedProduct().template() && selectedProduct().template().id()) &&
                             (selectedProduct().templateTypeUi() !== '3'));
                     }),
@@ -577,7 +589,7 @@ define("product/product.viewModel",
                         if (category && selectedCategory() !== category) {
                             selectedCategory(category);
                             // Filter Items on This Category
-                            resetFilter();
+                            resetFilter(true);
                         }    
                     },
                     // Is Product Section Initialized
@@ -661,18 +673,22 @@ define("product/product.viewModel",
                         filterProductsToRelate();
                     },
                     // Filter Products
-                    filterProducts = function () {
+                    filterProducts = function (shouldKeepCategory) {
                         // Reset Pager
                         pager().reset();
+                        if (!(_.isBoolean(shouldKeepCategory)) || !shouldKeepCategory) {
+                            // Reset Category
+                            selectedCategory(undefined);
+                        }
                         // Get Items
                         getItems();
                     },
                     // Reset Filter
-                    resetFilter = function () {
+                    resetFilter = function (shouldKeepCategory) {
                         // Reset Text 
                         filterText(undefined);
                         // Filter Record
-                        filterProducts();
+                        filterProducts(shouldKeepCategory);
                     },
                     // On Save Product
                     onSaveProduct = function (data, event, navigateCallback) {
@@ -681,12 +697,6 @@ define("product/product.viewModel",
                         }
 
                         var callback =  closeProductEditor;
-                        if (canEditTemplate()) {
-                            callback = function () {
-                                promptForDesigner(selectedProduct());
-                                closeProductEditor();
-                            };
-                        }
                         saveProduct(callback, navigateCallback);
                     },
                     // Prompt for Designer
@@ -709,8 +719,13 @@ define("product/product.viewModel",
                         return flag;
                     },
                     // On Clone Product
-                    onCloneProduct = function(data) {
-                        cloneProduct(data, openProductEditor);
+                    onCloneProduct = function (data) {
+                        confirmation.messageText("Do you want to copy product?");
+                        confirmation.afterProceed(function () {
+                            cloneProduct(data, openProductEditor);
+                        });
+                        confirmation.afterCancel();
+                        confirmation.show();
                     },
                     // Go To Element
                     gotoElement = function (validation) {
@@ -858,9 +873,83 @@ define("product/product.viewModel",
                             return item.id() === id;
                         });
                     },
+                    // Add Item to List After Save
+                    addToItemsList = function (data, callback) {
+                        // Update Id
+                        selectedProduct().id(data.ItemId);
+
+                        // Update Min Price
+                        selectedProduct().miniPrice(data.MinPrice || 0);
+
+                        // Update Template
+                        if (data.Template) {
+                            selectedProduct().template().id(data.Template.ProductId);
+                            selectedProduct().templateId(data.Template.ProductId);
+                        }
+
+                        // Update Company Id
+                        selectedProduct().companyId(data.CompanyId);
+                        
+                        // Update Organisation Id
+                        selectedProduct().organisationId(data.OrganisationId);
+                        
+                        if (canEditTemplate(selectedProduct())) {
+                            var newCallback = callback;
+                            callback = function () {
+                                promptForDesigner(selectedProduct());
+                                if (callback && typeof callback === "function") {
+                                    newCallback();
+                                }
+
+                            };
+                        }
+
+                        // Add to top of list
+                        products.splice(0, 0, selectedProduct());
+                        
+                        // Return Callback
+                        return callback;
+                    },
+                    // Update Item in the List 
+                    updateItemInList = function (data, callback) {
+                        // Get Item
+                        var item = getItemFromList(selectedProduct().id());
+                        if (item) {
+                            item.isFinishedGoods(data.ProductType !== undefined && data.ProductType != null ?
+                                (data.ProductType === 0 ? 0 : data.ProductType) : undefined);
+                            item.productCode(data.ProductCode);
+                            item.productName(data.ProductName);
+                            item.isEnabled(data.IsEnabled);
+                            item.isPublished(data.IsPublished);
+                            item.miniPrice(data.MinPrice || 0);
+                            item.templateId(data.TemplateId || undefined);
+                            item.templateType(data.TemplateType || undefined);
+                            item.thumbnail(data.ThumbnailImageSource || undefined);
+                            item.printCropMarks(data.PrintCropMarks || false);
+                            item.drawWatermarkText(data.DrawWaterMarkTxt || false);
+                            // Update Template
+                            if (data.Template) {
+                                item.template().id(data.Template.ProductId);
+                            }
+                            // Prompt for Designer
+                            if (canEditTemplate(item)) {
+                                var anotherCallback = callback;
+                                callback = function () {
+                                    promptForDesigner(item);
+                                    if (callback && typeof callback === "function") {
+                                        anotherCallback();
+                                    }
+
+                                };
+                            }
+                        }
+                        
+                        // Return Callback
+                        return callback;
+                    },
                     // Get Base Data
                     getBaseData = function () {
-                        dataservice.getBaseData({
+                        dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
                                 countries.removeAll();
@@ -910,7 +999,8 @@ define("product/product.viewModel",
                                 }
                             },
                             error: function (response) {
-                                toastr.error("Failed to load base data" + response);
+                                pageHasErrors(true);
+                                toastr.error("Failed to load base data. Error: " + response, "Please Reload", ist.toastrOptions);
                             }
                         });
                     },
@@ -965,28 +1055,12 @@ define("product/product.viewModel",
                         dataservice.saveItem(product, {
                             success: function (data) {
                                 if (!selectedProduct().id()) {
-                                    // Update Id
-                                    selectedProduct().id(data.ItemId);
-
-                                    // Update Min Price
-                                    selectedProduct().miniPrice(data.MinPrice || 0);
-
-                                    // Add to top of list
-                                    products.splice(0, 0, selectedProduct());
+                                    callback = addToItemsList(data, callback);
                                 }
                                 else {
-                                    // Get Item
-                                    var item = getItemFromList(selectedProduct().id());
-                                    if (item) {
-                                        item.productCode(data.ProductCode);
-                                        item.productName(data.ProductName);
-                                        item.isEnabled(data.IsEnabled);
-                                        item.isPublished(data.IsPublished);
-                                        item.miniPrice(data.MinPrice || 0);
-                                        item.templateId(data.TemplateId || undefined);
-                                        item.templateType(data.TemplateType || undefined);
-                                        item.thumbnail(data.ThumbnailImageSource || undefined);
-                                    }
+                                    // Finds Item and then updates it
+                                    // Prompts for Designer if it is desinger product
+                                    callback = updateItemInList(data, callback);
                                 }
 
                                 toastr.success("Saved Successfully.");
@@ -1035,7 +1109,7 @@ define("product/product.viewModel",
                                 // Remove that product from list
                                 var item = getItemByIdLocal(id);
                                 if (item) {
-                                    items.remove(item);
+                                    products.remove(item);
                                 }
                                 closeProductEditor();
                                 toastr.success("Archived Successfully.");
@@ -1150,7 +1224,7 @@ define("product/product.viewModel",
                     },
                     // Get Category Child List Items
                     getChildCategories = function (id, event) {
-                        dataservice.getProductCategoryChilds({
+                        dataservice.getProductCategoryChildsForProduct({
                             id: id,
                         }, {
                             success: function (data) {
@@ -1243,6 +1317,8 @@ define("product/product.viewModel",
                     lengthUnit: lengthUnit,
                     canEditTemplate: canEditTemplate,
                     isDesignerCategoryBaseDataLoaded: isDesignerCategoryBaseDataLoaded,
+                    pageHasErrors: pageHasErrors,
+                    canEditTemplateFromEditor: canEditTemplateFromEditor,
                     // Utility Methods
                     initialize: initialize,
                     resetFilter: resetFilter,

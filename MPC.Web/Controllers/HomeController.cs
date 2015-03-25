@@ -105,9 +105,9 @@ namespace MPC.MIS.Controllers
             Boolean isTrial = false;
             int trialCount = 0;
 
-            if ( validationInfo != null)
+            if (validationInfo != null)
             {
-                organisationId = Convert.ToInt64( validationInfo.CustomerID);
+                organisationId = Convert.ToInt64(validationInfo.CustomerID);
                 userId = validationInfo.userId;
                 fullName = validationInfo.FullName;
                 Plan = validationInfo.Plan;

@@ -310,10 +310,12 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
+    <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompaniesForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableByCompanyIdController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCompanyContactVariableController.cs" />
@@ -347,6 +349,7 @@
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CategoryTerritoryMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CmsOfferMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
@@ -420,6 +423,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
@@ -761,10 +765,10 @@
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventory.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.dataservice.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.model.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.view.js" />
-    <Content Include="Areas\Settings\Scripts\MIS\lookupMethod.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\lookupMethods.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\machine.view.js" />
@@ -3038,6 +3042,7 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />

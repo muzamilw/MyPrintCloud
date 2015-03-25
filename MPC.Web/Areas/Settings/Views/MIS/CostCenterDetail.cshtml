@@ -47,7 +47,7 @@
                                     <div class="tab-pane fade in active" id="tab-generalinfo">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Cost Center Details</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -121,11 +121,11 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Grouping and Job card Priority" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Job card Priority" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="txtPriority" class="control-label text-right tooltip-float">Grouping and Job card Priority</label>
+                                                        <label for="txtPriority" class="control-label text-right tooltip-float">Job card Priority</label>
                                                     </div>
                                                     <div class="col-lg-2">
                                                         <input type="text" class="form-control" id="txtPriority" placeholder="Enter Cost Center Name" data-bind="value: priority">
@@ -136,15 +136,13 @@
                                             </div>
                                             <div class="col-lg-3 col-md-4 col-sm-4">
                                                 <div class="clearfix">
-                                                    <header class="main-box-header clearfix">
-                                                        <h2><label>Thumbnail</label></h2>
-                                                    </header>
                                                     <div class="main-box-body clearfix">
-                                                        <img style="min-height: 150px; width: 150px;" />
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
                                                         <div class="pull-right">
                                                             <div class="fileUpload btn btn-primary">
                                                                 <span>....</span>
-                                                                <input type="file" class="upload" id="image_files" />
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                             </div>
                                                         </div>
                                                         <div class="profile-stars">
@@ -152,6 +150,9 @@
                                                         </div>
 
                                                     </div>
+                                                    <header class="main-box-header clearfix">
+                                                        <h2><label>Thumbnail</label></h2>
+                                                    </header>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,7 +161,7 @@
                                     <div class="tab-pane fade" id="tab-FixedCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Cost</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -193,7 +194,7 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Price</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -226,7 +227,7 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -261,7 +262,7 @@
                                     <div class="tab-pane fade" id="tab-CostSetup">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Cost Setup</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -364,7 +365,7 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Spoilage</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -457,7 +458,7 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Resources</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="col-lg-3"></div>
                                                 <div class="col-lg-6">
                                                         <div class="main-box-body clearfix">
@@ -485,7 +486,7 @@
                                     <div class="tab-pane clearfix fade" id="tab-QtyBaseCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Quantity Base Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -533,35 +534,41 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Quantity input method </h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                        
                                                         <label for="optionsinput">
                                                             Use From variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-md-1 radio">
+                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:quantityVariableId"></select>
                                                         <span class="help-block text-right">Select Variable</span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                        
                                                         <label for="optionsinput">
                                                             Prompt Question
                                                         </label>
+                                                    </div>
+                                                    <div class="col-md-1 radio">
+                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: quantityQuestionString, validationTooltip: quantityQuestionString">
@@ -589,7 +596,7 @@
                                     <div class="tab-pane clearfix fade" id="tab-HourBaseCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Per Hour Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
@@ -651,40 +658,48 @@
                                         </div>
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time input method </h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                        
+                                                        
                                                         <label for="optionsinput">
                                                             Use From variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioVariableInputTime" value="true">
+                                                    </div>
+                                                    <div class="col-md-6">
                                                         <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId"></select>
-                                                        <span class="help-block text-right">Select Variable</span>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="form-group">
-                                                    <div class="col-lg-3 radio text-right">
+                                                    <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width" style="margin-top: 0">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Time per unit quantity." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                        
                                                         <label for="optionsinput">
                                                             Prompt Question
                                                         </label>
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
-                                                        <span class="help-block text-right">Quantity prompt question</span>
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="false">
+                                                        
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
+                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -707,7 +722,7 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Plant Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 @*Estimated Cost*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -790,12 +805,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3">
                                                 <div class="clearfix">
-                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                     <div style="padding-right: 5px;" id="nestable2">
                                                         <ol class="dd-list">
-                                                            @*<!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
-                                                            <!-- /ko -->*@
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
+                                                            <!-- /ko -->
                                                         </ol>
                                                     </div>
                                                 </div>
@@ -805,7 +820,7 @@
                                     <div class="tab-pane clearfix fade" id="tab-StockCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Stock Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 @*Estimated Cost*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -888,12 +903,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3">
                                                 <div class="clearfix">
                                                     <div style="padding-right: 5px;" id="nestable2">
                                                         <ol class="dd-list">
-                                                            @*<!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
-                                                            <!-- /ko -->*@
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
+                                                            <!-- /ko -->
                                                         </ol>
                                                     </div>
                                                 </div>
@@ -903,7 +918,7 @@
                                     <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Labour Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 @*Estimated Cost*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -986,12 +1001,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3">
+                                                <div style="margin-top:20px;"></div>
                                                 <div class="clearfix">
                                                     <div style="padding-right: 5px;" id="nestable2">
                                                         <ol class="dd-list">
-                                                            @*<!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
-                                                            <!-- /ko -->*@
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
+                                                            <!-- /ko -->
                                                         </ol>
                                                     </div>
                                                 </div>
@@ -1001,7 +1017,7 @@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time Calculation</h3>
-                                            <div class="col-lg-9">
+                                            <div class="col-lg-7">
                                                 @*Estimated Time*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -1031,12 +1047,12 @@
                                                 </div>
                                                
                                             </div>
-                                            <div class="col-lg-6">
+                                            <div class="col-lg-3">
                                                 <div class="clearfix">
                                                     <div style="padding-right: 5px;" id="nestable2">
                                                         <ol class="dd-list">
-                                                            @*<!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.selectedStore().productCategories } -->
-                                                            <!-- /ko -->*@
+                                                            <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
+                                                            <!-- /ko -->
                                                         </ol>
                                                     </div>
                                                 </div>
@@ -1058,7 +1074,7 @@
                                                         <table id="costTablle" class="table table-striped table-hover">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style="width: 75%"> <span>Instructions & Choices</span></th>
+                                                                    <th style="width: 75%"> <span>Instructions</span></th>
                                                                     <th style="width: 10%">&nbsp;</th>
                                                                 </tr>
                                                             </thead>
@@ -1084,14 +1100,10 @@
     </div>
 </div>
 <script id="costCenterVariableTree" type="text/html">
-    <li class="dd-item dd-item-list">
+    <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
         <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
-            <span>Variable Name</span>
-            <div class="nested-links">
-                @*<a data-bind="click: $root.onEditProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>*@
-                <a class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a>
-            </div>
+            <span data-bind="text: Text"></span>
         </div>
     </li>
 </script>
@@ -1101,7 +1113,12 @@
             <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: instruction, validationTooltip: instruction" />
             <br />
             <table id="costTablle" class="table table-striped table-hover">
-                
+                <thead>
+                    <tr>
+                        <th style="width: 75%"> <span>Choices</span></th>
+                        <th style="width: 10%">&nbsp;</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <!-- ko template: { name: 'InstructionChoiceTemplate' , foreach:workInstructionChoices} -->
                     <!-- /ko -->

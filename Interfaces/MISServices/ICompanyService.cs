@@ -96,13 +96,22 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Apply Theme
         /// </summary>
-        void ApplyTheme(string themeName, long companyId);
+        void ApplyTheme(int themeId,string themeName, long companyId);
 
         /// <summary>
         /// Get Cms Tags For Cms Page Load Default page keywords
         /// </summary>
         string GetCmsTagForCmsPage();
 
+        /// <summary>
+        /// Get Campaign Detail By Campaign ID
+        /// </summary>
+        Campaign GetCampaignById(long campaignId);
+        /// <summary>
+        /// Base Data for Crm Screen (prospect/customer and suppliers)
+        /// </summary>
+        /// <returns></returns>
+        CrmBaseResponse GetBaseDataForCrm();
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);

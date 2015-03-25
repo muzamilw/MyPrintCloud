@@ -125,14 +125,14 @@ namespace MPC.Webstore.Controllers
 
                 ViewData["rptRetailDashboardItem"] = DashBordItems.OrderBy(g => g.SortOrder).ToList();
 
-       
+
 
                 /*************************************************Broker / Corporate Orders  ***********************************/
                 List<DashboardViewModel> BCDashBordItems = new List<DashboardViewModel>();
                 DashboardViewModel BCDetail = new DashboardViewModel(1);
                 if (((UserCookieManager.StoreMode == (int)StoreMode.Retail)) || (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User))
                 {
-                  
+
                     //CorpDiv.Visible = false;
                     // My Order History
                     BCDetail = new DashboardViewModel(1);
@@ -304,7 +304,7 @@ namespace MPC.Webstore.Controllers
                 ViewData["rptBrokerCorpDasHBItems"] = BCDashBordItems.OrderBy(g => g.SortOrder).ToList();
 
                 ViewBag.ErrorMes = 1;
-                
+
                 return View("PartialViews/Dashboard");
             }
             else
@@ -334,8 +334,8 @@ namespace MPC.Webstore.Controllers
         {
             return "(" + _myCompanyService.GetOrdersCountByStatus(_webstoreclaimHelper.loginContactID(), OrderStatus.InProduction).ToString() + ")";
         }
-     
-     
+
+
         public string CorpCustomerPendingOrdersCountForManagers()
         {
             return "(" + _myCompanyService.GetPendingOrdersCountByTerritory(_webstoreclaimHelper.loginContactID(), OrderStatus.PendingCorporateApprovel, Convert.ToInt32(_webstoreclaimHelper.loginContactTerritoryID())).ToString() + ")";
@@ -344,7 +344,7 @@ namespace MPC.Webstore.Controllers
         {
             return "(" + _myCompanyService.GetAllPendingOrders(_webstoreclaimHelper.loginContactID(), OrderStatus.PendingCorporateApprovel).ToString() + ")";
         }
-      
+
         public string AllCorpOrdersCount()
         {
             return "(" + _myCompanyService.GetAllOrdersCount(_webstoreclaimHelper.loginContactID()).ToString() + ")";
@@ -373,13 +373,13 @@ namespace MPC.Webstore.Controllers
         //        }
 
         //    }
-           
+
         //    viewModel.NewPassword = string.Empty;
         //    viewModel.ConfirmPassword = string.Empty;
         //    viewModel.CurrentPassword = string.Empty;
         //    return View("PartialViews/Dashboard", viewModel);
         //}
-        public ActionResult ResetPassword(string CurrentPassword,string NewPassword)
+        public ActionResult ResetPassword(string CurrentPassword, string NewPassword)
         {
             string password = _myCompanyService.GetPasswordByContactID(_webstoreclaimHelper.loginContactID());
             if (_myCompanyService.VerifyHashSha1(CurrentPassword, password) == true)
@@ -410,7 +410,7 @@ namespace MPC.Webstore.Controllers
         }
         [HttpPost]
         public JsonResult GetPassWord(string CurrentPassword)
-        { 
+        {
             string password = _myCompanyService.GetPasswordByContactID(_webstoreclaimHelper.loginContactID());
             if (_myCompanyService.VerifyHashSha1(CurrentPassword, password) == true)
             {

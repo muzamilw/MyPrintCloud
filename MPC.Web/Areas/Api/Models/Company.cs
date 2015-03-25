@@ -18,6 +18,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? CreditLimit { get; set; }
         public string Terms { get; set; }
         public long TypeId { get; set; }
+        public long? CurrentThemeId { get; set; }
         public int DefaultNominalCode { get; set; }
         public int DefaultMarkUpId { get; set; }
         public DateTime? AccountOpenDate { get; set; }
@@ -180,6 +181,12 @@ namespace MPC.MIS.Areas.Api.Models
         public List<CostCentreDropDown> CompanyCostCentres { get; set; }
         public List<FieldVariable> FieldVariables { get; set; }
         public List<SmartForm> SmartForms { get; set; }
+
+        #region Campaigns
+        public List<Campaign> NewAddedCampaigns { get; set; }
+        public List<Campaign> EdittedCampaigns { get; set; }
+        public List<Campaign> DeletedCampaigns { get; set; }
+        #endregion
 
         #region CMS Pages
 
@@ -390,6 +397,8 @@ namespace MPC.MIS.Areas.Api.Models
         }
 
         #endregion
+
+
         #endregion
     }
 }
