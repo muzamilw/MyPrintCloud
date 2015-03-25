@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -41,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Product Categories for Company
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct  })]
         public IEnumerable<ProductCategoryDropDown> Get(int id)
         {
             if (!ModelState.IsValid)

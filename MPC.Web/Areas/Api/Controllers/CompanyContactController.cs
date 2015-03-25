@@ -1,4 +1,5 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using MPC.Interfaces.Data;
+using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
@@ -37,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Addresses / Compnay Contacts
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
@@ -50,6 +52,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Save Contact
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyContact Post(CompanyContact companyContact)
         {
             if (!ModelState.IsValid)
@@ -62,6 +65,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Delete Contact
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public bool Delete(CompanyContactDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.CompanyContactId <= 0)
