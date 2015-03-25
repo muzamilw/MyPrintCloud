@@ -157,5 +157,7 @@ namespace MPC.Interfaces.Repository
         List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
 
         Item GetItemByItemID(long itemId);
+
+        void DeleteItemBySP(long ItemID);
     }
 }
