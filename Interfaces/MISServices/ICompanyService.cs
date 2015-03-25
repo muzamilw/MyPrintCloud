@@ -105,9 +105,14 @@ namespace MPC.Interfaces.MISServices
 
         #region exportOrganisation
 
-        bool ExportOrganisation(long OrganisationID);
+        bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
         bool ImportOrganisation(long OrganisationId, bool isCorpStore);
+
+
+        bool ImportStore(long OrganisationId, string StoreName);
         #endregion
+
+       
     }
 }
