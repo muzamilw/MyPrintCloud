@@ -64,36 +64,37 @@ namespace MPC.MIS.Controllers
              * Call WebStore Service to Authenticate User
              * On Call back, if user is authenticated then add Claims
              */
+            ; ;
             
 
             ValidationInfo validationInfo = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //using (var client = new HttpClient())
+            //{
+            //    client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
+            //    client.DefaultRequestHeaders.Accept.Clear();
+            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                string url = "login?token=" + token;
-                string responsestr = "";
-                var response = client.GetAsync(url);
-                if (response.Result.IsSuccessStatusCode)
-                {
-                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
-                    validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-                }
+            //    string url = "login?token=" + token;
+            //    string responsestr = "";
+            //    var response = client.GetAsync(url);
+            //    if (response.Result.IsSuccessStatusCode)
+            //    {
+            //        responsestr = response.Result.Content.ReadAsStringAsync().Result;
+            //        validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+            //    }
 
-            }
+            //}
 
             //For Development environment Set these values and comment code above starting from using...
 
-            //validationInfo = new ValidationInfo();
-            //validationInfo.CustomerID = "1";
-            //validationInfo.userId = "xyz";
-            //validationInfo.FullName = "Naveed Zahid";
-            //validationInfo.Plan = "light";
-            //validationInfo.Email = "naveedmnz@hotmail.com";
-            //validationInfo.IsTrial = true;
-            //validationInfo.TrialCount = 9;
+            validationInfo = new ValidationInfo();
+            validationInfo.CustomerID = "1";
+            validationInfo.userId = "xyz";
+            validationInfo.FullName = "Naveed Zahid";
+            validationInfo.Plan = "light";
+            validationInfo.Email = "naveedmnz@hotmail.com";
+            validationInfo.IsTrial = true;
+            validationInfo.TrialCount = 9;
             
 
 
@@ -105,9 +106,9 @@ namespace MPC.MIS.Controllers
             Boolean isTrial = false;
             int trialCount = 0;
 
-            if ( validationInfo != null)
+            if (validationInfo != null)
             {
-                organisationId = Convert.ToInt64( validationInfo.CustomerID);
+                organisationId = Convert.ToInt64(validationInfo.CustomerID);
                 userId = validationInfo.userId;
                 fullName = validationInfo.FullName;
                 Plan = validationInfo.Plan;

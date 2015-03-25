@@ -2223,9 +2223,9 @@ define("stores/stores.viewModel",
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
-                            selectedStore().SystemPages.removeAll();
+                            selectedStore().systemPages.removeAll();
                             _.each(data.CmsPages, function (cmsPage) {
-                                selectedStore().SystemPages.push(model.SecondaryPageListView.Create(cmsPage));
+                                selectedStore().systemPages.push(model.SecondaryPageListView.Create(cmsPage));
                             });
                         },
                         error: function (response) {
@@ -3059,17 +3059,7 @@ define("stores/stores.viewModel",
                 }
                 event.stopImmediatePropagation();
             },
-                //Select Child Product Category
-            selectChildProductCategory = function (categoryId, event) {
-                selectedProductCategory(undefined);
-                var id = $(event.target).closest('li')[0].id;
-                if (id) {
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(id);
-                }
-                event.stopImmediatePropagation();
-            },
-                //Get Category Child List Items
+            //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').length > 0) {
@@ -3119,7 +3109,7 @@ define("stores/stores.viewModel",
                 //Function Call When create new Product Category 
             onCreateNewProductCategory = function () {
                 //$('.nav-tabs li:first-child a').tab('show');
-
+                selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
                 //Set Product category value for by default
                 productCategory.isShelfProductCategory(true);
@@ -3274,6 +3264,21 @@ define("stores/stores.viewModel",
                 view.hideStoreProductCategoryDialog();
                 //resetProductCategoryCounter();
                 isSavingNewProductCategory(false);
+            },
+            onArchiveCategory= function() {
+                dataservice.deleteProductCategoryById({
+                    ProductCategoryId: selectedProductCategory().productCategoryId()
+                }, {
+                    success: function (data) {
+                        if (data != null) {
+                            selectedProductCategory().isArchived(true);
+                        }
+                    },
+                    error: function (response) {
+                        isLoadingStores(false);
+                        toastr.error("Error: Failed To delete Category!");
+                    }
+                });
             },
                 //Do Before Save Product Category
             doBeforeSaveProductCategory = function () {
@@ -3675,7 +3680,7 @@ define("stores/stores.viewModel",
                             storeToSave.SmartForms.push(smartFormServer);
                         });
                     }
-                   
+
 
                     //endregion
                     //#region Company Territories
@@ -4303,6 +4308,8 @@ define("stores/stores.viewModel",
                 isStoreVariableTabOpened(false);
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
+                selectedTheme(undefined);
+
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();
@@ -6205,7 +6212,8 @@ define("stores/stores.viewModel",
                     getScopeVariables: getScopeVariables,
                     systemPagePager: systemPagePager,
                     getSystemPages: getSystemPages,
-                    selectChildProductCategory: selectChildProductCategory
+                    selectChildProductCategory: selectChildProductCategory,
+                    onArchiveCategory: onArchiveCategory
                 };
                 //#endregion
             })()

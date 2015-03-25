@@ -12,7 +12,11 @@
                     <li><a href="/CRM/SuppliersList">CRM</a></li>
                     <li class="active"><span>Customers</span></li>
                 </ol>
-                <h1>Supplier Detail</h1>
+                <!--ko if: $root.selectedStore() != undefined -->
+                <h1 data-bind="text: $root.selectedStore().name()"></h1>
+                <!-- /ko -->
+                
+            
             </div>
         </div>
         <div class="row" id="user-profile">
@@ -353,7 +357,7 @@
                             </div>
                             <div class="tab-pane fade" id="tab-territory">
                                 <div class="col-lg-12">
-                                    <!--ko if: type() != 0-->
+                                    <!--ko if: type() != 0 && type() != 1-->
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Territories</h3>
                                         <div class="col-lg-12 clearfix">
@@ -1049,7 +1053,7 @@
         </li>
     </script>
 </div>
-@Html.Partial("Widgets/_UserProfileDetails")
+@*@Html.Partial("Widgets/_UserProfileDetails")*@
 @Html.Partial("~/Areas/CRM/Views/Home/_AddEditAddressForCrm.cshtml")
 @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForCrm.cshtml")
 @Html.Partial("~/Areas/CRM/Views/Home/_AddEditTerritoryForCrm.cshtml")

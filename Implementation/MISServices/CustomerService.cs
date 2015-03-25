@@ -30,6 +30,7 @@ namespace MPC.Implementation.MISServices
         {
             return companyRepository.SearchCompaniesForCustomer(requestModel);
         }
+
         #endregion
     }
 }

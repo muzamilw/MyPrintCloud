@@ -78,82 +78,109 @@ namespace MPC.Repository.Repositories
         }
         public List<Item> GetOrderItems(long OrderId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return (from r in db.Items
-                    where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
-                    select r).ToList();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return (from r in db.Items
+                        where r.EstimateId == OrderId && (r.ItemType == null || r.ItemType != (int)ItemTypes.Delivery)
+                        select r).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public long CreateNewOrder(long CompanyId, long ContactId, long OrganisationId, string orderTitle = null)
         {
-            Prefix prefix = db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
-
-            Estimate orderObject = new Estimate();
-
-            orderObject.CompanyId = (int)CompanyId;
-
-            orderObject.OrganisationId = OrganisationId;
-
-            orderObject.ContactId = ContactId;
-
-            orderObject.isEstimate = false;
-
-            orderObject.StatusId = (short)OrderStatus.ShoppingCart;
-
-            orderObject.SectionFlagId = 145;
-
-            orderObject.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
-
-            orderObject.isDirectSale = false;
-
-            orderObject.Order_Date = DateTime.Now;
-
-            orderObject.CreationDate = DateTime.Now;
-
-            orderObject.CreationTime = DateTime.Now;
-
-            orderObject.Order_CreationDateTime = DateTime.Now;
-
-            if (prefix != null)
+            try
             {
-                orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
-                prefix.OrderNext = prefix.OrderNext + 1;
+                Prefix prefix = db.Prefixes.Where(c => c.SystemSiteId == 1).FirstOrDefault();
+
+                Estimate orderObject = new Estimate();
+
+                orderObject.CompanyId = (int)CompanyId;
+
+                orderObject.OrganisationId = OrganisationId;
+
+                orderObject.ContactId = ContactId;
+
+                orderObject.isEstimate = false;
+
+                orderObject.StatusId = (short)OrderStatus.ShoppingCart;
+
+                orderObject.SectionFlagId = 145;
+
+                orderObject.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
+
+                orderObject.isDirectSale = false;
+
+                orderObject.Order_Date = DateTime.Now;
+
+                orderObject.CreationDate = DateTime.Now;
+
+                orderObject.CreationTime = DateTime.Now;
+
+                orderObject.Order_CreationDateTime = DateTime.Now;
+
+                if (prefix != null)
+                {
+                    orderObject.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                    prefix.OrderNext = prefix.OrderNext + 1;
+                }
+
+                db.Estimates.Add(orderObject);
+
+                if (db.SaveChanges() > 0)
+                {
+                    return orderObject.EstimateId;
+                }
+                else
+                {
+                    return 0;
+                }
             }
-
-            db.Estimates.Add(orderObject);
-
-            if (db.SaveChanges() > 0)
+            catch (Exception ex)
             {
-                return orderObject.EstimateId;
-            }
-            else
-            {
-                return 0;
+                throw ex;
             }
         }
 
         public long GetOrderID(long CustomerId, long ContactId, string orderTitle, long OrganisationId)
         {
-            long orderID = 0;
-
-            orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart);
-
-            if (orderID == 0)
+            try
             {
-                orderID = CreateNewOrder(CustomerId, ContactId, OrganisationId, orderTitle);
-            }
+                long orderID = 0;
 
-            return orderID;
+                orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart);
+
+                if (orderID == 0)
+                {
+                    orderID = CreateNewOrder(CustomerId, ContactId, OrganisationId, orderTitle);
+                }
+
+                return orderID;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private long GetOrderByContactID(long contactID, OrderStatus orderStatus)
         {
-            int orderStatusID = (int)orderStatus;
-            List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
-            if (ordesList.Count > 0)
-                return ordesList[0].EstimateId;
-            else
-                return 0;
-
+            try
+            {
+                int orderStatusID = (int)orderStatus;
+                List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
+                if (ordesList.Count > 0)
+                    return ordesList[0].EstimateId;
+                else
+                    return 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public long GetUserShopCartOrderID(int status)
         {
@@ -187,14 +214,21 @@ namespace MPC.Repository.Repositories
         }
         public bool IsUserLoggedIn()
         {
-            if (_myClaimHelper.loginContactID() > 0)
+            try
             {
+                if (_myClaimHelper.loginContactID() > 0)
+                {
 
-                return true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
         public ShoppingCart GetShopCartOrderAndDetails(long orderID, OrderStatus orderStatus)
@@ -457,7 +491,7 @@ namespace MPC.Repository.Repositories
             else 
             {
                 List<ItemAttachment> newlistAttach = db.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
-                if (newlistAttach != null && tblItem.ItemAttachments.Count > 0) 
+                if (newlistAttach != null && newlistAttach.Count > 0) 
                 {
                     tblItemAttchment = newlistAttach[0];
 

@@ -70,26 +70,31 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public Item GetItemWithDetails(long itemId)
         {
-
-            return
-                          DbSet
-                          .Include("ItemSections")
-                          .Include("ItemSections.StockItem")
-                          .Include("ItemSections.Machine")
-                          .Include("ItemStockOptions")
-                          .Include("ItemStockOptions.StockItem")
-                          .Include("ItemStockOptions.ItemAddonCostCentres")
-                          .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
-                          .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
-                          .Include("ProductCategoryItems")
-                          .Include("ProductCategoryItems.ProductCategory")
-                          .Include("ItemStateTaxes")
-                          .Include("ItemStateTaxes.Country")
-                          .Include("ItemStateTaxes.State")
-                          .Include("ItemRelatedItems")
-                          .Include("ItemRelatedItems.RelatedItem")
-                          .FirstOrDefault(item => item.ItemId == itemId);
-
+            try
+            {
+                return
+                              DbSet
+                              .Include("ItemSections")
+                              .Include("ItemSections.StockItem")
+                              .Include("ItemSections.Machine")
+                              .Include("ItemStockOptions")
+                              .Include("ItemStockOptions.StockItem")
+                              .Include("ItemStockOptions.ItemAddonCostCentres")
+                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre")
+                              .Include("ItemStockOptions.ItemAddonCostCentres.CostCentre.CostCentreType")
+                              .Include("ProductCategoryItems")
+                              .Include("ProductCategoryItems.ProductCategory")
+                              .Include("ItemStateTaxes")
+                              .Include("ItemStateTaxes.Country")
+                              .Include("ItemStateTaxes.State")
+                              .Include("ItemRelatedItems")
+                              .Include("ItemRelatedItems.RelatedItem")
+                              .FirstOrDefault(item => item.ItemId == itemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
         }
 
@@ -98,7 +103,14 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public bool IsDuplicateProductCode(string productCode, long? itemId)
         {
-            return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
+            try
+            {
+                return DbSet.Any(item => item.ProductCode == productCode && (!itemId.HasValue || item.ItemId != itemId) && item.OrganisationId == OrganisationId && item.EstimateId == null);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -106,7 +118,14 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public override IEnumerable<Item> GetAll()
         {
-            return DbSet.Where(item => item.OrganisationId == OrganisationId).ToList();
+            try
+            {
+                return DbSet.Where(item => item.OrganisationId == OrganisationId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -114,27 +133,34 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public ItemSearchResponse GetItems(ItemSearchRequestModel request)
         {
-            int fromRow = (request.PageNo - 1) * request.PageSize;
-            int toRow = request.PageSize;
+            try
+            {
+                int fromRow = (request.PageNo - 1) * request.PageSize;
+                int toRow = request.PageSize;
 
-            Expression<Func<Item, bool>> query =
-                item =>
-                    ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
-                     item.OrganisationId == OrganisationId);
+                Expression<Func<Item, bool>> query =
+                    item =>
+                        ((string.IsNullOrEmpty(request.SearchString) || item.ProductName.Contains(request.SearchString)) &&
+                         item.OrganisationId == OrganisationId);
 
-            IEnumerable<Item> items = request.IsAsc
-                ? DbSet.Where(query)
-                    .OrderBy(stockItemOrderByClause[request.ItemOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList()
-                : DbSet.Where(query)
-                    .OrderByDescending(stockItemOrderByClause[request.ItemOrderBy])
-                    .Skip(fromRow)
-                    .Take(toRow)
-                    .ToList();
+                IEnumerable<Item> items = request.IsAsc
+                    ? DbSet.Where(query)
+                        .OrderBy(stockItemOrderByClause[request.ItemOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList()
+                    : DbSet.Where(query)
+                        .OrderByDescending(stockItemOrderByClause[request.ItemOrderBy])
+                        .Skip(fromRow)
+                        .Take(toRow)
+                        .ToList();
 
-            return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
+                return new ItemSearchResponse { Items = items, TotalCount = DbSet.Count(query) };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID)
@@ -1346,6 +1372,20 @@ namespace MPC.Repository.Repositories
                 return db.Items.Include("ItemPriceMatrices")
                                    .Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null)
                                    .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
+
+        }
+        public Item GetItemByItemID(long itemId)
+        {
+            try
+            {
+                return db.Items.Where(s => s.ItemId == itemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -4163,6 +4203,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+        }
+
+        public void DeleteItemBySP(long ItemID)
+        {
+            try
+            {
+                db.usp_DeleteProduct(ItemID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

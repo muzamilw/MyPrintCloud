@@ -2034,7 +2034,7 @@ function i2(cs) {
 function i4(coords, ObjectID, color, cutMargin) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.5, border: 'none'
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.2, border: 'none'
         });
 
     line.ObjectID = ObjectID;

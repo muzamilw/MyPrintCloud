@@ -311,6 +311,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterTreeController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
@@ -431,7 +432,9 @@
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
+    <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
@@ -440,6 +443,7 @@
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -3049,6 +3053,7 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
