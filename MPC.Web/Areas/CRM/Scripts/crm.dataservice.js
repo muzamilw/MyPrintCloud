@@ -39,6 +39,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Company Contact
+                    amplify.request.define('saveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to get Store
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/CrmBase',
@@ -156,6 +163,16 @@
                     data: params
                 });
             },
+             // Save Company Contact
+            saveCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
             // get Suppliers
 	        getSuppliers = function (params, callbacks) {
 	            initialize();
@@ -176,7 +193,8 @@
             getSuppliers: getSuppliers,
             getOrdersData: getOrders,
             searchCompanyTerritory: searchCompanyTerritory,
-            getInvoices: getInvoices
+            getInvoices: getInvoices,
+            saveCompanyContact: saveCompanyContact
         };
     })();
 
