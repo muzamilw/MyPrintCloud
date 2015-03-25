@@ -176,5 +176,6 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
         List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
+       
     }
 }
