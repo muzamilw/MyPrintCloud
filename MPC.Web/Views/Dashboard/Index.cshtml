@@ -169,7 +169,7 @@
                             </div>
                         </a>
 
-                        <a href="#" style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass">
+                        <a href="/mis/Estimate/EstimatesList/" style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass">
                             <div class="main-box infographic-box inner-box">
                                 <i class="fa  fa-anchor emerald-bg" style="margin-right:4px;"></i>
                                 <span class="span-dashboard-widgets">Create Quote</span>
@@ -189,17 +189,17 @@
                         </a>
 
 
-                        <a href="~/Products/Home/Index" style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass">
+                        <a style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass bs-example-tooltips" data-placement="bottom" data-toggle="popover" data-content="To create a product go to Stores, select a store and then vistit the Products and Categories Tab. It is always a good practice to create a category first and then create a product based on your requirements.">
                             <div class="main-box infographic-box inner-box">
                                 <i class="fa fa-cube emerald-bg" style="margin-right:4px;"></i>
-                                <span class="span-dashboard-widgets">Create Product</span>
+                                <span class="span-dashboard-widgets ">Create Product</span>
                                 <span class="value inner-box-margin">&nbsp;</span>
                             </div>
                             <div class="product-positioner" style="position:fixed;">
                             </div>
                         </a>
 
-                        <a href="#" style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass">
+                        <a href="#" style="text-decoration:none" class="@displaybuttonsclass @ishiddenclass" data-toggle="popover" data-placement="bottom"  data-content="Design templates can be created agaisnt the products. To create a design template in a product first navigate to the store, select the product and navigate to Template Properties tab. Select either a blank template option or PDF based template to start creating template. ">
                             <div class="main-box infographic-box inner-box">
                                 <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
                                 <span class="span-dashboard-widgets">Create Template</span>
@@ -308,7 +308,7 @@
                                                         <input type="text" class="form-control" placeholder="Search...">
                                                         <i class="fa fa-search search-icon"></i>
                                                     </div>
-                                                    <a href="#" class="btn btn-primary pull-right">
+                                                    <a href="/mis/orders/home/" class="btn btn-primary pull-right">
                                                         <i class="fa fa-eye fa-lg"></i>View all orders
                                                     </a>
                                                 </div>
@@ -1435,6 +1435,13 @@
 
     <script>
         require(["dashboard.view", "common/confirmation.view"]);
+
+        $(document).ready(function () {
+
+            //min/max slider
+            $('[data-toggle="popover"]').popover();
+        });
+
     </script>
 
 }
