@@ -1056,3 +1056,188 @@ values('UPS','ups.com', null,null)
 insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
 values('Other',null, null,null)
 GO
+
+/* Execution Date: 25/03/2015 */
+
+GO
+
+Create PROCEDURE [dbo].[usp_DeleteProduct]
+	-- Add the parameters for the stored procedure here
+	
+	@itemid bigint = 0
+
+AS
+BEGIN
+	
+--BEGIN TRANSACTION;
+--IF @@TRANCOUNT = 0
+--BEGIN
+declare @TemplateID bigint
+
+select @TemplateID = templateid from items where itemid = @itemid
+--57647
+-- delete section cost centre details
+delete  scd
+				from dbo.SectionCostCentreDetail scd
+				inner join dbo.SectionCostcentre sc on sc.SectionCostcentreID = scd.SectionCostCentreID
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN items i ON i.ItemID = iss.ItemID
+					where i.ItemId = @itemid
+
+
+
+	--deletinng the item section cost center resources
+				delete  scr
+				from dbo.SectionCostCentreResource scr
+				inner join dbo.SectionCostcentre sc on sc.SectionCostcentreID = scr.SectionCostCentreID
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item section cost center
+				delete sc
+				from dbo.SectionCostcentre sc
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN Items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+--deletinng the item section ink coverage
+delete  sink
+				from dbo.SectionInkCoverage sink
+				inner join ItemSection iss on iss.ItemSectionID = sink.SectionID
+				INNER JOIN Items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item section
+				delete  isec
+				from dbo.ItemSection isec
+				INNER JOIN Items i ON i.ItemID = isec.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item attachments
+				delete ia
+				from ItemAttachment ia
+				INNER JOIN items i ON i.ItemID = ia.ItemID
+				where i.ItemId = @itemid
+
+    --deletinng the item addon Cost Centres xxxxxxxx
+				delete  iacc
+				from dbo.ItemAddonCostCentre iacc
+				INNER JOIN ItemStockOption iss ON iss.ItemStockOptionId  = iacc.ItemStockOptionId
+				INNER JOIN Items i ON i.ItemID = iss.ItemId
+				where i.ItemId = @itemid
+
+	--deletinng the item Stock Options
+				delete isoo
+				from dbo.ItemStockOption isoo
+				INNER JOIN Items i ON i.ItemID = isoo.ItemID
+				where i.ItemId = @itemid
+
+   --deletinng the item Price Matrix
+				delete ipms
+				from dbo.ItemPriceMatrix ipms
+				INNER JOIN Items i ON i.ItemID = ipms.ItemID
+				where i.ItemId = @itemid
+
+   	--deletinng the item related items
+				delete  iri
+				from dbo.ItemRelatedItem iri
+				INNER JOIN Items i ON i.ItemID = iri.ItemID
+				where i.ItemId = @itemid
+
+	-- deleting item state tax
+			    delete  ist
+				from dbo.ItemStateTax ist
+				INNER JOIN Items i ON i.ItemID = ist.ItemID
+				where i.ItemId = @itemid
+
+   -- deleting item VDP Price
+			    delete  vdp
+				from dbo.ItemVDPPrice vdp
+				INNER JOIN Items i ON i.ItemID = vdp.ItemID
+				where i.ItemId = @itemid
+
+	  -- deleting item ProductDetail
+			    delete  pd
+				from dbo.ItemProductDetail pd
+				INNER JOIN Items i ON i.ItemID = pd.ItemID
+				where i.ItemId = @itemid
+				 
+    -- deleting item video Price
+			    delete  vid
+				from dbo.ItemVideo vid
+				INNER JOIN Items i ON i.ItemID = vid.ItemID
+				where i.ItemId = @itemid
+
+   -- deleting item video Price
+			    delete  img
+				from dbo.ItemImage img
+				INNER JOIN Items i ON i.ItemID = img.ItemID
+				where i.ItemId = @itemid
+
+
+ -- deleting ProductCategoryItem
+			    delete PCI
+				from dbo.ProductCategoryItem pci
+				INNER JOIN Items i ON i.ItemID = pci.ItemID
+				where i.ItemId = @itemid
+
+	--deletinng the items
+				delete  i
+				from dbo.items i
+				where i.ItemId = @itemid
+
+ -- delete template objects
+
+delete from TemplateObject where productid = @TemplateID
+
+-- DELETE tob
+--FROM TemplateObject tob
+--inner join TemplatePage topg on topg.ProductPageId = tob.ProductPageID
+--inner join Template t on t.ProductID = topg.productid
+--INNER JOIN Items i ON i.TemplateID = t.ProductID
+--where i.ItemId = @itemid
+
+
+ -- delete template pages
+ delete from TemplatePage where productid = @TemplateID
+-- DELETE topg
+--FROM TemplatePage topg
+--				inner join Template t on t.ProductID = topg.productid
+--				INNER JOIN Items i ON i.TemplateID = t.ProductID
+--				where i.ItemId = @itemid
+  -- delete image permisssions
+
+ DELETE imgPer
+				FROM ImagePermissions imgPer
+				inner join TemplateBackgroundImage tbi on tbi.Id = imgPer.ImageID
+				where tbi.ProductID = @TemplateID
+
+
+ -- delete template background images
+  delete from TemplateBackgroundImage where productid = @TemplateID
+ --DELETE topg
+	--			FROM TemplateBackgroundImage topg
+	--			inner join Template t on t.ProductID = topg.productid
+	--			INNER JOIN Items i ON i.TemplateID = t.ProductID
+	--			where i.ItemId = @itemid
+
+
+-- delete template 
+DELETE from template where ProductId = @TemplateID
+
+--END;
+--ROLLBACK TRANSACTION;
+end
+
+--GO
+/*
+Rolled back the transaction.
+*/
+
+
+
+GO
