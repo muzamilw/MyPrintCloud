@@ -53,7 +53,14 @@ namespace MPC.Repository.Repositories
 
         public override IEnumerable<Company> GetAll()
         {
-            return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
+            try
+            {
+                return DbSet.Where(c => c.OrganisationId == OrganisationId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public long GetStoreIdFromDomain(string domain)

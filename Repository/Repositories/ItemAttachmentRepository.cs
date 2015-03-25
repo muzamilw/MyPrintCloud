@@ -31,32 +31,53 @@ namespace MPC.Repository.Repositories
 
         public List<ItemAttachment> GetArtworkAttachments(long ItemId)
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.ItemAttachments.Where(a => a.ItemId == ItemId).ToList();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.ItemAttachments.Where(a => a.ItemId == ItemId).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList)
         {
-            long itemID = 0;
-            foreach(var attachment in attachmentList)
+            try
             {
-                db.ItemAttachments.Add(attachment);
-                itemID = attachment.ItemId ?? 0;
-            }
+                long itemID = 0;
+                foreach (var attachment in attachmentList)
+                {
+                    db.ItemAttachments.Add(attachment);
+                    itemID = attachment.ItemId ?? 0;
+                }
 
-            if (db.SaveChanges() > 0)
-            {
-                return db.ItemAttachments.Where(i => i.ItemId == itemID).ToList();
+                if (db.SaveChanges() > 0)
+                {
+                    return db.ItemAttachments.Where(i => i.ItemId == itemID).ToList();
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else 
+            catch (Exception ex)
             {
-                return null;
+                throw ex;
             }
         }
         public  List<ItemAttachment> GetItemAttactchments(long itemID)
         {
-            return (from Attachment in db.ItemAttachments
-                    where Attachment.ItemId == itemID
-                    select Attachment).ToList();
+            try
+            {
+                return (from Attachment in db.ItemAttachments
+                        where Attachment.ItemId == itemID
+                        select Attachment).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
