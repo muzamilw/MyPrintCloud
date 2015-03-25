@@ -87,7 +87,7 @@ namespace MPC.Webstore.Controllers
                 }
             }
         }
-        [HttpPost]
+        
         private void approveOrRejectEmailToUser(long userID, long orderID,int Event)
         {
             string CacheKeyName = "CompanyBaseResponse";
@@ -120,7 +120,7 @@ namespace MPC.Webstore.Controllers
 
         }
         [HttpPost]
-        private void ApporRejectOrder(long OrderID)
+        public void ApporRejectOrder(long OrderID)
         { 
              string CacheKeyName = "CompanyBaseResponse";
              ObjectCache cache = MemoryCache.Default;
@@ -131,7 +131,7 @@ namespace MPC.Webstore.Controllers
         
         }
         [HttpPost]
-        private void Save(long OrderID,string PO)
+        public void Save(long OrderID, string PO)
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
@@ -142,7 +142,6 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.StoreMode ==(int) StoreMode.Corp)
             {
                 int ManagerID = (int) _CompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
-
                 _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager,_myClaimHelper.loginContactID(),_myClaimHelper.loginContactCompanyID(), 0, UserCookieManager.OrganisationID, ManagerID, StoreMode.Corp, UserCookieManager.StoreId, EmailOFSM);
             }
              approveOrRejectEmailToUser(ContactID, OrderID, (int)Events.Order_Approval_By_Manager);

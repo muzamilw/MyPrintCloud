@@ -300,9 +300,10 @@
                 <div class="float_left_simple grossTotaldiv">
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.StoreId))</label>
                     
-                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft">@ViewBag.VATLabel</label>
+                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:5px;">@ViewBag.VATLabel</label>
                     
-                    <label id="lblGrossTotal" class="float_right">@ViewBag.Currency 0.00</label>
+                    <label id="lblGrossTotal" class="float_right"> 0.00</label>
+                    <label class="float_right">@ViewBag.Currency</label>
                 </div>
                 @if (ViewBag.IsStockControl == true)
                 {
@@ -1023,7 +1024,7 @@
         TotalItemPrice = TotalItemPrice.toFixed(2);
 
         var GrossTotal = itemPrice + addOnPrice;
-        GrossTotal = "@ViewBag.Currency" + GrossTotal.toFixed(2).toString();
+        GrossTotal = GrossTotal.toFixed(2).toString();
 
         var isShowPricing = 1;
 

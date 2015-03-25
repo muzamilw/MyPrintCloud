@@ -7,70 +7,6 @@
         </div>
         <div class="clearboth">
         </div>
-        <div id="BCDIV" class="white-container-lightgrey-border rounded_corners">
-            <div class="padding50">
-                @foreach (var item in ViewData["rptBrokerCorpDasHBItems"] as List<MPC.Webstore.Models.DashboardViewModel>)
-                {
-                    <div class="cntDashboardItems">
-                        <a href="@item.PageNavigateURl">
-                            <div id="dashIcons" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
-                                @Html.Raw(item.ImageURL)
-                            </div>
-
-                            <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                <div class="dashboard_item_main_heading">
-                                    <label id="lblBCName">@item.Name</label>
-                                </div>
-                                <div class="dashboard_item_detail">
-                                    <label id="lblBCDescription">@item.Description</label>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                }
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-            </div>
-
-        </div>
-        <div class="spacer10pxtop">
-            &nbsp;
-        </div>
-        @if (ViewData["rptStorePreferences"] != null) { 
-        <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
-            <label id="lbl_StorePrefrence" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblStorePrefrence", UserCookieManager.StoreId))</label>
-        </div>
-        <div id="SPDIV" class="white-container-lightgrey-border rounded_corners">
-            <div id="Store_Pre_Left_Panel" class="padding50">
-                @foreach (var item in ViewData["rptStorePreferences"] as List<MPC.Webstore.Models.DashboardViewModel>)
-                {
-                    <div class="cntDashboardItemsSP">
-                        <a href="@item.PageNavigateURl">
-                            <div id="dashIconsSp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
-                                @Html.Raw(item.ImageURL)
-                            </div>
-
-                            <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                <div class="dashboard_item_main_heading">
-                                    <label>@item.Name</label>
-                                </div>
-                                <div class="dashboard_item_detail">
-                                    <label>@item.Description</label>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                }
-                <div class="clearBoth">
-                    &nbsp;
-                </div>
-            </div>
-        </div>
-        <div class="spacer10pxtop">
-            &nbsp;
-        </div>
-        }
         @if (ViewData["rptRetailDashboardItem"] != "")
         {
             <div class="signin_heading_div col-md-12 col-lg-12 col-xs-12">
@@ -80,57 +16,59 @@
                 <div class="padding50">
                     @foreach (var item in ViewData["rptRetailDashboardItem"] as List<MPC.Webstore.Models.DashboardViewModel>)
                     {
-                        <div class="cntDashboardItems">
-                            @if (item.IsChangePassword ?? false)
-                            {
-                                <a onclick="ChangePassPopupShow();">
-
-
-                                    <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
-                                        @Html.Raw(item.ImageURL)
-                                    </div>
-                                    <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                        <div class="dashboard_item_main_heading">
-                                            <label id="lblName">@item.Name</label>
+                        if (item.IsChangePassword ?? false)
+                        {
+                            <a onclick="ChangePassPopupShow();">
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="main-box clearfix profile-box-contact">
+                                        <div class="main-box-body clearfix">
+                                            <div class="profile-box-header gray-bg clearfix">
+                                                @Html.Raw(item.ImageURL)
+                                                <h2>@item.Name</h2>
+                                                <div class="profile-box-footer clearfix">
+                                                    @item.Description
+                                                </div>
+                                            </div>
                                             
                                         </div>
-                                        <div class="dashboard_item_detail">
-                                            <label id="lblBCDescription">@item.Description</label>
+                                    </div>
+
+                                </div>
+
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@item.PageNavigateURl">
+                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                                    <div class="main-box clearfix profile-box-contact">
+                                        <div class="main-box-body clearfix">
+                                            <div class="profile-box-header gray-bg clearfix">
+                                                
+                                                <i class="cicon  profile-img">@Html.Raw(item.ImageURL)</i>
+                                                @*<img src="@item.ImageURL" class="profile-img img-responsive" />*@
+                                                <div id="measurement">
+                                                <h6>@item.Name</h6>
+                                                <div class="job-position">
+                                                  @item.Description
+                                               </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="job-position">
+                                                @item.Description
+                                            </div>*@
+                                            @*<div class="job-position">
+                                                Actress
+                                            </div>*@
                                         </div>
                                     </div>
-                                    <div class="clearBoth">
 
-                                    </div>
+                                </div>
 
-                                </a>
-
-                            }
-                            else
-                            {
-                                <a href="@item.PageNavigateURl">
+                            </a>
+                        }
 
 
-                                    <div id="dashIconsrp" class="dashboard_logo_div dashboardIcons contact_log MarginBottom30px">
-                                        @Html.Raw(item.ImageURL)
-                                    </div>
-                                    <div id="NavigationDiv" class="dashboard_logo_des_div MarginBottom30px">
-                                        <div class="dashboard_item_main_heading">
-                                            <label id="lblName">@item.Name</label>
-                                            
-                                        </div>
-                                        <div class="dashboard_item_detail">
-                                            <label id="lblBCDescription">@item.Description</label>
-                                        </div>
-                                    </div>
-                                    <div class="clearBoth">
-
-                                    </div>
-
-                                </a>
-
-                            }
-                         
-                        </div>
                     }
                     <div class="clearBoth">
                         &nbsp;
