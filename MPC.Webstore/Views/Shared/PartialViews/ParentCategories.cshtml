@@ -30,7 +30,7 @@
                                        if (ProductDescription.Length > 250)
                                        {
                                            ProductDescription = ProductDescription.Substring(0, 250);
-                                           ProductDescription = ProductDescription + "...";
+                                           ProductDescription = ProductDescription + "<a class=morelink href=/Category/" + @Html.ResolveString(categories.CategoryName) + "/" + @categories.ProductCategoryId + ">more...</a>";
                                        }
                                        else
                                        {
@@ -38,7 +38,7 @@
                                        }
                                    }
                                }
-                            @ProductDescription
+                            @Html.Raw(ProductDescription)
                         </div>
                     </div>
 

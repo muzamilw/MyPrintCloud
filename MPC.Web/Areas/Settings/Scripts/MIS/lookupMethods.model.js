@@ -80,34 +80,44 @@
 
     var ClickChargeLookup = function (source) {
         var self
-        Id = source.Id,
-        MethodId = source.MethodId,
-        SheetCost = ko.observable(source.SheetCost),
-        Sheets = ko.observable(source.Sheets),
-        SheetPrice = ko.observable(source.SheetPrice),
-        TimePerHour = ko.observable(source.TimePerHour),
+        if (source != undefined) {
+            Id = source.Id,
+            MethodId = source.MethodId,
+            SheetCost = ko.observable(source.SheetCost),
+            Sheets = ko.observable(source.Sheets),
+            SheetPrice = ko.observable(source.SheetPrice),
+            TimePerHour = ko.observable(source.TimePerHour)
+        } else {
+            Id = null,
+            MethodId = null,
+            SheetCost = ko.observable(),
+            Sheets = ko.observable(),
+            SheetPrice = ko.observable(),
+            TimePerHour = ko.observable()
+        }
 
-         errors = ko.validation.group({
-         }),
+
+        errors = ko.validation.group({
+        }),
         // Is Valid
-        isValid = ko.computed(function () {
-            return errors().length === 0;
-        }),
-        dirtyFlag = new ko.dirtyFlag({
-            SheetCost: SheetCost,
-            Sheets: Sheets,
-            SheetPrice: SheetPrice,
-            TimePerHour: TimePerHour
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           SheetCost: SheetCost,
+           Sheets: Sheets,
+           SheetPrice: SheetPrice,
+           TimePerHour: TimePerHour
 
-        }),
+       }),
         // Has Changes
-        hasChanges = ko.computed(function () {
-            return dirtyFlag.isDirty();
-        }),
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
         // Reset
-        reset = function () {
-            dirtyFlag.reset();
-        };
+       reset = function () {
+           dirtyFlag.reset();
+       };
 
         self = {
             Id: Id,
@@ -128,86 +138,170 @@
     }
     var ClickChargeZone = function (source) {
         var self
-        Id = ko.observable(source.Id),
-       MethodId = ko.observable(source.MethodId),
-       From1 = ko.observable(source.From1),
-       To1 = ko.observable(source.To1),
-       Sheets1 = ko.observable(source.Sheets1),
-       SheetCost1 = ko.observable(source.SheetCost1),
-       SheetPrice1 = ko.observable(source.SheetPrice1),
-       From2 = ko.observable(source.From2),
-       To2 = ko.observable(source.To2),
-       Sheets2 = ko.observable(source.Sheets2),
-       SheetCost2 = ko.observable(source.SheetCost2),
-       SheetPrice2 = ko.observable(source.SheetPrice2),
-       From3 = ko.observable(source.From3),
-       To3 = ko.observable(source.To3),
-       Sheets3 = ko.observable(source.Sheets3),
-       SheetCost3 = ko.observable(source.SheetCost3),
-       SheetPrice3 = ko.observable(source.SheetPrice3),
-       From4 = ko.observable(source.From4),
-       To4 = ko.observable(source.To4),
-       Sheets4 = ko.observable(source.Sheets4),
-       SheetCost4 = ko.observable(source.SheetCost4),
-       SheetPrice4 = ko.observable(source.SheetPrice4),
-       From5 = ko.observable(source.From5),
-       To5 = ko.observable(source.To5),
-       Sheets5 = ko.observable(source.Sheets5),
-       SheetCost5 = ko.observable(source.SheetCost5),
-       SheetPrice5 = ko.observable(source.SheetPrice5),
-       From6 = ko.observable(source.From6),
-       To6 = ko.observable(source.To6),
-       Sheets6 = ko.observable(source.Sheets6),
-       SheetCost6 = ko.observable(source.SheetCost6),
-       SheetPrice6 = ko.observable(source.SheetPrice6),
-       From7 = ko.observable(source.From7),
-       To7 = ko.observable(source.To7),
-       Sheets7 = ko.observable(source.Sheets7),
-       SheetCost7 = ko.observable(source.SheetCost7),
-       SheetPrice7 = ko.observable(source.SheetPrice7),
-       From8 = ko.observable(source.From8),
-       To8 = ko.observable(source.To8),
-       Sheets8 = ko.observable(source.Sheets8),
-       SheetCost8 = ko.observable(source.SheetCost8),
-       SheetPrice8 = ko.observable(source.SheetPrice8),
-       From9 = ko.observable(source.From9),
-       To9 = ko.observable(source.To9),
-       Sheets9 = ko.observable(source.Sheets9),
-       SheetCost9 = ko.observable(source.SheetCost9),
-       SheetPrice9 = ko.observable(source.SheetPrice9),
-       From10 = ko.observable(source.From10),
-       To10 = ko.observable(source.To10),
-       Sheets10 = ko.observable(source.Sheets10),
-       SheetCost10 = ko.observable(source.SheetCost10),
-       SheetPrice10 = ko.observable(source.SheetPrice10),
-       From11 = ko.observable(source.From11),
-       To11 = ko.observable(source.To11),
-       Sheets11 = ko.observable(source.Sheets11),
-       SheetCost11 = ko.observable(source.SheetCost11),
-       SheetPrice11 = ko.observable(source.SheetPrice11),
-       From12 = ko.observable(source.From12),
-       To12 = ko.observable(source.To12),
-       Sheets12 = ko.observable(source.Sheets12),
-       SheetCost12 = ko.observable(source.SheetCost12),
-       SheetPrice12 = ko.observable(source.SheetPrice12),
-       From13 = ko.observable(source.From13),
-       To13 = ko.observable(source.To13),
-       Sheets13 = ko.observable(source.Sheets13),
-       SheetCost13 = ko.observable(source.SheetCost13),
-       SheetPrice13 = ko.observable(source.SheetPrice13),
-       From14 = ko.observable(source.From14),
-       To14 = ko.observable(source.To14),
-       Sheets14 = ko.observable(source.Sheets14),
-       SheetCost14 = ko.observable(source.SheetCost14),
-       SheetPrice14 = ko.observable(source.SheetPrice14),
-       From15 = ko.observable(source.From15),
-       To15 = ko.observable(source.To15),
-       Sheets15 = ko.observable(source.Sheets15),
-       SheetCost15 = ko.observable(source.SheetCost15),
-       SheetPrice15 = ko.observable(source.SheetPrice15),
-       isaccumulativecharge = ko.observable(source.isaccumulativecharge),
-       IsRoundUp = ko.observable(source.IsRoundUp),
-       TimePerHour = ko.observable(source.TimePerHour)
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MethodId = ko.observable(source.MethodId),
+            From1 = ko.observable(source.From1),
+            To1 = ko.observable(source.To1),
+            Sheets1 = ko.observable(source.Sheets1),
+            SheetCost1 = ko.observable(source.SheetCost1),
+            SheetPrice1 = ko.observable(source.SheetPrice1),
+            From2 = ko.observable(source.From2),
+            To2 = ko.observable(source.To2),
+            Sheets2 = ko.observable(source.Sheets2),
+            SheetCost2 = ko.observable(source.SheetCost2),
+            SheetPrice2 = ko.observable(source.SheetPrice2),
+            From3 = ko.observable(source.From3),
+            To3 = ko.observable(source.To3),
+            Sheets3 = ko.observable(source.Sheets3),
+            SheetCost3 = ko.observable(source.SheetCost3),
+            SheetPrice3 = ko.observable(source.SheetPrice3),
+            From4 = ko.observable(source.From4),
+            To4 = ko.observable(source.To4),
+            Sheets4 = ko.observable(source.Sheets4),
+            SheetCost4 = ko.observable(source.SheetCost4),
+            SheetPrice4 = ko.observable(source.SheetPrice4),
+            From5 = ko.observable(source.From5),
+            To5 = ko.observable(source.To5),
+            Sheets5 = ko.observable(source.Sheets5),
+            SheetCost5 = ko.observable(source.SheetCost5),
+            SheetPrice5 = ko.observable(source.SheetPrice5),
+            From6 = ko.observable(source.From6),
+            To6 = ko.observable(source.To6),
+            Sheets6 = ko.observable(source.Sheets6),
+            SheetCost6 = ko.observable(source.SheetCost6),
+            SheetPrice6 = ko.observable(source.SheetPrice6),
+            From7 = ko.observable(source.From7),
+            To7 = ko.observable(source.To7),
+            Sheets7 = ko.observable(source.Sheets7),
+            SheetCost7 = ko.observable(source.SheetCost7),
+            SheetPrice7 = ko.observable(source.SheetPrice7),
+            From8 = ko.observable(source.From8),
+            To8 = ko.observable(source.To8),
+            Sheets8 = ko.observable(source.Sheets8),
+            SheetCost8 = ko.observable(source.SheetCost8),
+            SheetPrice8 = ko.observable(source.SheetPrice8),
+            From9 = ko.observable(source.From9),
+            To9 = ko.observable(source.To9),
+            Sheets9 = ko.observable(source.Sheets9),
+            SheetCost9 = ko.observable(source.SheetCost9),
+            SheetPrice9 = ko.observable(source.SheetPrice9),
+            From10 = ko.observable(source.From10),
+            To10 = ko.observable(source.To10),
+            Sheets10 = ko.observable(source.Sheets10),
+            SheetCost10 = ko.observable(source.SheetCost10),
+            SheetPrice10 = ko.observable(source.SheetPrice10),
+            From11 = ko.observable(source.From11),
+            To11 = ko.observable(source.To11),
+            Sheets11 = ko.observable(source.Sheets11),
+            SheetCost11 = ko.observable(source.SheetCost11),
+            SheetPrice11 = ko.observable(source.SheetPrice11),
+            From12 = ko.observable(source.From12),
+            To12 = ko.observable(source.To12),
+            Sheets12 = ko.observable(source.Sheets12),
+            SheetCost12 = ko.observable(source.SheetCost12),
+            SheetPrice12 = ko.observable(source.SheetPrice12),
+            From13 = ko.observable(source.From13),
+            To13 = ko.observable(source.To13),
+            Sheets13 = ko.observable(source.Sheets13),
+            SheetCost13 = ko.observable(source.SheetCost13),
+            SheetPrice13 = ko.observable(source.SheetPrice13),
+            From14 = ko.observable(source.From14),
+            To14 = ko.observable(source.To14),
+            Sheets14 = ko.observable(source.Sheets14),
+            SheetCost14 = ko.observable(source.SheetCost14),
+            SheetPrice14 = ko.observable(source.SheetPrice14),
+            From15 = ko.observable(source.From15),
+            To15 = ko.observable(source.To15),
+            Sheets15 = ko.observable(source.Sheets15),
+            SheetCost15 = ko.observable(source.SheetCost15),
+            SheetPrice15 = ko.observable(source.SheetPrice15),
+            isaccumulativecharge = ko.observable(source.isaccumulativecharge),
+            IsRoundUp = ko.observable(source.IsRoundUp),
+            TimePerHour = ko.observable(source.TimePerHour)
+        } else {
+            Id = ko.observable(),
+            MethodId = ko.observable(),
+            From1 = ko.observable(),
+            To1 = ko.observable(),
+            Sheets1 = ko.observable(),
+            SheetCost1 = ko.observable(),
+            SheetPrice1 = ko.observable(),
+            From2 = ko.observable(),
+            To2 = ko.observable(),
+            Sheets2 = ko.observable(),
+            SheetCost2 = ko.observable(),
+            SheetPrice2 = ko.observable(),
+            From3 = ko.observable(),
+            To3 = ko.observable(),
+            Sheets3 = ko.observable(),
+            SheetCost3 = ko.observable(),
+            SheetPrice3 = ko.observable(),
+            From4 = ko.observable(),
+            To4 = ko.observable(),
+            Sheets4 = ko.observable(),
+            SheetCost4 = ko.observable(),
+            SheetPrice4 = ko.observable(),
+            From5 = ko.observable(),
+            To5 = ko.observable(),
+            Sheets5 = ko.observable(),
+            SheetCost5 = ko.observable(),
+            SheetPrice5 = ko.observable(),
+            From6 = ko.observable(),
+            To6 = ko.observable(),
+            Sheets6 = ko.observable(),
+            SheetCost6 = ko.observable(),
+            SheetPrice6 = ko.observable(),
+            From7 = ko.observable(),
+            To7 = ko.observable(),
+            Sheets7 = ko.observable(),
+            SheetCost7 = ko.observable(),
+            SheetPrice7 = ko.observable(),
+            From8 = ko.observable(),
+            To8 = ko.observable(),
+            Sheets8 = ko.observable(),
+            SheetCost8 = ko.observable(),
+            SheetPrice8 = ko.observable(),
+            From9 = ko.observable(),
+            To9 = ko.observable(),
+            Sheets9 = ko.observable(),
+            SheetCost9 = ko.observable(),
+            SheetPrice9 = ko.observable(),
+            From10 = ko.observable(),
+            To10 = ko.observable(),
+            Sheets10 = ko.observable(),
+            SheetCost10 = ko.observable(),
+            SheetPrice10 = ko.observable(),
+            From11 = ko.observable(),
+            To11 = ko.observable(),
+            Sheets11 = ko.observable(),
+            SheetCost11 = ko.observable(),
+            SheetPrice11 = ko.observable(),
+            From12 = ko.observable(),
+            To12 = ko.observable(),
+            Sheets12 = ko.observable(),
+            SheetCost12 = ko.observable(),
+            SheetPrice12 = ko.observable(),
+            From13 = ko.observable(),
+            To13 = ko.observable(),
+            Sheets13 = ko.observable(),
+            SheetCost13 = ko.observable(),
+            SheetPrice13 = ko.observable(),
+            From14 = ko.observable(),
+            To14 = ko.observable(),
+            Sheets14 = ko.observable(),
+            SheetCost14 = ko.observable(),
+            SheetPrice14 = ko.observable(),
+            From15 = ko.observable(),
+            To15 = ko.observable(),
+            Sheets15 = ko.observable(),
+            SheetCost15 = ko.observable(),
+            SheetPrice15 = ko.observable(),
+            isaccumulativecharge = ko.observable(),
+            IsRoundUp = ko.observable(),
+            TimePerHour = ko.observable()
+        }
+
 
         errors = ko.validation.group({
         }),
@@ -400,18 +494,34 @@
     }
     var GuillotineCalc = function (source) {
         var self
-        Id = ko.observable(source.Id),
-        MethodId = ko.observable(source.MethodId),
-        PaperWeight1 = ko.observable(source.PaperWeight1),
-        PaperThroatQty1 = ko.observable(source.PaperThroatQty1),
-        PaperWeight2 = ko.observable(source.PaperWeight2),
-        PaperThroatQty2 = ko.observable(source.PaperThroatQty2),
-        PaperWeight3 = ko.observable(source.PaperWeight3),
-        PaperThroatQty3 = ko.observable(source.PaperThroatQty3),
-        PaperWeight4 = ko.observable(source.PaperWeight4),
-        PaperThroatQty4 = ko.observable(source.PaperThroatQty4),
-        PaperWeight5 = ko.observable(source.PaperWeight5),
-        PaperThroatQty5 = ko.observable(source.PaperThroatQty5),
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MethodId = ko.observable(source.MethodId),
+            PaperWeight1 = ko.observable(source.PaperWeight1),
+            PaperThroatQty1 = ko.observable(source.PaperThroatQty1),
+            PaperWeight2 = ko.observable(source.PaperWeight2),
+            PaperThroatQty2 = ko.observable(source.PaperThroatQty2),
+            PaperWeight3 = ko.observable(source.PaperWeight3),
+            PaperThroatQty3 = ko.observable(source.PaperThroatQty3),
+            PaperWeight4 = ko.observable(source.PaperWeight4),
+            PaperThroatQty4 = ko.observable(source.PaperThroatQty4),
+            PaperWeight5 = ko.observable(source.PaperWeight5),
+            PaperThroatQty5 = ko.observable(source.PaperThroatQty5)
+        } else {
+            Id = ko.observable(),
+            MethodId = ko.observable(),
+            PaperWeight1 = ko.observable(),
+            PaperThroatQty1 = ko.observable(),
+            PaperWeight2 = ko.observable(),
+            PaperThroatQty2 = ko.observable(),
+            PaperWeight3 = ko.observable(),
+            PaperThroatQty3 = ko.observable(),
+            PaperWeight4 = ko.observable(),
+            PaperThroatQty4 = ko.observable(),
+            PaperWeight5 = ko.observable(),
+            PaperThroatQty5 = ko.observable()
+        }
+
         errors = ko.validation.group({
         }),
         // Is Valid
@@ -467,33 +577,64 @@
     }
     var MeterPerHourLookup = function (source) {
         var self
-        Id = ko.observable(source.Id),
-MethodId = ko.observable(source.MethodId),
-SheetsQty1 = ko.observable(source.SheetsQty1),
-SheetsQty2 = ko.observable(source.SheetsQty2),
-SheetsQty3 = ko.observable(source.SheetsQty3),
-SheetsQty4 = ko.observable(source.SheetsQty4),
-SheetsQty5 = ko.observable(source.SheetsQty5),
-SheetWeight1 = ko.observable(source.SheetWeight1),
-speedqty11 = ko.observable(source.speedqty11),
-speedqty12 = ko.observable(source.speedqty12),
-speedqty13 = ko.observable(source.speedqty13),
-speedqty14 = ko.observable(source.speedqty14),
-speedqty15 = ko.observable(source.speedqty15),
-SheetWeight2 = ko.observable(source.SheetWeight2),
-speedqty21 = ko.observable(source.speedqty21),
-speedqty22 = ko.observable(source.speedqty22),
-speedqty23 = ko.observable(source.speedqty23),
-speedqty24 = ko.observable(source.speedqty24),
-speedqty25 = ko.observable(source.speedqty25),
-SheetWeight3 = ko.observable(source.SheetWeight3),
-speedqty31 = ko.observable(source.speedqty31),
-speedqty32 = ko.observable(source.speedqty32),
-speedqty33 = ko.observable(source.speedqty33),
-speedqty34 = ko.observable(source.speedqty34),
-speedqty35 = ko.observable(source.speedqty35),
-hourlyCost = ko.observable(source.hourlyCost),
-hourlyPrice = ko.observable(source.hourlyPrice)
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MethodId = ko.observable(source.MethodId),
+            SheetsQty1 = ko.observable(source.SheetsQty1),
+            SheetsQty2 = ko.observable(source.SheetsQty2),
+            SheetsQty3 = ko.observable(source.SheetsQty3),
+            SheetsQty4 = ko.observable(source.SheetsQty4),
+            SheetsQty5 = ko.observable(source.SheetsQty5),
+            SheetWeight1 = ko.observable(source.SheetWeight1),
+            speedqty11 = ko.observable(source.speedqty11),
+            speedqty12 = ko.observable(source.speedqty12),
+            speedqty13 = ko.observable(source.speedqty13),
+            speedqty14 = ko.observable(source.speedqty14),
+            speedqty15 = ko.observable(source.speedqty15),
+            SheetWeight2 = ko.observable(source.SheetWeight2),
+            speedqty21 = ko.observable(source.speedqty21),
+            speedqty22 = ko.observable(source.speedqty22),
+            speedqty23 = ko.observable(source.speedqty23),
+            speedqty24 = ko.observable(source.speedqty24),
+            speedqty25 = ko.observable(source.speedqty25),
+            SheetWeight3 = ko.observable(source.SheetWeight3),
+            speedqty31 = ko.observable(source.speedqty31),
+            speedqty32 = ko.observable(source.speedqty32),
+            speedqty33 = ko.observable(source.speedqty33),
+            speedqty34 = ko.observable(source.speedqty34),
+            speedqty35 = ko.observable(source.speedqty35),
+            hourlyCost = ko.observable(source.hourlyCost),
+            hourlyPrice = ko.observable(source.hourlyPrice)
+        } else {
+            Id = ko.observable(),
+            MethodId = ko.observable(),
+            SheetsQty1 = ko.observable(),
+            SheetsQty2 = ko.observable(),
+            SheetsQty3 = ko.observable(),
+            SheetsQty4 = ko.observable(),
+            SheetsQty5 = ko.observable(),
+            SheetWeight1 = ko.observable(),
+            speedqty11 = ko.observable(),
+            speedqty12 = ko.observable(),
+            speedqty13 = ko.observable(),
+            speedqty14 = ko.observable(),
+            speedqty15 = ko.observable(),
+            SheetWeight2 = ko.observable(),
+            speedqty21 = ko.observable(),
+            speedqty22 = ko.observable(),
+            speedqty23 = ko.observable(),
+            speedqty24 = ko.observable(),
+            speedqty25 = ko.observable(),
+            SheetWeight3 = ko.observable(),
+            speedqty31 = ko.observable(),
+            speedqty32 = ko.observable(),
+            speedqty33 = ko.observable(),
+            speedqty34 = ko.observable(),
+            speedqty35 = ko.observable(),
+            hourlyCost = ko.observable(),
+            hourlyPrice = ko.observable()
+        }
+
 
         errors = ko.validation.group({
         }),
@@ -580,11 +721,19 @@ hourlyPrice = ko.observable(source.hourlyPrice)
     }
     var PerHourLookup = function (source) {
         var self
-        Id = ko.observable(source.Id),
- MethodId = ko.observable(source.MethodId),
- SpeedCost = ko.observable(source.SpeedCost),
- Speed = ko.observable(source.Speed),
- SpeedPrice = ko.observable(source.SpeedPrice),
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MethodId = ko.observable(source.MethodId),
+            SpeedCost = ko.observable(source.SpeedCost),
+            Speed = ko.observable(source.Speed),
+            SpeedPrice = ko.observable(source.SpeedPrice)
+        } else {
+            Id = ko.observable(),
+            MethodId = ko.observable(),
+            SpeedCost = ko.observable(),
+            Speed = ko.observable(),
+            SpeedPrice = ko.observable()
+        }
 
         errors = ko.validation.group({
         }),
@@ -627,7 +776,8 @@ hourlyPrice = ko.observable(source.hourlyPrice)
     }
     var SpeedWeightLookup = function (source) {
         var self
-        Id = ko.observable(source.Id),
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
                 MethodId = ko.observable(source.MethodId),
                 SheetsQty1 = ko.observable(source.SheetsQty1),
                 SheetsQty2 = ko.observable(source.SheetsQty2),
@@ -653,52 +803,80 @@ hourlyPrice = ko.observable(source.hourlyPrice)
                 speedqty34 = ko.observable(source.speedqty34),
                 speedqty35 = ko.observable(source.speedqty35),
                 hourlyCost = ko.observable(source.hourlyCost),
-                hourlyPrice = ko.observable(source.hourlyPrice),
-
+                hourlyPrice = ko.observable(source.hourlyPrice)
+        } else {
+            Id = ko.observable(),
+                MethodId = ko.observable(),
+                SheetsQty1 = ko.observable(),
+                SheetsQty2 = ko.observable(),
+                SheetsQty3 = ko.observable(),
+                SheetsQty4 = ko.observable(),
+                SheetsQty5 = ko.observable(),
+                SheetWeight1 = ko.observable(),
+                speedqty11 = ko.observable(),
+                speedqty12 = ko.observable(),
+                speedqty13 = ko.observable(),
+                speedqty14 = ko.observable(),
+                speedqty15 = ko.observable(),
+                SheetWeight2 = ko.observable(),
+                speedqty21 = ko.observable(),
+                speedqty22 = ko.observable(),
+                speedqty23 = ko.observable(),
+                speedqty24 = ko.observable(),
+                speedqty25 = ko.observable(),
+                SheetWeight3 = ko.observable(),
+                speedqty31 = ko.observable(),
+                speedqty32 = ko.observable(),
+                speedqty33 = ko.observable(),
+                speedqty34 = ko.observable(),
+                speedqty35 = ko.observable(),
+                hourlyCost = ko.observable(),
+                hourlyPrice = ko.observable()
+        }
         errors = ko.validation.group({
         }),
         // Is Valid
-       isValid = ko.computed(function () {
-           return errors().length === 0;
-       }),
-       dirtyFlag = new ko.dirtyFlag({
-           Id: Id,
-           MethodId: MethodId,
-           SheetsQty1: SheetsQty1,
-           SheetsQty2: SheetsQty2,
-           SheetsQty3: SheetsQty3,
-           SheetsQty4: SheetsQty4,
-           SheetsQty5: SheetsQty5,
-           SheetWeight1: SheetWeight1,
-           speedqty11: speedqty11,
-           speedqty12: speedqty12,
-           speedqty13: speedqty13,
-           speedqty14: speedqty14,
-           speedqty15: speedqty15,
-           SheetWeight2: SheetWeight2,
-           speedqty21: speedqty21,
-           speedqty22: speedqty22,
-           speedqty23: speedqty23,
-           speedqty24: speedqty24,
-           speedqty25: speedqty25,
-           SheetWeight3: SheetWeight3,
-           speedqty31: speedqty31,
-           speedqty32: speedqty32,
-           speedqty33: speedqty33,
-           speedqty34: speedqty34,
-           speedqty35: speedqty35,
-           hourlyCost: hourlyCost,
-           hourlyPrice: hourlyPrice
+      isValid = ko.computed(function () {
+          return errors().length === 0;
+      }),
+      dirtyFlag = new ko.dirtyFlag({
+          Id: Id,
+          MethodId: MethodId,
+          SheetsQty1: SheetsQty1,
+          SheetsQty2: SheetsQty2,
+          SheetsQty3: SheetsQty3,
+          SheetsQty4: SheetsQty4,
+          SheetsQty5: SheetsQty5,
+          SheetWeight1: SheetWeight1,
+          speedqty11: speedqty11,
+          speedqty12: speedqty12,
+          speedqty13: speedqty13,
+          speedqty14: speedqty14,
+          speedqty15: speedqty15,
+          SheetWeight2: SheetWeight2,
+          speedqty21: speedqty21,
+          speedqty22: speedqty22,
+          speedqty23: speedqty23,
+          speedqty24: speedqty24,
+          speedqty25: speedqty25,
+          SheetWeight3: SheetWeight3,
+          speedqty31: speedqty31,
+          speedqty32: speedqty32,
+          speedqty33: speedqty33,
+          speedqty34: speedqty34,
+          speedqty35: speedqty35,
+          hourlyCost: hourlyCost,
+          hourlyPrice: hourlyPrice
 
-       }),
+      }),
         // Has Changes
-       hasChanges = ko.computed(function () {
-           return dirtyFlag.isDirty();
-       }),
+      hasChanges = ko.computed(function () {
+          return dirtyFlag.isDirty();
+      }),
         // Reset
-       reset = function () {
-           dirtyFlag.reset();
-       };
+      reset = function () {
+          dirtyFlag.reset();
+      };
 
         self = {
             Id: Id,
@@ -740,36 +918,46 @@ hourlyPrice = ko.observable(source.hourlyPrice)
     }
     var GuillotineClickPTV = function (source) {
         var self
-        Id = ko.observable(source.Id),
-        NoofSections = ko.observable(source.NoofSections),
-        NoofUps = ko.observable(source.NoofUps),
-        Noofcutswithoutgutters = ko.observable(source.Noofcutswithoutgutters),
-        Noofcutswithgutters = ko.observable(source.Noofcutswithgutters),
-        GuilotineId = ko.observable(source.GuilotineId),
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            NoofSections = ko.observable(source.NoofSections),
+            NoofUps = ko.observable(source.NoofUps),
+            Noofcutswithoutgutters = ko.observable(source.Noofcutswithoutgutters),
+            Noofcutswithgutters = ko.observable(source.Noofcutswithgutters),
+            GuilotineId = ko.observable(source.GuilotineId)
+        } else {
+            Id = ko.observable(),
+            NoofSections = ko.observable(),
+            NoofUps = ko.observable(),
+            Noofcutswithoutgutters = ko.observable(),
+            Noofcutswithgutters = ko.observable(),
+            GuilotineId = ko.observable()
+        }
 
-         errors = ko.validation.group({
-         }),
+
+        errors = ko.validation.group({
+        }),
         // Is Valid
-        isValid = ko.computed(function () {
-            return errors().length === 0;
-        }),
-        dirtyFlag = new ko.dirtyFlag({
-            Id: Id,
-            NoofSections: NoofSections,
-            NoofUps: NoofUps,
-            Noofcutswithoutgutters: Noofcutswithoutgutters,
-            Noofcutswithgutters: Noofcutswithgutters,
-            GuilotineId: GuilotineId,
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           Id: Id,
+           NoofSections: NoofSections,
+           NoofUps: NoofUps,
+           Noofcutswithoutgutters: Noofcutswithoutgutters,
+           Noofcutswithgutters: Noofcutswithgutters,
+           GuilotineId: GuilotineId,
 
-        }),
+       }),
         // Has Changes
-        hasChanges = ko.computed(function () {
-            return dirtyFlag.isDirty();
-        }),
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
         // Reset
-        reset = function () {
-            dirtyFlag.reset();
-        };
+       reset = function () {
+           dirtyFlag.reset();
+       };
 
         self = {
             Id: Id,
@@ -794,6 +982,16 @@ hourlyPrice = ko.observable(source.hourlyPrice)
         olookupMethod.Name(source.Name);
         olookupMethod.Type(source.Type);
         return olookupMethod;
+    }
+    var GuilotinePtvServerMapper = function (GuillotineClickChargePTV) {
+        var GuilotinePtv = {};
+        GuilotinePtv.Id = GuillotineClickChargePTV.Id();
+        GuilotinePtv.NoofSections = GuillotineClickChargePTV.NoofSections();
+        GuilotinePtv.NoofUps = GuillotineClickChargePTV.NoofUps();
+        GuilotinePtv.Noofcutswithoutgutters = GuillotineClickChargePTV.Noofcutswithoutgutters();
+        GuilotinePtv.Noofcutswithgutters = GuillotineClickChargePTV.Noofcutswithgutters();
+        GuilotinePtv.GuilotineId = GuillotineClickChargePTV.GuilotineId();
+        return GuilotinePtv;
     }
     var lookupServerMapper = function (olookup, ClickCharge, ClickChargeZone, SpeedWeight, PerHour, MeterPerHourClickCharge, GuillotineClickCharge, GuillotineClickChargePTV) {
         var oLookupMethod = {};
@@ -981,15 +1179,16 @@ hourlyPrice = ko.observable(source.hourlyPrice)
 
 
         }
-        var GuillotineClickChargePTVlookup = {};
+        var GuillotineClickChargePTVlookup = [];
         if (GuillotineClickChargePTV != undefined) {
             _.each(GuillotineClickChargePTV, function (item) {
-                GuillotineClickChargePTVlookup.push(GuilotinePtvServerMapper(item));
+                var ChargePTV = GuilotinePtvServerMapper(item);
+                GuillotineClickChargePTVlookup.push(ChargePTV);
             });
 
 
         }
-        
+
 
 
         return {
@@ -1000,19 +1199,10 @@ hourlyPrice = ko.observable(source.hourlyPrice)
             PerHourLookup: PerHourLookup,
             MeterPerHourLookup: MeterPerHourClickChargelookup,
             GuillotineCalc: GuillotineClickChargelookup,
-            GuilotinePtv :GuillotineClickChargePTVlookup
+            GuilotinePtv: GuillotineClickChargePTVlookup
         }
 
-        var GuilotinePtvServerMapper = function (GuillotineClickChargePTV) {
-            var GuilotinePtv = {};
-            Id = GuillotineClickChargePTV.Id();
-            NoofSections = GuillotineClickChargePTV.NoofSections();
-            NoofUps = GuillotineClickChargePTV.NoofUps();
-            Noofcutswithoutgutters = GuillotineClickChargePTV.Noofcutswithoutgutters();
-            Noofcutswithgutters = GuillotineClickChargePTV.Noofcutswithgutters();
-            GuilotineId = GuillotineClickChargePTV.GuilotineId();
-            return GuilotinePtv;
-        }
+
 
     }
     return {
@@ -1025,6 +1215,7 @@ hourlyPrice = ko.observable(source.hourlyPrice)
         MeterPerHourLookup: MeterPerHourLookup,
         PerHourLookup: PerHourLookup,
         SpeedWeightLookup: SpeedWeightLookup,
-        GuilotinePtvServerMapper: GuilotinePtvServerMapper
+        GuilotinePtvServerMapper: GuilotinePtvServerMapper,
+        GuillotineClickPTV: GuillotineClickPTV
     };
 });

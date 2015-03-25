@@ -1448,7 +1448,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shopping Cart ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" data-bind="checked: $root.selectedStore().isDisplayDiscountVoucherCode">
                                                         <label class="onoffswitch-label" for="switchDisplayDVoucher">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1461,7 +1461,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <label class="col-md-6" for="switchProductPrices">Show product pricing on category pages ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchProductPrices" data-bind="checked: $root.selectedStore().showPrices">
                                                         <label class="onoffswitch-label" for="switchProductPrices">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1474,7 +1474,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Receipts and Websites ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" data-bind="checked: $root.selectedStore().isWhiteLabel">
                                                         <label class="onoffswitch-label" for="switchCorpBranding">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1488,7 +1488,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new registrations on store ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" data-bind="checked: $root.selectedStore().isAllowRegistrationFromWeb">
                                                         <label class="onoffswitch-label" for="switchRegistrationFromWebsite">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>
@@ -1514,7 +1514,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <label class="col-md-6" for="switchEditProfile">Allow user to edit his/her profile </label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
-                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" checked>
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" data-bind="checked: $root.selectedStore().canUserEditProfile">
                                                         <label class="onoffswitch-label" for="switchEditProfile">
                                                             <div class="onoffswitch-inner"></div>
                                                             <div class="onoffswitch-switch"></div>

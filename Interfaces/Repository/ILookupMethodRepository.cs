@@ -12,5 +12,8 @@ namespace MPC.Interfaces.Repository
     {
         LookupMethodResponse GetlookupById(long MethodId);
         bool UpdateLookup(LookupMethodResponse response);
+        LookupMethod AddLookup(LookupMethodResponse response);
+        bool DeleteGuillotinePTVId(long id);
+        bool DeleteMachineLookup(long id);
     }
 }

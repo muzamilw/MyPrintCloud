@@ -208,6 +208,20 @@ namespace MPC.Implementation.MISServices
             return Update(productCategory);
         }
 
+        /// <summary>
+        /// Delete Product Category
+        /// </summary>
+        public void DeleteCategory(int productCategoryId)
+        {
+            ProductCategory category = productCategoryRepository.Find(productCategoryId);
+            if (category != null)
+            {
+                category.isArchived = true;
+                productCategoryRepository.Update(category);
+                productCategoryRepository.SaveChanges();
+            }
+        }
+
         #endregion
     }
 }

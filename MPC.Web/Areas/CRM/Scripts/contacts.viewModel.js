@@ -138,8 +138,7 @@ define("crm/contacts.viewModel",
                     });
                 },
                 getContactDetail = function (contact) {
-                    dataservice.getContactsDetail({ companyId: contact.companyId() },
-                    dataservice.getContactsDetail({ companyId: contact.companyId() },
+                   dataservice.getContactsDetail({ companyId: contact.companyId() },
                     {
                         success: function (data) {
                             if (data != null) {
@@ -150,30 +149,31 @@ define("crm/contacts.viewModel",
                                     var address = new model.Address.Create(item);
                                     shippingAddresses.push(address);
                                     bussinessAddresses.push(address);
-                                    if (item.AddressId == contact.addressId()) {
+                                    if (item.AddressId === contact.addressId()) {
                                         selectedBussinessAddress(address);
                                         selectedShippingAddress(address);
                                     }
                                 });
-                                // State Setting for address
-                                _.each(states(), function (state) {
-                                    if (state.StateId == selectedBussinessAddress().stateId())
-                                        selectedBussinessAddress().state(state.StateName);
-                                });
-
-                                // State Setting for shipping address
-                                _.each(states(), function (state) {
-                                    if (state.StateId == selectedShippingAddress().stateId())
-                                        selectedShippingAddress().state(state.StateName);
-                                });
+                                if (selectedBussinessAddress() != undefined && selectedBussinessAddress() !=="") {
+                                    // State Setting for address
+                                    _.each(states(), function(state) {
+                                        if (state.StateId === selectedBussinessAddress().stateId())
+                                            selectedBussinessAddress().state(state.StateName);
+                                    });
+                                }
+                                if (selectedShippingAddress() != undefined && selectedShippingAddress() !=="") {
+                                    // State Setting for shipping address
+                                    _.each(states(), function(state) {
+                                        if (state.StateId === selectedShippingAddress().stateId())
+                                            selectedShippingAddress().state(state.StateName);
+                                    });
+                                }
                                 // Territories
                                 contactCompanyTerritoriesFilter.removeAll();
                                 _.each(data.CompanyTerritories, function (terror) {
                                     var territory = new model.CompanyTerritory.Create(terror);
                                     contactCompanyTerritoriesFilter.push(territory);
                                 });
-                                selectedCompanyContact(contact);
-                            }
                                 selectedCompanyContact(contact);
                             }
                         },
@@ -203,7 +203,7 @@ define("crm/contacts.viewModel",
                      if (selectedCompanyContact() != undefined) {
                          // setting shipping address
                          _.each(shippingAddresses(), function (item) {
-                             if (item.addressId() == selectedShippingAddressId()) {
+                             if (item.addressId() === selectedShippingAddressId()) {
                                  selectedShippingAddress(item);
                                  selectedCompanyContact().shippingAddressId(item.addressId());
                              }
@@ -212,16 +212,22 @@ define("crm/contacts.viewModel",
                      }
                  }),
                  // State Setting for address
-                stateSettingForBusinessAddress= function() {
+                stateSettingForBusinessAddress = function () {
+                    if (!selectedBussinessAddress()) {
+                        return;
+                    }
                     _.each(states(), function (state) {
-                        if (state.StateId == selectedBussinessAddress().stateId())
+                        if (state.StateId === selectedBussinessAddress().stateId())
                             selectedBussinessAddress().state(state.StateName);
                     });
                 },
                  // State Setting for Shipping address
                 stateSettingForShippingAddress = function () {
+                    if (!selectedShippingAddress()) {
+                        return;
+                    }
                     _.each(states(), function (state) {
-                        if (state.StateId == selectedShippingAddress().stateId())
+                        if (state.StateId === selectedShippingAddress().stateId())
                             selectedShippingAddress().state(state.StateName);
                     });
                 },
@@ -296,7 +302,6 @@ define("crm/contacts.viewModel",
                     selectedShippingAddress: selectedShippingAddress,
                     shippingAddresses: shippingAddresses,
                     states: states,
-                    selectedStore: selectedStore,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
                 };
             })()
