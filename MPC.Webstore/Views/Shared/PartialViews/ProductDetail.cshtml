@@ -346,7 +346,7 @@
 
 								<div class="box_catCode">
 									<div class="mrginBtm">
-										<label ID="lbl_Specifications" class="marginall5 ProductDetailH2" runat="server">@Html.Raw(Html.GetKeyValueFromResourceFile("lblSpecifications", UserCookieManager.StoreId))</label>
+										<label ID="lbl_Specifications" class="marginall5 ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlOpt1", UserCookieManager.StoreId))</label>
 									</div>
 									<label id="lblCategoryCode" class="marginall5">@ViewBag.lblCategoryCode</label>
 									<br />
@@ -415,7 +415,7 @@
 							}
 						</div>
 						<input type="hidden" id="txtIsQuantityRanged" value="@ViewBag.txtIsQuantityRanged" />
-						<div class="col-md-8 col-lg-8 col-xs-12 ProductDetailGrayBoxRight" style="padding: 0px !important;">
+						<div class="col-md-7 col-lg-7 col-xs-12 ProductDetailGrayBoxRight" style="padding: 0px !important;">
 
 							<div style="margin-bottom: 10px;"
 								 class="float_left_simple rounded_corners cntwidthProductDetailOnlinePrice cntBackgorndPD cntProductDetailWidth">
@@ -664,7 +664,7 @@
 
 									<label id="lbl_Product_Description" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProdDescHeadingText", UserCookieManager.StoreId))</label>
 									<div class="displayBlock rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-										<br />
+									
 										<label id="lblProductSpecifications" class="show_as_it_is">@Model.ProductSpecification</label>
 										<br />
 									</div>
@@ -682,7 +682,7 @@
 
 									<label id="lbl_HandyInformation" class="ProductDetailH2">@Html.Raw(Html.GetKeyValueFromResourceFile("btnIdeas", UserCookieManager.StoreId))</label>
 									<div class="rounded_corners paddingLeft10px paddingBottom10px productHandyDesc">
-										<br />
+										
 										<label id="lblHintsandTips" class="show_as_it_is">@Model.TipsAndHints</label>
 									</div>
 								</div>

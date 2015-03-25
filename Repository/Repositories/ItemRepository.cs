@@ -4204,6 +4204,18 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        public void DeleteItemBySP(long ItemID)
+        {
+            try
+            {
+                db.usp_DeleteProduct(ItemID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }
