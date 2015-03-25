@@ -1493,6 +1493,8 @@ namespace MPC.Repository.Repositories
                 {
                     Address Contactaddress = null;
 
+                    CompanyTerritory ContactTerritory = null;
+
                     CompanyContact ContactPerson = null;
 
                     long customerID = 0;
@@ -1538,10 +1540,13 @@ namespace MPC.Repository.Repositories
                     //Create Customer
                     db.Companies.Add(ContactCompany);
 
+                    ContactTerritory = PopulateTerritoryObject(ContactCompany.CompanyId);
+                    db.CompanyTerritories.Add(ContactTerritory);
                     //Create Billing Address and Delivery Address and mark them default billing and shipping
-                    Contactaddress = PopulateAddressObject(0, ContactCompany.CompanyId, true, true);
+                    Contactaddress = PopulateAddressObject(0, ContactCompany.CompanyId, true, true, ContactTerritory.TerritoryId);
                     db.Addesses.Add(Contactaddress);
 
+                   
                     //Create Contact
                     ContactPerson = PopulateContactsObject(ContactCompany.CompanyId, Contactaddress.AddressId, true);
                     ContactPerson.isArchived = false;
@@ -1569,6 +1574,7 @@ namespace MPC.Repository.Repositories
                         ContactPerson.quickPhone = contact.quickPhone;
                         ContactPerson.quickTitle = contact.quickTitle;
                         ContactPerson.quickWebsite = contact.quickWebsite;
+                        ContactPerson.TerritoryId = ContactTerritory.TerritoryId;
                         if (!string.IsNullOrEmpty(RegWithSocialMedia))
                         {
                             ContactPerson.twitterScreenName = RegWithSocialMedia;
@@ -1619,7 +1625,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        private Address PopulateAddressObject(long addressId, long companyId, bool isDefaulAddress, bool isDefaultShippingAddress)
+        private Address PopulateAddressObject(long addressId, long companyId, bool isDefaulAddress, bool isDefaultShippingAddress, long TerritoryId)
         {
             try
             {
@@ -1633,7 +1639,7 @@ namespace MPC.Repository.Repositories
                 addressObject.Address1 = "Address 1";
                 addressObject.City = "City";
                 addressObject.isArchived = false;
-
+                addressObject.TerritoryId = TerritoryId;
                 return addressObject;
             }
             catch (Exception ex)
@@ -1642,6 +1648,8 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+
         private static string ComputeHashSHA1(string plainText)
         {
             try
@@ -1894,6 +1902,26 @@ namespace MPC.Repository.Repositories
             catch (Exception ex)
             {
 
+                throw ex;
+            }
+
+        }
+
+        private CompanyTerritory PopulateTerritoryObject(long CompanyId)
+        {
+            try
+            {
+                CompanyTerritory objTerritory = new CompanyTerritory();
+                objTerritory.TerritoryId = 0;
+                objTerritory.TerritoryName = "Default Retail Customer Territory";
+                objTerritory.CompanyId = CompanyId;
+                objTerritory.TerritoryCode = "TC-RT";
+                objTerritory.isDefault = true;
+
+                return objTerritory;
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
 

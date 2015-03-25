@@ -491,7 +491,7 @@ namespace MPC.Repository.Repositories
             else 
             {
                 List<ItemAttachment> newlistAttach = db.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
-                if (newlistAttach != null && tblItem.ItemAttachments.Count > 0) 
+                if (newlistAttach != null && newlistAttach.Count > 0) 
                 {
                     tblItemAttchment = newlistAttach[0];
 
