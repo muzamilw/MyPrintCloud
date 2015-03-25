@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using Company = MPC.Models.DomainModels.Company;
@@ -47,7 +48,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),
                 CompnayId = source.CompanyId,
-                Image = bytes
+                Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
             };
         }
         #endregion

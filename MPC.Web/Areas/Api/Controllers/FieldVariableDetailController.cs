@@ -1,7 +1,9 @@
 ﻿using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -33,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Field Variable Detail By ID
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public FieldVariable Get([FromUri]long fieldVariableId)
         {
             return companyService.GetFieldVariableDetail(fieldVariableId).CreateFrom();

@@ -16,6 +16,7 @@ define("calendar/calendar.viewModel",
                     selectedCompany = ko.observable(),
                     companySearchFilter = ko.observable(),
                     loggedInUserId = ko.observable(),
+                    isBaseDataLoaded = ko.observable(false),
                     pager = ko.observable(),
                     sectionFlags = ko.observableArray([]),
                     companyContacts = ko.observableArray([]),
@@ -90,7 +91,14 @@ define("calendar/calendar.viewModel",
                        start = moment(viewClick.start);
                        end = moment(viewClick.end);
                        lastView(viewClick.name);
-                       getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                       if (!isBaseDataLoaded()) {
+                           isBaseDataLoaded(true);
+                           getBase(moment(viewClick.start).format(ist.utcFormat),moment(viewClick.end).format(ist.utcFormat));
+                          
+                       } else {
+                           getCalendarActivities(moment(viewClick.start).format(ist.utcFormat), moment(viewClick.end).format(ist.utcFormat));
+                       }
+                       
                    }
                    loadPage = false;
                },
@@ -124,7 +132,7 @@ define("calendar/calendar.viewModel",
                     });
                 },
                 // Get Base
-                getBase = function () {
+                getBase = function (startDate,endDate) {
                     dataservice.getCalendarBase({
                         success: function (data) {
                             //Section Flags
@@ -149,6 +157,7 @@ define("calendar/calendar.viewModel",
                             activityTypes.valueHasMutated();
 
                             loggedInUserId(data.LoggedInUserId);
+                            getCalendarActivities(startDate, endDate);
                         },
                         error: function () {
                             toastr.error("Failed to load base data.");
@@ -225,7 +234,7 @@ define("calendar/calendar.viewModel",
                             items.removeAll();
                             if (data != null) {
                                 _.each(data, function (item) {
-                                    var sectionFlag = sectionFlags.find(function (sFlag) {
+                                    var sectionFlag = _.find(sectionFlags(), function (sFlag) {
                                         return sFlag.SectionFlagId == item.FlagId;
                                     });
                                     items.push({
@@ -386,7 +395,7 @@ define("calendar/calendar.viewModel",
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    // pager(pagination.Pagination({ PageSize: 10 }, companies, getCompanies));
-                   getBase();
+                 
                };
 
                 return {

@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="ProductOrderContainer">
+                    <div class="ProductOrderContainer paddingForGridContainer">
 
 
                         @grid.GetHtml(
@@ -59,11 +59,11 @@
     grid.Column("StatusName","Status",style:"GridStatusColumnColor"),
     grid.Column("CustomerName","Order Created By"),
     grid.Column("Action(s)",format:@<text><input type="image" id="view" title="click to view order details" style="height: 28px; width: 28px;" src="Content/Images/View-Detail-icon.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="click to Approve Order " style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="click to Reject" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
-        </text>),
+                </text>),
 
    }
 
-           )
+                    )
 
                     </div>
                 </div>
@@ -537,7 +537,7 @@
         }
         function OrderApprove(OrderID,Po)
         {
-            var data = { OrderID: OrderID, PO: Po}
+            var data={ OrderID: OrderID, PO: Po}
             $.ajax({
                 type: "POST",
                 url: "/ProductPendingOrders/Save",
@@ -545,6 +545,7 @@
                 data: JSON.stringify(data),
                 async: true,
                 success: function (response) {
+                    window.location.href = "/ProductPendingOrders";
                 }
             });
             HideLoader();
@@ -559,14 +560,12 @@
 
         function Show()
         {
-            SaveFlag=true;
-            alert('ApproveOk');
             ShowPopUpForConfirmApprove();
         }
         function oKApproveOrder()
         {
             var Po = $("#MyPoNo").val();
-            alert(NewOrderID + '  ' + Po);
+            
             OrderApprove(NewOrderID, Po);
         }
         function RejectOrder()
@@ -579,12 +578,10 @@
                 data: JSON.stringify(data),
                 async: true,
                 success: function (response) {
+                    window.location.href = "/ProductPendingOrders";
                 }
             });
             HideLoader();
         }
-
-
-
     </script>
 }

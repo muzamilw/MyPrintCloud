@@ -5,8 +5,10 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -39,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Company By Id
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public string Get([FromUri]string widgetControlName)
         {
             string mySiteUrl = HttpContext.Current.Request.Url.Host;

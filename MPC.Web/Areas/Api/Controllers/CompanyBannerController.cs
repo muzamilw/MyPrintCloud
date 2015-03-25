@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
@@ -38,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Delete Company Banner
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public void Delete(CompanyBanner banner)
         {
             if (banner == null || !ModelState.IsValid)

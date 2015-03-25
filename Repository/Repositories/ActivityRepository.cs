@@ -39,11 +39,10 @@ namespace MPC.Repository.Repositories
         #region Public
 
         /// <summary>
-        ///Get Activities By Sytem User Id Of Current Month
+        ///Get Activities By Duration
         /// </summary>
         public IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime)
-        {
-            
+        {   
             return DbSet.Where(a => a.SystemUserId == LoggedInUserId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
         }
         #endregion
