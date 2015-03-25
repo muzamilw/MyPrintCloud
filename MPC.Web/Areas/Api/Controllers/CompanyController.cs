@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -35,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Companies Of Organisation
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = companyService.GetAllCompaniesOfOrganisation(request);
@@ -48,7 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Company By Id
         /// </summary>
-        /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyResponse Get([FromUri]int companyId)
         {
             CompanyResponse companyResponse = companyService.GetCompanyById(companyId).CreateFrom();
@@ -60,6 +62,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update Company
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Company Post(Company company)
         {
             if (!ModelState.IsValid)
@@ -151,6 +154,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return companyService.SaveCompany(companySavingModel).CreateFrom();
         }
 
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Company Delete(CompanyRequestModel model)
         {
             return companyService.DeleteCompany(model.CompanyId).CreateFrom();

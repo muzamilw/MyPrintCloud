@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using Microsoft.Owin;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -73,6 +74,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public ProductCategory Post(ProductCategory productCategory)
         {
             if (!ModelState.IsValid)
@@ -82,6 +84,18 @@ namespace MPC.MIS.Areas.Api.Controllers
             return categoryService.Save(productCategory.CreateFrom()).CreateFrom();
         }
 
+        /// <summary>
+        /// Delete Category 
+        /// </summary>
+        public bool Delete(ProductCategoryDeleteModel request)
+        {
+            if (request == null || !ModelState.IsValid || request.ProductCategoryId <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+            categoryService.DeleteCategory(request.ProductCategoryId);
+            return true;
+        }
         #endregion
     }
 }

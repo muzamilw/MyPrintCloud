@@ -50,9 +50,7 @@ namespace MPC.Interfaces.Repository
         ExportSets ExportRetailCompany(long CompanyId);
         ExportSets ExportCorporateCompany(long CompanyId);
 
-        long GetCorporateCompanyIDbyOrganisationID(long OID);
-
-        long GetRetailCompanyIDbyOrganisationID(long OID);
+        long GetCompanyByName(long OID, string Name);
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
@@ -66,5 +64,11 @@ namespace MPC.Interfaces.Repository
 
         CompanyResponse SearchCompaniesForCustomer(CompanyRequestModel request);
 
+        Company GetCompanyByCompanyID(long CompanyID);
+
+        void InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets);
+        ExportSets ExportCorporateCompanyWithoutProducts(long CompanyId);
+
+        ExportSets ExportRetailCompanyWithoutProducts(long CompanyId);
     }
 }

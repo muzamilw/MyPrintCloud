@@ -1,5 +1,7 @@
 ﻿using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -29,6 +31,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         ///  Get CMS Tags For  Load Default page keywords of Cms Page
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public string Get()
         {
             return companyService.GetCmsTagForCmsPage();

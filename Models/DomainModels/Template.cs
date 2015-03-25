@@ -109,6 +109,12 @@ namespace MPC.Models.DomainModels
             }
         }
 
+        /// <summary>
+        /// File Original Bytes
+        /// </summary>
+        [NotMapped]
+        public byte[] FileOriginalBytes { get; set; }
+
         #endregion
 
     }

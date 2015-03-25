@@ -592,7 +592,7 @@ namespace MPC.Implementation.MISServices
                             File.Delete(filePath);
                         }
                     }
-                    
+
                 }
 
                 // First Time Upload
@@ -1317,7 +1317,7 @@ namespace MPC.Implementation.MISServices
                         target.File2 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1356,7 +1356,7 @@ namespace MPC.Implementation.MISServices
                         target.File3 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1742,6 +1742,20 @@ namespace MPC.Implementation.MISServices
 
             Item item = itemRepository.Find(id);
 
+            // Get Pdf File in case of Template Type 2
+            if (item.TemplateType == 2 && item.Template != null)
+            {
+                string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                HttpServerUtility server = HttpContext.Current.Server;
+                string mapPath =
+                    server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + item.ItemId +
+                                   "/Templates/random_CorporateTemplateUpload.pdf");
+                if (File.Exists(mapPath))
+                {
+                    item.Template.FileOriginalBytes = File.ReadAllBytes(mapPath);
+                }
+            }
+
             if (item == null)
             {
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
@@ -2034,6 +2048,110 @@ namespace MPC.Implementation.MISServices
             return productCategoryRepository.GetParentCategories(companyId);
         }
 
+        #endregion
+
+        #region DeleteProducts
+
+        public bool DeleteItem(long ItemID,long OrganisationID)
+        {
+            try
+            {
+
+                itemRepository.DeleteItemBySP(ItemID);
+                List<string> ImagesPath = new List<string>();
+                Item DelItem = itemRepository.GetItemByItemID(ItemID);
+
+               if(DelItem != null)
+               {
+                   if(!string.IsNullOrEmpty(DelItem.ThumbnailPath))
+                   {
+                       ImagesPath.Add(DelItem.ThumbnailPath);
+                   }
+                   if(!string.IsNullOrEmpty(DelItem.ImagePath))
+                   {
+                       ImagesPath.Add(DelItem.ImagePath);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.GridImage))
+                   {
+                       ImagesPath.Add(DelItem.GridImage);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.File1))
+                   {
+                       ImagesPath.Add(DelItem.File1);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.File2))
+                   {
+                       ImagesPath.Add(DelItem.File2);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.File3))
+                   {
+                       ImagesPath.Add(DelItem.File3);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.File4))
+                   {
+                       ImagesPath.Add(DelItem.File4);
+                   }
+                   if (!string.IsNullOrEmpty(DelItem.File5))
+                   {
+                       ImagesPath.Add(DelItem.File5);
+                   }
+                  
+                   if(DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
+                   {
+                       foreach(var itemAttach in DelItem.ItemAttachments)
+                       {
+                           string path = itemAttach.FolderPath + itemAttach.FileName;
+
+                           ImagesPath.Add(path);
+                       }
+                   }
+                   if (DelItem.ItemStockOptions != null && DelItem.ItemStockOptions.Count > 0)
+                   {
+                       foreach (var itemStock in DelItem.ItemStockOptions)
+                       {
+                           string path = itemStock.ImageURL;
+
+                           ImagesPath.Add(path);
+                       }
+                   }
+
+                   // delete files
+
+
+
+                   if (DelItem.TemplateId != null && DelItem.TemplateId > 0)
+                   {
+                       templateService.DeleteTemplateFiles(DelItem.ItemId, OrganisationID);
+                       // delete template folder
+                   }
+
+                   // delete item files
+                   string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + OrganisationID + "/" + ItemID);
+
+                   if (Directory.Exists(SourceDelFiles))
+                   {
+                       Directory.Delete(SourceDelFiles, true);
+                   }
+
+                   // delete itemattachments
+
+                   string SourceDelAttachments = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/Organisation" + OrganisationID + "/" + OrganisationID + "/" + ItemID);
+
+                   if (Directory.Exists(SourceDelAttachments))
+                   {
+                       Directory.Delete(SourceDelAttachments, true);
+                   }
+
+               }
+
+               return true;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         #endregion
     }
 }

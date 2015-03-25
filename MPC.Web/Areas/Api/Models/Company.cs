@@ -106,6 +106,8 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid? StockNotificationManagerId2 { get; set; }
         public bool? IsDeliveryTaxAble { get; set; }
         public bool? IsDisplayDeliveryOnCheckout { get; set; }
+        public bool? IsDisplayDiscountVoucherCode { get; set; }
+
         public long? PickupAddressId { get; set; }
         public long? BussinessAddressId { get; set; }
         public int CompanyContactCount { get; set; }

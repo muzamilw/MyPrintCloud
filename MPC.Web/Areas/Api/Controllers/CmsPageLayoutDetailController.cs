@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -35,6 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Company By Id
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public List<CmsSkinPageWidget> Get([FromUri]int pageId, long companyId)
         {
             return companyService.GetCmsPageWidgetByPageId(pageId, companyId).Select(w => w.CreateFrom()).ToList();

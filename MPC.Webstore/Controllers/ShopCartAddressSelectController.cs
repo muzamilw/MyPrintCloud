@@ -116,10 +116,6 @@ namespace MPC.Webstore.Controllers
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                 {
                   
-                    
-                  
-                    //chkBoxDeliverySameAsBilling.Checked = true;
-
                     if(_myClaimHelper.loginContactID() > 0)
                     {
                         superAdmin =  _myCompanyService.GetCorporateAdmin(UserCookieManager.StoreId);
@@ -141,40 +137,7 @@ namespace MPC.Webstore.Controllers
                         }
                     }
                     AddressSelectModel.OrderId = OrderID;
-                    //CompanyContact contactUser = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());// LoginUser;
-                    //if (baseresponseComp.Company.isCalculateTaxByService == true)
-                    //{
-                    //    // btnConfirmOrder.Text = "Continue"; // continue to next page
-                    //}
-                    //else
-                    //{
-                    //    //if ((contactUser != null && (contactUser.ContactRoleID == Convert.ToInt32(Roles.Adminstrator) || contactUser.ContactRoleID == Convert.ToInt32(Roles.Manager))) || (contactUser.ContactRoleID == Convert.ToInt32(Roles.User) && contactUser.canUserPlaceOrderWithoutApproval == true))
-                    //    //  btnConfirmOrder.Text = (string)GetGlobalResourceObject("MyResource", "btnConfrmSelectPLACEORDER");
-                    //    //else
-                    //    // btnConfirmOrder.Text = (string)GetGlobalResourceObject("MyResource", "btnSUBMITFORAPPROVAL");
-
-                    //    if (contactUser.IsPayByPersonalCreditCard == true)
-                    //    {
-                    //        //ViewBag.divAdminMessage = false;
-                    //        //if (SessionParameters.CustomerContact.canPlaceDirectOrder == true)
-                    //        //{
-                    //        //    // btnDirectDeposit.Visible = true;
-                    //        //}
-                    //        //btnConfirmOrder.Text = "Pay by Credit Card";//(string)GetGlobalResourceObject("MyResource", "btnConfrmSelectPLACEORDER");
-                    //    }
-                    //}
-                }
-                else
-                {
-                 
-                    //if (SessionParameters.tbl_cmsDefaultSettings.isCalculateTaxByService == true)
-                    //{
-                    //    // btnConfirmOrder.Text = "Continue"; // continue to next page
-                    //}
-                    //else
-                    //{
-                    //    // btnConfirmOrder.Text = (string)GetGlobalResourceObject("MyResource", "btnConfrmSelectPLACEORDER");
-                    //}
+                  
                 }
 
                 AddressSelectModel.LtrMessageToDisplay = false;
@@ -183,11 +146,6 @@ namespace MPC.Webstore.Controllers
                 {
                     BindDeliveryCostCenterDropDown(deliveryCostCentersList,OrderID,AddressSelectModel);
 
-                    
-
-                    //chkBoxDeliverySameAsBilling.Checked = true;
-
-                    //string Mobile = _myCompanyService.GetContactMobile(_myClaimHelper.loginContactID()); //SessionParameters.CustomerContact.Mobile;
                     CompanyContact contact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
 
                     if (contact != null)
@@ -261,7 +219,7 @@ namespace MPC.Webstore.Controllers
                     }
                     if (customerAddresses != null && customerAddresses.Count > 0)
                     {
-                        //ViewBag.listitem = new SelectList(customerAddresses.ToList(), "AddressId", "AddressName");
+                        
                         FillUpAddressDropDowns(customerAddresses,AddressSelectModel);
 
                         if (BillingID != 0 && ShippingID != 0)
@@ -293,12 +251,12 @@ namespace MPC.Webstore.Controllers
                                     //set default address
                                     billingAddress = customerAddresses.FirstOrDefault();
                                 }
-                               // ViewData["BillingAddress"] = billingAddress;
+                               
                                 AddressSelectModel.BillingAddress = billingAddress;
                                 AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
                                 AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
                                 AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
-                               // SetBillingAddresControls(billingAddress);
+                               
                                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                                 {
                                     if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
@@ -317,7 +275,7 @@ namespace MPC.Webstore.Controllers
                                     {
                                         AddressSelectModel.IsUserRole = false;
                                     }
-                                   // SetEnabilityBillingAddressControls(billingAddress);
+                                   
                                 }
                                 else
                                 {
@@ -356,15 +314,7 @@ namespace MPC.Webstore.Controllers
                                     AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
                                     AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
                                     AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-                                   // SetShippingAddresControls(shippingAddress);
-                                  //  SetEnabilityShippingAddressControls(shippingAddress);
-                                }
-                               
-
-                                if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
-                                {
-                                    
-                                    //chkBoxDeliverySameAsBilling.Checked = true;
+                                  
                                 }
                             
                         }
@@ -404,12 +354,7 @@ namespace MPC.Webstore.Controllers
                                 AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
                                 AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
                                 AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
-                            //    SetBillingAddresControls(billingAddress);
-                                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                {
-                              //      SetEnabilityBillingAddressControls(billingAddress);
-                                }
-
+                          
                                 //Shipping Address
 
                                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
@@ -442,14 +387,12 @@ namespace MPC.Webstore.Controllers
                                     AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
                                     AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
                                     AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-                            //        SetShippingAddresControls(shippingAddress);
-                               //     SetEnabilityShippingAddressControls(shippingAddress);
+                           
                                 }
 
                                 if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
                                 {
-                                    //ltrlBillShippTo.Text = (string)GetGlobalResourceObject("MyResource", "lnkBillShipto");
-                                 //   chkBoxDeliverySameAsBilling.Checked = true;
+                                 
                                     AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
                                 }
                             
@@ -460,17 +403,14 @@ namespace MPC.Webstore.Controllers
                 }
               
 
-              //  BaseMasterPage masterPage = MyBaseMasterPage;
-
+         
                 if (baseresponseComp.Company != null)
                 {
                   AddressSelectModel.TaxLabel = baseresponseComp.Company.TaxLabel +  " :"; 
                 }
                 AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
                 AddressSelectModel.Warning = "warning"; // Utils.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId) + " " + baseresponseOrg.Organisation.Country + "."; // (string)GetGlobalResourceObject("MyResource", "lnkWarnMesg") + " " + companySite.Country + ".";
-              
-              // ((BaseMasterPage)this.Page.Master).pageTitle = (string)GetGlobalResourceObject("MyResource", "lblPageTitleCheckout") + SessionParameters.CompanySite.CompanySiteName;
-                
+             
                 return View("PartialViews/ShopCartAddressSelect",AddressSelectModel);
             }
             catch(Exception ex)
@@ -507,15 +447,15 @@ namespace MPC.Webstore.Controllers
             if (shopCart != null)
             {
                 Model.SelectedItemsAddonsList = shopCart.ItemsSelectedAddonsList;
-                //ViewData["selectedItemsAddonsList"] = _selectedItemsAddonsList;
+               
                 //global values for all items
                 CostCentre deliveryCostCenter = null;
                 int deliverCostCenterID;
                 _deliveryCost = shopCart.DeliveryCost;
-              //  ViewBag.DeliveryCost = shopCart.DeliveryCost;
+              
                 Model.DeliveryCost = shopCart.DeliveryCost;
                 _deliveryCostTaxVal = shopCart.DeliveryTaxValue;
-              //  ViewBag.DeliveryCostTaxVal = _deliveryCostTaxVal;
+             
                 Model.DeliveryCostTaxVal = shopCart.DeliveryTaxValue;
                 BillingID = shopCart.BillingAddressID;
                 ShippingID = shopCart.ShippingAddressID;
@@ -541,9 +481,7 @@ namespace MPC.Webstore.Controllers
 
             }
 
-            // Empty shopping cart
-            
-          
+           
         }
         private void BindGriViewWithProductItemList(List<ProductItem> itemsList,ShopCartAddressSelectViewModel model)
         {
@@ -666,17 +604,11 @@ namespace MPC.Webstore.Controllers
         {
             if (addreses != null && addreses.Count > 0)
             {
-               
-                
-            //	AddressSelectModel.ShippingAddresses = addreses;
-              //  ViewData["ShipAddresses"] = addreses;
-                //AddressSelectModel.BillingAddresses = addreses;
                 List<Address> newaddress = new List<Address>();
                
                 foreach (var address in addreses)
                 {
-                    //Address addressObj = new Address
-                    //{ 
+                   
                         Address addressObj = new Address();
                         addressObj.AddressId = address.AddressId;
                         addressObj.AddressName = address.AddressName;
@@ -697,22 +629,15 @@ namespace MPC.Webstore.Controllers
                         else
                             addressObj.FAO = "";
                         addressObj.CountryId = address.CountryId;
-                        
-                   // };
-
+                    
                     newaddress.Add(addressObj);
                 }
                 model.ShippingAddresses = newaddress;
                 model.BillingAddresses = newaddress;
-                //ViewBag.shippingAddress = newaddress;
+              
                 model.DDBillingAddresses = new SelectList(addreses, "AddressId", "AddressName");
                 model.DDShippingAddresses = new SelectList(addreses, "AddressId", "AddressName");
 
-                //ViewBag.listitemShipping = new SelectList(addreses, "AddressId", "AddressName");
-             
-                //ViewBag.listitemBilling = new SelectList(addreses, "AddressId", "AddressName");
-                //SelectList list = new SelectList(addreses, "", "");
-               // ViewBag.listitem = list;
             }
           
         }
@@ -732,9 +657,7 @@ namespace MPC.Webstore.Controllers
                     CompanyTerritory Territory = new CompanyTerritory();
                     List<CostCentre> deliveryCostCentersList = null;
                     OrganisationID = baseresponseOrg.Organisation.OrganisationId;
-                    //string addLine1 = Request.Form["txtAddressLine1"];
-                    //string city = Request.Form["txtCity"];
-                    //string PostCode = Request.Form["txtZipPostCode"];
+                 
                     int id = model.SelectedDeliveryAddress;
                     string addLine1 = model.ShippingAddress.Address1;
                     string city = model.ShippingAddress.City;
@@ -815,186 +738,6 @@ namespace MPC.Webstore.Controllers
                         //ViewBag.listitem = new SelectList(customerAddresses.ToList(), "AddressId", "AddressName");
                         FillUpAddressDropDowns(customerAddresses, model);
 
-                        //if (BillingID != 0 && ShippingID != 0)
-                        //{
-
-                        //    long ContactShippingID = 0;
-                        //    Address billingAddress = null;
-                        //    //Default Billing Address
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
-                        //        {
-                        //            billingAddress = customerAddresses.Where(c => c.AddressId == BillingID).FirstOrDefault();
-                        //        }
-                        //        else
-                        //        {
-                        //            // billingAddress = 
-                        //            long ContactBillingID = contact.AddressId;
-                        //            billingAddress = customerAddresses.Where(c => c.AddressId == BillingID).FirstOrDefault();
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        billingAddress = customerAddresses.Where(c => c.AddressId == BillingID).FirstOrDefault();
-                        //    }
-
-                        //    if (billingAddress == null)
-                        //    {
-                        //        //set default address
-                        //        billingAddress = customerAddresses.FirstOrDefault();
-                        //    }
-                        //    // ViewData["BillingAddress"] = billingAddress;
-                        //    model.BillingAddress = billingAddress;
-                        //    model.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                        //    model.SelectedBillingState = billingAddress.StateId ?? 0;
-                        //    model.SelectedBillingAddress = billingAddress.AddressId;
-                        //    // SetBillingAddresControls(billingAddress);
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
-                        //        {
-                        //            model.IsUserRole = true;
-                        //            if (baseresponseComp.Company.isStoreModePrivate == true)
-                        //            {
-                        //                model.isStoreModePrivate = true;
-                        //            }
-                        //            else
-                        //            {
-                        //                model.isStoreModePrivate = false;
-                        //            }
-                        //        }
-                        //        else
-                        //        {
-                        //            model.IsUserRole = false;
-                        //        }
-                        //        // SetEnabilityBillingAddressControls(billingAddress);
-                        //    }
-                        //    else
-                        //    {
-                        //        model.IsUserRole = false;
-                        //    }
-
-                        //    //Shipping Address
-
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
-                        //        {
-                        //            ContactShippingID = customerAddresses.Where(c => c.AddressId == contact.ShippingAddressId).Select(s => s.AddressId).FirstOrDefault();
-                        //        }
-                        //        else
-                        //        {
-                        //            ContactShippingID = Convert.ToInt64(contact.ShippingAddressId);
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        ContactShippingID = contact.AddressId;
-
-                        //    }
-                        //    Address shippingAddress = customerAddresses.Where(addr => addr.AddressId == ShippingID).FirstOrDefault();
-                        //    // Is billing and Shipping are same ??
-                        //    if (shippingAddress != null)
-                        //    {
-
-                        //        model.ShippingAddress = shippingAddress;
-                        //        model.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                        //        model.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
-                        //        model.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-                        //        // SetShippingAddresControls(shippingAddress);
-                        //        //  SetEnabilityShippingAddressControls(shippingAddress);
-                        //    }
-
-                        //    if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
-                        //    {
-
-                        //        //chkBoxDeliverySameAsBilling.Checked = true;
-                        //    }
-
-                        //}
-
-                        //else
-                        //{
-
-
-                        //    long ContactShippingID = 0;
-                        //    Address billingAddress = null;
-                        //    //Default Billing Address
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
-                        //        {
-                        //            billingAddress = customerAddresses.Where(c => c.AddressId == contact.AddressId).FirstOrDefault();
-                        //        }
-                        //        else
-                        //        {
-                        //            // billingAddress = 
-                        //            long ContactBillingID = contact.AddressId;
-                        //            billingAddress = customerAddresses.Where(c => c.AddressId == ContactBillingID).FirstOrDefault();
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        billingAddress = customerAddresses.Where(c => c.AddressId == contact.AddressId).FirstOrDefault();
-                        //    }
-
-                        //    if (billingAddress == null)
-                        //    {
-                        //        //set default address
-                        //        billingAddress = customerAddresses.FirstOrDefault();
-                        //    }
-
-                        //    model.BillingAddress = billingAddress;
-                        //    model.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                        //    model.SelectedBillingState = billingAddress.StateId ?? 0;
-                        //    model.SelectedBillingAddress = billingAddress.AddressId;
-                        //    //    SetBillingAddresControls(billingAddress);
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        //      SetEnabilityBillingAddressControls(billingAddress);
-                        //    }
-
-                        //    //Shipping Address
-
-                        //    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                        //    {
-                        //        if (_myClaimHelper.loginContactRoleID() == (int)Roles.User)
-                        //        {
-                        //            ContactShippingID = customerAddresses.Where(c => c.AddressId == contact.ShippingAddressId).Select(s => s.AddressId).FirstOrDefault();
-                        //        }
-                        //        else
-                        //        {
-                        //            ContactShippingID = Convert.ToInt64(contact.ShippingAddressId);// ContactManager.GetContactShippingID(SessionParameters.ContactID);
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        ContactShippingID = contact.AddressId;// ContactManager.GetContactShippingIDRetail(SessionParameters.ContactID);
-
-                        //    }
-                        //    Address shippingAddress = customerAddresses.Where(addr => addr.AddressId == ContactShippingID).FirstOrDefault();
-                        //    // Is billing and Shipping are same ??
-                        //    if (shippingAddress != null)
-                        //    {
-
-                        //        model.ShippingAddress = shippingAddress;
-                        //        model.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                        //        model.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
-                        //        model.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-                        //        //        SetShippingAddresControls(shippingAddress);
-                        //        //     SetEnabilityShippingAddressControls(shippingAddress);
-                        //    }
-
-                        //    if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
-                        //    {
-                        //        //ltrlBillShippTo.Text = (string)GetGlobalResourceObject("MyResource", "lnkBillShipto");
-                        //        //   chkBoxDeliverySameAsBilling.Checked = true;
-                        //        model.chkBoxDeliverySameAsBilling = "True";
-                        //    }
-
-
-                        //}
                     }
 
 
@@ -1036,10 +779,7 @@ namespace MPC.Webstore.Controllers
         {
 
             bool isPageValid = true;
-            //if (hfPageIsValid.Value == "0")
-            //{
-            //    isPageValid = false;
-            //}
+          
             if (isPageValid)
             {
 
@@ -1065,13 +805,13 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
                     {
-                        //yourRefNumber = Request.Form["txtYourRefNumber"];
+                      
                         yourRefNumber = model.RefNumber;
 
                     }
                     else
                     {
-                        //yourRefNumber = Request.Form["txtYourRefNumberRetail"];
+                        
                         yourRefNumber = model.RefNumRetail;
                     }
                     if (!string.IsNullOrEmpty(yourRefNumber))
@@ -1079,13 +819,13 @@ namespace MPC.Webstore.Controllers
                         yourRefNumber = yourRefNumber.Trim();
                     }
 
-                    //	specialTelNumber = Request.Form["txtInstContactTelNumber"];
+                  
                     specialTelNumber = model.ContactTel;
-                    //notes = Request.Form["txtInstNotes"];
+                  
                     notes = model.Notes;
                     if (!string.IsNullOrEmpty(notes))
                         notes = notes.Trim();
-                    //string total =   Request.Form["hfGrandTotal"];
+                   
                     double total = Convert.ToDouble(model.GrandTotal);
                     grandOrderTotal = total;
 
@@ -1398,7 +1138,6 @@ namespace MPC.Webstore.Controllers
 
            
 
-            //string ShipPostCode = Request.Form["txtShipPostCode"];
             string ShipPostCode = model.ShippingAddress.PostCode;
             CostCentre SelecteddeliveryCostCenter = null;
 
@@ -1460,7 +1199,7 @@ namespace MPC.Webstore.Controllers
                     {
                         if (CostOfDelivery == 0)
                         {
-                            CostOfDelivery = Convert.ToDouble(SelecteddeliveryCostCenter.SetupCost);
+                            CostOfDelivery = Convert.ToDouble(SelecteddeliveryCostCenter.DeliveryCharges);
                         }
 
                         List<Item> DeliveryItemList = _IItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.OrderId);

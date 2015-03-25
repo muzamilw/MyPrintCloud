@@ -12,5 +12,10 @@ namespace MPC.Interfaces.MISServices
         List<ProductCategory> GetChildCategories(int categoryId);
         ProductCategory GetProductCategoryById(int categoryId);
         ProductCategory Save(ProductCategory productCategory);
+
+        /// <summary>
+        /// Delete Product Category
+        /// </summary>
+        void DeleteCategory(int productCategoryId);
     }
 }
