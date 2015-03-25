@@ -54,12 +54,31 @@ namespace MPC.Webstore
            "RequestQuote",
            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
         );
+            routes.MapRoute(
+            "ProductPendingOrders",
+            "ProductPendingOrders",
+            new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+         );
+
 
             routes.MapRoute(
            "orderPolicy",
            "PersonalDetailAndOrderPolicy/SaveOrderPolicy",
            new { controller = "PersonalDetailAndOrderPolicy", action = "SaveOrderPolicy", id = UrlParameter.Optional }
         );
+
+            routes.MapRoute(
+           "ApproverOrder",
+           "ProductPendingOrders/Save",
+           new { controller = "ProductPendingOrders", action = "Save", id = UrlParameter.Optional }
+        );
+
+            routes.MapRoute(
+           "RejectOrder",
+           "ProductPendingOrders/ApporRejectOrder",
+           new { controller = "ProductPendingOrders", action = "ApporRejectOrder", id = UrlParameter.Optional }
+        );
+
 
             routes.MapRoute(
       "DashboardGePassword",

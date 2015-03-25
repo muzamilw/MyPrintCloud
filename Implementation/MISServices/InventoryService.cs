@@ -83,7 +83,7 @@ namespace MPC.Implementation.MISServices
         public InventoryBaseResponse GetBaseData()
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            IEnumerable<StockCategory> stocks= stockCategoryRepository.GetAll();
+            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
             return new InventoryBaseResponse
             {
                 StockCategories = stocks,
@@ -183,8 +183,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public StockItem SaveInevntory(StockItem stockItem)
         {
-            stockItem.OrganisationId = organisationRepository.OrganisationId;
-            if (stockItem != null && stockItem.StockItemId > 0)
+            stockItem.OrganisationId = stockItemRepository.OrganisationId;
+            if (stockItem.StockItemId > 0)
             {
                 return UpdateStockItem(stockItem);
             }
@@ -202,7 +202,6 @@ namespace MPC.Implementation.MISServices
             stockItem.StockCreated = DateTime.Now;
             stockItem.ItemCode = prefixRepository.GetNextItemCodePrefix();
             stockItem.LastModifiedDateTime = DateTime.Now;
-            stockItem.OrganisationId = stockItemRepository.OrganisationId;
             stockItemRepository.Add(stockItem);
             stockItemRepository.SaveChanges();
             //After save item content for list view

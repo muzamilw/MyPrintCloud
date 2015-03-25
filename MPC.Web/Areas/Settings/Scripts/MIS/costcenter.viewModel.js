@@ -2,8 +2,8 @@
     Module with the view model for the My Organization.
 */
 define("costcenter/costcenter.viewModel",
-    ["jquery", "amplify", "ko", "costcenter/costcenter.dataservice", "costcenter/costcenter.model", "common/confirmation.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, confirmation, pagination) {
+    ["jquery", "amplify", "ko", "costcenter/costcenter.dataservice", "costcenter/costcenter.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.costcenter = {
             viewModel: (function () {
@@ -25,6 +25,80 @@ define("costcenter/costcenter.viewModel",
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
+                    variablesTreePrent = ko.observableArray([{ Id: 1, Text: 'Cost Centers' },
+                                                { Id: 2, Text: 'Variables' },
+                                                { Id: 3, Text: 'Resources' },
+                                                { Id: 4, Text: 'Questions' },
+                                                { Id: 5, Text: 'Matrices' },
+                                                { Id: 6, Text: 'Lookup' },
+                                                { Id: 7, Text: 'Stock Items' }
+                    ]),
+                    fedexServiceTypes = ko.observableArray([{ Id: 1, Text: 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' },
+                                                { Id: 2, Text: 'FEDEX_1_DAY_FREIGHT' },
+                                                { Id: 3, Text: 'FEDEX_2_DAY' },
+                                                { Id: 4, Text: 'FEDEX_2_DAY_AM' },
+                                                { Id: 5, Text: 'FEDEX_2_DAY_FREIGHT' },
+                                                { Id: 6, Text: 'FEDEX_3_DAY_FREIGHT' },
+                                                { Id: 7, Text: 'FEDEX_DISTANCE_DEFERRED' },
+                                                { Id: 8, Text: 'FEDEX_EXPRESS_SAVER' },
+                                                { Id: 9, Text: 'FEDEX_FIRST_FREIGHT' },
+                                                { Id: 10, Text: 'FEDEX_FREIGHT_ECONOMY' },
+                                                { Id: 11, Text: 'FEDEX_FREIGHT_PRIORITY' },
+                                                { Id: 12, Text: 'FEDEX_GROUND' },
+                                                { Id: 13, Text: 'FEDEX_NEXT_DAY_AFTERNOON' },
+                                                { Id: 14, Text: 'FEDEX_NEXT_DAY_EARLY_MORNING' },
+                                                { Id: 15, Text: 'FEDEX_NEXT_DAY_END_OF_DAY' },
+                                                { Id: 16, Text: 'FEDEX_NEXT_DAY_FREIGHT' },
+                                                { Id: 17, Text: 'FEDEX_NEXT_DAY_MID_MORNING' },
+                                                { Id: 18, Text: 'GROUND_HOME_DELIVERY' },
+                                                { Id: 19, Text: 'FIRST_OVERNIGHT' },
+                                                { Id: 20, Text: 'INTERNATIONAL_ECONOMY' },
+                                                { Id: 21, Text: 'INTERNATIONAL_ECONOMY_FREIGHT' },
+                                                { Id: 22, Text: 'INTERNATIONAL_FIRST' },
+                                                { Id: 23, Text: 'INTERNATIONAL_PRIORITY' },
+                                                { Id: 24, Text: 'INTERNATIONAL_PRIORITY_FREIGHT' },
+                                                { Id: 25, Text: 'PRIORITY_OVERNIGHT' },
+                                                { Id: 26, Text: 'SAME_DAY' },
+                                                { Id: 27, Text: 'SAME_DAY_CITY' },
+                                                { Id: 28, Text: 'SMART_POST' },
+                                                { Id: 29, Text: 'STANDARD_OVERNIGHT' }
+                    ]),
+
+                    getVariableTreeChildListItems = function (dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        if ($(event.target).closest('li').children('ol').length > 0) {
+                            if ($(event.target).closest('li').children('ol').is(':hidden')) {
+                                $(event.target).closest('li').children('ol').show();
+                            } else {
+                                $(event.target).closest('li').children('ol').hide();
+                            }
+                            return;
+                        }
+                        dataservice.getProductCategoryChilds({
+                            id: id,
+                        }, {
+                            success: function (data) {
+                                if (data.ProductCategories != null) {
+                                    _.each(data.ProductCategories, function (productCategory) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
+                                        var category = {
+                                            productCategoryId: productCategory.ProductCategoryId,
+                                            categoryName: productCategory.CategoryName,
+                                            parentCategoryId: id
+                                        };
+                                        parentCategories.push(category);
+                                    });
+                                }
+                                isLoadingStores(false);
+                                $("#categoryTabItems li a").first().trigger("click");
+                            },
+                            error: function (response) {
+                                isLoadingStores(false);
+                                toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
                     
@@ -38,15 +112,12 @@ define("costcenter/costcenter.viewModel",
                     searchFilter = ko.observable(),
                     isEditorVisible = ko.observable(),
                     selectedCostCenter = ko.observable(),
+                    selectedInstruction = ko.observable(),
+                    selectedChoice = ko.observable(),
                     templateToUse = function(ocostCenter) {
                         return (ocostCenter === selectedCostCenter() ? 'editCostCenterTemplate' : 'itemCostCenterTemplate');
                     },
                     makeEditable = ko.observable(false),
-                    createNewCostCenter = function() {
-                        var oCostCenter = new model.CostCenter();
-                        editorViewModel.selectItem(oCostCenter);
-                        openEditDialog();
-                    },
                     //Delete Cost Center
                     deleteCostCenter = function(oCostCenter) {
                         dataservice.deleteCostCenter({
@@ -63,6 +134,10 @@ define("costcenter/costcenter.viewModel",
                             }
                         });
                     },
+                     costcenterImageFilesLoadedCallback = function (file, data) {
+                         selectedCostCenter().costcentreImageFileBinary(data);
+                         selectedCostCenter().costcentreImageName(file.name);
+                     },
                     onDeleteCostCenter = function(oCostCenter) {
                         if (!oCostCenter.CostCentreId()) {
                             costCentersList.remove(oCostCenter);
@@ -116,17 +191,22 @@ define("costcenter/costcenter.viewModel",
                         errorList.removeAll();
                         if (doBeforeSave()) {
                             
-                            saveEdittedCostCenter(callback);
+                            if (selectedCostCenter().costCentreId() > 0) {
+                                saveEdittedCostCenter(callback);
+                            } else {
+                                saveNewCostCenter(callback);
+                            }
                         }
                     },
                     //Save NEW Cost Center
-                    saveNewCostCenter = function() {
-                        dataservice.saveNewCostCenter(selectedCostCenter().convertToServerData(), {
+                    saveNewCostCenter = function (callback) {
+                        dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
                             success: function(data) {
-                                selectedCostCenter().costCenterId(data.costCenterId);
+                                selectedCostCenter().costCentreId(data.CostCentreId);
                                 costCentersList.splice(0, 0, selectedCostCenter());
-                                view.hideCostCenterDialog();
-                                toastr.success("Successfully save.");
+                                selectedCostCenter().reset();
+                                getCostCenters();
+                                toastr.success("Successfully saved.");
                             },
                             error: function(response) {
                                 toastr.error("Failed to save." + response);
@@ -142,7 +222,7 @@ define("costcenter/costcenter.viewModel",
                                 }
                                 selectedCostCenter().reset();
                                 getCostCenters();
-                                toastr.success("Successfully save.");
+                                toastr.success("Successfully saved.");
                             },
                             error: function (exceptionMessage, exceptionType) {
 
@@ -158,6 +238,43 @@ define("costcenter/costcenter.viewModel",
 
                             }
                         });
+                    },
+                    createCostCenter = function () {
+                        errorList.removeAll();
+                        var cc = new model.CostCenter();
+                        setDataForNewCostCenter(cc);
+                        selectedCostCenter(cc);
+                        getCostCentersBaseData();
+                        showCostCenterDetail();
+                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                    },
+                    setDataForNewCostCenter = function (newcostcenter) {
+                        newcostcenter.costPerUnitQuantity('0');
+                        newcostcenter.unitQuantity('0');
+                        newcostcenter.name('New Cost Center');
+                        newcostcenter.pricePerUnitQuantity('0');
+                        newcostcenter.setupCost('0');
+                        newcostcenter.setupSpoilage('0');
+                        newcostcenter.setupTime('0');
+                        newcostcenter.minimumCost('0');
+                        newcostcenter.timePerUnitQuantity('0');
+                        newcostcenter.runningSpoilage('0');
+                        newcostcenter.priority('0');
+                        newcostcenter.isDirectCost('1');
+                        newcostcenter.isPrintOnJobCard('1');
+                        newcostcenter.isDisabled('0');
+                        newcostcenter.isScheduleable('1');
+                        newcostcenter.sequence('1');
+                       // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
+                        newcostcenter.costDefaultValue('0');
+                        newcostcenter.priceDefaultValue('0');
+                        newcostcenter.quantitySourceType('1');
+                        newcostcenter.calculationMethodType('2');
+                    },
+                    createWorkInstruction = function () {
+                        var wi = new model.costCenterInstruction();
+                        selectedInstruction(wi);
+                        selectedCostCenter.costCenterInstructions.splice(0, 0, wi);
                     },
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
@@ -272,7 +389,6 @@ define("costcenter/costcenter.viewModel",
                     pager: pager,
                     templateToUse: templateToUse,
                     makeEditable: makeEditable,
-                    createNewCostCenter: createNewCostCenter,
                     getCostCenters: getCostCenters,
                     doBeforeSave: doBeforeSave,
                     saveCostCenter: saveCostCenter,
@@ -293,7 +409,12 @@ define("costcenter/costcenter.viewModel",
                     markups: markups,
                     costCenterResources: costCenterResources,
                     costCenterVariables: costCenterVariables,
-                    deliveryCarriers: deliveryCarriers
+                    deliveryCarriers: deliveryCarriers,
+                    variablesTreePrent: variablesTreePrent,
+                    createCostCenter: createCostCenter,
+                    setDataForNewCostCenter: setDataForNewCostCenter,
+                    fedexServiceTypes: fedexServiceTypes,
+                    costcenterImageFilesLoadedCallback: costcenterImageFilesLoadedCallback
                 };
             })()
         };

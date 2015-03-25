@@ -685,11 +685,19 @@ join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
 where pci.ItemId = p.ItemId
 FOR XML PATH(''), TYPE
             ).value('.', 'NVARCHAR(MAX)') 
-        ,1,2,'')) ProductCategoryName,
-ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
-p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
-p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
-p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
+        ,1,2,'')) ProductCategoryName, (select 
+STUFF((select ', ' + CAST(pc.ProductCategoryId AS NVARCHAR) 
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+        ,1,2,'')) ProductCategoryIds,
+		 
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+						 p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
+						 p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
 FROM            dbo.Items p
 
 GO
@@ -1039,4 +1047,12 @@ references ProductCategory (ProductCategoryId)
 alter table company
 add CurrentThemeId bigint null
 
+GO
+
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Fedex','fedex.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('UPS','ups.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Other',null, null,null)
 GO

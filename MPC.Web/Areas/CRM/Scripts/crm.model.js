@@ -1328,8 +1328,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
                 result.PhoneNo = source.phoneNo();
-                //result.IsCustomer = source.isCustomer();
-                result.IsCustomer = source.type();
+                result.IsCustomer = source.isCustomer();
+                //result.IsCustomer = source.type();
                 result.Notes = source.notes();
                 result.WebMasterTag = source.webMasterTag();
                 result.WebAnalyticCode = source.webAnalyticCode();

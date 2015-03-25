@@ -100,7 +100,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //    store.type("Supplier");
         //}
         if (source.IsCustomer == 4) {//changed from 1
-            store.type("Retail Customer");
+            store.type("Retail");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");
@@ -1778,7 +1778,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
