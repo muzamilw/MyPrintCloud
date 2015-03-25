@@ -360,6 +360,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         }
                         else if (tempType === 2) {
                             template().isCreatedManual(false);
+                            template().fileSource(undefined);
                         }
                         else {
                             template().isCreatedManual(undefined);
@@ -1822,7 +1823,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Entity
     // ReSharper disable InconsistentNaming
-    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate) {
+    Template = function (specifiedId, specifiedPdfTemplateWidth, specifiedPdfTemplateHeight, specifiedIsCreatedManual, specifiedIsSpotTemplate, specifiedFileSource) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -1837,7 +1838,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate !== null && specifiedIsSpotTemplate !== undefined ? specifiedIsSpotTemplate :
                 (!specifiedId ? true : undefined)),
             // File Source
-            fileSource = ko.observable().extend({
+            fileSource = ko.observable(specifiedFileSource).extend({
                 required: {
                     onlyIf: function () {
                         return isCreatedManual() === false;
@@ -1854,7 +1855,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             }),
             // Add Template Page
             addTemplatePage = function () {
-                templatePages.push(TemplatePage.Create({ ProductId: id() }));
+                templatePages.push(TemplatePage.Create({ ProductId: id(), Width: pdfTemplateWidth(), Height: pdfTemplateHeight() }));
             },
             // Remove Template Page
             removeTemplatePage = function (templatePage) {
@@ -3117,7 +3118,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Template Factory
     Template.Create = function (source) {
-        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate);
+        var template = new Template(source.ProductId, source.PdfTemplateWidth, source.PdfTemplateHeight, source.IsCreatedManual, source.IsSpotTemplate,
+        source.FileOriginalSource);
 
         // Map Template Pages if any
         if (source.TemplatePages != null) {

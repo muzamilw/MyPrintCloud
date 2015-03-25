@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyMapper
     {
+        
         #region Public
 
         /// <summary>
@@ -294,6 +295,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
+                CreationDate = source.CreationDate ?? DateTime.Now,
                 CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
                 CustomCSS = source.CustomCSS,
@@ -308,7 +310,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
@@ -444,7 +445,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
+                CreationDate = source.CreationDate ?? DateTime.Now,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,

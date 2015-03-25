@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -22,6 +23,16 @@ namespace MPC.Implementation.MISServices
         public IEnumerable<LookupMethod> GetAll()
         {
             return _LookupMethodRepository.GetAll();
+        }
+
+        public LookupMethodResponse GetlookupById(long MethodId)
+        {
+            return _LookupMethodRepository.GetlookupById(MethodId);
+        }
+
+        public bool UpdateLookup(LookupMethodResponse response)
+        {
+            return _LookupMethodRepository.UpdateLookup(response);
         }
     }
 }

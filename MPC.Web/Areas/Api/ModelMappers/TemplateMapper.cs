@@ -23,6 +23,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PdfTemplateWidth = source.PDFTemplateWidth,
                 IsCreatedManual = source.isCreatedManual,
                 IsSpotTemplate = source.isSpotTemplate,
+                FileOriginalBytes = source.FileOriginalBytes,
                 TemplatePages = source.TemplatePages != null ? source.TemplatePages.Select(vdp => vdp.CreateFrom()) : new List<TemplatePage>()
             };
         }

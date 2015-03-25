@@ -3059,17 +3059,7 @@ define("stores/stores.viewModel",
                 }
                 event.stopImmediatePropagation();
             },
-                //Select Child Product Category
-            selectChildProductCategory = function (categoryId, event) {
-                selectedProductCategory(undefined);
-                var id = $(event.target).closest('li')[0].id;
-                if (id) {
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(id);
-                }
-                event.stopImmediatePropagation();
-            },
-                //Get Category Child List Items
+            //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').length > 0) {
@@ -3666,13 +3656,16 @@ define("stores/stores.viewModel",
                         storeToSave.FieldVariables.push(field);
                     });
                     //Smart Forms
-                    _.each(smartForms(), function (item) {
-                        var smartFormServer = item.convertToServerData(item);
-                        _.each(item.smartFormDetails(), function (smartFormDetail) {
-                            smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                    if (selectedStore().companyId() === 0 || selectedStore().companyId() === undefined) {
+                        _.each(smartForms(), function (item) {
+                            var smartFormServer = item.convertToServerData(item);
+                            _.each(item.smartFormDetails(), function (smartFormDetail) {
+                                smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                            });
+                            storeToSave.SmartForms.push(smartFormServer);
                         });
-                        storeToSave.SmartForms.push(smartFormServer);
-                    });
+                    }
+                   
 
                     //endregion
                     //#region Company Territories
@@ -3857,7 +3850,7 @@ define("stores/stores.viewModel",
                                     selectedStore().companyId(data.CompanyId);
                                     selectedStore().storeImageFileBinary(data.StoreImagePath);
                                     if (selectedStore().type() == "4") {
-                                        selectedStore().type("Retail Customer");
+                                        selectedStore().type("Retail");
                                     } else if (selectedStore().type() == "3") {
                                         selectedStore().type("Corporate");
                                     }
@@ -3871,7 +3864,7 @@ define("stores/stores.viewModel",
                                             store.status(selectedStore().status());
                                             store.storeImageFileBinary(data.StoreImagePath);
                                             if (selectedStore().type() == "4") {
-                                                store.type("Retail Customer");
+                                                store.type("Retail");
                                             } else if (selectedStore().type() == "3") {
                                                 store.type("Corporate");
                                             }

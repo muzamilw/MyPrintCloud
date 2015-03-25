@@ -44,7 +44,7 @@
                                         <th class="col-lg-2"><span>Created</span></th>
                                         <th class="col-lg-2"><span>Status</span></th>
                                         <th class="col-lg-2"><span>Email</span></th>
-                                        <th class="col-lg-2">&nbsp;</th>
+                                        @*<th class="col-lg-2">&nbsp;</th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -80,7 +80,7 @@
                 <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
                 <span class="user-subhead">Supplier</span>
             </td>
-            <td data-bind="text: createdDate"></td>
+            <td data-bind="dateString: createdDate"></td>
             <td>
                 <!-- ko if: status() == 1 -->
                 <span class="label label-success">Active</span>
@@ -90,30 +90,18 @@
                 <!-- /ko -->
             </td>
             <td>
-                <a href="~/CRM/SupplierDetail">
-                    jack@nicholson
+                <a href="#">
+                    
                 </a>
             </td>
-            <td style="width: 20%;">
-                @*<a href="~/CRM/SupplierDetail" class="table-link">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>*@
+            @*<td style="width: 20%;">
                 <a class="table-link" data-bind="click: $root.onEditItem">
                     <span class="fa-stack">
                         <i class="fa fa-square fa-stack-2x"></i>
                         <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                     </span>
                 </a>
-                @*<a href="#" class="table-link danger">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>*@
-            </td>
+            </td>*@
         </tr>
     </script>
     @* Filter Template *@
@@ -125,12 +113,12 @@
                 </div>
                 <div class="form-group pull-left">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
-                    <i class="fa fa-search search-icon"></i>
+                    <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
                 </div>
-                <div class="pull-right">
+                @*<div class="pull-right">
                     <button type="submit" class="btn btn-primary" data-bind="click:$root.getSuppliers">Search</button>
                     <button type="reset" class="btn btn-default" data-bind="click:$root.resetSupplierFilterSection">Reset</button>
-                </div>
+                </div>*@
             </div>
             <div class="clearfix">
             </div>

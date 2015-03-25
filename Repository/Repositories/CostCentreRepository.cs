@@ -493,8 +493,13 @@ namespace MPC.Repository.Repositories
 			{
 
 				CostCentre result = db.CostCentres.Where(c => c.CostCentreId == oCostCentre.CostCentreId).FirstOrDefault();
-
-				result = oCostCentre;
+                result = oCostCentre;
+                if (oCostCentre.ImageBytes != null)
+                {
+                    result.ThumbnailImageURL = oCostCentre.ThumbnailImageURL;
+                    result.ImageBytes = null;
+                }
+                    
                 if(oCostCentre.CostcentreInstructions != null)
                 {
                     foreach (var inst in oCostCentre.CostcentreInstructions)

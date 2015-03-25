@@ -9,21 +9,14 @@
                 <div class="col-lg-12 clearfix">
                     <header class="main-box-header clearfix">
                         <div class="filter-body set-filter-margin" id="filter">
-                            <div class="filter-block pull-left">
-                                <div class="pull-left spanfilterlbl">
-                                    Search: &nbsp;
+                            <form data-bind="submit: $root.searchPressItems">
+                                <div class="filter-block pull-right">
+                                    <div class="form-group pull-right">
+                                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.pressDialogFilter">
+                                        <i class="fa fa-search search-icon"> </i>
+                                    </div>
                                 </div>
-                                <div class="form-group pull-left">
-                                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.pressDialogFilter">
-                                    <i class="fa fa-search search-icon" data-bind="click: $root.searchPressItems"></i>
-                                </div>
-                                <div class="pull-right">
-                                    <button type="submit" class="btn btn-primary" data-bind="click:$root.searchPressItems">Search</button>
-                                    <button type="reset" class="btn btn-default" data-bind="click: $root.resetPressItems">Reset</button>
-                                </div>
-                            </div>
-                            <div class="clearfix">
-                            </div>
+                            </form>
                         </div>
                     </header>
                     <div class="main-box-body clearfix">
@@ -45,7 +38,7 @@
                             </table>
                         </div>
                     </div>
-                    <footer class="main-box-header pull-left">
+                    <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
                             <!-- ko with: $root.pressDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -56,8 +49,7 @@
             </div>
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-                <button type="button" class="btn btn-default" data-bind="click: $root.closePressDialog" style="margin-left: 0">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.closePressDialog" data-dismiss="modal">OK</button>
             </div>
         </div>
     </div>
