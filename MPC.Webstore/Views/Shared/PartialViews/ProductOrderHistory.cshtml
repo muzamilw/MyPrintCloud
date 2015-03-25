@@ -12,6 +12,7 @@
 @{
     
     int x = 6;
+   // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
 }
 
 <div class="content_area container">
@@ -103,7 +104,7 @@
                     <div class="ProductOrderContainer">
                        
 
-    @grid.GetHtml(
+    @grid.GetHtml(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
     htmlAttributes: new { id = "OrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,

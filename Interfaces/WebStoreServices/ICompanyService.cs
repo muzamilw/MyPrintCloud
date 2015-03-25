@@ -216,5 +216,6 @@ namespace MPC.Interfaces.WebStoreServices
         int AddSubscriber(NewsLetterSubscriber subsriber);
         bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
         RaveReview GetRaveReview();
+
     }
 }

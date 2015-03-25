@@ -556,12 +556,31 @@ namespace MPC.Repository.Repositories
 
                          }
 
+                         //// product categories
+                         //List<ProductCategory> prodCats = Sets.ExportStore2;
+                         //if (prodCats != null && prodCats.Count > 0)
+                         //{
+                         //    foreach (var cat in prodCats)
+                         //    {
+                         //        cat.OrganisationId = OrganisationID;
+                         //        cat.CompanyId = oCID;
+                         //        db.ProductCategories.Add(cat);
+
+                         //    }
+                         //    db.SaveChanges();
+                         //}
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportStore2;
                          if (prodCats != null && prodCats.Count > 0)
                          {
                              foreach (var cat in prodCats)
                              {
+                                 if (cat.ProductCategoryId != null)
+                                     cat.ContentType = cat.ProductCategoryId.ToString(); // 8888
+                                 //if(cat.ParentCategoryId != null)
+                                 //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
+
+                                 //cat.ParentCategoryId = null;
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oCID;
                                  db.ProductCategories.Add(cat);
@@ -570,6 +589,27 @@ namespace MPC.Repository.Repositories
                              db.SaveChanges();
                          }
 
+
+                         // 
+                         if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                         {
+                             foreach (var item in comp.ProductCategories)
+                             {
+                                 if (item.ParentCategoryId > 0) // 11859
+                                 {
+
+
+                                     //  string scat = item.Description2;
+                                     var pCat = db.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
+                                     if (pCat != null)
+                                     {
+                                         item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
+                                         db.SaveChanges();
+                                     }
+                                 }
+                             }
+                         }
+                         //
 
                          if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
                          {
@@ -666,12 +706,19 @@ namespace MPC.Repository.Repositories
 
                          }
 
+
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportRetailStore2;
                          if (prodCats != null && prodCats.Count > 0)
                          {
                              foreach (var cat in prodCats)
                              {
+                                 if(cat.ProductCategoryId != null)
+                                     cat.ContentType = cat.ProductCategoryId.ToString(); // 8888
+                                 //if(cat.ParentCategoryId != null)
+                                 //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
+
+                                 //cat.ParentCategoryId = null;
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oRetailCID;
                                  db.ProductCategories.Add(cat);
@@ -680,6 +727,26 @@ namespace MPC.Repository.Repositories
                              db.SaveChanges();
                          }
 
+
+                         // 
+                         if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                         {
+                             foreach(var item in comp.ProductCategories)
+                             {
+                                 if (item.ParentCategoryId > 0) // 11859
+                                 {
+
+
+                                   //  string scat = item.Description2;
+                                     var pCat = db.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
+                                     if (pCat != null)
+                                     {
+                                         item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
+                                         db.SaveChanges();
+                                     }
+                                 }
+                             }
+                         }
                          //
 
 
@@ -848,8 +915,8 @@ namespace MPC.Repository.Repositories
                                      }
 
                                  }
-                                 org.MISLogo = "/MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_MISLogo.png";
-                                 org.WebsiteLogo = "/MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_WebstoreLogo.png";
+                                 org.MISLogo = "MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_MISLogo.png";
+                                 org.WebsiteLogo = "MPC_Content/Organisations/" + ImportIDs.NewOrganisationID + "/" + ImportIDs.NewOrganisationID + "_WebstoreLogo.png";
 
                              }
 
@@ -916,7 +983,7 @@ namespace MPC.Repository.Repositories
                                          }
 
                                      }
-                                     cos.ThumbnailImageURL = "/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL;
+                                     cos.ThumbnailImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL;
                                  }
 
                                  // copy image URLs
@@ -965,7 +1032,7 @@ namespace MPC.Repository.Repositories
                                          }
 
                                      }
-                                     cos.MainImageURL = "/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL;
+                                     cos.MainImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL;
                                  }
 
 
@@ -1024,7 +1091,7 @@ namespace MPC.Repository.Repositories
                                                  File.Copy(ReportSourcePath, DestinationReportPath);
                                          }
                                      }
-                                     report.ReportBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + ReportPathNew;
+                                     report.ReportBanner = "MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + ReportPathNew;
                                  }
 
                              }
@@ -1047,10 +1114,7 @@ namespace MPC.Repository.Repositories
 
                         if(Directory.Exists(SourceImportOrg))
                         {
-                            //DirectoryInfo dir = new DirectoryInfo(SourceImportOrg);
 
-                            //Directory.GetFiles(SourceImportOrg).ToList().ForEach(File.Delete);
-                            //Directory.GetDirectories(SourceImportOrg).ToList().ForEach(Directory.Delete);
 
                             Directory.Delete(SourceImportOrg,true);
                         }
@@ -1207,7 +1271,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
+                                contact.image = "MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
 
                             }
                         }
@@ -1269,7 +1333,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                media.FilePath = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath;
+                                media.FilePath = "MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath;
 
                                 // set banners path
 
@@ -1304,7 +1368,7 @@ namespace MPC.Repository.Repositories
 
                                         string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
 
-                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
+                                        bann.ImageURL = "MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
                                     }
                                 }
                             }
@@ -1321,7 +1385,7 @@ namespace MPC.Repository.Repositories
                                 //string OldMediaID = string.Empty;
                                 //string newMediaID = string.Empty;
                                 string name = Path.GetFileName(pages.PageBanner);
-                                pages.PageBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+                                pages.PageBanner = "MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
                             }
 
                         }
@@ -1379,7 +1443,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                prodCat.ThumbnailPath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
+                                prodCat.ThumbnailPath = "MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
                             }
 
                             if (!string.IsNullOrEmpty(prodCat.ImagePath))
@@ -1426,7 +1490,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                prodCat.ImagePath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath;
+                                prodCat.ImagePath = "MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath;
                             }
 
 
@@ -1484,7 +1548,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.ThumbnailPath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath;
+                                item.ThumbnailPath = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath;
                             }
 
                             // main image
@@ -1535,7 +1599,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.ImagePath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath;
+                                item.ImagePath = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath;
                             }
 
                             // Gird image
@@ -1583,7 +1647,7 @@ namespace MPC.Repository.Repositories
 
                                     }
                                 }
-                                item.GridImage = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath;
+                                item.GridImage = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath;
                             }
 
                             // file 1
@@ -1631,7 +1695,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File1 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path;
+                                item.File1 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path;
 
                             }
 
@@ -1681,7 +1745,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File2 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path;
+                                item.File2 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path;
                             }
 
                             // file 3
@@ -1729,7 +1793,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File3 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path;
+                                item.File3 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path;
                             }
 
                             // file 4
@@ -1777,7 +1841,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File4 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path;
+                                item.File4 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path;
                             }
 
                             // file 5
@@ -1825,7 +1889,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File5 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
+                                item.File5 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
                             }
                             if(item.TemplateId != null && item.TemplateId > 0)
                             {
@@ -2047,58 +2111,7 @@ namespace MPC.Repository.Repositories
                                 }
                                
                             }
-                            // attachments
-                            if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
-                            {
-                                foreach(var itemAttach in item.ItemAttachments)
-                                {
-                                    string OldAttachPath = string.Empty;
-                                    string NewAttachPath = string.Empty;
-
-                                    string name = Path.GetFileName(itemAttach.FolderPath);
-                                    string[] SplitMain = name.Split('_');
-                                    if (SplitMain[0] != string.Empty)
-                                    {
-                                        ItemID = SplitMain[0];
-
-                                    }
-
-                                    OldAttachPath = Path.GetFileName(item.File5);
-                                    NewAttachPath = OldAttachPath.Replace(ItemID + "_", item.ItemId + "_");
-
-                                    DestinationItemAttachmentsPath = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewAttachPath);
-                                    DestinationsPath.Add(DestinationItemAttachmentsPath);
-                                    string DestinationItemAttachmentDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                    string AttachmentSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Attachments/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldAttachPath);
-                                    if (!System.IO.Directory.Exists(DestinationItemAttachmentDirectory))
-                                    {
-                                        Directory.CreateDirectory(DestinationItemAttachmentDirectory);
-                                        if (Directory.Exists(DestinationItemAttachmentDirectory))
-                                        {
-                                            if (File.Exists(AttachmentSourcePath))
-                                            {
-                                                if (!File.Exists(DestinationItemAttachmentsPath))
-                                                    File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
-                                            }
-
-
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (File.Exists(AttachmentSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationItemAttachmentsPath))
-                                                File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
-                                        }
-
-                                    }
-                                    itemAttach.FolderPath = DestinationItemAttachmentsPath;
-
-                                }
-                               
-                            }
+                           
 
                         }
                     }
@@ -3261,7 +3274,7 @@ namespace MPC.Repository.Repositories
         }
         public void DeletePhysicallFiles(string Path)
         {
-            if(File.Exists(Path))
+            if (File.Exists(Path))
             {
                 File.Delete(Path);
             }

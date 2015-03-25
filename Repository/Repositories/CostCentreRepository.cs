@@ -702,6 +702,13 @@ namespace MPC.Repository.Repositories
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
 		}
+
+	    public IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore()
+	    {
+            return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && x.Type == (int)CostCenterTypes.Delivery)
+                .OrderBy(x => x.Name).ToList();
+	    }
+
 		#endregion
 
 		#region "CostCentre Template"

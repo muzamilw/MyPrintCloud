@@ -110,9 +110,11 @@ namespace MPC.Webstore.Controllers
              if (ordersList == null || ordersList.Count == 0)
                 {
                     TempData["Status"] = "No Records Found";
+                    TempData["HeaderStatus"] = false;
                 }
                 else {
                     TempData["Status"] = ordersList.Count+"    " + " Record Match ";
+                    TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
         }

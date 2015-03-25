@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -38,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Models.AddressResponse Get([FromUri] AddressRequestModel request)
         {
             var result = companyService.SearchAddresses(request);
@@ -52,6 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="addressId"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public bool Get([FromUri] long addressId)
         {
             var address = addressService.Get(addressId);
@@ -67,6 +70,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public Address Post(Address address)
         {
             if (!ModelState.IsValid)
@@ -75,6 +79,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return addressService.Save(address.CreateFrom()).CreateFrom();
         }
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public bool Delete(CompanyAddressDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.AddressId <= 0)

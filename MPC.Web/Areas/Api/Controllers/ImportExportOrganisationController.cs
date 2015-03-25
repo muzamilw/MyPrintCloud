@@ -29,29 +29,29 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
 
-      
+
         [HttpGet]
         public bool InsertOrganisation(long parameter1, bool parameter2)
         {
             try
             {
-               return companyService.ImportOrganisation(parameter1, parameter2);
+                return companyService.ImportOrganisation(parameter1, parameter2);
             }
             catch (Exception ex)
             {
                 throw ex;
 
             }
-         
+
         }
 
 
         [HttpGet]
-        public bool ExportOrganisation(long id)
+        public bool ExportOrganisation(long parameter1, string parameter2, string parameter3, string parameter4, string parameter5)
         {
             try
             {
-                return companyService.ExportOrganisation(id);
+                return companyService.ExportOrganisation(parameter1, parameter2, parameter3, parameter4, parameter5);
             }
             catch(Exception ex)
             {
@@ -59,6 +59,21 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             }
           
+        }
+
+        [HttpPost]
+        public bool ImportStore(long parameter1, string parameter2, long parameter3)
+        {
+            try
+            {
+                return companyService.ImportStore(parameter1, parameter2);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
     }
 }

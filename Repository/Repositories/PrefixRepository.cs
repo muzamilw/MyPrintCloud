@@ -50,28 +50,40 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public string GetNextItemCodePrefix()
         {
-            Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
-            if (prefix == null)
+            try
             {
-                throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.ItemPrefix + "-001-" + prefix.ItemNext;
+
+                // Update Item Next
+                prefix.ItemNext += 1;
+
+                // Save Changes
+                SaveChanges();
+
+                return nextPrefix;
             }
-
-            string nextPrefix = prefix.ItemPrefix + "-001-" + prefix.ItemNext;
-
-            // Update Item Next
-            prefix.ItemNext += 1;
-
-            // Save Changes
-            SaveChanges();
-
-            return nextPrefix;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Prefix GetDefaultPrefix()
         {
-
-            return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1);
-
+            try
+            {
+                return db.Prefixes.FirstOrDefault(c => c.SystemSiteId == 1);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         /// <summary>
@@ -79,34 +91,54 @@ namespace MPC.Repository.Repositories
         /// </summary>
         public bool PrefixUseMarkupId(long markupId)
         {
-            return db.Prefixes.Count(p => p.MarkupId == markupId) > 0;
+            try
+            {
+                return db.Prefixes.Count(p => p.MarkupId == markupId) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<Prefix> GetPrefixesByOrganisationID(long organisationID)
         {
-
-            Mapper.CreateMap<Prefix, Prefix>()
-              .ForMember(x => x.Markup, opt => opt.Ignore());
-
-            List<Prefix> prefix =  db.Prefixes.Where(p => p.OrganisationId == organisationID).ToList();
-
-            List<Prefix> oOutputPrefix = new List<Prefix>();
-
-            if (prefix != null && prefix.Count > 0)
+            try
             {
-                foreach (var item in prefix)
+                Mapper.CreateMap<Prefix, Prefix>()
+                  .ForMember(x => x.Markup, opt => opt.Ignore());
+
+                List<Prefix> prefix = db.Prefixes.Where(p => p.OrganisationId == organisationID).ToList();
+
+                List<Prefix> oOutputPrefix = new List<Prefix>();
+
+                if (prefix != null && prefix.Count > 0)
                 {
-                    var omappedItem = Mapper.Map<Prefix, Prefix>(item);
-                    oOutputPrefix.Add(omappedItem);
+                    foreach (var item in prefix)
+                    {
+                        var omappedItem = Mapper.Map<Prefix, Prefix>(item);
+                        oOutputPrefix.Add(omappedItem);
+                    }
                 }
+
+
+                return oOutputPrefix;
             }
-
-
-            return oOutputPrefix;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Prefix GetPrefixByOrganisationId(long OrgId)
         {
-            return db.Prefixes.Where(p => p.OrganisationId == OrgId).ToList().FirstOrDefault();
+            try
+            {
+                return db.Prefixes.Where(p => p.OrganisationId == OrgId).ToList().FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
        
         #endregion

@@ -336,7 +336,14 @@ namespace MPC.Repository.Repositories
 
         public Address GetAddressByAddressID(long AddressID)
         {
-            return db.Addesses.Where(i => i.AddressId == AddressID).FirstOrDefault();
+            try
+            {
+                return db.Addesses.Where(i => i.AddressId == AddressID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
       
           
@@ -379,16 +386,22 @@ namespace MPC.Repository.Repositories
         }
         public bool AddressNameExist(Address address)
         {
-          
-                    Address alreadyAddress = db.Addesses.Where(c => c.AddressId != address.AddressId && c.CompanyId == address.CompanyId && c.AddressName == address.AddressName).FirstOrDefault();
-                    if (alreadyAddress != null)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+            try
+            {
+                Address alreadyAddress = db.Addesses.Where(c => c.AddressId != address.AddressId && c.CompanyId == address.CompanyId && c.AddressName == address.AddressName).FirstOrDefault();
+                if (alreadyAddress != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public bool AddAddBillingShippingAdd(Address Address)
         {
@@ -435,37 +448,86 @@ namespace MPC.Repository.Repositories
 
         public  void ResetDefaultShippingAddress( Address address)
         {
-            db.Addesses.Where(c => c.CompanyId == address.CompanyId && c.AddressId != address.AddressId).ToList().ForEach(add => add.IsDefaultShippingAddress = false);
+            try
+            {
+                db.Addesses.Where(c => c.CompanyId == address.CompanyId && c.AddressId != address.AddressId).ToList().ForEach(add => add.IsDefaultShippingAddress = false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public List<State> GetCountryStates(long CountryId)
         {
-           db.Configuration.LazyLoadingEnabled = false;
-           List<State> state = db.States.Where(i => i.CountryId == CountryId).ToList();
-           return state;
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                List<State> state = db.States.Where(i => i.CountryId == CountryId).ToList();
+                return state;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<Country> GetAllCountries()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.Countries.ToList();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Countries.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<State> GetAllStates()
         {
-            db.Configuration.LazyLoadingEnabled = false;
-            return db.States.ToList();
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.States.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public State GetStateByStateID(long StateID)
         {
-            return db.States.Where(i => i.StateId == StateID).FirstOrDefault();
+            try
+            {
+                return db.States.Where(i => i.StateId == StateID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Country GetCountryByCountryID(long CountryID)
         {
-            return db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
+            try
+            {
+                return db.Countries.Where(i => i.CountryId == CountryID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Address GetAddressById(long addressId)
         {
-            return DbSet.Include("State").Include("Country").FirstOrDefault(x => x.AddressId == addressId);
+            try
+            {
+                return DbSet.Include("State").Include("Country").FirstOrDefault(x => x.AddressId == addressId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
