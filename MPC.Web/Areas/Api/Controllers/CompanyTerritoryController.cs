@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -42,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyTerritoryResponse Get([FromUri] CompanyTerritoryRequestModel request)
         {
             var result = companyService.SearchCompanyTerritories(request);
@@ -56,6 +58,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="companyTerritoryId"></param>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public bool Get([FromUri] long companyTerritoryId)
         {
             var companyTerritory= companyTerritoryService.Get(companyTerritoryId);
@@ -72,6 +75,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyTerritory Post(CompanyTerritory companyTerritory)
         {
             if (!ModelState.IsValid)
@@ -80,8 +84,9 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return companyTerritoryService.Save(companyTerritory.CreateFrom()).CreateFrom();
         }
-        //[ApiException]
-        //[HttpDelete]
+        
+        [ApiException]
+       [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public bool Delete(CompanyTerritoryDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.CompanyTerritoryId <= 0)
