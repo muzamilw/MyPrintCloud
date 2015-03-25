@@ -3665,7 +3665,7 @@ define("stores/stores.viewModel",
                             storeToSave.SmartForms.push(smartFormServer);
                         });
                     }
-                   
+
 
                     //endregion
                     //#region Company Territories
@@ -4293,6 +4293,8 @@ define("stores/stores.viewModel",
                 isStoreVariableTabOpened(false);
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
+                selectedTheme(undefined);
+
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();
