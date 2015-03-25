@@ -232,6 +232,11 @@ namespace MPC.Webstore.Controllers
                {
                    ViewBag.Message = "Sorry, no profile updated.";
                }
+
+               UserCookieManager.ContactFirstName = Model.FirstName;
+
+               UserCookieManager.ContactLastName = Model.LastName;
+
         
         }
        
