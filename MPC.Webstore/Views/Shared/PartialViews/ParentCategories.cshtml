@@ -1,5 +1,8 @@
 ﻿@model List<MPC.Models.DomainModels.ProductCategory>
 @using MPC.Webstore.Common;
+@{
+    string ProductDescription = "";
+}
 <div class="parentCatsContainer">
     <div class="container content_area clearBoth " style="padding-left:0px; padding-right:0px;">
         <div class="row left_right_padding cntTopLevelCategory">
@@ -20,7 +23,22 @@
                             @categories.CategoryName
                         </div>
                         <div class="topcat_desc displayNone_TLS5">
-                            @categories.Description1
+                            @{
+                                   ProductDescription = categories.Description1;
+                                   if (!string.IsNullOrEmpty(ProductDescription))
+                                   {
+                                       if (ProductDescription.Length > 250)
+                                       {
+                                           ProductDescription = ProductDescription.Substring(0, 250);
+                                           ProductDescription = ProductDescription + "...";
+                                       }
+                                       else
+                                       {
+                                           ProductDescription = ProductDescription;
+                                       }
+                                   }
+                               }
+                            @ProductDescription
                         </div>
                     </div>
 
