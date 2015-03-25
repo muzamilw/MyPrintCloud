@@ -433,6 +433,7 @@
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
+    <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />

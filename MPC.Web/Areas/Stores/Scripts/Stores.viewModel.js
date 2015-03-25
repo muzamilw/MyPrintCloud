@@ -3109,7 +3109,7 @@ define("stores/stores.viewModel",
                 //Function Call When create new Product Category 
             onCreateNewProductCategory = function () {
                 //$('.nav-tabs li:first-child a').tab('show');
-
+                selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
                 //Set Product category value for by default
                 productCategory.isShelfProductCategory(true);
@@ -3264,6 +3264,21 @@ define("stores/stores.viewModel",
                 view.hideStoreProductCategoryDialog();
                 //resetProductCategoryCounter();
                 isSavingNewProductCategory(false);
+            },
+            onArchiveCategory= function() {
+                dataservice.deleteProductCategoryById({
+                    ProductCategoryId: selectedProductCategory().productCategoryId()
+                }, {
+                    success: function (data) {
+                        if (data != null) {
+                            selectedProductCategory().isArchived(true);
+                        }
+                    },
+                    error: function (response) {
+                        isLoadingStores(false);
+                        toastr.error("Error: Failed To delete Category!");
+                    }
+                });
             },
                 //Do Before Save Product Category
             doBeforeSaveProductCategory = function () {
@@ -6195,7 +6210,8 @@ define("stores/stores.viewModel",
                     getScopeVariables: getScopeVariables,
                     systemPagePager: systemPagePager,
                     getSystemPages: getSystemPages,
-                    selectChildProductCategory: selectChildProductCategory
+                    selectChildProductCategory: selectChildProductCategory,
+                    onArchiveCategory: onArchiveCategory
                 };
                 //#endregion
             })()
