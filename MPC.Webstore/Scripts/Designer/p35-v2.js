@@ -9,6 +9,7 @@
         //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
+    $(".collapseDesignerMenu").css("display", "none");
 });
 $(".search").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -19,6 +20,7 @@ $(".search").click(function (event) {
         $("#FrontBackOptionPanal").css("display", "none");
     }
     canvas.discardActiveObject();
+    $(".collapseDesignerMenu").css("display", "list-item");
 
 });
 $(".layout").click(function (event) {
@@ -28,7 +30,7 @@ $(".layout").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject();
+    canvas.discardActiveObject(); $(".collapseDesignerMenu").css("display", "list-item");
 });
 $(".QuickTxt").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -37,7 +39,7 @@ $(".QuickTxt").click(function (event) {
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
-    }
+    } $(".collapseDesignerMenu").css("display", "list-item");
 });
 $("#btnAdd").click(function (event) {
     isBKpnl = false;
@@ -60,7 +62,7 @@ $("#btnAdd").click(function (event) {
             }
 
         }
-    }
+    } $(".collapseDesignerMenu").css("display", "list-item");
     //var D1AO = canvas.getActiveObject();
     //var D1AG = canvas.getActiveGroup();
     //if (D1AG) canvas.discardActiveGroup();
@@ -79,17 +81,17 @@ $(".backgrounds").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject();
+    canvas.discardActiveObject(); $(".collapseDesignerMenu").css("display", "list-item");
 });
 $(".uploads").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    isBkPnlUploads = false;
+    isBkPnlUploads = false; $(".collapseDesignerMenu").css("display", "list-item");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage6");
 });
 $(".layersPanel").click(function (event) {
     m0();
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    isBkPnlUploads = true;
+    isBkPnlUploads = true; $(".collapseDesignerMenu").css("display", "list-item");
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage8");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
@@ -100,7 +102,7 @@ $(".layersPanel").click(function (event) {
 $(".layoutsPanel").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage10");
-    l2_temp();
+    l2_temp(); $(".collapseDesignerMenu").css("display", "list-item");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");

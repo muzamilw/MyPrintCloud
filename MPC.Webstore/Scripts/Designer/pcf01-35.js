@@ -1413,9 +1413,9 @@ function g5(e) {
     }
 
     if (D1AO && showEBtn) {
-        g5_2(e);
+        g5_2(e); $(".collapseDesignerMenu").css("display", "list-item");
     } else {
-        g5_Sel(e);
+        g5_Sel(e); $(".collapseDesignerMenu").css("display", "list-item");
     }
 
 }

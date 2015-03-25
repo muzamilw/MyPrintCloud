@@ -2692,51 +2692,51 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         oTemplateFont.Add(returnLocalFont(objFont));
                     }
-                    if (ChangeQuickText)
-                    {
-                        var objQuickText = GetContactQuickTextFields(CompanyID, ContactID);//CustomerID,ContacTid)
-                        foreach (var obj in oTemplateObjects)
-                        {
-                            if (obj.Name == "AddressLine1")
-                            {
-                                obj.ContentString = objQuickText.Address1.ToString();
-                            }
-                            else if (obj.Name == "CompanyName")
-                            {
-                                obj.ContentString = objQuickText.Company.ToString();
-                            }
-                            else if (obj.Name == "CompanyMessage")
-                            {
-                                obj.ContentString = objQuickText.CompanyMessage.ToString();
-                            }
-                            else if (obj.Name == "Email")
-                            {
-                                obj.ContentString = objQuickText.Email.ToString();
-                            }
-                            else if (obj.Name == "Fax")
-                            {
-                                obj.ContentString = objQuickText.Fax.ToString();
-                            }
-                            else if (obj.Name == "Name")
-                            {
-                                obj.ContentString = objQuickText.Name.ToString();
-                            }
-                            else if (obj.Name == "Phone")
-                            {
-                                obj.ContentString = objQuickText.MobileNumber.ToString();
-                            }
-                            else if (obj.Name == "Title")
-                            {
-                                obj.ContentString = objQuickText.Title.ToString();
-                            }
-                            else if (obj.Name == "Website")
-                            {
-                                obj.ContentString = objQuickText.Website.ToString();
-                            }
+                    //if (ChangeQuickText)
+                    //{
+                    //    var objQuickText = GetContactQuickTextFields(CompanyID, ContactID);//CustomerID,ContacTid)
+                    //    foreach (var obj in oTemplateObjects)
+                    //    {
+                    //        if (obj.Name == "AddressLine1")
+                    //        {
+                    //            obj.ContentString = objQuickText.Address1.ToString();
+                    //        }
+                    //        else if (obj.Name == "CompanyName")
+                    //        {
+                    //            obj.ContentString = objQuickText.Company.ToString();
+                    //        }
+                    //        else if (obj.Name == "CompanyMessage")
+                    //        {
+                    //            obj.ContentString = objQuickText.CompanyMessage.ToString();
+                    //        }
+                    //        else if (obj.Name == "Email")
+                    //        {
+                    //            obj.ContentString = objQuickText.Email.ToString();
+                    //        }
+                    //        else if (obj.Name == "Fax")
+                    //        {
+                    //            obj.ContentString = objQuickText.Fax.ToString();
+                    //        }
+                    //        else if (obj.Name == "Name")
+                    //        {
+                    //            obj.ContentString = objQuickText.Name.ToString();
+                    //        }
+                    //        else if (obj.Name == "Phone")
+                    //        {
+                    //            obj.ContentString = objQuickText.MobileNumber.ToString();
+                    //        }
+                    //        else if (obj.Name == "Title")
+                    //        {
+                    //            obj.ContentString = objQuickText.Title.ToString();
+                    //        }
+                    //        else if (obj.Name == "Website")
+                    //        {
+                    //            obj.ContentString = objQuickText.Website.ToString();
+                    //        }
 
 
-                        }
-                    }
+                    //    }
+                    //}
                    
                     //List<tbl_cmsDefaultSettings> records = pageMgr.GetAllDefaultSettings();
                     Company objCompany = _companyRepository.GetStoreById(CompanyID);

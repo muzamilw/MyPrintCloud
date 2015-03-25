@@ -825,6 +825,8 @@ namespace MPC.Repository.Repositories
 
         public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId)
         {
+
+            db.Configuration.LazyLoadingEnabled = false;
             var qury = from Contacts in db.CompanyContacts
                        join ContactCompany in db.Companies on Contacts.CompanyId equals ContactCompany.CompanyId
                        where string.Compare(Contacts.Email, emailAddress, true) == 0

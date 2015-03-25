@@ -107,13 +107,13 @@ namespace MPC.MIS.Controllers
 
             if ( validationInfo != null)
             {
-                //organisationId = Convert.ToInt64( validationInfo.CustomerID);
-                //userId = validationInfo.userId;
-                //fullName = validationInfo.FullName;
-                //Plan = validationInfo.Plan;
-                //email = validationInfo.Email;
-                //isTrial = validationInfo.IsTrial;
-                //trialCount = validationInfo.TrialCount;
+                organisationId = Convert.ToInt64(validationInfo.CustomerID);
+                userId = validationInfo.userId;
+                fullName = validationInfo.FullName;
+                Plan = validationInfo.Plan;
+                email = validationInfo.Email;
+                isTrial = validationInfo.IsTrial;
+                trialCount = validationInfo.TrialCount;
             }
             else
             {
