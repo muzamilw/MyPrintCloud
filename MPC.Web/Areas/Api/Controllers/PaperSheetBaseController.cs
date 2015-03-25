@@ -2,8 +2,10 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Models.ResponseModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -33,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Base Data
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
         public PaperSheetBaseResponse Get()
         {
             if (!ModelState.IsValid)

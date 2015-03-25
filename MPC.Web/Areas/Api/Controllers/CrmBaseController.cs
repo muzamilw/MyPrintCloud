@@ -8,11 +8,13 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -32,6 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
         public CrmBaseResponse Get()
         {
             if (!ModelState.IsValid)

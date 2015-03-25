@@ -2223,9 +2223,9 @@ define("stores/stores.viewModel",
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
-                            selectedStore().SystemPages.removeAll();
+                            selectedStore().systemPages.removeAll();
                             _.each(data.CmsPages, function (cmsPage) {
-                                selectedStore().SystemPages.push(model.SecondaryPageListView.Create(cmsPage));
+                                selectedStore().systemPages.push(model.SecondaryPageListView.Create(cmsPage));
                             });
                         },
                         error: function (response) {

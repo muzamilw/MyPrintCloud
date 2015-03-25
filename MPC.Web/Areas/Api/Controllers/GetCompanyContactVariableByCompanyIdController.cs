@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -32,6 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Scope Variables
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public IEnumerable<ScopeVariable> Get([FromUri]long companyId,int scope)
         {
             return companyService.GetFieldVariableByCompanyIdAndScope(companyId, scope).Select(cv => cv.CreateFromFieldVariable());
