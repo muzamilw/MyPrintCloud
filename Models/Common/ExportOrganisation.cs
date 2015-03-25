@@ -212,6 +212,13 @@ namespace MPC.Models.Common
 
         public long ItemID { get; set; }
 
+        public long CompanyIDWOP { get; set; }
+
+        public long RetailOldCompanyIDWOP { get; set; }
+
+        public long OldCompanyIDWOP { get; set; }
+
+
 
 
        
@@ -243,6 +250,22 @@ namespace MPC.Models.Common
         public List<Item> ExportStore3 { get; set; }
 
         public List<CmsPage> ExportStore4 { get; set; }
+
+        public ExportOrganisation ExportStore1WOP { get; set; }
+
+        public List<ProductCategory> ExportStore2WOP { get; set; }
+
+        public List<Item> ExportStore3WOP { get; set; }
+
+        public List<CmsPage> ExportStore4WOP { get; set; }
+
+        public ExportOrganisation ExportRetailStore1WOP { get; set; }
+
+        public List<ProductCategory> ExportRetailStore2WOP { get; set; }
+
+        public List<Item> ExportRetailStore3WOP { get; set; }
+
+        public List<CmsPage> ExportRetailStore4WOP { get; set; }
 
       
 
