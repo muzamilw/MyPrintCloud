@@ -319,7 +319,7 @@ define("stores/stores.viewModel",
                     },
 
                     setThemeName = ko.computed(function () {
-                        if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
+                        if (isBaseDataLoded() && !isThemeNameSet()) {
                             var theme = _.find(themes(), function (item) {
                                 return item.SkinId == selectedTheme();
                             });
@@ -3680,7 +3680,7 @@ define("stores/stores.viewModel",
                             storeToSave.SmartForms.push(smartFormServer);
                         });
                     }
-                   
+
 
                     //endregion
                     //#region Company Territories
@@ -4308,6 +4308,8 @@ define("stores/stores.viewModel",
                 isStoreVariableTabOpened(false);
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
+                selectedTheme(undefined);
+
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();

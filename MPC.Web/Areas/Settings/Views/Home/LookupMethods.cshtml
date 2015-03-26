@@ -184,10 +184,10 @@
     <!-- /ko -->
 </div>
 <script id="lookupTemplate" type="text/html">
-    <ol class="dd-list" id="treeviewClickCharge">
-        <li class="dd-item dd-item-list">
-            <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
-            <div class="dd-handle" data-bind="text:Name, click:$root.GetMachineLookupById"></div>
+    <ol class="dd-list my-navigator" id="treeviewClickCharge">
+        <li class="dd-item dd-item-list my-navigator">
+            <div class="dd-handle-list my-navigator"><i class="fa fa-bars"></i></div>
+            <a class="my-navigator"> <div class="dd-handle" data-bind="text:Name, click:$root.GetMachineLookupById"></div></a>
         </li>
     </ol>
 

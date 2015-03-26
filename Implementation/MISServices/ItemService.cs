@@ -331,9 +331,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Template Pages BackgroundFileName updation
         /// </summary>
-        private static void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
+        private void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
         {
-            if (itemTarget.Template != null && item.Template.ProductId > 0)
+            if (itemTarget.Template != null && itemTarget.Template.ProductId > 0)
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {

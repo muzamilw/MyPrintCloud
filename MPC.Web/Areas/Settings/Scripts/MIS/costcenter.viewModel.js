@@ -22,6 +22,12 @@ define("costcenter/costcenter.viewModel",
                     costCenterVariables = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
+                    costcenterVariableNodes = ko.observableArray([]),
+                    variableVariableNodes = ko.observableArray([]),
+                    resourceVariableNodes = ko.observableArray([]),
+                    questionVariableNodes = ko.observableArray([]),
+                    matrixVariableNodes = ko.observableArray([]),
+                    lookupVariableNodes = ko.observableArray([]),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
@@ -74,34 +80,70 @@ define("costcenter/costcenter.viewModel",
                             }
                             return;
                         }
-                        dataservice.getProductCategoryChilds({
-                            id: id,
-                        }, {
-                            success: function (data) {
-                                if (data.ProductCategories != null) {
-                                    _.each(data.ProductCategories, function (productCategory) {
-                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
-                                        ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
-                                        var category = {
-                                            productCategoryId: productCategory.ProductCategoryId,
-                                            categoryName: productCategory.CategoryName,
-                                            parentCategoryId: id
-                                        };
-                                        parentCategories.push(category);
-                                    });
-                                }
-                                isLoadingStores(false);
-                                $("#categoryTabItems li a").first().trigger("click");
-                            },
-                            error: function (response) {
-                                isLoadingStores(false);
-                                toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
-                            }
-                        });
+                        if (id == 1) {
+                            _.each(costcenterVariableNodes(), function (ccType) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccType.TypeId +'> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
+                            });
+                        }
+                        if (id == 2) {
+                            _.each(variableVariableNodes(), function (variable) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv'+ '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + variable.CategoryId +"vv")[0]);
+                            });
+                        }
+                        if (id == 3) {
+                            _.each(resourceVariableNodes(), function (users) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + users.UserName + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
+                            });
+                        }
+                        if (id == 4) {
+                            _.each(questionVariableNodes(), function (question) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + question.QuestionString + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
+                            });
+                        }
+                        if (id == 5) {
+                            _.each(matrixVariableNodes(), function (matrix) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + matrix.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + matrix.MatrixId + "mv")[0]);
+                            });
+                        }
+                        if (id == 6) {
+                            _.each(lookupVariableNodes(), function (lookup) {
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + lookup.MethodId+ "lv")[0]);
+                            });
+                        }
+                        //dataservice.getProductCategoryChilds({
+                        //    id: id,
+                        //}, {
+                        //    success: function (data) {
+                        //        if (data.ProductCategories != null) {
+                        //            _.each(data.ProductCategories, function (productCategory) {
+                        //                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                        //                ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
+                        //                var category = {
+                        //                    productCategoryId: productCategory.ProductCategoryId,
+                        //                    categoryName: productCategory.CategoryName,
+                        //                    parentCategoryId: id
+                        //                };
+                        //                parentCategories.push(category);
+                        //            });
+                        //        }
+                        //        isLoadingStores(false);
+                        //        $("#categoryTabItems li a").first().trigger("click");
+                        //    },
+                        //    error: function (response) {
+                        //        isLoadingStores(false);
+                        //        toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
+                        //    }
+                        //});
                     },
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
-                    
+
                     // #endregion Busy Indicators
                     sortOn = ko.observable(1),
                     //Sort In Ascending
@@ -114,22 +156,22 @@ define("costcenter/costcenter.viewModel",
                     selectedCostCenter = ko.observable(),
                     selectedInstruction = ko.observable(),
                     selectedChoice = ko.observable(),
-                    templateToUse = function(ocostCenter) {
+                    templateToUse = function (ocostCenter) {
                         return (ocostCenter === selectedCostCenter() ? 'editCostCenterTemplate' : 'itemCostCenterTemplate');
                     },
                     makeEditable = ko.observable(false),
                     //Delete Cost Center
-                    deleteCostCenter = function(oCostCenter) {
+                    deleteCostCenter = function (oCostCenter) {
                         dataservice.deleteCostCenter({
                             CostCentreId: oCostCenter.CostCentreId(),
                         }, {
-                            success: function(data) {
+                            success: function (data) {
                                 if (data != null) {
                                     costCentersList.remove(oCostCenter);
                                     toastr.success(" Deleted Successfully !");
                                 }
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed to Delete . Error: " + response);
                             }
                         });
@@ -138,20 +180,20 @@ define("costcenter/costcenter.viewModel",
                          selectedCostCenter().costcentreImageFileBinary(data);
                          selectedCostCenter().costcentreImageName(file.name);
                      },
-                    onDeleteCostCenter = function(oCostCenter) {
+                    onDeleteCostCenter = function (oCostCenter) {
                         if (!oCostCenter.CostCentreId()) {
                             costCentersList.remove(oCostCenter);
                             return;
                         }
                         // Ask for confirmation
-                        confirmation.afterProceed(function() {
+                        confirmation.afterProceed(function () {
                             deleteCostCenter(oCostCenter);
                         });
                         confirmation.show();
                     },
-                    getCostCenters = function() {
+                    getCostCenters = function () {
                         isLoadingCostCenter(true);
-                        
+
                         dataservice.getCostCentersList({
                             CostCenterFilterText: searchFilter(),
                             PageSize: pager().pageSize(),
@@ -160,25 +202,25 @@ define("costcenter/costcenter.viewModel",
                             IsAsc: sortIsAsc(),
                             CostCenterType: CostCenterType
                         }, {
-                            success: function(data) {
+                            success: function (data) {
                                 costCentersList.removeAll();
                                 if (data != null) {
                                     pager().totalCount(data.RowCount);
-                                    _.each(data.CostCenters, function(item) {
+                                    _.each(data.CostCenters, function (item) {
                                         var module = model.costCenterListView.Create(item);
                                         costCentersList.push(module);
                                     });
                                 }
                                 isLoadingCostCenter(false);
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 isLoadingCostCenter(false);
                                 toastr.error("Error: Failed to Load Cost Centers Data." + response);
                             }
                         });
                     },
                     //Do Before Save
-                    doBeforeSave = function() {
+                    doBeforeSave = function () {
                         var flag = true;
                         if (!selectedCostCenter().isValid()) {
                             selectedCostCenter().errors.showAllMessages();
@@ -190,7 +232,7 @@ define("costcenter/costcenter.viewModel",
                     saveCostCenter = function (callback) {
                         errorList.removeAll();
                         if (doBeforeSave()) {
-                            
+
                             if (selectedCostCenter().costCentreId() > 0) {
                                 saveEdittedCostCenter(callback);
                             } else {
@@ -201,14 +243,14 @@ define("costcenter/costcenter.viewModel",
                     //Save NEW Cost Center
                     saveNewCostCenter = function (callback) {
                         dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
-                            success: function(data) {
+                            success: function (data) {
                                 selectedCostCenter().costCentreId(data.CostCentreId);
                                 costCentersList.splice(0, 0, selectedCostCenter());
                                 selectedCostCenter().reset();
                                 getCostCenters();
                                 toastr.success("Successfully saved.");
                             },
-                            error: function(response) {
+                            error: function (response) {
                                 toastr.error("Failed to save." + response);
                             }
                         });
@@ -265,21 +307,36 @@ define("costcenter/costcenter.viewModel",
                         newcostcenter.isDisabled('0');
                         newcostcenter.isScheduleable('1');
                         newcostcenter.sequence('1');
-                       // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
+                        // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
                         newcostcenter.costDefaultValue('0');
                         newcostcenter.priceDefaultValue('0');
                         newcostcenter.quantitySourceType('1');
                         newcostcenter.calculationMethodType('2');
                     },
                     createWorkInstruction = function () {
-                        var wi = new model.costCenterInstruction();
+                        var wi = new model.NewCostCenterInstruction();
                         selectedInstruction(wi);
-                        selectedCostCenter.costCenterInstructions.splice(0, 0, wi);
+                        selectedCostCenter().costCenterInstructions.splice(0, 0, wi);
+                    },
+                    deleteWorkInstruction = function (instruction) {
+                        instruction.workInstructionChoices.removeAll();
+                        selectedCostCenter().costCenterInstructions.remove(instruction);
+                    },
+                    createWorkInstructionChoice = function () {
+                        var wic = new model.NewInstructionChoice();
+                        selectedChoice(wic);
+                        selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                    },
+                    deleteWorkInstructionChoice = function (choice) {
+                        selectedInstruction().workInstructionChoices.remove(choice);
                     },
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
                         getCostCentersBaseData();
+                        if (oCostCenter.calculationMethodType() === 4){
+                            getVariablesTree();
+                        }
                         dataservice.getCostCentreById({
                             id: oCostCenter.costCenterId(),
                         }, {
@@ -295,7 +352,7 @@ define("costcenter/costcenter.viewModel",
                             }
                         });
                     },
-                    openEditDialog = function() {
+                    openEditDialog = function () {
                         view.showCostCenterDialog();
                     },
                     closeEditDialog = function () {
@@ -319,6 +376,40 @@ define("costcenter/costcenter.viewModel",
                     showCostCenterDetail = function () {
                         isEditorVisible(true);
                     },
+                    //Get variables Tree
+                    getVariablesTree = function () {
+                        dataservice.getVariablesTree({
+                            success: function (data) {
+                                //CostCenterVariables
+                                costcenterVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
+                                costcenterVariableNodes.valueHasMutated();
+                                //Variable Variables
+                                variableVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(variableVariableNodes(), data.VariableVariables);
+                                variableVariableNodes.valueHasMutated();
+                                //Resource Variables
+                                resourceVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(resourceVariableNodes(), data.ResourceVariables);
+                                resourceVariableNodes.valueHasMutated();
+                                //Questions Variables
+                                questionVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
+                                questionVariableNodes.valueHasMutated();
+                                //Matrix Variables
+                                matrixVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(matrixVariableNodes(), data.MatricesVariables);
+                                matrixVariableNodes.valueHasMutated();
+                                //Lookup Variables
+                                lookupVariableNodes.removeAll();
+                                ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
+                                lookupVariableNodes.valueHasMutated();
+                            },
+                            error: function () {
+                                toastr.error("Failed to load variables tree data.");
+                            }
+                        });
+                    };
                     // Get Base
                     getCostCentersBaseData = function () {
                         dataservice.getBaseData({
@@ -367,6 +458,7 @@ define("costcenter/costcenter.viewModel",
                             selectedCostCenter.isSelected(true);
                         });
                     },
+                    
                     // #region Observables
                     // Initialize the view model
                     initialize = function(specifiedView) {
@@ -414,7 +506,13 @@ define("costcenter/costcenter.viewModel",
                     createCostCenter: createCostCenter,
                     setDataForNewCostCenter: setDataForNewCostCenter,
                     fedexServiceTypes: fedexServiceTypes,
-                    costcenterImageFilesLoadedCallback: costcenterImageFilesLoadedCallback
+                    costcenterImageFilesLoadedCallback: costcenterImageFilesLoadedCallback,
+                    createWorkInstruction: createWorkInstruction,
+                    createWorkInstructionChoice: createWorkInstructionChoice,
+                    deleteWorkInstruction: deleteWorkInstruction,
+                    deleteWorkInstructionChoice: deleteWorkInstructionChoice,
+                    getVariablesTree: getVariablesTree,
+                    getVariableTreeChildListItems: getVariableTreeChildListItems
                 };
             })()
         };

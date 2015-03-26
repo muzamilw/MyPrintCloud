@@ -22,6 +22,8 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IPipeLineSourceRepository pipeLineSourceRepository;
+        private readonly IMarkupRepository _markupRepository;
+        private readonly IPaymentMethodRepository paymentMethodRepository;
 
         #endregion
         #region Constructor
@@ -30,7 +32,7 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository)
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,  IPaymentMethodRepository paymentMethodRepository)
         {
             if (estimateRepository == null)
             {
@@ -52,13 +54,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("pipeLineSourceRepository");
             }
-
+            if (paymentMethodRepository == null)
+            {
+                throw new ArgumentNullException("paymentMethodRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
             this.systemUserRepository = systemUserRepository;
             this.pipeLineSourceRepository = pipeLineSourceRepository;
+            _markupRepository = markupRepository;
+            this.paymentMethodRepository = paymentMethodRepository;
         }
 
         #endregion
@@ -105,7 +112,9 @@ namespace MPC.Implementation.MISServices
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
                        SystemUsers = systemUserRepository.GetAll(),
-                       PipeLineSources = pipeLineSourceRepository.GetAll()
+                       PipeLineSources = pipeLineSourceRepository.GetAll(),
+                       Markups= _markupRepository.GetAll(),
+                       PaymentMethods = paymentMethodRepository.GetAll()
                    };
         }
 

@@ -89,6 +89,13 @@ namespace MPC.Repository.Repositories
                               .Include("ItemStateTaxes.State")
                               .Include("ItemRelatedItems")
                               .Include("ItemRelatedItems.RelatedItem")
+                              .Include("Template")
+                              .Include("Template.TemplatePages")
+                              .Include("ItemImages")
+                              .Include("ItemVdpPrices")
+                              .Include("ItemVideos")
+                              .Include("ItemProductDetails")
+                              .Include("ItemPriceMatrices")
                               .FirstOrDefault(item => item.ItemId == itemId);
             }
             catch (Exception ex)

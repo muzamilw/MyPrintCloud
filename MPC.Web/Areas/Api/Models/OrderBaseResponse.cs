@@ -21,5 +21,17 @@ namespace MPC.MIS.Areas.Api.Models
         /// Pipeline Sources
         /// </summary>
         public IEnumerable<PipeLineSource> PipeLineSources { get; set; }
+
+
+        /// <summary>
+        /// List of Markups
+        /// </summary>
+        public IEnumerable<Markup> Markups { get; set; }
+        
+        /// <summary>
+        /// Payment Methods
+        /// </summary>
+        public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
+
     }
 }

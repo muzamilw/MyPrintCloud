@@ -53,7 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            var categories= categoryService.GetChildCategories(id).Select(x=> x.CreateFrom()).ToList();
+            var categories = categoryService.GetChildCategories(id).Select(x => x.ListViewModelCreateFrom()).ToList();
             return new ProductCategoryResultModel
             {
                 ProductCategories = categories,
