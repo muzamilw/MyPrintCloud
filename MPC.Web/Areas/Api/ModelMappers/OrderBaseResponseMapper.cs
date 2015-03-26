@@ -18,14 +18,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new OrderBaseResponse
             {
-                SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(cc => cc.CreateFromDropDown()) : 
+                SectionFlags = source.SectionFlags != null ? source.SectionFlags.Select(cc => cc.CreateFromDropDown()) :
                 new List<SectionFlagDropDown>(),
-                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) : 
+                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) :
                 new List<SystemUserDropDown>(),
                 PipeLineSources = source.PipeLineSources != null ? source.PipeLineSources.Select(cc => cc.CreateFrom()) :
-                new List<PipeLineSource>()
+                new List<PipeLineSource>(),
+                PaymentMethods = source.PaymentMethods != null ? source.PaymentMethods.Select(cc => cc.CreateFrom()) :
+                new List<PaymentMethod>()
             };
         }
-        
+
     }
 }

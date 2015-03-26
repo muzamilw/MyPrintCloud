@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -22,6 +25,14 @@ namespace MPC.Repository.Repositories
             {
                 return db.PaymentMethods;
             }
+        }
+
+        /// <summary>
+        /// Primary database set
+        /// </summary>
+        public override IEnumerable<PaymentMethod> GetAll()
+        {
+            return DbSet.Where(pm => pm.IsActive == true);
         }
     }
 }

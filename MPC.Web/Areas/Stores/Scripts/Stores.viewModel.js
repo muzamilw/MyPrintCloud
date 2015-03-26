@@ -319,7 +319,7 @@ define("stores/stores.viewModel",
                     },
 
                     setThemeName = ko.computed(function () {
-                        if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
+                        if (isBaseDataLoded() && !isThemeNameSet()) {
                             var theme = _.find(themes(), function (item) {
                                 return item.SkinId == selectedTheme();
                             });
