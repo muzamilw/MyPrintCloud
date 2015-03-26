@@ -11,6 +11,8 @@ define("order/order.view",
             var
                 // View model 
                 viewModel = specifiedViewModel,
+                // Order State [pending]
+                orderstate = ko.observable(0),
                 // Binding root used with knockout
                 bindingRoot = $("#orderBinding")[0],
                 // Go To Element with Validation Errors
@@ -45,6 +47,7 @@ define("order/order.view",
                 // Show Item Detail Dialog
                 showItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('show');
+                   
                 },
                 // Hide Item Detail Dialog
                 hideItemDetailDialog = function () {
@@ -65,6 +68,34 @@ define("order/order.view",
                // Hide Cost Centers Quantity the dialog
                 hideCostCentersQuantityDialog = function () {
                     $("#costCentersQuanity").modal("hide");
+                },
+                setOrderState = function (state) {
+                    orderstate(state);
+                    $(function () {
+                        // set up an array to hold the order Status
+                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ship", "Invoice"];
+                        $(".slider").slider().slider("pips");
+                        $(".slider")
+
+                            // activate the slider with options
+                            .slider({
+                                min: 0,
+                                max: orderStatusArray.length - 1,
+                                value: orderstate() !== 0 ? orderstate() - 4 : orderstate()
+                            })
+
+                            // add pips with the labels set to "months"
+                            .slider("pips", {
+                                rest: "label",
+                                labels: orderStatusArray
+                            })
+
+                            // and whenever the slider changes, lets echo out the month
+                            .on("slidechange", function (e, ui) {
+                            orderstate((ui.value) + 4);
+                                //alert("You selected " + orderStatusArray[ui.value] + " (" + ui.value + ")");
+                        });
+                    });
                 },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
@@ -90,6 +121,7 @@ define("order/order.view",
                     // ReSharper disable UnknownCssClass
                     $('.bs-example-tooltips a').popover();
                     // ReSharper restore UnknownCssClass
+                    window.scrollTo(0, 0);
                 },
                 // Initialize
                 initialize = function () {
@@ -100,31 +132,7 @@ define("order/order.view",
                 };
             initialize();
 
-            $(function () {
-                // set up an array to hold the months
-                var months = ["Pending Order", "Confirmed Start", "In Production", "Ship", "Invoice"];
-                var activeMonth = new Date().getMonth();
-                $(".slider").slider().slider("pips");
-                $(".slider")
-
-                    // activate the slider with options
-                    .slider({
-                        min: 0,
-                        max: months.length - 1,
-                        value: 2
-                    })
-
-                    // add pips with the labels set to "months"
-                    .slider("pips", {
-                        rest: "label",
-                        labels: months
-                    })
-
-                    // and whenever the slider changes, lets echo out the month
-                    .on("slidechange", function (e, ui) {
-                        //  $("#labels-months-output").text("You selected " + months[ui.value] + " (" + ui.value + ")");
-                    });
-            });
+          
 
             return {
                 bindingRoot: bindingRoot,
@@ -142,7 +150,9 @@ define("order/order.view",
                 hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
                 initializeLabelPopovers: initializeLabelPopovers,
                 showOrderPrePaymentModal: showOrderPrePaymentModal,
-                hideOrderPrePaymentModal: hideOrderPrePaymentModal
+                hideOrderPrePaymentModal: hideOrderPrePaymentModal,
+                setOrderState: setOrderState,
+                orderstate: orderstate
             };
         })(orderViewModel);
 

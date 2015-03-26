@@ -37,6 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyBaseResponse Get(long companyId)
         {
@@ -75,6 +76,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                        Themes = themes ?? new List<SkinForTheme>()
                    };
         }
+
+        [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyBaseResponse Get()
         {

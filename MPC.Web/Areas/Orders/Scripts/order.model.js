@@ -116,6 +116,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             items = ko.observableArray([]),
             // Pre Payments
             prePayments = ko.observableArray([]),
+            // Status Id
+            statusId = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
                 name: name,
@@ -172,7 +174,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetBy: officialOrderSetBy,
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 footNotes: footNotes,
-                sectionFlagId: sectionFlagId
+                sectionFlagId: sectionFlagId,
+                statusId: statusId
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -186,6 +189,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             convertToServerData = function () {
                 return {
                     EstimateId: id(),
+                    StatusId:statusId(),
                     EstimateCode: code(),
                     EstimateName: name(),
                     CompanyId: companyId(),
@@ -274,7 +278,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             hasChanges: hasChanges,
             reset: reset,
             setValidationSummary: setValidationSummary,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            statusId: statusId
         };
     },
 
@@ -1116,7 +1121,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.OrderCreationDateTime, source.SalesAndOrderManagerId, source.SalesPersonId, source.SourceId, source.CreditLimitForJob, source.CreditLimitSetBy,
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
-
+        estimate.statusId(source.StatusId);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];

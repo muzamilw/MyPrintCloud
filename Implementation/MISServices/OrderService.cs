@@ -22,6 +22,7 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IPipeLineSourceRepository pipeLineSourceRepository;
+        private readonly IMarkupRepository _markupRepository;
         private readonly IPaymentMethodRepository paymentMethodRepository;
         private readonly IOrganisationRepository organisationRepository;
 
@@ -32,7 +33,7 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository,
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository)
         {
             if (estimateRepository == null)
@@ -70,6 +71,7 @@ namespace MPC.Implementation.MISServices
             this.addressRepository = addressRepository;
             this.systemUserRepository = systemUserRepository;
             this.pipeLineSourceRepository = pipeLineSourceRepository;
+            _markupRepository = markupRepository;
             this.paymentMethodRepository = paymentMethodRepository;
             this.organisationRepository = organisationRepository;
         }
@@ -120,6 +122,7 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
+                       Markups= _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId)
                    };
         }
