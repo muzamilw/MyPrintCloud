@@ -16,6 +16,7 @@ define("product/product.dataservice", function () {
                     amplify.request.define('getItems', 'ajax', {
                         url: ist.siteUrl + '/Api/Item',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
 
@@ -47,6 +48,7 @@ define("product/product.dataservice", function () {
                     amplify.request.define('getBaseDataForProduct', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemBase',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
 

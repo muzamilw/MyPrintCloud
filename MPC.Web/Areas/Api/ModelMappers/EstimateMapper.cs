@@ -21,6 +21,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 CompanyId= source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                StatusId = source.StatusId,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
@@ -72,6 +74,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 EstimateCode = source.Estimate_Code,
+                StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
                 CompanyId = source.CompanyId,
@@ -101,6 +104,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 Estimate_Code = source.EstimateCode,
+                StatusId = source.StatusId,
                 Estimate_Name = source.EstimateName,
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
