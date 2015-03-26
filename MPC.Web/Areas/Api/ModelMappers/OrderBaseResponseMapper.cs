@@ -23,7 +23,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(cc => cc.CreateFrom()) : 
                 new List<SystemUserDropDown>(),
                 PipeLineSources = source.PipeLineSources != null ? source.PipeLineSources.Select(cc => cc.CreateFrom()) :
-                new List<PipeLineSource>()
+                new List<PipeLineSource>(),
+                Markups = source.Markups != null ? source.Markups.Select(cc => cc.CreateFrom()) :
+                new List<Markup>()
             };
         }
         
