@@ -397,12 +397,20 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-         //   MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+           MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
 
             result = _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
             if (result)
             {
+                if (clonedTempldateFiles != null)
+                {
+                    _TemplateService.DeleteTemplateFiles(clonedTempldateFiles.ProductId, StoreBaseResopnse.Company.OrganisationId ?? 0);
+                }
+
+
+                RemoveItemAttacmentPhysically(itemAttatchments);
+                
                 // remove physicall files as it will do it by file table
 
                 //BLL.ProductManager.RemoveItemAttacmentPhysically(itemAttatchments); // file removing physicslly
@@ -799,5 +807,35 @@ namespace MPC.Webstore.Controllers
 
      
         #endregion
+
+        public void RemoveItemAttacmentPhysically(List<ArtWorkAttatchment> attatchmentList)
+        {
+            string completePath = string.Empty;
+            //@Server.MapPath(folderPath);
+            try
+            {
+                if (attatchmentList != null)
+                {
+                    foreach (ArtWorkAttatchment itemAtt in attatchmentList)
+                    {
+                        completePath = itemAtt.FolderPath + itemAtt.FileName;
+                        if (itemAtt.UploadFileType == UploadFileTypes.Artwork)
+                        {
+                            Utils.DeleteFile(completePath + "Thumb.png");
+                            //delete the thumb nails as well.
+                           // Utils.DeleteFile(completePath.Replace(itemAtt.FileExtention, "Thumb.png"));
+                        }
+                        Utils.DeleteFile(completePath + itemAtt.FileExtention); //
+                    }
+                }
+                //System.Web
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

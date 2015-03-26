@@ -1566,24 +1566,24 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                bool isCreateTemporaryCompany = true;
-                if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
-                {
-                    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
-                    if (ContactCompany != null)
-                    {
-                        isCreateTemporaryCompany = false;
-                        return ContactCompany.CompanyId;
-                    }
-                    else
-                    {
-                        isCreateTemporaryCompany = true;
-                    }
+                //bool isCreateTemporaryCompany = true;
+                //if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
+                //{
+                //    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
+                //    if (ContactCompany != null)
+                //    {
+                //        isCreateTemporaryCompany = false;
+                //        return ContactCompany.CompanyId;
+                //    }
+                //    else
+                //    {
+                //        isCreateTemporaryCompany = true;
+                //    }
 
-                }
+                //}
 
-                if (isCreateTemporaryCompany)
-                {
+                //if (isCreateTemporaryCompany)
+                //{
                     Address Contactaddress = null;
 
                     CompanyTerritory ContactTerritory = null;
@@ -1689,11 +1689,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     return customerID;
-                }
-                else
-                {
-                    return 0;
-                }
+                //}
+                //else
+                //{
+                //    return 0;
+                //}
             }
             catch (Exception ex)
             {

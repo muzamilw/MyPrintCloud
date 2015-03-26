@@ -602,8 +602,8 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.TemporaryCompanyId > 0)
                     {
-                        objTemplate.ContactId = UserCookieManager.TemporaryCompanyId;
-                        objTemplate.CustomerId = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId);
+                        objTemplate.ContactId = _myCompanyService.GetContactIdByCompanyId(UserCookieManager.TemporaryCompanyId); ;
+                        objTemplate.CustomerId = UserCookieManager.TemporaryCompanyId;
                     }
                 }
                 else
