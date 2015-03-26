@@ -5,6 +5,7 @@
 @using MPC.Webstore.Common;
 @{
     string CategoryDescription = "";
+    string SkipDesignerPopUp = "";
 }
 
 @section scripts {
@@ -55,7 +56,7 @@
                                             <div class="PDTC_CAT FI_CAT">
                                                 @{
 
-                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
                                                 }
 
                                             </div>
@@ -116,17 +117,27 @@
                                                 }
                                                 else if (item.ProductType == (int)ProductType.PrintProduct)
                                                 {
-                                                    if (item.isUploadImage == true)
+                                                    if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
                                                     {
-                                                        isUploadImage = true;
-                                                        RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                        //
+                                                        RedirectURL = "#";
+                                                        SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ");";
                                                     }
-                                                    else
+                                                    else 
                                                     {
-                                                        isUploadImage = false;
+                                                        if (item.isUploadImage == true && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                                                        {
+                                                            isUploadImage = true;
+                                                            RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                        }
+                                                        else
+                                                        {
+                                                            isUploadImage = false;
 
-                                                        RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                        }
                                                     }
+                                                   
 
                                                 }
                                                 else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
@@ -141,7 +152,7 @@
                                                     <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
-                                                                <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
                                                             }
                                                         </div>
@@ -159,7 +170,7 @@
                                                                 <div class="PDTC_CatProd FI_CatProd">
                                                                     @{
 
-                                                                        <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
                                                                     }
                                                                 </div>
                                                             </a>
@@ -174,7 +185,7 @@
                                                                 <div class="PDTC_CatProd FI_CatProd">
                                                                     @{
 
-                                                                        <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
 
                                                                     }
@@ -184,12 +195,12 @@
                                                     }
                                                     else
                                                     {
-                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp">
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
 
-                                                                    <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
                                                                 }
                                                             </div>
@@ -366,3 +377,8 @@
     <input type="hidden" id="hfPrintCropMarks" />
     <input type="hidden" id="hfSvcRespone" />
 </div>
+<script>
+    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId){
+        alert(ItemId + ":" +TemplateId + ":" + ContactId);
+    }
+</script>
