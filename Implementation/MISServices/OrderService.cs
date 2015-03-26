@@ -22,6 +22,7 @@ namespace MPC.Implementation.MISServices
         private readonly IAddressRepository addressRepository;
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IPipeLineSourceRepository pipeLineSourceRepository;
+        private readonly IMarkupRepository _markupRepository;
         private readonly IPaymentMethodRepository paymentMethodRepository;
 
         #endregion
@@ -31,8 +32,7 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository,
-            IPaymentMethodRepository paymentMethodRepository)
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,  IPaymentMethodRepository paymentMethodRepository)
         {
             if (estimateRepository == null)
             {
@@ -64,6 +64,7 @@ namespace MPC.Implementation.MISServices
             this.addressRepository = addressRepository;
             this.systemUserRepository = systemUserRepository;
             this.pipeLineSourceRepository = pipeLineSourceRepository;
+            _markupRepository = markupRepository;
             this.paymentMethodRepository = paymentMethodRepository;
         }
 
@@ -112,6 +113,7 @@ namespace MPC.Implementation.MISServices
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
+                       Markups= _markupRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll()
                    };
         }
