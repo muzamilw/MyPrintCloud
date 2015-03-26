@@ -704,6 +704,10 @@ define("crm/crm.viewModel",
                                 }
                             }
                         }
+                        //Updating Case
+                        if (selectedStore().companyId() != undefined) {
+                            selectedAddress().territoryId(selectedStore().companyTerritories()[0].territoryId());
+                        }
                         view.showAddressDialog();
                     },
                     // Delete Address
@@ -2046,7 +2050,8 @@ define("crm/crm.viewModel",
                     isInvoiceTab: isInvoiceTab,
                     invoicePager: invoicePager,
                     invoicesList: invoicesList,
-                    getsDataForInvoiceTab: getsDataForInvoiceTab
+                    getsDataForInvoiceTab: getsDataForInvoiceTab,
+                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
                 };
                 //#endregion
             })()

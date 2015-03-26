@@ -60,7 +60,7 @@ namespace MPC.Webstore.Controllers
                 Detail = new DashboardViewModel(3);
                 // Reset Password
                 Detail.Name = "Change Password";//(string)GetGlobalResourceObject("MyResource", "ltrlchangepassword");
-                Detail.Description = "change your current password"; //(string)GetGlobalResourceObject("MyResource", "ltrlresetnchangeaccpassword");
+                Detail.Description = "Change your current password"; //(string)GetGlobalResourceObject("MyResource", "ltrlresetnchangeaccpassword");
                 Detail.ImageURL = "<i class='fa fa-key'></i>";
                 Detail.PageNavigateURl = "";
                 Detail.IsChangePassword = true;

@@ -1048,7 +1048,7 @@ alter table company
 add CurrentThemeId bigint null
 
 GO
-
+--Executed on 24-03-2015
 insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
 values('Fedex','fedex.com', null,null)
 insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
@@ -1241,3 +1241,23 @@ Rolled back the transaction.
 
 
 GO
+
+
+truncate table CostCentreVariabletype
+set  identity_insert CostCentreVariabletype ON
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(1,'Booklet Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(2,'Charge Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(3,'Colors')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(4,'Guillotine')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(5,'Imposition Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(6,'Item Quantities')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(7,'Plate / Films')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(8,'Press Makereadies')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(9,'Press Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(10,'Section Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(11,'Stock')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(12,'Weight')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(13,'CostCentre Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(14,'Global Variables')
+set  identity_insert CostCentreVariabletype OFF
+Go
