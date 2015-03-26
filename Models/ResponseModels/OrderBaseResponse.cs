@@ -27,5 +27,11 @@ namespace MPC.Models.ResponseModels
         /// List of Markups
         /// </summary>
         public IEnumerable<Markup> Markups { get; set; }
+        
+        /// <summary>
+        /// Payment Methoda
+        /// </summary>
+        public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
+   
     }
 }

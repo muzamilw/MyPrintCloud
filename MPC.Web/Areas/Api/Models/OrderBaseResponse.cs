@@ -27,5 +27,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// List of Markups
         /// </summary>
         public IEnumerable<Markup> Markups { get; set; }
+        
+        /// <summary>
+        /// Payment Methods
+        /// </summary>
+        public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
+
     }
 }
