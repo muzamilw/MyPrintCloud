@@ -492,7 +492,7 @@
         return self;
 
     }
-    var GuillotineCalc = function (source) {
+    var GuillotineCalc = function (source, sourcePTV) {
         var self
         if (source != undefined) {
             Id = ko.observable(source.Id),
@@ -506,7 +506,17 @@
             PaperWeight4 = ko.observable(source.PaperWeight4),
             PaperThroatQty4 = ko.observable(source.PaperThroatQty4),
             PaperWeight5 = ko.observable(source.PaperWeight5),
-            PaperThroatQty5 = ko.observable(source.PaperThroatQty5)
+            PaperThroatQty5 = ko.observable(source.PaperThroatQty5),
+            GuillotinePTVList = ko.observableArray([])
+            //GuillotinePTVList.removeAll();
+            if (sourcePTV != null) {
+                _.each(sourcePTV, function (item) {
+                    GuillotinePTVList.push(GuillotineClickPTV(item));
+                });
+
+            }
+
+
         } else {
             Id = ko.observable(),
             MethodId = ko.observable(),
@@ -519,7 +529,8 @@
             PaperWeight4 = ko.observable(),
             PaperThroatQty4 = ko.observable(),
             PaperWeight5 = ko.observable(),
-            PaperThroatQty5 = ko.observable()
+            PaperThroatQty5 = ko.observable(),
+            GuillotinePTVList = ko.observableArray([])
         }
 
         errors = ko.validation.group({
@@ -540,7 +551,8 @@
            PaperWeight4: PaperWeight4,
            PaperThroatQty4: PaperThroatQty4,
            PaperWeight5: PaperWeight5,
-           PaperThroatQty5: PaperThroatQty5
+           PaperThroatQty5: PaperThroatQty5,
+           GuillotinePTVList: GuillotinePTVList
 
        }),
         // Has Changes
@@ -570,6 +582,7 @@
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
+            GuillotinePTVList: GuillotinePTVList
 
         };
         return self;
@@ -976,6 +989,14 @@
         return self;
 
     }
+    var GuillotinePTVList = function (source) {
+        var GuillotinePTV = ko.observableArray([]);
+        _.each(source, function (item) {
+            GuillotinePTV.push(GuillotineClickPTV(item));
+         //   sharedNavigationVM.initialize(GuillotinePTVList, function (saveCallback) { saveLookup(saveCallback); });
+        });
+        return GuillotinePTV;
+    }
     var lookupClientMapper = function (source) {
         var olookupMethod = new lookupMethod();
         olookupMethod.MethodId(source.MethodId);
@@ -1216,6 +1237,7 @@
         PerHourLookup: PerHourLookup,
         SpeedWeightLookup: SpeedWeightLookup,
         GuilotinePtvServerMapper: GuilotinePtvServerMapper,
-        GuillotineClickPTV: GuillotineClickPTV
+        GuillotineClickPTV: GuillotineClickPTV,
+        GuillotinePTVList: GuillotinePTVList
     };
 });
