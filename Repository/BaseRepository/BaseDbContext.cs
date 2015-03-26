@@ -746,6 +746,17 @@ namespace MPC.Repository.BaseRepository
             return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;
         }
 
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteProduct(long? itemid)
+// ReSharper restore InconsistentNaming
+        {
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("itemid", itemid) :
+                new ObjectParameter("itemid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
+        }
+
         #endregion
     }
 }

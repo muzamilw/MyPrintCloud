@@ -112,6 +112,10 @@
              isEditLabourQuote = ko.observable(false),
              isEditLabourActualCost = ko.observable(false),
              isEditTime = ko.observable(false),
+             isTimeVariable = ko.observable(),
+             //isTimePrompt = ko.observable(false)
+             isQtyVariable = ko.observable()
+             //isQtyPrompt = ko.observable(false),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -167,7 +171,11 @@
                 isPublished: isPublished,
                 deliveryServiceType: deliveryServiceType,
                 estimateProductionTime: estimateProductionTime,
-                costcentreImageName:costcentreImageName
+                costcentreImageName: costcentreImageName,
+                isTimeVariable: isTimeVariable,
+                //isTimePrompt: isTimePrompt
+                isQtyVariable: isQtyVariable
+                //isQtyPrompt: isQtyPrompt
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
@@ -290,7 +298,11 @@
             deliveryServiceType: deliveryServiceType,
             carrierId: carrierId,
             costcentreImageFileBinary: costcentreImageFileBinary,
-            costcentreImageName: costcentreImageName
+            costcentreImageName: costcentreImageName,
+            isTimeVariable: isTimeVariable,
+            //isTimePrompt: isTimePrompt,
+            isQtyVariable: isQtyVariable,
+            //isQtyPrompt: isQtyPrompt
         };
         return self;
     };
@@ -392,7 +404,14 @@
         });
         return ccInstruction;
     };
-
+    NewCostCenterInstruction = function () {
+        var cci = new costCenterInstruction(0, 'New Instruction', '1', 0);
+        return cci;
+    };
+    NewInstructionChoice = function () {
+        var cic = new costCenterInstructionChoice(0, 'New Choice', 0);
+        return cic;
+    };
     costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {
         var
              self,
@@ -566,7 +585,17 @@
         oCostCenter.organisationId(source.OrganisationId);
         oCostCenter.deliveryServiceType(source.DeliveryServiceType);
         oCostCenter.carrierId(source.CarrierId);
-        
+        //if (source.TimeSourceType === 1) {
+        //    oCostCenter.isTimeVariable(true);
+        //};
+        //if (source.TimeSourceType === 2) {
+        //    oCostCenter.isTimePrompt(true);
+        //};
+        oCostCenter.isTimeVariable(source.TimeSourceType === 1 ? '1' : '2');
+        //oCostCenter.isTimePrompt(source.TimeSourceType === 2 ? true : false);
+        oCostCenter.isQtyVariable(source.QuantitySourceType === 1 ? '1' : '2');
+       // oCostCenter.isQtyPrompt(source.QuantitySourceType === 2 ? true : false);
+
        // oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
@@ -708,6 +737,10 @@
         result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
         result.ImageBytes = source.costcentreImageFileBinary() === undefined ? null : source.costcentreImageFileBinary();
+
+        result.TimeSourceType = source.isTimeVariable() === '1' ? 1 : 2;
+        result.QuantitySourceType = source.isQtyVariable() === '1' ? 1 : 2;
+
         result.CostcentreInstructions = [];
         _.each(source.costCenterInstructions(), function (item) {
             result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));
@@ -719,6 +752,8 @@
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
         costCenterServerMapper: costCenterServerMapper,
-        costCenterListView: costCenterListView
+        costCenterListView: costCenterListView,
+        NewCostCenterInstruction: NewCostCenterInstruction,
+        NewInstructionChoice: NewInstructionChoice
     };
 });

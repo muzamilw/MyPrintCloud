@@ -1585,7 +1585,7 @@ define("crm/crm.viewModel",
                 return result;
             },
                 // #endregion
-
+                
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
@@ -1877,7 +1877,7 @@ define("crm/crm.viewModel",
                             storeToSave, {
                                 success: function (data) {
                                     //#region new store adding for Customer/Prospect
-                                    if (selectedStore().companyId() == undefined) {//&& selectedStore().type() == 0
+                                    if (selectedStore().companyId() == undefined && selectedStore().type() == 0) {
                                         selectedStore().companyId(data.CompanyId);
                                         // ReSharper disable once InconsistentNaming
                                         var tempCustomerListView = new model.customerViewListModel();
@@ -2536,7 +2536,8 @@ define("crm/crm.viewModel",
                     invoicePager: invoicePager,
                     invoicesList: invoicesList,
                     getsDataForInvoiceTab: getsDataForInvoiceTab,
-                    userAndAddressesTabSelected: userAndAddressesTabSelected
+                    userAndAddressesTabSelected: userAndAddressesTabSelected,
+                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
                 };
                 //#endregion
             })()

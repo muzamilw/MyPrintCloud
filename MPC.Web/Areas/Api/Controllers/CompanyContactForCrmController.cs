@@ -62,13 +62,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get contact's detail
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
-        public CompanyBaseResponse Get([FromUri] short companyId)
+        public CompanyBaseResponse Get(int companyId)
         {
             if (companyId <= 0 || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return companyContactService.GetContactDetail(companyId).CreateFrom();
+            return companyContactService.GetContactDetail((short)companyId).CreateFrom();
         }
         #endregion
     }

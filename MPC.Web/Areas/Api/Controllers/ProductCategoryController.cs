@@ -53,7 +53,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            var categories= categoryService.GetChildCategories(id).Select(x=> x.CreateFrom()).ToList();
+            var categories = categoryService.GetChildCategories(id).Select(x => x.ListViewModelCreateFrom()).ToList();
             return new ProductCategoryResultModel
             {
                 ProductCategories = categories,
@@ -84,6 +84,18 @@ namespace MPC.MIS.Areas.Api.Controllers
             return categoryService.Save(productCategory.CreateFrom()).CreateFrom();
         }
 
+        /// <summary>
+        /// Delete Category 
+        /// </summary>
+        public bool Delete(ProductCategoryDeleteModel request)
+        {
+            if (request == null || !ModelState.IsValid || request.ProductCategoryId <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+            categoryService.DeleteCategory(request.ProductCategoryId);
+            return true;
+        }
         #endregion
     }
 }

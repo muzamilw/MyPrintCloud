@@ -33,10 +33,34 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         public bool Post(LookupMethodResponse response)
         {
-
+            
+                return _LookupMethodService.UpdateLookup(response.CreateFrom());
+           
+            
           
-            return _LookupMethodService.UpdateLookup(response.CreateFrom());
             
         }
+        public bool Delete(LookupDeleteRequestModel req)
+        {
+            if (req.GuillotinePTVId > 0)
+            {
+                return _LookupMethodService.DeleteGuillotinePTVId(req.GuillotinePTVId);
+            }
+            else
+            {
+                return _LookupMethodService.DeleteMachineLookup(req.LookupMethodId);
+            }
+           
+           
+        }
+        
+        public LookupMethod Put(LookupMethodResponse response)
+        {
+
+
+            return _LookupMethodService.AddLookup(response.CreateFrom()).CreateFrom();
+
+        }
+
     }
 }

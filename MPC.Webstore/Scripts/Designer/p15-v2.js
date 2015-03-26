@@ -99,7 +99,7 @@ function fu03() {
    });
 }
 function fu04() {
-    
+
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
        //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
       function (DT) {
@@ -213,7 +213,8 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-              fu04();
+              console.log("call returned");
+              SvcLoad2ndTemplate();
 
           });
 }
@@ -305,5 +306,34 @@ function pcl42_svc(data, cId) {
         }
     };
     var returnText = $.ajax(options).responseText;
+
+}
+
+function SvcLoad2ndTemplate() {
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
+     function (DT) {
+         DT.ProductID = DT.ProductId;
+         $.each(DT.TemplatePages, function (i, IT) {
+             IT.ProductID = IT.ProductId;
+             IT.ProductPageID = IT.ProductPageId;
+         });
+         Template = DT;
+         tID = Template.ProductId;
+         TP = [];
+         $.each(Template.TemplatePages, function (i, IT) {
+             TP.push(IT);
+         });
+         $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
+        function (DT) {
+            $.each(DT, function (i, IT) {
+                IT.ProductID = IT.ProductId;
+                IT.ObjectID = IT.ObjectId;
+                IT.ProductPageId = IT.ProductPageId;
+            });
+            TO = DT;
+            fu06();
+        });
+     });
+
 
 }

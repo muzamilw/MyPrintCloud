@@ -140,6 +140,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string ImageBytes { get; set; }
         public ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
         public ICollection<CostcentreResource> CostcentreResources { get; set; }
+        public Dictionary<string, string> FixedVariables { get; set; }
        
     }
 }

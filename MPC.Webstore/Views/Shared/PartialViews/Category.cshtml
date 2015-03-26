@@ -3,7 +3,10 @@
 @using System.Web.Configuration;
 @using MPC.Models.Common;
 @using MPC.Webstore.Common;
-
+@{
+    string CategoryDescription = "";
+    string SkipDesignerPopUp = "";
+}
 
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
@@ -21,7 +24,7 @@
         @{Html.RenderAction("Index", "BreadCrumb");}
         <div class="signin_heading_div Categorytitle col-md-12 col-lg-12 col-xs-12">
             <h1>
-                <label ID="lblTitle" class="sign_in_catheading">@Model.CategoryName</label>
+                <label id="lblTitle" class="sign_in_catheading">@Model.CategoryName</label>
             </h1>
 
         </div>
@@ -29,309 +32,334 @@
             @if (ViewData["ProductCategory"] != null)
             {
 
-                <label ID="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoryHeader", UserCookieManager.StoreId))</label>
+                <label id="lbl_ProductCategory" class="product_detail_sub_heading custom_color floatleft clearBoth MarginBottom30px">@Html.Raw(Html.GetKeyValueFromResourceFile("lblCategoryHeader", UserCookieManager.StoreId))</label>
             }
         </div>
         <div class="cntParentCategDesc col-md-12 col-lg-12 col-xs-12">
-            <label ID="lblParentCategoryDesc">@Model.Description1</label>
+            <label id="lblParentCategoryDesc">@Model.Description1</label>
         </div>
         <div id="CategoryDisplay responsivePad15">
-           
+
             <div class="rounded_corners clearBoth">
                 @if (ViewData["ProductCategory"] != null)
-                { 
-                    
-                     <div id="pnlCatList" class="padd_bottom_30 ">
-                    @foreach (var cat in ViewData["ProductCategory"] as List<MPC.Models.DomainModels.ProductCategory>)
-                    {
-                        <div id="Maincontainer" class="CAT_Body rounded_corners" >
-                            <div class="LCLB">
-                                @{
-          
+                {
 
-                        <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
-                            <div class="PDTC_CAT FI_CAT">
-                                @{
-                   
-                                 <img id="imgThumbnail" class="CAT_ThumbnailPath" src='@Html.GetAppBasePath()@cat.ThumbnailPath' />
-                                }
+                    <div id="pnlCatList" class="padd_bottom_30 ">
+                        @foreach (var cat in ViewData["ProductCategory"] as List<MPC.Models.DomainModels.ProductCategory>)
+                        {
+                            <div id="Maincontainer" class="CAT_Body rounded_corners">
+                                <div class="LCLB">
+                                    @{
 
-                            </div>
-                        </a>
+
+                                        <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
+                                            <div class="PDTC_CAT FI_CAT">
+                                                @{
+
+                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                                }
+
+                                            </div>
+                                        </a>
+                                    }
+                                </div>
+                                <div class="product_detail_image_heading_CAT">
+                                    <label id="lblProductName">@cat.CategoryName</label>
+                                </div>
+                                @{
+                            CategoryDescription = cat.Description1;
+                            if (!string.IsNullOrEmpty(CategoryDescription))
+                            {
+                                if (CategoryDescription.Length > 150)
+                                {
+                                    CategoryDescription = CategoryDescription.Substring(0, 150);
+                                    CategoryDescription = CategoryDescription + "...";
                                 }
+                                else
+                                {
+                                    CategoryDescription = CategoryDescription;
+                                }
+                            }
+                                }
+                                <div class="topcat_desc_CAT">
+                                    <label id="lblDescription1">@Html.Raw(CategoryDescription)</label>
+                                </div>
                             </div>
-                            <div class="product_detail_image_heading_CAT">
-                                <label id="lblProductName">@cat.CategoryName</label>
-                            </div>
-                            <div class="topcat_desc_CAT">
-                                <label ID="lblDescription1" >@cat.Description1</label>
-                            </div>
+                        }
+
+                        <div class="clearBoth">
+
                         </div>
-                    }
-                   
-                    <div class="clearBoth">
-
                     </div>
-                </div>
                 }
-                
+
                 @*code for product*@
-                  @if (ViewData["Products"] != null)
-                  { 
+                @if (ViewData["Products"] != null)
+                {
                     <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
                         <div class="col-md-12 col-lg-12 col-xs-12">
                             <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductHeader", UserCookieManager.StoreId))</label>
-                        </div>
-                        <div class="clearBoth">
-                            &nbsp;
-                        </div>
-                        <div id="cntProductList">
-                            @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
-                            {
-                                bool isUploadImage = true;
-                                string RedirectURL = string.Empty;
-                                <div class="BD_CatProducts rounded_corners">
-                                    <div class="pad5">
-                                        <div class="LCLB">
-                                          
-                                           @* condition for marketing brief*@
-                                           @if (item.ProductType  == (int)ProductType.MarketingBrief)
-                                           {
-                                            
-                                                   RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
-                                            
-                                           }
-                                           else if (item.ProductType == (int)ProductType.PrintProduct)
-                                           {
-                                               if (item.isUploadImage == true)
-                                               {
-                                                   isUploadImage = true;
-                                                   RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                               }
-                                               else
-                                               {
-                                                   isUploadImage = false;
-                                                  
-                                                   RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                               }
+                            <div id="cntProductList">
+                                @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
+                                {
+                                    bool isUploadImage = true;
+                                    string RedirectURL = string.Empty;
+                                    <div class="BD_CatProducts rounded_corners">
+                                        <div class="pad5">
+                                            <div class="LCLB">
 
-                                           }
-                                           else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
-                                           {
-                                               RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                           }
-                                           
-
-
-                                            @if (isUploadImage == false)
-                                            {
-                                                <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
-                                                    <div class="PDTC_CatProd FI_CatProd">
-                                                        @{                                           
-                                                            <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-                                                        }
-                                                    </div>
-                                                </a>
-                                            }
-                                            else
-                                            {
-
-                                                if (item.isMarketingBrief == true) // check if item is marekting breif..??
+                                                @* condition for marketing brief*@
+                                                @if (item.ProductType == (int)ProductType.MarketingBrief)
                                                 {
-                                                    if (ViewBag.IsUserLogin == true) // check if user login or not ??
-                                                    {
-                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
 
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
+                                                    RedirectURL = "/MarketingBrief/" + item.ProductName + "/" + item.ItemId;
 
-                                                                     <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-                                                                }
-                                                            </div>
-                                                        </a>
-                                                    }
-                                                    else // if not login then open set onclick event of anchor tab for login
-                                                    {
-                                                        string ProductName = "'" + item.ProductName + "'";
-                                                        string itemID = "'" + item.ItemId + "'";
-
-                                                        <a id="hlProductDetail" href="#" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
-
-                                                            <div class="PDTC_CatProd FI_CatProd">
-                                                                @{
-
-                                                                   <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
-
-
-                                                                }
-                                                            </div>
-                                                        </a>
-                                                    }
                                                 }
-                                                else
+                                                else if (item.ProductType == (int)ProductType.PrintProduct)
                                                 {
-                                                    <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+                                                    //if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                                    //{
+                                                    //    //
+                                                    //    RedirectURL = "#";
+                                                    //    SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ");";
+                                                    //}
+                                                    //else 
+                                                    //{
+                                                        if (item.isUploadImage == true && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                                                        {
+                                                            isUploadImage = true;
+                                                            RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                        }
+                                                        else
+                                                        {
+                                                            isUploadImage = false;
 
+                                                            RedirectURL = "/Category/CloneItem/" + item.ItemId;
+                                                        }
+                                                   // }
+                                                   
+
+                                                }
+                                                else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
+                                                {
+                                                    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                }
+
+
+
+                                                @if (isUploadImage == false)
+                                                {
+                                                    <a id="hlProductDetail" href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();">
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
-
-                                                          <img id="imgProduct" src="@Html.GetAppBasePath()@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
                                                             }
                                                         </div>
                                                     </a>
                                                 }
-                                            }
-    </div>
-                                        <div class="product_detail_image_heading_IRI">
-                                            <label ID="lblProductName">@item.ProductName</label>
-                                        </div>
-                                        <div class="product_detail_image_Pricing">
-                                            <label ID="lblPrice">@item.MinPrice</label>
-                                        </div>
+                                                else
+                                                {
 
-                                        @{
-                                           if(item.isMarketingBrief == null || item.isMarketingBrief == false)
-                                           { 
-                                            string stockLabel = string.Empty; 
-                                            string quantity = string.Empty;
-                                          
-                                            
-                                            List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
-                                            stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
+                                                    if (item.isMarketingBrief == true) // check if item is marekting breif..??
+                                                    {
+                                                        if (ViewBag.IsUserLogin == true) // check if user login or not ??
+                                                        {
+                                                            <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader();">
+
+                                                                <div class="PDTC_CatProd FI_CatProd">
+                                                                    @{
+
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        }
+                                                        else // if not login then open set onclick event of anchor tab for login
+                                                        {
+                                                            string ProductName = "'" + item.ProductName + "'";
+                                                            string itemID = "'" + item.ItemId + "'";
+
+                                                            <a id="hlProductDetail" href="#" onclick="ShowPopUpMarketingBrief('Message', 'To submit a marketing brief please login or register.','@item.ProductName','@item.ItemId');">
+
+                                                                <div class="PDTC_CatProd FI_CatProd">
+                                                                    @{
+
+                                                                        <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
 
-                                            List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
-                                            if (matrix != null)
-                                            {
-                                                 matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
-                                            }
-                                            
-                                        
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <a id="hlProductDetail" href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp">
+
+                                                            <div class="PDTC_CatProd FI_CatProd">
+                                                                @{
+
+                                                                    <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
+
+                                                                }
+                                                            </div>
+                                                        </a>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="product_detail_image_heading_IRI">
+                                                <label id="lblProductName">@item.ProductName</label>
+                                            </div>
+                                            <div class="product_detail_image_Pricing">
+                                                <label id="lblPrice">@item.MinPrice</label>
+                                            </div>
+
+                                            @{
+                                    if (item.isMarketingBrief == null || item.isMarketingBrief == false)
+                                    {
+                                        string stockLabel = string.Empty;
+                                        string quantity = string.Empty;
 
 
-                                             <table id="productPricetbl" class="productPricetbl"  width="80%" cellpadding="5" cellspacing="0" style="">
+                                        List<MPC.Webstore.ViewModels.ItemStockOptionList> sqn = ViewData["StockOptions"] as List<MPC.Webstore.ViewModels.ItemStockOptionList>;
+                                        stockLabel = sqn.Where(s => s.ItemID == item.ItemId).Select(c => c.StockLabel).FirstOrDefault();
+
+
+                                        List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel> matrix = ViewData["PriceMatrix"] as List<MPC.Webstore.ViewModels.ProductPriceMatrixViewModel>;
+                                        if (matrix != null)
+                                        {
+                                            matrix = matrix.Where(m => m.ItemID == item.ItemId).ToList();
+                                        }
+
+
+
+
+                                        <table id="productPricetbl" class="productPricetbl" width="80%" cellpadding="5" cellspacing="0" style="">
                                             <tr>
                                                 <td class="Metroprod_table_cell prod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: left;">
-                                                   @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))
+                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantity", UserCookieManager.StoreId))
                                                 </td>
                                                 <td id="tdStockOpt1" class="prod_table_cell Metroprod_table_cell procu_detail_grid_cell wdthWrp"
                                                     style="text-align: right;">
-                                                    <label ID="lblStockOpt1">@stockLabel</label>
+                                                    <label id="lblStockOpt1">@stockLabel</label>
                                                 </td>
                                             </tr>
-                                 @if (matrix != null)
-                                 { 
-                                        foreach (var Objmatrix in matrix)
-                                        {
-                                            <tr>
-                                                <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
-
-                                                    <label  ID="spanQuantity">@Objmatrix.Quantity</label>
-                                                </td>
-                                                <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
-                                                    style="text-align: right;">
-                                                    <div id="matrixItemColumn1">
-
-                                                        <label ID="lblPrice1" >@Objmatrix.Price</label>
-                                                  
-
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                        }
-
-
-                                        if (item.ProductType == (int)ProductType.PrintProduct)
-                                        {
-
-                                            if (item.TemplateId > 0) 
+                                            @if (matrix != null)
                                             {
-                                                <tr class="trMoreDetailOfProductLnk">
-                                                    <td style="text-align: left;">
-                                                        <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                            <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign">more...</a>
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            }
-                                           
-                                        }
-                                        else
-                                        {
-                                            <tr class="trMoreDetailOfProductLnk">
-                                                <td style="text-align: left;">
-                                                    <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
-                                                        <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'">more...</a>
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                            //RedirectURL = "/ProductDetail/"  + Model.ProductCategoryId + "/" + item.ItemId + "/" + 0 + "/" + "0" + "UploadDesign";
-                                        }
+                                                foreach (var Objmatrix in matrix)
+                                                {
+                                                    <tr>
+                                                        <td id="tdQty1" class="product_detail_item_cell procu_detail_grid_cell" style="text-align: left;">
 
-                                 }
+                                                            <label id="spanQuantity">@Objmatrix.Quantity</label>
+                                                        </td>
+                                                        <td id="tdPrice1" class="product_detail_item_cell procu_detail_grid_cell"
+                                                            style="text-align: right;">
+                                                            <div id="matrixItemColumn1">
+
+                                                                <label id="lblPrice1">@Objmatrix.Price</label>
+
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+
+
+                                                if (item.ProductType == (int)ProductType.PrintProduct)
+                                                {
+
+
+                                                    <tr class="trMoreDetailOfProductLnk">
+                                                        <td style="text-align: left;">
+                                                            <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
+                                                                <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign">more...</a>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+
+
+                                                }
+                                                else
+                                                {
+                                                    <tr class="trMoreDetailOfProductLnk">
+                                                        <td style="text-align: left;">
+                                                            <p style="font-weight: bolder; font-style: italic; margin-top: 0px;">
+                                                                <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'">more...</a>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    //RedirectURL = "/ProductDetail/"  + Model.ProductCategoryId + "/" + item.ItemId + "/" + 0 + "/" + "0" + "UploadDesign";
+                                                }
+
+                                            }
                                         </table>
-                                        }
-                                        }
-                                    </div>
-                                    <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6" >
-                                        <div class="BC_CatProd">
-                                            <div class="all_padding3">
-                                                <div class="paddingTop2px">
-                                                    &nbsp;
+                                    }
+                                            }
+                                        </div>
+                                        <div id="PriceCircle" class="blue_cicle_container DisplayNoneCSS6">
+                                            <div class="BC_CatProd">
+                                                <div class="all_padding3">
+                                                    <div class="paddingTop2px">
+                                                        &nbsp;
+                                                    </div>
+                                                    @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))
+                                                    <br />
+                                                    <label id="lblFromMinPrice" style="font-size:16px;">@item.MinPrice</label>
                                                 </div>
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.StoreId))
-                                                <br />
-                                                <label ID="lblFromMinPrice"  style="font-size:16px;" >@item.MinPrice</label>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" id="hfIds" />
+
+
+                                }
+
+                            </div>
+
+                            <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
+                                <label id="lbl_Proof" class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.StoreId))</label>
+                                <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
+                                    @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.StoreId))
                                 </div>
-                                <input type="hidden" ID="hfIds" />
-
-
-                            }
-                        
-                        </div>
-
-                        <div id="PopupProofScreen" hidden="hidden" class="FileUploaderPopup_Mesgbox  rounded_corners">
-                            <label ID="lbl_Proof"  class="left_align FileUploadHeaderText_PopUp float_left_simple MesgBoxClass lblPopupCorpHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProof", UserCookieManager.StoreId))</label>
-                            <div id="Div1" onclick="hidePopup2()" class="MesgBoxBtnsDisplay rounded_corners5">
-                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblClose", UserCookieManager.StoreId))
-                            </div>
-                            <div class="clearBoth">
-                                &nbsp;
-                            </div>
-                            <div class="SolidBorderCS">
-                                &nbsp;
-                            </div>
-                            <div>
-                                <iframe class="iframeProofContainer"></iframe>
-                            </div>
-                            <div id="previewProofing">
-                                <div class="divTxtProofing">
-                                    <div class="ConfirmPopupProof">
-                                        <label id="lbl_spelling_Details">
-                                           @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.StoreId))
-                                        </label>
-                                        <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
-                                               type="checkbox" />
-                                        <label for="chkCheckSpelling" style="display: inline;">
-                                        </label>
-                                    </div>
-
+                                <div class="clearBoth">
+                                    &nbsp;
                                 </div>
                                 <div class="SolidBorderCS">
-
+                                    &nbsp;
                                 </div>
-                                <button ID="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                                <div>
+                                    <iframe class="iframeProofContainer"></iframe>
+                                </div>
+                                <div id="previewProofing">
+                                    <div class="divTxtProofing">
+                                        <div class="ConfirmPopupProof">
+                                            <label id="lbl_spelling_Details">
+                                                @Html.Raw(Html.GetKeyValueFromResourceFile("lblspellingDetails", UserCookieManager.StoreId))
+                                            </label>
+                                            <input id="chkCheckSpelling" name="chkCheckSpelling" class="simpleText regular-checkbox"
+                                                   type="checkbox" />
+                                            <label for="chkCheckSpelling" style="display: inline;">
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="SolidBorderCS">
+
+                                    </div>
+                                    <button id="Button2" value="Next" class="cursor_pointer designNowCS_Corp rounded_corners5 btnMakeThisDesign btnOrderNow" @*OnClick="Button2_Click"*@ onclick="  return verifySpellings();" />
+                                </div>
                             </div>
                         </div>
+                        <div class="clearBoth">
+                            &nbsp;
+                        </div>
+                       
                     </div>
-                  }
+                }
             </div>
         </div>
     </div>
@@ -339,13 +367,18 @@
     </div>
     <br />
     <br />
-    <input type="hidden"  id="hfContactID" />
-    <input type="hidden"  id="hfCompanyID" />
-    <input type="hidden"  id="hfCorpType" />
-    <input type="hidden"  id="hfTemplateProduct" />
-    <input type="hidden"  id="hfCurItem" />
+    <input type="hidden" id="hfContactID" />
+    <input type="hidden" id="hfCompanyID" />
+    <input type="hidden" id="hfCorpType" />
+    <input type="hidden" id="hfTemplateProduct" />
+    <input type="hidden" id="hfCurItem" />
     <input type="hidden" id="hfProductCatID" />
-    <input type="hidden"  id="hfSPType" value="default" />
-    <input type="hidden"  id="hfPrintCropMarks" />
-    <input type="hidden"  id="hfSvcRespone" />
+    <input type="hidden" id="hfSPType" value="default" />
+    <input type="hidden" id="hfPrintCropMarks" />
+    <input type="hidden" id="hfSvcRespone" />
 </div>
+<script>
+    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId){
+        alert(ItemId + ":" +TemplateId + ":" + ContactId);
+    }
+</script>

@@ -39,6 +39,13 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Company Contact
+                    amplify.request.define('saveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to get Store
                     amplify.request.define('getBaseDataFornewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/CrmBase',
@@ -116,16 +123,6 @@
                     data: params
                 });
             },
-            // Save Company Contact
-            saveCompanyContact = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'saveCompanyContact',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            },
             // get Customer list of list view
             getCustomersForListView = function(params, callbacks) {
                 initialize();
@@ -197,13 +194,23 @@
                 });
             },
             // get Base Data By Store Id
-            getBaseData = function (params, callbacks) {
+            getBaseData = function(params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getBaseData',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        // Save Company Contact
+            saveCompanyContact = function (param, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getBaseData',
+                    resourceId: 'saveCompanyContact',
                     success: callbacks.success,
                     error: callbacks.error,
-                    data: params
+                    data: param
                 });
             },
             // get Suppliers
