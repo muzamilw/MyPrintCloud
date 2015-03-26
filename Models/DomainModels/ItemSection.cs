@@ -206,6 +206,7 @@ namespace MPC.Models.DomainModels
             target.ItemSizeWidth = ItemSizeWidth;
             target.IsItemSizeCustom = IsItemSizeCustom;
             target.IsMainSection = IsMainSection;
+            target.ItemSizeId = ItemSizeId;
         }
 
         #endregion
