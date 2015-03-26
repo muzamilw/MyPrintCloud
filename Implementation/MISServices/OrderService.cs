@@ -32,7 +32,8 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,  IPaymentMethodRepository paymentMethodRepository)
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
+            IPaymentMethodRepository paymentMethodRepository)
         {
             if (estimateRepository == null)
             {
