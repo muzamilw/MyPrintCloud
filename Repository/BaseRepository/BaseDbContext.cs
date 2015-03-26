@@ -757,6 +757,17 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteContactCompanyByID(int? selectedID)
+// ReSharper restore InconsistentNaming
+        {
+            var selectedIdParameter = selectedID.HasValue ?
+                new ObjectParameter("SelectedID", selectedID) :
+                new ObjectParameter("SelectedID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", selectedIdParameter);
+        }
+
         #endregion
     }
 }

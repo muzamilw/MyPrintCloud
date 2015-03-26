@@ -74,7 +74,6 @@
     <script id="itemSupplierTemplate" type="text/html">
         <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedSupplier}">
             <td>
-                @*<img data-bind="attr: { src: storeImageFileBinary }" alt="" />*@
                 <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
             </td>
             <td>
