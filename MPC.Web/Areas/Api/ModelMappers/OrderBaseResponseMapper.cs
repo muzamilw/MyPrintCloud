@@ -25,7 +25,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PipeLineSources = source.PipeLineSources != null ? source.PipeLineSources.Select(cc => cc.CreateFrom()) :
                 new List<PipeLineSource>(),
                 PaymentMethods = source.PaymentMethods != null ? source.PaymentMethods.Select(cc => cc.CreateFrom()) :
-                new List<PaymentMethod>()
+                new List<PaymentMethod>(),
+                CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty
+
             };
         }
 

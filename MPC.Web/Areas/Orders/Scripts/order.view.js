@@ -75,6 +75,15 @@ define("order/order.view",
                 hideProductFromRetailStoreModal = function () {
                     $("#productFromRetailStoreModal").modal('hide');
                 },
+                 //Show Order Pre Payment Modal
+                showOrderPrePaymentModal = function () {
+                    $("#orderPrePaymentModal").modal('show');
+                },
+                //Hide Order Pre Payment Modal
+                hideOrderPrePaymentModal = function () {
+                    $("#orderPrePaymentModal").modal('hide');
+                },
+                
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -131,7 +140,9 @@ define("order/order.view",
                 hideRCostCentersDialog: hideRCostCentersDialog,
                 showCostCentersQuantityDialog: showCostCentersQuantityDialog,
                 hideCostCentersQuantityDialog: hideCostCentersQuantityDialog,
-                initializeLabelPopovers: initializeLabelPopovers
+                initializeLabelPopovers: initializeLabelPopovers,
+                showOrderPrePaymentModal: showOrderPrePaymentModal,
+                hideOrderPrePaymentModal: hideOrderPrePaymentModal
             };
         })(orderViewModel);
 
