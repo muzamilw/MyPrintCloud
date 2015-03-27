@@ -381,7 +381,7 @@ namespace MPC.Implementation.WebStoreServices
                 bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
                 if (isUpdateOrder)
                 {
-                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
                     if (orderId > 0)
                     {
                         RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);

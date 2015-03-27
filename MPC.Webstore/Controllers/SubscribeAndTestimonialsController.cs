@@ -52,7 +52,7 @@ namespace MPC.Webstore.Controllers
             {
 
 
-                NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.StoreId);
+                NewsLetterSubscriber subscriber = _myCompanyService.GetSubscriber(txtEmailbox, UserCookieManager.WBStoreId);
 
 
                 if (subscriber == null)
@@ -61,7 +61,7 @@ namespace MPC.Webstore.Controllers
                     ObjectCache cache = MemoryCache.Default;
 
 
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
                     string SubscriberEmail = "";
                     string subscriptionCode = Guid.NewGuid().ToString();
@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
                     {
                         Contact = _myCompanyService.GetContactByEmail(txtEmailbox, StoreBaseResopnse.Organisation.OrganisationId);
                     }
-                    Campaign SubscriptionCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.SubscriptionConfirmation, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
+                    Campaign SubscriptionCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.SubscriptionConfirmation, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
                     SystemUser EmailOFSM = _UserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                     subscriber = new NewsLetterSubscriber();
@@ -80,7 +80,7 @@ namespace MPC.Webstore.Controllers
                     subscriber.SubscribeDate = DateTime.Now;
                     subscriber.SubscriptionCode = subscriptionCode;
                     subscriber.Email = txtEmailbox;
-                    subscriber.ContactCompanyID = Convert.ToInt32(UserCookieManager.StoreId);
+                    subscriber.ContactCompanyID = Convert.ToInt32(UserCookieManager.WBStoreId);
 
                     CEP.CompanySiteID = StoreBaseResopnse.Organisation.OrganisationId;
 
@@ -90,7 +90,7 @@ namespace MPC.Webstore.Controllers
                         CEP.ContactId = Contact.ContactId;
                         CEP.CompanyId = Contact.CompanyId;
                         CEP.SalesManagerContactID = Contact.ContactId;
-                        CEP.StoreID = UserCookieManager.StoreId;
+                        CEP.StoreID = UserCookieManager.WBStoreId;
 
                     }
                     else
@@ -98,7 +98,7 @@ namespace MPC.Webstore.Controllers
                         SubscriberEmail = txtEmailbox;
                         // should be greater than one to resolve variaables
                         CEP.SalesManagerContactID = 1;
-                        CEP.StoreID = UserCookieManager.StoreId;
+                        CEP.StoreID = UserCookieManager.WBStoreId;
 
 
                     }
@@ -108,7 +108,7 @@ namespace MPC.Webstore.Controllers
 
                     CEP.SubscriberID = _myCompanyService.AddSubscriber(subscriber);
                     _campaignService.emailBodyGenerator(SubscriptionCampaign, CEP, Contact, StoreMode.Retail, (int)StoreBaseResopnse.Company.OrganisationId, "", "", SubscriberEmail, EmailOFSM.Email, "", "", null, "", null, "", "", subscriptionLink);
-                    string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.StoreId);
+                    string sConfirmation = Utils.GetKeyValueFromResourceFile("ConfirmSubscriptionMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
                         ViewBag.Message = "To confirm your subscription please follow instructions which have been sent to provided email.";
@@ -123,7 +123,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    string sConfirmation = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.StoreId);
+                    string sConfirmation = Utils.GetKeyValueFromResourceFile("SubscriptionErrorMesg", UserCookieManager.WBStoreId);
                     if (string.IsNullOrEmpty(sConfirmation))
                     {
                         ViewBag.Message = "Someone is already subscribed with provided email. Please use a different email.";

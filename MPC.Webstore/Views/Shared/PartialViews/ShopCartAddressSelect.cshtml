@@ -684,24 +684,28 @@
                                     <label ID="ltrlBillShippTo" >Bill to:</label>
 
                                 </div>
-                                <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer" >
-                                    <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
-                                    <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
-                                    <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
-                                    @if(BillingAddress.State != null)
-                                    {
-                                        BStateName = BillingAddress.State.StateName;
-                                    }
-                                   
-                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BStateName</label>&nbsp;
-                                    @if (BillingAddress.Country != null)
-                                    {
-                                        BCountryName = BillingAddress.Country.CountryName;
-                                    }
-                                    <label id="lblCountryBilSip" class="lbAddressLines">@BCountryName</label>&nbsp;
-                                    <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
-                                </div>
-                                <br />
+                                @if (BillingAddress != null)
+                                {
+                                    <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer">
+                                        <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
+                                        <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
+                                        <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
+                                        @if (BillingAddress.State != null)
+                                        {
+                                            BStateName = BillingAddress.State.StateName;
+                                        }
+
+                                        <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BStateName</label>&nbsp;
+                                        @if (BillingAddress.Country != null)
+                                        {
+                                            BCountryName = BillingAddress.Country.CountryName;
+                                        }
+                                        <label id="lblCountryBilSip" class="lbAddressLines">@BCountryName</label>&nbsp;
+                                        <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
+                                    </div>
+                                    <br />
+                                }
+                             
                                 <div class="textAlignLeft paddingLeft10px">
                                     <label ID="lblContactNotxt" class="black_sub_heading">Contact No:</label>
                                     <label ID="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
