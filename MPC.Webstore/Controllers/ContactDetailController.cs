@@ -25,12 +25,12 @@ namespace MPC.Webstore.Controllers
        }
        public ActionResult Index()
         {
-            long OrgaanisationId = UserCookieManager.OrganisationID;
+            long OrgaanisationId = UserCookieManager.WEBOrganisationID;
 
-            int storeMode = UserCookieManager.StoreMode;
+            int storeMode = UserCookieManager.WEBStoreMode;
            // long contactRoleID= _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID()).ContactRoleId;
             CompanyContact contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
-            if (UserCookieManager.StoreMode ==(int)StoreMode.Retail)
+            if (UserCookieManager.WEBStoreMode ==(int)StoreMode.Retail)
             {
                 Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
                 if (Company != null)
@@ -116,9 +116,9 @@ namespace MPC.Webstore.Controllers
                //{
                //    ViewBag.Message = "Sorry, no profile updated.";
                //}
-               UserCookieManager.ContactFirstName = Model.FirstName;
+               UserCookieManager.WEBContactFirstName = Model.FirstName;
 
-               UserCookieManager.ContactLastName = Model.LastName;
+               UserCookieManager.WEBContactLastName = Model.LastName;
 
               return View("PartialViews/ContactDetail", Model);
        }
@@ -129,7 +129,7 @@ namespace MPC.Webstore.Controllers
             CompanyContact contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());
             if (Request != null)
             {
-                string folderPath = "/mpc_content/Assets" + "/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Contacts/" + contact.ContactId + "";
+                string folderPath = "/mpc_content/Assets" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Contacts/" + contact.ContactId + "";
                 string virtualFolderPth = string.Empty;
 
                 virtualFolderPth = @Server.MapPath(folderPath);
@@ -198,7 +198,7 @@ namespace MPC.Webstore.Controllers
                //    UpdateContact.IsNewsLetterSubscription = false;
                //}
 
-               if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+               if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                {
 
                    Company Company = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());

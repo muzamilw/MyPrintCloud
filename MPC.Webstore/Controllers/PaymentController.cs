@@ -48,9 +48,9 @@ namespace MPC.Webstore.Controllers
                 {
                     string CacheKeyName = "CompanyBaseResponse";
                     ObjectCache cache = MemoryCache.Default;
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
-                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
+                    PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
                     if (oGateWay != null)
                     {
                         opaypal.return_url = oGateWay.ReturnUrl;
@@ -129,7 +129,7 @@ namespace MPC.Webstore.Controllers
                 Estimate modelOrder = null;
                 string strFormValues = Encoding.ASCII.GetString(Request.BinaryRead(Request.ContentLength));
                 string strNewValue;
-                PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
+                PaymentGateway oGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
                 // getting the URL to work with
                 string URL;
                 if ((bool)oGateWay.UseSandbox)
@@ -232,7 +232,7 @@ namespace MPC.Webstore.Controllers
                                 HTMLOfShopReceipt = _campaignService.GetPinkCardsShopReceiptPage(orderID, 0); // retail
                             }
 
-                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.OrganisationID, UserCookieManager.StoreId);
+                            Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
                             cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
                             cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
@@ -240,11 +240,11 @@ namespace MPC.Webstore.Controllers
                             cep.CorporateManagerID = ManagerID;
                             if (CustomerCompany.StoreId != null) ///Retail Mode
                             {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID,  UserCookieManager.OrganisationID, 0, StoreMode.Retail,UserCookieManager.StoreId, EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewQuoteToSalesManager, (int)modelOrder.ContactId, (int)modelOrder.CompanyId, orderID,  UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail,UserCookieManager.WBStoreId, EmailOFSM);
                             }
                             else
                             {
-                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.OrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.StoreId,EmailOFSM);
+                                _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, Convert.ToInt32(modelOrder.ContactId), Convert.ToInt32(modelOrder.CompanyId), orderID, UserCookieManager.WEBOrganisationID, Convert.ToInt32(ManagerID), StoreMode.Corp, UserCookieManager.WBStoreId,EmailOFSM);
                            
                             }
                             

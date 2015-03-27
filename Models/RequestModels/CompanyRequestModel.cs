@@ -14,6 +14,11 @@ namespace MPC.Models.RequestModels
         public long? CustomerType { get; set; }
 
         /// <summary>
+        /// Customer
+        /// </summary>
+        public int IsCustomer { get; set; }
+
+        /// <summary>
         /// Company By Column for sorting
         /// </summary>
         public CompanyByColumn CompanyByColumn

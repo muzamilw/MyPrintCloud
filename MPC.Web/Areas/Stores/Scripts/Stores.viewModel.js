@@ -319,7 +319,7 @@ define("stores/stores.viewModel",
                     },
 
                     setThemeName = ko.computed(function () {
-                        if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
+                        if (isBaseDataLoded() && !isThemeNameSet()) {
                             var theme = _.find(themes(), function (item) {
                                 return item.SkinId == selectedTheme();
                             });
@@ -4067,7 +4067,7 @@ define("stores/stores.viewModel",
                 searchFilter(undefined);
                 getStores();
             },
-                //Get Base Data By company Id
+            //Get Base Data By company Id
             getBaseData = function () {
                 dataservice.getBaseData({
                     companyId: selectedStoreListView().companyId()

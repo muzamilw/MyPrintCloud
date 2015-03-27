@@ -54,8 +54,8 @@
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-newsfeed" data-toggle="tab">General Info</a></li>
-                            <li><a href="#tab-territory" data-toggle="tab">User & Addresses</a></li>
+                            <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
+                            <li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
                             <li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>
@@ -67,7 +67,7 @@
                             @* <li><a href="#tab-WebDetails" data-toggle="tab">Web Details</a></li>*@
                         </ul>
                         <div class="tab-content" data-bind="with: $root.selectedStore">
-                            <div class="tab-pane fade in active" id="tab-newsfeed">
+                            <div class="tab-pane fade in active" id="tab-newsfeedForCrm">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Store Details</h3>
                                     <div class="col-lg-9">
@@ -85,7 +85,7 @@
                                                 <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
                                                     <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
@@ -98,7 +98,7 @@
                                                 <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
                                                 <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -153,25 +153,11 @@
                                                     <!-- ko if: status() != 1 -->
                                                     <span class="label label-danger">DeActive</span>
                                                     <!-- /ko -->
-
                                                 </div>
                                                 <div class="profile-stars">
                                                     <span data-bind="value: type"></span>
                                                 </div>
                                                 <div class="profile-since" data-bind="value: accountOpenDate">
-                                                </div>
-                                                <div class="profile-details">
-                                                    <ul class="fa-ul">
-                                                        <li><i class="fa-li fa fa-truck"></i>New orders in last <span>5</span> days</li>
-                                                        <li><i class="fa-li fa fa-comment"></i>New users in last <span>5</span> days</li>
-                                                        <li><i class="fa-li fa fa-tasks"></i>Tasks/Events: <span>1024</span></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="profile-message-btn center-block text-center">
-                                                    <a href="#" class="btn btn-success">
-                                                        <i class="fa fa-envelope"></i>
-                                                        Send message
-                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,127 +223,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Social Details</h3>
-                                    <div class="col-lg-9">
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Page URL - e.g. https://www.facebook.com/Pinkcards" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtFacebookURL" class="control-label text-right tooltip-float">Facebook URL</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtFacebookURL" placeholder="Enter Facebook URL" data-bind="value: facebookUrl">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app Id from https://developers.facebook.com/apps" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtFacebookAppID" class="control-label text-right tooltip-float">Facebook APP ID</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtFacebookAppID" placeholder="Enter Facebook App ID" data-bind="value: facebookAppId">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their Facebook account. You can get Your Facebook app key from https://developers.facebook.com/apps" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtFacebookAppKey" class="control-label text-right tooltip-float">Facebook APP Key</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtFacebookAppKey" placeholder="Enter Facebook App Key" data-bind="value: facebookAppKey">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Page URL - e.g. https://www.twitter.com/Pinkcards " data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtTwitterURL" class="control-label text-right tooltip-float">Twitter URL</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtTwitterURL" placeholder="Enter Twitter URL" data-bind="value: twitterUrl">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtTwitterAppID" class="control-label text-right tooltip-float">Twitter APP ID</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtTwitterAppID" placeholder="Enter Twitter App ID" data-bind="value: twitterAppId">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facilitate user to login/Register from their twitter account. You can get Your Twitter app Id from https://dev.twitter.com/" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtTwitterAppKey" class="control-label text-right tooltip-float">Twitter APP Key</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtTwitterAppKey" placeholder="Enter Twitter App Key" data-bind="value: twitterAppKey">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Linkedin Page URL - e.g. https://www.linkedin.com/" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtLinkedInURL" class="control-label text-right tooltip-float">Linkedin URL</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtLinkedInURL" placeholder="Enter Linkedin URL" data-bind="value: linkedinUrl">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter corporate home title" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
-                                                </div>
-                                                <label for="txtCorpHomeURL" class="control-label text-right tooltip-float">Home URL</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtCorpHomeURL" placeholder="Enter Corporate Home URL" data-bind="value: url">
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
-                            <div class="tab-pane fade" id="tab-territory">
+                            <div class="tab-pane fade" id="tab-territoryForCrm">
                                 <div class="col-lg-12">
-                                    <!--ko if: type() != 0 && type() != 1-->
+                                    <!--ko if: type() != 0 && type() != 1 && type() != 2-->
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Territories</h3>
                                         <div class="col-lg-12 clearfix">
@@ -446,11 +316,7 @@
                                     <h3 class="group-header">Users</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
-                                            <!--ko if: $root.selectedStore().type() != 0-->
-                                            <div class="filter-block form-group pull-left col-xs-4">
-                                                <select class="form-control col-lg-4" data-bind="options:$root.contactCompanyTerritoriesFilter,optionsText:'territoryName',optionsValue:'territoryId',optionsCaption: 'Choose...', value: $root.contactCompanyTerritoryFilter"></select>
-                                            </div>
-                                            <!--/ko-->
+                                           
                                             <div class="filter-block pull-right">
                                                 <div class="form-group pull-left">
                                                     <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">

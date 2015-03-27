@@ -188,12 +188,33 @@ z-index:1000000011;
       
    .aligndivs
     {
-        display:inline;
-        float:left;
-        
-        margin-right:6px;
-        margin-bottom:10px;
+         display: inline;
+  float: left;
+  margin-right: 2px;
+  width: 66px;
     }
+   .aligndivsFisrt{
+       /*text-align:right;*/
+         width: 230px;
+  display: inline;
+  float: left;
+  margin-right: 40px;
+  
+   }
+   .textboxwidth
+   {
+      width: 66px!important;
+   }
+   .aligndivsCurr
+    {
+         display: inline;
+  float: left;
+  margin-right: 2px;
+  width: 100px;
+    }
+   .marginR10{margin-right: 10px!important ;}
+   .marginR7 {margin-right: 7px!important ;}
+
    .iconplus{background: url(OperatorIcons.png) -3px -3px no-repeat;
   height: 21px;
   width: 23px;
@@ -208,7 +229,8 @@ z-index:1000000011;
   cursor: pointer;}
    .iconmultiply{background: url(OperatorIcons.png) -47px -4px no-repeat;
   height: 21px;
-  width: 23px;
+  width: 23px; 
+
   margin: 6px 0 0 43px;
   position: absolute;
   cursor: pointer;}

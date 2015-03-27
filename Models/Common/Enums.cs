@@ -359,5 +359,12 @@ namespace MPC.Models.Common
         CategoryBrowsing = 1,
         MyAccount = 2
     }
+    public enum TemplateMode : int
+    {
+        UnrestrictedDesignerMode = 1,
+        RestrictedDesignerMode = 2,
+        SmartFormMode = 3,
+        DoNotLoadDesigner = 4
+    }
 
 }

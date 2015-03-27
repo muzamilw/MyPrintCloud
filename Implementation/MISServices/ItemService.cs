@@ -331,9 +331,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Template Pages BackgroundFileName updation
         /// </summary>
-        private static void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
+        private void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
         {
-            if (itemTarget.Template != null && item.Template.ProductId > 0)
+            if (itemTarget.Template != null && itemTarget.Template.ProductId > 0)
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
@@ -2057,44 +2057,12 @@ namespace MPC.Implementation.MISServices
             try
             {
 
-                itemRepository.DeleteItemBySP(ItemID);
+               
                 List<string> ImagesPath = new List<string>();
                 Item DelItem = itemRepository.GetItemByItemID(ItemID);
-
+                itemRepository.DeleteItemBySP(ItemID);
                if(DelItem != null)
                {
-                   if(!string.IsNullOrEmpty(DelItem.ThumbnailPath))
-                   {
-                       ImagesPath.Add(DelItem.ThumbnailPath);
-                   }
-                   if(!string.IsNullOrEmpty(DelItem.ImagePath))
-                   {
-                       ImagesPath.Add(DelItem.ImagePath);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.GridImage))
-                   {
-                       ImagesPath.Add(DelItem.GridImage);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.File1))
-                   {
-                       ImagesPath.Add(DelItem.File1);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.File2))
-                   {
-                       ImagesPath.Add(DelItem.File2);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.File3))
-                   {
-                       ImagesPath.Add(DelItem.File3);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.File4))
-                   {
-                       ImagesPath.Add(DelItem.File4);
-                   }
-                   if (!string.IsNullOrEmpty(DelItem.File5))
-                   {
-                       ImagesPath.Add(DelItem.File5);
-                   }
                   
                    if(DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
                    {
@@ -2116,7 +2084,22 @@ namespace MPC.Implementation.MISServices
                    }
 
                    // delete files
+                   
 
+                   if(ImagesPath != null && ImagesPath.Count > 0)
+                   {
+                       foreach(var img in ImagesPath)
+                       {
+                           if(!string.IsNullOrEmpty(img))
+                           {
+                               string filePath = HttpContext.Current.Server.MapPath("~/" + img);
+                               if(File.Exists(filePath))
+                               {
+                                   File.Delete(filePath);
+                               }
+                           }
+                       }
+                   }
 
 
                    if (DelItem.TemplateId != null && DelItem.TemplateId > 0)

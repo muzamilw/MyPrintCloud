@@ -664,7 +664,7 @@ function ShippingBillingDetails(Type, panelHtml) {
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
     //730
-    document.getElementById("innerLayer").style.width = "883px";
+    document.getElementById("innerLayer").style.width = "778px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 

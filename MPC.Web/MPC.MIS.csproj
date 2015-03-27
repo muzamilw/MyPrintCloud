@@ -314,6 +314,7 @@
     <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\PurchaseOrderController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
@@ -368,6 +370,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyDomainMapper.cs" />
@@ -1875,6 +1878,7 @@
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
@@ -3064,6 +3068,7 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\PurchaseOrder\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Common\Controllers\" />

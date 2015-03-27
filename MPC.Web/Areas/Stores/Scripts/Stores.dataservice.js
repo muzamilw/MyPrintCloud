@@ -10,7 +10,8 @@
                     amplify.request.define('getStores', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
-                        type: 'GET'
+                        type: 'GET',
+                        decoder: amplify.request.decoders.istStatusDecoder
                     });
                     // Define request to get CMS Tags For Default Load of CMS Page
                     amplify.request.define('getCmsTags', 'ajax', {
@@ -123,6 +124,7 @@
                     amplify.request.define('getStoreById', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
                     // Define request to Get Theme Detail By Full Zip Path
@@ -148,18 +150,21 @@
                     amplify.request.define('getBaseData', 'ajax', {
                         url: ist.siteUrl + '/Api/StoreBase',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
                     // Define request to get Store
                     amplify.request.define('getBaseDataForNewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/StoreBase',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'GET'
                     });
                     // Define request to delete Store
                     amplify.request.define('deleteStore', 'ajax', {
                         url: ist.siteUrl + '/Api/Company',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Delete'
                     });
                     // Define request to delete Banner

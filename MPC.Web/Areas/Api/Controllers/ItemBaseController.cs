@@ -40,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Base Data
         /// </summary>
+        [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
         public Models.ItemBaseResponse Get()
         {

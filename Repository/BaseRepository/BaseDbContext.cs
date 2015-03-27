@@ -566,7 +566,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// NAB Transaction DbSet
         /// </summary>
+// ReSharper disable InconsistentNaming
         public DbSet<NABTransaction> NABTransactions { get; set; }
+// ReSharper restore InconsistentNaming
 
         /// <summary>
         /// vw_SaveDesign DbSet
@@ -612,6 +614,26 @@ namespace MPC.Repository.BaseRepository
         /// MachineSpeedWeightLookup DbSet
         /// </summary>
         public DbSet<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
+
+        /// <summary>
+        /// Goods Received Note DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
+        
+        /// <summary>
+        /// Goods Received Note Detail DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
+        
+        /// <summary>
+        /// Purchase DbSet
+        /// </summary>
+        public DbSet<Purchase> Purchases { get; set; }
+        
+        /// <summary>
+        /// Purchase Detail DbSet
+        /// </summary>
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
@@ -755,6 +777,17 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("itemid", typeof(long));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteContactCompanyByID(int? selectedID)
+// ReSharper restore InconsistentNaming
+        {
+            var selectedIdParameter = selectedID.HasValue ?
+                new ObjectParameter("SelectedID", selectedID) :
+                new ObjectParameter("SelectedID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", selectedIdParameter);
         }
 
         #endregion

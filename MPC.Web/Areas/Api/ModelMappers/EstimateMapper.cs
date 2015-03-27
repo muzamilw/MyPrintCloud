@@ -15,12 +15,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static Estimate CreateFrom(this DomainModels.Estimate source)
         {
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             Estimate estimate = new Estimate
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 EstimateId = source.EstimateId,
-                CompanyId= source.CompanyId,
+                CompanyId = source.CompanyId,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty,
+                StatusId = source.StatusId,
                 EstimateCode = source.Estimate_Code,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
@@ -55,9 +57,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
-                new List<OrderItem>()
+                new List<OrderItem>(),
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
+                new List<PrePayment>()
             };
-            
+
             return estimate;
         }
 
@@ -72,6 +76,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 EstimateCode = source.Estimate_Code,
+                StatusId = source.StatusId,
                 EstimateName = source.Estimate_Name,
                 EnquiryId = source.EnquiryId,
                 CompanyId = source.CompanyId,
@@ -82,11 +87,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionFlagId = source.SectionFlagId,
                 OrderCode = source.Order_Code,
                 IsEstimate = source.isEstimate,
-                ItemsCount = source.Items!=null ? source.Items.Count :0,
+                ItemsCount = source.Items != null ? source.Items.Count : 0,
                 Status = source.Status.StatusName,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectOrder = source.isDirectSale,
-                
+
             };
 
             return estimate;
@@ -101,6 +106,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 EstimateId = source.EstimateId,
                 Estimate_Code = source.EstimateCode,
+                StatusId = source.StatusId,
                 Estimate_Name = source.EstimateName,
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
@@ -132,14 +138,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
-                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime
+                OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : null
+
             };
         }
 
         /// <summary>
         /// Orders for Company edit
         /// </summary>
-        public static OrdersForCrmResponse CreateFrom(this MPC.Models.ResponseModels.OrdersForCrmResponse  source)
+        public static OrdersForCrmResponse CreateFrom(this MPC.Models.ResponseModels.OrdersForCrmResponse source)
         {
             return new OrdersForCrmResponse
             {

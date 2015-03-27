@@ -178,7 +178,9 @@ function fu04_01() {
           //   }
       });
     k0();
-
+    if (IsCalledFrom == 2) {
+        k28();
+    }
 }
 function fu05_Clload() {
     var Cid = 0;
@@ -336,4 +338,19 @@ function SvcLoad2ndTemplate() {
      });
 
 
+}
+
+function k28() {
+
+    $.getJSON("/designerapi/TemplateBackgroundImage/GetTerritories/" + CustomerID,
+        function (xdata) {
+            $.each(xdata, function (i, item) {
+                k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
+            });
+        });
+}
+function k29(divID, itemID, itemName, Container) {
+    var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="' + itemID + '" style="  margin-right: 5px;"><label for="' + itemID + '">' + itemName + '</label></div>';
+    $('#' + divID).append(html);
+    $('#' + Container).css("display", "block");
 }

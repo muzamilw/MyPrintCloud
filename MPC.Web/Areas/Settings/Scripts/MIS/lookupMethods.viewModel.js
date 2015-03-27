@@ -1,6 +1,6 @@
 ﻿define("lookupMethods/lookupMethods.viewModel",
-    ["jquery", "amplify", "ko", "lookupMethods/lookupMethods.dataservice", "lookupMethods/lookupMethods.model", "common/confirmation.viewModel"],
-    function ($, amplify, ko, dataservice, model, confirmation) {
+    ["jquery", "amplify", "ko", "lookupMethods/lookupMethods.dataservice", "lookupMethods/lookupMethods.model", "common/confirmation.viewModel", "common/sharedNavigation.viewModel"],
+    function ($, amplify, ko, dataservice, model, confirmation, sharedNavigationVM) {
         var ist = window.ist || {};
         ist.lookupMethods = {
 
@@ -21,7 +21,7 @@
                     lookupClickChargeZonesList = ko.observableArray([]),
                     lookupGuillotineClickChargeList = ko.observableArray([]),
                     lookupMeterPerHourClickChargeList = ko.observableArray([]),
-                    GuillotinePTVList = ko.observableArray([]),
+                    CurrencySymbol = ko.observable(),
                     selectedlookup = ko.observable(),
                     selectedClickCharge = ko.observable(),
                     selectedSpeedWeight = ko.observable(),
@@ -35,7 +35,7 @@
                     isClickChargeZonesEditorVisible = ko.observable(),
                     isGuillotineClickChargeEditorVisible = ko.observable(),
                     isMeterPerHourClickChargeEditorVisible = ko.observable(),
-                    IsSelected= ko.observable(),
+                    IsSelected = ko.observable(),
                      initialize = function (specifiedView) {
                          view = specifiedView;
                          ko.applyBindings(view.viewModel, view.bindingRoot);
@@ -43,16 +43,16 @@
                          GetLookupList();
                      },
                      AddGuiltineLookup = function () {
-                         GuillotinePTVList.push(model.GuillotineClickPTV());
+                         selectedGuillotineClickCharge().GuillotinePTVList.push(model.GuillotineClickPTV());
                      }
                 DeleteLookup = function (olookup) {
                     if (!(selectedlookup().MethodId() > 0)) {
-                        GuillotinePTVList.remove(oGuillotinePTV);
-                        
-                            
+                        selectedGuillotineClickCharge().GuillotinePTVList.remove(oGuillotinePTV);
+
+
                         if (selectedlookup().Type() == 1) {
                             lookupClickChargeList.remove(olookup);
-                            }
+                        }
                         else if (selectedlookup().Type() == 3) {
                             lookupSpeedWeightList.remove(olookup);
                         } else if (selectedlookup().Type() == 4) {
@@ -63,9 +63,9 @@
                             lookupGuillotineClickChargeList.remove(olookup);
                         } else if (selectedlookup().Type() == 8) {
                             lookupMeterPerHourClickChargeList.remove(olookup);
-                            }
+                        }
 
-                        
+
                         return;
                     }
                     // Ask for confirmation
@@ -110,7 +110,7 @@
                                     IsSelected(false);
                                     toastr.success(" Deleted Successfully !");
                                 } else {
-                                    toastr.error("Failed to Delete Lookup" );
+                                    toastr.error("Failed to Delete Lookup");
                                 }
                             },
                             error: function (response) {
@@ -127,12 +127,113 @@
 
 
                 }
-
+                onChangeToValue = function (To) {
+                    switch (To) {
+                        case '1':
+                            selectedClickChargeZones().From2(selectedClickChargeZones().To1() + 1);
+                            if (selectedClickChargeZones().To1() >= selectedClickChargeZones().To2()) {
+                                selectedClickChargeZones().To2(selectedClickChargeZones().To1() + 102);
+                            }
+                        case '2':
+                            selectedClickChargeZones().From3(selectedClickChargeZones().To2() + 1);
+                            if (selectedClickChargeZones().To2() >= selectedClickChargeZones().To3()) {
+                                selectedClickChargeZones().To3(selectedClickChargeZones().To2() + 102);
+                            } else {
+                                break;
+                            }
+                        case '3':
+                            selectedClickChargeZones().From4(selectedClickChargeZones().To3() + 1);
+                            if (selectedClickChargeZones().To3() >= selectedClickChargeZones().To4()) {
+                                selectedClickChargeZones().To4(selectedClickChargeZones().To3() + 102);
+                            } else {
+                                break;
+                            }
+                        case '4':
+                            selectedClickChargeZones().From5(selectedClickChargeZones().To4() + 1);
+                            if (selectedClickChargeZones().To4() >= selectedClickChargeZones().To5()) {
+                                selectedClickChargeZones().To5(selectedClickChargeZones().To4() + 102);
+                            } else {
+                                break;
+                            }
+                        case '5':
+                            selectedClickChargeZones().From6(selectedClickChargeZones().To5() + 1);
+                            if (selectedClickChargeZones().To5() >= selectedClickChargeZones().To6()) {
+                                selectedClickChargeZones().To6(selectedClickChargeZones().To5() + 102);
+                            } else {
+                                break;
+                            }
+                        case '6':
+                            selectedClickChargeZones().From7(selectedClickChargeZones().To6() + 1);
+                            if (selectedClickChargeZones().To6() >= selectedClickChargeZones().To7()) {
+                                selectedClickChargeZones().To7(selectedClickChargeZones().To6() + 102);
+                            } else {
+                                break;
+                            }
+                        case '7':
+                            selectedClickChargeZones().From8(selectedClickChargeZones().To7() + 1);
+                            if (selectedClickChargeZones().To7() >= selectedClickChargeZones().To8()) {
+                                selectedClickChargeZones().To8(selectedClickChargeZones().To7() + 102);
+                            } else {
+                                break;
+                            }
+                        case '8':
+                            selectedClickChargeZones().From9(selectedClickChargeZones().To8() + 1);
+                            if (selectedClickChargeZones().To8() >= selectedClickChargeZones().To9()) {
+                                selectedClickChargeZones().To9(selectedClickChargeZones().To8() + 102);
+                            } else {
+                                break;
+                            }
+                        case '9':
+                            selectedClickChargeZones().From10(selectedClickChargeZones().To9() + 1);
+                            if (selectedClickChargeZones().To9() >= selectedClickChargeZones().To10()) {
+                                selectedClickChargeZones().To10(selectedClickChargeZones().To9() + 102);
+                            } else {
+                                break;
+                            }
+                        case '10':
+                            selectedClickChargeZones().From11(selectedClickChargeZones().To10() + 1);
+                            if (selectedClickChargeZones().To10() >= selectedClickChargeZones().To11()) {
+                                selectedClickChargeZones().To11(selectedClickChargeZones().To10() + 102);
+                            } else {
+                                break;
+                            }
+                        case '11':
+                            selectedClickChargeZones().From12(selectedClickChargeZones().To11() + 1);
+                            if (selectedClickChargeZones().To11() >= selectedClickChargeZones().To12()) {
+                                selectedClickChargeZones().To12(selectedClickChargeZones().To11() + 102);
+                            } else {
+                                break;
+                            }
+                        case '12':
+                            selectedClickChargeZones().From13(selectedClickChargeZones().To12() + 1);
+                            if (selectedClickChargeZones().To12() >= selectedClickChargeZones().To13()) {
+                                selectedClickChargeZones().To13(selectedClickChargeZones().To12() + 102);
+                            } else {
+                                break;
+                            }
+                        case '13':
+                            selectedClickChargeZones().From14(selectedClickChargeZones().To13() + 1);
+                            if (selectedClickChargeZones().To13() >= selectedClickChargeZones().To14()) {
+                                selectedClickChargeZones().To14(selectedClickChargeZones().To13() + 102);
+                            } else {
+                                break;
+                            }
+                        case '14':
+                            selectedClickChargeZones().From15(selectedClickChargeZones().To14() + 1);
+                            if (selectedClickChargeZones().To14() >= selectedClickChargeZones().To15()) {
+                                selectedClickChargeZones().To15(selectedClickChargeZones().To14() + 102);
+                            } else {
+                                break;
+                            }
+                        case '15':
+                            break;
+                    }
+                }
 
                 DeleteGuillotinePTV = function (oGuillotinePTV) {
-                    if (!(oGuillotinePTV.Id())>0) {
-                        GuillotinePTVList.remove(oGuillotinePTV);
-                       return;
+                    if (!(oGuillotinePTV.Id()) > 0) {
+                        selectedGuillotineClickCharge().GuillotinePTVList.remove(oGuillotinePTV);
+                        return;
                     }
                     // Ask for confirmation
 
@@ -143,7 +244,12 @@
                         },
                         {
                             success: function (data) {
-                                GuillotinePTVList.remove(oGuillotinePTV);
+                                selectedGuillotineClickCharge().GuillotinePTVList.remove(oGuillotinePTV);
+
+                                //_.each(selectedGuillotineClickCharge().GuillotinePTVList(), function (item) {
+                                //    item.reset;
+                                //});
+                                selectedGuillotineClickCharge().reset;
                                 toastr.success(" Deleted Successfully !");
 
                             },
@@ -158,54 +264,60 @@
                     confirmation.show();
 
 
-                    
-                   
+
+
                 }
-                   AddLookup = function (Id) {
-                         selectedlookup(null);
-                         selectedSpeedWeight(null);
-                         selectedClickCharge(null);
-                         selectedClickChargeZones(null);
-                         selectedMeterPerHourClickCharge(null);
-                         selectedPerHour(null);
-                         selectedGuillotineClickCharge(null);
-                         isClickChargeEditorVisible(false);
-                         isSpeedWeightEditorVisible(false);
-                         isPerHourEditorVisible(false);
-                         isClickChargeZonesEditorVisible(false);
-                         isGuillotineClickChargeEditorVisible(false);
-                         isMeterPerHourClickChargeEditorVisible(false);
-                         selectedlookup(model.lookupMethod());
-                         if (Id == 1) {
-                             isClickChargeEditorVisible(true);
-                             selectedClickCharge(model.ClickChargeLookup());
-                             selectedlookup().Type(1);
-                         } else if (Id == 3) {
-                             isSpeedWeightEditorVisible(true);
-                             selectedSpeedWeight(model.SpeedWeightLookup());
-                             selectedlookup().Type(3);
-                         } else if (Id == 4) {
-                             isPerHourEditorVisible(true);
-                             selectedPerHour(model.PerHourLookup());
-                             selectedlookup().Type(4);
-                         } else if (Id == 5) {
-                             isClickChargeZonesEditorVisible(true);
-                             selectedClickChargeZones(model.ClickChargeZone());
-                             selectedlookup().Type(5);
-                         } else if (Id == 6) {
-                                 isGuillotineClickChargeEditorVisible(true);
-                                 selectedGuillotineClickCharge(model.GuillotineCalc());
-                                 GuillotinePTVList.removeAll();
-                             selectedlookup().Type(6);
-                         } else if (Id == 8) {
-                              isMeterPerHourClickChargeEditorVisible(true);
-                              selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
-                              selectedlookup().Type(8);
-                         } 
-                         
+                AddLookup = function (Id) {
+                    selectedlookup(null);
+                    selectedSpeedWeight(null);
+                    selectedClickCharge(null);
+                    selectedClickChargeZones(null);
+                    selectedMeterPerHourClickCharge(null);
+                    selectedPerHour(null);
+                    selectedGuillotineClickCharge(null);
+                    isClickChargeEditorVisible(false);
+                    isSpeedWeightEditorVisible(false);
+                    isPerHourEditorVisible(false);
+                    isClickChargeZonesEditorVisible(false);
+                    isGuillotineClickChargeEditorVisible(false);
+                    isMeterPerHourClickChargeEditorVisible(false);
+                    selectedlookup(model.lookupMethod());
+                    if (Id == 1) {
+                        isClickChargeEditorVisible(true);
+                        selectedClickCharge(model.ClickChargeLookup());
+                        selectedlookup().Type(1);
+                        sharedNavigationVM.initialize(selectedClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                    } else if (Id == 3) {
+                        isSpeedWeightEditorVisible(true);
+                        selectedSpeedWeight(model.SpeedWeightLookup());
+                        sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
+                        selectedlookup().Type(3);
+                    } else if (Id == 4) {
+                        isPerHourEditorVisible(true);
+                        selectedPerHour(model.PerHourLookup());
+                        selectedlookup().Type(4);
+                        sharedNavigationVM.initialize(selectedPerHour, function (saveCallback) { saveLookup(saveCallback); });
+                    } else if (Id == 5) {
+                        isClickChargeZonesEditorVisible(true);
+                        selectedClickChargeZones(model.ClickChargeZone());
+                        selectedlookup().Type(5);
+                        sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
+                    } else if (Id == 6) {
+                        isGuillotineClickChargeEditorVisible(true);
+                        selectedGuillotineClickCharge(model.GuillotineCalc());
+                        // selectedGuillotineClickCharge().GuillotinePTVList.removeAll();
+                        selectedlookup().Type(6);
+                        sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                    } else if (Id == 8) {
+                        isMeterPerHourClickChargeEditorVisible(true);
+                        selectedMeterPerHourClickCharge(model.MeterPerHourLookup());
+                        selectedlookup().Type(8);
+                        sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+                    }
 
 
-                     }
+
+                }
                 GetLookupList = function () {
 
                     dataservice.GetLookup({
@@ -271,6 +383,27 @@
                     });
                 },
                 GetMachineLookupById = function (olookup) {
+
+
+                    if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
+
+                        return oncloseEditor(olookup);
+
+                    } else {
+                        onCancal(olookup);
+
+                    }
+
+
+
+
+
+
+
+
+
+                },
+                onCancal = function (olookup) {
                     selectedSpeedWeight(null);
                     selectedClickCharge(null);
                     selectedClickChargeZones(null);
@@ -290,31 +423,33 @@
                         success: function (data) {
                             selectedlookup(olookup);
                             IsSelected(true);
+                            CurrencySymbol(data.CurrencySymbol);
                             if (data.ClickChargeLookup != null) {
                                 isClickChargeEditorVisible(true);
-                               
+
                                 selectedClickCharge(model.ClickChargeLookup(data.ClickChargeLookup));
+                                sharedNavigationVM.initialize(selectedClickCharge, function (saveCallback) { saveLookup(saveCallback); });
                             } else if (data.ClickChargeZone != null) {
                                 isClickChargeZonesEditorVisible(true);
                                 selectedClickChargeZones(model.ClickChargeZone(data.ClickChargeZone));
+                                sharedNavigationVM.initialize(selectedClickChargeZones, function (saveCallback) { saveLookup(saveCallback); });
                             } else if (data.GuillotineCalc != null) {
                                 isGuillotineClickChargeEditorVisible(true);
-                                selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc));
-                                GuillotinePTVList.removeAll();
-                                if (data.GuilotinePtv != null) {
-                                    _.each(data.GuilotinePtv, function (item) {
-                                        GuillotinePTVList.push(model.GuillotineClickPTV(item));
-                                    });
-                                }
-                             } else if (data.MeterPerHourLookup != null) {
+                                selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc, data.GuilotinePtv));
+                                sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
+
+                            } else if (data.MeterPerHourLookup != null) {
                                 isMeterPerHourClickChargeEditorVisible(true);
                                 selectedMeterPerHourClickCharge(model.MeterPerHourLookup(data.MeterPerHourLookup));
+                                sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
                             } else if (data.PerHourLookup != null) {
                                 isPerHourEditorVisible(true);
                                 selectedPerHour(model.PerHourLookup(data.PerHourLookup));
+                                sharedNavigationVM.initialize(selectedPerHour, function (saveCallback) { saveLookup(saveCallback); });
                             } else if (data.SpeedWeightLookup != null) {
                                 isSpeedWeightEditorVisible(true);
                                 selectedSpeedWeight(model.SpeedWeightLookup(data.SpeedWeightLookup));
+                                sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
 
                             }
 
@@ -324,61 +459,80 @@
                             toastr.error("Error: Failed to Load Lookup List Data." + response);
                         }
                     });
-                },
-                doBeforeSave = function () {
-                     var flag = true;
-                     if (!selectedlookup().isValid()) {
-                         selectedlookup().errors.showAllMessages();
-                         setValidationSummary(selectedlookup());
-                         flag = false;
-                     }
-                     
-                     return flag;
-                 },
-                saveLookup = function () {
-                     if (selectedlookup() != undefined && doBeforeSave()) {
-                         if (selectedlookup().MethodId() > 0) {
-                             saveEdittedLookup();
-                         }
-                         else {
+                }
 
-                             saveNewLookup();
-                         }
-                     }
-                 },
+                oncloseEditor = function (olookup) {
+                    if (selectedSpeedWeight() != null && selectedSpeedWeight().hasChanges() || selectedClickCharge() != null && selectedClickCharge().hasChanges() || selectedClickChargeZones() != null && selectedClickChargeZones().hasChanges() || selectedMeterPerHourClickCharge() != null && selectedMeterPerHourClickCharge().hasChanges() || selectedPerHour() != null && selectedPerHour().hasChanges() || selectedGuillotineClickCharge() != null && selectedGuillotineClickCharge().hasChanges()) {
+
+                        confirmation.messageText("Do you want to save changes?");
+                        confirmation.afterProceed(saveLookup);
+                        confirmation.afterCancel(function () {
+                            //selectedSpeedWeight().reset();
+                            onCancal(olookup);
+                            return true;
+                        });
+                        confirmation.show();
+                        return false;
+                    } else {
+                        onCancal(olookup);
+                    }
+
+                },
+
+                doBeforeSave = function () {
+                    var flag = true;
+                    if (!selectedlookup().isValid()) {
+                        selectedlookup().errors.showAllMessages();
+                        setValidationSummary(selectedlookup());
+                        flag = false;
+                    }
+
+                    return flag;
+                },
+                saveLookup = function () {
+                    if (selectedlookup() != undefined && doBeforeSave()) {
+                        if (selectedlookup().MethodId() > 0) {
+                            saveEdittedLookup();
+                        }
+                        else {
+
+                            saveNewLookup();
+                        }
+                    }
+                },
                 saveEdittedLookup = function () {
 
-                      dataservice.saveLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), GuillotinePTVList()), {
-                          success: function (data) {
-                              errorList.removeAll();
-                              selectedSpeedWeight(null);
-                              selectedClickCharge(null);
-                              selectedClickChargeZones(null);
-                              selectedMeterPerHourClickCharge(null);
-                              selectedPerHour(null);
-                              selectedGuillotineClickCharge(null);
-                              isClickChargeEditorVisible(false);
-                              isSpeedWeightEditorVisible(false);
-                              isPerHourEditorVisible(false);
-                              isClickChargeZonesEditorVisible(false);
-                              isGuillotineClickChargeEditorVisible(false);
-                              isMeterPerHourClickChargeEditorVisible(false);
-                              IsSelected(false);
-                              toastr.success("Successfully Saved.");
+                    dataservice.saveLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), selectedGuillotineClickCharge() != null ? selectedGuillotineClickCharge().GuillotinePTVList() : null), {
+                        success: function (data) {
+                            errorList.removeAll();
+                            selectedSpeedWeight(null);
+                            selectedClickCharge(null);
+                            selectedClickChargeZones(null);
+                            selectedMeterPerHourClickCharge(null);
+                            selectedPerHour(null);
+                            selectedGuillotineClickCharge(null);
+                            isClickChargeEditorVisible(false);
+                            isSpeedWeightEditorVisible(false);
+                            isPerHourEditorVisible(false);
+                            isClickChargeZonesEditorVisible(false);
+                            isGuillotineClickChargeEditorVisible(false);
+                            isMeterPerHourClickChargeEditorVisible(false);
+                            IsSelected(false);
+                            toastr.success("Successfully Saved.");
 
-                         },
-                          error: function (exceptionMessage, exceptionType) {
-                              if (exceptionType === ist.exceptionType.MPCGeneralException) {
-                                  toastr.error(exceptionMessage);
-                              } else {
-                                  toastr.error("Failed to save.");
-                              }
-                          }
-                      });
-                  },
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+                                toastr.error(exceptionMessage);
+                            } else {
+                                toastr.error("Failed to save.");
+                            }
+                        }
+                    });
+                },
                 saveNewLookup = function () {
 
-                    dataservice.saveNewLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), GuillotinePTVList()), {
+                    dataservice.saveNewLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), selectedGuillotineClickCharge() != null ? selectedGuillotineClickCharge().GuillotinePTVList() : null), {
                         success: function (data) {
                             errorList.removeAll();
                             selectedSpeedWeight(null);
@@ -412,7 +566,7 @@
                                 }
 
                             }
-                           
+
                             toastr.success("Successfully Saved.");
 
                         },
@@ -424,7 +578,7 @@
                             }
                         }
                     });
-                    }
+                }
 
                 return {
                     initialize: initialize,
@@ -461,12 +615,15 @@
                     isClickChargeZonesEditorVisible: isClickChargeZonesEditorVisible,
                     isGuillotineClickChargeEditorVisible: isGuillotineClickChargeEditorVisible,
                     isMeterPerHourClickChargeEditorVisible: isMeterPerHourClickChargeEditorVisible,
-                    GuillotinePTVList: GuillotinePTVList,
+                    onChangeToValue: onChangeToValue,
                     AddLookup: AddLookup,
                     AddGuiltineLookup: AddGuiltineLookup,
                     DeleteGuillotinePTV: DeleteGuillotinePTV,
                     IsSelected: IsSelected,
-                    DeleteLookup: DeleteLookup
+                    DeleteLookup: DeleteLookup,
+                    oncloseEditor: oncloseEditor,
+                    onCancal: onCancal,
+                    CurrencySymbol: CurrencySymbol
                 }
             })()
         };

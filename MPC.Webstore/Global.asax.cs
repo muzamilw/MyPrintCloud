@@ -158,11 +158,11 @@ namespace MPC.Webstore
                 
                 if (StoreBaseResopnse.Company != null)
                 {
-                    UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
-                    UserCookieManager.StoreMode = StoreBaseResopnse.Company.IsCustomer;
+                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-                    UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
+                    UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
                     //UserCookieManager.OrganisationLanguageIdentifier = "_" + UserCookieManager.OrganisationID.ToString();
                     // set global language of store
 
