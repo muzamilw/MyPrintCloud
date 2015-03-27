@@ -89,6 +89,13 @@ namespace MPC.Repository.Repositories
                               .Include("ItemStateTaxes.State")
                               .Include("ItemRelatedItems")
                               .Include("ItemRelatedItems.RelatedItem")
+                              .Include("Template")
+                              .Include("Template.TemplatePages")
+                              .Include("ItemImages")
+                              .Include("ItemVdpPrices")
+                              .Include("ItemVideos")
+                              .Include("ItemProductDetails")
+                              .Include("ItemPriceMatrices")
                               .FirstOrDefault(item => item.ItemId == itemId);
             }
             catch (Exception ex)
@@ -1372,6 +1379,20 @@ namespace MPC.Repository.Repositories
                 return db.Items.Include("ItemPriceMatrices")
                                    .Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null)
                                    .FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            //return db.Items.Include("ItemPriceMatrices").Include("ItemSections").Where(i => i.IsPublished == true && i.ItemId == itemId && i.EstimateId == null).FirstOrDefault();
+
+        }
+        public Item GetItemByItemID(long itemId)
+        {
+            try
+            {
+                return db.Items.Where(s => s.ItemId == itemId).FirstOrDefault();
             }
             catch (Exception ex)
             {
@@ -4189,6 +4210,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
 
+        }
+
+        public void DeleteItemBySP(long ItemID)
+        {
+            try
+            {
+                db.usp_DeleteProduct(ItemID);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

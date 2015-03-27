@@ -19,7 +19,7 @@
             <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the name of the Lookup method</label>
         </div>
         <div class="col-lg-5" data-bind="with:$root.selectedlookup() ">
-            <input type="text" name="Store Name" class="form-control" data-bind="value:Name" placeholder="Click Chnage Lookup">
+            <input type="text" name="Store Name" class="form-control" data-bind="value:Name" placeholder="Click Charge Lookup">
         </div>
     </div>
 
@@ -33,7 +33,7 @@
             <label for="txtCompanyName" class="control-label text-right tooltip-float">Enter the number of chargeable sheets</label>
         </div>
         <div class="col-lg-5">
-            <input type="text" class="form-control"  data-bind="value:Sheets" placeholder="Chargeable Sheets">
+            <input type="text" class="form-control" data-bind="autoNumeric: Sheets , settings:{mDec:0}" placeholder="Chargeable Sheets">
         </div>
     </div>
 
@@ -50,7 +50,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" class="form-control"  data-bind="value:SheetCost" placeholder="Cost Chargeable Sheet">
+                <input type="text" class="form-control" data-bind="autoNumeric: SheetCost , settings:{mDec:2}" placeholder="Cost Chargeable Sheet">
                 <span class="input-group-addon">.00</span>
             </div>
 
@@ -71,7 +71,7 @@
 
             <div class="input-group">
                 <span class="input-group-addon">$</span>
-                <input type="text" class="form-control"  data-bind="value:SheetPrice" placeholder="Price Chargeable Sheet">
+                <input type="text" class="form-control" data-bind="autoNumeric: SheetPrice , settings:{mDec:2}" placeholder="Price Chargeable Sheet">
                 <span class="input-group-addon">.00</span>
             </div>
 

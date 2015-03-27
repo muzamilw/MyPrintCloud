@@ -27,10 +27,20 @@ namespace MPC.MIS.Areas.Api
                 name: "ApiDefaultWithoutId",
                 routeTemplate: AreaName + "/{controller}"
             );
+          //  context.Routes.MapHttpRoute(
+          //    name: "ImportAPI",
+          //    routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}",
+          //    defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional }
+          //);
             context.Routes.MapHttpRoute(
-              name: "ZohaibAPICollerntro",
-              routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}",
-              defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional }
+              name: "ImportStoreAPI",
+              routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}/{parameter3}/{parameter4}/{parameter5}",
+              defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional, parameter3 = UrlParameter.Optional, parameter4 = UrlParameter.Optional,parameter5 = UrlParameter.Optional }
+          );
+            context.Routes.MapHttpRoute(
+              name: "DeleteAPI",
+              routeTemplate: AreaName + "/{controller}/{action}/{Id1}/{Id2}",
+              defaults: new { parameter1 = UrlParameter.Optional, Id1 = UrlParameter.Optional, Id2 = UrlParameter.Optional }
           );
         }
     }

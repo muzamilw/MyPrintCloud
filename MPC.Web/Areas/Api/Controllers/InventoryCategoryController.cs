@@ -4,6 +4,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.ExceptionHandling;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -38,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Stock Categories
         /// </summary>
         /// <returns></returns>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
         public StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
             var result = stockCategoryService.GetAll(request);
@@ -54,6 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="stockCategory"></param>
         /// <returns></returns>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
         public StockCategory Post(StockCategory stockCategory)
         {
             if (ModelState.IsValid)
@@ -85,6 +88,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
         public bool Delete(StockCategoryRequestModel model)
         {
             if (ModelState.IsValid)

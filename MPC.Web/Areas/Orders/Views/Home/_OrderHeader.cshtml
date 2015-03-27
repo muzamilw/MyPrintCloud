@@ -106,10 +106,7 @@
                     </div>
                 </div>
                 <div class="col-lg-5">
-                    <div class="col-lg-2">
-                        <label class="control-label">Code</label>
-                    </div>
-                    <div class="col-lg-6 text-left">
+                    <div class="col-lg-8 text-left">
                         <div>
                             <label class="form-control" style="border:none" id="code" data-bind="text: code"></label>
 
@@ -208,37 +205,36 @@
                     <div style="background-color:gainsboro; border-radius:3px">
                         <header class="main-box-header clearfix">
                             <div style="float:left;"><span style="font-size:24px">Products / Services in this Order</span></div>
-                            <div class=" btn-group" style="float:right; margin-right:-7px;margin-top:3px">
-                                <button type="button" class="btn btn-primary">Add New Item Line</button>
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <span class="caret"></span>
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
-                                    <li><a href="#" data-bind="click: $root.onAddCostCenter">Cost Center</a></li>
-                                    <li><a href="#">Inventory Item</a></li>
-                                </ul>
-                            </div>
                         </header>
                         <div class="main-box-body clearfix">
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
                                     <thead>
-                                        <tr>
-                                            <th><a href="#"><span>Product Name</span></a></th>
-                                            <th><span>Qty 1</span></th>
-                                            <th style="text-align:center;"><span>Status</span></th>
-                                            <th><span>Gross Total</span></th>
-                                            <th style="width:83px;">&nbsp;</th>
-                                        </tr>
+                                    <tr>
+                                        <th><a href="#"><span>Product Name</span></a></th>
+                                        <th><span>Qty 1</span></th>
+                                        <th><span>Gross Total</span></th>
+                                        <th style="width: 83px;">&nbsp;</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- ko template: { name: 'itemTemplate', foreach: items } -->
-                                        <!-- /ko -->
+                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
+                                    <!-- /ko -->
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class=" btn-group" style="float:left;margin-top:10px">
+                            <button type="button" class="btn btn-primary">Add New Item Line</button>
+                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
+                                <li><a href="#" data-bind="click: $root.onAddCostCenter">Cost Center</a></li>
+                                <li><a href="#">Inventory Item</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -269,9 +265,6 @@
             </td>
             <td>
                 <span data-bind="text: qty1"></span>
-            </td>
-            <td class="text-center">
-                <span class="label label-success" data-bind="text: statusName"></span>
             </td>
             <td>
                 <span data-bind="text: '$' + qty1NetTotal()"></span>

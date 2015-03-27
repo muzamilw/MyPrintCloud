@@ -574,6 +574,7 @@
     <Content Include="Content\Images\Glass.png" />
     <Content Include="Content\Images\GoogPluss.PNG" />
     <Content Include="Content\Images\linkedin.png" />
+    <Content Include="Content\Images\linkInShare.PNG" />
     <Content Include="Content\Images\Listing-next-horizoltal.png" />
     <Content Include="Content\Images\Listing-prev-horizoltal.png" />
     <Content Include="Content\Images\logout.png" />

@@ -1,6 +1,6 @@
 ﻿using MPC.MIS.Areas.Api.Models;
 using DomainModels = MPC.Models.DomainModels;
-
+using System.Linq;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -13,7 +13,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeId = source.TypeId,
                 TypeName = source.TypeName,
                 IsExternal = source.IsExternal,
-                IsSystem = source.IsSystem
+                IsSystem = source.IsSystem,
+                CostCentres = source.CostCentres != null ? source.CostCentres.Select(x => x.CreateFrom()).ToList() : null
             };
         }
 
@@ -24,7 +25,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TypeId = source.TypeId,
                 TypeName = source.TypeName,
                 IsExternal = source.IsExternal?? 0,
-                IsSystem = source.IsSystem ?? 0
+                IsSystem = source.IsSystem ?? 0,
+                CostCentres = source.CostCentres != null ? source.CostCentres.Select(x => x.CreateFrom()).ToList() : null
             };
         }
     }

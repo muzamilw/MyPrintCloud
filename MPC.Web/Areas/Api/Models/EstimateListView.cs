@@ -10,6 +10,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long EstimateId { get; set; }
         public string EstimateCode { get; set; }
         public string EstimateName { get; set; }
+        public short? StatusId { get; set; }
         public int? EnquiryId { get; set; }
         public long CompanyId { get; set; }
         public string CompanyName { get; set; }

@@ -746,6 +746,28 @@ namespace MPC.Repository.BaseRepository
             return perQtyQty.Value != null ? (double)perQtyQty.Value : 0;
         }
 
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteProduct(long? itemid)
+// ReSharper restore InconsistentNaming
+        {
+            var itemidParameter = itemid.HasValue ?
+                new ObjectParameter("itemid", itemid) :
+                new ObjectParameter("itemid", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteContactCompanyByID(int? selectedID)
+// ReSharper restore InconsistentNaming
+        {
+            var selectedIdParameter = selectedID.HasValue ?
+                new ObjectParameter("SelectedID", selectedID) :
+                new ObjectParameter("SelectedID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", selectedIdParameter);
+        }
+
         #endregion
     }
 }

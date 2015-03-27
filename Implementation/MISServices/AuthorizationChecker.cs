@@ -88,7 +88,7 @@ namespace MPC.Implementation.MISServices
         public bool HasValidCompany()
         {
             IEnumerable<OrganisationClaimValue> organisationClaimValues = ClaimHelper.GetClaimsByType<OrganisationClaimValue>(MpcClaimTypes.Organisation);
-            return organisationClaimValues != null && organisationClaimValues.First(org => org.OrganisationId > 0) != null;
+            return organisationClaimValues != null && organisationClaimValues.Any(org => org.OrganisationId > 0);
         }
 
         #endregion

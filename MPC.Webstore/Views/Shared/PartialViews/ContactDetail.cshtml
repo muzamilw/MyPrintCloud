@@ -423,6 +423,7 @@
                                     &nbsp;&nbsp;
 
                                     <input id="btnCancel" type="button" value="Cancel" class="start_creating_btn rounded_corners5" tabindex="15" onclick="Cancel()" />
+                                    @*<input id="btnSubmitForm" type="submit" value="Cancel"  style="display:none;" tabindex="17"  />*@
                                 </div>
                             </div>
 
@@ -497,6 +498,9 @@
         $("#MessgeToDisply").css('visibility', 'visible');
         $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
       //  window.location.href = "/Dashboard";
+        // $("#btnSubmitForm").click();
+        createCookie("FirstName", FirstName);
+        createCookie("LastName", LastName);
     },
     error: function (error) {
         $("#MessgeToDisply").css('visibility', 'visible');
@@ -504,7 +508,16 @@
 }
 });
  
-}
+            }
+            function createCookie(name, value, days) {
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    var expires = "; expires=" + date.toGMTString();
+                }
+                else var expires = "";
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
             function UploadImage()
             {
 

@@ -8,11 +8,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
-using MPC.Models.Common;
+using MPC.WebBase.Mvc;
 using Newtonsoft.Json;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -36,6 +37,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyBaseResponse Get(long companyId)
         {
             if (!ModelState.IsValid)
@@ -64,17 +67,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
             return new CompanyBaseResponse
                    {
-                       //SystemUsers = result.SystemUsers.Select(x => x.CreateFrom()),
                        CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(x => x.CreateFrom()) : new List<CompanyTerritory>(),
-                       //CompanyContactRoles = result.CompanyContactRoles.Select(x => x.CreateFrom()),
-                       // PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : null,
-                       // RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) : null,
                        Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
-                       // EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : null,
-                       // Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : null,
-                       // CostCenterDropDownList = result.CostCentres != null ? result.CostCentres.Select(x => x.CostCentreDropDownCreateFrom()) : null,
-                       // Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : null,
-                       // States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : null,
                        FieldVariableResponse = result.FieldVariableResponse.CreateFrom(),
                        SmartFormResponse = result.SmartFormResponse.CreateFrom(),
                        FieldVariableForSmartForms = result.FieldVariablesForSmartForm != null ? result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
@@ -82,6 +76,9 @@ namespace MPC.MIS.Areas.Api.Controllers
                        Themes = themes ?? new List<SkinForTheme>()
                    };
         }
+
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public CompanyBaseResponse Get()
         {
             if (!ModelState.IsValid)
@@ -109,7 +106,6 @@ namespace MPC.MIS.Areas.Api.Controllers
                 PageCategories = result.PageCategories != null ? result.PageCategories.Select(x => x.CreateFromDropDown()) : new List<PageCategoryDropDown>(),
                 RegistrationQuestions = result.RegistrationQuestions != null ? result.RegistrationQuestions.Select(x => x.CreateFromDropDown()) :
                 new List<RegistrationQuestionDropDown>(),
-               // Addresses = result.Addresses != null ? result.Addresses.Select(x => x.CreateFrom()) : new List<Address>(),
                 EmailEvents = result.EmailEvents != null ? result.EmailEvents.Select(x => x.CreateFrom()) : new List<EmailEvent>(),
                 Widgets = result.Widgets != null ? result.Widgets.Select(x => x.CreateFrom()) : new List<Widget>(),
                 DefaultSpriteImage = bytes,
@@ -118,8 +114,6 @@ namespace MPC.MIS.Areas.Api.Controllers
                 Countries = result.Countries != null ? result.Countries.Select(x => x.CreateFromDropDown()) : new List<CountryDropDown>(),
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
-                // CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(cmspage => cmspage.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
-                // Themes = themes,
                 PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>(),
                 SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>()
             };
