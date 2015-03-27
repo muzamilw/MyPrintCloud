@@ -552,7 +552,7 @@
                                             </footer>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-lg-12">
                                         <h3 class="group-header">Addresses</h3>
                                         <div class="col-lg-12 clearfix">
@@ -774,7 +774,7 @@
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <!-- ko if: $root.themes().length > 0 -->
-                                                    <select class="form-control" data-bind="options: $root.themes, optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>
+                                                    <select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>
                                                     <!-- /ko -->
                                                 </div>
                                                 <div class="col-lg-3">
@@ -2126,6 +2126,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     <a href="#" class="store-user-link" data-bind="text: pageTitle,click : $root.onEditSecondaryPage"></a>
                     <a href="#" class="store-user-link storeSubText" data-bind="text: metaTitle,click : $root.onEditSecondaryPage"></a>
                 </td>
+                <td data-bind="text:categoryName, visible: isUserDefined"></td>
                 <td class="text-center">
                     <span class="label" data-bind="text: isEnabled() ? 'Active' : 'In-Active', css:{ 'label-success': isEnabled, 'label-danger': !isEnabled() }"></span>
                 </td>

@@ -4722,9 +4722,6 @@ namespace MPC.Repository.Repositories
 
                                     }
 
-
-
-
                                 }
 
                             }
@@ -4772,8 +4769,11 @@ namespace MPC.Repository.Repositories
                         Directory.CreateDirectory(DestinationSpriteDirectory);
                         if (Directory.Exists(DestinationSpriteDirectory))
                         {
-                            if (!File.Exists(DestinationSpriteFile))
-                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            if (File.Exists(SourceSiteFile))
+                            {
+                                if (!File.Exists(DestinationSpriteFile))
+                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            }
 
                         }
                         else
@@ -4790,8 +4790,11 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        if (!File.Exists(DestinationSpriteFile))
-                            File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        if (File.Exists(SourceSpriteFile))
+                        {
+                            if (!File.Exists(DestinationSpriteFile))
+                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        }
                     }
                 }
 

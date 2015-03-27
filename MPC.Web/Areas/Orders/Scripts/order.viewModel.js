@@ -17,6 +17,8 @@ define("order/order.viewModel",
                     costCentres = ko.observableArray([]),
                     // flag colors
                     sectionFlags = ko.observableArray([]),
+                    // Markups
+                    markups = ko.observableArray([]),
                     // company contacts
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
@@ -25,6 +27,8 @@ define("order/order.viewModel",
                     systemUsers = ko.observableArray([]),
                     // Pipeline Sources
                     pipelineSources = ko.observableArray([]),
+                    // Payment Methods
+                    paymentMethods = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // Job Statuses
@@ -89,16 +93,29 @@ define("order/order.viewModel",
                     filterText = ko.observable(),
                      // Selected Product
                     selectedProduct = ko.observable(model.Item.Create({})),
+                    // Base Charge 1 Total
+                    baseCharge1Total = ko.observable(0),
+                    // Base Charge 2 Total
+                    baseCharge2Total = ko.observable(0),
+                    // Base Charge 3 Total
+                    baseCharge3Total = ko.observable(0),
+                    // Selected Markup 1
+                    selectedMarkup1 = ko.observable(0),
+                    // Selected Markup 2
+                    selectedMarkup2 = ko.observable(0),
+                    // Selected Markup 3
+                    selectedMarkup3 = ko.observable(0),
                     costCentrefilterText = ko.observable(),
                     selectedCostCentre = ko.observable(),
                     orderCodeHeader = ko.observable(''),
                     itemCodeHeader = ko.observable(''),
                     sectionHeader = ko.observable(''),
+                    currencySymbol = ko.observable(''),
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
                     pageHeader = ko.computed(function () {
-                            return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
+                        return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -136,7 +153,7 @@ define("order/order.viewModel",
 
                         return contactResult || defaultCompanyContact();
                     }),
-                   
+
                     // Selected Section
                     selectedSection = ko.observable(),
                     // Selected Job Description
@@ -145,6 +162,8 @@ define("order/order.viewModel",
                     currentScreen = ko.observable(),
                     //Selected Filter Flag on List View
                     selectedFilterFlag = ko.observable(0),
+                    // Active Pre Payment
+                    selectedPrePayment = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
@@ -222,12 +241,21 @@ define("order/order.viewModel",
                     editItem = function (item) {
                         itemCodeHeader(item.code());
                         selectedProduct(item);
+                        calculateSectionChargeTotal();
                         openItemDetail();
                     },
                     // Open Item Detail
                     openItemDetail = function () {
                         isItemDetailVisible(true);
                         view.initializeLabelPopovers();
+                    },
+                    // Calculates Section Charges 
+                    calculateSectionChargeTotal= function() {
+                        _.each(selectedProduct().itemSections(), function (item) {
+                            baseCharge1Total(baseCharge1Total() + (item.baseCharge1() !== undefined && item.baseCharge1()!=="" ? item.baseCharge1():0));
+                            baseCharge2Total(baseCharge2Total() + (item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0));
+                            baseCharge3Total(baseCharge3Total() + (item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0));
+                        });
                     },
                     // Close Item Detail
                     closeItemDetail = function () {
@@ -250,7 +278,7 @@ define("order/order.viewModel",
                     },
                     // Edit Section
                     editSection = function (item) {
-                        sectionHeader("SECTION - "+item.sectionNo());
+                        sectionHeader("SECTION - " + item.sectionNo());
                         selectedSection(item);
                         openSectionDetail();
                     },
@@ -382,9 +410,6 @@ define("order/order.viewModel",
 
                         // Get Base Data
                         getBaseData();
-
-                        // Get Orders
-                        getOrders(0);
                     },
                     // #endregion
                     // #region ServiceCalls
@@ -401,6 +426,17 @@ define("order/order.viewModel",
                                 if (data.PipeLineSources) {
                                     mapList(pipelineSources, data.PipeLineSources, model.PipeLineSource);
                                 }
+                                paymentMethods.removeAll();
+                                if (data.PaymentMethods) {
+                                    ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
+                                    paymentMethods.valueHasMutated();
+                                }
+                                if (data.Markups) {
+                                    _.each(data.Markups, function (item) {
+                                        markups.push(item);
+                                    });
+                                }
+                                currencySymbol(data.CurrencySymbol);
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -423,6 +459,7 @@ define("order/order.viewModel",
                     },
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
+                        selectedOrder().statusId(view.orderstate());
                         var order = selectedOrder().convertToServerData();
                         dataservice.saveOrder(order, {
                             success: function (data) {
@@ -494,7 +531,7 @@ define("order/order.viewModel",
                         });
                     },
                     //get Orders Of Current Screen
-                    getOrdersOfCurrentScreen= function() {
+                    getOrdersOfCurrentScreen = function () {
                         getOrders(currentScreen());
                     },
                     // Get Orders
@@ -533,6 +570,7 @@ define("order/order.viewModel",
                             success: function (data) {
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data));
+                                    view.setOrderState(selectedOrder().statusId());
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -625,7 +663,7 @@ define("order/order.viewModel",
                      },
                      hideCostCentreDialog = function () {
                          view.hideRCostCentersDialog();
-                    },
+                     },
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
@@ -655,6 +693,50 @@ define("order/order.viewModel",
                         view.hideProductFromRetailStoreModal();
                     };
 
+                //#endregion
+                //#region Pre Payment
+                showOrderPrePaymentModal = function () {
+                    selectedPrePayment(model.PrePayment());
+                    view.showOrderPrePaymentModal();
+                },
+                    hideOrderPrePaymentModal = function () {
+                        view.hideOrderPrePaymentModal();
+                    },
+                //Create Order Pre Payment
+                    onCreateOrderPrePayment = function () {
+                        showOrderPrePaymentModal();
+                    },
+                // Close Order Pre Payment
+                    onCancelOrderPrePayment = function () {
+                        hideOrderPrePaymentModal();
+                    },
+                // Edit Pre Payment
+                onEditPrePayment = function (prePayment) {
+                    selectedPrePayment(prePayment);
+                    view.showOrderPrePaymentModal();
+                },
+                //On Save Pre Payment
+                    onSavePrePayment = function (prePayment) {
+                        if (dobeforeSavePrePayment()) {
+                            var paymentMethod = _.find(paymentMethods(), function(item) {
+                                return item.PaymentMethodId === prePayment.paymentMethodId();
+                            });
+                            if (paymentMethod) {
+                                prePayment.paymentMethodName(prePayment.MethodName);
+                            }
+                            selectedOrder().prePayments.splice(0, 0, prePayment);
+                            hideOrderPrePaymentModal();
+                        }
+                    },
+                // Do Before Save
+                    dobeforeSavePrePayment = function () {
+                        var flag = true;
+                        if (!selectedPrePayment().isValid()) {
+                            selectedPrePayment().errors.showAllMessages();
+                            flag = false;
+                        }
+                        return flag;
+                    };
                 //#endregion
                 //#endregion
 
@@ -714,9 +796,9 @@ define("order/order.viewModel",
                     flagSelection: flagSelection,
                     filterFlags: filterFlags,
                     selectedFilterFlag: selectedFilterFlag,
-                    orderCodeHeader : orderCodeHeader ,
-                    itemCodeHeader :itemCodeHeader,
-                    sectionHeader :sectionHeader,
+                    orderCodeHeader: orderCodeHeader,
+                    itemCodeHeader: itemCodeHeader,
+                    sectionHeader: sectionHeader,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -737,8 +819,23 @@ define("order/order.viewModel",
                     selectedCostCentre: selectedCostCentre,
                     hideCostCentreQuantityDialog: hideCostCentreQuantityDialog,
                     hideCostCentreDialog: hideCostCentreDialog,
-                    selectedSection: selectedSection
+                    selectedSection: selectedSection,
+                    baseCharge1Total: baseCharge1Total,
+                    baseCharge2Total: baseCharge2Total,
+                    baseCharge3Total: baseCharge3Total,
+                    markups: markups,
+                    selectedMarkup1: selectedMarkup1,
+                    selectedMarkup2: selectedMarkup2,
+                    selectedMarkup3: selectedMarkup3,
                     //#endregion
+                    //#region Pre Payment
+                    paymentMethods: paymentMethods,
+                    onCreateOrderPrePayment: onCreateOrderPrePayment,
+                    onCancelOrderPrePayment: onCancelOrderPrePayment,
+                    currencySymbol: currencySymbol,
+                    selectedPrePayment: selectedPrePayment,
+                    onSavePrePayment: onSavePrePayment,
+                    onEditPrePayment: onEditPrePayment,
                     //#endregion
                 };
             })()
