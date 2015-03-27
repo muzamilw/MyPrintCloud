@@ -350,7 +350,7 @@ function k28() {
         });
 }
 function k29(divID, itemID, itemName, Container) {
-    var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="'+itemID+'"><label for="' + itemID + '">' + itemName + '</label></div>';
+    var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="' + itemID + '" style="  margin-right: 5px;"><label for="' + itemID + '">' + itemName + '</label></div>';
     $('#' + divID).append(html);
     $('#' + Container).css("display", "block");
 }

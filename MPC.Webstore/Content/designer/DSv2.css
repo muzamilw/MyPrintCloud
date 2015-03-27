@@ -6888,3 +6888,13 @@ font-size: 13px;
     padding-top: 8px;
     padding-bottom: 4px;
 }
+
+.checkboxRowsTxt
+{
+  margin-top: 5px;
+  margin-left: -4px;
+  /* clear: both; */
+  display: inline-block;
+  float: left;
+  width: 150px;
+}
