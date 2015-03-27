@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -30,6 +32,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         #endregion
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewSupplier })]
         public CrmSupplierResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = crmSupplierService.GetAllCompaniesOfOrganisation(request);

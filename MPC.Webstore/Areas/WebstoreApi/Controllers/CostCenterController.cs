@@ -437,6 +437,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 {
 
                 }
+                UserCookieManager.ContactFirstName = FirstName;
+
+                UserCookieManager.ContactLastName = LastName;
             }
             catch (Exception ex)
             {

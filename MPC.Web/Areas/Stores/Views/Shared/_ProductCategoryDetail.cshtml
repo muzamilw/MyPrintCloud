@@ -784,7 +784,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+        <div class="modal-footer">
+            <button class="btn btn-danger" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategory()!=undefined && $root.selectedProductCategory().productCategoryId() > 0">Archive</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>

@@ -43,18 +43,6 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
 
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [HttpPost]
-        public void InsertOrganisation(long parameter1, bool parameter2)
-        {
-            myCompanyService.ImportOrganisation(parameter1, parameter2);
-        }
-
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [HttpPost]
-        public void ExportOrganisation(long parameter1)
-        {
-            myCompanyService.ExportOrganisation(parameter1);
-        }
+    
     }
 }

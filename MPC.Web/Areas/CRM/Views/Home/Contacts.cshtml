@@ -40,14 +40,16 @@
                                     <!-- ko  foreach: $root.companyContactsForListView  -->
                                     <tr>
                                         <td>
-                                            <img data-bind="attr: { src: image }" alt="" />
-                                            <a class="user-link" data-bind="text: firstName "></a> 
-                                            <span data-bind="text:companyName"></span> 
+                                            <img data-bind="attr: { src: image }" alt=""/>
+                                        </td>
+                                        <td>
+                                            <a class="user-link" data-bind="text: firstName "></a>
+                                            <span data-bind="text:companyName"></span>
                                         </td>
                                         <td>
                                             <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
                                         </td>
-                                        <td style="width: 20%;">
+                                        <td class="pull-right">
                                             <a class="table-link">
                                                 <span class="fa-stack" data-bind="click:$root.editContactbuttonHandler">
                                                     <i class="fa fa-square fa-stack-2x"></i>
