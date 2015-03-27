@@ -20,7 +20,7 @@
                                     <li><a href="#tab-UserWorkFlow" data-toggle="tab">Workflow Settings</a></li>
                                     <li><a href="#tab-UserAddressInfoForContact" data-toggle="tab">Address Info</a></li>
                                     <li><a href="#tab-UserPurse" data-toggle="tab">User Purse </a></li>
-                                    <li><a href="#tab-ModifyVariable" data-toggle="tab">Modify Variable </a></li>
+                                    <li><a href="#tab-ModifyVariable" data-toggle="tab">User defined Fields </a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinfo">
@@ -216,8 +216,8 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h3 class="group-header">Quick text fields</h3>
-                                                <div class="col-lg-12 clearfix">
+                                                <h3 class="group-header" style="display:none">Quick text fields</h3>
+                                                <div class="col-lg-12 clearfix" style="display:none">
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
                                                             <div class="col-lg-5 text-right">
@@ -699,7 +699,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
+                                                        <label for="switchNewsLetter" class="control-label text-right tooltip-float">Subscribed to Newsletter ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -719,7 +719,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchMailLetter" class="control-label text-right tooltip-float">Mail Subscription</label>
+                                                        <label for="switchMailLetter" class="control-label text-right tooltip-float">Subscribed to Emails ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -739,7 +739,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Has Web Access</label>
+                                                        <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Can access webstore ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -759,7 +759,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
+                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order on webstore ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -779,7 +779,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Is Default Contact</label>
+                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Default Contact of Store ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -842,7 +842,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchCanPlaceOrderWOAPP" class="control-label text-right tooltip-float">Can Place Order Without Approval</label>
+                                                        <label for="switchCanPlaceOrderWOAPP" class="control-label text-right tooltip-float">Can Place Order Without Manager's Approval</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -862,7 +862,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile</label>
+                                                        <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile on Webstore ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">
@@ -882,7 +882,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Can Display Prices on Web store</label>
+                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Prices are displayed to this user on Webstore ?</label>
                                                     </div>
                                                     <div class="col-lg-4">
                                                         <div class="onoffswitch">

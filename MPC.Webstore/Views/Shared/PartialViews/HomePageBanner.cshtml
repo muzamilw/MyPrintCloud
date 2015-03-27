@@ -1,0 +1,44 @@
+﻿
+@model List<MPC.Models.DomainModels.CompanyBanner>
+@using MPC.Webstore.Common;
+<div class="slider-container">
+    <div class="content_area">
+        <div class="left_right_padding">
+            <div class="page_banner">
+                <div class="slider-wrapper">
+                    <a href="javascript:prevSlide();" class="slider-prev">«</a>
+                    <div id="sliderHomePage" class="slider">
+                        @foreach (var banner in Model)
+                        {
+                            <a id="hlItemUrl">
+                                <img id="imgBanner" class="slider_image" src="@banner.ImageURL" />
+                            </a>
+                            <h4>
+                                <label id="Heading">@banner.Heading</label>
+                            </h4>
+                            <p class="copy">
+                                <label id="Description">@banner.Description</label>
+                                <br />
+                                <br />
+                            </p>
+                            <p class="dashed">
+                                &nbsp;
+                            </p>
+                            <p class="button">
+                                <button id="btnStartCreating" class="btn_start_creating rounded_corners5" value="Start Creating"></button>
+                                <a id="hlButtonUrl">
+                                    <img id="Image1" src="/Content/Images/start-creating-print-product.png" />
+                                </a>
+                            </p>
+                        }
+                    </div>
+                    <a href="javascript:nextSlide();" class="slider-next">» </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
