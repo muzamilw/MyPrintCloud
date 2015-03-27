@@ -43,9 +43,7 @@ namespace MPC.Webstore.Controllers
             
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             
-          
             return PartialView("PartialViews/Banner", StoreBaseResopnse.Banners);
-   
         }
     }
 }
