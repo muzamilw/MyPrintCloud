@@ -1249,7 +1249,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //        }
             //    }
             //}),
-            webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
+            webAccessCode = ko.observable(specifiedWebAccessCode),//.extend({ required: true })
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -1344,7 +1344,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
-                webAccessCode: webAccessCode,
+                //webAccessCode: webAccessCode,
                 url: url,
             }),
             // Is Valid 
