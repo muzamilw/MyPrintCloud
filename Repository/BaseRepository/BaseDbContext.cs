@@ -566,7 +566,9 @@ namespace MPC.Repository.BaseRepository
         /// <summary>
         /// NAB Transaction DbSet
         /// </summary>
+// ReSharper disable InconsistentNaming
         public DbSet<NABTransaction> NABTransactions { get; set; }
+// ReSharper restore InconsistentNaming
 
         /// <summary>
         /// vw_SaveDesign DbSet
@@ -612,6 +614,26 @@ namespace MPC.Repository.BaseRepository
         /// MachineSpeedWeightLookup DbSet
         /// </summary>
         public DbSet<MachineSpeedWeightLookup> MachineSpeedWeightLookups { get; set; }
+
+        /// <summary>
+        /// Goods Received Note DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
+        
+        /// <summary>
+        /// Goods Received Note Detail DbSet
+        /// </summary>
+        public DbSet<GoodsReceivedNoteDetail> GoodsReceivedNoteDetails { get; set; }
+        
+        /// <summary>
+        /// Purchase DbSet
+        /// </summary>
+        public DbSet<Purchase> Purchases { get; set; }
+        
+        /// <summary>
+        /// Purchase Detail DbSet
+        /// </summary>
+        public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
         /// <summary>
         /// Clone Template Stored Procedure
