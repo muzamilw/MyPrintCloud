@@ -6875,3 +6875,26 @@ font-size: 13px;
       width: 201px;
   display: inline-block;
 }
+#territroyContainer {
+    display: none;
+}
+
+.ImgLbl {
+    width: 142px;
+    clear: none;
+    text-align: left;
+    clear: both;
+    float: left;
+    padding-top: 8px;
+    padding-bottom: 4px;
+}
+
+.checkboxRowsTxt
+{
+  margin-top: 5px;
+  margin-left: -4px;
+  /* clear: both; */
+  display: inline-block;
+  float: left;
+  width: 150px;
+}
