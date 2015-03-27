@@ -16,6 +16,10 @@ namespace MPC.Models.RequestModels
         /// </summary>
         public int Status { get; set; }
         /// <summary>
+        /// IsProspectOr Customer Screen
+        /// </summary>
+        public bool IsProspectOrCustomer { get; set; }
+        /// <summary>
         /// List View Filter For Status Flag
         /// </summary>
         public int FilterFlag { get; set; }

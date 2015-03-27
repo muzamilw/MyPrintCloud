@@ -2172,6 +2172,7 @@ define("crm/crm.viewModel",
                         CompanyId: selectedStore().companyId(),
                         PageSize: orderPager().pageSize(),
                         PageNo: orderPager().currentPage(),
+                        IsProspectOrCustomer: isProspectOrCustomerScreen(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
