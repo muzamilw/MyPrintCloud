@@ -59,7 +59,7 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate && StoreBaseResopnse.Company.isAllowRegistrationFromWeb == true) || (StoreBaseResopnse.Company.IsCustomer == 1))
             {
@@ -136,7 +136,7 @@ namespace MPC.Webstore.Controllers
             string returnUrl = string.Empty;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (ModelState.IsValid)
             {
                 CompanyContact user = null;
@@ -144,7 +144,7 @@ namespace MPC.Webstore.Controllers
                 
                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                 {
-                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.StoreId);
+                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.WBStoreId);
                 }
                 else
                 {
@@ -185,33 +185,39 @@ namespace MPC.Webstore.Controllers
             {
                 if (user.isArchived.HasValue && user.isArchived.Value == true)
                 {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.StoreId); // "Your account is archived.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultAddress", UserCookieManager.WBStoreId); // "Your account is archived.";
                     SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
                 {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
+                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.WBStoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
                     SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
                 else
                 {
+                    
                     UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.ContactFirstName = user.FirstName;
-                    UserCookieManager.ContactLastName = user.LastName == null ? "" : user.LastName;
+                    UserCookieManager.WEBContactFirstName = user.FirstName;
+                    UserCookieManager.WEBContactLastName = user.LastName == null ? "" : user.LastName;
                     UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                     UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
 
-                    UserCookieManager.Email = user.Email;
+                    UserCookieManager.WEBEmail = user.Email;
 
-                    long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
-
-                    if (Orderid > 0)
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
-                        UserCookieManager.TemporaryCompanyId = 0;
-                        Response.Redirect("/ShopCart/" + Orderid);
+                        long Orderid = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, user.CompanyId, user.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+
+                        if (Orderid > 0)
+                        {
+                            UserCookieManager.TemporaryCompanyId = 0;
+                            Response.Redirect("/ShopCart/" + Orderid);
+                        }
                     }
+
+                   
                     if (ReturnUrl == "Social")
                     {
                         RedirectToLocal(ReturnUrl);

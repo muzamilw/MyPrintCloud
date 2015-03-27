@@ -30,7 +30,7 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             CompanyContact Contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());      
 
@@ -47,7 +47,7 @@ namespace MPC.Webstore.Controllers
                 ViewData["Company"] = StoreBaseResopnse.Company;
             }
 
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreAuthorizationChecker.loginContactID() == 0)
             {
                 ViewBag.DefaultUrl = "/Login";
             }

@@ -84,7 +84,7 @@ namespace MPC.Webstore.Controllers
         {
               
          
-            SetUserClaim(UserCookieManager.OrganisationID);
+            SetUserClaim(UserCookieManager.WEBOrganisationID);
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
          
@@ -93,14 +93,14 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
             //iqra to fix the route of error page, consult khurram if required to get it propper.
-            if (UserCookieManager.StoreId != 0)
+            if (UserCookieManager.WBStoreId != 0)
             {
                 Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse> domainResponse = (cache.Get(CacheKeyName)) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>;
                 
                   
-                if (domainResponse.ContainsKey(UserCookieManager.StoreId))
+                if (domainResponse.ContainsKey(UserCookieManager.WBStoreId))
                 {
-                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.StoreId];
+                    MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = domainResponse[UserCookieManager.WBStoreId];
                     string pageRouteValue = (((System.Web.Routing.Route)(RouteData.Route))).Url.Split('{')[0];
                     if (!_webstoreAuthorizationChecker.isUserLoggedIn())
                     {
@@ -132,7 +132,7 @@ namespace MPC.Webstore.Controllers
             }
 
            
-            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.OrganisationID + "/" + UserCookieManager.StoreId + "/Site.css";  
+            ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/Site.css";  
             return View(model);
         }
 
@@ -379,7 +379,7 @@ namespace MPC.Webstore.Controllers
             {
                 // login 
 
-                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.Email,OrganisationID);
+                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail,OrganisationID);
 
                 if (loginUser != null)
                 {

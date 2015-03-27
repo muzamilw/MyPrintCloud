@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
                 string CacheKeyName = "CompanyBaseResponse";
                 ObjectCache cache = MemoryCache.Default;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
 
@@ -83,7 +83,7 @@ namespace MPC.Webstore.Controllers
                 ObjectCache cache = MemoryCache.Default;
 
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
                 OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
                 List<ArtWorkAttatchment> itemAttatchments = null;
@@ -126,7 +126,7 @@ namespace MPC.Webstore.Controllers
                  ObjectCache cache = MemoryCache.Default;
 
 
-                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                  OrganisationID = StoreBaseResopnse.Organisation.OrganisationId;
 
                  List<SaveDesignView> productList = _ItemService.GetSavedDesigns(_myClaimHelper.loginContactID());
@@ -164,7 +164,7 @@ namespace MPC.Webstore.Controllers
 
                     //new added
                     
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         OrderID = _IOrderService.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), string.Empty, OrganisationID);
                     }

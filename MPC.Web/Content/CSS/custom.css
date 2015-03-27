@@ -188,9 +188,30 @@ z-index:1000000011;
       
    .aligndivs
     {
-        display:inline;
-        float:left;
-        
-        margin-right:6px;
-        margin-bottom:10px;
+         display: inline;
+  float: left;
+  margin-right: 2px;
+  width: 66px;
     }
+   .aligndivsFisrt{
+       /*text-align:right;*/
+         width: 230px;
+  display: inline;
+  float: left;
+  margin-right: 40px;
+  
+   }
+
+   .textboxwidth
+   {
+      width: 66px!important;
+   }
+   .aligndivsCurr
+    {
+         display: inline;
+  float: left;
+  margin-right: 2px;
+  width: 100px;
+    }
+   .marginR10{margin-right: 10px!important ;}
+   .marginR7 {margin-right: 7px!important ;}
