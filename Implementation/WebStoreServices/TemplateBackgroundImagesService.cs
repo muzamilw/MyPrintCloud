@@ -410,7 +410,10 @@ namespace MPC.Implementation.WebStoreServices
             imgDescription = imgDescription.Replace("__", ",");
             return _templateImagesRepository.UpdateImage(imageID, imgTitle, imgDescription, imgKeywords, imType);
         }
-
+        public List<CompanyTerritory> getCompanyTerritories(long companyId)
+        {
+            return _templateImagesRepository.getCompanyTerritories(companyId);
+        }
         public string InsertUploadedImageRecord(string imageName, long productId, int uploadedFrom, long contactId, long organisationId, int imageType, long contactCompanyID)
         {
             var result = "false";
@@ -760,6 +763,14 @@ namespace MPC.Implementation.WebStoreServices
                     File.Delete(PDFDoc);
                 }
             }
+        }
+        public List<ImagePermission> getImgTerritories(long imgID)
+        {
+            return _templateImagesRepository.getImgTerritories(imgID);
+        }
+        public bool UpdateImgTerritories(long imgID, string territory)
+        {
+            return _templateImagesRepository.UpdateImgTerritories(imgID, territory);
         }
         #endregion
     }

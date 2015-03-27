@@ -43,10 +43,10 @@ namespace MPC.Webstore.Controllers
         // GET: CategoriesAndProducts
         public ActionResult Index()
         {
-            List<ProductCategory> categories = _itemService.GetStoreParentCategories(UserCookieManager.StoreId, UserCookieManager.OrganisationID);
+            List<ProductCategory> categories = _itemService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             ViewData["Categories"] = categories.Where(p => p.ParentCategoryId == null).ToList();
             ViewData["childCategory"] = categories.Where(p => p.ParentCategoryId != null).ToList();
-            ViewData["FeaturedProducts"] = _itemService.GetProductsWithDisplaySettings(ProductWidget.FeaturedProducts, UserCookieManager.StoreId, UserCookieManager.OrganisationID);
+            ViewData["FeaturedProducts"] = _itemService.GetProductsWithDisplaySettings(ProductWidget.FeaturedProducts, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             
             return PartialView("PartialViews/CategoriesAndProducts");
          
@@ -59,14 +59,14 @@ namespace MPC.Webstore.Controllers
             long ItemID = 0;
             long TemplateID = 0;
             bool isCorp = true;
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 isCorp = true;
             else
                 isCorp = false;
             int TempDesignerID = 0;
             string ProductName = string.Empty;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             long ContactID = _myClaimHelper.loginContactID();
             long CompanyID = _myClaimHelper.loginContactCompanyID();
@@ -74,10 +74,10 @@ namespace MPC.Webstore.Controllers
             {
                 long OrderID = 0;
                 long TemporaryRetailCompanyId = 0;
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -115,13 +115,13 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
                 {
                     long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
                     // create new order
 
-                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
                         UserCookieManager.OrderId = OrderID;
@@ -133,7 +133,7 @@ namespace MPC.Webstore.Controllers
                     }
                     CompanyID = TemporaryRetailCompanyId;
                 }
-                else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     CompanyID = UserCookieManager.TemporaryCompanyId;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
@@ -150,14 +150,14 @@ namespace MPC.Webstore.Controllers
             }
 
             int isCalledFrom = 0;
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 isCalledFrom = 4;
             else
                 isCalledFrom = 3;
 
             bool isEmbedded;
             bool printWaterMark = true;
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {
                 isEmbedded = true;
             }
@@ -170,7 +170,7 @@ namespace MPC.Webstore.Controllers
             ProductName = _IItemService.specialCharactersEncoder(ProductName);
             //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
             bool printCropMarks = true;
-            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+            string URL = "/Designer/" + ProductName + "/" + TempDesignerID + "/" + TemplateID + "/" + ItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
 
             // ItemID ok
             // TemplateID ok

@@ -152,6 +152,9 @@ namespace MPC.Repository.Repositories
             db.Configuration.LazyLoadingEnabled = false;
             var imgCount = new ObjectParameter("imageCount", typeof(int));
             imgCount.Value = 0;
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            if(contact != null && contact.TerritoryId != null && contact.TerritoryId.HasValue)
+                territoryId = contact.TerritoryId.Value;
             List<sp_GetTemplateImages_Result> result = db.sp_GetTemplateImages(isCalledFrom, imageSetType, productId, contactCompanyId, contactId, territoryId, pageNumber, 20, "", SearchKeyword, imgCount).ToList();
             imageCount =Convert.ToInt32( imgCount.Value);
             return result;
@@ -180,6 +183,18 @@ namespace MPC.Repository.Repositories
             return img;
         }
 
+        public List<CompanyTerritory> getCompanyTerritories(long companyId)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            List<CompanyTerritory> result = db.CompanyTerritories.Where(g => g.CompanyId == companyId).ToList();
+            if( result.Count>0)
+            {
+                return result;
+            }else
+            {
+                return null;
+            }
+        }
         public long insertImageRecord(List<TemplateBackgroundImage> listImages)
         {
             TemplateBackgroundImage bgImg = null;
@@ -204,6 +219,43 @@ namespace MPC.Repository.Repositories
             }
             result = bgImg.Id ;
             return result;
+        }
+        public List<ImagePermission> getImgTerritories(long imgID)
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            List<ImagePermission> listObj = db.ImagePermissions.Where(g => g.ImageId == imgID).ToList();
+            return listObj;
+        }
+        public bool UpdateImgTerritories(long imgID, string territory)
+        {
+            bool result = false;
+            string[] territories = territory.Split('_');
+
+
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            List<ImagePermission> oldPermissions = db.ImagePermissions.Where(g => g.ImageId == imgID).ToList();
+            foreach (var obj in oldPermissions)
+            {
+                db.ImagePermissions.Remove(obj);
+            }
+            foreach (string obj in territories)
+            {
+                if (obj != "")
+                {
+                     ImagePermission objPermission = new ImagePermission();
+                     objPermission.ImageId = Convert.ToInt64(imgID);
+                     objPermission.TerritoryID = Convert.ToInt64(obj);
+                     db.ImagePermissions.Add(objPermission);
+                }
+            }
+            db.SaveChanges();
+            result = true;
+            return result;
+            
+
+
         }
         #endregion
     }

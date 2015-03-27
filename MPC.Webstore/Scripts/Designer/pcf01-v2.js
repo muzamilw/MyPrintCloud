@@ -3312,7 +3312,7 @@ function k25Banners() {
     k16(20, GlBanC, "fun");
 }
 function k26(id, n, m) {
-    //StartLoader("Loading image please wait..");
+    StartLoader("Loading image please wait..");
     imgSelected = id;
     imgLoaderSection = m;
     var imToLoad = parseInt(id);
@@ -3364,6 +3364,23 @@ function k26_Dt(DT) {
         $(".divImageTypes").css("display", "none");
     }
     $(".ImageContainer").css("display", "block");
+    
+    $('#territroyContainer').css("display", "none");
+    if (IsCalledFrom == 2 && (DT.ImageType == 1 || DT.ImageType == 3)) {
+        $('#territroyContainer').css("display", "block");
+        $.getJSON("/designerapi/TemplateBackgroundImage/getImgTerritories/" + DT.Id,
+        function (DTo) {
+            $('#dropDownTerritories  div :input').each(function (i) {
+                $(this).prop('checked', false);
+            });
+            $.each(DTo, function (i, IT) {
+                $(".ter_" + IT.TerritoryID).prop('checked', true);
+            });
+            StopLoader();
+        });
+    } else {
+        StopLoader();
+    }
 }
 function k27() {
     k25();
