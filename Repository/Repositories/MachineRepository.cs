@@ -159,7 +159,7 @@ namespace MPC.Repository.Repositories
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
                 InkCoveragItems = GetInkCoveragItems(),
-                CurrencySymbol = organisation.Currency.CurrencySymbol
+                CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol
 
             };
 

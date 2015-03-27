@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
         {
             List<ProductCategory> lstParentCategories = new List<ProductCategory>();
 
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 ViewBag.DefaultUrl = "/Login";
                 long roleid = _myClaimHelper.loginContactRoleID();
@@ -58,7 +58,7 @@ namespace MPC.Webstore.Controllers
             else
             {
                 ViewBag.DefaultUrl = "/";
-                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId, UserCookieManager.OrganisationID);
+                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             }
 
             return PartialView("PartialViews/CategoryHeader", lstParentCategories);

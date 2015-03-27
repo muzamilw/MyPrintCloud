@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
 
            
 
-            ViewBag.Email = UserCookieManager.Email;
+            ViewBag.Email = UserCookieManager.WEBEmail;
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
             ViewBag.Phone = ContactMobile;
@@ -129,7 +129,7 @@ namespace MPC.Webstore.Controllers
            // MyCompanyDomainBaseResponse baseResponse = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
 
           //  MyCompanyDomainBaseResponse baseResponseorg = _ICompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             string ContactMobile = _ICompanyService.GetContactMobile(_myClaimHelper.loginContactID());
 
@@ -142,8 +142,8 @@ namespace MPC.Webstore.Controllers
 
 
             MEsg += "Customer name :  " + StoreBaseResopnse.Company.Name + "<br />";
-            MEsg += "Contact/user :   " + UserCookieManager.ContactFirstName + " " + UserCookieManager.ContactLastName + "<br />";
-            MEsg += "Email  :  " + UserCookieManager.Email + "<br />";
+            MEsg += "Contact/user :   " + UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName + "<br />";
+            MEsg += "Email  :  " + UserCookieManager.WEBEmail + "<br />";
             MEsg += "Phone  :  " + ContactMobile + "<br /> <br />";
             MEsg += "Marketing Brief submitted on  :  " + DateTime.Now.ToString("MMMM dd, yyyy") + "<br /> <br />";
 
@@ -167,18 +167,18 @@ namespace MPC.Webstore.Controllers
 
          
             string SecondEmail = _IUserManagerService.GetMarketingRoleIDByName();
-            Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
+            Campaign EventCampaign = _ICampaignService.GetCampaignRecordByEmailEvent((int)Events.SendInquiry, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
             CampaignEmailParams EmailParams = new CampaignEmailParams();
             EmailParams.ContactId = _myClaimHelper.loginContactID();
-            EmailParams.CompanyId = UserCookieManager.StoreId;
+            EmailParams.CompanyId = UserCookieManager.WBStoreId;
             EmailParams.CompanySiteID = 1;
 
             EmailParams.MarketingID = 1;
 
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
-                EmailParams.StoreID = (int)UserCookieManager.StoreId;
+                EmailParams.StoreID = (int)UserCookieManager.WBStoreId;
                 EmailParams.SalesManagerContactID = _myClaimHelper.loginContactID();
                 int OID = (int)org.OrganisationId;
                 _ICampaignService.emailBodyGenerator(EventCampaign, EmailParams, null, StoreMode.Retail, OID, "", "", "", StoreBaseResopnse.Company.MarketingBriefRecipient, StoreBaseResopnse.Company.Name, SecondEmail, Attachments, "", null, "", "", "", MEsg, "", 0, "", 0);

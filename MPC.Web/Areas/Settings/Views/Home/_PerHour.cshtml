@@ -47,9 +47,9 @@
         <div class="col-lg-6">
 
             <div class="input-group">
-                <span class="input-group-addon">$</span>
+                <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
                 <input type="text" class="form-control" data-bind="autoNumeric: SpeedCost , settings:{mDec:2}" placeholder="Cost Per Hourly Sheet">
-                <span class="input-group-addon">.00</span>
+                
             </div>
 
 
@@ -68,9 +68,9 @@
         <div class="col-lg-6">
 
             <div class="input-group">
-                <span class="input-group-addon">$</span>
+                <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
                 <input type="text" class="form-control" data-bind="autoNumeric: SpeedPrice , settings:{mDec:2}" placeholder="Price Per Hourly Sheet">
-                <span class="input-group-addon">.00</span>
+                
             </div>
 
 

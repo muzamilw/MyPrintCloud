@@ -67,7 +67,7 @@ namespace MPC.Webstore.Controllers
                 DashBordItems.Add(Detail);
 
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail || (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() != (int)Roles.Adminstrator))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() != (int)Roles.Adminstrator))
                 {
 
                     //Detail = new DashboardViewModel(4);
@@ -109,7 +109,7 @@ namespace MPC.Webstore.Controllers
                 }
 
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail || (UserCookieManager.StoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User)))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User)))
                 {
                     Detail = new DashboardViewModel(5);
                     // Address Details
@@ -130,13 +130,13 @@ namespace MPC.Webstore.Controllers
                 /*************************************************Broker / Corporate Orders  ***********************************/
                 List<DashboardViewModel> BCDashBordItems = new List<DashboardViewModel>();
                 DashboardViewModel BCDetail = new DashboardViewModel(1);
-                if (((UserCookieManager.StoreMode == (int)StoreMode.Retail)) || (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User))
+                if (((UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)) || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User))
                 {
 
                     //CorpDiv.Visible = false;
                     // My Order History
                     BCDetail = new DashboardViewModel(1);
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         BCDetail.Name = "My Orders" + " (" + MyOrders() + ")"; //(string)GetGlobalResourceObject("MyResource", "lblORderTracking") + " (" + MyOrders() + ")";
                         BCDetail.Description = "View order details and attachments";
@@ -152,9 +152,9 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager))
                 {
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         BCDetail = new DashboardViewModel(2);
                         // All Order History
@@ -205,7 +205,7 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                 {
 
                     /*************************************************Store Preferneces ***********************************/
@@ -222,7 +222,7 @@ namespace MPC.Webstore.Controllers
                     BCDetail.PageNavigateURl = "/PaymentPreferences.aspx";
                     StorePrefDashBordItems.Add(BCDetail);
 
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
 
 
@@ -271,7 +271,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail.PageNavigateURl = "#";
                         StorePrefDashBordItems.Add(BCDetail);
                     }
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                         {
@@ -448,7 +448,7 @@ namespace MPC.Webstore.Controllers
                 DashBordItems.Add(Detail);
 
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail || (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() != (int)Roles.Adminstrator))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() != (int)Roles.Adminstrator))
                 {
 
                     //Detail = new DashboardViewModel(4);
@@ -490,7 +490,7 @@ namespace MPC.Webstore.Controllers
                 }
 
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail || (UserCookieManager.StoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User)))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User)))
                 {
                     Detail = new DashboardViewModel(5);
                     // Address Details
@@ -511,13 +511,13 @@ namespace MPC.Webstore.Controllers
                 /*************************************************Broker / Corporate Orders  ***********************************/
                 List<DashboardViewModel> BCDashBordItems = new List<DashboardViewModel>();
                 DashboardViewModel BCDetail = new DashboardViewModel(1);
-                if (((UserCookieManager.StoreMode == (int)StoreMode.Retail)) || (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User))
+                if (((UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)) || (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.User))
                 {
 
                     //CorpDiv.Visible = false;
                     // My Order History
                     BCDetail = new DashboardViewModel(1);
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         BCDetail.Name = "My Orders" + " (" + MyOrders() + ")"; //(string)GetGlobalResourceObject("MyResource", "lblORderTracking") + " (" + MyOrders() + ")";
                         BCDetail.Description = "View order details and attachments";
@@ -533,9 +533,9 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager))
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager))
                 {
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         BCDetail = new DashboardViewModel(2);
                         // All Order History
@@ -586,7 +586,7 @@ namespace MPC.Webstore.Controllers
                     }
 
                 }
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                 {
 
                     /*************************************************Store Preferneces ***********************************/
@@ -603,7 +603,7 @@ namespace MPC.Webstore.Controllers
                     BCDetail.PageNavigateURl = "/PaymentPreferences.aspx";
                     StorePrefDashBordItems.Add(BCDetail);
 
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
 
 
@@ -652,7 +652,7 @@ namespace MPC.Webstore.Controllers
                         BCDetail.PageNavigateURl = "#";
                         StorePrefDashBordItems.Add(BCDetail);
                     }
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
                         {

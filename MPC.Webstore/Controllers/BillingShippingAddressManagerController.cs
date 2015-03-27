@@ -23,7 +23,7 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 ViewBag.Address = FilterAddresses();
             }
@@ -100,7 +100,7 @@ namespace MPC.Webstore.Controllers
             
             if (btnsearch !=null)
             {
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     List<Address> RefinedAddresses = FilterAddresses();
                     ViewBag.Address = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
@@ -113,7 +113,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     ViewBag.Address = FilterAddresses();
                 }

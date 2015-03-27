@@ -57,9 +57,9 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                if(UserCookieManager.StoreId == 0)
+                if(UserCookieManager.WBStoreId == 0)
                 {
-                    UserCookieManager.StoreId = storeId;
+                    UserCookieManager.WBStoreId = storeId;
                 }
 
                 MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
@@ -74,11 +74,11 @@ namespace MPC.Webstore.Controllers
               
                 if (StoreBaseResopnse.Company != null)
                 {
-                    UserCookieManager.StoreId = StoreBaseResopnse.Company.CompanyId;
-                    UserCookieManager.StoreMode = StoreBaseResopnse.Company.IsCustomer;
+                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-                    UserCookieManager.OrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
+                    UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
                    
                     // set global language of store
 
