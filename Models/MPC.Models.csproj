@@ -119,6 +119,7 @@
     <Compile Include="Common\DesignerPostSettings.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\ExportOrganisation.cs" />
+    <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
     <Compile Include="Common\InvoiceByColumn.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\PaypalOrderParameter.cs" />
     <Compile Include="Common\ProductModel.cs" />
+    <Compile Include="Common\PurchaseByColumn.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
     <Compile Include="Common\OrderByColumn.cs" />
@@ -373,6 +375,7 @@
     <Compile Include="RequestModels\GetInvoicesRequestModel.cs" />
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
+    <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -382,6 +385,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
@@ -402,6 +406,7 @@
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
+    <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
@@ -426,6 +431,7 @@
     <Compile Include="ResponseModels\PaperSheetResponseModel.cs" />
     <Compile Include="ResponseModels\MyOrganizationSaveResponse.cs" />
     <Compile Include="ResponseModels\PaymentGatewayResponse.cs" />
+    <Compile Include="ResponseModels\PurchaseResponseModel.cs" />
     <Compile Include="ResponseModels\SecondaryPageResponse.cs" />
     <Compile Include="ResponseModels\SmartFormResponse.cs" />
     <Compile Include="ResponseModels\StockCategoryResponse.cs" />

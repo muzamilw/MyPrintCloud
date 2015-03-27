@@ -14,19 +14,18 @@ using System.Linq.Expressions;
 
 namespace MPC.Repository.Repositories
 {
-    //public class PurchaseOrderRepository : BaseRepository<PurchaseOrder>, IPurchaseOrderRepository
-    //{
-    //public PurchaseOrderRepository(IUnityContainer container)
-    //        : base(container)
-    //    {
-    //    }
-    //    protected override IDbSet<PurchaseOrder> DbSet
-    //    {
-    //        get
-    //        {
-
-    //            return db.PurchaseOrders;
-    //        }
-    //    }
-    //}
+    public class PurchaseRepository : BaseRepository<Purchase>, IPurchaseRepository
+    {
+        public PurchaseRepository(IUnityContainer container)
+            : base(container)
+        {
+        }
+        protected override IDbSet<Purchase> DbSet
+        {
+            get
+            {
+                return db.Purchases;
+            }
+        }
+    }
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
-    public interface IPurchaseOrderRepository//: IBaseRepository<PurchaseOrder, long>
+    public interface IPurchaseRepository: IBaseRepository<Purchase, long>
     {
     }
 }
