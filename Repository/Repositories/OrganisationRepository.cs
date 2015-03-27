@@ -1214,7 +1214,7 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
-                        ObjCompany.Image = DestinationCompanyLogoFilePath;
+                        ObjCompany.Image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
 
                     }
 
@@ -2156,22 +2156,32 @@ namespace MPC.Repository.Repositories
                         Directory.CreateDirectory(DestinationSpriteDirectory);
                         if (Directory.Exists(DestinationSpriteDirectory))
                         {
-                            if (!File.Exists(DestinationSpriteFile))
-                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            if (File.Exists(SourceSiteFile))
+                            {
+                                if (!File.Exists(DestinationSpriteFile))
+                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
+
+                            }
 
                         }
                         else
                         {
-                            if (!File.Exists(DestinationSpriteFile))
-                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            if (File.Exists(SourceSiteFile))
+                            {
+                                if (!File.Exists(DestinationSpriteFile))
+                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            }
                         }
 
 
                     }
                     else
                     {
-                        if (!File.Exists(DestinationSpriteFile))
-                            File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        if (File.Exists(SourceSiteFile))
+                        {
+                            if (!File.Exists(DestinationSpriteFile))
+                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        }
                     }
                 }
 
@@ -3240,14 +3250,19 @@ namespace MPC.Repository.Repositories
                         Directory.CreateDirectory(DestinationSpriteDirectory);
                         if (Directory.Exists(DestinationSpriteDirectory))
                         {
-                            if (!File.Exists(DestinationSpriteFile))
-                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            if (File.Exists(SourceSiteFile))
+                            {
+                                if (!File.Exists(DestinationSpriteFile))
+                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                            }
+                          
 
                         }
                         else
                         {
                             if (File.Exists(SourceSpriteFile))
                             {
+
                                 if (!File.Exists(DestinationSpriteFile))
                                     File.Copy(SourceSpriteFile, DestinationSpriteFile);
                             }
@@ -3258,8 +3273,11 @@ namespace MPC.Repository.Repositories
                     }
                     else
                     {
-                        if (!File.Exists(DestinationSpriteFile))
-                            File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        if (File.Exists(SourceSpriteFile))
+                        {
+                            if (!File.Exists(DestinationSpriteFile))
+                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
+                        }
                     }
                 }
 

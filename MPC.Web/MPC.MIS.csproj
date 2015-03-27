@@ -313,6 +313,7 @@
     <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
