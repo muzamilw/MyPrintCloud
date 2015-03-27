@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Controllers
          #region Private
 
         private readonly ICompanyService companyService;
-
+        private readonly IItemService itemService;
         #endregion
 
         #region Constructor
@@ -22,9 +22,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public ImportExportOrganisationController(ICompanyService companyService)
+        public ImportExportOrganisationController(ICompanyService companyService, IItemService itemService)
         {
             this.companyService = companyService;
+            this.itemService = itemService;
         }
 
         #endregion
@@ -62,7 +63,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [HttpPost]
-        public bool ImportStore(long parameter1, string parameter2, long parameter3)
+        public bool ImportStore(long parameter1, string parameter2)
         {
             try
             {
@@ -75,5 +76,6 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
         }
+        
     }
 }

@@ -4067,7 +4067,7 @@ define("stores/stores.viewModel",
                 searchFilter(undefined);
                 getStores();
             },
-                //Get Base Data By company Id
+            //Get Base Data By company Id
             getBaseData = function () {
                 dataservice.getBaseData({
                     companyId: selectedStoreListView().companyId()

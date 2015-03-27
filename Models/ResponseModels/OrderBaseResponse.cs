@@ -32,6 +32,10 @@ namespace MPC.Models.ResponseModels
         /// Payment Methoda
         /// </summary>
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
-   
+
+        /// <summary>
+        /// Organisation
+        /// </summary>
+        public Organisation Organisation { get; set; }
     }
 }

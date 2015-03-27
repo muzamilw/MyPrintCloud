@@ -47,7 +47,7 @@
                         type: 'POST'
                     });
                     // Define request to get Store
-                    amplify.request.define('getBaseData', 'ajax', {
+                    amplify.request.define('getBaseDataFornewCompany', 'ajax', {
                         url: ist.siteUrl + '/Api/CrmBase',
                         dataType: 'json',
                         type: 'GET'
@@ -71,6 +71,26 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Save Address
+                    amplify.request.define('saveAddress', 'ajax', {
+                        url: ist.siteUrl + '/Api/Address',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to Save Company Contact
+                    amplify.request.define('saveCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    // Define request to get Store
+                    amplify.request.define('getBaseData', 'ajax', {
+                        url: ist.siteUrl + '/Api/StoreBase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                 };
             },
              // get order tab data
@@ -81,6 +101,16 @@
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
+                });
+            },
+            // Save Address
+            saveAddress = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveAddress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
                 });
             },
               // get Invoice tab data
@@ -134,10 +164,10 @@
                 });
             },
             // get Base Data By Store Id
-            getBaseData = function(params, callbacks) {
+            getBaseDataFornewCompany = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getBaseData',
+                    resourceId: 'getBaseDataFornewCompany',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -163,7 +193,17 @@
                     data: params
                 });
             },
-             // Save Company Contact
+            // get Base Data By Store Id
+            getBaseData = function(params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getBaseData',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        // Save Company Contact
             saveCompanyContact = function (param, callbacks) {
                 initialize();
                 return amplify.request({
@@ -188,13 +228,15 @@
             getStoreById: getStoreById,
             searchAddress: searchAddress,
             searchCompanyContact: searchCompanyContact,
+            getBaseDataFornewCompany: getBaseDataFornewCompany,
             getBaseData: getBaseData,
             saveStore: saveStore,
             getSuppliers: getSuppliers,
             getOrdersData: getOrders,
             searchCompanyTerritory: searchCompanyTerritory,
             getInvoices: getInvoices,
-            saveCompanyContact: saveCompanyContact
+            saveCompanyContact: saveCompanyContact,
+            saveAddress: saveAddress
         };
     })();
 

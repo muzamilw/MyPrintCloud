@@ -58,6 +58,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Items
         /// </summary>
+        [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
         public ItemSearchResponse Get([FromUri] ItemSearchRequestModel request)
         {

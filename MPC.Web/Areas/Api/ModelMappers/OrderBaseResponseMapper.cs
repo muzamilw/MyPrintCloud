@@ -27,7 +27,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Markups = source.Markups != null ? source.Markups.Select(cc => cc.CreateFrom()) :
                 new List<Markup>(),
                 PaymentMethods = source.PaymentMethods != null ? source.PaymentMethods.Select(cc => cc.CreateFrom()) :
-                new List<PaymentMethod>()
+                new List<PaymentMethod>(),
+                CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty
+
             };
         }
 

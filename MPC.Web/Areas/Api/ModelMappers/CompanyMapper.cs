@@ -505,14 +505,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (!string.IsNullOrEmpty(source.Image))
-            {
-                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                }
-            }
+            //if (!string.IsNullOrEmpty(source.Image))
+            //{
+            //    string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            //    if (File.Exists(imagePath))
+            //    {
+            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            //    }
+            //}
             return new ApiModels.CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
@@ -523,7 +523,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
                 CreatedDate = source.CreationDate,
                 // Email = source.c todo
-                Image = bytes
+                Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
             };
         }
 

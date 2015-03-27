@@ -33,5 +33,9 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<PaymentMethod> PaymentMethods { get; set; }
 
+        /// <summary>
+        /// Currency Symbol
+        /// </summary>
+        public string CurrencySymbol { get; set; }
     }
 }

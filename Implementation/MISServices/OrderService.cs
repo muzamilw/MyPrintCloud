@@ -24,6 +24,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPipeLineSourceRepository pipeLineSourceRepository;
         private readonly IMarkupRepository _markupRepository;
         private readonly IPaymentMethodRepository paymentMethodRepository;
+        private readonly IOrganisationRepository organisationRepository;
 
         #endregion
         #region Constructor
@@ -32,7 +33,8 @@ namespace MPC.Implementation.MISServices
         /// Constructor
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
-            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,  IPaymentMethodRepository paymentMethodRepository)
+            IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
+            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository)
         {
             if (estimateRepository == null)
             {
@@ -58,6 +60,11 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("paymentMethodRepository");
             }
+            if (organisationRepository == null)
+            {
+                throw new ArgumentNullException("organisationRepository");
+            }
+            
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
@@ -66,6 +73,7 @@ namespace MPC.Implementation.MISServices
             this.pipeLineSourceRepository = pipeLineSourceRepository;
             _markupRepository = markupRepository;
             this.paymentMethodRepository = paymentMethodRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -113,8 +121,9 @@ namespace MPC.Implementation.MISServices
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
+                       PaymentMethods = paymentMethodRepository.GetAll(),
                        Markups= _markupRepository.GetAll(),
-                       PaymentMethods = paymentMethodRepository.GetAll()
+                       Organisation = organisationRepository.Find(organisationRepository.OrganisationId)
                    };
         }
 
