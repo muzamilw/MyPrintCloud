@@ -48,6 +48,11 @@ namespace MPC.Implementation.MISServices
         }
         private CompanyContact Update(CompanyContact companyContact)
         {
+            CompanyContact companyContactDbVersion = companyContactRepository.Find(companyContact.ContactId);
+            if (companyContactDbVersion != null && companyContactDbVersion.Password != companyContact.Password)
+            {
+                 companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
+            }
             UpdateDefaultBehaviourOfContactCompany(companyContact);
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
             companyContactRepository.Update(companyContact);
@@ -160,9 +165,10 @@ namespace MPC.Implementation.MISServices
         {
             if (!CheckDuplicatesOfContactEmailInStore(companyContact))
             {
-                companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
-                if (companyContact.ContactId == 0)
+
+                if (companyContact.ContactId <= 0)
                 {
+                    companyContact.Password = HashingManager.ComputeHashSHA1(companyContact.Password);
                     return Create(companyContact);
                 }
                 return Update(companyContact);

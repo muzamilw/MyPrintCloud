@@ -99,6 +99,8 @@
             costCenterInstructions = ko.observableArray([]),
             serviceTypesList = ko.observableArray([]),
             deliveryServiceType = ko.observable(),
+            costcentreImageFileBinary = ko.observable(),
+            costcentreImageName = ko.observable(),
             carrierId = ko.observable(),
              isEditPlantCost = ko.observable(false),
              isEditPlantQuote = ko.observable(false),
@@ -110,6 +112,10 @@
              isEditLabourQuote = ko.observable(false),
              isEditLabourActualCost = ko.observable(false),
              isEditTime = ko.observable(false),
+             isTimeVariable = ko.observable(),
+             //isTimePrompt = ko.observable(false)
+             isQtyVariable = ko.observable()
+             //isQtyPrompt = ko.observable(false),
             errors = ko.validation.group({
                 name: name,
                 type: type,
@@ -160,7 +166,16 @@
                 strActualCostLabourUnParsed: strActualCostLabourUnParsed,
                 strTimeUnParsed: strTimeUnParsed,
                 carrierId: carrierId,
-                costCenterInstructions: costCenterInstructions
+                costCenterInstructions: costCenterInstructions,
+                deliveryCharges: deliveryCharges,
+                isPublished: isPublished,
+                deliveryServiceType: deliveryServiceType,
+                estimateProductionTime: estimateProductionTime,
+                costcentreImageName: costcentreImageName,
+                isTimeVariable: isTimeVariable,
+                //isTimePrompt: isTimePrompt
+                isQtyVariable: isQtyVariable
+                //isQtyPrompt: isQtyPrompt
             }),
             hasChanges = ko.computed(function() {
                 return dirtyFlag.isDirty();
@@ -281,7 +296,13 @@
             reset: reset,
             serviceTypesList: serviceTypesList,
             deliveryServiceType: deliveryServiceType,
-            carrierId: carrierId
+            carrierId: carrierId,
+            costcentreImageFileBinary: costcentreImageFileBinary,
+            costcentreImageName: costcentreImageName,
+            isTimeVariable: isTimeVariable,
+            //isTimePrompt: isTimePrompt,
+            isQtyVariable: isQtyVariable,
+            //isQtyPrompt: isQtyPrompt
         };
         return self;
     };
@@ -349,16 +370,27 @@
             costCenterOption: costCenterOption,
             costCenterId: costCenterId,
             workInstructionChoices:workInstructionChoices,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
     };
 
     costCenterInstruction.CreateFromClientModel = function (source) {
-        return new costCenterInstruction(
-            source.InstructionId, source.Instruction, source.CostCenterOption
-        );
+        var result = {};
+        result.InstructionId = source.instructionId();
+        result.Instruction = source.instruction();
+        result.CostCenterOption = source.costCenterOption();
+        result.CostcentreWorkInstructionsChoices = [];
+        _.each(source.workInstructionChoices(), function (item) {
+            result.CostcentreWorkInstructionsChoices.push(item.convertToServerData());
+        });
+        return result;
+        //return new costCenterInstruction(
+        //    source.InstructionId, source.Instruction, source.CostCenterOption
+        //);
     };
     costCenterInstruction.Create = function (source) {
         var ccInstruction = new costCenterInstruction(
@@ -372,7 +404,14 @@
         });
         return ccInstruction;
     };
-
+    NewCostCenterInstruction = function () {
+        var cci = new costCenterInstruction(0, 'New Instruction', '1', 0);
+        return cci;
+    };
+    NewInstructionChoice = function () {
+        var cic = new costCenterInstructionChoice(0, 'New Choice', 0);
+        return cic;
+    };
     costCenterInstructionChoice = function (specifiedChoiceId, specifiedChoice, specifiedInstructionId) {
         var
              self,
@@ -397,7 +436,9 @@
             choiceId: choiceId,
             choice: choice,
             instructionId: instructionId,
-            convertToServerData: convertToServerData
+            convertToServerData: convertToServerData,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges
         };
         return self;
 
@@ -492,9 +533,9 @@
         oCostCenter.strActualCostLabourParsed(source.strActualCostLabourParsed);
         oCostCenter.strActualCostLabourUnParsed(source.strActualCostLabourUnParsed === undefined || source.strActualCostLabourUnParsed === null ? 'ActualLabourCost = 0' : source.strActualCostLabourUnParsed);
         oCostCenter.strActualCostMaterialParsed(source.strActualCostMaterialParsed);
-        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? 'ActualMaterialCost = 0' : source.strActualCostMaterialUnParsed);
+        oCostCenter.strActualCostMaterialUnParsed(source.strActualCostMaterialUnParsed === undefined || source.strActualCostMaterialUnParsed === null ? '' : source.strActualCostMaterialUnParsed);
         oCostCenter.strTimeParsed(source.strTimeParsed);
-        oCostCenter.strTimeUnParsed(source.strTimeUnParsed);
+        oCostCenter.strTimeUnParsed(source.strTimeUnParsed === undefined || source.strTimeUnParsed === null ? 'EstimatedTime = 0' : source.strTimeUnParsed);
         oCostCenter.isDisabled(source.IsDisabled);
         oCostCenter.isDirectCost(source.IsDirectCost);
         oCostCenter.setupSpoilage(source.SetupSpoilage);
@@ -544,7 +585,17 @@
         oCostCenter.organisationId(source.OrganisationId);
         oCostCenter.deliveryServiceType(source.DeliveryServiceType);
         oCostCenter.carrierId(source.CarrierId);
-        
+        //if (source.TimeSourceType === 1) {
+        //    oCostCenter.isTimeVariable(true);
+        //};
+        //if (source.TimeSourceType === 2) {
+        //    oCostCenter.isTimePrompt(true);
+        //};
+        oCostCenter.isTimeVariable(source.TimeSourceType === 1 ? '1' : '2');
+        //oCostCenter.isTimePrompt(source.TimeSourceType === 2 ? true : false);
+        oCostCenter.isQtyVariable(source.QuantitySourceType === 1 ? '1' : '2');
+       // oCostCenter.isQtyPrompt(source.QuantitySourceType === 2 ? true : false);
+
        // oCostCenter.serviceTypesList(ServiceTypesList());
         _.each(source.CostcentreInstructions, function (item) {
             oCostCenter.costCenterInstructions.push(costCenterInstruction.Create(item));
@@ -685,7 +736,15 @@
         result.OrganisationId = source.organisationId();
         result.CarrierId = source.carrierId();
         result.DeliveryServiceType = source.deliveryServiceType();
-        
+        result.ImageBytes = source.costcentreImageFileBinary() === undefined ? null : source.costcentreImageFileBinary();
+
+        result.TimeSourceType = source.isTimeVariable() === '1' ? 1 : 2;
+        result.QuantitySourceType = source.isQtyVariable() === '1' ? 1 : 2;
+
+        result.CostcentreInstructions = [];
+        _.each(source.costCenterInstructions(), function (item) {
+            result.CostcentreInstructions.push(costCenterInstruction.CreateFromClientModel(item));
+        });
         return result;
     };
     
@@ -693,6 +752,8 @@
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
         costCenterServerMapper: costCenterServerMapper,
-        costCenterListView: costCenterListView
+        costCenterListView: costCenterListView,
+        NewCostCenterInstruction: NewCostCenterInstruction,
+        NewInstructionChoice: NewInstructionChoice
     };
 });

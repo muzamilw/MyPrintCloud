@@ -13,7 +13,7 @@
                     <li class="active"><span>Stores</span></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Stores</h1>
+                    <h1 class="pull-left">Manage Stores</h1>
                 </div>
                 <div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
@@ -55,7 +55,7 @@
 
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -110,7 +110,7 @@
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter" style="margin-bottom:10px;">
                 <form data-bind="submit: $root.getStores">
-                    <div class="filter-block pull-left">
+                    <div class="filter-block pull-right" style="margin-right: -12px">
                         <div class="form-group pull-left">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                             <i class="fa fa-search search-icon"></i>

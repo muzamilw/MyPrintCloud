@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -37,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Smart Forms
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public SmartFormResponse Get([FromUri] SmartFormRequestModel request)
         {
             return companyService.GetSmartForms(request).CreateFrom();
@@ -44,6 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [HttpPost]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         public long Post(SmartForm smartForm)
         {
             if (!ModelState.IsValid)

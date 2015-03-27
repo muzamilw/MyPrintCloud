@@ -319,7 +319,7 @@ define("stores/stores.viewModel",
                     },
 
                     setThemeName = ko.computed(function () {
-                        if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
+                        if (isBaseDataLoded() && !isThemeNameSet()) {
                             var theme = _.find(themes(), function (item) {
                                 return item.SkinId == selectedTheme();
                             });
@@ -1393,7 +1393,7 @@ define("stores/stores.viewModel",
                         }
                     }
                     makeCkeditorDropable();
-                }
+                },
                 getCampaignDetail = function (campaign) {
                     dataservice.getCampaignDetailById({
                         campaignId: campaign.id(),
@@ -1411,7 +1411,7 @@ define("stores/stores.viewModel",
                             toastr.error("Failed to load Detail . Error: ");
                         }
                     });
-                }
+                },
                 // Delete Email
                 onDeleteEmail = function (email) {
                     // Ask for confirmation
@@ -1439,7 +1439,7 @@ define("stores/stores.viewModel",
                     if (campaignItem) {
                         editedCampaigns.remove(campaignItem);
                     }
-                }
+                },
                 //Get Campaign Base
                 getCampaignBaseData = function (callBack) {
                     dataservice.getCampaignBaseData({
@@ -2223,9 +2223,9 @@ define("stores/stores.viewModel",
                         IsAsc: sortIsAsc()
                     }, {
                         success: function (data) {
-                            selectedStore().SystemPages.removeAll();
+                            selectedStore().systemPages.removeAll();
                             _.each(data.CmsPages, function (cmsPage) {
-                                selectedStore().SystemPages.push(model.SecondaryPageListView.Create(cmsPage));
+                                selectedStore().systemPages.push(model.SecondaryPageListView.Create(cmsPage));
                             });
                         },
                         error: function (response) {
@@ -2829,6 +2829,11 @@ define("stores/stores.viewModel",
                                         else {
                                             //companyContactEditorViewModel.acceptItem(savedCompanyContact);
                                             selectedCompanyContact(savedCompanyContact);
+                                            _.each(selectedStore().users(), function (user) {
+                                                if (user.contactId() == savedCompanyContact.contactId()) {
+                                                    user.roleName(savedCompanyContact.roleName());
+                                                }
+                                            });
                                         }
 
                                         toastr.success("Saved Successfully");
@@ -3054,17 +3059,7 @@ define("stores/stores.viewModel",
                 }
                 event.stopImmediatePropagation();
             },
-                //Select Child Product Category
-            selectChildProductCategory = function (categoryId, event) {
-                selectedProductCategory(undefined);
-                var id = $(event.target).closest('li')[0].id;
-                if (id) {
-                    // Notify the event subscribers
-                    view.productCategorySelectedEvent(id);
-                }
-                event.stopImmediatePropagation();
-            },
-                //Get Category Child List Items
+            //Get Category Child List Items
             getCategoryChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').length > 0) {
@@ -3114,7 +3109,7 @@ define("stores/stores.viewModel",
                 //Function Call When create new Product Category 
             onCreateNewProductCategory = function () {
                 //$('.nav-tabs li:first-child a').tab('show');
-
+                selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
                 //Set Product category value for by default
                 productCategory.isShelfProductCategory(true);
@@ -3269,6 +3264,21 @@ define("stores/stores.viewModel",
                 view.hideStoreProductCategoryDialog();
                 //resetProductCategoryCounter();
                 isSavingNewProductCategory(false);
+            },
+            onArchiveCategory= function() {
+                dataservice.deleteProductCategoryById({
+                    ProductCategoryId: selectedProductCategory().productCategoryId()
+                }, {
+                    success: function (data) {
+                        if (data != null) {
+                            selectedProductCategory().isArchived(true);
+                        }
+                    },
+                    error: function (response) {
+                        isLoadingStores(false);
+                        toastr.error("Error: Failed To delete Category!");
+                    }
+                });
             },
                 //Do Before Save Product Category
             doBeforeSaveProductCategory = function () {
@@ -3661,13 +3671,16 @@ define("stores/stores.viewModel",
                         storeToSave.FieldVariables.push(field);
                     });
                     //Smart Forms
-                    _.each(smartForms(), function (item) {
-                        var smartFormServer = item.convertToServerData(item);
-                        _.each(item.smartFormDetails(), function (smartFormDetail) {
-                            smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                    if (selectedStore().companyId() === 0 || selectedStore().companyId() === undefined) {
+                        _.each(smartForms(), function (item) {
+                            var smartFormServer = item.convertToServerData(item);
+                            _.each(item.smartFormDetails(), function (smartFormDetail) {
+                                smartFormServer.SmartFormDetails.push(smartFormDetail.convertToServerData(smartFormDetail));
+                            });
+                            storeToSave.SmartForms.push(smartFormServer);
                         });
-                        storeToSave.SmartForms.push(smartFormServer);
-                    });
+                    }
+
 
                     //endregion
                     //#region Company Territories
@@ -3852,7 +3865,7 @@ define("stores/stores.viewModel",
                                     selectedStore().companyId(data.CompanyId);
                                     selectedStore().storeImageFileBinary(data.StoreImagePath);
                                     if (selectedStore().type() == "4") {
-                                        selectedStore().type("Retail Customer");
+                                        selectedStore().type("Retail");
                                     } else if (selectedStore().type() == "3") {
                                         selectedStore().type("Corporate");
                                     }
@@ -3866,7 +3879,7 @@ define("stores/stores.viewModel",
                                             store.status(selectedStore().status());
                                             store.storeImageFileBinary(data.StoreImagePath);
                                             if (selectedStore().type() == "4") {
-                                                store.type("Retail Customer");
+                                                store.type("Retail");
                                             } else if (selectedStore().type() == "3") {
                                                 store.type("Corporate");
                                             }
@@ -4054,7 +4067,7 @@ define("stores/stores.viewModel",
                 searchFilter(undefined);
                 getStores();
             },
-                //Get Base Data By company Id
+            //Get Base Data By company Id
             getBaseData = function () {
                 dataservice.getBaseData({
                     companyId: selectedStoreListView().companyId()
@@ -4295,6 +4308,8 @@ define("stores/stores.viewModel",
                 isStoreVariableTabOpened(false);
                 isBaseDataLoded(false);
                 isThemeNameSet(false);
+                selectedTheme(undefined);
+
                 pickUpLocationValue(undefined);
                 companyTerritoryCounter = -1,
                 selectedStore().addresses.removeAll();
@@ -6197,7 +6212,8 @@ define("stores/stores.viewModel",
                     getScopeVariables: getScopeVariables,
                     systemPagePager: systemPagePager,
                     getSystemPages: getSystemPages,
-                    selectChildProductCategory: selectChildProductCategory
+                    selectChildProductCategory: selectChildProductCategory,
+                    onArchiveCategory: onArchiveCategory
                 };
                 //#endregion
             })()

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -34,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         // GET api/<controller>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
         public SupplierSearchResponseForInventory Get([FromUri] SupplierRequestModelForInventory request)
         {
             return inventoryService.LoadSuppliers((request)).CreateFrom();

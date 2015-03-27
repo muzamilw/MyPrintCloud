@@ -5,13 +5,14 @@
 @using MPC.Models.Common;
 @{
     
-    var grid = new WebGrid(source: ViewBag.OrderList,canPage:true, rowsPerPage: 15);
+    var grid = new WebGrid(source: ViewBag.OrderList,canSort:false, rowsPerPage: 15);
     
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
 @{
     
     int x = 6;
+   // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
 }
 
 <div class="content_area container">
@@ -27,18 +28,14 @@
         <div>
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
-                    <div class="heading_h8 cntFilteringCritariaLeft">
-                        @*<asp:Literal ID="ltrlSearchOrder" runat="server" Text=" Search Orders"></asp:Literal>*@
-                        @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
-                    </div>
+                  
                     <div>
 @using (Html.BeginForm())
 {
                         <table border="0" cellpadding="5" cellspacing="5" class="cntFilteringCritariaRight">
                             <tr>
                                 <td>
-                                    @*<label class="ltrlSearchOrder" id="HistryBtn" style="visibility:hidden;">Search Orders</label>*@
-                                    @*<span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>*@
+                                   
                                 </td>
                                 <td>
                                     <span id="spntdfromdate" class="heading_h8">From Date</span>
@@ -59,7 +56,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    @*<label class="ltrlSearchOrder" id="HistryBtn">Search Orders</label>*@
+                                    
                                     <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
                                 </td>
                                 <td>
@@ -71,7 +68,7 @@
                                 <td>
 
                                     @Html.TextBoxFor(model=>model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
-                                </td>
+                              </td>
                                 <td>
 
                                     @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
@@ -81,17 +78,10 @@
                                     <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
                                 </td>
                                 <td>
-                                    @*<div class="float_left_simple">
-                                        
-                                        <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
-
-                                    </div>*@
-                                    @*<div class="float_left_simple left_margin">*@
-                                       
-                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes()" value="Clear" />
-                                    @*</div>
-                                    <div class="clearBoth">
-                                    </div>*@
+                                 
+                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
+                                   
+                                 
                                 </td>
                             </tr>
                         </table>
@@ -114,7 +104,7 @@
                     <div class="ProductOrderContainer">
                        
 
-    @grid.GetHtml(
+    @grid.GetHtml(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
     htmlAttributes: new { id = "OrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -127,42 +117,22 @@
     grid.Column("YourRef","Your PO reference"),
     grid.Column("SOrderDate","Order Date	"),
     grid.Column("SOrderDeliveryDate","Estimated Delivery"),
-    grid.Column("StatusName","Status",canSort:false,style:"GridStatusColumnColor"),
-   // grid.Column("ClientStatusID","Client Status"),
-    @*grid.Column("View", format:@<text>@Html.ActionLink("ProductOrderHistory", "ShowPartialView",
-                new { OrderId = item.OrderID }, new { @class = "myclass" }) </text>),*@
-   
-    
-     grid.Column("View", format:@<text><button id="view" value="View" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
+    grid.Column("StatusName","Status"),
+     grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
      </text>),
    
     
-   grid.Column("Download", format:@<text>@if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                         {<button id="view" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
-   
+   grid.Column("Download", format:@<text>@if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+   {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+
    }</text>),
     
-    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
+    grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
    </text>),
     
     }
     
     )
-    
-                        @*<uc8:CustomPagerControl ID="grdViewOrdHistoryPager" runat="server" />
-                        <div>
-                            <%--Modal Popupextender--%>
-                            <ajaxToolkit:ModalPopupExtender ID="mpeOrderDetails" BehaviorID="mpeOrderDetails"
-                                                            TargetControlID="hdnTargetCtrlUpload" PopupControlID="pnlOrderDetails" BackgroundCssClass="ModalPopupBG"
-                                                            runat="server" Drag="true" DropShadow="false" />
-                            <input type="hidden" id="hdnTargetCtrlUpload" runat="server" />
-                            <asp:Panel ID="pnlOrderDetails" runat="server" CssClass="FileUploaderPopup_Mesgbox LCLB rounded_corners"
-                                       Style="display: none; width: 920px;">
-                                <div class="white_background pad20">
-                                    <uc9:OrderDetailsControl ID="orderDetailsControl" runat="server" />
-                                </div>
-                            </asp:Panel>
-                        </div>*@
                     </div>
                 </div>
             </div>
@@ -185,7 +155,7 @@
                                         <span class="simpleTextBold" id="spnordernum">Order Number:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
-                                        @*<label id="lblOrderNumber" class="txtBold" />*@
+                                       
                                         <span id="OrderCode" class="txtBold"></span>
                                     </td>
                                     <td>
@@ -193,57 +163,46 @@
                                     </td>
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderstatus">Status:</span>
-                                    </td>
+                                 </td>
                                     <td class="textAlignLeft simpleText" style="width: 200px">
-                                        @*<label id="lblOrderStatus" class="txtBold clrOrderDetail" />*@
-
+                                        
                                         <span id="OrderStatus" class="txtBold clrOrderDetail"></span>
 
                                    </td>
                                 </tr>
                                 <tr>
-                                    <td class="textAlignRight">
+                                   <td class="textAlignRight">
                                         <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
                                     </td>
                                     <td class="textAlignLeft simpleText">
-                                        @*<asp:label id="lblOrderDate" class="txtBold" />*@
+                                       
                                         <span id="OrderDate" class="txtBold"></span>
                                     </td>
                                     <td>
                                         &nbsp;
                                     </td>
-                                    @*<td class="textAlignRight">
-                                        <span class="simpleTextBold" id="spnClientStatus" >Status:</span>
-                                    </td>*@
-                               
                                     <td class="textAlignRight">
                               <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
                                  </td>
                               <td class="textAlignLeft simpleText">
-                                  <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
+                               <label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />
                                     <span id="OrderDeliveryDate" class="txtBold"></span>
                                     </td>
 
-                                    @*</td>*@
+                                   
                                 </tr>
                                 <tr>
                                     <td class="textAlignRight">
                                         <span class="simpleTextBold" id="Span1">Placed By:</span>
                                     </td>
-                                    <td class="textAlignLeft simpleText">
-                                        @*<Label ID="lblPlacedBy"  Class="txtBold" />*@
+                           <td class="textAlignLeft simpleText">
+                                        
                                         <span id="OrderPlaceBy" class="txtBold"></span>
                                     </td>
                                     <td>
                                         &nbsp;
                                     </td>
-                                    @*<td class="textAlignRight">
-                                        <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
-                                    </td>
-                                    <td class="textAlignLeft simpleText">
-                                        @*<label id="lblOrderDeliveryStartDate" class="txtBold" />*@
-                                        @*<span id="OrderDeliveryDate" class="txtBold"></span>*@
-                                    @*</td>*@
+                                  
                                 </tr>
                             </tbody>
                         </table>
@@ -255,65 +214,7 @@
                     <div class="cntPLOrderDetails">
 
                         <div id="GridTable"></div>
-                        @*<asp:GridView ID="grdViewShopCart" SkinID="ProductOrderHistoryGrid" DataKeyNames="ItemID"
-                          runat="server" OnRowDataBound="grdViewShopCart_RowDataBound">
-                <columns>
-                    <asp:templatefield headerstyle-horizontalalign="Left" itemstyle-verticalalign="Top">
-                        <itemtemplate>
-                            <table border="0" cellpadding="2" cellspacing="0">
-                                <tr>
-                                    <td valign="middle">
-                                        <input type="hidden" id="txtHdnFileName" runat="server" value='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FileName")%>' />
-                                        <div class="gallery">
-                                            <a id="lnkPdfFile" runat="server" href='<%# DataBinder.Eval(Container.DataItem, "Attatchment.FolderPath")%>'>
-                                                <asp:Image ID="imgPdf" SkinID="imgArtWorkIcon" runat="server" />
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td valign="middle"></td>
-                                </tr>
-                            </table>
-                        </itemtemplate>
-                    </asp:templatefield>
-                    <asp:templatefield headertext="Product Description" headerstyle-horizontalalign="Left"
-                                       itemstyle-horizontalalign="Left">
-                        <itemtemplate>
-                            <div>
-                                <span>
-                                    <strong>
-                                        <%# DataBinder.Eval(Container.DataItem, "ProductName")%>
-                                    </strong>
-                                </span>
-                                <asp:Label ID="lblAddonsHeading" runat="server">with following addons :</asp:Label>
-                            </div>
-                            <asp:BulletedList CssClass="UList" ID="bltSelectedAddonList" runat="server" DisplayMode="Text">
-                            </asp:BulletedList>
-                        </itemtemplate>
-                    </asp:templatefield>
-                    <asp:templatefield headertext="Quantity" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
-                        <itemtemplate>
-                            <span>
-                                <%# DataBinder.Eval(Container.DataItem, "Qty1") %>
-                            </span>
-                        </itemtemplate>
-                    </asp:templatefield>
-                    <asp:templatefield headertext="Price" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
-                        <itemtemplate>
-                            <asp:Label ID="lblItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1BaseCharge1") %>' />
-                        </itemtemplate>
-                    </asp:templatefield>
-                    <asp:templatefield headertext="VAT" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
-                        <itemtemplate>
-                            <asp:Label ID="lblVatStateTax" runat="server" />
-                        </itemtemplate>
-                    </asp:templatefield>
-                    <asp:templatefield headertext="Total" headerstyle-horizontalalign="Left" itemstyle-horizontalalign="Left">
-                        <itemtemplate>
-                            <asp:Label ID="lblTotalItemPrice" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Qty1GrossTotal") %>' />
-                        </itemtemplate>
-                    </asp:templatefield>
-                </columns>
-            </asp:GridView>*@
+                     
                     </div>
                 </td>
             </tr>
@@ -344,18 +245,17 @@
                                         <span id="spnvattotal">Vat Total:</span>
                                     </td>
                                     <td>
-                                            <label id="lblVatTotal"><span id="Vat"></span></label>
+                                        <label id="lblVatTotal"><span id="Vat"></span></label>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                    </td>
-                                    <td>
+                                     <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                  </td>
+                                  <td>
                                         
-                                       
                                             <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
-                                       
+
                                     </td>
                                 </tr>
                             </table>
@@ -385,7 +285,7 @@
                                                     <tbody>
                                                         <tr>
                                                             <td style="width: 33%">
-                                                                <span id="spnbillingname">Billing Name:</span>
+                                                              <span id="spnbillingname">Billing Name:</span>
                                                             </td>
                                                             <td style="width: 67%">
 
@@ -421,7 +321,7 @@
                                                         <tr>
                                                             <td>
                                                                 <span id="ltrlstate">State:</span>
-                                                            </td>
+                                                          </td>
                                                             <td>
                                                                 <label id="lblState" class="txtBold"><span id="BillingAddressState"></span></label>
                                                             </td>
@@ -461,8 +361,7 @@
                                     
                                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                         <div class="product_detail_sup_padding">
-                                           
-                                            
+                                         
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
                                                     <thead>
                                                         <tr>
@@ -504,7 +403,7 @@
                                                                 <Label ID="lblShipAddCity" Class="txtBold">@*@ViewBag.DeliveryAddress.City*@<span id="DeliveryAddressCity"></span></Label>
                                                             </td>
                                                         </tr>
-                                                        <tr>
+                                                      <tr>
                                                             <td>
                                                                 <span id="spnstate2">State:</span>
                                                             </td>
@@ -619,7 +518,7 @@
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
                     }
                     if (response.billingAddress.Address2 == null) {
-                        alert(response.billingAddress.Address2);
+                       
                         $("#BillingAddressline2").text('');
                     }
                     else { $("#BillingAddressline2").text(response.billingAddress.Address2); }

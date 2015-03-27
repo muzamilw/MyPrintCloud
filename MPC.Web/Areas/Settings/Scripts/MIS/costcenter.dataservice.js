@@ -17,7 +17,7 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    
+
                     // Define request to delete CostCenter
                     amplify.request.define('deleteCostCenter', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenter',
@@ -29,7 +29,7 @@ define("costcenter/costcenter.dataservice", function () {
                         url: ist.siteUrl + '/Api/CostCenter',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'Put'
+                        type: 'POST'
                     });
                     // Define request to save Prefixes
                     amplify.request.define('saveCostCenter', 'ajax', {
@@ -50,6 +50,13 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Get Base Date for Collections
+                    amplify.request.define('getVariablesTree', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -62,6 +69,14 @@ define("costcenter/costcenter.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            getVariablesTree = function (callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getVariablesTree',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            };
             // Get Cost Centers List
             getCostCentersList = function (params, callbacks) {
                 initialize();
@@ -118,7 +133,8 @@ define("costcenter/costcenter.dataservice", function () {
             deleteCostCenter: deleteCostCenter,
             saveNewCostCenter:saveNewCostCenter,
             saveCostCenter: saveCostCenter,
-            getBaseData: getBaseData
+            getBaseData: getBaseData,
+            getVariablesTree: getVariablesTree
         };
     })();
 

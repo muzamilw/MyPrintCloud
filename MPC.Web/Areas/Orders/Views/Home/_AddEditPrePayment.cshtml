@@ -1,0 +1,120 @@
+﻿
+<div class="modal fade my-modal" id="orderPrePaymentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 838px;" class="modal-dialog">
+        <div class="modal-content" data-bind="with:$root.selectedPrePayment">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Pre Payment</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="customer" class="control-label text-right tooltip-float">Customer</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <span class="form-control" id="customer" style="border:none" data-bind="text:$root.selectedOrder().companyName"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="address" class="control-label text-right tooltip-float">Address</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <span class="form-control" id="address" style="border:none" data-bind="text:$root.selectedAddress().name"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Date" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="date" class="control-label text-right tooltip-float">Date</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="date" data-bind="datepicker:paymentDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Reference # " data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="ref" class="control-label text-right tooltip-float">Ref.#</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="ref" data-bind="value:referenceCode">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label for="amount" class="control-label text-right tooltip-float">Amount <span data-bind="text:$root.currencySymbol"></span></label>
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="text" class="form-control" id="amount" data-bind="value:amount,validationTooltip:amount">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Payment Method" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+
+                        </div>
+                        <label class="control-label text-right tooltip-float">Payment Method</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <select class="form-control" data-bind="options: $root.paymentMethods, optionsText: 'MethodName', optionsValue: 'PaymentMethodId',value:paymentMethodId"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-5 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Description" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label class="control-label text-right tooltip-float">Description</label>
+                    </div>
+                    <div class="col-lg-5">
+                        <textarea class="form-control" rows="4" data-bind="value:paymentDescription"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary" data-bind="click:$root.onSavePrePayment">Save</button>
+                <button type="button" class="btn btn-default" style="margin-left: 0px;" data-bind="click:$root.onCancelOrderPrePayment">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* Wizard Popup ends here*@

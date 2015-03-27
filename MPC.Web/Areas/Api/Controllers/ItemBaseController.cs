@@ -2,8 +2,10 @@
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -38,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Item Base Data
         /// </summary>
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
         public Models.ItemBaseResponse Get()
         {
             if (!ModelState.IsValid)

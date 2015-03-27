@@ -86,7 +86,7 @@
                 <div class="filter-block pull-left">
                     <div class="form-group pull-left">
                         <input type="text" class="form-control" placeholder="Search..." data-bind="value: filterText">
-                        <i class="fa fa-search search-icon"></i>
+                        <i class="fa fa-search search-icon" data-bind="click: filterProducts"></i>
                     </div>
                 </div>
             </form>
@@ -124,7 +124,7 @@
                 </div>
             </div>
             <div class="productText">
-                <span data-bind="text: productNameForGrid"></span>
+                <span data-bind="text: productNameForGrid, attr:{ title: productName }"></span>
             </div>
             <div class="">
                 <span data-bind="text: 'Starting From $' + miniPrice()"></span>

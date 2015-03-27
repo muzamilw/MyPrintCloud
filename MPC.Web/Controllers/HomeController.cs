@@ -64,6 +64,7 @@ namespace MPC.MIS.Controllers
              * Call WebStore Service to Authenticate User
              * On Call back, if user is authenticated then add Claims
              */
+            ; ;
             
 
             ValidationInfo validationInfo = null;
@@ -105,9 +106,9 @@ namespace MPC.MIS.Controllers
             Boolean isTrial = false;
             int trialCount = 0;
 
-            if ( validationInfo != null)
+            if (validationInfo != null)
             {
-                organisationId = Convert.ToInt64( validationInfo.CustomerID);
+                organisationId = Convert.ToInt64(validationInfo.CustomerID);
                 userId = validationInfo.userId;
                 fullName = validationInfo.FullName;
                 Plan = validationInfo.Plan;

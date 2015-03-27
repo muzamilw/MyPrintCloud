@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 {
     public static class CompanyMapper
     {
+        
         #region Public
 
         /// <summary>
@@ -125,6 +126,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxLabel=source.TaxLabel,
                 TaxRate= source.TaxRate,
                 MapImageUrl= source.MapImageUrl,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+               isWhiteLabel = source.isWhiteLabel,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -243,6 +246,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 twitterAppKey = source.twitterAppKey,
                 isStoreModePrivate = source.isStoreModePrivate == true ? "true" : "false",
                 TaxPercentageId = source.TaxPercentageId,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
                 canUserPlaceOrderWithoutApproval = source.canUserPlaceOrderWithoutApproval,
                 CanUserEditProfile = source.CanUserEditProfile,
                 SalesAndOrderManagerId1 = source.SalesAndOrderManagerId1,
@@ -294,6 +299,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
                 CreditReference = source.CreditReference,
                 CreditLimit = source.CreditLimit,
+                CreationDate = source.CreationDate ?? DateTime.Now,
                 CurrentThemeId = source.CurrentThemeId,
                 Terms = source.Terms,
                 CustomCSS = source.CustomCSS,
@@ -308,7 +314,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Notes = source.Notes,
                 IsDisabled = source.IsDisabled,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
@@ -366,6 +371,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 isCalculateTaxByService = source.isCalculateTaxByService ,
                 TaxLabel = source.TaxLabel,
                 TaxRate = source.TaxRate,
+                IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
+                isWhiteLabel = source.isWhiteLabel,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
@@ -444,7 +451,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCustomer = source.IsCustomer,
                 Notes = source.Notes,
                 AccountBalance = source.AccountBalance,
-                CreationDate = source.CreationDate,
+                CreationDate = source.CreationDate ?? DateTime.Now,
                 VATRegNumber = source.VATRegNumber,
                 VATRegReference = source.VATRegReference,
                 FlagId = source.FlagId,
@@ -498,14 +505,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            if (!string.IsNullOrEmpty(source.Image))
-            {
-                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-                if (File.Exists(imagePath))
-                {
-                    bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-                }
-            }
+            //if (!string.IsNullOrEmpty(source.Image))
+            //{
+            //    string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
+            //    if (File.Exists(imagePath))
+            //    {
+            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
+            //    }
+            //}
             return new ApiModels.CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
@@ -516,7 +523,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 URL = source.URL,
                 CreatedDate = source.CreationDate,
                 // Email = source.c todo
-                Image = bytes
+                Image = bytes,
+                StoreImagePath = !string.IsNullOrEmpty(source.Image) ? source.Image + "?" + DateTime.Now.ToString() : string.Empty,
             };
         }
 

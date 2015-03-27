@@ -21,7 +21,7 @@
                                 <li><a href="#tab-productCategoryDesc" data-toggle="tab">Category Descriptions</a></li>
                                 <li><a href="#tab-productCategoryDisplay" data-toggle="tab">Product Display</a></li>
                                 <li><a href="#tab-productCategoryImages" data-toggle="tab">Category Images</a></li>
-                                <li><a href="#tab-productCategoryTerritories" data-toggle="tab">Category Territories</a></li>
+                                <li><a href="#tab-productCategoryTerritories" data-toggle="tab">Corporate Address Territories</a></li>
                             </ul>
                             <div class="tab-content" data-bind="with: $root.selectedProductCategoryForEditting">
 
@@ -88,7 +88,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Enable Category</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Enabled ?</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div>
@@ -110,7 +110,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Publish Category on Webstore</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Published on Store ?</label>
                                                 </div>
 
                                                 <div class="col-lg-6">
@@ -759,7 +759,8 @@
                                 </div>
                                 <div class="tab-pane fade" id="tab-productCategoryTerritories">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Territories</h3>
+                                        <h3 class="group-header">Corporate store territories</h3>
+                                        <p class="group-header-description">In a corproate store this category is visible only in selected territories's users. Please select all territories for which the category and its product should be visible.</p>
                                         <div class="col-lg-12 form-horizontal">
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-hover">
@@ -783,7 +784,8 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
+        <div class="modal-footer">
+            <button class="btn btn-danger" data-bind="click: $root.onArchiveCategory, visible: $root.selectedProductCategory()!=undefined && $root.selectedProductCategory().productCategoryId() > 0">Archive</button>
                 <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveProductCategory">Save</button>
                 <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductCategory" style="margin-left:0px;">Close</button>
             </div>

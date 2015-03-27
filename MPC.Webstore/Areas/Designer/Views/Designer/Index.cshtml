@@ -151,6 +151,45 @@
                                             <a class=" SampleBtn btntxt btnAUploadFont" id="btnAUploadFont">Upload font</a>
                                         </li>
                                     </ul>
+                                    <div id="FontUploadingMsgDiv" class="panelItemsLeftAligned leftalignTxt largeText">
+                                        <br>
+                                        <div class="titletxt">
+                                            Important. (Font Uploading)
+                                        </div>
+                                        <br>
+                                        For each font you wish to upload, download the font kit from font squirrel font
+                                        kit generator (http://www.fontsquirrel.com/fontface).
+                                     
+                                        <br>
+                                        <br>
+                                        <p class="Step1FontUpload">
+                                            <span class="titletxt">Step 1: </span>Select the 3 font files (.woff, .eot and .ttf
+                                            files) from Font face for that font family.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step2FontUpload">
+                                            <span class="titletxt">Step 2 :</span> Enter in exact FONT Family name as it appears
+                                            in the TTF Font Definaton field.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step3FontUpload">
+                                            <span class="titletxt">Step 3:</span> Confirm that this font is free from any copyright
+                                            infringements.
+                                            <br>
+                                            <br>
+                                        </p>
+                                        <p class="Step4FontUpload">
+                                            <span class="titletxt">Step 4:</span> Click on upload button to complete the new
+                                            font addition.<br>
+                                            <br>
+                                        </p>
+                                        <p class="Step5FontUpload">
+                                            <span class="titletxt">Step 5:</span> The new font should appear in your font style
+                                            list as the name you entered in Step 2.
+                                            <br>
+                                            <br>
+                                        </p>
+                                    </div>
                                     @*<ul class="gallery photoGallery albumGallery categories laidOut ulImagesSecTop" style="height: 129px;">
                                         <li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c3">
                                             <a title="CRM" class="btnACRM">
@@ -497,7 +536,11 @@
                                     <div class="clearBoth"></div>
                                     <br />
                                 </div>
-
+                                <div class="" style="margin: 5px; clear: both; text-align: left;" id="territroyContainer">
+                                    <div class="ImgLbl" style="">Select Territories</div>
+                                    <div id="dropDownTerritories">
+                                    </div>
+                                </div>
                                 <div class="pnlImgBank" style="text-align: center;">
                                     <button id="btnUpdateImgProp" class="buttonDesigner">Update</button>
                                     <button id="btnDeleteImg" class="buttonDesigner">Delete</button>
@@ -643,8 +686,8 @@
                                     <div class="DivBlockWithNoHeight vertLine"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
-                                        <div class="onoffswitch" style="right: -100px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox"> Make Overlay Layer</p>  </div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
                                             <label class="onoffswitch-label" for="chkboxOverlayImg">
                                                 <div class="onoffswitch-inner"></div>
@@ -653,8 +696,8 @@
                                         </div>
                                     </div>
                                     <div class="propertyPanelControlDiv adminControl">
-                                        <div class="lblchckboxControl" id="">Print Object On PDF </div>
-                                        <div class="onoffswitch" style="right: -100px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
                                             <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
                                                 <div class="onoffswitch-inner"></div>
@@ -666,8 +709,8 @@
                                     <div class="DivBlockWithNoHeight vertLine adminControl"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id="">Allow End User to CHANGE Formatting </div>
-                                        <div class="onoffswitch" style="right: -9px">
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Allow End User to CHANGE Formatting </p></div>
+                                        <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
                                             <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
                                                 <div class="onoffswitch-inner"></div>
@@ -826,8 +869,8 @@
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">Make Overlay Layer  </div>
-                                    <div class="onoffswitch" style="right: -100px">
+                                    <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Overlay Layer </p> </div>
+                                    <div class="onoffswitch" >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
                                         <label class="onoffswitch-label" for="chkboxOverlayTxt">
                                             <div class="onoffswitch-inner"></div>
@@ -836,8 +879,8 @@
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl" id="">Print Object On PDF </div>
-                                    <div class="onoffswitch" style="right: -100px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                    <div class="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
                                         <label class="onoffswitch-label" for="BtnPrintObj">
                                             <div class="onoffswitch-inner"></div>
@@ -847,8 +890,8 @@
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">Lock Formatting for End User</div>
-                                    <div class="onoffswitch" style="right: -55px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Lock Formatting for End User </p></div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnAllowOnlyTxtChange" checked="">
                                         <label class="onoffswitch-label" for="BtnAllowOnlyTxtChange">
                                             <div class="onoffswitch-inner"></div>
@@ -858,8 +901,8 @@
                                 </div>
 
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id="">End User can not EDIT Text </div>
-                                    <div class="onoffswitch" style="right: -62px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">End User can not EDIT Text </p></div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnLockEditing" checked="">
                                         <label class="onoffswitch-label" for="BtnLockEditing">
                                             <div class="onoffswitch-inner"></div>
@@ -868,8 +911,8 @@
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl" id="">Auto Shrink Text to fit in Text Box </div>
-                                    <div class="onoffswitch" style="right: -38px">
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Auto Shrink Text to fit in Text Box</p> </div>
+                                    <div class="onoffswitch"  >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxAutoShrink" checked="">
                                         <label class="onoffswitch-label" for="chkboxAutoShrink">
                                             <div class="onoffswitch-inner"></div>

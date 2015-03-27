@@ -189,12 +189,6 @@ namespace MPC.Webstore.Controllers
                     SetViewFlags(StoreBaseResopnse);
                     return View("PartialViews/Login");
                 }
-                if (user.Company.IsDisabled == 1)
-                {
-                    ViewBag.Message = Utils.GetKeyValueFromResourceFile("DisabledAccount", UserCookieManager.StoreId); //"Your account is disabled. Please contact us for further information.";
-                    SetViewFlags(StoreBaseResopnse);
-                    return View("PartialViews/Login");
-                }
                 if (UserCookieManager.StoreMode == (int)StoreMode.Corp && user.isWebAccess == false)
                 {
                     ViewBag.Message = Utils.GetKeyValueFromResourceFile("AccountHasNoWebAccess", UserCookieManager.StoreId);  //"Your account does not have the web access enabled. Please contact your Order Manager.";
@@ -205,7 +199,7 @@ namespace MPC.Webstore.Controllers
                 {
                     UserCookieManager.isRegisterClaims = 1;
                     UserCookieManager.ContactFirstName = user.FirstName;
-                    UserCookieManager.ContactLastName = user.LastName;
+                    UserCookieManager.ContactLastName = user.LastName == null ? "" : user.LastName;
                     UserCookieManager.ContactCanEditProfile = user.CanUserEditProfile ?? false;
                     UserCookieManager.ShowPriceOnWebstore = user.IsPricingshown ?? true;
 
@@ -241,8 +235,7 @@ namespace MPC.Webstore.Controllers
             {
                 ControllerContext.HttpContext.Response.Redirect(returnUrl);
             }
-            // Response.Redirect("/");
-            // ControllerContext.HttpContext.Response.Redirect(Url.Action("Index", "Home", null, protocol: Request.Url.Scheme));
+            
             return null;
         }
 

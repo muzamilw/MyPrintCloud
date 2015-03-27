@@ -118,8 +118,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
                 OrganisationId = source.OrganisationId,
+                TimeSourceType = source.TimeSourceType,
+                QuantitySourceType = source.QuantitySourceType,
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId=source.CarrierId,
+                ImageBytes = source.ImageBytes,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null
             };
@@ -222,8 +225,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryCharges = source.DeliveryCharges,
                 XeroAccessCode = source.XeroAccessCode,
                 OrganisationId = source.OrganisationId,
+                TimeSourceType = source.TimeSourceType,
+                QuantitySourceType = source.QuantitySourceType,
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId = source.CarrierId,
+                ImageBytes = source.ImageBytes,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null ? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null
             };

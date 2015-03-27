@@ -331,9 +331,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Template Pages BackgroundFileName updation
         /// </summary>
-        private static void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
+        private void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
         {
-            if (itemTarget.Template != null && item.Template.ProductId > 0)
+            if (itemTarget.Template != null && itemTarget.Template.ProductId > 0)
             {
                 if (itemTarget.Template.TemplatePages != null)
                 {
@@ -592,7 +592,7 @@ namespace MPC.Implementation.MISServices
                             File.Delete(filePath);
                         }
                     }
-                    
+
                 }
 
                 // First Time Upload
@@ -1317,7 +1317,7 @@ namespace MPC.Implementation.MISServices
                         target.File2 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1356,7 +1356,7 @@ namespace MPC.Implementation.MISServices
                         target.File3 = path;
                     }
                 }
-                
+
             }
 
             fileBytes = null;
@@ -1742,6 +1742,20 @@ namespace MPC.Implementation.MISServices
 
             Item item = itemRepository.Find(id);
 
+            // Get Pdf File in case of Template Type 2
+            if (item.TemplateType == 2 && item.Template != null)
+            {
+                string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+                HttpServerUtility server = HttpContext.Current.Server;
+                string mapPath =
+                    server.MapPath(mpcContentPath + "/Products/" + itemRepository.OrganisationId + "/" + item.ItemId +
+                                   "/Templates/random_CorporateTemplateUpload.pdf");
+                if (File.Exists(mapPath))
+                {
+                    item.Template.FileOriginalBytes = File.ReadAllBytes(mapPath);
+                }
+            }
+
             if (item == null)
             {
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
@@ -2034,6 +2048,93 @@ namespace MPC.Implementation.MISServices
             return productCategoryRepository.GetParentCategories(companyId);
         }
 
+        #endregion
+
+        #region DeleteProducts
+
+        public bool DeleteItem(long ItemID,long OrganisationID)
+        {
+            try
+            {
+
+               
+                List<string> ImagesPath = new List<string>();
+                Item DelItem = itemRepository.GetItemByItemID(ItemID);
+                itemRepository.DeleteItemBySP(ItemID);
+               if(DelItem != null)
+               {
+                  
+                   if(DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
+                   {
+                       foreach(var itemAttach in DelItem.ItemAttachments)
+                       {
+                           string path = itemAttach.FolderPath + itemAttach.FileName;
+
+                           ImagesPath.Add(path);
+                       }
+                   }
+                   if (DelItem.ItemStockOptions != null && DelItem.ItemStockOptions.Count > 0)
+                   {
+                       foreach (var itemStock in DelItem.ItemStockOptions)
+                       {
+                           string path = itemStock.ImageURL;
+
+                           ImagesPath.Add(path);
+                       }
+                   }
+
+                   // delete files
+                   
+
+                   if(ImagesPath != null && ImagesPath.Count > 0)
+                   {
+                       foreach(var img in ImagesPath)
+                       {
+                           if(!string.IsNullOrEmpty(img))
+                           {
+                               string filePath = HttpContext.Current.Server.MapPath("~/" + img);
+                               if(File.Exists(filePath))
+                               {
+                                   File.Delete(filePath);
+                               }
+                           }
+                       }
+                   }
+
+
+                   if (DelItem.TemplateId != null && DelItem.TemplateId > 0)
+                   {
+                       templateService.DeleteTemplateFiles(DelItem.ItemId, OrganisationID);
+                       // delete template folder
+                   }
+
+                   // delete item files
+                   string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + OrganisationID + "/" + ItemID);
+
+                   if (Directory.Exists(SourceDelFiles))
+                   {
+                       Directory.Delete(SourceDelFiles, true);
+                   }
+
+                   // delete itemattachments
+
+                   string SourceDelAttachments = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/Organisation" + OrganisationID + "/" + OrganisationID + "/" + ItemID);
+
+                   if (Directory.Exists(SourceDelAttachments))
+                   {
+                       Directory.Delete(SourceDelAttachments, true);
+                   }
+
+               }
+
+               return true;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         #endregion
     }
 }

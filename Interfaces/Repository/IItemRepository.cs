@@ -45,7 +45,7 @@ namespace MPC.Interfaces.Repository
 
         Item GetItemById(long RefitemId);
         Item GetItemByIdDesigner(long ItemId);
-
+        Item GetItemByTemplateIdDesigner(long templateId);
         ProductItem GetItemAndDetailsByItemID(long itemId);
 
         List<ProductMarketBriefQuestion> GetMarketingInquiryQuestionsByItemID(int itemID);
@@ -155,5 +155,9 @@ namespace MPC.Interfaces.Repository
         /// <param name="OrganisationId"></param>
         /// <returns></returns>
         List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
+
+        Item GetItemByItemID(long itemId);
+
+        void DeleteItemBySP(long ItemID);
     }
 }

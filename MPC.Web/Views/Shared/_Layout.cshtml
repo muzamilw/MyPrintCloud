@@ -302,16 +302,11 @@
                                     <ul class="submenu">
                                         <li>
                                             <a href="~/CRM/Home/Index" class="my-navigator">
-                                                Prospects / Customers
+                                               Companies
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="~/CRM/Home/Calendar" class="my-navigator">
-                                                My Calendar
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="~/Home/PageUnAvailable">
+                                            <a href="~/CRM/Home/Contacts">
                                                 Contacts
                                             </a>
                                         </li>
@@ -320,14 +315,19 @@
                                                 Suppliers
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="~/CRM/Home/Calendar" class="my-navigator">
+                                                Calendar
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li id="liProducts">
+                                @*<li id="liProducts">
                                     <a href="~/Products/Home/Index" class="my-navigator">
-                                        <i class="fa fa-drupal"></i>
+                                        <i class="fa fa-cube"></i>
                                         <span>Products</span>
                                     </a>
-                                </li>
+                                </li>*@
                                 <li id="liestimating">
                                     <a href="~/Estimate/EstimatesList" class="my-navigator">
                                         <i class="fa  fa-fax"></i>
@@ -337,7 +337,7 @@
                                 </li>
                                 <li id="liorderprocessing">
                                     <a href="~/Orders/Home" class="my-navigator">
-                                        <i class="fa  fa-fax"></i>
+                                        <i class="fa  fa-cubes"></i>
                                         <span>Orders Processing</span>
                                     </a>
                                     
@@ -346,13 +346,13 @@
                                 </li>
                                 <li id="liproduction">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                        <i class="fa fa-institution"></i>
+                                        <i class="glyphicon glyphicon-list-alt" style="margin-top:14px;"></i>
                                         <span>Production & Scheduling</span>
                                     </a>
                                 </li>
                                 <li id="libilling">
                                     <a href="~/Billing/InvoicesList" class="my-navigator">
-                                        <i class="fa  fa-users"></i>
+                                        <i class="glyphicon glyphicon-file" style="margin-top:14px;"></i>
                                         <span>Billing & Invoicing</span>
                                     </a>
                                     @*<a href="#" class="dropdown-toggle">
@@ -407,7 +407,7 @@
                                 </li>
                                 <li id="lishipping">
                                     <a href="~/DeliveryNotes/Home/DeliveryNote" class="my-navigator">
-                                        <i class="fa  fa-joomla"></i>
+                                        <i class="fa  fa-send-o"></i>
                                         <span>Shipping & Delivery</span>
                                     </a>
                                     @*<a href="#" class="dropdown-toggle">
@@ -434,7 +434,7 @@
                                 </li>
                                 <li id="lipurchases">
                                     <a href="~/Orders/Home/PurchaseOrders" class="my-navigator">
-                                        <i class="fa  fa-plane"></i>
+                                        <i class="fa  fa-inbox"></i>
                                         <span>Purchase Orders</span>
                                     </a>
                                     @*<a href="#" class="dropdown-toggle">
@@ -460,21 +460,16 @@
                                     </ul>*@
                                 </li>
 
-                                <li id="liemails">
-                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                        <i class="fa  fa-qq"></i>
-                                        <span>Email Campaigns</span>
-                                    </a>
-                                </li>
+                               
                                 <li id="liinventory">
                                     <a href="~/Settings/MIS/Inventory" class="my-navigator">
-                                        <i class="fa fa-share-alt"></i>
+                                        <i class="fa fa-tasks"></i>
                                         <span>Inventory</span>
                                     </a>
                                 </li>
                                 <li id="lisettings">
                                     <a href="#" class="dropdown-toggle">
-                                        <i class="fa fa-slack"></i>
+                                        <i class="fa fa-wrench"></i>
                                         <span>Settings</span>
                                         <i class="fa fa-chevron-circle-right drop-icon"></i>
                                     </a>
@@ -517,7 +512,7 @@
                                         </li>
                                         <li id="limissettings">
                                             <a href="#" class="dropdown-toggle">
-                                                <i class="fa fa-users"></i>
+                                                <i class="fa fa-gears"></i>
                                                 <span>Utilities</span>
                                                 <i class="fa fa-chevron-circle-right drop-icon"></i>
                                             </a>
@@ -571,12 +566,7 @@
                                                         <span>Archived</span>
                                                     </a>
                                                 </li>
-                                                <li id="liCampaigns">
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        <i class="fa fa-envelope"></i>
-                                                        <span>Campaign Studio</span>
-                                                    </a>
-                                                </li>
+                                               
                                                 <li id="liMyReports">
                                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
                                                         <i class="fa fa-file-text"></i>

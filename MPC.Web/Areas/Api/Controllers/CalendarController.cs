@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
@@ -41,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Companies By Is Customer Type
         /// </summary>
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
         public IEnumerable<ActivityListView> Get([FromUri]ActivityRequestModel request)
         {
             return calendarService.GetActivities(request).Select(act => act.CreateFromListView());
@@ -50,6 +52,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Add/Update a Calendar Activity
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
         public int Post(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)
@@ -63,6 +66,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Delete Stock Item
         /// </summary>
         [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
         public void Delete(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)

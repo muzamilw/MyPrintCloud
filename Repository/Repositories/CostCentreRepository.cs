@@ -470,7 +470,7 @@ namespace MPC.Repository.Repositories
 		{
 			try
 			{
-
+                oCostCentre.OrganisationId = this.OrganisationId;
 				db.CostCentres.Add(oCostCentre);
 				if (db.SaveChanges() > 0)
 				{
@@ -493,8 +493,35 @@ namespace MPC.Repository.Repositories
 			{
 
 				CostCentre result = db.CostCentres.Where(c => c.CostCentreId == oCostCentre.CostCentreId).FirstOrDefault();
-
-				result = oCostCentre;
+                result = oCostCentre;
+                if (oCostCentre.ImageBytes != null)
+                {
+                    result.ThumbnailImageURL = oCostCentre.ThumbnailImageURL;
+                    result.ImageBytes = null;
+                }
+                    
+                if(oCostCentre.CostcentreInstructions != null)
+                {
+                    foreach (var inst in oCostCentre.CostcentreInstructions)
+                    {
+                        CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
+                        obj.Instruction = inst.Instruction;
+                    }
+                }
+                if (oCostCentre.CostcentreInstructions != null)
+                {
+                   foreach (var inst in oCostCentre.CostcentreInstructions)
+                    {
+                       if(inst.CostcentreWorkInstructionsChoices != null)
+                       {
+                           foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                           {
+                               CostcentreWorkInstructionsChoice obj = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                               obj.Choice = ch.Choice;
+                           }
+                       }
+                    }
+                }
 
 				if (db.SaveChanges() > 0)
 				{
@@ -675,6 +702,42 @@ namespace MPC.Repository.Repositories
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
 		}
+
+        public IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore()
+        {
+            return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && x.Type == (int)CostCenterTypes.Delivery)
+                .OrderBy(x => x.Name).ToList();
+        }
+        public CostCenterVariablesResponseModel GetCostCenterVariablesTree()
+        {
+            CostCenterVariablesResponseModel oResponse = new CostCenterVariablesResponseModel();
+            List<CostCentreType> ccTypes = db.CostCentreTypes.Where(c => c.IsSystem != (short)1 && c.OrganisationId == this.OrganisationId).ToList();
+            if(ccTypes != null)
+            {
+                foreach (var cc in ccTypes)
+                {
+                    cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != (short)1).ToList();
+                }
+                oResponse.CostCenterVariables = ccTypes;
+            }
+            
+            
+            List<CostCentreVariableType> vTypes = db.CostCentreVariableTypes.ToList();
+            if(vTypes != null)
+            {
+                foreach(var v in vTypes)
+                {
+                   v.VariablesList = db.CostCentreVariables.Where(cv => cv.CategoryId == v.CategoryId).ToList();
+                }
+                oResponse.VariableVariables = vTypes;
+            }
+            oResponse.ResourceVariables = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
+            oResponse.QuestionVariables = db.CostCentreQuestions.ToList();
+            oResponse.MatricesVariables = db.CostCentreMatrices.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            oResponse.LookupVariables = db.LookupMethods.Where(c => c.OrganisationId == this.OrganisationId && (c.Type != 0 || c.Type != null)).ToList();
+
+            return oResponse;
+        }
 		#endregion
 
 		#region "CostCentre Template"

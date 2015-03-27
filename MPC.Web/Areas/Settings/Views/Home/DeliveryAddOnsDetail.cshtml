@@ -19,7 +19,7 @@
             <div class="clearfix">
                 <h1 class="pull-left" data-bind="text: name()"></h1>
                 <div class="pull-right top-page-ui">
-                    <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter">
+                    <button type="button" class="btn btn-primary" data-bind="click: $root.saveCostCenter, enable: hasChanges, css: { 'btn-warning': hasChanges }">
                         <span class="fa fa-save"></span>&nbsp;Save
                     </button>
                     <button type="button" class="btn btn-primary" data-bind="click: $root.closeCostCenterDetail">
@@ -102,7 +102,7 @@
                                                     <textarea class="form-control" id="txtWebDesc" placeholder="Enter Internal Description" rows="5" data-bind="value: webStoreDesc"></textarea>
                                                 </div>
                                             </div>
-                                            <div class="form-group ">
+                                            <div class="form-group">
                                                 <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -114,16 +114,19 @@
                                                     </div>
 
 
-                                                    <label for="txtJTitle" class="control-label text-right tooltip-float">Grouping and Job Title Priority</label>
+                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Send & Calculate Delivery Via</label>
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <input type="text" class="form-control" data-bind="value: priority">
+
+                                                    <select class="form-control" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
+                                                   
                                                 </div>
+
                                             </div>
-                       
-                                            <div class="form-group ">
+                                            
+                                            <div class="form-group" data-bind="visible: carrierId() === 1">
                                                 <div class="col-lg-5 text-right">
 
                                                     <div class="bs-example-tooltips tooltip-float-width">
@@ -133,21 +136,104 @@
                                                         </a>
 
                                                     </div>
-
-
-                                                    <label for="txtDirectL" class="control-label text-right tooltip-float">Notes</label>
+                                                    <label for="ddCarrier" class="control-label text-right tooltip-float">Fedex Service Type</label>
 
                                                 </div>
 
                                                 <div class="col-lg-7">
-                                                    <textarea class="form-control" rows="5" placeholder="Enter Notes" data-bind="value: itemDescription"></textarea>
-</div>
+                                                    <select class="form-control" data-bind="options:$root.fedexServiceTypes, optionsText:'Text',optionsValue:'Text' ,value:deliveryServiceType"></select>
+                                                </div>
                                             </div>
+                                            
+                                            <div class="form-group" data-bind="visible: carrierId() === 3">
+                                                <div class="col-lg-5 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery price" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+
+                                                    </div>
+
+
+                                                    <label for="txtDelcharges" class="control-label text-right tooltip-float">Fixed Delivery Price</label>
+
+                                                </div>
+                                                <div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" data-bind="value:deliveryCharges">
+                                                    </div>
+                                                   
+                                                </div>
+                                               
+                                            </div>
+                                            <div class="form-group" data-bind="visible: carrierId() === 3">
+                                                <div class="col-lg-5 text-right">
+
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Delivery Time" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtDelvTime" class="control-label text-right tooltip-float">Fixed Delivery Time</label>
+                                                </div>
+                                                <div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" class="form-control" data-bind="value:estimateProductionTime">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <span>Day(s)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+
+
+                                                        <label for="txtJTitle" class="control-label text-right tooltip-float">Grouping and Job Title Priority</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-7">
+                                                        <input type="text" class="form-control" data-bind="value: priority">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <div class="col-lg-5 text-right">
+
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+
+                                                        </div>
+
+
+                                                        <label for="txtDirectL" class="control-label text-right tooltip-float">Notes</label>
+
+                                                    </div>
+
+                                                    <div class="col-lg-7">
+                                                        <textarea class="form-control" rows="5" placeholder="Enter Notes" data-bind="value: itemDescription"></textarea>
+    </div>
+                                                </div>*@
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-md-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
@@ -159,23 +245,19 @@
                                                     <label class="control-label text-right tooltip-float">Thumbnail</label>
 
                                                 </div>
-                                                <div class="col-lg-3 col-md-4 col-sm-4">
-                                                    <div class="clearfix">
-                                                        <div class="main-box-body clearfix">
-                                                            <img style="min-height: 150px; width: 150px;" />
-                                                            <div class="pull-right">
-                                                                <div class="fileUpload btn btn-primary" style="margin-top:5px; right: -11px;">
-                                                                    <span>....</span>
-                                                                    <input type="file" class="upload" id="image_files" />
-                                                                </div>
-                                                            </div>
-                                                            @*<div class="profile-stars">
-                                                                <span data-bind="value: type"></span>
-                                                            </div>*@
-
+                                                <div class="col-md-8">
+                                                    <div class="col-md-5">
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="fileUpload btn btn-primary">
+                                                            <span>....</span>
+                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
 
                                                 @*<div class="col-lg-6">
                                                     <div id="dropzoneM" class="dropzonepl">
@@ -189,10 +271,10 @@
                                                 </div>*@
 
                                             </div>
-                                            <br />
+                                            
                                             <div class="form-group">
 
-                                                <div class="col-lg-8 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">
@@ -200,10 +282,10 @@
                                                         </a>
 
                                                     </div>
-                                                    <label for="switchIsPublished" class="control-label text-right tooltip-float">Is Published on Webstore</label>
+                                                    <label for="switchIsPublished" class="control-label text-right tooltip-float">Published on Webstore</label>
 
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col-lg-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPublished" data-bind="checked:isPublished">
                                                         <label class="onoffswitch-label" for="switchIsPublished">
@@ -216,66 +298,6 @@
 
                                             </div>
 
-                                        </div>
-                                        <div class="clearfix">
-                                        </div>
-                                        <h3 class="group-header">Delivery cost Center</h3>
-                                        <div class="clearfix">
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="col-lg-5 text-right">
-
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-
-
-                                                        <label for="ddCarrier" class="control-label text-right tooltip-float">Carrier</label>
-
-                                                    </div>
-
-                                                    <div class="col-lg-7">
-                                                       
-                                                       
-
-                                                        <select class="form-control" data-bind="options:$root.deliveryCarriers, optionsText:'CarrierName',optionsValue:'CarrierId', value: carrierId"></select>
-                                                        <!-- ko if: carrierId() == 1 -->
-                                                        
-                                                        <select class="form-control" data-bind="options:serviceTypesList, optionsText:'name',optionsValue:'name' ,value:deliveryServiceType"></select>
-                                                        <!-- /ko -->
-                                                    </div>
-
-                                                </div>
-
-
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="form-group">
-                                                    <div class="col-lg-4 text-right">
-
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-
-                                                        </div>
-
-
-                                                        <label for="txtDelvTime" class="control-label text-right tooltip-float">Delivery Time</label>
-
-                                                    </div>
-
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" data-bind="value:estimateProductionTime">
-                                                    </div>
-
-                                                </div>
-                                            </div>
                                         </div>
 
                                     </div>

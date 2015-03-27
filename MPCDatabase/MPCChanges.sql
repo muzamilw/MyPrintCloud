@@ -685,11 +685,19 @@ join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
 where pci.ItemId = p.ItemId
 FOR XML PATH(''), TYPE
             ).value('.', 'NVARCHAR(MAX)') 
-        ,1,2,'')) ProductCategoryName,
-ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
-p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
-p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
-p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
+        ,1,2,'')) ProductCategoryName, (select 
+STUFF((select ', ' + CAST(pc.ProductCategoryId AS NVARCHAR) 
+from dbo.ProductCategoryItem pci 
+join dbo.ProductCategory pc on pc.ProductCategoryId = pci.CategoryId
+where pci.ItemId = p.ItemId
+FOR XML PATH(''), TYPE
+            ).value('.', 'NVARCHAR(MAX)') 
+        ,1,2,'')) ProductCategoryIds,
+		 
+                         ISNULL(dbo.funGetMiniumProductValue(p.ItemId), 0.0) AS MinPrice, p.ImagePath, p.ThumbnailPath, p.IconPath, p.IsEnabled, p.IsSpecialItem, p.IsPopular, 
+                         p.IsFeatured, p.IsPromotional, p.IsPublished, p.ProductType, p.ProductSpecification, p.CompleteSpecification, p.IsArchived, p.SortOrder,
+						 p.OrganisationId, p.WebDescription, p.PriceDiscountPercentage, p.DefaultItemTax, p.isUploadImage, p.CompanyId, p.TemplateId,
+						 p.printCropMarks, p.drawWaterMarkTxt, p.TemplateType
 FROM            dbo.Items p
 
 GO
@@ -1040,3 +1048,527 @@ alter table company
 add CurrentThemeId bigint null
 
 GO
+--Executed on 24-03-2015
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Fedex','fedex.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('UPS','ups.com', null,null)
+insert into DeliveryCarrier(CarrierName, URL, APiKey, APIPassword)
+values('Other',null, null,null)
+GO
+
+/* Execution Date: 25/03/2015 */
+
+GO
+
+Create PROCEDURE [dbo].[usp_DeleteProduct]
+	-- Add the parameters for the stored procedure here
+	
+	@itemid bigint = 0
+
+AS
+BEGIN
+	
+--BEGIN TRANSACTION;
+--IF @@TRANCOUNT = 0
+--BEGIN
+declare @TemplateID bigint
+
+select @TemplateID = templateid from items where itemid = @itemid
+--57647
+-- delete section cost centre details
+delete  scd
+				from dbo.SectionCostCentreDetail scd
+				inner join dbo.SectionCostcentre sc on sc.SectionCostcentreID = scd.SectionCostCentreID
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN items i ON i.ItemID = iss.ItemID
+					where i.ItemId = @itemid
+
+
+
+	--deletinng the item section cost center resources
+				delete  scr
+				from dbo.SectionCostCentreResource scr
+				inner join dbo.SectionCostcentre sc on sc.SectionCostcentreID = scr.SectionCostCentreID
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item section cost center
+				delete sc
+				from dbo.SectionCostcentre sc
+				inner join ItemSection iss on iss.ItemSectionID = sc.ItemSectionID
+				INNER JOIN Items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+--deletinng the item section ink coverage
+delete  sink
+				from dbo.SectionInkCoverage sink
+				inner join ItemSection iss on iss.ItemSectionID = sink.SectionID
+				INNER JOIN Items i ON i.ItemID = iss.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item section
+				delete  isec
+				from dbo.ItemSection isec
+				INNER JOIN Items i ON i.ItemID = isec.ItemID
+				where i.ItemId = @itemid
+
+
+	--deletinng the item attachments
+				delete ia
+				from ItemAttachment ia
+				INNER JOIN items i ON i.ItemID = ia.ItemID
+				where i.ItemId = @itemid
+
+    --deletinng the item addon Cost Centres xxxxxxxx
+				delete  iacc
+				from dbo.ItemAddonCostCentre iacc
+				INNER JOIN ItemStockOption iss ON iss.ItemStockOptionId  = iacc.ItemStockOptionId
+				INNER JOIN Items i ON i.ItemID = iss.ItemId
+				where i.ItemId = @itemid
+
+	--deletinng the item Stock Options
+				delete isoo
+				from dbo.ItemStockOption isoo
+				INNER JOIN Items i ON i.ItemID = isoo.ItemID
+				where i.ItemId = @itemid
+
+   --deletinng the item Price Matrix
+				delete ipms
+				from dbo.ItemPriceMatrix ipms
+				INNER JOIN Items i ON i.ItemID = ipms.ItemID
+				where i.ItemId = @itemid
+
+   	--deletinng the item related items
+				delete  iri
+				from dbo.ItemRelatedItem iri
+				INNER JOIN Items i ON i.ItemID = iri.ItemID
+				where i.ItemId = @itemid
+
+	-- deleting item state tax
+			    delete  ist
+				from dbo.ItemStateTax ist
+				INNER JOIN Items i ON i.ItemID = ist.ItemID
+				where i.ItemId = @itemid
+
+   -- deleting item VDP Price
+			    delete  vdp
+				from dbo.ItemVDPPrice vdp
+				INNER JOIN Items i ON i.ItemID = vdp.ItemID
+				where i.ItemId = @itemid
+
+	  -- deleting item ProductDetail
+			    delete  pd
+				from dbo.ItemProductDetail pd
+				INNER JOIN Items i ON i.ItemID = pd.ItemID
+				where i.ItemId = @itemid
+				 
+    -- deleting item video Price
+			    delete  vid
+				from dbo.ItemVideo vid
+				INNER JOIN Items i ON i.ItemID = vid.ItemID
+				where i.ItemId = @itemid
+
+   -- deleting item video Price
+			    delete  img
+				from dbo.ItemImage img
+				INNER JOIN Items i ON i.ItemID = img.ItemID
+				where i.ItemId = @itemid
+
+
+ -- deleting ProductCategoryItem
+			    delete PCI
+				from dbo.ProductCategoryItem pci
+				INNER JOIN Items i ON i.ItemID = pci.ItemID
+				where i.ItemId = @itemid
+
+	--deletinng the items
+				delete  i
+				from dbo.items i
+				where i.ItemId = @itemid
+
+ -- delete template objects
+
+delete from TemplateObject where productid = @TemplateID
+
+-- DELETE tob
+--FROM TemplateObject tob
+--inner join TemplatePage topg on topg.ProductPageId = tob.ProductPageID
+--inner join Template t on t.ProductID = topg.productid
+--INNER JOIN Items i ON i.TemplateID = t.ProductID
+--where i.ItemId = @itemid
+
+
+ -- delete template pages
+ delete from TemplatePage where productid = @TemplateID
+-- DELETE topg
+--FROM TemplatePage topg
+--				inner join Template t on t.ProductID = topg.productid
+--				INNER JOIN Items i ON i.TemplateID = t.ProductID
+--				where i.ItemId = @itemid
+  -- delete image permisssions
+
+ DELETE imgPer
+				FROM ImagePermissions imgPer
+				inner join TemplateBackgroundImage tbi on tbi.Id = imgPer.ImageID
+				where tbi.ProductID = @TemplateID
+
+
+ -- delete template background images
+  delete from TemplateBackgroundImage where productid = @TemplateID
+ --DELETE topg
+	--			FROM TemplateBackgroundImage topg
+	--			inner join Template t on t.ProductID = topg.productid
+	--			INNER JOIN Items i ON i.TemplateID = t.ProductID
+	--			where i.ItemId = @itemid
+
+
+-- delete template 
+DELETE from template where ProductId = @TemplateID
+
+--END;
+--ROLLBACK TRANSACTION;
+end
+
+--GO
+/*
+Rolled back the transaction.
+*/
+
+
+
+GO
+
+
+truncate table CostCentreVariabletype
+set  identity_insert CostCentreVariabletype ON
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(1,'Booklet Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(2,'Charge Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(3,'Colors')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(4,'Guillotine')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(5,'Imposition Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(6,'Item Quantities')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(7,'Plate / Films')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(8,'Press Makereadies')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(9,'Press Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(10,'Section Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(11,'Stock')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(12,'Weight')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(13,'CostCentre Variables')
+INSERT INTO CostCentreVariabletype ([CategoryID],[Name])VALUES(14,'Global Variables')
+set  identity_insert CostCentreVariabletype OFF
+Go
+
+
+/* Execution Date: 26/03/2015 */
+
+
+/****** Object:  StoredProcedure [dbo].[sp_cloneTemplate]    Script Date: 26/03/2015 04:08:16 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+----------------------------------------- Alter Store Procedure sp_cloneTemplate ----------------------
+ALTER PROCEDURE [dbo].[sp_cloneTemplate] 
+	-- Add the parameters for the stored procedure here
+	@TemplateID bigint,
+	@submittedBy bigint,
+    @submittedByName nvarchar(100)
+AS
+BEGIN
+
+
+      
+	declare @NewTemplateID bigint
+	declare @NewCode nvarchar(10)
+	--DECLARE  @WaterMarkTxt as [dbo].[tbl_company_sites]
+	
+	set @NewCode = ''
+	
+	--INSERT INTO @WaterMarkTxt (CompanySiteName)
+	--Select Top 1 CompanySiteName from tbl_company_sites
+
+	
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	
+	INSERT INTO [dbo].[Template]
+           ([Code]
+           ,[ProductName]
+           ,[Description]
+           ,[ProductCategoryId]
+           ,[Thumbnail]
+           ,[Image]
+           ,[IsDisabled]
+
+           ,[PDFTemplateWidth]
+           ,[PDFTemplateHeight]
+
+           ,[CuttingMargin]
+           ,[MultiPageCount]
+           ,[Orientation]
+           ,[MatchingSetTheme]
+           ,[BaseColorId]
+           ,[SubmittedBy]
+           ,[SubmittedByName]
+           ,[SubmitDate]
+           ,[Status]
+           ,[ApprovedBy]
+           ,[ApprovedByName]
+           ,[UserRating]
+           ,[UsedCount]
+           ,[MPCRating]
+           ,[RejectionReason]
+           ,[ApprovalDate]
+           ,[IsCorporateEditable]
+           ,[MatchingSetId]
+           ,[TempString],[TemplateType],[isSpotTemplate],[isWatermarkText],[isCreatedManual]
+          )
+     
+
+
+
+   
+	SELECT 
+      @NewCode
+      ,[ProductName] + ' Copy'
+      ,[Description]
+      ,[ProductCategoryID]
+      
+      ,[Thumbnail]
+      ,[Image]
+      ,[IsDisabled]
+
+      ,[PDFTemplateWidth]
+      ,[PDFTemplateHeight]
+
+
+      ,[CuttingMargin]
+      ,[MultiPageCount]
+      ,[Orientation]
+      ,[MatchingSetTheme]
+      ,[BaseColorId]
+      ,@submittedBy
+      ,@submittedByName
+      ,NULL
+      ,1
+      ,NULL
+      ,NULL
+      ,0
+      ,0
+      ,0
+      ,''
+      ,NULL,IsCorporateEditable,MatchingSetId,'',[TemplateType],isSpotTemplate,isWatermarkText,isCreatedManual
+      
+  FROM [dbo].[Template] where productid = @TemplateID
+	
+	
+	set @NewTemplateID = SCOPE_IDENTITY() 
+	
+	-- updating water mark text 
+	UPDATE [dbo].[Template]
+	SET TempString= (Select Top 1 OrganisationName from organisation)
+	WHERE productid = @NewTemplateID
+	
+	--copying the pages
+	INSERT INTO [dbo].[TemplatePage]
+           ([ProductId]
+           ,[PageNo]
+           ,[PageType]
+           ,[Orientation]
+           ,[BackGroundType]
+           ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+           ,[PageName],[hasOverlayObjects])
+
+SELECT 
+      @NewTemplateID
+      ,[PageNo]
+      ,[PageType]
+      ,[Orientation]
+      ,[BackGroundType]
+      ,[BackgroundFileName]
+      ,[ColorC]
+      ,[ColorM]
+      ,[ColorY]
+      ,[ColorK]
+      ,[IsPrintable]
+      
+      ,[PageName],[hasOverlayObjects]
+  FROM [dbo].[TemplatePage]
+where productid = @TemplateID
+
+
+	--copying the objects
+	INSERT INTO [dbo].[TemplateObject]
+           ([ObjectType]
+           ,[Name]
+           ,[IsEditable]
+           ,[IsHidden]
+           ,[IsMandatory]
+           
+           ,[PositionX]
+           ,[PositionY]
+           ,[MaxHeight]
+           ,[MaxWidth]
+           ,[MaxCharacters]
+           ,[RotationAngle]
+           ,[IsFontCustom]
+           ,[IsFontNamePrivate]
+           ,[FontName]
+           ,[FontSize]
+           ,[IsBold]
+           ,[IsItalic]
+           ,[Allignment]
+           ,[VAllignment]
+           ,[Indent]
+           ,[IsUnderlinedText]
+           ,[ColorType]
+ 
+           ,[ColorName]
+           ,[ColorC]
+           ,[ColorM]
+           ,[ColorY]
+           ,[ColorK]
+           ,[Tint]
+           ,[IsSpotColor]
+           ,[SpotColorName]
+           ,[ContentString]
+           ,[ContentCaseType]
+           ,[ProductID]
+           ,[DisplayOrderPdf]
+           ,[DisplayOrderTxtControl]
+           ,[RColor]
+           ,[GColor]
+           ,[BColor]
+           ,[LineSpacing]
+           ,[ProductPageId]
+           ,[ParentId]
+           ,CircleRadiusX
+           ,Opacity
+           ,[ExField1],
+           [IsTextEditable],
+           [IsPositionLocked],
+           [CircleRadiusY]
+          ,[ExField2],
+           ColorHex
+           ,[IsQuickText]
+           ,[QuickTextOrder],
+		   [watermarkText],
+		   [textStyles],[charspacing],[AutoShrinkText],
+		   [IsOverlayObject],[ClippedInfo],[originalContentString],[originalTextStyles]
+           )
+	SELECT 
+      O.[ObjectType]
+      ,O.[Name]
+      ,O.[IsEditable]
+      ,O.[IsHidden]
+      ,O.[IsMandatory]
+      
+      ,O.[PositionX]
+      ,O.[PositionY]
+      ,O.[MaxHeight]
+      ,O.[MaxWidth]
+      ,O.[MaxCharacters]
+      ,O.[RotationAngle]
+      ,O.[IsFontCustom]
+      ,O.[IsFontNamePrivate]
+      ,O.[FontName]
+      ,O.[FontSize]
+      ,O.[IsBold]
+      ,O.[IsItalic]
+      ,O.[Allignment]
+      ,O.[VAllignment]
+      ,O.[Indent]
+      ,O.[IsUnderlinedText]
+      ,O.[ColorType]
+      ,O.[ColorName]
+      ,O.[ColorC]
+      ,O.[ColorM]
+      ,O.[ColorY]
+      ,O.[ColorK]
+      ,O.[Tint]
+      ,O.[IsSpotColor]
+      ,O.[SpotColorName]
+      ,O.[ContentString]
+      ,O.[ContentCaseType]
+      ,@NewTemplateID
+      ,O.[DisplayOrderPdf]
+      ,O.[DisplayOrderTxtControl]
+      ,O.[RColor]
+      ,O.[GColor]
+      ,O.[BColor]
+      ,O.[LineSpacing]
+      ,NP.[ProductPageId]
+      ,O.[ParentId]
+      ,O.CircleRadiusX
+      ,O.Opacity
+      ,O.[ExField1],
+       O.[IsTextEditable],
+       O.[IsPositionLocked],
+       O.[CircleRadiusY]
+      ,O.[ExField2],
+       O.ColorHex
+       ,[IsQuickText]
+        ,[QuickTextOrder],[watermarkText],O.[textStyles],
+		O.[charspacing],O.[AutoShrinkText],O.[IsOverlayObject]
+		,O.[ClippedInfo]
+		,O.[originalContentString],O.[originalTextStyles]
+  FROM [dbo].[TemplateObject] O
+  inner join [dbo].[TemplatePage]  P on o.ProductPageId = p.ProductPageId and o.ProductId = @TemplateID
+  inner join [dbo].[TemplatePage] NP on P.PageName = NP.PageName and P.PageNo = NP.PageNo and NP.ProductId = @NewTemplateID
+  
+	--theme tags
+	--insert into dbo.TemplateThemeTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateThemeTags where ProductID = @TemplateID
+	
+	---- industry tags
+	--insert into dbo.TemplateIndustryTags   ([TagID],[ProductID])
+	--select [TagID] ,@NewTemplateID from dbo.TemplateIndustryTags where ProductID = @TemplateID
+
+	INSERT INTO [dbo].[TemplateBackgroundImage]
+			   ([ProductId]
+			   ,[ImageName]
+			   ,[Name]
+			   ,[flgPhotobook]
+			   ,[flgCover]
+			   ,[BackgroundImageAbsolutePath]
+			   ,[BackgroundImageRelativePath],
+			   ImageType,
+			   ImageWidth,
+			   ImageHeight
+			   
+			   )
+	SELECT 
+		  @NewTemplateID
+		  ,[ImageName]
+		  ,[Name]
+		  ,[flgPhotobook]
+		  ,[flgCover]
+		  ,[BackgroundImageAbsolutePath]
+		  ,[BackgroundImageRelativePath]
+		  ,ImageType,
+			   ImageWidth,
+			   ImageHeight
+	  FROM [dbo].[TemplateBackgroundImage] where ProductId = @TemplateID
+
+
+
+
+select @NewTemplateID
+	
+END
+
+
+
+
+

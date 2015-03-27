@@ -7,7 +7,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Items
         /// </summary>
-        public IEnumerable<ProductCategory> ProductCategories { get; set; }
+        public IEnumerable<ProductCategoryListViewModel> ProductCategories { get; set; }
 
         /// <summary>
         /// Total Count

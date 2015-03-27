@@ -20,13 +20,14 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _myClaimHelper;
         private readonly IStatusService _StatusService;
         private readonly IOrderService _orderService;
-        
+        private readonly ICompanyService _CompanyService;
 
-        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService)
+        public ProductOrderHistoryController(IWebstoreClaimsHelperService _myClaimHelper, IStatusService _StatusService, IOrderService _orderService, ICompanyService _CompanyService)
         {
             this._myClaimHelper = _myClaimHelper;
             this._StatusService =_StatusService;
             this._orderService = _orderService;
+            this._CompanyService = _CompanyService;
         }
         public ActionResult Index()
         {
@@ -109,9 +110,11 @@ namespace MPC.Webstore.Controllers
              if (ordersList == null || ordersList.Count == 0)
                 {
                     TempData["Status"] = "No Records Found";
+                    TempData["HeaderStatus"] = false;
                 }
                 else {
                     TempData["Status"] = ordersList.Count+"    " + " Record Match ";
+                    TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
         }

@@ -37,7 +37,7 @@
 
                                 </div>
                             </div>
-                            <div id="pagerDiv">
+                            <div id="pagerDiv" class="pull-right">
                                 <!-- ko with: $root.supplierPager -->
                                 @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                                 <!-- /ko -->
@@ -54,28 +54,23 @@
     </div>
     @* Filter Template *@
     <script id="supplierFilterTemplate" type="text/html">
-        <div class="filter-body" style="margin-left: 28px;margin-right: 9px;height: 63px;">
-            <div class="filter-block pull-left">
-                <div class="pull-left spanfilterlbl">
-                    Search: &nbsp;
+        <div class="filter-body" style="margin-left: 28px; margin-right: 9px; height: 63px;">
+            <form data-bind="submit: $root.searchSupplier">
+                <div class="filter-block pull-right">
+                    <div class="form-group pull-right">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
                 </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
-                    <i class="fa fa-search search-icon"></i>
+            </form>
+                <div class="clearfix">
+                    <div class="pull-right">
+                        @*<button class="btn btn-primary" data-bind="click:$root.onCreateSupplier">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;New Supplier
+                    </button>*@
+                    </div>
                 </div>
-                <div class="pull-left">
-                    <button type="submit" class="btn btn-primary" data-bind="click:$root.searchSupplier">Search</button>
-                    <button type="submit" class="btn btn-default" data-bind="click:$root.reset">Reset</button>
-                </div>
-            </div>
-            <div class="clearfix">
-                <div class="pull-right">
-                    @*<button class="btn btn-primary" data-bind="click:$root.onCreateSupplier">
-                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;New Supplier
-                        </button>*@
-                </div>
-            </div>
-        </div>
+</div>
     </script>
 
 </div>

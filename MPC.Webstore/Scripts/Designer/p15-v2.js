@@ -99,7 +99,7 @@ function fu03() {
    });
 }
 function fu04() {
-    
+
     $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
        //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
       function (DT) {
@@ -137,6 +137,25 @@ function fu04() {
               } else {
                   $(".QuickTxt").css("visibility", "hidden");
               }
+              if(item.allowPdfDownload == true)
+              {
+                  $(".previewBtnContainer").css("display", "block");
+                  $(".PreviewerDownloadPDF").css("display", "block");
+              }
+              if(item.allowImageDownload == true)
+              {
+                  $(".PreviewerDownloadImg").css("display", "block");
+              }
+              if(item.isMultipagePDF == true)
+              {
+                  isMultiPageProduct = true;
+              }
+              if (item.printCropMarks == false) {
+                  printCropMarks = false;
+              }
+              if (item.drawWaterMarkTxt == false) {
+                  printWaterMarks = false;
+              }
           });
         if (IsCalledFrom == 4) {
             //  c4_RS_eU(); // load realestate property images
@@ -159,7 +178,9 @@ function fu04_01() {
           //   }
       });
     k0();
-
+    if (IsCalledFrom == 2) {
+        k28();
+    }
 }
 function fu05_Clload() {
     var Cid = 0;
@@ -194,7 +215,8 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-              fu04();
+              console.log("call returned");
+              SvcLoad2ndTemplate();
 
           });
 }
@@ -287,4 +309,48 @@ function pcl42_svc(data, cId) {
     };
     var returnText = $.ajax(options).responseText;
 
+}
+
+function SvcLoad2ndTemplate() {
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
+     function (DT) {
+         DT.ProductID = DT.ProductId;
+         $.each(DT.TemplatePages, function (i, IT) {
+             IT.ProductID = IT.ProductId;
+             IT.ProductPageID = IT.ProductPageId;
+         });
+         Template = DT;
+         tID = Template.ProductId;
+         TP = [];
+         $.each(Template.TemplatePages, function (i, IT) {
+             TP.push(IT);
+         });
+         $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
+        function (DT) {
+            $.each(DT, function (i, IT) {
+                IT.ProductID = IT.ProductId;
+                IT.ObjectID = IT.ObjectId;
+                IT.ProductPageId = IT.ProductPageId;
+            });
+            TO = DT;
+            fu06();
+        });
+     });
+
+
+}
+
+function k28() {
+
+    $.getJSON("/designerapi/TemplateBackgroundImage/GetTerritories/" + CustomerID,
+        function (xdata) {
+            $.each(xdata, function (i, item) {
+                k29("dropDownTerritories", "ter_" + item.TerritoryId, item.TerritoryName, "territroyContainer");
+            });
+        });
+}
+function k29(divID, itemID, itemName, Container) {
+    var html = '<div class="checkboxRowsTxt"><input type="checkbox" id="' + itemID + '" class="' + itemID + '" style="  margin-right: 5px;"><label for="' + itemID + '">' + itemName + '</label></div>';
+    $('#' + divID).append(html);
+    $('#' + Container).css("display", "block");
 }

@@ -13,7 +13,8 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     
     {
-
+        long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
+        List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         CompanyContact GetContactByEmailID(string Email);
         Country GetCountryByCountryID(long CountryID);
         void ResetDefaultShippingAddress(Address address);
@@ -215,5 +216,6 @@ namespace MPC.Interfaces.WebStoreServices
         int AddSubscriber(NewsLetterSubscriber subsriber);
         bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
         RaveReview GetRaveReview();
+
     }
 }

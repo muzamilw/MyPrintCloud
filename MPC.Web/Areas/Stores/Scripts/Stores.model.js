@@ -100,7 +100,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         //    store.type("Supplier");
         //}
         if (source.IsCustomer == 4) {//changed from 1
-            store.type("Retail Customer");
+            store.type("Retail");
         }
             //else if (source.IsCustomer == 2) {
             //    store.type("Prospect");
@@ -182,6 +182,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             includeEmailBrokerArtworkOrderXML = ko.observable(specifiedincludeEmailBrokerArtworkOrderXML),
             includeEmailBrokerArtworkOrderJobCard = ko.observable(specifiedincludeEmailBrokerArtworkOrderJobCard),
             makeEmailBrokerArtworkOrderProductionReady = ko.observable(specifiedmakeEmailBrokerArtworkOrderProductionReady),
+            isAllowRegistrationFromWeb = ko.observable(undefined),
+            isDisplayDiscountVoucherCode = ko.observable(undefined),
+            canUserEditProfile = ko.observable(undefined),
+            isWhiteLabel = ko.observable(undefined),
+            showPrices = ko.observable(undefined),
             // isDeliveryTaxAble = ko.observable(specifiedIsDeliveryTaxAble),
             // is Delivery TaxAble
             isDeliveryTaxAble = ko.observable(!specifiedIsDeliveryTaxAble ? 2 : 1),
@@ -421,6 +426,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.isCalculateTaxByService = source.isCalculateTaxByService();
             result.TaxLabel = source.taxLabel();
             result.TaxRate = source.taxRate();
+            result.isAllowRegistrationFromWeb = source.isAllowRegistrationFromWeb();
+            result.IsDisplayDiscountVoucherCode = source.isDisplayDiscountVoucherCode();
+            result.CanUserEditProfile = source.canUserEditProfile();
+            result.isWhiteLabel = source.isWhiteLabel();
+            result.ShowPrices = source.showPrices();
+
             result.RaveReviews = [];
             result.PaymentGateways = [];
             result.CompanyContacts = [];
@@ -595,7 +606,13 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             mapImageUrlBinary:mapImageUrlBinary,
             taxLabel: taxLabel,
             taxRate: taxRate,
-            scopeVariables: scopeVariables
+            scopeVariables: scopeVariables,
+            isAllowRegistrationFromWeb:isAllowRegistrationFromWeb,
+            isDisplayDiscountVoucherCode:isDisplayDiscountVoucherCode,
+            canUserEditProfile:canUserEditProfile,
+            isWhiteLabel:isWhiteLabel,
+            showPrices: showPrices
+
             //#endregion
         };
         return self;
@@ -741,7 +758,11 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
-
+        store.isAllowRegistrationFromWeb ( source.isAllowRegistrationFromWeb);
+        store.isDisplayDiscountVoucherCode ( source.IsDisplayDiscountVoucherCode);
+        store.canUserEditProfile ( source.CanUserEditProfile);
+        store.isWhiteLabel ( source.isWhiteLabel);
+        store.showPrices ( source.ShowPrices);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -1778,7 +1799,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable(specifiedStartDateTime !== undefined ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
