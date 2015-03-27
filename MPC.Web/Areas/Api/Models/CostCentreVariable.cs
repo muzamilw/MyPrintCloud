@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 namespace MPC.MIS.Areas.Api.Models
 {
     public class CostCentreVariable
@@ -16,5 +17,6 @@ namespace MPC.MIS.Areas.Api.Models
         public string VariableDescription { get; set; }
         public double? VariableValue { get; set; }
         public int SystemSiteId { get; set; }
+        public string FixedVariables { get; set; }
     }
 }
