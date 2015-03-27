@@ -87,6 +87,8 @@ define("order/order.viewModel",
                     isItemDetailVisible = ko.observable(false),
                     // Is Section Detail Visible
                     isSectionDetailVisible = ko.observable(false),
+                    // Is Company Base Data Loaded
+                    isCompanyBaseDataLoaded = ko.observable(false),
                     // #endregion
                     // #region Observables
                     // filter
@@ -173,7 +175,7 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
-                        var code = data.code() == undefined || '' ? 'ORDER CODE' : data.code();
+                        var code = !data.code() ? "ORDER CODE" : data.code();
                         orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
@@ -215,7 +217,7 @@ define("order/order.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, 1);
+                        companySelector.show(onSelectCompany, 1, true);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -250,9 +252,9 @@ define("order/order.viewModel",
                         view.initializeLabelPopovers();
                     },
                     // Calculates Section Charges 
-                    calculateSectionChargeTotal= function() {
+                    calculateSectionChargeTotal = function () {
                         _.each(selectedProduct().itemSections(), function (item) {
-                            baseCharge1Total(baseCharge1Total() + (item.baseCharge1() !== undefined && item.baseCharge1()!=="" ? item.baseCharge1():0));
+                            baseCharge1Total(baseCharge1Total() + (item.baseCharge1() !== undefined && item.baseCharge1() !== "" ? item.baseCharge1() : 0));
                             baseCharge2Total(baseCharge2Total() + (item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0));
                             baseCharge3Total(baseCharge3Total() + (item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0));
                         });
@@ -571,6 +573,11 @@ define("order/order.viewModel",
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data));
                                     view.setOrderState(selectedOrder().statusId());
+                                    
+                                    // Get Base Data For Company
+                                    if (data.CompanyId) {
+                                        getBaseForCompany(data.CompanyId);
+                                    }
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
@@ -587,6 +594,7 @@ define("order/order.viewModel",
                     },
                     // Get Company Base Data
                     getBaseForCompany = function (id) {
+                        isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
                             id: id
                         }, {
@@ -601,8 +609,10 @@ define("order/order.viewModel",
                                         mapList(companyContacts, data.CompanyContacts, model.CompanyContact);
                                     }
                                 }
+                                isCompanyBaseDataLoaded(true);
                             },
                             error: function (response) {
+                                isCompanyBaseDataLoaded(true);
                                 toastr.error("Failed to load details for selected company" + response);
                             }
                         });
@@ -667,8 +677,7 @@ define("order/order.viewModel",
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
                         dataservice.getItemsByCompanyId({
-                            //CompanyId: selectedOrder().companyId()//todo: uncomment it when companies start loading
-                            CompanyId: 32844
+                            CompanyId: selectedOrder().companyId()
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -680,7 +689,6 @@ define("order/order.viewModel",
                                 }
                             },
                             error: function (response) {
-                                //isLoadingStores(false);
                                 toastr.error("Failed to Load Company Products . Error: " + response);
                             }
                         });
@@ -691,10 +699,9 @@ define("order/order.viewModel",
                     },
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
-                    };
-
-                //#endregion
-                //#region Pre Payment
+                    },
+                    //#endregion
+                    //#region Pre Payment
                 showOrderPrePaymentModal = function () {
                     selectedPrePayment(model.PrePayment());
                     view.showOrderPrePaymentModal();
@@ -718,7 +725,7 @@ define("order/order.viewModel",
                 //On Save Pre Payment
                     onSavePrePayment = function (prePayment) {
                         if (dobeforeSavePrePayment()) {
-                            var paymentMethod = _.find(paymentMethods(), function(item) {
+                            var paymentMethod = _.find(paymentMethods(), function (item) {
                                 return item.PaymentMethodId === prePayment.paymentMethodId();
                             });
                             if (paymentMethod) {
@@ -738,7 +745,7 @@ define("order/order.viewModel",
                         return flag;
                     };
                 //#endregion
-                //#endregion
+                    //#endregion
 
                 return {
                     // #region Observables
@@ -836,6 +843,8 @@ define("order/order.viewModel",
                     selectedPrePayment: selectedPrePayment,
                     onSavePrePayment: onSavePrePayment,
                     onEditPrePayment: onEditPrePayment,
+                    //#endregion,
+                    isCompanyBaseDataLoaded: isCompanyBaseDataLoaded
                     //#endregion
                 };
             })()
