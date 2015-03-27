@@ -184,22 +184,47 @@
                                 break;
                             }
                         case '9':
-                            selectedClickChargeZones().From(selectedClickChargeZones().To() + 1);
-                            if (selectedClickChargeZones().To() >= selectedClickChargeZones().To()) {
-                                selectedClickChargeZones().To(selectedClickChargeZones().To() + 102);
+                            selectedClickChargeZones().From10(selectedClickChargeZones().To9() + 1);
+                            if (selectedClickChargeZones().To9() >= selectedClickChargeZones().To10()) {
+                                selectedClickChargeZones().To10(selectedClickChargeZones().To9() + 102);
                             } else {
                                 break;
                             }
                         case '10':
-                            break;
+                            selectedClickChargeZones().From11(selectedClickChargeZones().To10() + 1);
+                            if (selectedClickChargeZones().To10() >= selectedClickChargeZones().To11()) {
+                                selectedClickChargeZones().To11(selectedClickChargeZones().To10() + 102);
+                            } else {
+                                break;
+                            }
                         case '11':
-                            break;
+                            selectedClickChargeZones().From12(selectedClickChargeZones().To11() + 1);
+                            if (selectedClickChargeZones().To11() >= selectedClickChargeZones().To12()) {
+                                selectedClickChargeZones().To12(selectedClickChargeZones().To11() + 102);
+                            } else {
+                                break;
+                            }
                         case '12':
-                            break;
+                            selectedClickChargeZones().From13(selectedClickChargeZones().To12() + 1);
+                            if (selectedClickChargeZones().To12() >= selectedClickChargeZones().To13()) {
+                                selectedClickChargeZones().To13(selectedClickChargeZones().To12() + 102);
+                            } else {
+                                break;
+                            }
                         case '13':
-                            break;
+                            selectedClickChargeZones().From14(selectedClickChargeZones().To13() + 1);
+                            if (selectedClickChargeZones().To13() >= selectedClickChargeZones().To14()) {
+                                selectedClickChargeZones().To14(selectedClickChargeZones().To13() + 102);
+                            } else {
+                                break;
+                            }
                         case '14':
-                            break;
+                            selectedClickChargeZones().From15(selectedClickChargeZones().To14() + 1);
+                            if (selectedClickChargeZones().To14() >= selectedClickChargeZones().To15()) {
+                                selectedClickChargeZones().To15(selectedClickChargeZones().To14() + 102);
+                            } else {
+                                break;
+                            }
                         case '15':
                             break;
                     }
