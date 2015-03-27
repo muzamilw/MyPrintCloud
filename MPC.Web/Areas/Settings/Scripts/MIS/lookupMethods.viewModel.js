@@ -21,7 +21,7 @@
                     lookupClickChargeZonesList = ko.observableArray([]),
                     lookupGuillotineClickChargeList = ko.observableArray([]),
                     lookupMeterPerHourClickChargeList = ko.observableArray([]),
-                    
+                    CurrencySymbol = ko.observable(),
                     selectedlookup = ko.observable(),
                     selectedClickCharge = ko.observable(),
                     selectedSpeedWeight = ko.observable(),
@@ -127,7 +127,83 @@
 
 
                 }
-
+                onChangeToValue = function (To) {
+                    switch (To) {
+                        case '1':
+                            selectedClickChargeZones().From2(selectedClickChargeZones().To1() + 1);
+                            if (selectedClickChargeZones().To1() >= selectedClickChargeZones().To2()) {
+                                selectedClickChargeZones().To2(selectedClickChargeZones().To1() + 102);
+                            }
+                        case '2':
+                            selectedClickChargeZones().From3(selectedClickChargeZones().To2() + 1);
+                            if (selectedClickChargeZones().To2() >= selectedClickChargeZones().To3()) {
+                                selectedClickChargeZones().To3(selectedClickChargeZones().To2() + 102);
+                            } else {
+                                break;
+                            }
+                        case '3':
+                            selectedClickChargeZones().From4(selectedClickChargeZones().To3() + 1);
+                            if (selectedClickChargeZones().To3() >= selectedClickChargeZones().To4()) {
+                                selectedClickChargeZones().To4(selectedClickChargeZones().To3() + 102);
+                            } else {
+                                break;
+                            }
+                        case '4':
+                            selectedClickChargeZones().From5(selectedClickChargeZones().To4() + 1);
+                            if (selectedClickChargeZones().To4() >= selectedClickChargeZones().To5()) {
+                                selectedClickChargeZones().To5(selectedClickChargeZones().To4() + 102);
+                            } else {
+                                break;
+                            }
+                        case '5':
+                            selectedClickChargeZones().From6(selectedClickChargeZones().To5() + 1);
+                            if (selectedClickChargeZones().To5() >= selectedClickChargeZones().To6()) {
+                                selectedClickChargeZones().To6(selectedClickChargeZones().To5() + 102);
+                            } else {
+                                break;
+                            }
+                        case '6':
+                            selectedClickChargeZones().From7(selectedClickChargeZones().To6() + 1);
+                            if (selectedClickChargeZones().To6() >= selectedClickChargeZones().To7()) {
+                                selectedClickChargeZones().To7(selectedClickChargeZones().To6() + 102);
+                            } else {
+                                break;
+                            }
+                        case '7':
+                            selectedClickChargeZones().From8(selectedClickChargeZones().To7() + 1);
+                            if (selectedClickChargeZones().To7() >= selectedClickChargeZones().To8()) {
+                                selectedClickChargeZones().To8(selectedClickChargeZones().To7() + 102);
+                            } else {
+                                break;
+                            }
+                        case '8':
+                            selectedClickChargeZones().From9(selectedClickChargeZones().To8() + 1);
+                            if (selectedClickChargeZones().To8() >= selectedClickChargeZones().To9()) {
+                                selectedClickChargeZones().To9(selectedClickChargeZones().To8() + 102);
+                            } else {
+                                break;
+                            }
+                        case '9':
+                            selectedClickChargeZones().From(selectedClickChargeZones().To() + 1);
+                            if (selectedClickChargeZones().To() >= selectedClickChargeZones().To()) {
+                                selectedClickChargeZones().To(selectedClickChargeZones().To() + 102);
+                            } else {
+                                break;
+                            }
+                        case '10':
+                            break;
+                        case '11':
+                            break;
+                        case '12':
+                            break;
+                        case '13':
+                            break;
+                        case '14':
+                            break;
+                        case '15':
+                            break;
+                    }
+                }
 
                 DeleteGuillotinePTV = function (oGuillotinePTV) {
                     if (!(oGuillotinePTV.Id()) > 0) {
@@ -204,7 +280,7 @@
                     } else if (Id == 6) {
                         isGuillotineClickChargeEditorVisible(true);
                         selectedGuillotineClickCharge(model.GuillotineCalc());
-                       // selectedGuillotineClickCharge().GuillotinePTVList.removeAll();
+                        // selectedGuillotineClickCharge().GuillotinePTVList.removeAll();
                         selectedlookup().Type(6);
                         sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
                     } else if (Id == 8) {
@@ -322,6 +398,7 @@
                         success: function (data) {
                             selectedlookup(olookup);
                             IsSelected(true);
+                            CurrencySymbol(data.CurrencySymbol);
                             if (data.ClickChargeLookup != null) {
                                 isClickChargeEditorVisible(true);
 
@@ -335,7 +412,7 @@
                                 isGuillotineClickChargeEditorVisible(true);
                                 selectedGuillotineClickCharge(model.GuillotineCalc(data.GuillotineCalc, data.GuilotinePtv));
                                 sharedNavigationVM.initialize(selectedGuillotineClickCharge, function (saveCallback) { saveLookup(saveCallback); });
-                               
+
                             } else if (data.MeterPerHourLookup != null) {
                                 isMeterPerHourClickChargeEditorVisible(true);
                                 selectedMeterPerHourClickCharge(model.MeterPerHourLookup(data.MeterPerHourLookup));
@@ -400,7 +477,7 @@
                 },
                 saveEdittedLookup = function () {
 
-                    dataservice.saveLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), selectedGuillotineClickCharge()!=null?selectedGuillotineClickCharge().GuillotinePTVList():null), {
+                    dataservice.saveLookup(model.lookupServerMapper(selectedlookup(), selectedClickCharge(), selectedClickChargeZones(), selectedSpeedWeight(), selectedPerHour(), selectedMeterPerHourClickCharge(), selectedGuillotineClickCharge(), selectedGuillotineClickCharge() != null ? selectedGuillotineClickCharge().GuillotinePTVList() : null), {
                         success: function (data) {
                             errorList.removeAll();
                             selectedSpeedWeight(null);
@@ -513,14 +590,15 @@
                     isClickChargeZonesEditorVisible: isClickChargeZonesEditorVisible,
                     isGuillotineClickChargeEditorVisible: isGuillotineClickChargeEditorVisible,
                     isMeterPerHourClickChargeEditorVisible: isMeterPerHourClickChargeEditorVisible,
-                    
+                    onChangeToValue: onChangeToValue,
                     AddLookup: AddLookup,
                     AddGuiltineLookup: AddGuiltineLookup,
                     DeleteGuillotinePTV: DeleteGuillotinePTV,
                     IsSelected: IsSelected,
                     DeleteLookup: DeleteLookup,
                     oncloseEditor: oncloseEditor,
-                    onCancal: onCancal
+                    onCancal: onCancal,
+                    CurrencySymbol: CurrencySymbol
                 }
             })()
         };
