@@ -547,12 +547,11 @@
                                                             Use From variable
                                                         </label>
                                                     </div>
-                                                    <div class="col-md-1 radio">
-                                                        <input type="radio" name="optionsinput" id="rdioVariableInput" value="true">
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputQty" id="rdioVariableInputQty" value="1" style="margin:0px" data-bind="checked: isQtyVariable">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:quantityVariableId"></select>
-                                                        <span class="help-block text-right">Select Variable</span>
+                                                        <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:quantityVariableId, enable: isQtyVariable() === '1'"></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -567,13 +566,13 @@
                                                             Prompt Question
                                                         </label>
                                                     </div>
-                                                    <div class="col-md-1 radio">
-                                                        <input type="radio" name="optionsinput" id="rdioPromptInput" value="false">
+                                                    <div class="col-md-1 text-left">
+                                                        <input class="form-control" type="radio" name="optionsinputQty" id="rdioPromptInputQty" value="2" style="margin:0px" data-bind="checked: isQtyVariable">
                                                     </div>
-                                                    <div class="col-lg-6">
-                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: quantityQuestionString, validationTooltip: quantityQuestionString">
-                                                        <span class="help-block text-right">Quantity prompt question</span>
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: quantityQuestionString, validationTooltip: quantityQuestionString, enable: isQtyVariable() === '2'">
                                                     </div>
+
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -584,9 +583,10 @@
                                                         </div>
                                                         <label for="txtVariablePromptDefault" class="control-label text-right tooltip-float">Default Value</label>
                                                     </div>
+                                                    
                                                     <div class="col-lg-3">
                                                         <input type="text" class="form-control" id="txtVariablePromptDefault" placeholder="Enter Default Value" data-bind="value: quantityQuestionDefaultValue, validationTooltip: quantityQuestionDefaultValue">
-                                                        <span class="help-block text-right">Default value</span>
+                                                        
                                                     </div>
                                                 </div>
                                                 
@@ -673,10 +673,10 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-md-1 text-left">
-                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioVariableInputTime" value="true">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioVariableInputTime" value="1" style="margin:0px" data-bind="checked: isTimeVariable">
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId"></select>
+                                                        <select id="ddlbVariablesList" class="form-control" data-bind="options: $root.costCenterVariables, optionsText: 'Name', optionsValue: 'VarId',value:timeVariableId, enable: isTimeVariable() === '1'"></select>
                                                     </div>
                                                 </div>
                                                 
@@ -693,11 +693,11 @@
                                                         </label>
                                                     </div>
                                                     <div class="col-md-1 text-left">
-                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="false">
+                                                        <input class="form-control" type="radio" name="optionsinputTime" id="rdioPromptInputTime" value="2" style="margin:0px" data-bind="checked: isTimeVariable">
                                                         
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString">
+                                                        <input type="text" class="form-control" id="txtInputPrompt" placeholder="Enter Promot Question" data-bind="value: timeQuestionString, validationTooltip: timeQuestionString, enable: isTimeVariable() === '2'">
                                                     </div>
                                                     
                                                 </div>
@@ -710,11 +710,12 @@
                                                         </div>
                                                         <label for="txtVariablePromptDefault" class="control-label text-right tooltip-float">Default Value</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <input type="text" class="form-control" id="txtVariablePromptDefault" placeholder="Enter Default Value" data-bind="value: timeQuestionDefaultValue, validationTooltip: timeQuestionDefaultValue">
-                                                        <span class="help-block text-right">Default value</span>
+                                                    
+                                                        <div class="col-lg-3">
+                                                            <input type="text" class="form-control" id="txtVariablePromptDefault" placeholder="Enter Default Value" data-bind="value: timeQuestionDefaultValue, validationTooltip: timeQuestionDefaultValue">
+
+                                                        </div>
                                                     </div>
-                                                </div>
 
                                             </div>
                                         </div>
@@ -807,7 +808,7 @@
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="clearfix">
-                                                     <div style="padding-right: 5px;" id="nestable2">
+                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:600px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
@@ -1065,9 +1066,9 @@
                                             
                                             <div class="table-bordered col-md-9 form-horizontal">
                                                <div class="filter-block pull-right">
-                                                    <a href="#" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Instruction
-                                                    </a>
+                                                   <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createWorkInstruction">
+                                                       <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Instruction
+                                                   </a>
                                                 </div>
                                                 <div class="clearfix">
                                                     <div class="table-responsive">
@@ -1101,7 +1102,7 @@
 </div>
 <script id="costCenterVariableTree" type="text/html">
     <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
-        <div class="dd-handle-list"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
             <span data-bind="text: Text"></span>
         </div>
@@ -1133,13 +1134,13 @@
 </script>
 <script id="InstructionEditTemplate" type="text/html">
     <div class="row">
-        <a href="#" class="table-link danger" title="Delete Instruction">
+        <a href="#" class="table-link danger" title="Delete Instruction" data-bind="click: $root.deleteWorkInstruction">
             <span class="fa-stack">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
             </span>
         </a>
-        <a href="#" class="btn btn-primary pull-right">
+        <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createWorkInstructionChoice">
             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Choice
         </a>
     </div>
@@ -1149,7 +1150,7 @@
     <tr>
         <td style="width: 75%"><input class="form-control" style="padding-right: 0px;padding-left: 10px;" data-bind="value: choice, validationTooltip: choice" /></td>
         <td style="width: 25%">
-            <a href="#" class="table-link danger" title="Delete Choice">
+            <a href="#" class="table-link danger" title="Delete Choice" data-bind="click: $root.deleteWorkInstructionChoice">
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>

@@ -6,7 +6,7 @@
                 <header class="main-box-header clearfix">
                     <div class="filter-block pull-right">
 
-                        <a href="#" class="btn btn-primary pull-right">
+                        <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.onCreateOrderPrePayment">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Payment
                         </a>
 
@@ -26,71 +26,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <span>Paid on 10/29/2014</span>
-                                    </td>
-                                    <td>
-                                        Payment on Account
-                                    </td>
-
-
-                                    <td class="text-center">
-                                        <span>Ref. # 11</span>
-                                    </td>
-                                    <td>
-                                        <span>ANZ</span>
-                                    </td>
-
-                                    <td>
-                                        $11.00
-                                    </td>
-
-
-                                    <td class="text-right">
-                                        <a href="#" class="table-link">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span>Paid on 10/30/2014</a>
-                                    </td>
-                                    <td>
-                                        Payment on Account
-                                    </td>
-
-
-                                    <td class="text-center">
-                                        <span>Ref. # 123</span>
-                                    </td>
-                                    <td>
-                                        <span>St.Ggeorge</span>
-                                    </td>
-                                    <td>
-                                        $11.00
-                                    </td>
-
-
-                                    <td class="text-right">
-                                        <a href="#" class="table-link">
-                                            <span class="fa-stack">
-                                                <i class="fa fa-square fa-stack-2x"></i>
-                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                            </span>
-                                        </a>
-
-                                    </td>
-
-                                </tr>
-
-
+                                <!-- ko template: { name: 'prePaymentItemTemplate' , foreach: prePayments } -->
+                                <!-- /ko -->
                             </tbody>
                         </table>
                     </div>
@@ -100,6 +37,22 @@
         </div>
 
     </div>
-
+    <script id="prePaymentItemTemplate" type="text/html">
+        <tr>
+            <td><span>Paid on </span><span data-bind="dateString:formattedPaymentDate"></span></td>
+            <td data-bind="text:paymentDescription"></td>
+            <td data-bind="text:referenceCode"></td>
+            <td data-bind="text:paymentMethodName"></td>
+            <td><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:amount"></span></td>
+            <td class="text-right">
+                <a href="" class="table-link" data-bind="click:$root.onEditPrePayment">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </td>
+        </tr>
+    </script>
 </div>
 

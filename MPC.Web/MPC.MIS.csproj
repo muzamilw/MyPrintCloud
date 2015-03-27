@@ -310,6 +310,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyContactBaseForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterTreeController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
@@ -356,6 +357,10 @@
     <Compile Include="Areas\Api\ModelMappers\ColorPalleteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCenterVariableTreeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
@@ -423,9 +428,14 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
@@ -1865,6 +1875,7 @@
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />

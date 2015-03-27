@@ -310,6 +310,8 @@ namespace MPC.Webstore.Controllers
 
             }
 
+            ViewBag.ContactId = _webstoreAuthorizationChecker.loginContactID();
+
             return View("PartialViews/Category", Category);
         }
 
