@@ -88,7 +88,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage Preview([FromBody]  DesignerPostSettings obj)
         {
             double bleedAreaSize = 0;
-            MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
+            MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromOrganisation();
             if(response != null)
             {
                 var org = response.Organisation;

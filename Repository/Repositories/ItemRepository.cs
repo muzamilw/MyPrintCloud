@@ -2415,6 +2415,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                string SourceTargetFolder = "";
                 db.Configuration.LazyLoadingEnabled = false;
                 Estimate TemporaryOrder = null;
 
@@ -2533,8 +2534,17 @@ namespace MPC.Repository.Repositories
                                             ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "",
                                             ".pdf", TemporaryOrder.CreationDate ?? DateTime.Now);
 
+                                        SourceTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath);
+                                        string destinationTargetFolder = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID);
+                                        
                                         string destnationfilepdf =
                                             HttpContext.Current.Server.MapPath("/mpc_content/Attachments/"+ OrganisationId +"/" + realCustomerID + "/" + newfilenamepdf);
+
+                                        if (!System.IO.Directory.Exists(destinationTargetFolder))
+                                        {
+                                            System.IO.Directory.CreateDirectory(destinationTargetFolder);
+                                        }
+
                                         System.IO.File.Move(Sourcefilenamepdf, destnationfilepdf);
 
                                         //string Actualfilenamepng =
@@ -2554,10 +2564,15 @@ namespace MPC.Repository.Repositories
                                     attatchment.ContactId = realContactID;
                                     attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     PageNo = PageNo + 1;
+                                    
                                 });
                             });
                         }
-
+                        if (!System.IO.Directory.Exists(SourceTargetFolder))
+                        {
+                            System.IO.Directory.Delete(SourceTargetFolder, true);
+                        }
+                        
                         //item
                         TemporaryOrderItems.ToList().ForEach(item =>
                         {
@@ -2575,10 +2590,19 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
-                            //remove dummy customer and its order
-                            // RemoveCustomerAndOrder(TemporaryOrder.CompanyId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
+                          
                         }
 
+                        //List<Address> temporaryCustomerAddress = db.Addesses.Where(a => a.CompanyId == TemporaryCustomerID).ToList();
+                        //foreach (Address add in temporaryCustomerAddress)
+                        //{
+                        //    db.Addesses.Remove(add);
+                        //}
+                        //CompanyTerritory temporaryTerritory = db.CompanyTerritories.Where(t => t.CompanyId == TemporaryCustomerID).FirstOrDefault();
+                        //db.CompanyTerritories.Remove(temporaryTerritory);
+                        //db.CompanyContacts.Remove(TemporaryContact);
+                        //Company temporaryCompany = db.Companies.Where(c => c.CompanyId == TemporaryCustomerID).FirstOrDefault();
+                        //db.Companies.Remove(temporaryCompany);
 
                         db.SaveChanges();
 

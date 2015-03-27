@@ -43,7 +43,7 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = null;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
                 if (UserCookieManager.OrderId == 0) // cookie contains order id
@@ -53,7 +53,7 @@ namespace MPC.Webstore.Controllers
                         OrderId = _OrderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
                         UserCookieManager.OrderId = OrderId;
                     }
-                    else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         OrderId = _OrderService.GetOrderIdByCompanyId(UserCookieManager.TemporaryCompanyId, OrderStatus.ShoppingCart);
                         UserCookieManager.OrderId = OrderId;
@@ -136,7 +136,7 @@ namespace MPC.Webstore.Controllers
                     //  cntRightPricing1.Visible = false;
                 }
 
-                if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
 
@@ -158,7 +158,7 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             string IsCallFrom = Request.Form["hfIsCallFrom"];
             string OrderID = Request.Form["hfOrderID"].ToString();
             string ItemID = Request.Form["hfItemID"].ToString();
@@ -185,7 +185,7 @@ namespace MPC.Webstore.Controllers
               //  bool login = true;
                 if (_myClaimHelper.isUserLoggedIn())//
                 {
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         
                         if (IsPlaceOrder == false)
@@ -215,11 +215,11 @@ namespace MPC.Webstore.Controllers
                     }
                   
                   
-                    if(UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if(UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime, StoreMode.Corp);
                     }
-                    else if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                    else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         result = _OrderService.UpdateOrderWithDetails(sOrderID, _myClaimHelper.loginContactID(), grandOrderTotal, DeliveryTime,StoreMode.Retail);
                     }
@@ -242,7 +242,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         ValidateOrderForCorporateLogin(sOrderID, IsPlaceOrder,StoreBaseResopnse,hasWebAccess); // rediret user to the corp login page.
                     }
@@ -337,7 +337,7 @@ namespace MPC.Webstore.Controllers
 
             #region RelatedItems
             // if store is not corp then related items
-            if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
             {
                 LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
 
@@ -352,7 +352,7 @@ namespace MPC.Webstore.Controllers
              string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             newCloneditem = _ItemService.CloneItem(ItemID, 0, OrderID, 0, 0, 0, null, false, true, _myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
@@ -381,7 +381,7 @@ namespace MPC.Webstore.Controllers
             ShoppingCart shopCart = LoadShoppingCart(OrderID);
 
             BindGridView(shopCart, StoreBaseResopnse, StoreBaseResopnse.Company.ShowPrices ?? false);
-            if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                 SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
             StoreBaseResopnse = null;
@@ -397,7 +397,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-           MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+           MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             result = _ItemService.RemoveCloneItem(ItemID, out itemAttatchments, out clonedTempldateFiles);
 
@@ -439,7 +439,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             string voucherCode = DiscountVoucher.Trim();
             double voucherDiscRate = 0;
@@ -460,7 +460,7 @@ namespace MPC.Webstore.Controllers
                     if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue && RecordOfOrderIfDiscuntApplied.VoucherDiscountRate > 0)
                     {
                         double taxRate = UserCookieManager.TaxRate;
-                        if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                         {
                             _OrderService.RollBackDiscountedItems(OrderID, taxRate, StoreMode.Corp);
                         }
@@ -472,7 +472,7 @@ namespace MPC.Webstore.Controllers
 
                     }
                     double VDiscountRate = _OrderService.SaveVoucherCodeAndRate(OrderID, voucherCode);
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         voucherDiscountedAmount = _OrderService.PerformVoucherdiscountOnEachItem(OrderID, OrderStatus.ShoppingCart, UserCookieManager.TaxRate, VDiscountRate, StoreMode.Corp);
                     }
@@ -533,13 +533,13 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             ShoppingCart shopCart = null;
             Estimate RecordOfOrderIfDiscuntApplied = _OrderService.CheckDiscountApplied(OrderID);
             if (RecordOfOrderIfDiscuntApplied.DiscountVoucherID.HasValue)
             {
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
                     _OrderService.RollBackDiscountedItems(OrderID, UserCookieManager.TaxRate, StoreMode.Corp);
                 }
@@ -603,13 +603,13 @@ namespace MPC.Webstore.Controllers
                             List<MatchingSets> res = _TemplateService.BindTemplatesList(TemplateName, 1, baseResponse.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
 
                             int isCalledFrom = 0;
-                            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                 isCalledFrom = 4;
                             else
                                 isCalledFrom = 3;
 
                             bool isEmbaded;
-                            if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                                 isEmbaded = true;
                             else
                                 isEmbaded = false;
