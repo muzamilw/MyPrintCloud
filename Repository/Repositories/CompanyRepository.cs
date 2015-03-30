@@ -1960,7 +1960,8 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId;
+                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
+                         (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =

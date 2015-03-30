@@ -17,6 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Private
 
         private readonly ICrmSupplierService crmSupplierService;
+        private readonly ICompanyService companyService;
 
         #endregion
 
@@ -26,9 +27,10 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="crmSupplierService"></param>
-        public CrmSupplierController(ICrmSupplierService crmSupplierService)
+        public CrmSupplierController(ICrmSupplierService crmSupplierService, ICompanyService companyService)
         {
             this.crmSupplierService = crmSupplierService;
+            this.companyService = companyService;
         }
 
         #endregion
