@@ -734,20 +734,29 @@
                                                         </div>
                                                         <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost" data-bind="checked: isEditPlantCost">
-                                                            <label class="onoffswitch-label" for="chkPlantEstimatedCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkPlantEstimatedCost" class="onoffswitch-checkbox" id="chkPlantEstimatedCost" data-bind="checked: isEditPlantCost">
+                                                                <label class="onoffswitch-label" for="chkPlantEstimatedCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
                                                         </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
+                                                        </div>
+                                                        
+                                                       
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed, enable: isEditPlantCost"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed, enable: isEditPlantCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                     </div>
@@ -761,20 +770,27 @@
                                                         </div>
                                                         <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge" data-bind="checked: isEditPlantQuote">
-                                                            <label class="onoffswitch-label" for="chkPlantQuotedCharge">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkPlantQuotedCharge" class="onoffswitch-checkbox" id="chkPlantQuotedCharge" data-bind="checked: isEditPlantQuote">
+                                                                <label class="onoffswitch-label" for="chkPlantQuotedCharge">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed, enable: isEditPlantQuote"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed, enable: isEditPlantQuote, drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -788,20 +804,27 @@
                                                         </div>
                                                         <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost" data-bind="checked: isEditPlantActualCost">
-                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkPlantActualCost" class="onoffswitch-checkbox" id="chkPlantActualCost" data-bind="checked: isEditPlantActualCost">
+                                                                <label class="onoffswitch-label" for="chkPlantActualCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed, enable: isEditPlantActualCost"></textarea>
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed, enable: isEditPlantActualCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -832,20 +855,27 @@
                                                         </div>
                                                         <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkStockEstimatedCost" class="onoffswitch-checkbox" id="chkStockEstimatedCost" data-bind="checked: isEditStockCost">
-                                                            <label class="onoffswitch-label" for="chkStockEstimatedCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkStockEstimatedCost" class="onoffswitch-checkbox" id="chkStockEstimatedCost" data-bind="checked: isEditStockCost">
+                                                                <label class="onoffswitch-label" for="chkStockEstimatedCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateStockCost" rows="5" data-bind="value: strCostMaterialUnParsed, enable: isEditStockCost"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateStockCost" rows="5" data-bind="value: strCostMaterialUnParsed, enable: isEditStockCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -859,20 +889,27 @@
                                                         </div>
                                                         <label for="chkStockQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkStockQuotedCharge" class="onoffswitch-checkbox" id="chkStockQuotedCharge" data-bind="checked: isEditStockQuote">
-                                                            <label class="onoffswitch-label" for="chkStockQuotedCharge">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkStockQuotedCharge" class="onoffswitch-checkbox" id="chkStockQuotedCharge" data-bind="checked: isEditStockQuote">
+                                                                <label class="onoffswitch-label" for="chkStockQuotedCharge">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                   
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtQuoteStockCost" rows="5" data-bind="value: strPriceMaterialUnParsed, enable: isEditStockQuote"></textarea>
+                                                        <textarea class="form-control" id="txtQuoteStockCost" rows="5" data-bind="value: strPriceMaterialUnParsed, enable: isEditStockQuote,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -886,20 +923,27 @@
                                                         </div>
                                                         <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkStockActualCost" class="onoffswitch-checkbox" id="chkStockActualCost" data-bind="checked: isEditStockActualCost">
-                                                            <label class="onoffswitch-label" for="chkStockActualCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkStockActualCost" class="onoffswitch-checkbox" id="chkStockActualCost" data-bind="checked: isEditStockActualCost">
+                                                                <label class="onoffswitch-label" for="chkStockActualCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtStockActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed, enable: isEditStockActualCost"></textarea>
+                                                        <textarea class="form-control" id="txtStockActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed, enable: isEditStockActualCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -943,7 +987,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateLabourCost" rows="5" data-bind="value: strCostLabourUnParsed, enable: isEditLabourCost"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateLabourCost" rows="5" data-bind="value: strCostLabourUnParsed, enable: isEditLabourCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -970,7 +1014,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed, enable: isEditLabourQuote"></textarea>
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed, enable: isEditLabourQuote,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Quoted Charge</span>
                                                     </div>
                                                 </div>
@@ -997,7 +1041,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtLabourActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed, enable: isEditLabourActualCost"></textarea>
+                                                        <textarea class="form-control" id="txtLabourActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed, enable: isEditLabourActualCost,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Actual Cost</span>
                                                     </div>
                                                 </div>
@@ -1042,7 +1086,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3"> </div>
                                                     <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateTimeCost" rows="5" data-bind="value: strTimeUnParsed, enable: isEditTime"></textarea>
+                                                        <textarea class="form-control" id="txtEstimateTimeCost" rows="5" data-bind="value: strTimeUnParsed, enable: isEditTime,  drop: $root.dropped"></textarea>
                                                         <span class="help-block text-right">Estimated Cost</span>
                                                     </div>
                                                 </div>
@@ -1173,4 +1217,17 @@
         </td>
                 
     </tr>
+</script>
+<script id="OperatorButtonsTemplate" type="text/html">
+    <div class="col-md-1 iconplus"></div>
+    <div class="col-md-1 iconsubtract"></div>
+    <div class="col-md-1 iconmultiply"></div>
+    <div class="col-md-1 icondivide"></div>
+
+    <div class="col-md-1 iconif"></div>
+    <div class="col-md-1 iconifelse"></div>
+    <div class="col-md-1 iconmode"></div>
+    <div class="col-md-1 iconpercent"></div>
+    <div class="col-md-1 iconstartbrace"></div>
+    <div class="col-md-1 iconendbrace"></div>
 </script>

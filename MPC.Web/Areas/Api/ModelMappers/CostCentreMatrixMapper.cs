@@ -14,8 +14,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 MatrixId = source.MatrixId,
                 Name = source.Name,
-                Description = source.Description
-
+                Description = source.Description,
+                VariableString = GetVariableString(source)
             };
         }
 
@@ -27,6 +27,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Description = source.Description
             };
+        }
+
+        private static string GetVariableString(MPC.Models.DomainModels.CostCentreMatrix source)
+        {
+            string sv = "{matrix, ID="+source.MatrixId+",Name="+source.Name+"}";
+            return sv;
         }
     }
 }
