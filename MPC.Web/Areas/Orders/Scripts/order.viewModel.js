@@ -128,9 +128,9 @@ define("order/order.viewModel",
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
-                    sortOn = ko.observable(1),
+                    sortOn = ko.observable(2),
                     // Sort Order -  true means asc, false means desc
-                    sortIsAsc = ko.observable(true),
+                    sortIsAsc = ko.observable(false),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
                      // Pagination for Categories
@@ -568,7 +568,9 @@ define("order/order.viewModel",
                             PageNo: pager().currentPage(),
                             Status: currentScreen(),
                             FilterFlag: selectedFilterFlag(),
-                            OrderTypeFilter: orderTypeFilter()
+                            OrderTypeFilter: orderTypeFilter(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
                                 orders.removeAll();
