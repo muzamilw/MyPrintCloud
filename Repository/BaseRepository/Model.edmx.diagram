@@ -290,6 +290,12 @@
         <AssociationConnector Association="DomainModels.FK_tbl_lookup_methods_tbl_machine_speedweightlookup" />
         <EntityTypeShape EntityType="DomainModels.SystemUser" Width="1.5" PointX="39.375" PointY="29.75" />
         <AssociationConnector Association="DomainModels.FK_CategoryTerritory_ProductCategory" />
+        <EntityTypeShape EntityType="DomainModels.GoodsReceivedNote" Width="1.5" PointX="40.375" PointY="14.25" />
+        <EntityTypeShape EntityType="DomainModels.GoodsReceivedNoteDetail" Width="1.5" PointX="42.625" PointY="16" />
+        <EntityTypeShape EntityType="DomainModels.Purchase" Width="1.5" PointX="39.375" PointY="35.125" />
+        <EntityTypeShape EntityType="DomainModels.PurchaseDetail" Width="1.5" PointX="41.625" PointY="36.625" />
+        <AssociationConnector Association="DomainModels.FK_GoodsreceivedID" />
+        <AssociationConnector Association="DomainModels.FK_PurchaseID" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

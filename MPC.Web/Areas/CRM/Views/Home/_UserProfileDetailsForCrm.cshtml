@@ -17,11 +17,9 @@
                             <div class="tabs-wrapper profile-tabs">
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab-UserProfileinforCRM" data-toggle="tab">Profile</a></li>
-                                    <li><a href="#tab-UserWorkFlowCRM" data-toggle="tab">Workflow Settings</a></li>
                                     <li><a href="#tab-UserAddressInfoCRM" data-toggle="tab">Address Info</a></li>
                                     <li><a href="#tab-UserPurseCRM" data-toggle="tab">User Purse </a></li>
-                                    <li><a data-bind="click: $root.getCompanyContactVariables" href="#tab-ModifyVariableCRM" data-toggle="tab">Modify Variable </a></li>
-                                </ul>
+                                    </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="tab-UserProfileinforCRM">
                                         <div class="col-lg-12">
@@ -125,18 +123,18 @@
                                                     </div>
                                                     <!--ko if: $root.selectedStore().type() != 4-->
                                                     @*<div class="form-group ">
-                            <div class="col-lg-5 text-right">
-                                <div class="bs-example-tooltips tooltip-float-width">
-                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Role" data-original-title="" title="">
-                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                    </a>
-                                </div>
-                                <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
-                            </div>
-                            <div class="col-lg-7">
-                                <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
-                            </div>
-                        </div>*@
+                                                        <div class="col-lg-5 text-right">
+                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Role" data-original-title="" title="">
+                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                </a>
+                                                            </div>
+                                                            <label for="ddUserRole" class="control-label text-right tooltip-float">Role</label>
+                                                        </div>
+                                                        <div class="col-lg-7">
+                                                            <select class="form-control col-lg-4" data-bind="options:$root.roles,optionsText:'roleName',optionsValue:'roleId', value: contactRoleId"></select>
+                                                        </div>
+                                                    </div>*@
                                                     <!--/ko-->
                                                 </div>
                                                 <div class="col-lg-6">
@@ -547,6 +545,46 @@
                                                                 <input type="text" class="form-control" id="txtAddIn5" data-bind="value:additionalField5">
                                                             </div>
                                                         </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-6 text-right">
+                                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Additional Info 5" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
+                                                                </div>
+
+                                                                <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNewsLetter" data-bind="checked: isNewsLetterSubscription">
+                                                                    <label class="onoffswitch-label" for="switchNewsLetter">
+                                                                        <div class="onoffswitch-inner"></div>
+                                                                        <div class="onoffswitch-switch"></div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group ">
+                                                            <div class="col-lg-6 text-right">
+                                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Additional Info 5" data-original-title="" title="">
+                                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                                    </a>
+                                                                </div>
+                                                                <label for="switchMailLetter" class="control-label text-right tooltip-float">Mail Subscription</label>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <div class="onoffswitch">
+                                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMailLetter" data-bind="checked: isEmailSubscription">
+                                                                    <label class="onoffswitch-label" for="switchMailLetter">
+                                                                        <div class="onoffswitch-inner"></div>
+                                                                        <div class="onoffswitch-switch"></div>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="form-group ">
@@ -665,240 +703,6 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab-UserWorkFlowCRM">
-                                        <div class="col-lg-12 form-horizontal ">
-                                            <div class="form-group ">
-                                                <div class="col-lg-5 text-right">
-                                                    <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Credit Limit" data-original-title="" title="">
-                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                        </a>
-                                                    </div>
-
-                                                    <label for="txtCreditLimit" class="control-label text-right tooltip-float">Credit Limit</label>
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus">$</span>
-                                                        <input type="text" class="form-control" id="txtCreditLimit" data-bind="value: creditLimit">
-                                                        <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus">.00</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="clearfix">
-                                            &nbsp;
-                                        </div>
-                                        <div class="col-lg-12 form-horizontal">
-                                            <div class="col-lg-5">
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Newsletter Subscription" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchNewsLetter" class="control-label text-right tooltip-float">Newsletter Subscription</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchNewsLetter" data-bind="checked: isNewsLetterSubscription">
-                                                            <label class="onoffswitch-label" for="switchNewsLetter">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Mail Subscription" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchMailLetter" class="control-label text-right tooltip-float">Mail Subscription</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchMailLetter" data-bind="checked: isEmailSubscription">
-                                                            <label class="onoffswitch-label" for="switchMailLetter">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Has Web Access" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchHasWebAcc" class="control-label text-right tooltip-float">Has Web Access</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchHasWebAcc" data-bind="checked: isWebAccess">
-                                                            <label class="onoffswitch-label" for="switchHasWebAcc">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Password" data-content="Map On Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchIsPlaceOrder" class="control-label text-right tooltip-float">Can Place Order</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPlaceOrder" data-bind="checked: isPlaceOrder">
-                                                            <label class="onoffswitch-label" for="switchIsPlaceOrder">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Is Default Contact" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchIsDefaultContact" class="control-label text-right tooltip-float">Is Default Contact</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsDefaultContact" data-bind="checked: isDefaultContact">
-                                                            <label class="onoffswitch-label" for="switchIsDefaultContact">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-7">
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can only Pay By Credit Card" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchCanPayByCC" class="control-label text-right tooltip-float">Can only Pay By Credit Card</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPayByCC" data-bind="checked: isPayByPersonalCreditCard">
-                                                            <label class="onoffswitch-label" for="switchCanPayByCC">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group" data-bind="visible: isPayByPersonalCreditCard()">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Place Direct Order" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchCanPlaceDirectOrder" class="control-label text-right tooltip-float">Can Place Direct Order</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceDirectOrder" data-bind="checked: canPlaceDirectOrder">
-                                                            <label class="onoffswitch-label" for="switchCanPlaceDirectOrder">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Place Order Without Approval" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchCanPlaceOrderWOAPP" class="control-label text-right tooltip-float">Can Place Order Without Approval</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanPlaceOrderWOAPP" data-bind="checked: canUserPlaceOrderWithoutApproval">
-                                                            <label class="onoffswitch-label" for="switchCanPlaceOrderWOAPP">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Edit Profile" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchCanEditProfile" class="control-label text-right tooltip-float">Can Edit Profile</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCanEditProfile" data-bind="checked: canUserEditProfile">
-                                                            <label class="onoffswitch-label" for="switchCanEditProfile">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-lg-8 text-right">
-                                                        <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Check if Can Edit Profile" data-original-title="" title="">
-                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                            </a>
-                                                        </div>
-                                                        <label for="switchIsPricingshown" class="control-label text-right tooltip-float">Can Display Prices on Web store</label>
-                                                    </div>
-                                                    <div class="col-lg-4">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchIsPricingshown" data-bind="checked: isPricingshown">
-                                                            <label class="onoffswitch-label" for="switchIsPricingshown">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
-                                                        </div>
-                                                        <span class="help-block text-right"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
                                     </div>
                                     <div class="tab-pane fade" id="tab-UserAddressInfoCRM">
                                         <div class="col-lg-12">
@@ -1024,14 +828,6 @@
                                     </div>
                                     <div class="tab-pane fade" id="tab-UserPurseCRM">
                                         <div class="col-lg-12">
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="tab-ModifyVariableCRM">
-                                        <div class="col-lg-12">
-                                            <div class=" form-horizontal clearfix">
-                                                <!-- ko template: { name: 'companyContactVariableTemplate' , foreach: companyContactVariables } -->
-                                                <!-- /ko -->
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
