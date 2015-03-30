@@ -68,15 +68,16 @@
                                 <li><a href="#tab-pageeditor" data-toggle="tab">Store Layout</a></li>
                                 <li><a href="#tab-DelvAddOns" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">Delivery Add Ons</a></li>
                                 <li><a href="#tab-specialoffer" data-toggle="tab">Discount & Loyalty Points</a></li>
-                                <li><a href="#tab-CMYKColors" data-toggle="tab">Brand Color</a></li>
-                                <li><a href="#tab-VariableDef" data-toggle="tab">Variable Definition</a></li>
+                                <li><a href="#tab-CMYKColors" data-toggle="tab">Color Palette</a></li>
+                                <li><a href="#tab-VariableDef" data-toggle="tab">Custom CRM Fields</a></li>
                                 <li><a href="#tab-SmartFormDef" data-toggle="tab">Smart Form</a></li>
-                                <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Variable</a></li>
+                                <li><a href="#tab-StoreVariables" data-toggle="tab" data-bind=click:$root.getScopeVariables>Store Custom CRM defaults</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" data-bind="with: $root.selectedStore" id="tab-generalinfo">
                                     <div class="col-lg-12 form-horizontal">
                                         <h3 class="group-header">Store Details</h3>
+                                        <p class="group-header-description">Manage the basic details of your store in this section.</p>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
@@ -128,11 +129,11 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
+                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Store's Unique Access Code</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                    <span class="help-block text-right">The web access code creates a unique URL for this store</span>
+                                                    <span class="help-block text-right">The Store's web access code creates a unique URL for this store</span>
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
@@ -187,9 +188,9 @@
 
                                             @*Start*@
                                             <div class="form-group">
-                                                <h3 class="group-header">Additionals Domains for this store</h3>
+                                                <h3 class="group-header">Assign domain names to this store</h3>
                                                 <div class="col-lg-9">
-                                                    <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add</button>
+                                                    <button class="btn btn-primary pull-right" data-bind="click: $root.createCompanyDomainItem, enable:($root.selectedStore().companyDomains().length != 0)">Add New Domain</button>
                                                 </div>
                                                 <div class="col-lg-9">
                                                     <div class="table-responsive">
@@ -275,7 +276,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Account Details</h3>
+                                        <h3 class="group-header">Account and tax settings for this store</h3>
+                                        
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
@@ -339,7 +341,8 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Social Details</h3>
+                                        <h3 class="group-header">Store's Social Login Integration Settings</h3>
+                                        <p class="group-header-description">Enter information below to enable Social Login feature on your store. Users can login into your store using Facebook, Twitter and Linked Accounts. Only available for Retail stores.</p>
                                         <div class="col-lg-9">
 
                                             <div class="form-group">
@@ -349,7 +352,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtFacebookURL" class="control-label text-right tooltip-float">Facebook URL</label>
+                                                    <label for="txtFacebookURL" class="control-label text-right tooltip-float">Store's Facebook URL</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtFacebookURL" placeholder="Enter Facebook URL" data-bind="value: facebookUrl">
@@ -359,7 +362,7 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps)" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps). If you don't have a facebook App then create an App first.'" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -391,7 +394,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtTwitterURL" class="control-label text-right tooltip-float">Twitter URL</label>
+                                                    <label for="txtTwitterURL" class="control-label text-right tooltip-float">Store's Twitter Account URL</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtTwitterURL" placeholder="Enter Twitter URL" data-bind="value: twitterUrl">
@@ -434,7 +437,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtLinkedInURL" class="control-label text-right tooltip-float">Linkedin URL</label>
+                                                    <label for="txtLinkedInURL" class="control-label text-right tooltip-float">Store's Linkedin Page URL</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtLinkedInURL" placeholder="Enter Linkedin URL" data-bind="value: linkedinUrl">
@@ -463,7 +466,7 @@
                                     <div class="col-lg-3" data-bind="with: $root.selectedStore">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
-                                                <h2>Categories</h2>
+                                                <h2>Store's Product Categories</h2>
                                                 <a data-bind="click: $root.onCreateNewProductCategory" class="btn btn-primary pull-right">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
                                                 </a>
@@ -499,7 +502,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="tab-territory" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Users</h3>
+                                        <h3 class="group-header">Store's Managers and Visitors (users)</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <!--ko if: $root.selectedStore().type() != 4-->
@@ -554,7 +557,8 @@
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Addresses</h3>
+                                        <h3 class="group-header">Store Addresses</h3>
+                                        <p class="group-header-description">For a public store you add a default pickup location. For a private store the addresses are used for pick up location and also as delivery locations for orders placed.</p>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <!--ko if: $root.selectedStore().type() != 4-->
@@ -609,7 +613,7 @@
                                     </div>
                                     <!--ko if: type() != 4-->
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Territories</h3>
+                                        <h3 class="group-header">Store's Corporate Hierarchy Address Territories</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block">
@@ -653,7 +657,7 @@
                                     </div>
                                     <!--/ko-->
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Managers</h3>
+                                        <h3 class="group-header">Select system users for system workflow notifications</h3>
                                         <div class="col-lg-9 form-horizontal clearfix">
                                             <div class="form-group form-horizontal">
                                                 <div class="col-lg-4 text-right">
@@ -745,7 +749,7 @@
                                 </div>
                                 <div class="tab-pane fade" id="tab-widgets" data-bind="with: $root.selectedStore">
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Themes</h3>
+                                        <h3 class="group-header">Store Theme</h3>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -760,7 +764,7 @@
                                                     <label class="control-label text-right tooltip-float pull-left" data-bind="text:currentThemeName"></label>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="btn btn-primary">Restore</div>
+                                                    <div class="btn btn-primary">Restore to original version</div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -778,13 +782,13 @@
                                                     <!-- /ko -->
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme,visible:$root.selectedStore().companyId()!==undefined">Apply</div>
+                                                    <div class="btn btn-primary" data-bind="click:$root.onApplyTheme,visible:$root.selectedStore().companyId()!==undefined">Apply Selected Theme</div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Store background</h3>
+                                        <h3 class="group-header">Store background Image</h3>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -793,8 +797,8 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Upload store background</label>
-                                                    <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels)</label>
+                                                    <label class="control-label text-right tooltip-float"> Upload store background. Background Image is applied using CSS.</label>
+                                                    <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels) </label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <img width="400" height="300" data-bind="visible:storeBackgroudImageImageSource()===undefined,attr: { src: '@Url.Content("~/")' + storeBackgroudImagePathWithCacheRemoveTechnique() }" />
@@ -810,17 +814,17 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Widgets</h3>
+                                        <h3 class="group-header">Store's home page and contact us page settings</h3>
                                         <div class="col-md-12">
 
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Featured Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure featured productcs widget is available on home page in page layout." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the FEATURED products Row</label>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Featured products</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="col-xs-6">
@@ -836,11 +840,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Popular Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure most popular productcs widget is available on home page in page layout." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the MOST POPULAR products Row</label>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Most Popular products</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="col-xs-6">
@@ -854,11 +858,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer; border:0" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Special Offer Products panel on the store Home page. If you would like to have a featured products area on your store *Retail Store Use Only*. Make sure special productcs widget is available on home page in page layout." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Would you like to display the SPECIAL products Row</label>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Select Special products</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div class="col-xs-6">
@@ -876,19 +880,19 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Map on contact Us</label>
+                                                    <label class="control-label text-right tooltip-float">Type of map to be displayed on contact Us page</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosMap" id="rdiolatlong" value="1" data-bind="checked: isShowGoogleMap">
                                                         <label for="rdiolatlong">
-                                                            Display map on contact us page using default address's latitude and longitude.
+                                                            Display google map on contact us page using default address's latitude and longitude.
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosMap" id="rdioZipCode" value="2" data-bind="checked: isShowGoogleMap">
                                                         <label for="rdioZipCode">
-                                                            Draw map on contact us page using default addresse's zip code.
+                                                            Display google map on contact us page using default address's zip code ( not very accurate in few cases ).
                                                         </label>
                                                     </div>
                                                     <div class="radio">
@@ -938,7 +942,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Media Manager</h3>
+                                        <h3 class="group-header">Store's images used in banners, background, store logo, css etc)</h3>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
@@ -972,16 +976,16 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Banners</h3>
+                                        <h3 class="group-header">Home page banner settings</h3>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Banner panel on the store Home page. Load in images to display on your retail or corporate store. Banner will scroll images across page if you add more than one." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Show the Banner panel on the store Home page. Load in images to display on your retail or corporate store. Banner will scroll images across page if you add more than one. Select an appropriate Banner widget from page layout editor for banners to appear correctly." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Display Banner widget on home page</label>
+                                                    <label class="control-label text-right tooltip-float">Display Bannes on home page ?</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -996,7 +1000,8 @@
                                             </div>
                                             @* <div class="col-md-3"></div>*@
                                             <div class="col-md-9">
-                                                <div class="form-group pull-left col-xs-4">
+                                                <label class="control-label text-right tooltip-float pull-left">Current Active Banner Set </label>
+                                                <div class="form-group pull-left col-xs-4 tooltip-float-width" style="width:250px;">
                                                     <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:activeBannerSetId, validationOnElement: activeBannerSetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
@@ -1009,7 +1014,7 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th>Image</th>
-                                                                    <th>Set Name</th>
+                                                                    <th>Banner Set</th>
                                                                     <th>Title</th>
                                                                     @*<th>&nbsp;</th>*@
                                                                 </tr>
@@ -1026,7 +1031,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <h3 class="group-header">CSS Editor</h3>
+                                        <h3 class="group-header">Store's CSS - Modify look and feel (theme) of your store</h3>
                                         <div class="col-md-9">
                                             <div style="height: 530px;background: #d0d1d7">
                                                 <div id="editor" style="width: 747px;height: 500px;margin :13px 10px 10px 22px" data-bind="ace: customCSS, aceOptions: { mode: 'css', theme: 'twilight' }"></div>
@@ -1037,12 +1042,12 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Sprite Editor</h3>
+                                        <h3 class="group-header">Store's Sprite Image Selection</h3>
                                         <div class="col-md-9">
                                             <div class="form-group">
                                                 <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Download make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Download and make any changes to icons and buttons used within the store and re upload.  Note: if you wish to change the text on an icon use the language file in settings." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1076,16 +1081,16 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-md-12 form-horizontal">
-                                        <h3 class="group-header">Secondary Pages</h3>
+                                        <h3 class="group-header">Store's Page & Content Management</h3>
                                         <div class="col-md-9 form-horizontal">
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the System and secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store, whilst you can manage SEO content settings for system pages. Category and product pages pull SEO content from respective categories and products." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Display in footer</label>
+                                                    <label class="control-label text-right tooltip-float">Display secondary content pages in footer navigation</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1106,7 +1111,7 @@
                                             <div class="clearfix" id="tabsHeader" style="margin-bottom:10px;">
                                                 <div class="tabs-wrapper profile-tabs">
                                                     <ul class="nav nav-tabs">
-                                                        <li class="active"><a href="#tab-CampaignInformation" data-toggle="tab">User Defined</a></li>
+                                                        <li class="active"><a href="#tab-CampaignInformation" data-toggle="tab">Secondary Pages (user defined)</a></li>
                                                         <li><a href="#tab-dataSource" data-toggle="tab">System Pages</a></li>
                                                     </ul>
                                                     <div class="tab-content">
@@ -1179,12 +1184,12 @@
                                 </div>
                                 <div class="tab-pane fade" id="tab-SEO" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">SEO Scripts</h3>
+                                        <h3 class="group-header">Store's global Scripts</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google or customer jquery scripts here.  *Advanced Users Only*" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Cut and paste your Google or custom javascript here.  *Advanced Users Only*" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
@@ -1215,7 +1220,7 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Rave Reviews</h3>
+                                        <h3 class="group-header">Rave Reviews widget</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
@@ -1247,7 +1252,7 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-mailseries" data-bind="with: $root.selectedStore">
-                                    <h3 class="group-header">Workflow Emails</h3>
+                                    <h3 class="group-header">Store's Workflow Emails (Event/trigger based)</h3>
                                     <div class="main-box-body clearfix">
                                         <div class="table-responsive">
                                             <table class="table table-striped table-hover">
@@ -1265,7 +1270,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <h3 class="group-header">One time Marketing Emails</h3>
+                                    <h3 class="group-header">One time marketing emails for store's registered customers and prospects (triggered at specified date & time)</h3>
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateOneTimeMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -1289,7 +1294,7 @@
                                             </table>
                                         </div>
                                     </div>
-                                    <h3 class="group-header">Interval Marketing Emails</h3>
+                                    <h3 class="group-header">Interval Marketing Emails for Store's registered customers and prospects ( Triggered with delay at events )</h3>
                                     <div class="pull-right">
                                         <a href="#" class="btn btn-primary" data-bind="click:$root.onCreateIntervalMarketingEmail">
                                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -1327,19 +1332,19 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Store Mode</label>
+                                                    <label class="control-label text-right tooltip-float">Private store addresses sharing policy </label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosStore" id="optionsRadiosPrivateStore" value="true" data-bind="checked: $root.selectedStore().isStoreModePrivate">
                                                         <label for="optionsRadiosPrivateStore">
-                                                            Private
+                                                            Shared across all users
                                                         </label>
                                                     </div>
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadiosStore" id="optionsRadiosPublicStore" value="false" data-bind="checked: $root.selectedStore().isStoreModePrivate">
                                                         <label for="optionsRadiosPublicStore">
-                                                            Public
+                                                            Each user has their own addresses
                                                         </label>
                                                     </div>
                                                     <span class="help-block text-right">&nbsp;</span>
@@ -1352,7 +1357,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Designer PDF Watermark Type</label>
+                                                    <label class="control-label text-right tooltip-float">Proof PDF watermark display option</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -1410,7 +1415,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Online Payment Options</label>
+                                                    <label class="control-label text-right tooltip-float">Payment processing option</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -1428,7 +1433,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
+                                            @*<div class="form-group">
                                                 <div class="col-md-3"></div>
                                                 <label class="col-md-6" for="onoffswitchAcceptOnline">Activate online payments ?</label>
                                                 <div class="col-md-3">
@@ -1440,11 +1445,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>*@
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchDisplayDVoucher">Activate Discount Vouchers in Shopping Cart ?</label>
+                                                <label class="col-md-6" for="switchDisplayDVoucher">Display Discount Vouchers in Shopping Cart and allow discount ? ( Retail store only )</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchDisplayDVoucher" data-bind="checked: $root.selectedStore().isDisplayDiscountVoucherCode">
@@ -1470,7 +1475,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Receipts and Websites ?</label>
+                                                <label class="col-md-6" for="switchCorpBranding">Show your organizational details on Order Receipts and brand them?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchCorpBranding" data-bind="checked: $root.selectedStore().isWhiteLabel">
@@ -1484,7 +1489,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
 
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new registrations on store ?</label>
+                                                <label class="col-md-6" for="switchRegistrationFromWebsite">Allow new user registrations on store (Corporate store only) ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchRegistrationFromWebsite" data-bind="checked: $root.selectedStore().isAllowRegistrationFromWeb">
@@ -1497,7 +1502,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchOrderWithoutApproval">Can user place order without Manager's approval</label>
+                                                <label class="col-md-6" for="switchOrderWithoutApproval">Users can place order without manager's approval (corporate store only)</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchOrderWithoutApproval" data-bind="checked: $root.selectedStore().canUserPlaceOrderWithoutApproval">
@@ -1510,7 +1515,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-3"></div>
-                                                <label class="col-md-6" for="switchEditProfile">Allow user to edit his/her profile </label>
+                                                <label class="col-md-6" for="switchEditProfile">Allow users to modify their profile ?</label>
                                                 <div class="col-md-3">
                                                     <div class="onoffswitch">
                                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchEditProfile" data-bind="checked: $root.selectedStore().canUserEditProfile">
@@ -1533,7 +1538,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By Service</label>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Calculate Tax By external Service ?</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -1545,7 +1550,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                     <div class="radio">
                                                         <input type="radio" name="optionsRadios1" id="optionNo1" value="false" data-bind="checked: $root.selectedStore().isCalculateTaxByService, event:{click:$root.calculateTaxByServiceHandler}">
                                                         <label for="optionNo1">
-                                                            No
+                                                            No ( select Tax below )
                                                         </label>
                                                     </div>
                                                     <span class="help-block text-right">&nbsp; </span>
@@ -1554,11 +1559,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Choose to show prices including or excluding local taxes." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="By Setting no this will display the product prices without tax and tax will be calculated when checking out if Tax percentage is not zero." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Include VAT/GST in Prices</label>
+                                                    <label for="txtCompanyName" class="control-label text-right tooltip-float">Display prices on store with tax added</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="radio">
@@ -1583,7 +1588,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Global Tax Settings</label>
+                                                    <label class="control-label text-right tooltip-float">Store's Tax percentage value e.g 16%</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1599,7 +1604,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Tax Title</label>
+                                                    <label class="control-label text-right tooltip-float">Tax Title/Label VAT</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1610,7 +1615,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Payment Gateways</h3>
+                                        <h3 class="group-header">Store's online payment gateways</h3>
                                         <div class="col-lg-12 clearfix">
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
@@ -1644,11 +1649,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                         </div>
                                     </div>
                                     <div class="col-lg-12 form-horizontal">
-                                        <h3 class="group-header">Attachments sent with outsourced orders</h3>
+                                        <h3 class="group-header">Configure how "auto push" order information is passed to third parties by email</h3>
                                         <div class="col-lg-9">
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Include Order Report ?</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Include Order detailed Report ?</label>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div>
@@ -1682,7 +1687,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Include Job Card report for each item/product</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div>
@@ -1699,7 +1704,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-lg-6 text-right">
-                                                    <label class="control-label text-right" for="switchSecondaryPages">Make  template artwork production ready by removing watermarks</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Make template artwork production ready by removing watermarks</label>
                                                 </div>
                                                 <div class="col-lg-3">
                                                     <div>
@@ -1721,7 +1726,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     <div class="col-lg-3">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
-                                                <h2>Available Widgets</h2>
+                                                <h2>Available Widgets for Pages</h2>
+                                                <p class="group-header-description">Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add "Dynamic Page HTML Control" and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible.</p>
                                             </header>
                                             <div style="padding-right: 5px;" id="widgetDiv">
                                                 <ol class="dd-list" id="widgetList">
@@ -1734,7 +1740,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     <div class="col-lg-9 form-horizontal">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
-                                                <h2>Widgets</h2>
+                                                @*<h2>Current Page existing Widgets/Components</h2>*@
                                                 <div class="filter-block pull-right">
                                                 </div>
                                             </header>
@@ -1745,7 +1751,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtCurrentPage" class="control-label text-right tooltip-float">Current Page</label>
+                                                    <label for="txtCurrentPage" class="control-label text-right tooltip-float">Select page to view current widgets/components</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
@@ -1761,7 +1767,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-DelvAddOns" data-bind="with: $root.selectedStore">
                                     <div class="col-lg-12">
-                                        <h3 class="group-header">Delivery Add Ons</h3>
+                                        <h3 class="group-header">Store's Delivery Methods/Cost Centers</h3>
                                         <div class="col-lg-12 form-horizontal clearfix">
                                             <div class="main-box-body clearfix">
                                                 <div class="form-group">
@@ -1771,7 +1777,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label class="control-label text-right tooltip-float">Is delivery taxable?</label>
+                                                        <label class="control-label text-right tooltip-float">Is delivery charge taxable on this store?</label>
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <div class="radio">
@@ -1792,12 +1798,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 <div class="form-group">
                                                     <div class="col-lg-4 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Zip Code" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="A store can only have 1 pickup location and it used in delivery calculation if 3rd party service delivery method is selected." data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
 
-                                                        <label for="txtPickUpLocation" class="control-label text-right tooltip-float">Pick Up Location/Zip code </label>
+                                                        <label for="txtPickUpLocation" class="control-label text-right tooltip-float">Select carriers pickup location. </label>
                                                     </div>
                                                     <div class="col-lg-4" data-bind="with: $root.pickupAddress">
                                                         <input type="text" disabled="disabled" class="form-control" style="float:left;width:86%" placeholder="Pick Up Location/Zip code" id="txtPickUpLocation" data-bind="value: $root.pickUpLocationValue ">
@@ -1830,7 +1836,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     <h3 class="group-header">Loyalty Points</h3>
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
-                                    <h3 class="group-header">CMYK Colors</h3>
+                                    <h3 class="group-header">Define which SPOT colors are available to end users in designer tool palette across all custom templates.</h3>
+                                    <p class="group-header-description">This helps control the branding and corporate identity of templates for private storesn.</p>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
                                             <div class="filter-block">
@@ -1878,7 +1885,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     </div>
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-VariableDef">
-                                    <h3 class="group-header">Define Variables</h3>
+                                    <h3 class="group-header">Create user defined fields that can be used in smart forms of this store.</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
                                             <div class="filter-block">
@@ -1920,7 +1927,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     </div>
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-SmartFormDef">
-                                    <h3 class="group-header">Smart Forms</h3>
+                                    <h3 class="group-header">Create smart forms to merge CRM fields data in templates</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
                                             <div class="filter-block">

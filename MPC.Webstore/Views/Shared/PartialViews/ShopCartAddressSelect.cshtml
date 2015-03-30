@@ -104,7 +104,7 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-                            @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                             {
                                 <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
@@ -545,7 +545,7 @@
                                                                            style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), @ViewBag.Currency)</label>
                                                                     </td>
                                                                 </tr>
-                                                                @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                                                                @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                                                                 {
                                                                     <tr id="tblRowVoucher"  style="display:none;">
                                                                         <td width="30%" align="left">
@@ -573,7 +573,7 @@
                                                                         &nbsp;
                                                                     </td>
                                                                     <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" >
-                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.StoreId))</span>
+                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId))</span>
                                                                     </td>
                                                                     @if (deliveryCost > 0)
                                                                     {
@@ -684,24 +684,28 @@
                                     <label ID="ltrlBillShippTo" >Bill to:</label>
 
                                 </div>
-                                <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer" >
-                                    <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
-                                    <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
-                                    <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
-                                    @if(BillingAddress.State != null)
-                                    {
-                                        BStateName = BillingAddress.State.StateName;
-                                    }
-                                   
-                                    <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BStateName</label>&nbsp;
-                                    @if (BillingAddress.Country != null)
-                                    {
-                                        BCountryName = BillingAddress.Country.CountryName;
-                                    }
-                                    <label id="lblCountryBilSip" class="lbAddressLines">@BCountryName</label>&nbsp;
-                                    <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
-                                </div>
-                                <br />
+                                @if (BillingAddress != null)
+                                {
+                                    <div id="BillTOShippTOContainer" class="textAlignLeft AddressesContainer">
+                                        <label id="lblAddLine1BilSip" class="lbAddressLinesWithPadding">@BillingAddress.Address1</label>
+                                        <label id="lbladdLine2BilSip" class="lbAddressLines">@BillingAddress.Address2</label><br />
+                                        <label id="lblCityBilSip" class="lbAddressLinesWithPadding">@BillingAddress.City</label><br />
+                                        @if (BillingAddress.State != null)
+                                        {
+                                            BStateName = BillingAddress.State.StateName;
+                                        }
+
+                                        <label id="lblStateBilSip" class="lbAddressLinesWithPadding">@BStateName</label>&nbsp;
+                                        @if (BillingAddress.Country != null)
+                                        {
+                                            BCountryName = BillingAddress.Country.CountryName;
+                                        }
+                                        <label id="lblCountryBilSip" class="lbAddressLines">@BCountryName</label>&nbsp;
+                                        <label id="lblPostCdeBilSip" class="lbAddressLines">@BillingAddress.PostCode</label><br />
+                                    </div>
+                                    <br />
+                                }
+                             
                                 <div class="textAlignLeft paddingLeft10px">
                                     <label ID="lblContactNotxt" class="black_sub_heading">Contact No:</label>
                                     <label ID="lblContactNo" class="ContactNumberlb">@Model.ContactTel</label>
@@ -754,7 +758,7 @@
                             &nbsp;
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
-                            @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                            @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                             {
                                 <div class="super_admin_message" id="DivretailMesg" visible="false">
                                     <label ID="ltrlSomeOmeCallU"> Some one will call you</label>
@@ -777,7 +781,7 @@
                                 &nbsp;
                             </div>
                             <div class="super_admin_message" id="divWarnnigMEsg">
-                                <label id="ltrlWarnnigMEsg">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId))</label>
+                                <label id="ltrlWarnnigMEsg">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.WBStoreId))</label>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">

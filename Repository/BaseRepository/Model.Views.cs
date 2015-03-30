@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0 : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets055C225BFE82483DF51B7D1E30427FA33C536997273ECDE0B661C441E9FB4C56()
+        public ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "550043a7bd0a4d8b6aeb0a8a3533c049ac1983df155c77dabe08ca9e339c21ad";
-            this.HashOverAllExtentViews = "bbac6f39c50c6efa0cb32d63c56e1def135c20052c9bab6fe6a54c386deaea8b";
-            this.ViewCount = 310;
+            this.HashOverMappingClosure = "fe061f0798c99110bdac89d3fee36bea19eac7875057a1af219e843fee23100b";
+            this.HashOverAllExtentViews = "57586f149e7e59ded2b997c3aae94dd13e2340dfc2628995d8f121564a18f4c7";
+            this.ViewCount = 318;
         }
         
         /// <Summary>
@@ -1276,6 +1276,38 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 309))
             {
                 return GetView309();
+            }
+            if ((index == 310))
+            {
+                return GetView310();
+            }
+            if ((index == 311))
+            {
+                return GetView311();
+            }
+            if ((index == 312))
+            {
+                return GetView312();
+            }
+            if ((index == 313))
+            {
+                return GetView313();
+            }
+            if ((index == 314))
+            {
+                return GetView314();
+            }
+            if ((index == 315))
+            {
+                return GetView315();
+            }
+            if ((index == 316))
+            {
+                return GetView316();
+            }
+            if ((index == 317))
+            {
+                return GetView317();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -11758,6 +11790,305 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.SystemUser AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.GoodsReceivedNote
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView310()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3244);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing GoodsReceivedNote\r\n        [DomainModels.Stor");
+            viewString.Append("e.GoodsReceivedNote](T1.GoodsReceivedNote_GoodsReceivedId, T1.GoodsReceivedNote_");
+            viewString.Append("PurchaseId, T1.[GoodsReceivedNote.date_Received], T1.GoodsReceivedNote_SupplierI");
+            viewString.Append("d, T1.GoodsReceivedNote_TotalPrice, T1.GoodsReceivedNote_UserId, T1.GoodsReceive");
+            viewString.Append("dNote_Address, T1.GoodsReceivedNote_City, T1.GoodsReceivedNote_State, T1.GoodsRe");
+            viewString.Append("ceivedNote_PostalCode, T1.GoodsReceivedNote_Country, T1.GoodsReceivedNote_Contac");
+            viewString.Append("tId, T1.GoodsReceivedNote_RefNo, T1.GoodsReceivedNote_Comments, T1.GoodsReceived");
+            viewString.Append("Note_UserNotes, T1.GoodsReceivedNote_isProduct, T1.GoodsReceivedNote_Tel1, T1.Go");
+            viewString.Append("odsReceivedNote_code, T1.GoodsReceivedNote_Discount, T1.GoodsReceivedNote_TotalT");
+            viewString.Append("ax, T1.GoodsReceivedNote_grandTotal, T1.GoodsReceivedNote_NetTotal, T1.GoodsRece");
+            viewString.Append("ivedNote_discountType, T1.GoodsReceivedNote_Status, T1.GoodsReceivedNote_Created");
+            viewString.Append("By, T1.GoodsReceivedNote_LastChangedBy, T1.GoodsReceivedNote_FlagId, T1.GoodsRec");
+            viewString.Append("eivedNote_LockedBy, T1.GoodsReceivedNote_SystemSiteId, T1.GoodsReceivedNote_IsRe");
+            viewString.Append("ad, T1.GoodsReceivedNote_DeliveryDate, T1.GoodsReceivedNote_Reference1, T1.Goods");
+            viewString.Append("ReceivedNote_Reference2, T1.GoodsReceivedNote_CarrierId)\r\n    FROM (\r\n        SE");
+            viewString.Append("LECT \r\n            T.GoodsReceivedId AS GoodsReceivedNote_GoodsReceivedId, \r\n   ");
+            viewString.Append("         T.PurchaseId AS GoodsReceivedNote_PurchaseId, \r\n            T.date_Rece");
+            viewString.Append("ived AS [GoodsReceivedNote.date_Received], \r\n            T.SupplierId AS GoodsRe");
+            viewString.Append("ceivedNote_SupplierId, \r\n            T.TotalPrice AS GoodsReceivedNote_TotalPric");
+            viewString.Append("e, \r\n            T.UserId AS GoodsReceivedNote_UserId, \r\n            T.Address A");
+            viewString.Append("S GoodsReceivedNote_Address, \r\n            T.City AS GoodsReceivedNote_City, \r\n ");
+            viewString.Append("           T.State AS GoodsReceivedNote_State, \r\n            T.PostalCode AS Goo");
+            viewString.Append("dsReceivedNote_PostalCode, \r\n            T.Country AS GoodsReceivedNote_Country,");
+            viewString.Append(" \r\n            T.ContactId AS GoodsReceivedNote_ContactId, \r\n            T.RefNo");
+            viewString.Append(" AS GoodsReceivedNote_RefNo, \r\n            T.Comments AS GoodsReceivedNote_Comme");
+            viewString.Append("nts, \r\n            T.UserNotes AS GoodsReceivedNote_UserNotes, \r\n            T.i");
+            viewString.Append("sProduct AS GoodsReceivedNote_isProduct, \r\n            T.Tel1 AS GoodsReceivedNo");
+            viewString.Append("te_Tel1, \r\n            T.code AS GoodsReceivedNote_code, \r\n            T.Discoun");
+            viewString.Append("t AS GoodsReceivedNote_Discount, \r\n            T.TotalTax AS GoodsReceivedNote_T");
+            viewString.Append("otalTax, \r\n            T.grandTotal AS GoodsReceivedNote_grandTotal, \r\n         ");
+            viewString.Append("   T.NetTotal AS GoodsReceivedNote_NetTotal, \r\n            T.discountType AS Goo");
+            viewString.Append("dsReceivedNote_discountType, \r\n            T.Status AS GoodsReceivedNote_Status,");
+            viewString.Append(" \r\n            T.CreatedBy AS GoodsReceivedNote_CreatedBy, \r\n            T.LastC");
+            viewString.Append("hangedBy AS GoodsReceivedNote_LastChangedBy, \r\n            T.FlagId AS GoodsRece");
+            viewString.Append("ivedNote_FlagId, \r\n            T.LockedBy AS GoodsReceivedNote_LockedBy, \r\n     ");
+            viewString.Append("       T.SystemSiteId AS GoodsReceivedNote_SystemSiteId, \r\n            T.IsRead ");
+            viewString.Append("AS GoodsReceivedNote_IsRead, \r\n            T.DeliveryDate AS GoodsReceivedNote_D");
+            viewString.Append("eliveryDate, \r\n            T.Reference1 AS GoodsReceivedNote_Reference1, \r\n     ");
+            viewString.Append("       T.Reference2 AS GoodsReceivedNote_Reference2, \r\n            T.CarrierId A");
+            viewString.Append("S GoodsReceivedNote_CarrierId, \r\n            True AS _from0\r\n        FROM BaseDb");
+            viewString.Append("Context.GoodsReceivedNotes AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GoodsReceivedNote", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.GoodsReceivedNoteDetail
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView311()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.GoodsReceivedNoteDetail", "\r\n    SELECT VALUE -- Constructing GoodsReceivedNoteDetail\r\n        [DomainModels" +
+                    ".Store.GoodsReceivedNoteDetail](T1.GoodsReceivedNoteDetail_GoodsReceivedDetailId" +
+                    ", T1.GoodsReceivedNoteDetail_ItemId, T1.GoodsReceivedNoteDetail_QtyReceived, T1." +
+                    "GoodsReceivedNoteDetail_GoodsreceivedId, T1.GoodsReceivedNoteDetail_Price, T1.Go" +
+                    "odsReceivedNoteDetail_PackQty, T1.GoodsReceivedNoteDetail_TotalOrderedqty, T1.Go" +
+                    "odsReceivedNoteDetail_Details, T1.GoodsReceivedNoteDetail_ItemCode, T1.GoodsRece" +
+                    "ivedNoteDetail_Name, T1.GoodsReceivedNoteDetail_TotalPrice, T1.GoodsReceivedNote" +
+                    "Detail_TaxId, T1.GoodsReceivedNoteDetail_NetTax, T1.GoodsReceivedNoteDetail_Disc" +
+                    "ount, T1.GoodsReceivedNoteDetail_FreeItems, T1.GoodsReceivedNoteDetail_Departmen" +
+                    "tId)\r\n    FROM (\r\n        SELECT \r\n            T.GoodsReceivedDetailId AS GoodsR" +
+                    "eceivedNoteDetail_GoodsReceivedDetailId, \r\n            T.ItemId AS GoodsReceived" +
+                    "NoteDetail_ItemId, \r\n            T.QtyReceived AS GoodsReceivedNoteDetail_QtyRec" +
+                    "eived, \r\n            T.GoodsreceivedId AS GoodsReceivedNoteDetail_GoodsreceivedI" +
+                    "d, \r\n            T.Price AS GoodsReceivedNoteDetail_Price, \r\n            T.PackQ" +
+                    "ty AS GoodsReceivedNoteDetail_PackQty, \r\n            T.TotalOrderedqty AS GoodsR" +
+                    "eceivedNoteDetail_TotalOrderedqty, \r\n            T.Details AS GoodsReceivedNoteD" +
+                    "etail_Details, \r\n            T.ItemCode AS GoodsReceivedNoteDetail_ItemCode, \r\n " +
+                    "           T.Name AS GoodsReceivedNoteDetail_Name, \r\n            T.TotalPrice AS" +
+                    " GoodsReceivedNoteDetail_TotalPrice, \r\n            T.TaxId AS GoodsReceivedNoteD" +
+                    "etail_TaxId, \r\n            T.NetTax AS GoodsReceivedNoteDetail_NetTax, \r\n       " +
+                    "     T.Discount AS GoodsReceivedNoteDetail_Discount, \r\n            T.FreeItems A" +
+                    "S GoodsReceivedNoteDetail_FreeItems, \r\n            T.DepartmentId AS GoodsReceiv" +
+                    "edNoteDetail_DepartmentId, \r\n            True AS _from0\r\n        FROM BaseDbCont" +
+                    "ext.GoodsReceivedNoteDetails AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.GoodsReceivedNotes
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView312()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3251);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing GoodsReceivedNotes\r\n        [DomainModels.Goo");
+            viewString.Append("dsReceivedNote](T1.GoodsReceivedNote_GoodsReceivedId, T1.GoodsReceivedNote_Purch");
+            viewString.Append("aseId, T1.[GoodsReceivedNote.date_Received], T1.GoodsReceivedNote_SupplierId, T1");
+            viewString.Append(".GoodsReceivedNote_TotalPrice, T1.GoodsReceivedNote_UserId, T1.GoodsReceivedNote");
+            viewString.Append("_Address, T1.GoodsReceivedNote_City, T1.GoodsReceivedNote_State, T1.GoodsReceive");
+            viewString.Append("dNote_PostalCode, T1.GoodsReceivedNote_Country, T1.GoodsReceivedNote_ContactId, ");
+            viewString.Append("T1.GoodsReceivedNote_RefNo, T1.GoodsReceivedNote_Comments, T1.GoodsReceivedNote_");
+            viewString.Append("UserNotes, T1.GoodsReceivedNote_isProduct, T1.GoodsReceivedNote_Tel1, T1.GoodsRe");
+            viewString.Append("ceivedNote_code, T1.GoodsReceivedNote_Discount, T1.GoodsReceivedNote_TotalTax, T");
+            viewString.Append("1.GoodsReceivedNote_grandTotal, T1.GoodsReceivedNote_NetTotal, T1.GoodsReceivedN");
+            viewString.Append("ote_discountType, T1.GoodsReceivedNote_Status, T1.GoodsReceivedNote_CreatedBy, T");
+            viewString.Append("1.GoodsReceivedNote_LastChangedBy, T1.GoodsReceivedNote_FlagId, T1.GoodsReceived");
+            viewString.Append("Note_LockedBy, T1.GoodsReceivedNote_SystemSiteId, T1.GoodsReceivedNote_IsRead, T");
+            viewString.Append("1.GoodsReceivedNote_DeliveryDate, T1.GoodsReceivedNote_Reference1, T1.GoodsRecei");
+            viewString.Append("vedNote_Reference2, T1.GoodsReceivedNote_CarrierId)\r\n    FROM (\r\n        SELECT ");
+            viewString.Append("\r\n            T.GoodsReceivedId AS GoodsReceivedNote_GoodsReceivedId, \r\n        ");
+            viewString.Append("    T.PurchaseId AS GoodsReceivedNote_PurchaseId, \r\n            T.date_Received ");
+            viewString.Append("AS [GoodsReceivedNote.date_Received], \r\n            T.SupplierId AS GoodsReceive");
+            viewString.Append("dNote_SupplierId, \r\n            T.TotalPrice AS GoodsReceivedNote_TotalPrice, \r\n");
+            viewString.Append("            T.UserId AS GoodsReceivedNote_UserId, \r\n            T.Address AS Goo");
+            viewString.Append("dsReceivedNote_Address, \r\n            T.City AS GoodsReceivedNote_City, \r\n      ");
+            viewString.Append("      T.State AS GoodsReceivedNote_State, \r\n            T.PostalCode AS GoodsRec");
+            viewString.Append("eivedNote_PostalCode, \r\n            T.Country AS GoodsReceivedNote_Country, \r\n  ");
+            viewString.Append("          T.ContactId AS GoodsReceivedNote_ContactId, \r\n            T.RefNo AS G");
+            viewString.Append("oodsReceivedNote_RefNo, \r\n            T.Comments AS GoodsReceivedNote_Comments, ");
+            viewString.Append("\r\n            T.UserNotes AS GoodsReceivedNote_UserNotes, \r\n            T.isProd");
+            viewString.Append("uct AS GoodsReceivedNote_isProduct, \r\n            T.Tel1 AS GoodsReceivedNote_Te");
+            viewString.Append("l1, \r\n            T.code AS GoodsReceivedNote_code, \r\n            T.Discount AS ");
+            viewString.Append("GoodsReceivedNote_Discount, \r\n            T.TotalTax AS GoodsReceivedNote_TotalT");
+            viewString.Append("ax, \r\n            T.grandTotal AS GoodsReceivedNote_grandTotal, \r\n            T.");
+            viewString.Append("NetTotal AS GoodsReceivedNote_NetTotal, \r\n            T.discountType AS GoodsRec");
+            viewString.Append("eivedNote_discountType, \r\n            T.Status AS GoodsReceivedNote_Status, \r\n  ");
+            viewString.Append("          T.CreatedBy AS GoodsReceivedNote_CreatedBy, \r\n            T.LastChange");
+            viewString.Append("dBy AS GoodsReceivedNote_LastChangedBy, \r\n            T.FlagId AS GoodsReceivedN");
+            viewString.Append("ote_FlagId, \r\n            T.LockedBy AS GoodsReceivedNote_LockedBy, \r\n          ");
+            viewString.Append("  T.SystemSiteId AS GoodsReceivedNote_SystemSiteId, \r\n            T.IsRead AS Go");
+            viewString.Append("odsReceivedNote_IsRead, \r\n            T.DeliveryDate AS GoodsReceivedNote_Delive");
+            viewString.Append("ryDate, \r\n            T.Reference1 AS GoodsReceivedNote_Reference1, \r\n          ");
+            viewString.Append("  T.Reference2 AS GoodsReceivedNote_Reference2, \r\n            T.CarrierId AS Goo");
+            viewString.Append("dsReceivedNote_CarrierId, \r\n            True AS _from0\r\n        FROM DomainModel");
+            viewString.Append("sStoreContainer.GoodsReceivedNote AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GoodsReceivedNotes", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.GoodsReceivedNoteDetails
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView313()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.GoodsReceivedNoteDetails", "\r\n    SELECT VALUE -- Constructing GoodsReceivedNoteDetails\r\n        [DomainModel" +
+                    "s.GoodsReceivedNoteDetail](T1.GoodsReceivedNoteDetail_GoodsReceivedDetailId, T1." +
+                    "GoodsReceivedNoteDetail_ItemId, T1.GoodsReceivedNoteDetail_QtyReceived, T1.Goods" +
+                    "ReceivedNoteDetail_GoodsreceivedId, T1.GoodsReceivedNoteDetail_Price, T1.GoodsRe" +
+                    "ceivedNoteDetail_PackQty, T1.GoodsReceivedNoteDetail_TotalOrderedqty, T1.GoodsRe" +
+                    "ceivedNoteDetail_Details, T1.GoodsReceivedNoteDetail_ItemCode, T1.GoodsReceivedN" +
+                    "oteDetail_Name, T1.GoodsReceivedNoteDetail_TotalPrice, T1.GoodsReceivedNoteDetai" +
+                    "l_TaxId, T1.GoodsReceivedNoteDetail_NetTax, T1.GoodsReceivedNoteDetail_Discount," +
+                    " T1.GoodsReceivedNoteDetail_FreeItems, T1.GoodsReceivedNoteDetail_DepartmentId)\r" +
+                    "\n    FROM (\r\n        SELECT \r\n            T.GoodsReceivedDetailId AS GoodsReceiv" +
+                    "edNoteDetail_GoodsReceivedDetailId, \r\n            T.ItemId AS GoodsReceivedNoteD" +
+                    "etail_ItemId, \r\n            T.QtyReceived AS GoodsReceivedNoteDetail_QtyReceived" +
+                    ", \r\n            T.GoodsreceivedId AS GoodsReceivedNoteDetail_GoodsreceivedId, \r\n" +
+                    "            T.Price AS GoodsReceivedNoteDetail_Price, \r\n            T.PackQty AS" +
+                    " GoodsReceivedNoteDetail_PackQty, \r\n            T.TotalOrderedqty AS GoodsReceiv" +
+                    "edNoteDetail_TotalOrderedqty, \r\n            T.Details AS GoodsReceivedNoteDetail" +
+                    "_Details, \r\n            T.ItemCode AS GoodsReceivedNoteDetail_ItemCode, \r\n      " +
+                    "      T.Name AS GoodsReceivedNoteDetail_Name, \r\n            T.TotalPrice AS Good" +
+                    "sReceivedNoteDetail_TotalPrice, \r\n            T.TaxId AS GoodsReceivedNoteDetail" +
+                    "_TaxId, \r\n            T.NetTax AS GoodsReceivedNoteDetail_NetTax, \r\n            " +
+                    "T.Discount AS GoodsReceivedNoteDetail_Discount, \r\n            T.FreeItems AS Goo" +
+                    "dsReceivedNoteDetail_FreeItems, \r\n            T.DepartmentId AS GoodsReceivedNot" +
+                    "eDetail_DepartmentId, \r\n            True AS _from0\r\n        FROM DomainModelsSto" +
+                    "reContainer.GoodsReceivedNoteDetail AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.Purchase
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView314()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2554);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Purchase\r\n        [DomainModels.Store.Purchas");
+            viewString.Append("e](T1.Purchase_PurchaseId, T1.Purchase_Code, T1.[Purchase.date_Purchase], T1.Pur");
+            viewString.Append("chase_SupplierId, T1.Purchase_ContactId, T1.Purchase_SupplierContactCompany, T1.");
+            viewString.Append("Purchase_SupplierContactAddressID, T1.Purchase_TotalPrice, T1.Purchase_UserID, T");
+            viewString.Append("1.Purchase_JobID, T1.Purchase_RefNo, T1.Purchase_Comments, T1.Purchase_FootNote,");
+            viewString.Append(" T1.Purchase_UserNotes, T1.Purchase_NotesUpdateDateTime, T1.Purchase_NotesUpdate");
+            viewString.Append("dByUserId, T1.Purchase_isproduct, T1.Purchase_Status, T1.Purchase_LockedBy, T1.P");
+            viewString.Append("urchase_TotalTax, T1.Purchase_Discount, T1.Purchase_discountType, T1.Purchase_Gr");
+            viewString.Append("andTotal, T1.Purchase_NetTotal, T1.Purchase_CreatedBy, T1.Purchase_LastChangedBy");
+            viewString.Append(", T1.Purchase_FlagID, T1.Purchase_SystemSiteId, T1.Purchase_IsRead, T1.Purchase_");
+            viewString.Append("IsPrinted, T1.Purchase_XeroAccessCode)\r\n    FROM (\r\n        SELECT \r\n           ");
+            viewString.Append(" T.PurchaseId AS Purchase_PurchaseId, \r\n            T.Code AS Purchase_Code, \r\n ");
+            viewString.Append("           T.date_Purchase AS [Purchase.date_Purchase], \r\n            T.Supplier");
+            viewString.Append("Id AS Purchase_SupplierId, \r\n            T.ContactId AS Purchase_ContactId, \r\n  ");
+            viewString.Append("          T.SupplierContactCompany AS Purchase_SupplierContactCompany, \r\n       ");
+            viewString.Append("     T.SupplierContactAddressID AS Purchase_SupplierContactAddressID, \r\n        ");
+            viewString.Append("    T.TotalPrice AS Purchase_TotalPrice, \r\n            T.UserID AS Purchase_User");
+            viewString.Append("ID, \r\n            T.JobID AS Purchase_JobID, \r\n            T.RefNo AS Purchase_R");
+            viewString.Append("efNo, \r\n            T.Comments AS Purchase_Comments, \r\n            T.FootNote AS");
+            viewString.Append(" Purchase_FootNote, \r\n            T.UserNotes AS Purchase_UserNotes, \r\n         ");
+            viewString.Append("   T.NotesUpdateDateTime AS Purchase_NotesUpdateDateTime, \r\n            T.NotesU");
+            viewString.Append("pdatedByUserId AS Purchase_NotesUpdatedByUserId, \r\n            T.isproduct AS Pu");
+            viewString.Append("rchase_isproduct, \r\n            T.Status AS Purchase_Status, \r\n            T.Loc");
+            viewString.Append("kedBy AS Purchase_LockedBy, \r\n            T.TotalTax AS Purchase_TotalTax, \r\n   ");
+            viewString.Append("         T.Discount AS Purchase_Discount, \r\n            T.discountType AS Purcha");
+            viewString.Append("se_discountType, \r\n            T.GrandTotal AS Purchase_GrandTotal, \r\n          ");
+            viewString.Append("  T.NetTotal AS Purchase_NetTotal, \r\n            T.CreatedBy AS Purchase_Created");
+            viewString.Append("By, \r\n            T.LastChangedBy AS Purchase_LastChangedBy, \r\n            T.Fla");
+            viewString.Append("gID AS Purchase_FlagID, \r\n            T.SystemSiteId AS Purchase_SystemSiteId, \r");
+            viewString.Append("\n            T.IsRead AS Purchase_IsRead, \r\n            T.IsPrinted AS Purchase_");
+            viewString.Append("IsPrinted, \r\n            T.XeroAccessCode AS Purchase_XeroAccessCode, \r\n        ");
+            viewString.Append("    True AS _from0\r\n        FROM BaseDbContext.Purchases AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.Purchase", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.PurchaseDetail
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView315()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.PurchaseDetail", "\r\n    SELECT VALUE -- Constructing PurchaseDetail\r\n        [DomainModels.Store.Pu" +
+                    "rchaseDetail](T1.PurchaseDetail_PurchaseDetailId, T1.PurchaseDetail_ItemId, T1.P" +
+                    "urchaseDetail_quantity, T1.PurchaseDetail_PurchaseId, T1.PurchaseDetail_price, T" +
+                    "1.PurchaseDetail_packqty, T1.PurchaseDetail_ItemCode, T1.PurchaseDetail_ServiceD" +
+                    "etail, T1.PurchaseDetail_ItemName, T1.PurchaseDetail_TaxId, T1.PurchaseDetail_To" +
+                    "talPrice, T1.PurchaseDetail_Discount, T1.PurchaseDetail_NetTax, T1.PurchaseDetai" +
+                    "l_freeitems, T1.PurchaseDetail_ItemBalance, T1.PurchaseDetail_DepartmentId)\r\n   " +
+                    " FROM (\r\n        SELECT \r\n            T.PurchaseDetailId AS PurchaseDetail_Purch" +
+                    "aseDetailId, \r\n            T.ItemId AS PurchaseDetail_ItemId, \r\n            T.qu" +
+                    "antity AS PurchaseDetail_quantity, \r\n            T.PurchaseId AS PurchaseDetail_" +
+                    "PurchaseId, \r\n            T.price AS PurchaseDetail_price, \r\n            T.packq" +
+                    "ty AS PurchaseDetail_packqty, \r\n            T.ItemCode AS PurchaseDetail_ItemCod" +
+                    "e, \r\n            T.ServiceDetail AS PurchaseDetail_ServiceDetail, \r\n            " +
+                    "T.ItemName AS PurchaseDetail_ItemName, \r\n            T.TaxId AS PurchaseDetail_T" +
+                    "axId, \r\n            T.TotalPrice AS PurchaseDetail_TotalPrice, \r\n            T.D" +
+                    "iscount AS PurchaseDetail_Discount, \r\n            T.NetTax AS PurchaseDetail_Net" +
+                    "Tax, \r\n            T.freeitems AS PurchaseDetail_freeitems, \r\n            T.Item" +
+                    "Balance AS PurchaseDetail_ItemBalance, \r\n            T.DepartmentId AS PurchaseD" +
+                    "etail_DepartmentId, \r\n            True AS _from0\r\n        FROM BaseDbContext.Pur" +
+                    "chaseDetails AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.Purchases
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView316()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2561);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing Purchases\r\n        [DomainModels.Purchase](T1");
+            viewString.Append(".Purchase_PurchaseId, T1.Purchase_Code, T1.[Purchase.date_Purchase], T1.Purchase");
+            viewString.Append("_SupplierId, T1.Purchase_ContactId, T1.Purchase_SupplierContactCompany, T1.Purch");
+            viewString.Append("ase_SupplierContactAddressID, T1.Purchase_TotalPrice, T1.Purchase_UserID, T1.Pur");
+            viewString.Append("chase_JobID, T1.Purchase_RefNo, T1.Purchase_Comments, T1.Purchase_FootNote, T1.P");
+            viewString.Append("urchase_UserNotes, T1.Purchase_NotesUpdateDateTime, T1.Purchase_NotesUpdatedByUs");
+            viewString.Append("erId, T1.Purchase_isproduct, T1.Purchase_Status, T1.Purchase_LockedBy, T1.Purcha");
+            viewString.Append("se_TotalTax, T1.Purchase_Discount, T1.Purchase_discountType, T1.Purchase_GrandTo");
+            viewString.Append("tal, T1.Purchase_NetTotal, T1.Purchase_CreatedBy, T1.Purchase_LastChangedBy, T1.");
+            viewString.Append("Purchase_FlagID, T1.Purchase_SystemSiteId, T1.Purchase_IsRead, T1.Purchase_IsPri");
+            viewString.Append("nted, T1.Purchase_XeroAccessCode)\r\n    FROM (\r\n        SELECT \r\n            T.Pu");
+            viewString.Append("rchaseId AS Purchase_PurchaseId, \r\n            T.Code AS Purchase_Code, \r\n      ");
+            viewString.Append("      T.date_Purchase AS [Purchase.date_Purchase], \r\n            T.SupplierId AS");
+            viewString.Append(" Purchase_SupplierId, \r\n            T.ContactId AS Purchase_ContactId, \r\n       ");
+            viewString.Append("     T.SupplierContactCompany AS Purchase_SupplierContactCompany, \r\n            ");
+            viewString.Append("T.SupplierContactAddressID AS Purchase_SupplierContactAddressID, \r\n            T");
+            viewString.Append(".TotalPrice AS Purchase_TotalPrice, \r\n            T.UserID AS Purchase_UserID, \r");
+            viewString.Append("\n            T.JobID AS Purchase_JobID, \r\n            T.RefNo AS Purchase_RefNo,");
+            viewString.Append(" \r\n            T.Comments AS Purchase_Comments, \r\n            T.FootNote AS Purc");
+            viewString.Append("hase_FootNote, \r\n            T.UserNotes AS Purchase_UserNotes, \r\n            T.");
+            viewString.Append("NotesUpdateDateTime AS Purchase_NotesUpdateDateTime, \r\n            T.NotesUpdate");
+            viewString.Append("dByUserId AS Purchase_NotesUpdatedByUserId, \r\n            T.isproduct AS Purchas");
+            viewString.Append("e_isproduct, \r\n            T.Status AS Purchase_Status, \r\n            T.LockedBy");
+            viewString.Append(" AS Purchase_LockedBy, \r\n            T.TotalTax AS Purchase_TotalTax, \r\n        ");
+            viewString.Append("    T.Discount AS Purchase_Discount, \r\n            T.discountType AS Purchase_di");
+            viewString.Append("scountType, \r\n            T.GrandTotal AS Purchase_GrandTotal, \r\n            T.N");
+            viewString.Append("etTotal AS Purchase_NetTotal, \r\n            T.CreatedBy AS Purchase_CreatedBy, \r");
+            viewString.Append("\n            T.LastChangedBy AS Purchase_LastChangedBy, \r\n            T.FlagID A");
+            viewString.Append("S Purchase_FlagID, \r\n            T.SystemSiteId AS Purchase_SystemSiteId, \r\n    ");
+            viewString.Append("        T.IsRead AS Purchase_IsRead, \r\n            T.IsPrinted AS Purchase_IsPri");
+            viewString.Append("nted, \r\n            T.XeroAccessCode AS Purchase_XeroAccessCode, \r\n            T");
+            viewString.Append("rue AS _from0\r\n        FROM DomainModelsStoreContainer.Purchase AS T\r\n    ) AS T");
+            viewString.Append("1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.Purchases", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.PurchaseDetails
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView317()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.PurchaseDetails", "\r\n    SELECT VALUE -- Constructing PurchaseDetails\r\n        [DomainModels.Purchas" +
+                    "eDetail](T1.PurchaseDetail_PurchaseDetailId, T1.PurchaseDetail_ItemId, T1.Purcha" +
+                    "seDetail_quantity, T1.PurchaseDetail_PurchaseId, T1.PurchaseDetail_price, T1.Pur" +
+                    "chaseDetail_packqty, T1.PurchaseDetail_ItemCode, T1.PurchaseDetail_ServiceDetail" +
+                    ", T1.PurchaseDetail_ItemName, T1.PurchaseDetail_TaxId, T1.PurchaseDetail_TotalPr" +
+                    "ice, T1.PurchaseDetail_Discount, T1.PurchaseDetail_NetTax, T1.PurchaseDetail_fre" +
+                    "eitems, T1.PurchaseDetail_ItemBalance, T1.PurchaseDetail_DepartmentId)\r\n    FROM" +
+                    " (\r\n        SELECT \r\n            T.PurchaseDetailId AS PurchaseDetail_PurchaseDe" +
+                    "tailId, \r\n            T.ItemId AS PurchaseDetail_ItemId, \r\n            T.quantit" +
+                    "y AS PurchaseDetail_quantity, \r\n            T.PurchaseId AS PurchaseDetail_Purch" +
+                    "aseId, \r\n            T.price AS PurchaseDetail_price, \r\n            T.packqty AS" +
+                    " PurchaseDetail_packqty, \r\n            T.ItemCode AS PurchaseDetail_ItemCode, \r\n" +
+                    "            T.ServiceDetail AS PurchaseDetail_ServiceDetail, \r\n            T.Ite" +
+                    "mName AS PurchaseDetail_ItemName, \r\n            T.TaxId AS PurchaseDetail_TaxId," +
+                    " \r\n            T.TotalPrice AS PurchaseDetail_TotalPrice, \r\n            T.Discou" +
+                    "nt AS PurchaseDetail_Discount, \r\n            T.NetTax AS PurchaseDetail_NetTax, " +
+                    "\r\n            T.freeitems AS PurchaseDetail_freeitems, \r\n            T.ItemBalan" +
+                    "ce AS PurchaseDetail_ItemBalance, \r\n            T.DepartmentId AS PurchaseDetail" +
+                    "_DepartmentId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreConta" +
+                    "iner.PurchaseDetail AS T\r\n    ) AS T1");
         }
     }
 }

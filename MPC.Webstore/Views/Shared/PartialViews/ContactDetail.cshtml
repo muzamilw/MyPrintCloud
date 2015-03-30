@@ -107,7 +107,7 @@
                                 Email
                             </div>
                             <div class="TTL widthAvenior">
-                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500, })
+                                @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500, @readonly = "readonly" })
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -153,7 +153,7 @@
                             <div class="clearBoth">
                             </div>
                             <br />
-                            @if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
                         <div id="CompanyNameOfBroker">
                             <div class="smallContctUsAvenior float_left_simple" id="divcompanyname">
@@ -184,7 +184,7 @@
                                 </div>
 
                                 <div id="coorporateUserFields">
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                   {
                                 <div>
 
@@ -200,7 +200,7 @@
                                     <br />
                                 </div>
                                 }
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                             {
                                 <div>
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
@@ -375,7 +375,7 @@
     </div>
     <div class="TTL widthAvenior">
 
-        @if (Model.IsEmailSubscription == true)
+        @if (Model.IsEmailSubscription == true) 
                                 {
                                 <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked/>
                                 <label for="Select">Notify me of marketing and promotions</label>
@@ -400,12 +400,12 @@
                                 {
 
                                 <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked />
-                               <label for="News">subscribe to Newsletters</label>
+                               <label for="News">Subscribe to Newsletters</label>
                                 }
                                     else
                                     {
                                 <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" />
-                                <label for="News">subscribe to Newsletters</label>
+                                <label for="News">Subscribe to Newsletters</label>
                                     }
                                     <input name="NewsLetterSubscription" type="hidden" value="false" />
 
@@ -495,9 +495,9 @@
     processData: false,
     success: function (response) {
        
-      
         $("#MessgeToDisply").css('visibility', 'visible');
         $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
+      //  window.location.href = "/Dashboard";
         // $("#btnSubmitForm").click();
         createCookie("FirstName", FirstName);
         createCookie("LastName", LastName);

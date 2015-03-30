@@ -12,8 +12,12 @@ define("crm/crm.viewModel",
                 //#region ___________ OBSERVABLES ____________
                     // Search filter 
                     searchFilter = ko.observable(),
-                    // Pager for pagging
-                    pager = ko.observable(),
+                    // Pager for Prospect pagging
+                    prospectPager = ko.observable(),
+                    // Pager for Customer pagging
+                    customerPager = ko.observable(),
+                    // Determines Company type
+                    companyType = ko.observable(0),
                     orderPager = ko.observable(),
                     invoicePager = ko.observable(),
                     // Sort On
@@ -135,19 +139,21 @@ define("crm/crm.viewModel",
 
                 //#region ___________ LIST VIEW ______________
                 // Gets customers for list view
-                getCustomers = function () {
+                getCustomers = function (isCutomer) {
+                    companyType(isCutomer);
+                    customersForListView.removeAll();
                     dataservice.getCustomersForListView({
                         SearchString: searchFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
+                        IsCustomer: isCutomer || 0,
+                        PageSize: isCutomer === 0 ? prospectPager().pageSize() : customerPager().pageSize(),
+                        PageNo: isCutomer === 0 ? prospectPager().currentPage(): customerPager().currentPage(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
                     {
                         success: function (data) {
                             if (data != null) {
-                                customersForListView.removeAll();
-                                pager().totalCount(data.RowCount);
+                                isCutomer === undefined || isCutomer ===0 ? prospectPager().totalCount(data.RowCount) : customerPager().totalCount(data.RowCount);
                                 _.each(data.Customers, function (customer) {
                                     var customerModel = new model.customerViewListModel.Create(customer);
                                     customersForListView.push(customerModel);
@@ -162,7 +168,7 @@ define("crm/crm.viewModel",
 
                 // Search button handler
                 searchButtonHandler = function () {
-                    getCustomers();
+                    getCustomers(companyType());
                 },
                 //  Reset button handler
                 resetButtonHandler = function () {
@@ -2166,6 +2172,7 @@ define("crm/crm.viewModel",
                         CompanyId: selectedStore().companyId(),
                         PageSize: orderPager().pageSize(),
                         PageNo: orderPager().currentPage(),
+                        IsProspectOrCustomer: isProspectOrCustomerScreen(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
@@ -2399,7 +2406,8 @@ define("crm/crm.viewModel",
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    if (isProspectOrCustomerScreen()) {
-                       pager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
+                       prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
+                       customerPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
                        getCustomers();
                    }
                    else {
@@ -2430,7 +2438,8 @@ define("crm/crm.viewModel",
                     templateToUseSupplier: templateToUseSupplier,
                     resetSupplierFilterSection: resetSupplierFilterSection,
                     //#endregion
-                    pager: pager,
+                    prospectPager: prospectPager,
+                    customerPager:customerPager,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
                     isProspectOrCustomerScreen: isProspectOrCustomerScreen,
@@ -2541,7 +2550,8 @@ define("crm/crm.viewModel",
                     invoicesList: invoicesList,
                     getsDataForInvoiceTab: getsDataForInvoiceTab,
                     userAndAddressesTabSelected: userAndAddressesTabSelected,
-                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback
+                    UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
+                    getCustomers: getCustomers
                 };
                 //#endregion
             })()

@@ -32,7 +32,7 @@
                         </div>
 
                     </div>
-                    <footer class="main-box-header pull-left">
+                    <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
                             <!-- ko with: companyDialogPager -->
                             @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -64,7 +64,7 @@
             <div class="filter-block pull-right">
                 <div class="form-group pull-right">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: companyDialogFilter">
-                    <i class="fa fa-search search-icon"></i>
+                    <i class="fa fa-search search-icon" data-bind="click: $root.searchCompanies"></i>
                 </div>
             </div>
          </form>

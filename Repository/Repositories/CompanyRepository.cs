@@ -457,7 +457,7 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                     ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
-                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 1 || s.IsCustomer == 0);
+                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == request.IsCustomer);
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc
@@ -1566,24 +1566,24 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                bool isCreateTemporaryCompany = true;
-                if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
-                {
-                    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
-                    if (ContactCompany != null)
-                    {
-                        isCreateTemporaryCompany = false;
-                        return ContactCompany.CompanyId;
-                    }
-                    else
-                    {
-                        isCreateTemporaryCompany = true;
-                    }
+                //bool isCreateTemporaryCompany = true;
+                //if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
+                //{
+                //    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
+                //    if (ContactCompany != null)
+                //    {
+                //        isCreateTemporaryCompany = false;
+                //        return ContactCompany.CompanyId;
+                //    }
+                //    else
+                //    {
+                //        isCreateTemporaryCompany = true;
+                //    }
 
-                }
+                //}
 
-                if (isCreateTemporaryCompany)
-                {
+                //if (isCreateTemporaryCompany)
+                //{
                     Address Contactaddress = null;
 
                     CompanyTerritory ContactTerritory = null;
@@ -1689,11 +1689,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     return customerID;
-                }
-                else
-                {
-                    return 0;
-                }
+                //}
+                //else
+                //{
+                //    return 0;
+                //}
             }
             catch (Exception ex)
             {
@@ -1960,7 +1960,8 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId;
+                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
+                         (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =

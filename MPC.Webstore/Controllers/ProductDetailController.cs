@@ -55,7 +55,7 @@ namespace MPC.Webstore.Controllers
                 long ReferenceItemID;
                 bool IsShowPrices;
 
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
               
                 organisationID = StoreBaseResopnse.Organisation.OrganisationId;
@@ -131,7 +131,7 @@ namespace MPC.Webstore.Controllers
                     }
                     if (stockOption != null)
                     {
-                        List<string> ListOfExtras = _IItemService.GetProductItemAddOnCostCentres(stockOption.ItemStockOptionId, UserCookieManager.StoreId);
+                        List<string> ListOfExtras = _IItemService.GetProductItemAddOnCostCentres(stockOption.ItemStockOptionId, UserCookieManager.WBStoreId);
 
                         if (ListOfExtras != null && ListOfExtras.Count > 0)
                         {
@@ -184,7 +184,7 @@ namespace MPC.Webstore.Controllers
 
 
 
-                    if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                     {
                         if (TemplateID > 0)
                         {
@@ -246,13 +246,13 @@ namespace MPC.Webstore.Controllers
                             List<MatchingSets> res = _ITemplateService.BindTemplatesList(TemplateName, 1, baseresponse.Organisation.OrganisationId, (int)_myClaimHelper.loginContactCompanyID());
 
                             int isCalledFrom = 0;
-                            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                 isCalledFrom = 4;
                             else
                                 isCalledFrom = 3;
 
                             bool isEmbaded;
-                            if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                                 isEmbaded = true;
                             else
                                 isEmbaded = false;
@@ -506,7 +506,7 @@ namespace MPC.Webstore.Controllers
         private void SetPageMEtaTitle(string CatName, string CatDes, string Keywords, string Title, MyCompanyDomainBaseResponse baseResponse)
         {
 
-            Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
+            Address DefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
 
             string[] MetaTags = _myCompanyService.CreatePageMetaTags(Title, CatDes, Keywords, StoreMode.Retail, baseResponse.Company.Name, DefaultAddress);
 
@@ -551,7 +551,7 @@ namespace MPC.Webstore.Controllers
         {
             if (_myClaimHelper.isUserLoggedIn())
             {
-                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, true, UserCookieManager.StoreId);
+                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId);
             }
             else
             {
@@ -560,7 +560,7 @@ namespace MPC.Webstore.Controllers
 
             foreach (var matrixItem in tblItemsPriceMatrix)
             {
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     if (UserCookieManager.isIncludeTax)
                     {
@@ -783,7 +783,7 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             try
             {
                 long NewLocalTemplateID = 0;
@@ -880,10 +880,10 @@ namespace MPC.Webstore.Controllers
                     if (UserCookieManager.OrderId == 0)
                     {
                         long TemporaryRetailCompanyId = 0;
-                        if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
                             TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -898,7 +898,7 @@ namespace MPC.Webstore.Controllers
                         }
                         else 
                         {
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -921,13 +921,13 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail && ContactID == 0)
+                        if (UserCookieManager.TemporaryCompanyId == 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
                         {
                             long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
                             // create new order
 
-                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.StoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                            long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
                                 UserCookieManager.OrderId = OrderID;
@@ -939,7 +939,7 @@ namespace MPC.Webstore.Controllers
                             }
                             CompanyID = TemporaryRetailCompanyId;
                         }
-                        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                        else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
                             CompanyID = UserCookieManager.TemporaryCompanyId;
                             ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
@@ -989,14 +989,14 @@ namespace MPC.Webstore.Controllers
 
                 }
                 int isCalledFrom = 0;
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     isCalledFrom = 4;
                 else
                     isCalledFrom = 3;
 
                 bool isEmbedded;
                 bool printWaterMark = true;
-                if (UserCookieManager.StoreMode == (int)StoreMode.Corp || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     isEmbedded = true;
                 }
@@ -1009,7 +1009,7 @@ namespace MPC.Webstore.Controllers
                  string  ProdName = _IItemService.specialCharactersEncoder(sProductName);
                 //Designer/productName/CategoryIDv2/TemplateID/ItemID/companyID/cotnactID/printCropMarks/printWaterMarks/isCalledFrom/IsEmbedded;
                 bool printCropMarks = true;
-                string URL = "/Designer/" + ProdName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.OrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
+                string URL = "/Designer/" + ProdName + "/" + TempDesignerID + "/" + oTemplateID + "/" + oItemID + "/" + CompanyID + "/" + ContactID + "/" + isCalledFrom + "/" + UserCookieManager.WEBOrganisationID + "/" + printCropMarks + "/" + printWaterMark + "/" + isEmbedded;
                 Response.Redirect(URL);
                 return null;
                

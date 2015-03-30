@@ -13,6 +13,7 @@ namespace MPC.Implementation.MISServices
         #region Private
 
         private readonly IEstimateRepository estimateRepository;
+
         #endregion
         #region Constructor
         /// <summary>

@@ -5,8 +5,7 @@
             <div class="clearfix">
                 <header class="main-box-header clearfix">
                     <div class="filter-block pull-right">
-
-                        <a href="#" class="btn btn-primary pull-right">
+                        <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.addDeliverySchedule">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                         </a>
                     </div>
@@ -25,56 +24,75 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <select class="form-control">
-                                        <option>Canvas Bags</option>
-
-                                    </select>
-                                </td>
-                                <td>
-                                    <select class="form-control">
-                                        <option>Name</option>
-
-                                    </select>
-                                </td>
-
-                                <td>
-                                    1000
-                                </td>
-                                <td class="text-center">
-
-                                    <input type="text" class="form-control" id="datepickerDateRpt" />
-
-                                </td>
-                                <td>
-                                    $838.8
-                                </td>
-                                <td>
-                                    <div class="checkbox-nice" style="margin-left:12px;">
-                                        <input type="checkbox" id="checkbox-9" checked="checked" />
-                                        <label for="checkbox-9">
-
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="checkbox-nice" style="margin-left:12px;">
-                                        <input type="checkbox" id="checkbox-10" checked="checked" />
-                                        <label for="checkbox-10">
-
-                                        </label>
-                                    </div>
-                                </td>
-                            </tr>
-
-
+                            <!-- ko template: { name: $root.templateToUseDeliverySchedule  , foreach: $root.selectedOrder().deliverySchedules } -->
+                            <!-- /ko -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    <script id="ediDeliverScheduleTemplate" type="text/html">
+        <tr data-bind="click:$root.selectDeliverySchedule">
+            <td style="width: 175px">
+                <div>
+                    <select id="country" class="form-control" data-bind="options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
+                    <span class="help-block text-right"></span>
+                </div>
+            </td>
+            <td style="width: 175px">
+                <div>
+                    <select id="country" class="form-control" data-bind="options: $root.companyAddresses , optionsText: 'name', optionsValue: 'id',value:addressId,validationtooltip:addressId"></select>
+                    <span class="help-block text-right"></span>
+                </div>
+            </td>
+            <td style="width: 175px">
+                <div>
+                    <input type="text" class="form-control" data-bind="value: quantity, validationTooltip: quantity" />
+                </div>
+            </td>
+            <td style="width: 114px">
+                <div>
+                    <input type="text" class="form-control" data-bind="datepicker: deliveryDate" />
+                </div>
+            </td>
+            <td style="width: 114px;border: none"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
+            <td style="width: 114px">
+                <div class="checkbox-nice" style="margin-left:12px;">
+                    <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">
+                    <label data-bind="attr: { for: 'deliveryNoteRaised' + $index() }"></label>
+                </div>
+            </td>
+            <td style="width: 114px">
+                <div class="checkbox-nice" style="margin-left:12px;">
+                    <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'selected' + $index() }">
+                    <label data-bind="attr: { for: 'selected' + $index() }"></label>
+                </div>
+            </td>
+        </tr>
+    </script>
+    <script id="itemDeliverScheduleTemplate" type="text/html">
+        <tr data-bind="click:$root.selectDeliverySchedule">
+            <td style="width: 175px" data-bind="text: itemName"></td>
+            <td style="width: 175px" data-bind="text: addressName"></td>
+            <td style="width: 175px" data-bind="text: quantity"></td>
+            <td style="text-align:center;" data-bind="dateString: deliveryDate"></td>
+            <td style="width: 114px;border: none"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
+            <td>
+                <div class="checkbox-nice" style="margin-left:12px;">
+                    <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">
+                    <label data-bind="attr: { for: 'deliveryNoteRaised' + $index() }"></label>
+                </div>
+            </td>
+            <td>
+                <div class="checkbox-nice" style="margin-left:12px;">
+                    <input type="checkbox"  data-bind="checked: isSelected,attr: { id: 'selected' + $index() }">
+                    <label data-bind="attr: { for: 'selected' + $index() }"></label>
+                </div>
+            </td>
+        </tr>
+    </script>
 
 </div>
+
 

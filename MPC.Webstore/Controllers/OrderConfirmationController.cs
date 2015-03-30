@@ -42,7 +42,7 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
            // MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
           
             long OrderID = Convert.ToInt64(OrderId);
@@ -54,7 +54,7 @@ namespace MPC.Webstore.Controllers
                     long CID = _myClaimHelper.loginContactID();
                     CompanyContact oContact = _myCompanyService.GetContactByID(CID);
                     ViewBag.LoginUser = oContact;
-                    if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
                         
 
@@ -133,12 +133,12 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             
 
             bool result = false;
 
-            PaymentGateway oPaymentGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.StoreId);
+            PaymentGateway oPaymentGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
 
             CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID()); //LoginUser;
           
@@ -148,18 +148,18 @@ namespace MPC.Webstore.Controllers
             cep.ContactId = _myClaimHelper.loginContactID();
             cep.CompanyId = _myClaimHelper.loginContactCompanyID();
             cep.SalesManagerContactID = _myClaimHelper.loginContactID();
-            cep.CompanySiteID = UserCookieManager.OrganisationID;
+            cep.CompanySiteID = UserCookieManager.WEBOrganisationID;
             cep.EstimateID = Convert.ToInt32(OrderId);
             cep.ItemID = _ItemService.GetFirstItemIdByOrderId(OrderId);
-            Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
+            Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
             if (user != null)
             {
                
-                if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
-                    cep.StoreID = UserCookieManager.StoreId;
-                    cep.AddressID = UserCookieManager.StoreId;
-                    if (user.IsPayByPersonalCreditCard == false || user.IsPayByPersonalCreditCard == null)//baseResponseOrganisation.Company.isEnableOnlinePayment == null || SessionParameters.CompanySite.isEnableOnlinePayment == false) // Utils.IsDemoMode() In demo mode set status to confirmed and don't go to paypal...
+                    cep.StoreID = UserCookieManager.WBStoreId;
+                    cep.AddressID = UserCookieManager.WBStoreId;
+                    if (baseResponse.Company.isPaymentRequired == false || baseResponse.Company.isPaymentRequired == null)
                     {
                         try
                         {
@@ -172,8 +172,8 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
 
-                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.StoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
-                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                             UserCookieManager.OrderId = 0;
                             
                             // For demo mode as enter the pre payment with the known parameters
@@ -271,11 +271,11 @@ namespace MPC.Webstore.Controllers
                         }
                     }
                 }
-                else if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    cep.StoreID = UserCookieManager.StoreId;
+                    cep.StoreID = UserCookieManager.WBStoreId;
 
-                    cep.AddressID = UserCookieManager.StoreId;
+                    cep.AddressID = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
                     cep.SystemUserID = EmailOFSM.SystemUserId;
                     if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
