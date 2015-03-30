@@ -3671,44 +3671,68 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisationRoutine4(OrganisationID, objSets);
 
                 // Set CompanyData
-                long CompanyID = companyRepository.GetCompanyByName(OrganisationID, CorporateName);
 
-                long RetailCompanyID = companyRepository.GetCompanyByName(OrganisationID, RetailName);
-
-                long CompanyWOP = companyRepository.GetCompanyByName(OrganisationID, CorporateNameWOP);
-
-                long RetailCompanyWOP = companyRepository.GetCompanyByName(OrganisationID, RetailNameWOP);
-                // export corporate store with products
                 ExportSets ObjExportCorporate = new Models.Common.ExportSets();
-                if (CompanyID > 0 && CompanyID != null)
-                {
-                    ObjExportCorporate = companyRepository.ExportCorporateCompany(CompanyID);
+                long CompanyID = 0;
 
+                if (!string.IsNullOrEmpty(CorporateName))
+                {
+                    // export corporate store with products
+                    CompanyID = companyRepository.GetCompanyByName(OrganisationID, CorporateName);
+
+                   
+                    if (CompanyID > 0)
+                    {
+                        ObjExportCorporate = companyRepository.ExportCorporateCompany(CompanyID);
+
+                    }
                 }
 
-                // export retail store with Products
                 ExportSets ObjExportRetail = new Models.Common.ExportSets();
-                if (RetailCompanyID > 0 && RetailCompanyID != null)
+                long RetailCompanyID = 0;
+                // export retail store with Products
+                if (!string.IsNullOrEmpty(RetailName))
                 {
+                    RetailCompanyID = companyRepository.GetCompanyByName(OrganisationID, RetailName);
+                   
+                    if (RetailCompanyID > 0 )
+                    {
 
-                    ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID);
+                        ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID);
+                    }
+
                 }
 
-                // export corporate store without products
                 ExportSets ObjExportCorporateWOProducts = new Models.Common.ExportSets();
-                if (CompanyWOP > 0 && CompanyWOP != null)
+                long CompanyWOP = 0;
+                // export corporate store without products
+                if(!string.IsNullOrEmpty(CorporateNameWOP))
                 {
-                    ObjExportCorporateWOProducts = companyRepository.ExportCorporateCompanyWithoutProducts(CompanyWOP);
+                    CompanyWOP = companyRepository.GetCompanyByName(OrganisationID, CorporateNameWOP);
+                    
+                    if (CompanyWOP > 0 && CompanyWOP != null)
+                    {
+                        ObjExportCorporateWOProducts = companyRepository.ExportCorporateCompanyWithoutProducts(CompanyWOP);
 
+                    }
                 }
 
-                // export retail store without products
+
                 ExportSets ObjExportRetailWOProducts = new Models.Common.ExportSets();
-                if (RetailCompanyWOP > 0 && RetailCompanyWOP != null)
+                long RetailCompanyWOP = 0;
+                // export retail store without products
+                if(!string.IsNullOrEmpty(RetailNameWOP))
                 {
+                    RetailCompanyWOP = companyRepository.GetCompanyByName(OrganisationID, RetailNameWOP);
 
-                    ObjExportRetailWOProducts = ExportRetailStoreWithoutProducts(RetailCompanyWOP, OrganisationID);
+                  
+                    if (RetailCompanyWOP > 0 && RetailCompanyWOP != null)
+                    {
+
+                        ObjExportRetailWOProducts = ExportRetailStoreWithoutProducts(RetailCompanyWOP, OrganisationID);
+                    }
                 }
+               
 
                 #endregion
 
@@ -5561,25 +5585,14 @@ namespace MPC.Implementation.MISServices
 
                 // delete company files
                 // delete assets 
-                string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/assets/" + OrganisationID + "/" + CID);
-
-                if (Directory.Exists(SourceDelFiles))
-                {
-                    Directory.Delete(SourceDelFiles, true);
-                }
-
-                // delete media
-                string SourceMediaFiles = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + OrganisationID + "/" + CID);
-
-                if (Directory.Exists(SourceMediaFiles))
-                {
-                    Directory.Delete(SourceMediaFiles, true);
-                }
 
 
-
+               
 
                 Company company = companyRepository.GetCompanyByCompanyID(CID);
+
+                companyRepository.DeleteStoryBySP(CID);
+
                 if (company != null)
                 {
 
@@ -5655,6 +5668,20 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                    string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/assets/" + OrganisationID + "/" + CID);
+
+                    if (Directory.Exists(SourceDelFiles))
+                    {
+                        Directory.Delete(SourceDelFiles, true);
+                    }
+
+                    // delete media
+                    string SourceMediaFiles = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + OrganisationID + "/" + CID);
+
+                    if (Directory.Exists(SourceMediaFiles))
+                    {
+                        Directory.Delete(SourceMediaFiles, true);
+                    }
 
 
 
