@@ -3675,7 +3675,7 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportCorporate = new Models.Common.ExportSets();
                 long CompanyID = 0;
 
-                if (!string.IsNullOrEmpty(CorporateName))
+                if (CorporateName != "''")
                 {
                     // export corporate store with products
                     CompanyID = companyRepository.GetCompanyByName(OrganisationID, CorporateName);
@@ -3691,7 +3691,7 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportRetail = new Models.Common.ExportSets();
                 long RetailCompanyID = 0;
                 // export retail store with Products
-                if (!string.IsNullOrEmpty(RetailName))
+                if (RetailName != "''")
                 {
                     RetailCompanyID = companyRepository.GetCompanyByName(OrganisationID, RetailName);
                    
@@ -3706,7 +3706,7 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportCorporateWOProducts = new Models.Common.ExportSets();
                 long CompanyWOP = 0;
                 // export corporate store without products
-                if(!string.IsNullOrEmpty(CorporateNameWOP))
+                if(CorporateNameWOP != "''")
                 {
                     CompanyWOP = companyRepository.GetCompanyByName(OrganisationID, CorporateNameWOP);
                     
@@ -3721,7 +3721,7 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportRetailWOProducts = new Models.Common.ExportSets();
                 long RetailCompanyWOP = 0;
                 // export retail store without products
-                if(!string.IsNullOrEmpty(RetailNameWOP))
+                if(RetailNameWOP != "''")
                 {
                     RetailCompanyWOP = companyRepository.GetCompanyByName(OrganisationID, RetailNameWOP);
 
