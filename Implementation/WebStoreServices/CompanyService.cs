@@ -637,7 +637,7 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
             try
             {

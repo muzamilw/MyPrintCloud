@@ -77,6 +77,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<INABTransactionService, NABTransactionService>();
             unityContainer.RegisterType<ICompanyCostCentreService, CompanyCostCentreService>();
             unityContainer.RegisterType<ILookupMethodService, LookupMethodService>();
+            unityContainer.RegisterType<IPurchaseService, PurchaseService>();
+            unityContainer.RegisterType<IGoodsReceivedNoteService, GoodsReceivedNoteService>();
         }
     }
 }
