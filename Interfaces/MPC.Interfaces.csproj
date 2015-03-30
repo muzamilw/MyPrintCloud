@@ -79,9 +79,11 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
+    <Compile Include="MISServices\IPurchaseService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
@@ -91,7 +93,7 @@
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />
     <Compile Include="Repository\INewsLetterSubscriberRepository.cs" />
-    <Compile Include="Repository\IPurchaseOrderRepository.cs" />
+    <Compile Include="Repository\IPurchaseRepository.cs" />
     <Compile Include="Repository\IScopeVariableRepository.cs" />
     <Compile Include="Repository\IDeliveryCarrierRepository.cs" />
     <Compile Include="Repository\IFieldVariableRepository.cs" />
