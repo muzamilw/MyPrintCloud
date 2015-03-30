@@ -1568,9 +1568,6 @@ select @NewTemplateID
 	
 END
 
-<<<<<<< HEAD
--- Executed on 2015 03 27
-=======
 
 /* Execution Date: 30/03/2015 */
 
@@ -1695,7 +1692,6 @@ end
 GO
 
 
->>>>>>> f540eee72a24985a1c1891256bdbed28e697c548
 
 
 
