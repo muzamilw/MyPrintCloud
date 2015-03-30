@@ -190,7 +190,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     return
-                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1)
+                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1)
                             .FirstOrDefault();
                 }
             }
@@ -2568,7 +2568,8 @@ namespace MPC.Repository.Repositories
                                 });
                             });
                         }
-                        if (!System.IO.Directory.Exists(SourceTargetFolder))
+
+                        if (System.IO.Directory.Exists(SourceTargetFolder) && !string.IsNullOrEmpty(SourceTargetFolder))
                         {
                             System.IO.Directory.Delete(SourceTargetFolder, true);
                         }
