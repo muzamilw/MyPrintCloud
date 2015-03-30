@@ -100,9 +100,11 @@
                     </a>
                 </div>
                 <span class="pull-right spanfilterlbl">of <span data-bind="text: pager().totalPages"></span></span>
-                <div class="pull-right col-xs-3">
-                    <input type="text" class="form-control" data-bind="value: currentPageCustom" />
-                </div>
+                <form data-bind="submit: function(){ }">
+                    <div class="pull-right col-xs-3">
+                        <input type="text" class="form-control" data-bind="value: currentPageCustom, valueUpdate: 'keyup'" />
+                    </div>
+                </form>
                 <span class="pull-right spanfilterlbl">Page</span>
 
             </div>

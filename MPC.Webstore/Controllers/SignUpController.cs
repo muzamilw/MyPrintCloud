@@ -241,7 +241,7 @@ namespace MPC.Webstore.Controllers
 
                     isContactCreate = true;
 
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(0, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
 
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreID = UserCookieManager.WBStoreId;
