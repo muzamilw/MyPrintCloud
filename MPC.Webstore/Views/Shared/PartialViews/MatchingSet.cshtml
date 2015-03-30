@@ -11,12 +11,12 @@
 
         <div class="pad20 col-md-4 col-lg-4 col-xs-12 matchingSetsleftPanel" style="text-align:left;">
             <div class="custom_color confirm_design">
-                <label id="lbl_MatchingSet">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.StoreId))</label>
+                <label id="lbl_MatchingSet">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlmatchingset", UserCookieManager.WBStoreId))</label>
             </div>
             <br />
-            <label id="lbl_Other_Products">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhere", UserCookieManager.StoreId))</label>
+            <label id="lbl_Other_Products">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlhere", UserCookieManager.WBStoreId))</label>
 
-            <label id="lbl_Design_Concept">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsameasdesignconcept", UserCookieManager.StoreId))</label>
+            <label id="lbl_Design_Concept">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsameasdesignconcept", UserCookieManager.WBStoreId))</label>
         </div>
         <div class="white_background rounded_corners pad10 col-md-8 col-lg-8 col-xs-12 matchingSetsrightPanel">
 
@@ -137,12 +137,12 @@
     }
      else
      {
-        <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.StoreId))</label>
+        <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.WBStoreId))</label>
      }
 
 }
 else
 {
-    <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.StoreId))</label>
+    <label id="lbl_MatchingSet_Message" class="errorMsgClss">@Html.Raw(Html.GetKeyValueFromResourceFile("lblNoMatchingSet", UserCookieManager.WBStoreId))</label>
 }
 
