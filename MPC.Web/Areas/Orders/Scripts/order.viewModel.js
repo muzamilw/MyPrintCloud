@@ -19,6 +19,10 @@ define("order/order.viewModel",
                     sectionFlags = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
+                    // Categories
+                    categories = ko.observableArray([]),
+                    // Inventory Items 
+                    inventoryItems = ko.observableArray([]),
                     // company contacts
                     companyContacts = ko.observableArray([]),
                     // Company Addresses
@@ -107,6 +111,10 @@ define("order/order.viewModel",
                     selectedMarkup2 = ko.observable(0),
                     // Selected Markup 3
                     selectedMarkup3 = ko.observable(0),
+                    // Selected Category Id
+                    selectedCategoryId = ko.observable(),
+                    // Inventory SearchFilter
+                    inventorySearchFilter = ko.observable(),
                     costCentrefilterText = ko.observable(),
                     selectedCostCentre = ko.observable(),
                     orderCodeHeader = ko.observable(''),
@@ -125,6 +133,8 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(true),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
+                     // Pagination for Categories
+                    categoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, categories)),
                      // Pagination for Cost Centres
                     costCentrePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
                     // Default Address
@@ -410,6 +420,7 @@ define("order/order.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+                        categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                         costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
@@ -435,9 +446,16 @@ define("order/order.viewModel",
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
                                     paymentMethods.valueHasMutated();
                                 }
+                                markups.removeAll();
                                 if (data.Markups) {
                                     _.each(data.Markups, function (item) {
                                         markups.push(item);
+                                    });
+                                }
+                                categories.removeAll();
+                                if (data.StockCategories) {
+                                    _.each(data.StockCategories, function (item) {
+                                        categories.push(item);
                                     });
                                 }
                                 currencySymbol(data.CurrencySymbol);
@@ -642,6 +660,10 @@ define("order/order.viewModel",
                          getCostCenters();
                          view.showCostCentersDialog();
                      },
+                     onAddInventoryItem = function () {
+                         getInventoriesListItems();
+                         view.showInventoryItemDialog();
+                     },
                      closeCostCenterDialog = function () {
                          view.hideRCostCentersDialog();
                      },
@@ -708,6 +730,30 @@ define("order/order.viewModel",
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     },
+                //Get Inventories
+                getInventoriesListItems = function() {
+                    dataservice.getInventoriesList({
+                        SearchString: inventorySearchFilter(),
+                        CategoryId: selectedCategoryId(),
+                        PageSize: categoryPager().pageSize(),
+                        PageNo: categoryPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    }, {
+                        success: function(data) {
+                            categoryPager().totalCount(data.TotalCount);
+                            inventoryItems.removeAll();
+                            _.each(data.StockItems, function(item) {
+                                var inventory = new model.Inventory.Create(item);
+                                inventoryItems.push(inventory);
+                            });
+                        },
+                        error: function() {
+                            isLoadingInventory(false);
+                            toastr.error("Failed to load inventories.");
+                        }
+                    });
+                },
                     //#endregion
                     //#region Pre Payment
                 showOrderPrePaymentModal = function () {
@@ -920,6 +966,7 @@ define("order/order.viewModel",
                     orderCodeHeader: orderCodeHeader,
                     itemCodeHeader: itemCodeHeader,
                     sectionHeader: sectionHeader,
+                    onAddInventoryItem:onAddInventoryItem,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -948,6 +995,11 @@ define("order/order.viewModel",
                     selectedMarkup1: selectedMarkup1,
                     selectedMarkup2: selectedMarkup2,
                     selectedMarkup3: selectedMarkup3,
+                    categories: categories,
+                    selectedCategoryId: selectedCategoryId,
+                    categoryPager: categoryPager,
+                    inventorySearchFilter: inventorySearchFilter,
+                    getInventoriesListItems:getInventoriesListItems,
                     //#endregion
                     //#region Pre Payment
                     paymentMethods: paymentMethods,
@@ -957,6 +1009,7 @@ define("order/order.viewModel",
                     selectedPrePayment: selectedPrePayment,
                     onSavePrePayment: onSavePrePayment,
                     onEditPrePayment: onEditPrePayment,
+                    inventoryItems: inventoryItems,
                     //#endregion
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
                     //#endregion
