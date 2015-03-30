@@ -179,7 +179,7 @@
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
 
-                                                <img class="full_img_ThumbnailPath_LP" src="@artworkFile.FolderPath@artworkFile.FileName@imagePath@randonNumber" />
+                                                <img class="full_img_ThumbnailPath_LP" src="@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
                                             </div>
                                         </a>
                                         <div class="confirm_design LGBC height40_LP ">
@@ -1338,10 +1338,10 @@
             for (i = 0; i < files.length; i++) {
                 data.append("file" + i, files[i]);
             }
-
+            
             $.ajax({
                 type: "POST",
-                url: "/api/AttachmentUploader/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
+                url: "/designerapi/AttachmentUploader/PostAsync/" + url + "/" + FileName + "/" + @ViewBag.ClonedItem.ItemId + "/" + @ViewBag.Order.ContactId + "/" + @ViewBag.Order.CompanyId,
                 contentType: false,
                 processData: false,
                 data: data,
