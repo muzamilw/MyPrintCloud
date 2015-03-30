@@ -435,6 +435,7 @@
     <Content Include="Content\Designer\assets-v2\back.png" />
     <Content Include="Content\Designer\assets-v2\deactive.png" />
     <Content Include="Content\Designer\assets-v2\dummyclose_button.png" />
+    <Content Include="Content\Designer\assets-v2\Imageplaceholder_sim.png" />
     <Content Include="Content\Designer\assets-v2\loadingSlider.gif" />
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
