@@ -98,69 +98,69 @@ function fu03() {
        fu04();
    });
 }
-function fu04() {
+function fu04_1GetItem(DT)
+{
+    $.getJSON("/designerapi/item/GetItem/" + ItemId,
+         function (result) {
+             fu04_TempCbkGen(DT);
+             item = result;
+             if (item.SmartFormId != null) {
+                 if (item.SmartFormId != 0) {
+                     $(".QuickTxt").css("visibility", "hidden");
+                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
+                       function (DT) {
+                           $(".QuickTxt").css("visibility", "visible");
+                           pcl41(DT);
+                       });
+                 }
 
-    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
-       //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
-      function (DT) {
-          DT.ProductID = DT.ProductId;
-          $.each(DT.TemplatePages, function (i, IT) {
-              IT.ProductID = IT.ProductId;
-              IT.ProductPageID = IT.ProductPageId;
-          });
-          fu04_callBack(DT);
-          if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
-              restrictControls();
-          }
-
-      });
- 
+             } else {
+                 $(".QuickTxt").css("visibility", "hidden");
+             }
+             if (item.allowPdfDownload == true) {
+                 $(".previewBtnContainer").css("display", "block");
+                 $(".PreviewerDownloadPDF").css("display", "block");
+             }
+             if (item.allowImageDownload == true) {
+                 $(".PreviewerDownloadImg").css("display", "block");
+             }
+             if (item.isMultipagePDF == true) {
+                 isMultiPageProduct = true;
+             }
+             if (item.printCropMarks == false) {
+                 printCropMarks = false;
+             }
+             if (item.drawWaterMarkTxt == false) {
+                 printWaterMarks = false;
+             }
+         });
+}
+function fu04_TempCbkGen(DT) {
+    DT.ProductID = DT.ProductId;
+    $.each(DT.TemplatePages, function (i, IT) {
+        IT.ProductID = IT.ProductId;
+        IT.ProductPageID = IT.ProductPageId;
+    });
+    fu04_callBack(DT);
+    if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
+        restrictControls();
+    }
+}
+function fu04_1(DT) {
     if (IsCalledFrom == 2) {
         c4_RS();
         $(".QuickTxt").css("visibility", "hidden");
-    }else 
-    {
-        $.getJSON("/designerapi/item/GetItem/" + ItemId,
-          function (result) {
-              item = result;
-              if (item.SmartFormId != null) {
-                  if (item.SmartFormId != 0)
-                  {
-                      $(".QuickTxt").css("visibility", "hidden");
-                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
-                        function (DT) {
-                            $(".QuickTxt").css("visibility", "visible");
-                            pcl41(DT);
-                        });
-                  }
-                  
-              } else {
-                  $(".QuickTxt").css("visibility", "hidden");
-              }
-              if(item.allowPdfDownload == true)
-              {
-                  $(".previewBtnContainer").css("display", "block");
-                  $(".PreviewerDownloadPDF").css("display", "block");
-              }
-              if(item.allowImageDownload == true)
-              {
-                  $(".PreviewerDownloadImg").css("display", "block");
-              }
-              if(item.isMultipagePDF == true)
-              {
-                  isMultiPageProduct = true;
-              }
-              if (item.printCropMarks == false) {
-                  printCropMarks = false;
-              }
-              if (item.drawWaterMarkTxt == false) {
-                  printWaterMarks = false;
-              }
-          });
-        if (IsCalledFrom == 4) {
-            //  c4_RS_eU(); // load realestate property images
-        }
+        fu04_TempCbkGen(DT);
+    } else {
+        fu04_1GetItem(DT);
     }
+}
+function fu04() {
+    $.getJSON("/designerapi/Template/GetTemplate/" + tID + "/" + cID + "/" + TempHMM + "/" + TempWMM + "/" + organisationId + "/" + ItemId,
+       //$.getJSON("/designerapi/Template/GetTemplate/" + tID ,
+      function (DT) {
+          fu04_1(DT);   
+      });
 }
 function fu04_01() {
     $.getJSON("/designerapi/TemplateObject/GetTemplateObjects/" + tID,
