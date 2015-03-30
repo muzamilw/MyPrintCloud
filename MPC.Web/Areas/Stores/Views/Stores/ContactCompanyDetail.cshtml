@@ -2375,7 +2375,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyDomainTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
-                <td class="col-lg-12"><span data-bind="text: domain"></span></td>
+                <!--ko if: isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a>  (Default)</td>
+                <!-- /ko -->
+                <!--ko if: !isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a></td>
+                <!-- /ko -->
                 <td class="col-lg-1">
                     <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
                     <!-- /ko -->
