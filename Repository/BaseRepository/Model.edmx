@@ -5326,6 +5326,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
         <Function Name="usp_DeleteContactCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SelectedID" Type="int" Mode="In" />
         </Function>
+        <Function Name="usp_DeleteOrganisation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrganisationID" Type="int" Mode="In" />
+        </Function>
         <Function Name="usp_DeleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="itemid" Type="bigint" Mode="In" />
         </Function>
@@ -6879,6 +6882,9 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="Purchase" EntitySet="Purchases" />
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
+          <FunctionImport Name="usp_DeleteOrganisation">
+            <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -16363,6 +16369,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="usp_DeleteOrganisation" FunctionName="DomainModels.Store.usp_DeleteOrganisation" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
