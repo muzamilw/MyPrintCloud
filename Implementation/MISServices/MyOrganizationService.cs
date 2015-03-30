@@ -525,7 +525,9 @@ namespace MPC.Implementation.MISServices
 
                 Organisation organisaton = organisationRepository.GetOrganizatiobByID(OrganisationID);
 
+
                 // delete entities by sp
+                organisationRepository.DeleteOrganisationBySP(OrganisationID);
 
                 if(organisaton != null)
                 {

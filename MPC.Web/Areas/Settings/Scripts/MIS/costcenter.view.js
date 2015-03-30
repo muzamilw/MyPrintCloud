@@ -10,6 +10,12 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#CostCentersBinding")[0],
+                productCategorySelectedEvent = function (category) {
+                    $.event.trigger({
+                        type: "ProductCategorySelected",
+                        category: category
+                    });
+                },
                 //showCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("show");
                 //},
@@ -26,7 +32,8 @@
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
+                viewModel: viewModel,
+                productCategorySelectedEvent: productCategorySelectedEvent
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };
