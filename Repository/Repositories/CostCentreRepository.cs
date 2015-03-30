@@ -710,6 +710,7 @@ namespace MPC.Repository.Repositories
         }
         public CostCenterVariablesResponseModel GetCostCenterVariablesTree()
         {
+            db.Configuration.LazyLoadingEnabled = false;
             CostCenterVariablesResponseModel oResponse = new CostCenterVariablesResponseModel();
             List<CostCentreType> ccTypes = db.CostCentreTypes.Where(c => c.IsSystem != (short)1 && c.OrganisationId == this.OrganisationId).ToList();
             if(ccTypes != null)

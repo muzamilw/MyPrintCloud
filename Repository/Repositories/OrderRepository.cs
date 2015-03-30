@@ -2694,6 +2694,22 @@ namespace MPC.Repository.Repositories
         }
 
 
+        public void DeleteOrderBySP(long OrderID)
+        {
+
+        }
+        public Estimate GetOrderByOrderID(long OrderID)
+        {
+          try
+          {
+              return db.Estimates.Where(o => o.EstimateId == OrderID).FirstOrDefault();
+          }
+          catch(Exception ex)
+          {
+              throw ex;
+          }
+        }
+
     }
 
 

@@ -14,5 +14,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int OrganisationId { get; set; }
         public int? FlagId { get; set; }
         public int SystemSiteId { get; set; }
+        public string VariableString { get; set; }
     }
 }
