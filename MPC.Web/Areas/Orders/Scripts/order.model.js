@@ -226,7 +226,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     CustomerPo: customerPo(),
                     OfficialOrderSetBy: officialOrderSetBy(),
                     OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
-                    PrePayments: []
+                    PrePayments: [],
+                    ShippingInformations: [],
                 };
             };
 

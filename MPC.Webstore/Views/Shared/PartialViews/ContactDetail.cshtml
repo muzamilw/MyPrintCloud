@@ -2,63 +2,57 @@
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 
-    @using (Html.BeginForm())
+@using (Html.BeginForm())
 {
     <style type="text/css">
+        input[type="checkbox"] {
+            display: none;
+            outline: none !important;
+            -webkit-transition: background-color;
+            -moz-transition: background-color;
+            -o-transition: background-color;
+            -ms-transition: background-color;
+            transition: background-color;
+        }
 
-            input[type="checkbox"]
-    {
-        display: none;
-        outline: none !important;
-        -webkit-transition: background-color;
-        -moz-transition: background-color;
-        -o-transition: background-color;
-        -ms-transition: background-color;
-        transition: background-color;
-    }
-    input[type="checkbox"] + label
-    {
-        display: inline-block !important;
-        padding: 6px 0 6px 45px;
-        line-height: 25px;
-        background-image: url("/Content/Images/checkbox_sprite.svg");
-        background-image: none,url("/Content/Images/checkbox_sprite.svg");
-        background-position: -108px 0;
-        background-repeat: no-repeat;
-        -webkit-background-size: 143px 143px;
-        -moz-background-size: 143px 143px;
-        background-size: 143px 143px;
-        overflow: visible;
-        outline: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        cursor: hand;
-        color: #66615b;
-        outline: none !important;
-    }
+            input[type="checkbox"] + label {
+                display: inline-block !important;
+                padding: 6px 0 6px 45px;
+                line-height: 25px;
+                background-image: url("/Content/Images/checkbox_sprite.svg");
+                background-image: none,url("/Content/Images/checkbox_sprite.svg");
+                background-position: -108px 0;
+                background-repeat: no-repeat;
+                -webkit-background-size: 143px 143px;
+                -moz-background-size: 143px 143px;
+                background-size: 143px 143px;
+                overflow: visible;
+                outline: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                cursor: pointer;
+                cursor: hand;
+                color: #66615b;
+                outline: none !important;
+            }
 
-    input[type="checkbox"]:hover + label, input[type="checkbox"] + label:hover, input[type="checkbox"]:hover + label:hover
-    {
-        background-position: -72px -36px;
-        color: #403d39;
-    }
+                input[type="checkbox"]:hover + label, input[type="checkbox"] + label:hover, input[type="checkbox"]:hover + label:hover {
+                    background-position: -72px -36px;
+                    color: #403d39;
+                }
 
-    input[type="checkbox"]:checked + label
-    {
-        background-position: -36px -72px;
-        color: #403d39;
-        font-weight: normal;
-    }
+            input[type="checkbox"]:checked + label {
+                background-position: -36px -72px;
+                color: #403d39;
+                font-weight: normal;
+            }
 
-    input[type="checkbox"]:checked:hover + label, input[type="checkbox"]:checked + label:hover, input[type="checkbox"]:checked:hover + label:hover
-    {
-        background-position: 0 -108px;
-        color: #403d39;
-    }
-
+                input[type="checkbox"]:checked:hover + label, input[type="checkbox"]:checked + label:hover, input[type="checkbox"]:checked:hover + label:hover {
+                    background-position: 0 -108px;
+                    color: #403d39;
+                }
     </style>
     <div class="content_area container">
         <div class="left_right_padding row">
@@ -69,10 +63,10 @@
             <div class="clearBoth">
             </div>
             <div align="center" id="divUserProfile">
-               
-            
-            <div id="MessgeToDisply" class="rounded_corners messageBoxNew" style="visibility:hidden;"></div>
-            
+
+
+                <div id="MessgeToDisply" class="rounded_corners messageBoxNew" style="display:none;"></div>
+
 
                 <div class="white-container-lightgrey-border rounded_corners">
                     <div class="pad20">
@@ -153,239 +147,239 @@
                             <div class="clearBoth">
                             </div>
                             <br />
-                            @if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
-                        {
-                        <div id="CompanyNameOfBroker">
-                            <div class="smallContctUsAvenior float_left_simple" id="divcompanyname">
-                                Company Name
-                            </div>
+                            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                            {
+                                <div id="CompanyNameOfBroker">
+                                    <div class="smallContctUsAvenior float_left_simple" id="divcompanyname">
+                                        Company Name
+                                    </div>
 
-                            <div class="TTL widthAvenior">
-                                <span class="error-message ECompanyName" style="display: none;">can't be blank</span><br>
-                                <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox " maxlength="500" tabindex="8" value="@ViewBag.CompanyName" />
+                                    <div class="TTL widthAvenior">
+                                        <span class="error-message ECompanyName" style="display: none;">can't be blank</span><br>
+                                        <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox " maxlength="500" tabindex="8" value="@ViewBag.CompanyName" />
+                                    </div>
+                                    <div class="clearBoth">
+                                    </div>
+                                    <br />
+                                </div>
+                            }
+
+                            <div id="WebsiteUrlOfBroker">
+                                <div class="smallContctUsAvenior float_left_simple" id="divwebsite">
+                                    Website
+                                </div>
+                                <div class="TTL widthAvenior">
+
+                                    @Html.TextBoxFor(model => model.quickWebsite, new { id = "txtWebSite", @class = "newTxtBox", placeholder = "WebSite", maxlength = 500, })
                                 </div>
                                 <div class="clearBoth">
                                 </div>
                                 <br />
                             </div>
-                        }
 
-                                <div id="WebsiteUrlOfBroker">
-                                    <div class="smallContctUsAvenior float_left_simple" id="divwebsite">
-                                        Website
-                                    </div>
-                                    <div class="TTL widthAvenior">
-
-                                        @Html.TextBoxFor(model => model.quickWebsite, new { id = "txtWebSite", @class = "newTxtBox", placeholder = "WebSite", maxlength = 500, })
-                                    </div>
-                                    <div class="clearBoth">
-                                    </div>
-                                    <br />
-                                </div>
-
-                                <div id="coorporateUserFields">
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                                  {
-                                <div>
-
-                                    <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
-                                        PO Box Address
-                                    </div>
-                                    <div class="TTL widthAvenior">
-
-                                        @Html.TextBoxFor(model => model.POBoxAddress, new { id = "txtPOBox", @class = "newTxtBox", placeholder = "PoBox", maxlength = 500, })
-                                    </div>
-                                    <div class="clearBoth">
-                                    </div>
-                                    <br />
-                                </div>
-                                }
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-                            {
-                                <div>
-                                    <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
-                                        Business/Corporate Unit
-                                    </div>
-                                    <div class="TTL widthAvenior">
-
-                                        @Html.TextBoxFor(model => model.CorporateUnit, new { id = "txtCunit", @class = "newTxtBox", placeholder = "CorporateUnit", maxlength = 500, })
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtOfcTrading">
-                                            Office Trading Name
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.OfficeTradingName, new { id = "txtOfcTrading", @class = "newTxtBox", placeholder = "Office Trading Name", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtContractorName">
-                                            Contractor Name
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.ContractorName, new { id = "txtContractorName", @class = "newTxtBox", placeholder = "Contractor Name", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtBpay">
-                                            Bpay CRN
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.BPayCRN, new { id = "txtBpay", @class = "newTxtBox", placeholder = "BPayCRN ", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtABN">
-                                            ABN
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.ABN, new { id = "txtABN", @class = "newTxtBox", placeholder = "ABN", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtACN">
-                                            ACN
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.ACN, new { id = "txtACN", @class = "newTxtBox", placeholder = "ACN", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtAf1">
-                                            Additional Field 1
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.AdditionalField1, new { id = "AdditionalField1", @class = "newTxtBox", placeholder = "AdditionalField1", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtAf2">
-                                            Additional Field 2
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.AdditionalField2, new { id = "AdditionalField2", @class = "newTxtBox", placeholder = "AdditionalField2", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtAf3">
-                                            Additional Field 3
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.AdditionalField3, new { id = "AdditionalField3", @class = "newTxtBox", placeholder = "AdditionalField3", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtAf4">
-                                            Additional Field 4
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.AdditionalField4, new { id = "AdditionalField4", @class = "newTxtBox", placeholder = "AdditionalField4", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-                                        <br />
-                                    </div>
-                                    <div>
-                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtAf5">
-                                            Additional Field 5
-                                        </div>
-                                        <div class="TTL widthAvenior">
-
-                                            @Html.TextBoxFor(model => model.AdditionalField5, new { id = "AdditionalField5", @class = "newTxtBox", placeholder = "AdditionalField5", maxlength = 500, })
-                                        </div>
-                                        <div class="clearBoth">
-                                        </div>
-
-
-                                        <br />
-                                    </div>
-
-                                </div>
-
-                            }
-
-                                    <div class="smallContctUsAvenior float_left_simple" id="div2">
-                                        Profile Picture
-                                    </div>
-                                    <div class="TTL widthAvenior">
-
-                                        <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" />
-                                    </div>
-                                    <div class="clearBoth">
-                                    </div>
-                                    <br />
-                                    <div class="smallContctUsAvenior float_left_simple" id="div3">
-                                    </div>
-                                    <div class="TTL widthAvenior">
-
-                                        @if (Model.image != null)
+                            <div id="coorporateUserFields">
+                                @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                 {
-                                    <img src="@Html.GetAppBasePath()@Model.image    " id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
-                                }
-                                else
-                                {
-                                    <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
-                                }
-                                        <input id="btnUploadFile" type="button" value="Upload Image" class="btnUploadImage_UP float_left_simple rounded_corners5" style="visibility:hidden;"/>
+                                    <div>
 
+                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
+                                            PO Box Address
+                                        </div>
+                                        <div class="TTL widthAvenior">
+
+                                            @Html.TextBoxFor(model => model.POBoxAddress, new { id = "txtPOBox", @class = "newTxtBox", placeholder = "PoBox", maxlength = 500, })
+                                        </div>
                                         <div class="clearBoth">
                                         </div>
+                                        <br />
                                     </div>
-                                    <div class="clearBoth">
-                                    </div>
-                                    <br />
-                                    <div class="smallContctUsAvenior float_left_simple">
-                                        &nbsp;
-    </div>
-    <div class="TTL widthAvenior">
-
-        @if (Model.IsEmailSubscription == true) 
-                                {
-                                <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked/>
-                                <label for="Select">Notify me of marketing and promotions</label>
                                 }
+                                @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                                {
+                                    <div>
+                                        <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
+                                            Business/Corporate Unit
+                                        </div>
+                                        <div class="TTL widthAvenior">
+
+                                            @Html.TextBoxFor(model => model.CorporateUnit, new { id = "txtCunit", @class = "newTxtBox", placeholder = "CorporateUnit", maxlength = 500, })
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtOfcTrading">
+                                                Office Trading Name
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.OfficeTradingName, new { id = "txtOfcTrading", @class = "newTxtBox", placeholder = "Office Trading Name", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtContractorName">
+                                                Contractor Name
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.ContractorName, new { id = "txtContractorName", @class = "newTxtBox", placeholder = "Contractor Name", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtBpay">
+                                                Bpay CRN
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.BPayCRN, new { id = "txtBpay", @class = "newTxtBox", placeholder = "BPayCRN ", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtABN">
+                                                ABN
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.ABN, new { id = "txtABN", @class = "newTxtBox", placeholder = "ABN", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtACN">
+                                                ACN
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.ACN, new { id = "txtACN", @class = "newTxtBox", placeholder = "ACN", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtAf1">
+                                                Additional Field 1
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.AdditionalField1, new { id = "AdditionalField1", @class = "newTxtBox", placeholder = "AdditionalField1", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtAf2">
+                                                Additional Field 2
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.AdditionalField2, new { id = "AdditionalField2", @class = "newTxtBox", placeholder = "AdditionalField2", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtAf3">
+                                                Additional Field 3
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.AdditionalField3, new { id = "AdditionalField3", @class = "newTxtBox", placeholder = "AdditionalField3", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtAf4">
+                                                Additional Field 4
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.AdditionalField4, new { id = "AdditionalField4", @class = "newTxtBox", placeholder = "AdditionalField4", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+                                            <br />
+                                        </div>
+                                        <div>
+                                            <div class="smallContctUsAvenior float_left_simple" id="divtxtAf5">
+                                                Additional Field 5
+                                            </div>
+                                            <div class="TTL widthAvenior">
+
+                                                @Html.TextBoxFor(model => model.AdditionalField5, new { id = "AdditionalField5", @class = "newTxtBox", placeholder = "AdditionalField5", maxlength = 500, })
+                                            </div>
+                                            <div class="clearBoth">
+                                            </div>
+
+
+                                            <br />
+                                        </div>
+
+                                    </div>
+
+                                }
+
+                                <div class="smallContctUsAvenior float_left_simple" id="div2">
+                                    Profile Picture
+                                </div>
+                                <div class="TTL widthAvenior">
+
+                                    <input type="file" id="fuImageUpload" name="fuImageUpload" class="newTxtBox" tabindex="12" />
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+                                <br />
+                                <div class="smallContctUsAvenior float_left_simple" id="div3">
+                                </div>
+                                <div class="TTL widthAvenior">
+
+                                    @if (Model.image != null)
+                                    {
+                                        <img src="@Html.GetAppBasePath()@Model.image    " id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
+                                    }
                                     else
                                     {
-                                <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" />
-                                <label for="Select" >Notify me of marketing and promotions</label>
+                                        <img src="/Content/Images/upload_your_picture.png" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                     }
-                                <input id="Select" name="MarketAndPromotion" type="hidden" value="false" />
+                                    <input id="btnUploadFile" type="button" value="Upload Image" class="btnUploadImage_UP float_left_simple rounded_corners5" style="visibility:hidden;" />
+
+                                    <div class="clearBoth">
+                                    </div>
+                                </div>
+                                <div class="clearBoth">
+                                </div>
+                                <br />
+                                <div class="smallContctUsAvenior float_left_simple">
+                                    &nbsp;
+                                </div>
+                                <div class="TTL widthAvenior">
+
+                                    @if (Model.IsEmailSubscription == true)
+                                    {
+                                        <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" checked />
+                                        <label for="Select">Notify me of marketing and promotions</label>
+                                    }
+                                    else
+                                    {
+                                        <input id="Select" name="MarketAndPromotion" type="checkbox" value="true" />
+                                        <label for="Select">Notify me of marketing and promotions</label>
+                                    }
+                                    <input id="Select" name="MarketAndPromotion" type="hidden" value="false" />
 
                                 </div>
                                 <div class="clearBoth">
@@ -396,16 +390,16 @@
                                 </div>
                                 <div class="TTL widthAvenior">
 
-                             @if (Model.IsNewsLetterSubscription == true)
-                                {
+                                    @if (Model.IsNewsLetterSubscription == true)
+                                    {
 
-                                <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked />
-                               <label for="News">Subscribe to Newsletters</label>
-                                }
+                                        <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" checked />
+                                        <label for="News">Subscribe to Newsletters</label>
+                                    }
                                     else
                                     {
-                                <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" />
-                                <label for="News">Subscribe to Newsletters</label>
+                                        <input id="News" name="NewsLetterSubscription" type="checkbox" value="true" />
+                                        <label for="News">Subscribe to Newsletters</label>
                                     }
                                     <input name="NewsLetterSubscription" type="hidden" value="false" />
 
@@ -418,7 +412,7 @@
                                     &nbsp;
                                 </div>
                                 <div class="TTL widthAvenior">
-                                    <input id="btnSave"   value="Save"  class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()"  />
+                                    <input id="btnSave" type="button" value="Save" class="start_creating_btn rounded_corners5" tabindex="13" onclick="Update()" />
 
                                     &nbsp;&nbsp;
 
@@ -438,97 +432,97 @@
                 </div>
             </div>
         </div>
-        </div>
-        }
-   @section scripts {
-        <script type="text/javascript">
-           
-            function RefreshPage()
-            {
-                window.location.href = "/ContactDetail";
-            }
-            function Update() {
-               
-                var FirstName = $("#txtFirstName").val();
-                var LastName = $("#txtLastName").val();
-                var Email = $("#txtUserEmail").val();
-                var JobTitle = $("#txtJobTitle").val();
-                var HomeTel1 = $("#txtUserPhone1").val();
-                var Mobile = $("#txtUserCellNo").val();
-                var FAX = $("#txtUserFax").val();
-                var CompanyName = $("#txtCompanyName").val();
-                var quickWebsite = $("#txtWebSite").val();
-                var POBoxAddress = $("#txtPOBox").val();
-                var CorporateUnit = $("#txtCunit").val();
-                var OfficeTradingName = $("#txtOfcTrading").val();
-
-                var ContractorName = $("#txtContractorName").val();
-                var BPayCRN = $("#txtBpay").val();
-                var ABN = $("#txtABN").val();
-                var ACN = $("#txtACN").val();
-
-                var AdditionalField1 = $("#AdditionalField1").val();
-                var AdditionalField2 = $("#AdditionalField2").val();
-                var AdditionalField3 = $("#AdditionalField3").val();
-                var AdditionalField4 = $("#AdditionalField4").val();
-                var AdditionalField5 = $("#AdditionalField5").val();
-                var Image = $("#fuImageUpload").val();
-               
-                var IsEmailSubscription = $("#Select")[0].checked;
-                var IsNewsLetterSubscription = $("#News")[0].checked;
-                
-                var data = new FormData();
-
-                var files = $("#fuImageUpload").get(0).files;
-            
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
-                 }
-               
-    var Model ={ FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
-    $.ajax({
-    type: "POST",
-    url: "/webstoreapi/costCenter/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX +"&CompanyName= "+CompanyName+"" +"&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
-    contentType: false,
-    data: data,
-    async: true,
-    processData: false,
-    success: function (response) {
-       
-        $("#MessgeToDisply").css('visibility', 'visible');
-        $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
-      //  window.location.href = "/Dashboard";
-        // $("#btnSubmitForm").click();
-        createCookie("FirstName", FirstName);
-        createCookie("LastName", LastName);
-    },
-    error: function (error) {
-        $("#MessgeToDisply").css('visibility', 'visible');
-        $("#MessgeToDisply").html('Error Occured While Updating Profile!');
+    </div>
 }
-});
- 
-            }
-            function createCookie(name, value, days) {
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    var expires = "; expires=" + date.toGMTString();
-                }
-                else var expires = "";
-                document.cookie = name + "=" + value + expires + "; path=/";
-            }
-            function UploadImage()
-            {
+@section scripts {
+    <script type="text/javascript">
 
-                var data = new FormData();
-                var files = $("#fuImageUpload").get(0).files;
-               
-                // Add the uploaded image content to the form data collection
-                if (files.length > 0) {
-                    data.append("UploadedImage", files[0]);
+        function RefreshPage() {
+            window.location.href = "/ContactDetail";
+        }
+        function Update() {
+            ShowLoader();
+            var FirstName = $("#txtFirstName").val();
+            var LastName = $("#txtLastName").val();
+            var Email = $("#txtUserEmail").val();
+            var JobTitle = $("#txtJobTitle").val();
+            var HomeTel1 = $("#txtUserPhone1").val();
+            var Mobile = $("#txtUserCellNo").val();
+            var FAX = $("#txtUserFax").val();
+            var CompanyName = $("#txtCompanyName").val();
+            var quickWebsite = $("#txtWebSite").val();
+            var POBoxAddress = $("#txtPOBox").val();
+            var CorporateUnit = $("#txtCunit").val();
+            var OfficeTradingName = $("#txtOfcTrading").val();
+
+            var ContractorName = $("#txtContractorName").val();
+            var BPayCRN = $("#txtBpay").val();
+            var ABN = $("#txtABN").val();
+            var ACN = $("#txtACN").val();
+
+            var AdditionalField1 = $("#AdditionalField1").val();
+            var AdditionalField2 = $("#AdditionalField2").val();
+            var AdditionalField3 = $("#AdditionalField3").val();
+            var AdditionalField4 = $("#AdditionalField4").val();
+            var AdditionalField5 = $("#AdditionalField5").val();
+            var Image = $("#fuImageUpload").val();
+
+            var IsEmailSubscription = $("#Select")[0].checked;
+            var IsNewsLetterSubscription = $("#News")[0].checked;
+
+            var data = new FormData();
+
+            var files = $("#fuImageUpload").get(0).files;
+
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+
+            var Model = { FirstName: FirstName, LastName: LastName, Email: Email, JobTitle: JobTitle, HomeTel1: HomeTel1, Mobile: Mobile, FAX: FAX, quickWebsite: quickWebsite, POBoxAddress: POBoxAddress, CorporateUnit: CorporateUnit, OfficeTradingName: OfficeTradingName, ContractorName: ContractorName, BPayCRN: BPayCRN, ABN: ABN, ACN: ACN, AdditionalField1: AdditionalField1, AdditionalField2: AdditionalField2, AdditionalField3: AdditionalField3, AdditionalField4: AdditionalField4, AdditionalField5: AdditionalField5, IsEmailSubscription: IsEmailSubscription, IsNewsLetterSubscription: IsNewsLetterSubscription };
+            $.ajax({
+                type: "POST",
+                url: "/webstoreapi/costCenter/UploadImage?FirstName=" + FirstName + "&LastName=" + LastName + "&Email=" + Email + "&JobTitle=" + JobTitle + "&HomeTel1=" + HomeTel1 + "&Mobile=" + Mobile + "&FAX=" + FAX + "&CompanyName= " + CompanyName + "" + "&quickWebsite=" + quickWebsite + "&POBoxAddress=" + POBoxAddress + "&CorporateUnit=" + CorporateUnit + "&OfficeTradingName=" + OfficeTradingName + "&ContractorName=" + ContractorName + "&BPayCRN=" + BPayCRN + "&ABN=" + ABN + "&ACN=" + ACN + "&AdditionalField1=" + AdditionalField1 + "&AdditionalField2=" + AdditionalField2 + "&AdditionalField3=" + AdditionalField3 + "&AdditionalField4=" + AdditionalField4 + "&AdditionalField5=" + AdditionalField5 + "&IsEmailSubscription=" + IsEmailSubscription + "&IsNewsLetterSubscription=" + IsNewsLetterSubscription + "",
+                contentType: false,
+                data: data,
+                async: true,
+                processData: false,
+                success: function (response) {
+
+                    $("#MessgeToDisply").css('display', 'block');
+                    $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
+
+                    createCookie("WEBFirstName", FirstName);
+                    createCookie("WEBLastName", LastName);
+                    HideLoader();
+                    $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
+                },
+                error: function (error) {
+                    $("#MessgeToDisply").css('display', 'block');
+                    $("#MessgeToDisply").html('Error Occured While Updating Profile!');
+                    HideLoader();
                 }
-                $.ajax({
+            });
+
+        }
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+        function UploadImage() {
+
+            var data = new FormData();
+            var files = $("#fuImageUpload").get(0).files;
+
+            // Add the uploaded image content to the form data collection
+            if (files.length > 0) {
+                data.append("UploadedImage", files[0]);
+            }
+            $.ajax({
                 type: "POST",
                 url: "/webstoreapi/costCenter/ImageFile",
                 contentType: false,
@@ -536,18 +530,17 @@
                 async: true,
                 processData: false,
                 success: function (response) {
-                 Update();
+                    Update();
                 },
                 error: function (error) {
                     ShowPopUp('Error Occured While Adding Address', error);
                 }
             });
-            }
-
-            function Cancel()
-            {
-                window.location.href = "/Dashboard";
-            }
-</script>
         }
-        
+
+        function Cancel() {
+            window.location.href = "/Dashboard";
+        }
+    </script>
+}
+

@@ -1498,7 +1498,7 @@ define("stores/stores.viewModel",
                             });
 
 
-                        }, 7000);
+                        }, 4000);
 
 
                 },

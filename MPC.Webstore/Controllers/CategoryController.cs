@@ -107,7 +107,7 @@ namespace MPC.Webstore.Controllers
 
                         if (product.isMarketingBrief == null || product.isMarketingBrief == false)
                         {
-                            ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID((int)product.ItemId, 0);
+                            ItemStockOption optSeq1 = _myCompanyService.GetFirstStockOptByItemID(product.ItemId, UserCookieManager.WBStoreId);
 
                             ItemStockOptionList Sqn = new ItemStockOptionList();
                             Sqn.ItemID = (int)product.ItemId;

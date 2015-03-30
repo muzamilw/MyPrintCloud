@@ -1,6 +1,6 @@
 ﻿@using MPC.Webstore.Common;
 @using MPC.Models.Common;
-@if ((UserCookieManager.StoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.StoreMode == (int)StoreMode.Retail)
+@if ((UserCookieManager.WEBStoreMode == 3 && ViewBag.isUserLoggedIn == true) || UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
 {
     <div class="LoginBarContainer">
         <div class="container content_area">
@@ -17,12 +17,12 @@
                                 <a onclick="ShowLoader();" href="/Signup" class="usercolorSize"><i class="fa fa-unlock"></i> Sign Up</a>
                             </li>
                             <li id="liSignInRegister" class="sub PinkBtnMyAccS6">
-                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.StoreId))</a>
+                                <a id="lnkLogin" href="/Login" class="lnkSignInCs" onclick="ShowLoader();">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkLogin", UserCookieManager.WBStoreId))</a>
                             </li>
                             <li class="ZeroRightMargin BlackBtnCS">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
                                     <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>
-                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.StoreId))</span>
+                                    <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
                                     <div class="lblCartCounter" id="lblCartCount">
                                         @ViewBag.CartCount
                                     </div>
@@ -38,7 +38,7 @@
 
                             <li class="liUserInfo">
 
-                                <label class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</label>
+                                <label id="lblUserName" class="LoginBarColor liUserInfo">Hi, @ViewBag.LoginUserName</label>
                             </li>
 
                             <li class="liMarginRight">

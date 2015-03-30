@@ -462,6 +462,10 @@ define("order/order.viewModel",
                         _.each(selectedOrder().prePayments(), function (item) {
                             order.PrePayments.push(item.convertToServerData());
                         });
+                        _.each(selectedOrder().deliverySchedules(), function (item) {
+                            order.ShippingInformations.push(item.convertToServerData());
+                        });
+                        
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 if (!selectedOrder().id()) {
@@ -1005,7 +1009,7 @@ define("order/order.viewModel",
                     selectedPrePayment: selectedPrePayment,
                     onSavePrePayment: onSavePrePayment,
                     onEditPrePayment: onEditPrePayment,
-                    //#endregion,
+                    //#endregion
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
                     //#endregion
                     //#region Delivery Schedule

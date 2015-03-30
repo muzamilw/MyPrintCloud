@@ -2125,5 +2125,11 @@ $("#smartFormSelectUserProfile").change(function () {
     pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
-    pcl42();//update designer 
+    pcl42(); 
+});
+$("#btnCompanyLogo").click(function () {
+    d1CompanyLogoToCanvas();
+});
+$("#btnContactImage").click(function () {
+    d1ContactLogoToCanvas();
 });

@@ -6,7 +6,7 @@
     <div class="row left_right_padding">
 
         <div class="signin_heading_div  col-md-12 col-lg-12 col-xs-12">
-            <label id="lbl_newCoustomerReg" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_newCoustomerReg", UserCookieManager.StoreId))</label>
+            <label id="lbl_newCoustomerReg" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_newCoustomerReg", UserCookieManager.WBStoreId))</label>
         </div>
         <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
             <div class="sign_up_page_box">
@@ -14,7 +14,7 @@
 
                     @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
                     {
-                        <div id="lbl_RegisterUsing" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RegisterUsing", UserCookieManager.StoreId))</div>
+                        <div id="lbl_RegisterUsing" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RegisterUsing", UserCookieManager.WBStoreId))</div>
                         <div class="clearBoth">&nbsp;</div>
 
                         <div id="cntSocialLink" class="cntSignInWithSocialinks">
@@ -53,12 +53,12 @@
                         </div>
                     }
                     <div class="clearBoth">&nbsp;</div>
-                    <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
+                    <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)
                         {
-                            <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.StoreId)) @ViewBag.CompanyName</div>
+                            <div id="lbl_CompleteYourRegisteration" class="errorMessage mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
                         }
 
                     }
@@ -114,16 +114,16 @@
                 <div class="signup_width col-md-6 col-lg-6 col-xs-12">
                     <div class="BackgroundColor">
                         <div class="custom_color_heading" id="lbl_WhyRegister">
-                            @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.StoreId))
+                            @Html.Raw(Html.GetKeyValueFromResourceFile("divwhyregister", UserCookieManager.WBStoreId))
                         </div>
                         <div>
                             &nbsp;
                         </div>
-                        <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.StoreId))</p>
+                        <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.WBStoreId))</p>
                         <div class="registering_item_register" id="divsaveurdeisgn">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.StoreId))</p>
+                            <p id="lbl_SaveDesign" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsaveurdesign", UserCookieManager.WBStoreId))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -131,7 +131,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.StoreId))</p>
+                            <p id="lbl_OrderHistory" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlviewtoh", UserCookieManager.WBStoreId))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -139,7 +139,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.StoreId))</p>
+                            <p id="lbl_Reorder" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divreorderq", UserCookieManager.WBStoreId))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -147,7 +147,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.StoreId))</p>
+                            <p id="lbl_NewLetter" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("divsubs2newsl", UserCookieManager.WBStoreId))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -155,7 +155,7 @@
                         <div class="registering_item_register">
                             <div class="tickImge">&nbsp;</div>
 
-                            <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.StoreId))</p>
+                            <p id="lbl_RequestQuote" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("hlRequestQuote", UserCookieManager.WBStoreId))</p>
                         </div>
                         <div class="registering_item_separator">
                             &nbsp;
@@ -164,7 +164,7 @@
                             <div class="tickImge">
                                 &nbsp;
                             </div>
-                            <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.StoreId))</p>
+                            <p id="lbl_Voucher" class="smallAveniorLogin">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlNewVoucherPromo", UserCookieManager.WBStoreId))</p>
                         </div>
                     </div>
                 </div>

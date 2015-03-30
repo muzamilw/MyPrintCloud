@@ -129,7 +129,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Store's Unique Access Code</label>
+                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float col-lg-9">Store's Unique Access Code</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
@@ -316,11 +316,11 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
+                                                    <label for="txtGSTRegNo" class="control-label text-right tooltip-float">Tax Reg. No.</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
-                                                    <span class="help-block text-right">GST registration number</span>
+                                                    <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter Tax Registration Number" data-bind="value: avatRegNumber">
+                                                    <span class="help-block text-right">Tax registration number</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -330,11 +330,11 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
+                                                    <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">Tax Ref. No.</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number" data-bind="value: avatRegReference">
-                                                    <span class="help-block text-right">GST reference number</span>
+                                                    <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter Tax Reference Number" data-bind="value: avatRegReference">
+                                                    <span class="help-block text-right">Tax reference number</span>
                                                 </div>
                                             </div>
 
@@ -394,7 +394,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtTwitterURL" class="control-label text-right tooltip-float">Store's Twitter Account URL</label>
+                                                    <label for="txtTwitterURL" class="control-label text-right tooltip-float col-lg-9">Store's Twitter Account URL</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtTwitterURL" placeholder="Enter Twitter URL" data-bind="value: twitterUrl">
@@ -797,7 +797,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float"> Upload store background. Background Image is applied using CSS.</label>
+                                                    <label class="control-label text-right tooltip-float col-lg-10"> Upload store background. Background Image is applied using CSS.</label>
                                                     <label class="control-label text-right tooltip-float">(PNG 2149 x 713 pixels) </label>
                                                 </div>
                                                 <div class="col-lg-6">
@@ -985,7 +985,7 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Display Bannes on home page ?</label>
+                                                    <label class="control-label text-right tooltip-float">Display Banners on home page ?</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1002,7 +1002,7 @@
                                             <div class="col-md-9">
                                                 <label class="control-label text-right tooltip-float pull-left">Current Active Banner Set </label>
                                                 <div class="form-group pull-left col-xs-4 tooltip-float-width" style="width:250px;">
-                                                    <select class="form-control" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:activeBannerSetId, validationOnElement: activeBannerSetId,event:{ change: $root.onChangeBannerSet}"></select>
+                                                    <select class="form-control" style="margin-left: 15px;" name="Banner Set" data-bind="options: $root.companyBannerSetList,optionsCaption:'All Set', optionsText: 'setName', optionsValue: 'id',value:activeBannerSetId, validationOnElement: activeBannerSetId,event:{ change: $root.onChangeBannerSet}"></select>
                                                 </div>
                                                 <div class="btn btn-primary pull-right" data-bind="click:$root.onCreateBanner">
                                                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add
@@ -1084,13 +1084,13 @@
                                         <h3 class="group-header">Store's Page & Content Management</h3>
                                         <div class="col-md-9 form-horizontal">
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="This will list the System and secondary pages on the Home Page footer for quick reference.  Secondary pages are editable to create your own versions of help, about us etc.  Secondary pages can be individualized to each store, whilst you can manage SEO content settings for system pages. Category and product pages pull SEO content from respective categories and products." data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Display secondary content pages in footer navigation</label>
+                                                    <label class="control-label text-right tooltip-float col-lg-10">Display secondary content pages in footer navigation</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="onoffswitch">
@@ -1588,7 +1588,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Store's Tax percentage value e.g 16%</label>
+                                                    <label class="control-label text-right tooltip-float">Store's Tax percentage value 16%</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1604,7 +1604,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Tax Title/Label VAT</label>
+                                                    <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1726,8 +1726,16 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                     <div class="col-lg-3">
                                         <div class="clearfix">
                                             <header class="main-box-header clearfix">
-                                                <h2>Available Widgets for Pages</h2>
-                                                <p class="group-header-description">Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add "Dynamic Page HTML Control" and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible.</p>
+                                                
+                                                <h2>
+                                                    <span class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add Dynamic Page HTML Control and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </span>
+                                                    Available Widgets for Pages
+                                                </h2>
+                                                @*<p class="group-header-description">Here you can configure the layout and widgets/components which appear on Store's each page excluding Secondary pages. You may drag/add available widgets from left to a page after selecting the page. If you want to add custom HTML then add Dynamic Page HTML Control and modify the contents, this control can be placed multiple times and alow full HTML and Javascript content. You may also reorder the widgets/components. Please note changes done once are irreversible.</p>*@
                                             </header>
                                             <div style="padding-right: 5px;" id="widgetDiv">
                                                 <ol class="dd-list" id="widgetList">
@@ -1745,13 +1753,13 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                             </header>
                                             <div class="form-group">
-                                                <div class="col-lg-3 text-right">
+                                                <div class="col-lg-4 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select the page you would like to work on (retail, corporate store, etc.)" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtCurrentPage" class="control-label text-right tooltip-float">Select page to view current widgets/components</label>
+                                                    <label for="txtCurrentPage" class="control-label text-right tooltip-float col-lg-10">Select page to view current widgets/components</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <select class="form-control" data-bind="options: $root.cmsPagesForStoreLayout,optionsCaption:'Select Page', optionsText: 'PageTitle', optionsValue: 'PageId',value:$root.selectedCurrentPageId"></select>
@@ -1837,7 +1845,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                 </div>
                                 <div class="tab-pane clearfix fade" id="tab-CMYKColors" data-bind="with: $root.selectedStore">
                                     <h3 class="group-header">Define which SPOT colors are available to end users in designer tool palette across all custom templates.</h3>
-                                    <p class="group-header-description">This helps control the branding and corporate identity of templates for private storesn.</p>
+                                    <p class="group-header-description">This helps control the branding and corporate identity of templates for private stores.</p>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
                                             <div class="filter-block">
@@ -2367,7 +2375,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyDomainTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
-                <td class="col-lg-12"><span data-bind="text: domain"></span></td>
+                <!--ko if: isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a>  (Default)</td>
+                <!-- /ko -->
+                <!--ko if: !isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a></td>
+                <!-- /ko -->
                 <td class="col-lg-1">
                     <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
                     <!-- /ko -->

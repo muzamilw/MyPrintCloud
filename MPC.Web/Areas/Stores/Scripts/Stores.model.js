@@ -296,7 +296,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeWorkflowImage: storeWorkflowImage,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
             mapImageUrl: mapImageUrl,
-            mapImageUrlBinary:mapImageUrlBinary,
+            mapImageUrlBinary: mapImageUrlBinary,
             activeBannerSetId: activeBannerSetId,
             status: status,
             image: image,
@@ -325,7 +325,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             addresses: addresses,
             users: users,
             secondaryPages: secondaryPages,
-            systemPages:systemPages,
+            systemPages: systemPages,
             companyCMYKColors: companyCMYKColors,
             webMasterTag: webMasterTag,
             webAnalyticCode: webAnalyticCode,
@@ -359,8 +359,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             taxLabel: taxLabel,
             taxRate: taxRate,
             scopeVariables: scopeVariables,
-            paymentGateway: paymentGateway
-            //storeLayoutChange: storeLayoutChange
+            paymentGateway: paymentGateway,
+            isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
+            showPrices: showPrices,
+            isWhiteLabel: isWhiteLabel,
+            isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+            canUserEditProfile: canUserEditProfile
             //#endregion
         }),
         // Has Changes
@@ -481,7 +485,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Deletedproducts = [];
             result.Campaigns = [];
             result.CompanyCostCentres = [];
-           
+
             _.each(source.paymentGateway(), function (item) {
                 result.PaymentGateways.push(item.convertToServerData());
             });
@@ -573,7 +577,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             colorPalette: colorPalette,
             companyBannerSets: companyBannerSets,
             secondaryPages: secondaryPages,
-            systemPages:systemPages,
+            systemPages: systemPages,
             paymentGateway: paymentGateway,
             paymentMethod: paymentMethod,
             productCategories: productCategories,
@@ -603,14 +607,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             reset: reset,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
             mapImageUrl: mapImageUrl,
-            mapImageUrlBinary:mapImageUrlBinary,
+            mapImageUrlBinary: mapImageUrlBinary,
             taxLabel: taxLabel,
             taxRate: taxRate,
             scopeVariables: scopeVariables,
-            isAllowRegistrationFromWeb:isAllowRegistrationFromWeb,
-            isDisplayDiscountVoucherCode:isDisplayDiscountVoucherCode,
-            canUserEditProfile:canUserEditProfile,
-            isWhiteLabel:isWhiteLabel,
+            isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+            isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
+            canUserEditProfile: canUserEditProfile,
+            isWhiteLabel: isWhiteLabel,
             showPrices: showPrices
 
             //#endregion
@@ -752,17 +756,17 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.storeId(source.StoreId);
         // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
-       // store.storeWorkflowImage(source.StoreWorkflowImage);
+        // store.storeWorkflowImage(source.StoreWorkflowImage);
         store.storeWorkflowImageBinary(source.WatermarkText);
         store.mapImageUrl(source.MapImageUrl);
         store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
-        store.isAllowRegistrationFromWeb ( source.isAllowRegistrationFromWeb);
-        store.isDisplayDiscountVoucherCode ( source.IsDisplayDiscountVoucherCode);
-        store.canUserEditProfile ( source.CanUserEditProfile);
-        store.isWhiteLabel ( source.isWhiteLabel);
-        store.showPrices ( source.ShowPrices);
+        store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
+        store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
+        store.canUserEditProfile(source.CanUserEditProfile);
+        store.isWhiteLabel(source.isWhiteLabel);
+        store.showPrices(source.ShowPrices);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -1799,7 +1803,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime !== null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
@@ -1887,7 +1891,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
             result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
             result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-           // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
+            // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
             result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
             result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
             result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();
@@ -2023,19 +2027,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return new CampaignSection(source.SectionId, source.SectionName);
     };
 
-    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName) {
+    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableTag) {
         var self,
             id = ko.observable(specifiedVariableId),
-            variableName = ko.observable(specifiedVariableName);
+            variableName = ko.observable(specifiedVariableName),
+           variableTag = ko.observable(specifiedVariableTag);
 
         self = {
             id: id,
             variableName: variableName,
+            variableTag: variableTag,
         };
         return self;
     };
     CampaignEmailVariable.Create = function (source) {
-        return new CampaignEmailVariable(source.VariableId, source.VariableName);
+        return new CampaignEmailVariable(source.VariableId, source.VariableName, source.VariableTag);
     };
 
     var CampaignImage = function (specifiedCampaignImageId, specifiedCampaignId, specifiedImagePath, specifiedImageName, specifiedImageSource) {

@@ -2,10 +2,10 @@
 {
     public enum PurchaseByColumn
     {
-        GoodsReceivedId = 1,
+        PurchaseId = 1,
         Code  = 2,
         Name = 3,
-        DateReceived = 4,
+        DatePurchase = 4,
         TotalPrice = 5,
     }
 }
