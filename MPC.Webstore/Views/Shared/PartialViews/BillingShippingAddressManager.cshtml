@@ -145,6 +145,8 @@
 </p>,style: "main_contact_corp_div gridfontStyle paddingTopForWebGrid3rdColumn"),
 
     })
+   @*@grid.Pager(mode:WebGridPagerModes.All,firstText:"First", lastText:"Last",previousText:"Previous",nextText:"Next",numericLinksCount: 15));*@
+
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -202,6 +204,9 @@
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div class="address_label_area1 ">
             Address Name:
+            <div id="divAddressName" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="Address Name" maxlength="100" id="txtAddressName" class="text_box200 rounded_corners5">
@@ -217,6 +222,9 @@
         </div>
         <div class="address_label_area1 ">
             Address 1:
+            <div id="divAddress1" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="Address 1" maxlength="250" id="txtAddress1" class="text_box200 rounded_corners5">
@@ -280,7 +288,9 @@
         </div>
         <div class="address_label_area1 ">
             City :
-
+            <div id="divCity" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="City" maxlength="100" id="txtCity" class="text_box200 rounded_corners5">
@@ -453,7 +463,7 @@
             async: true,
             success: function (response) {
                 var CountriesDD = $("#DDCountry");
-                CountriesDD.html('');
+                CountriesDD.html(''); 
                 CountriesDD.append($('<option></option>').val(0).html('Select Country'));
                 $.each(response.Country, function (id, option) {
 
@@ -781,45 +791,50 @@
   
     function Validation()
     {
-        var IsValid = false;
+        var IsValid = true;
         var errorMessage = '';
         
-           if ($("#txtAddressName").val().trim() == '')
+            if ($("#txtAddressName").val().trim() == '')
             { 
                 var AddressNAme = "Address Name Is Required";
                 errorMessage = errorMessage + AddressNAme + "<br>";
+                $("#divAddressName").css('display', 'block');
                 IsValid = false;
             }
             else
             {
-                IsValid=true;
+               $("#divAddressName").css('display', 'none');
             }
 
             if ($("#txtAddress1").val().trim() == '')
             {
                 var Address1="Address1 is Ruquired";
                 errorMessage = errorMessage + Address1 + "<br>";
+                $("#divAddress1").css('display', 'block');
                 IsValid = false;
             }
             else
             {
-                IsValid=true;
+               
+                $("#divAddress1").css('display', 'none');
             }
 
             if ($("#txtCity").val().trim()== '')
             {
                 var City="City is Ruquired";
                 errorMessage = errorMessage + City + "<br>";
+                $("#divCity").css('display', 'block');
                 IsValid = false;
             }
             else
             {
-                IsValid=true;
+                $("#divCity").css('display', 'none');
             }
-            if (IsValid == true)
-            {
-                ShowPopUp('Message', errorMessage);
-            }
+            //if (IsValid == false)
+            //{
+            //    ShowPopUp('Message', errorMessage);
+        //}
+            
             return IsValid;
            
     }
