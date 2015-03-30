@@ -9,8 +9,14 @@
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;
                         </a>
                     </div>
+                    <div class="filter-block pull-right">
+                        <a href="#" class="btn btn-primary pull-right" data-bind="click:$root.onRaised">
+                            Raise
+                        </a>
+                    </div>
                 </header>
                 <div class="table-responsive">
+
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -24,7 +30,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- ko template: { name: $root.templateToUseDeliverySchedule  , foreach: $root.selectedOrder().deliverySchedules } -->
+                            <!-- ko template: { name: $root.templateToUseDeliverySchedule , foreach: $root.selectedOrder().deliverySchedules } -->
                             <!-- /ko -->
                         </tbody>
                     </table>
@@ -33,16 +39,16 @@
         </div>
     </div>
     <script id="ediDeliverScheduleTemplate" type="text/html">
-        <tr data-bind="click:$root.selectDeliverySchedule">
+        <tr>
             <td style="width: 175px">
                 <div>
-                    <select id="country" class="form-control" data-bind="options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
+                    <select class="form-control" data-bind="options: $root.selectedOrder().items , optionsText: 'productName', optionsValue: 'id' ,value:itemId,validationtooltip:itemId"></select>
                     <span class="help-block text-right"></span>
                 </div>
             </td>
             <td style="width: 175px">
                 <div>
-                    <select id="country" class="form-control" data-bind="options: $root.companyAddresses , optionsText: 'name', optionsValue: 'id',value:addressId,validationtooltip:addressId"></select>
+                    <select class="form-control" data-bind="options: $root.companyAddresses , optionsText: 'name', optionsValue: 'id',value:addressId,validationtooltip:addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
             </td>
@@ -57,7 +63,7 @@
                 </div>
             </td>
             <td style="width: 114px;border: none"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
-            <td style="width: 114px">
+            <td>
                 <div class="checkbox-nice" style="margin-left:12px;">
                     <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">
                     <label data-bind="attr: { for: 'deliveryNoteRaised' + $index() }"></label>
@@ -80,14 +86,14 @@
             <td style="width: 114px;border: none"><span data-bind="visible:price()!==undefined,text: $root.currencySymbol"></span><span data-bind="text: price"></span> </td>
             <td>
                 <div class="checkbox-nice" style="margin-left:12px;">
-                    <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised' + $index() }">
-                    <label data-bind="attr: { for: 'deliveryNoteRaised' + $index() }"></label>
+                    <input type="checkbox" disabled data-bind="checked: deliveryNoteRaised,attr: { id: 'deliveryNoteRaised1' + $index() }">
+                    <label data-bind="attr: { for: 'deliveryNoteRaised1' + $index() }"></label>
                 </div>
             </td>
             <td>
                 <div class="checkbox-nice" style="margin-left:12px;">
-                    <input type="checkbox"  data-bind="checked: isSelected,attr: { id: 'selected' + $index() }">
-                    <label data-bind="attr: { for: 'selected' + $index() }"></label>
+                    <input type="checkbox" data-bind="checked: isSelected,attr: { id: 'selected1' + $index() }">
+                    <label data-bind="attr: { for: 'selected1' + $index() }"></label>
                 </div>
             </td>
         </tr>

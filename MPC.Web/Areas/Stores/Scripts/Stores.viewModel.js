@@ -1547,7 +1547,7 @@ define("stores/stores.viewModel",
                         //variableName //sectionName
                         selectedEmail().hTMLMessageA(hTMLMessageA + source.section.sectionName());
                     } else if (selectedEmail() !== undefined && source !== undefined && source !== null && source.emailVariable !== undefined && source.emailVariable !== null) {
-                        selectedEmail().hTMLMessageA(hTMLMessageA + source.emailVariable.variableName());
+                        selectedEmail().hTMLMessageA(hTMLMessageA + source.emailVariable.variableTag());
                     } else if (selectedEmail() !== undefined && source !== undefined && source !== null && source.image !== undefined && source.image !== null) {
                         // var img = "<img  src=" + source.image.imageSource() + "/>";
                         var img = "<img width=\"100px\"  height=\"100px\" src=\"" + source.image.imageSource() + "\"/>";
