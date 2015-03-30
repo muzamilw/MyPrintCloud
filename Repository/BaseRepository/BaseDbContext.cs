@@ -790,6 +790,20 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", selectedIdParameter);
         }
 
+        /// <summary>
+        /// Stored procedure to delete an organisation
+        /// </summary>
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteOrganisation(int? organisationId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("OrganisationID", organisationId) :
+                new ObjectParameter("OrganisationID", typeof(int));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrganisation", organisationIdParameter);
+        }
+
         #endregion
     }
 }

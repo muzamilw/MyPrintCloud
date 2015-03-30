@@ -430,6 +430,7 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
