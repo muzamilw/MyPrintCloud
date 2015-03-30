@@ -787,7 +787,7 @@
            if ($("#txtAddressName").val().trim() == '')
             { 
                 var AddressNAme = "Address Name Is Required";
-                errorMessage=errorMessage+AddressNAme+"<br>";
+                errorMessage = errorMessage + AddressNAme + "<br>";
                 IsValid = false;
             }
             else
@@ -816,24 +816,20 @@
             {
                 IsValid=true;
             }
+            if (IsValid == true)
+            {
+                ShowPopUp('Message', errorMessage);
+            }
             return IsValid;
-            Messsage(errorMessage);
-        ShowPopUp('Message', errorMessage);
+           
     }
-    function Messsage(message)
-    {
-        alert(message);
-        return message;
-    }
+
     function SaveCall()
     {
         if (Validation() == true)
         {
             AddAndUpdate();
         }
-        else
-        {
-            ShowPopUp('Message', Messsage());
-        }
+
     }
         </script>
