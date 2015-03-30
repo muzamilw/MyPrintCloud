@@ -197,6 +197,7 @@ namespace MPC.Repository.Repositories
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
                         c.isWhiteLabel,
+                        c.TaxLabel,
                         c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
@@ -323,6 +324,7 @@ namespace MPC.Repository.Repositories
                         LinkedinURL = c.LinkedinURL,
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
+                        TaxLabel = c.TaxLabel,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,

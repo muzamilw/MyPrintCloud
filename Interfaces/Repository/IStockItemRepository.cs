@@ -16,6 +16,11 @@ namespace MPC.Interfaces.Repository
         InventorySearchResponse GetStockItems(InventorySearchRequestModel request);
 
         /// <summary>
+        /// Get Stock Items In orders 
+        /// </summary>
+        InventorySearchResponse GetStockItemsInOrders(InventorySearchRequestModel request);
+
+        /// <summary>
         /// Get Stock Items For Product
         /// </summary>
         InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request);
