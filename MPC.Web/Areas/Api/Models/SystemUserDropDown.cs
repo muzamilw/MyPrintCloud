@@ -7,5 +7,7 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid SystemUserId { get; set; }
         public string UserName { get; set; }
         public bool isSelected { get; set; }
+        public string VariableString { get; set; }
+        public string FullName { get; set; }
     }
 }

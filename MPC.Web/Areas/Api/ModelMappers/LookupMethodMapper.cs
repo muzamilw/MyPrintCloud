@@ -22,8 +22,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FlagId = source.FlagId,
                 SystemSiteId = source.SystemSiteId
 
-
-
             };
 
         }
@@ -291,7 +289,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         //    };
         //}
 
-
+        
 
     }
 }

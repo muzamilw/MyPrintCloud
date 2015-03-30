@@ -13,5 +13,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string DefaultAnswer { get; set; }
         public int CompanyId { get; set; }
         public int SystemSiteId { get; set; }
+
+        public string VariableString { get; set; }
     }
 }
