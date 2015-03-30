@@ -36,6 +36,14 @@ define("order/order.view",
                         $(element).focus();
                     }, 1000);
                 },
+                // Show inventory dialog
+                showInventoryItemDialog = function () {
+                    $("#inventoryItem").modal("show");
+                },
+                // Hide inventory dialog
+                hideInventoryItemDialog = function () {
+                    $("#inventoryItem").modal("hide");
+                },
                  // Show Cost Centers the dialog
                 showCostCentersDialog = function () {
                     $("#costCenters").modal("show");
@@ -152,7 +160,9 @@ define("order/order.view",
                 showOrderPrePaymentModal: showOrderPrePaymentModal,
                 hideOrderPrePaymentModal: hideOrderPrePaymentModal,
                 setOrderState: setOrderState,
-                orderstate: orderstate
+                orderstate: orderstate,
+                showInventoryItemDialog: showInventoryItemDialog,
+                hideInventoryItemDialog: hideInventoryItemDialog
             };
         })(orderViewModel);
 

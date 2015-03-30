@@ -299,7 +299,7 @@
             if (passwordnew === Confirmpassword) {
 
             } else {
-                alert('didnt match');
+               
                 $("#errorMesg").css("display", "block");
                 $("#errorMesg").text("Password not match.");
                 $("#txtNewPassword").css("border", "1px solid #b33c12");//.parent().addClass("field-with-errors");
@@ -328,9 +328,9 @@
                 data: JSON.stringify(data),
                 async: true,
                 success: function (response) {
-                    alert(PasswordValidationSummary(response));
+                    
                     if (PasswordValidationSummary(response) == true) {
-                        alert('all validations true');
+                        
                         ResetPassword();
                     }
                 }
@@ -368,7 +368,7 @@
                 $("#txtConfirmPassword").css("border", "1px solid #c1c6cc");//.parent().removeClass("field-with-errors");
             }
             if (CurrentPass != "") {
-                alert(CurrentPass);
+                
                 if (Result == false) {
                     $("#errorMesg").css("display", "block");
                     $("#errorMesg").text("Current Password Does Not Match.");

@@ -37,5 +37,10 @@ namespace MPC.Models.ResponseModels
         /// Organisation
         /// </summary>
         public Organisation Organisation { get; set; }
+
+        /// <summary>
+        /// Stock Categories
+        /// </summary>
+        public IEnumerable<StockCategory> StockCategories { get; set; }
     }
 }

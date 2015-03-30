@@ -28,8 +28,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 new List<Markup>(),
                 PaymentMethods = source.PaymentMethods != null ? source.PaymentMethods.Select(cc => cc.CreateFrom()) :
                 new List<PaymentMethod>(),
-                CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol : string.Empty
-
+                CurrencySymbol = (source.Organisation != null && source.Organisation.Currency != null) ? source.Organisation.Currency.CurrencySymbol : 
+                string.Empty,
+                StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
             };
         }
 
