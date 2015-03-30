@@ -53,7 +53,7 @@ namespace MPC.Webstore.Controllers
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;
-                ViewBag.LoginUserName = UserCookieManager.ContactFirstName + " " + UserCookieManager.ContactLastName;
+                ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;
                 ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0).ToString());
             }
             else
@@ -67,14 +67,14 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult LogOut()
         {
-            UserCookieManager.ContactFirstName = "";
-            UserCookieManager.ContactLastName = "";
+            UserCookieManager.WEBContactFirstName = "";
+            UserCookieManager.WEBContactLastName = "";
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
             UserCookieManager.OrderId = 0;
         
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 Response.Redirect("/Login");
             }

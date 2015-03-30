@@ -45,7 +45,7 @@
 
                                     </div>
                                     <asp:label id="lblerrorMsg" cssclass="error-block text-danger"></asp:label>
-            <p class="help-block" id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.StoreId))</p>
+            <p class="help-block" id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId))</p>
         </div>
         <input id="btnSendNews" type="submit"
                class="btn btn-primary btn-rounded" value="Subscribe" />

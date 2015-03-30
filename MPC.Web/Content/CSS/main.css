@@ -192,8 +192,8 @@ body.errorPage, body.loginPage {
 	.center i {float:none; display: inline;}
 
 /*margins*/
-.marginR5 {margin-right: 5px;}
-.marginR10{margin-right: 10px;}
+.marginR5 {margin-right: 5px!important ;}
+.marginR10{margin-right: 10px!important ;}
 .marginT5 {margin-top:5px;}
 .marginT10{margin-top:10px;}
 .marginB5 {margin-bottom: 5px;}

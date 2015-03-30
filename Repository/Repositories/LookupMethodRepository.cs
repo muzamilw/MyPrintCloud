@@ -15,10 +15,11 @@ namespace MPC.Repository.Repositories
     public class LookupMethodRepository : BaseRepository<LookupMethod>, ILookupMethodRepository
     {
         #region Constructor
-        public LookupMethodRepository(IUnityContainer container)
+        private readonly IOrganisationRepository organisationRepository;
+        public LookupMethodRepository(IUnityContainer container, IOrganisationRepository organisationRepository)
             : base(container)
         {
-
+            this.organisationRepository = organisationRepository;
         }
         protected override IDbSet<LookupMethod> DbSet
         {
@@ -545,7 +546,7 @@ namespace MPC.Repository.Repositories
         {
             LookupMethod olookupMethod = DbSet.Where(g => g.MethodId == MethodId).SingleOrDefault();
             MachineGuillotineCalc oGuillotineCalc = olookupMethod.Type == 6 ? db.MachineGuillotineCalcs.Where(g => g.MethodId == MethodId).SingleOrDefault() : null;
-
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
             return new LookupMethodResponse
             {
                 ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
@@ -554,7 +555,8 @@ namespace MPC.Repository.Repositories
                 GuilotinePtv = oGuillotineCalc != null ? db.MachineGuilotinePtvs.Where(g => g.GuilotineId == oGuillotineCalc.Id).ToList() : null,
                 MeterPerHourLookup = olookupMethod.Type == 8 ? db.MachineMeterPerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null
+                SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
+                CurrencySymbol = organisation==null?null: organisation.Currency.CurrencySymbol
             };
         }
 

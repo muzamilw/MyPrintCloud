@@ -21,7 +21,7 @@ namespace MPC.Webstore.Controllers
         // GET: RealEstateProducts
         public ActionResult Index(int listingId)
         {
-            List<usp_GetRealEstateProducts_Result> lstRealEstateProducts = _IItemService.GetRealEstateProductsByCompanyID(UserCookieManager.StoreId);
+            List<usp_GetRealEstateProducts_Result> lstRealEstateProducts = _IItemService.GetRealEstateProductsByCompanyID(UserCookieManager.WBStoreId);
 
             ViewData["RealEstateProducts"] = lstRealEstateProducts;
             ViewBag.ListingID = listingId;

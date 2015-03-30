@@ -74,7 +74,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
         void GetStoreFromCache(long companyId, bool clearcache);
 
-        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+        ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
         string FormatDecimalValueToTwoDecimal(string valueToFormat);

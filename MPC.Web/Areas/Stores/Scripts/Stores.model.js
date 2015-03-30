@@ -364,8 +364,12 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             taxLabel: taxLabel,
             taxRate: taxRate,
             scopeVariables: scopeVariables,
-            paymentGateway: paymentGateway
-            //storeLayoutChange: storeLayoutChange
+            paymentGateway: paymentGateway,
+            isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
+            showPrices: showPrices,
+            isWhiteLabel: isWhiteLabel,
+            isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+            canUserEditProfile: canUserEditProfile
             //#endregion
         }),
         // Has Changes

@@ -17,7 +17,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Type = source.Type,
                 DefaultAnswer = source.DefaultAnswer,
                 CompanyId = source.CompanyId,
-                SystemSiteId = source.SystemSiteId
+                SystemSiteId = source.SystemSiteId,
+                VariableString = GetVariableString(source)
             };
         }
 
@@ -32,6 +33,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 SystemSiteId = source.SystemSiteId
             };
+        }
+
+        private static string GetVariableString(MPC.Models.DomainModels.CostCentreQuestion source)
+        {
+            string sv = "{question, ID="+source.Id+",caption="+source.QuestionString+"}";
+            return sv;
         }
     }
 }

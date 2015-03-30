@@ -190,7 +190,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId)
+        public ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     return
-                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == null && i.OptionSequence == 1)
+                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1)
                             .FirstOrDefault();
                 }
             }
@@ -277,6 +277,8 @@ namespace MPC.Repository.Repositories
                 newItem.EstimateProductionTime = ActualItem.EstimateProductionTime;
 
                 newItem.DefaultItemTax = ActualItem.DefaultItemTax;
+
+                newItem.ProductType = ActualItem.ProductType;
 
                 newItem.DesignerCategoryId = ActualItem.DesignerCategoryId;
                 if (isCopyProduct)
@@ -1408,8 +1410,8 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-
-                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
+                Item item = db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
+                return item;
             }
             catch (Exception ex)
             {
@@ -2407,12 +2409,13 @@ namespace MPC.Repository.Repositories
         /// <param name="clonedTemplateToRemoveList"></param>
         /// <returns></returns>
         public long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID,
-            long realContactID, long replacedOrderdID,
+            long realContactID, long replacedOrderdID, long OrganisationId,
             out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved,
             out List<Template> clonedTemplateToRemoveList)
         {
             try
             {
+                string SourceTargetFolder = "";
                 db.Configuration.LazyLoadingEnabled = false;
                 Estimate TemporaryOrder = null;
 
@@ -2442,12 +2445,15 @@ namespace MPC.Repository.Repositories
                             order.CompanyId == realCustomerID && order.ContactId == realContactID &&
                             order.StatusId == (short)OrderStatus.ShoppingCart && order.isEstimate == false)
                         .FirstOrDefault();
-
+                if(ActualOrder == null)
+                {
+                    ActualOrder = new Estimate();
+                }
                 if (ActualOrder != null && TemporaryOrder != null)
                 {
                     ActualOrder.CreationTime = DateTime.Now;
                     ActualOrder.SectionFlagId = 3;
-                    ActualOrder.AddressId = 159239;
+                   // ActualOrder.AddressId = 159239;
                     ActualOrder.LockedBy = Convert.ToInt32(realContactID);
                     ActualOrder.CompanyId = realCustomerID;
                     TemporaryContact =
@@ -2519,37 +2525,55 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (item.TemplateId != null && item.TemplateId > 0)
                                     {
-                                        string Actualfilenamepdf = attatchment.FileName;
+                                        string Actualfilenamepdf = attatchment.FileName + attatchment.FileType;
+
                                         string Sourcefilenamepdf =
                                             HttpContext.Current.Server.MapPath(attatchment.FolderPath +
-                                                                               attatchment.FileName);
+                                                                               attatchment.FileName + attatchment.FileType);
                                         string newfilenamepdf = GetTemplateAttachmentFileName(item.ProductCode,
                                             ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "",
                                             ".pdf", TemporaryOrder.CreationDate ?? DateTime.Now);
+
+                                        SourceTargetFolder = System.Web.HttpContext.Current.Server.MapPath(attatchment.FolderPath);
+                                        string destinationTargetFolder = System.Web.HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID);
+                                        
                                         string destnationfilepdf =
-                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + newfilenamepdf);
+                                            HttpContext.Current.Server.MapPath("/mpc_content/Attachments/"+ OrganisationId +"/" + realCustomerID + "/" + newfilenamepdf);
+
+                                        if (!System.IO.Directory.Exists(destinationTargetFolder))
+                                        {
+                                            System.IO.Directory.CreateDirectory(destinationTargetFolder);
+                                        }
+
                                         System.IO.File.Move(Sourcefilenamepdf, destnationfilepdf);
 
-                                        string Actualfilenamepng =
-                                            System.IO.Path.GetFileNameWithoutExtension(attatchment.FileName);
+                                        //string Actualfilenamepng =
+                                        //    System.IO.Path.GetFileNameWithoutExtension(attatchment.FileName);
                                         string Sourcefilenamepng =
                                             HttpContext.Current.Server.MapPath(attatchment.FolderPath +
-                                                                               Actualfilenamepng + "Thumb.png");
+                                                                               attatchment.FileName + "Thumb.png");
                                         string newfilenamepng = GetTemplateAttachmentFileName(item.ProductCode,
                                             ActualOrder.Order_Code, item.ItemCode, "Side" + PageNo.ToString(), "",
                                             "Thumb.png", TemporaryOrder.CreationDate ?? DateTime.Now);
                                         string destnationfilepng =
-                                            HttpContext.Current.Server.MapPath(attatchment.FolderPath + newfilenamepng);
+                                            HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
-                                        attatchment.FileName = newfilenamepdf;
+                                        attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
+                                    attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     PageNo = PageNo + 1;
+                                    
                                 });
                             });
                         }
 
+                        if (System.IO.Directory.Exists(SourceTargetFolder) && !string.IsNullOrEmpty(SourceTargetFolder))
+                        {
+                            System.IO.Directory.Delete(SourceTargetFolder, true);
+                        }
+                        
                         //item
                         TemporaryOrderItems.ToList().ForEach(item =>
                         {
@@ -2567,17 +2591,25 @@ namespace MPC.Repository.Repositories
                         }
                         else
                         {
-                            //remove dummy customer and its order
-                            // RemoveCustomerAndOrder(TemporaryOrder.CompanyId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTemplateToRemoveList);
+                          
                         }
 
+                        //List<Address> temporaryCustomerAddress = db.Addesses.Where(a => a.CompanyId == TemporaryCustomerID).ToList();
+                        //foreach (Address add in temporaryCustomerAddress)
+                        //{
+                        //    db.Addesses.Remove(add);
+                        //}
+                        //CompanyTerritory temporaryTerritory = db.CompanyTerritories.Where(t => t.CompanyId == TemporaryCustomerID).FirstOrDefault();
+                        //db.CompanyTerritories.Remove(temporaryTerritory);
+                        //db.CompanyContacts.Remove(TemporaryContact);
+                        //Company temporaryCompany = db.Companies.Where(c => c.CompanyId == TemporaryCustomerID).FirstOrDefault();
+                        //db.Companies.Remove(temporaryCompany);
 
                         db.SaveChanges();
 
                     }
                 }
-
-
+               
                 return orderID;
             }
             catch (Exception ex)

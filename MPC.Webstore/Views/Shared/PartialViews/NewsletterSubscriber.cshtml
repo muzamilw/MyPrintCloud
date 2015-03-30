@@ -9,7 +9,7 @@
             ">
             <label id="lblOurNews" class="NewsLtrHeadingCS"></label>
             <div class="descriptionLetterCs ">
-                <label id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.StoreId))</label>
+                <label id="Nwsdesc">@Html.Raw(Html.GetKeyValueFromResourceFile("NewsLetterDescription", UserCookieManager.WBStoreId))</label>
             </div>
             @using (Html.BeginForm())
                   {

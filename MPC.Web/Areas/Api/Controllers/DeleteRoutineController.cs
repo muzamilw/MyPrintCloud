@@ -14,6 +14,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private readonly ICompanyService companyService;
         private readonly IItemService itemService;
+        private readonly IMyOrganizationService OrganisationService;
         #endregion
 
         #region Constructor
@@ -22,19 +23,21 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public DeleteRoutineController(ICompanyService companyService, IItemService itemService)
+        public DeleteRoutineController(ICompanyService companyService, IItemService itemService, IMyOrganizationService OrganisationService)
         {
             this.companyService = companyService;
             this.itemService = itemService;
+            this.OrganisationService = OrganisationService;
         }
 
         #endregion
 
-        public bool DeleteItem([FromUri] long Id1, long Id2)
+        [HttpGet]
+        public bool DeleteOrganisation(long Id)
         {
             try
             {
-                return itemService.DeleteItem(Id1, Id2);
+                return OrganisationService.DeleteOrganisation(Id);
             }
             catch (Exception ex)
             {

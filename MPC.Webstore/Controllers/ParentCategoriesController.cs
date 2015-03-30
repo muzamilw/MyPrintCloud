@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
         {
             List<ProductCategory> lstParentCategories = new List<ProductCategory>();
 
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
 
                 Int64 roleid = _myClaimHelper.loginContactRoleID();
@@ -56,7 +56,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.StoreId, UserCookieManager.OrganisationID);
+                lstParentCategories = _myCompanyService.GetStoreParentCategories(UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
             }
 
             return PartialView("PartialViews/ParentCategories", lstParentCategories);

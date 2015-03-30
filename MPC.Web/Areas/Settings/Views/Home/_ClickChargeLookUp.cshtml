@@ -49,9 +49,9 @@
         <div class="col-lg-5">
 
             <div class="input-group">
-                <span class="input-group-addon">$</span>
+                <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
                 <input type="text" class="form-control" data-bind="autoNumeric: SheetCost , settings:{mDec:2}" placeholder="Cost Chargeable Sheet">
-                <span class="input-group-addon">.00</span>
+               
             </div>
 
 
@@ -70,9 +70,9 @@
         <div class="col-lg-5">
 
             <div class="input-group">
-                <span class="input-group-addon">$</span>
+                <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
                 <input type="text" class="form-control" data-bind="autoNumeric: SheetPrice , settings:{mDec:2}" placeholder="Price Chargeable Sheet">
-                <span class="input-group-addon">.00</span>
+               
             </div>
 
 

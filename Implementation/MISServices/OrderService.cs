@@ -150,6 +150,18 @@ namespace MPC.Implementation.MISServices
             return estimateRepository.GetOrderStatusesCountForMenuItems();
         }
 
+        //public bool DeleteOrder(long OrderID)
+        //{
+        //    try
+        //    {
+        //        return true;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
         #endregion
     }
 }

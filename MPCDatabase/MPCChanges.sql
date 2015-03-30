@@ -1569,6 +1569,129 @@ select @NewTemplateID
 END
 
 
+/* Execution Date: 30/03/2015 */
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[usp_DeleteOrganisation]    Script Date: 3/30/2015 1:49:31 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+Create PROCEDURE [dbo].[usp_DeleteOrganisation]
+	@OrganisationID int
+AS
+	BEGIN
+
+--declare @OrganisationID bigint = 14
+
+delete from PaperSize where OrganisationId = @OrganisationID
+
+
+delete ccr from CostcentreResource ccr
+inner join CostCentre cc on cc.CostCentreId = ccr.CostCentreId
+where cc.OrganisationId = @OrganisationID
+
+delete ccwi from CostcentreWorkInstructionsChoice ccwi
+inner join CostcentreInstruction cci on cci.InstructionId = ccwi.InstructionId
+inner join CostCentre cc on cc.CostCentreId = cci.CostCentreId
+where cc.OrganisationId = @OrganisationID
+
+delete cci from CostcentreInstruction cci
+inner join CostCentre cc on cc.CostCentreId = cci.CostCentreId
+where cc.OrganisationId = @OrganisationID
+
+delete ccc from CostCenterChoice  ccc 
+inner join CostCentre cc on cc.CostCentreId = ccc.CostCenterId
+where cc.OrganisationId = @OrganisationID
+
+
+delete cca from CostCentreAnswer  cca 
+inner join CostCentreQuestion ccq on ccq.Id = cca.QuestionId
+where ccq.CompanyId = @OrganisationID
+
+delete  from CostCentreQuestion where CompanyId = @OrganisationID
+
+delete ccmd from CostCentreMatrixDetail ccmd
+inner join CostCentreMatrix ccm on ccm.MatrixId = ccmd.MatrixId
+where ccm.OrganisationId = @OrganisationID
+
+ 
+delete from CostCentreMatrix where OrganisationId = @OrganisationID
+
+delete from CostCentre where OrganisationId = @OrganisationID
+
+delete ssc from StockSubCategory ssc 
+inner join StockCategory sc on sc.CategoryId = ssc.CategoryId
+where sc.OrganisationId = @OrganisationID
+
+delete from StockCategory where OrganisationId = @OrganisationID
+
+delete from Report where  OrganisationId = @OrganisationID
+
+delete from ReportNote where OrganisationId = @OrganisationID
+
+
+delete from prefix where OrganisationId = @OrganisationID
+
+delete from Machine where OrganisationId = @OrganisationID
+
+ 
+ delete from LookupMethod where OrganisationId = @OrganisationID
+
+
+ delete p from phrase p
+ inner join PhraseField pf on pf.FieldId = p.FieldId
+  where p.OrganisationId = @OrganisationID
+
+ delete from PhraseField where OrganisationId = @OrganisationID
+
+
+ delete from SectionFlag where OrganisationId = @OrganisationID
+
+ delete SCP from StockCostAndPrice SCP 
+ inner join StockItem SI on SI.StockItemId = SCP.ItemId
+ WHERE SI.OrganisationId = @OrganisationID
+
+
+delete from StockItem where OrganisationId = @OrganisationID 
+
+
+declare @OC table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    CompanyID bigint
+)
+
+-- delete all companies of an organisation
+
+INSERT INTO @OC (CompanyID)
+		select  CompanyID from Company
+		where OrganisationID = @OrganisationID
+
+declare @CompanyID bigint
+declare @TotalCompanies int
+select @TotalCompanies = COUNT(*) from @OC
+ 
+declare @CurrentCompany int
+set @CurrentCompany = 1
+
+WHILE (@CurrentCompany <= @TotalCompanies)
+BEGIN
+			 select @CompanyID = CompanyID from @OC where ID = @CurrentCompany
+			 Exec usp_DeleteContactCompanyByID  @CompanyID
+			 set @CurrentCompany = @CurrentCompany + 1
+END
+
+delete from Organisation where OrganisationId = @OrganisationID
+
+end
+
+GO
+
+
 
 
 

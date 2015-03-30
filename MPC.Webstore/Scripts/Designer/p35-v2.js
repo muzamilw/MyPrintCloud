@@ -1091,7 +1091,26 @@ $("#btnUpdateImgProp").click(function (event) {
 	        if (imType == 15 || imType == 1) {
 	            k27();
 	        }
+            
+	    } else if (IsCalledFrom == 2)
+	    {
+	        var Territories = "_";
+	        $('#dropDownTerritories  div :input').each(function (i) {
+	            if ($(this).prop('checked')) {
+	                var arr = $(this).attr('id').split('_');
+	                Territories += arr[arr.length - 1] + "_";
+	            }
+	        });
+	        //if (Territories != "") {
+	        StartLoader();
+	        $.getJSON("/designerApi/TemplateBackgroundImage/updateImgTerritories/" + imgSelected + "/" + Territories,
+            function (DT) {
+                StopLoader();
+                pcL36('show', '#divImageDAM');
+            });
+	        // }
 	    }
+        
 	    //if (imgLoaderSection == 1) {
 	    //    $(".search").click();
 	    //} else if (imgLoaderSection == 2) {
@@ -2106,5 +2125,11 @@ $("#smartFormSelectUserProfile").change(function () {
     pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
-    pcl42();//update designer 
+    pcl42(); 
+});
+$("#btnCompanyLogo").click(function () {
+    d1CompanyLogoToCanvas();
+});
+$("#btnContactImage").click(function () {
+    d1ContactLogoToCanvas();
 });
