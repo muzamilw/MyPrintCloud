@@ -38,6 +38,8 @@ namespace MPC.Interfaces.MISServices
 
         List<LanguageEditor> ReadResourceFileByLanguageId(long organisationId, long lanuageId);
 
+        bool DeleteOrganisation(long OrganisationID);
+
 
     }
 }
