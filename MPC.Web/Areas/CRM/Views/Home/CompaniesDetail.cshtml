@@ -16,13 +16,13 @@
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
                     <li class="active"><span>Customers</span></li>
                     <!-- /ko -->
-                    
+
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
                 <h1 data-bind="text: $root.selectedStore().name()"></h1>
                 <!-- /ko -->
-                
-            
+
+
             </div>
         </div>
         <div class="row" id="user-profile">
@@ -68,7 +68,6 @@
                             <li><a href="#tab-orders" data-toggle="tab" data-bind="click: $root.ordersTabClickHandler">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab" data-bind="click: $root.invoicesTabClickHandler">Invoices</a></li>
                             <!-- /ko -->
-                            
                             <!--ko if: !$root.isProspectOrCustomerScreen() -->
                             <li><a href="#tab-purchaseOrders" data-toggle="tab" data-bind="click: $root.purchaseOrdersTabClickHandler">Purchase Orders</a></li>
                             <li><a href="#tab-goodRecievedNotesInvoices" data-toggle="tab" data-bind="click: $root.goodRecievedNotesTabClickHandler">Good Recieve Notes</a></li>
@@ -89,7 +88,7 @@
                                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
                                     <h3 class="group-header">Supplier Details</h3>
                                     <!-- /ko -->
-                                    
+
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -107,27 +106,36 @@
                                                 <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
                                                 <label for="txtCompanyName" class="control-label text-right tooltip-float">Supplier Name</label>
                                                 <!-- /ko -->
-                                                
+
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">
-                                                <span class="help-block text-right">This will be used in defalt URL to pass on to your customer.</span>
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
+                                                <span class="help-block text-right">Name of Prospect.</span>
+                                                <!-- /ko -->
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                                <span class="help-block text-right">Name of Customer.</span>
+                                                <!-- /ko -->
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                                <span class="help-block text-right">Name of Supplier.</span>
+                                                <!-- /ko -->
+                                                
                                             </div>
                                         </div>
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
-                                                <div class="bs-example-tooltips tooltip-float-width">
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
-                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                    </a>
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Code to access your store http://pinkcards.com/corporatedemo/login" data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
                                                 </div>
-                                                <label for="txtWebAccessCode" class="control-label text-right tooltip-float">Web Access Code</label>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
-                                                <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
-                                            </div>
-                                        </div>*@
+                                                <div class="col-lg-6">
+                                                    <input type="text" name="Web Access Code" class="form-control" id="txtWebAccessCode" placeholder="Enter Web Access Code" data-bind="value: webAccessCode, validationTooltip: webAccessCode, validationOnElement: webAccessCode">
+                                                    <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
+                                                </div>
+                                            </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -252,7 +260,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="tab-pane fade" id="tab-territoryForCrm">
                                 <div class="col-lg-12">
@@ -345,7 +353,7 @@
                                     <h3 class="group-header">Users</h3>
                                     <div class="col-lg-12 clearfix">
                                         <header class="main-box-header clearfix">
-                                           
+
                                             <div class="filter-block pull-right">
                                                 <div class="form-group pull-left">
                                                     <input type="text" class="form-control" placeholder="Search ..." data-bind="value: $root.searchCompanyContactFilter, validationOnElement: $root.searchCompanyContactFilter">
@@ -390,7 +398,6 @@
                             <div class="tab-pane fade" id="tab-DAM">
                                 <div class="col-md-12 form-horizontal">
                                     <h3 class="group-header">Media Manager</h3>
-
                                     <div class="col-md-9">
                                         <div class="form-group">
                                             <div class="col-lg-4 text-right">
@@ -841,10 +848,10 @@
                 <span data-bind="text:companyName"></span> |
                 <span data-bind="text:isDirectSaleUi"></span>
             </td>
-            <td >
+            <td>
                 <span data-bind="text:name"></span> |
                 <span data-bind="text:code"></span>
-            </td> 
+            </td>
             <td data-bind="text: status"></td>
             <td data-bind="text: estimateTotal"></td>
         </tr>
@@ -860,7 +867,7 @@
                 <span data-bind="text:status"></span><br />
                 <span data-bind="text:contact"></span>
             </td>
-            <td ><span data-bind="text:invoiceTotal"></span></td>
+            <td><span data-bind="text:invoiceTotal"></span></td>
         </tr>
     </script>
     <script id="itemCompanyTerritoryTemplate" type="text/html">
@@ -892,7 +899,6 @@
             <td data-bind="text: addressName"></td>
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
-
             @*<!--ko if: $root.selectedStore().type() == 4-->
                 <!--ko if: isDefaultShippingAddress() == true -->
                 <td class="type">
@@ -917,7 +923,6 @@
             </td>
             <!-- /ko -->
             @*<!--/ko-->*@
-
             <!--ko if: isDefaultAddress() == true -->
             <td class="type">
                 <span class="label label-success">Yes </span>
@@ -928,7 +933,6 @@
                 <span class="label label-danger">No </span>
             </td>
             <!-- /ko -->
-
             <td id="actionColumn" class="text-right">
                 <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
@@ -974,7 +978,6 @@
                     <!--ko if: roleName() == 'User' -->
                     <span class="label label-info" data-bind="text: roleName "></span>
                     <!-- /ko -->
-
                 </div>
             </td>
             @*
@@ -985,7 +988,6 @@
                     <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
                 </div>
             </td>
-
             <td style="width: 10%; max-width: 10%;">
                 <div class="type">
                     <span class="label" data-bind="text: isPlaceOrder() == true ? 'Yes' : 'No', css: { 'label-success': (isPlaceOrder() == true),'label-danger': (isPlaceOrder() != true)}"></span>
@@ -1017,7 +1019,7 @@
     </script>
     <script id="purchaseTemplate" type="text/html">
         <tr>
-            <td data-bind="text: supplierName"></td> 
+            <td data-bind="text: supplierName"></td>
             <td data-bind="text:code"></td>
             <td data-bind="text: datePurchase"></td>
             <td data-bind="text: totalPrice"></td>
@@ -1025,7 +1027,7 @@
     </script>
     <script id="goodRecievedNotesTemplate" type="text/html">
         <tr>
-            <td data-bind="text: supplierName"></td> 
+            <td data-bind="text: supplierName"></td>
             <td data-bind="text:code"></td>
             <td data-bind="text: dateReceived"></td>
             <td data-bind="text: totalPrice"></td>
