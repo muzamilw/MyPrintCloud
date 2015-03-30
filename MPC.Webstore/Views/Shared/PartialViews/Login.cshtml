@@ -109,12 +109,11 @@
         @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
         {
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
-                @if (ViewBag.AllowRegisteration == 1)
-                {
+                
                     <div class="containerRegisternow">
                         <input type="button" class="SignUpButton rounded_corners5" id="SignUpWithEmail" onclick="location.href='/SignUp'" />
                     </div>
-                }
+                
                 <div class="divDontHaveAccont rounded_corners5">
                     <p id="lblRegistering" class="custom_color_heading" style="font-size: 19px !important; margin-bottom: 0px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.WBStoreId))</p>
                     <div class="registering_item">
