@@ -2568,7 +2568,8 @@ namespace MPC.Repository.Repositories
                                 });
                             });
                         }
-                        if (!System.IO.Directory.Exists(SourceTargetFolder))
+
+                        if (System.IO.Directory.Exists(SourceTargetFolder) && !string.IsNullOrEmpty(SourceTargetFolder))
                         {
                             System.IO.Directory.Delete(SourceTargetFolder, true);
                         }
