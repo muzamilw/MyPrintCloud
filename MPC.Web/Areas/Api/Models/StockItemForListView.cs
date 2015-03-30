@@ -38,6 +38,11 @@ namespace MPC.MIS.Areas.Api.Models
         public double? PerQtyQty { get; set; }
 
         /// <summary>
+        /// Package Quantity
+        /// </summary>
+        public double? PackageQty { get; set; }
+
+        /// <summary>
         /// Item Colour(Code)
         /// </summary>
         public string FlagColor { get; set; }

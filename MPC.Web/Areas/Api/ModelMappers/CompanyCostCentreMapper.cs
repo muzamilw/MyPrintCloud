@@ -17,7 +17,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
           return new CostCentre
             {
                 Name = costCentre.Name,
-                CostCentreId = costCentre.CostCentreId
+                CostCentreId = costCentre.CostCentreId,
+                Description = costCentre.Description,
+                SetupCost = costCentre.SetupCost,
+                PricePerUnitQuantity = costCentre.PricePerUnitQuantity
             };
         }
 

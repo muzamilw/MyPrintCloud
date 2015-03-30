@@ -141,7 +141,6 @@
                                 Fax
                             </div>
                             <div class="TTL widthAvenior">
-
                                 @Html.TextBoxFor(model => model.FAX, new { id = "txtUserFax", @class = "newTxtBox", placeholder = "Fax", maxlength = 500, })
                             </div>
                             <div class="clearBoth">
@@ -494,7 +493,7 @@
                     createCookie("WEBFirstName", FirstName);
                     createCookie("WEBLastName", LastName);
                     HideLoader();
-
+                    $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
                 },
                 error: function (error) {
                     $("#MessgeToDisply").css('display', 'block');
