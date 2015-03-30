@@ -3312,5 +3312,18 @@ namespace MPC.Repository.Repositories
             return compSite;
         }
         
+        public void DeleteOrganisationBySP(long OrganisationID)
+        { 
+            try
+            {
+
+                db.usp_DeleteOrganisation(Convert.ToInt32(OrganisationID));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+
+            }
+        }
     }
 }
