@@ -490,9 +490,10 @@
                     $("#MessgeToDisply").css('display', 'block');
                     $("#MessgeToDisply").html('Profile Updated Sucessfuly!');
 
-                    createCookie("WEBContactFirstName", FirstName);
-                    createCookie("WEBContactLastName", LastName);
+                    createCookie("WEBFirstName", FirstName);
+                    createCookie("WEBLastName", LastName);
                     HideLoader();
+                    $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
                 },
                 error: function (error) {
                     $("#MessgeToDisply").css('display', 'block');

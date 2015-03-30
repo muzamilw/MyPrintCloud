@@ -1410,8 +1410,8 @@ namespace MPC.Repository.Repositories
             {
                 db.Configuration.LazyLoadingEnabled = false;
                 db.Configuration.ProxyCreationEnabled = false;
-
-                return db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
+                Item item = db.Items.Where(i => i.ItemId == ItemId).FirstOrDefault();
+                return item;
             }
             catch (Exception ex)
             {

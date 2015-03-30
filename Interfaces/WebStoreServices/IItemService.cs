@@ -15,6 +15,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<ItemStockOption> GetStockList(long ItemId, long CompanyId);
         Item GetItemById(long ItemId);
         Item GetItemByIdDesigner(long ItemId);
+
+        
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
         List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId);
 
@@ -111,7 +113,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<Item> GetListOfDeliveryItemByOrderID(long OID);
         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
-        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
+        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath, string itemID);
         Item GetClonedItemById(long ItemId);
         PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long GetFirstItemIdByOrderId(long orderId);

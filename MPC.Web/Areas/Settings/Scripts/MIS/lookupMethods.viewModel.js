@@ -268,6 +268,7 @@
 
                 }
                 AddLookup = function (Id) {
+                    
                     selectedlookup(null);
                     selectedSpeedWeight(null);
                     selectedClickCharge(null);
@@ -282,6 +283,7 @@
                     isGuillotineClickChargeEditorVisible(false);
                     isMeterPerHourClickChargeEditorVisible(false);
                     selectedlookup(model.lookupMethod());
+                    
                     if (Id == 1) {
                         isClickChargeEditorVisible(true);
                         selectedClickCharge(model.ClickChargeLookup());
@@ -315,7 +317,7 @@
                         sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
                     }
 
-
+                    view.initializeLabelPopovers();
 
                 }
                 GetLookupList = function () {
@@ -383,8 +385,8 @@
                     });
                 },
                 GetMachineLookupById = function (olookup) {
-
-
+                    $('[data-toggle="popover"]').popover('hide');
+                    //view.initializeLabelPopovers();
                     if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
                         return oncloseEditor(olookup);
@@ -421,6 +423,7 @@
                         MethodId: olookup.MethodId(),
                     }, {
                         success: function (data) {
+                            
                             selectedlookup(olookup);
                             IsSelected(true);
                             CurrencySymbol(data.CurrencySymbol);
@@ -452,7 +455,7 @@
                                 sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
 
                             }
-
+                            view.initializeLabelPopovers();
                         },
                         error: function (response) {
 
