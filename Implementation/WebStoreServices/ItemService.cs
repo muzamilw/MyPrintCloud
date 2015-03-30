@@ -509,7 +509,7 @@ namespace MPC.Implementation.WebStoreServices
                 theDoc.Clear();
                 theDoc.Dispose();
 
-                CreatAndSaveThumnail(oImgstream, url);
+                CreatAndSaveThumnail(oImgstream, url,"");
 
             }
         }
@@ -517,15 +517,16 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
         }
-        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath)
+        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath,string itemId)
         {
             try
             {
                 string orgPath = sideThumbnailPath;
                 string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
                 sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+               
 
-                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+                sideThumbnailPath = baseAddress + "\\" + itemId  +sideThumbnailPath;
 
                 Image origImage = null;
                 if (oImgstream != null)

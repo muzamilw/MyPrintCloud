@@ -38,7 +38,7 @@ namespace MPC.Interfaces.Repository
         double CalculatePercentage(double itemValue, double percentageValue);
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
-        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+        ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);

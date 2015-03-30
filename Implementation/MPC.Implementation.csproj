@@ -161,6 +161,7 @@
     <Compile Include="MISServices\CrmSupplierService.cs" />
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
+    <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="MISServices\PaperSheetService.cs" />
     <Compile Include="MISServices\PhraseLibraryService.cs" />
     <Compile Include="MISServices\PrefixService.cs" />
+    <Compile Include="MISServices\PurchaseService.cs" />
     <Compile Include="MISServices\SectionService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
