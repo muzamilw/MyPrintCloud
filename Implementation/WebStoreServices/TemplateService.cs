@@ -526,27 +526,27 @@ namespace MPC.Implementation.WebStoreServices
 
                 bool bFileExists = false;
                 string FilePath = string.Empty;
-                //if (oObject.ObjectType == 8 || oObject.ObjectType == 12)  // now place holders will be copied to template folder
-                //{
-                //    //logoPath = ""; //since path is already in filenm
-                //   /// string[] vals;
-                //    //FilePath = "";
-                //    //if (oObject.ContentString.Contains("MPC_Content/"))
-                //    //{
-                //    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
-                //    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
-                //    //}
-                //    FilePath = logoPath + oObject.ContentString;
-                //    bFileExists = System.IO.File.Exists(FilePath);
+                if (oObject.ObjectType == 8 || oObject.ObjectType == 12)  
+                {
+                    logoPath = ""; //since path is already in filenm
+                  //  string[] vals;
+                    FilePath = "";
+                    //if (oObject.ContentString.Contains("MPC_Content/"))
+                    //{
+                    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
+                    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
+                    //}
+                    FilePath = logoPath + oObject.ContentString;
+                    bFileExists = System.IO.File.Exists(FilePath);
 
-                //}
-                //else
-                //{
+                }
+                else
+                {
                     if (oObject.ContentString != "")
                         FilePath = oObject.ContentString;
                     FilePath = logoPath + "/" + FilePath;
                     bFileExists = System.IO.File.Exists(FilePath);
-               // }
+                }
                 //  else
                 //     filNm = oobject.LogoName;
 
@@ -632,26 +632,26 @@ namespace MPC.Implementation.WebStoreServices
                 oPdf.PageNumber = PageNo;
                 bool bFileExists = false;
                 string FilePath = string.Empty;
-                //if (oObject.ObjectType == 8 || oObject.ObjectType == 12)
-                //{
-                //    //logoPath = "";
-                //    //string[] vals;
-                //    //FilePath = "";
-                //    //if (oObject.ContentString.Contains("StoredImages/"))
-                //    //{
-                //    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
-                //    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
-                //    //}
-                //    FilePath = logoPath + oObject.ContentString;
-                //    bFileExists = System.IO.File.Exists(FilePath);
-                //}
-                //else
-                //{
+                if (oObject.ObjectType == 8 || oObject.ObjectType == 12)
+                {
+                    logoPath = "";
+                    //string[] vals;
+                    //FilePath = "";
+                    //if (oObject.ContentString.Contains("StoredImages/"))
+                    //{
+                    //    vals = oObject.ContentString.Split(new string[] { "StoredImages/" }, StringSplitOptions.None);
+                    //    FilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/../StoredImages/" + vals[vals.Length - 1]);
+                    //}
+                    FilePath = logoPath + oObject.ContentString;
+                    bFileExists = System.IO.File.Exists(FilePath);
+                }
+                else
+                {
                     if (oObject.ContentString != "")
                         FilePath = oObject.ContentString;
                     FilePath = logoPath + "/" + FilePath;
                     bFileExists = System.IO.File.Exists(FilePath);
-                //}
+                }
                 if (bFileExists)
                 {
                     

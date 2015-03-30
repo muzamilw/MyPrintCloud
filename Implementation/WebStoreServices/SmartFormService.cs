@@ -72,6 +72,10 @@ namespace MPC.Implementation.WebStoreServices
             return result;
            
         }
+        public string[] GetContactImageAndCompanyLogo(long contactID)
+        {
+           return _smartFormRepository.GetContactImageAndCompanyLogo(contactID);
+        }
         #endregion
     }
 }
