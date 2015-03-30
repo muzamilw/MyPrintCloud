@@ -80,7 +80,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PerQtyType = source.PerQtyType,
                 FlagColor = source.FlagColor,
                 SupplierCompanyName = source.SupplierCompanyName,
-                Region = source.Region
+                Region = source.Region,
+                PackageQty = source.PackageQty,
+               
             };
 
         }

@@ -17,7 +17,7 @@ namespace MPC.Implementation.MISServices
     public class OrderService : IOrderService
     {
         #region Private
-        
+        private readonly IStockCategoryRepository stockCategoryRepository;
         private readonly IEstimateRepository estimateRepository;
         private readonly ISectionFlagRepository sectionFlagRepository;
         private readonly ICompanyContactRepository companyContactRepository;
@@ -38,7 +38,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
-            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService)
+            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository,IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService)
         {
             if (estimateRepository == null)
             {
@@ -79,6 +79,7 @@ namespace MPC.Implementation.MISServices
             this.paymentMethodRepository = paymentMethodRepository;
             this.organisationRepository = organisationRepository;
             this.orderRepository = orderRepository;
+            this.stockCategoryRepository = stockCategoryRepository;
             this.itemRepository = itemRepository;
             this.templateService = templateService;
         }
@@ -123,6 +124,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponse GetBaseData()
         {
+            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -130,7 +132,8 @@ namespace MPC.Implementation.MISServices
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
                        Markups= _markupRepository.GetAll(),
-                       Organisation = organisationRepository.Find(organisationRepository.OrganisationId)
+                       Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
+                       StockCategories = stocks
                    };
         }
 

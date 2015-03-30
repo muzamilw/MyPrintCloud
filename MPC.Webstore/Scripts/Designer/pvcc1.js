@@ -146,7 +146,7 @@ var allowPdfDownload = false;
 var allowImgDownload = false;
 var isMultiPageProduct = false;
 var varList = []; var isRealestateproduct = false;
-var item;
+var item =  null;
 var smartFormData = null;
 function buildParams() {
   
