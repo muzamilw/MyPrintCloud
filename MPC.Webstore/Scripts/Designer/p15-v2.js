@@ -100,8 +100,9 @@ function fu03() {
 }
 function fu04_1GetItem(DT)
 {
-    $.getJSON("/designerapi/item/GetItem/" + ItemId,
+    $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
+             //console.log(result);
              fu04_TempCbkGen(DT);
              item = result;
              if (item.SmartFormId != null) {
@@ -133,6 +134,9 @@ function fu04_1GetItem(DT)
              if (item.drawWaterMarkTxt == false) {
                  printWaterMarks = false;
              }
+            
+           
+           
          });
 }
 function fu04_TempCbkGen(DT) {
@@ -169,6 +173,18 @@ function fu04_01() {
               IT.ProductID = IT.ProductId;
               IT.ObjectID = IT.ObjectId;
               IT.ProductPageId = IT.ProductPageId;
+              if (item != null) {
+
+                  if (IT.ObjectType == 8) {
+                      if (item.companyImage != "") {
+                          IT.ContentString = item.companyImage;
+                      }
+                  } else if (IT.ObjectType == 12) {
+                      if (item.userImage != "") {
+                          IT.ContentString = item.userImage;
+                      }
+                  }
+              }
           });
           TO = DT;
           fu07();
@@ -176,6 +192,7 @@ function fu04_01() {
           // if (firstLoad) {
           fu05();
           //   }
+         
       });
     k0();
     if (IsCalledFrom == 2) {
