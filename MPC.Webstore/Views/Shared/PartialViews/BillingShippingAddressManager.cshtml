@@ -784,31 +784,33 @@
         var IsValid = false;
         var errorMessage = '';
         
-            if($("#txtAddressName").val()=='')
+           if ($("#txtAddressName").val().trim() == '')
             { 
                 var AddressNAme = "Address Name Is Required";
                 errorMessage=errorMessage+AddressNAme+"<br>";
-                IsValid = false
+                IsValid = false;
             }
             else
             {
                 IsValid=true;
             }
 
-            if($("#txtAddress1").val()=='')
+            if ($("#txtAddress1").val().trim() == '')
             {
                 var Address1="Address1 is Ruquired";
-                errorMessage=errorMessage+Address1+"<br>";
+                errorMessage = errorMessage + Address1 + "<br>";
+                IsValid = false;
             }
             else
             {
                 IsValid=true;
             }
 
-            if($("#txtCity").val()=='')
+            if ($("#txtCity").val().trim()== '')
             {
                 var City="City is Ruquired";
-                errorMessage=errorMessage+City+"<br>";
+                errorMessage = errorMessage + City + "<br>";
+                IsValid = false;
             }
             else
             {
