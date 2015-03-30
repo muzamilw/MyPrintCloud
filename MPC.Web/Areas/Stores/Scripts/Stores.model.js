@@ -1,6 +1,6 @@
 ﻿
 
-define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore", "underscore-ko"], function (ko, storeProductModel) {
+define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
@@ -24,8 +24,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isValid = ko.computed(function () {
                     return errors().length === 0 ? true : false;
                 }),
-
-
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
                     // ReSharper restore InconsistentNaming

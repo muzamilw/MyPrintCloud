@@ -33,35 +33,20 @@
                                         <th class="col-lg-1"></th>
                                         <th class="col-lg-3"><span>Name</span></th>
                                         <th class="col-lg-3"><span>Email</span></th>
-                                        <th >&nbsp;</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- ko  foreach: $root.companyContactsForListView  -->
                                     <tr>
                                         <td>
-                                            <img data-bind="attr: { src: image }" alt=""/>
+                                            <img data-bind="attr: { src: image }" alt="" />
                                         </td>
                                         <td>
-                                            <a class="user-link" data-bind="text: firstName "></a>
+                                            <a class="user-link" href="#" data-bind="text: firstName, click: $root.editContactbuttonHandler "></a>
                                             <span data-bind="text:companyName"></span>
                                         </td>
                                         <td>
                                             <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
-                                        </td>
-                                        <td class="pull-right">
-                                            <a class="table-link">
-                                                <span class="fa-stack" data-bind="click:$root.editContactbuttonHandler">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
-                                            <a class="table-link danger">
-                                                <span class="fa-stack" data-bind="click:$root.deleteContactbuttonHandler">
-                                                    <i class="fa fa-square fa-stack-2x"></i>
-                                                    <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            </a>
                                         </td>
                                     </tr>
                                     <!-- /ko -->
@@ -70,39 +55,38 @@
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
-                </div>
-                <div id="pagerDiv">
                 </div>
             </div>
         </div>
         <script id="filterTemplate" type="text/html">
             <div class="filter-body" id="filter">
-                <div class="filter-block pull-left">
-                    <div class="pull-left spanfilterlbl">
-                        Search &nbsp;
+                <form data-bind="submit: $root.searchButtonHandler">
+                    <div class="filter-block pull-right">
+                        <div class="form-group pull-left">
+                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                            <i class="fa fa-search search-icon" data-bind="click: searchButtonHandler"></i>
+                        </div>
                     </div>
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter,">
-                        <i class="fa fa-search search-icon"></i>
-                    </div>
-                    <div class="pull-right">
-                        <button type="submit" class="btn btn-primary" data-bind="click:$root.getStores,event:{click:$root.searchButtonHandler}">Search</button>
-                        <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection,event:{click:$root.resetButtonHandler}">Reset</button>
-                    </div>
-                </div>
+                </form>
                 <div class="clearfix">
                 </div>
             </div>
         </script>
     </div>
+    
+        @Html.Partial("~/Views/Shared/Widgets/_UserProfileDetails.cshtml")
 </div>
+
+
+
 <!-- ko stopBinding: true -->
-@Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+    @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
+
 @section Scripts{
     <script>
         require(["crm/contacts.view", "common/confirmation.view"]);
