@@ -268,6 +268,7 @@
 
                 }
                 AddLookup = function (Id) {
+                    
                     selectedlookup(null);
                     selectedSpeedWeight(null);
                     selectedClickCharge(null);
@@ -282,7 +283,7 @@
                     isGuillotineClickChargeEditorVisible(false);
                     isMeterPerHourClickChargeEditorVisible(false);
                     selectedlookup(model.lookupMethod());
-                    view.initializeLabelPopovers();
+                    
                     if (Id == 1) {
                         isClickChargeEditorVisible(true);
                         selectedClickCharge(model.ClickChargeLookup());
@@ -316,7 +317,7 @@
                         sharedNavigationVM.initialize(selectedMeterPerHourClickCharge, function (saveCallback) { saveLookup(saveCallback); });
                     }
 
-
+                    view.initializeLabelPopovers();
 
                 }
                 GetLookupList = function () {
@@ -384,8 +385,8 @@
                     });
                 },
                 GetMachineLookupById = function (olookup) {
-
-                    view.initializeLabelPopovers();
+                    $('[data-toggle="popover"]').popover('hide');
+                    //view.initializeLabelPopovers();
                     if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
                         return oncloseEditor(olookup);
