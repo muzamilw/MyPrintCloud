@@ -4815,5 +4815,17 @@ namespace MPC.Repository.Repositories
                 File.Delete(Path);
             }
         }
+        public void DeleteStoryBySP(long StoreID)
+        {
+            try
+            {
+                db.usp_DeleteContactCompanyByID(Convert.ToInt32(StoreID));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+        }
     }
 }

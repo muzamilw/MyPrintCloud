@@ -513,7 +513,74 @@ namespace MPC.Implementation.MISServices
 
             return organisation;
         }
+
+        
+        public bool DeleteOrganisation(long OrganisationID)
+        {
+            try
+            {
+                
+
+                // delete organisation files
+
+                Organisation organisaton = organisationRepository.GetOrganizatiobByID(OrganisationID);
+
+                // delete entities by sp
+
+                if(organisaton != null)
+                {
+                    string SourceDelAssests = HttpContext.Current.Server.MapPath("/MPC_Content/assets/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelAssests))
+                    {
+                        Directory.Delete(SourceDelAssests, true);
+                    }
+                    string SourceDelCostCentre = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelCostCentre))
+                    {
+                        Directory.Delete(SourceDelCostCentre, true);
+                    }
+
+                    string SourceDelDesigner = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelDesigner))
+                    {
+                        Directory.Delete(SourceDelDesigner, true);
+                    }
+                    string SourceDelMedia = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelMedia))
+                    {
+                        Directory.Delete(SourceDelMedia, true);
+                    }
+
+                    string SourceDelOrganisation = HttpContext.Current.Server.MapPath("/MPC_Content/Organisations/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelOrganisation))
+                    {
+                        Directory.Delete(SourceDelOrganisation, true);
+                    }
+
+                    string SourceDelResources = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelResources))
+                    {
+                        Directory.Delete(SourceDelResources, true);
+                    }
+
+
+                }
+                return true;
+
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
 
+    
     }
 }
