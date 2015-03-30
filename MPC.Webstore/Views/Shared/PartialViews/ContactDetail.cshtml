@@ -153,7 +153,7 @@
                             <div class="clearBoth">
                             </div>
                             <br />
-                            @if (UserCookieManager.StoreMode == (int)StoreMode.Retail)
+                            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                         {
                         <div id="CompanyNameOfBroker">
                             <div class="smallContctUsAvenior float_left_simple" id="divcompanyname">
@@ -184,7 +184,7 @@
                                 </div>
 
                                 <div id="coorporateUserFields">
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                                   {
                                 <div>
 
@@ -200,7 +200,7 @@
                                     <br />
                                 </div>
                                 }
-                                    @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                                    @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                             {
                                 <div>
                                     <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">

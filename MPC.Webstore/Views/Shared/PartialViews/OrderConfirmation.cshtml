@@ -369,7 +369,7 @@
                                 </div>
                                 
                             }
-                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true) || (UserCookieManager.StoreMode == (int)StoreMode.Retail))
+                            else if ((ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Adminstrator) || ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.Manager)) || (ViewBag.LoginUser.ContactRoleId == Convert.ToInt32(MPC.Models.Common.Roles.User) && ViewBag.LoginUser.canUserPlaceOrderWithoutApproval == true) || (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail))
                             {
                                 <div class="pad10">
                                     <div class="float_right marginLeft">
