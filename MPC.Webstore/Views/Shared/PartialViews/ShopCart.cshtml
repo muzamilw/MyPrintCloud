@@ -113,13 +113,13 @@
                                              if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                              {
                                                  string completeImgPath = "";
-                                                 if (!string.IsNullOrEmpty(item.Attatchment.FolderPath) && !string.IsNullOrEmpty(item.Attatchment.FileName))
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
                                                  {
-                                                     completeImgPath = "/" + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
                                                  }
                                                  else
                                                  {
-                                                     completeImgPath = item.ThumbnailPath;
+                                                     completeImgPath = prod.ThumbnailPath;
                                                  }
                                                  pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
