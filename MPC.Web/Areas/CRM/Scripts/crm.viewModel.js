@@ -19,6 +19,8 @@ define("crm/crm.viewModel",
                     // Determines Company type
                     companyType = ko.observable(0),
                     orderPager = ko.observable(),
+                    purchaseOrderPager = ko.observable(),
+                    goodsReceivedNotePager = ko.observable(),
                     invoicePager = ko.observable(),
                     // Sort On
                     sortOn = ko.observable(1),
@@ -26,10 +28,14 @@ define("crm/crm.viewModel",
                     sortIsAsc = ko.observable(true),
                      // Orders list
                     ordersList = ko.observableArray(),
+                    purchasesList = ko.observableArray(),
+                    goodRecievedNotesList = ko.observableArray(),
                     sectionFlagList = ko.observableArray(),
                      // Invoices list
                     invoicesList = ko.observableArray(),
                     isOrderTab = ko.observable(false),
+                    isPurchaseOrderTab = ko.observable(false),
+                    isGoodsReceivedNoteTab = ko.observable(false),
                     isInvoiceTab = ko.observable(false),
                     isEditorVisible = ko.observable(false),
                     //Selected Store
@@ -146,14 +152,14 @@ define("crm/crm.viewModel",
                         SearchString: searchFilter(),
                         IsCustomer: isCutomer || 0,
                         PageSize: isCutomer === 0 ? prospectPager().pageSize() : customerPager().pageSize(),
-                        PageNo: isCutomer === 0 ? prospectPager().currentPage(): customerPager().currentPage(),
+                        PageNo: isCutomer === 0 ? prospectPager().currentPage() : customerPager().currentPage(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
                     {
                         success: function (data) {
                             if (data != null) {
-                                isCutomer === undefined || isCutomer ===0 ? prospectPager().totalCount(data.RowCount) : customerPager().totalCount(data.RowCount);
+                                isCutomer === undefined || isCutomer === 0 ? prospectPager().totalCount(data.RowCount) : customerPager().totalCount(data.RowCount);
                                 _.each(data.Customers, function (customer) {
                                     var customerModel = new model.customerViewListModel.Create(customer);
                                     customersForListView.push(customerModel);
@@ -406,7 +412,7 @@ define("crm/crm.viewModel",
                     onEditCompanyTerritory = function (companyTerritory) {
                         selectedCompanyTerritory(companyTerritory);
                         isSavingNewCompanyTerritory(false);
-                        
+
                         view.showCompanyTerritoryDialog();
                     },
                     onCloseCompanyTerritory = function () {
@@ -568,7 +574,7 @@ define("crm/crm.viewModel",
                 selectBussinessAddress = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
                     }
-                    
+
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
                             if (item.addressId() == selectedCompanyContact().bussinessAddressId()) {
@@ -595,7 +601,7 @@ define("crm/crm.viewModel",
                     }
                 }),
                 selectShippingAddress = ko.computed(function () {
-                    
+
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().shippingAddressId() != undefined) {
                         _.each(allCompanyAddressesList(), function (item) {
                             if (item.addressId() == selectedCompanyContact().shippingAddressId()) {
@@ -619,7 +625,7 @@ define("crm/crm.viewModel",
                             // selectedCompanyContact().shippingAddressId(undefined);
                         }
                     }
-                   
+
                 }),
                 //Get State Name By State Id
                 //Method to be called on user and addresses tab selection
@@ -630,7 +636,7 @@ define("crm/crm.viewModel",
                 addressPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //Contact Company Pager
                 contactCompanyPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
-               
+
                 //Address Search Filter
                 searchAddressFilter = ko.observable(),
                 //Search Address
@@ -811,10 +817,10 @@ define("crm/crm.viewModel",
                             }
                         }
                     }
-                        //Updating Case
-                        if (selectedStore().companyId() != undefined) {
-                            selectedAddress().territoryId(selectedStore().companyTerritories()[0].territoryId());
-                        }
+                    //Updating Case
+                    if (selectedStore().companyId() != undefined) {
+                        selectedAddress().territoryId(selectedStore().companyTerritories()[0].territoryId());
+                    }
                     view.showAddressDialog();
 
                     //_.each(fieldVariablesOfAddressType(), function (item) {
@@ -947,7 +953,7 @@ define("crm/crm.viewModel",
                             selectedAddress().companyId(selectedStore().companyId());
 
                             var address = selectedAddress().convertToServerData();
-                          
+
                             dataservice.saveAddress(
                                 address,
                                 {
@@ -1015,7 +1021,7 @@ define("crm/crm.viewModel",
                                 });
                         }
                             //#endregion
-                        //#region New Company Case 
+                            //#region New Company Case 
 
                         else {
                             if (selectedAddress().addressId() < 0) {
@@ -1273,24 +1279,24 @@ define("crm/crm.viewModel",
                     selectedCompanyContact().isPlaceOrder(true);
                     selectedCompanyContact().contactId(newSavingCompanyContactIdCount);
                     addCompanyContactId();
-                   // if (selectedStore().type() == 4) {
-                        if (newAddresses != undefined && newAddresses().length == 0) {
-                            if (newCompanyTerritories.length > 0) {
-                                selectedCompanyContact().territoryId(newCompanyTerritories()[0].territoryId());
-                            }
+                    // if (selectedStore().type() == 4) {
+                    if (newAddresses != undefined && newAddresses().length == 0) {
+                        if (newCompanyTerritories.length > 0) {
+                            selectedCompanyContact().territoryId(newCompanyTerritories()[0].territoryId());
                         }
-                        if (selectedStore().companyId() > 0) {
-                            if (selectedStore().companyTerritories().length > 0) {
-                                selectedCompanyContact().territoryId(selectedStore().companyTerritories()[0].territoryId());
-                            }
+                    }
+                    if (selectedStore().companyId() > 0) {
+                        if (selectedStore().companyTerritories().length > 0) {
+                            selectedCompanyContact().territoryId(selectedStore().companyTerritories()[0].territoryId());
                         }
-                        //Updating role of user as "user", if is retail store
-                        _.each(roles(), function (role) {
-                            if (role.roleName().toLowerCase() == "user") {
-                                selectedCompanyContact().contactRoleId(role.roleId());
-                            }
-                        });
-                   // }
+                    }
+                    //Updating role of user as "user", if is retail store
+                    _.each(roles(), function (role) {
+                        if (role.roleName().toLowerCase() == "user") {
+                            selectedCompanyContact().contactRoleId(role.roleId());
+                        }
+                    });
+                    // }
                     if (isSavingNewCompanyContact != undefined && isSavingNewCompanyContact() && selectedStore().companyId() == undefined) {
                         _.each(newCompanyTerritories(), function (territory) {
                             if (territory.isDefault()) {
@@ -1595,7 +1601,7 @@ define("crm/crm.viewModel",
                 return result;
             },
                 // #endregion
-                
+
                 //#region ___________ UTILITY FUNCTIONS ______
 
                 onCreateNewStore = function () {
@@ -1685,9 +1691,9 @@ define("crm/crm.viewModel",
                         getStoreForEditting(item.companyId());
                         getBaseData(item.companyId());
                     }
-                    
+
                     //view.initializeForm();
-                   
+
                     //view.initializeLabelPopovers();
                 },
 
@@ -1897,7 +1903,7 @@ define("crm/crm.viewModel",
                                         tempCustomerListView.status(data.Status);
                                         tempCustomerListView.statusClass(data.CompanyId);
                                         tempCustomerListView.storeImageFileBinary(data.StoreImagePath);
-                                        
+
                                         if (data.Status == 0) {
                                             tempCustomerListView.status("Inactive");
                                             tempCustomerListView.statusClass('label label-danger');
@@ -1948,36 +1954,36 @@ define("crm/crm.viewModel",
                                     }
                                     else if (selectedStore().companyId() > 0) {
                                         //#region Prospect or Customer updation
-                                       // if (selectedStore().type() == 0 || selectedStore().type() == 1) {
-                                            _.each(customersForListView(), function(customer) {
-                                                if (customer.id() == selectedStore().companyId()) {
-                                                    customer.name(data.Name);
-                                                    customer.creationdate(data.CreationDate);
-                                                    customer.status(data.Status);
-                                                    customer.storeImageFileBinary(data.StoreImagePath);
-                                                    if (data.Status == 0) {
-                                                        customer.status("Inactive");
-                                                        customer.statusClass('label label-danger');
-                                                    }
-                                                    if (data.Status == 1) {
-                                                        customer.status("Active");
-                                                        customer.statusClass('label label-success');
-                                                    }
-                                                    if (data.Status == 2) {
-                                                        customer.status("Banned");
-                                                        customer.statusClass('label label-default');
-                                                    }
-                                                    if (data.Status == 3) {
-                                                        customer.status("Pending");
-                                                        customer.statusClass('label label-warning');
-                                                    }
+                                        // if (selectedStore().type() == 0 || selectedStore().type() == 1) {
+                                        _.each(customersForListView(), function (customer) {
+                                            if (customer.id() == selectedStore().companyId()) {
+                                                customer.name(data.Name);
+                                                customer.creationdate(data.CreationDate);
+                                                customer.status(data.Status);
+                                                customer.storeImageFileBinary(data.StoreImagePath);
+                                                if (data.Status == 0) {
+                                                    customer.status("Inactive");
+                                                    customer.statusClass('label label-danger');
                                                 }
-                                            });
-                                       // }
+                                                if (data.Status == 1) {
+                                                    customer.status("Active");
+                                                    customer.statusClass('label label-success');
+                                                }
+                                                if (data.Status == 2) {
+                                                    customer.status("Banned");
+                                                    customer.statusClass('label label-default');
+                                                }
+                                                if (data.Status == 3) {
+                                                    customer.status("Pending");
+                                                    customer.statusClass('label label-warning');
+                                                }
+                                            }
+                                        });
+                                        // }
                                         //#endregion
                                         //#region Supplier updation
                                         if (selectedStore().type() == 2) {
-                                            _.each(suppliers(), function(supplier) {
+                                            _.each(suppliers(), function (supplier) {
                                                 if (supplier.companyId() == selectedStore().companyId()) {
                                                     supplier.name(data.Name);
                                                     supplier.createdDate(data.CreationDate);
@@ -1987,7 +1993,7 @@ define("crm/crm.viewModel",
                                             });
                                         }
                                         //#endregion
-                                    selectedStore().storeImageFileBinary(data.StoreImagePath);
+                                        selectedStore().storeImageFileBinary(data.StoreImagePath);
                                     }
                                     //#endregion
                                     //selectedStore().storeId(data.StoreId);
@@ -2012,124 +2018,22 @@ define("crm/crm.viewModel",
                 }, {
                     success: function (data) {
                         if (data != null) {
-                            //systemUsers.removeAll();
                             addressCompanyTerritoriesFilter.removeAll();
                             contactCompanyTerritoriesFilter.removeAll();
                             addressTerritoryList.removeAll();
-                            //roles.removeAll();
-                            //registrationQuestions.removeAll();
                             allCompanyAddressesList.removeAll();
-                            //costCentersList.removeAll();
-                            //pageCategories.removeAll();
-                            //cmsPagesBaseData.removeAll();
-                            //_.each(data.CmsPageDropDownList, function (item) {
-                            //    cmsPagesBaseData.push(item);
-                            //});
-                            //_.each(data.SystemUsers, function (item) {
-                            //    var systemUser = new model.SystemUser.Create(item);
-                            //    systemUsers.push(systemUser);
-                            //});
                             _.each(data.CompanyTerritories, function (item) {
                                 var territory = new model.CompanyTerritory.Create(item);
                                 addressCompanyTerritoriesFilter.push(territory);
                                 contactCompanyTerritoriesFilter.push(territory);
                                 addressTerritoryList.push(territory);
                             });
-                            //_.each(data.CompanyContactRoles, function (item) {
-                            //    var role = new model.Role.Create(item);
-                            //    roles.push(role);
-                            //});
-                            //_.each(data.RegistrationQuestions, function (item) {
-                            //    var registrationQuestion = new model.RegistrationQuestion.Create(item);
-                            //    registrationQuestions.push(registrationQuestion);
-                            //});
                             _.each(data.Addresses, function (item) {
                                 var address = new model.Address.Create(item);
                                 allCompanyAddressesList.push(address);
                             });
-                            //_.each(data.PageCategories, function (item) {
-                            //    pageCategories.push(model.PageCategory.Create(item));
-                            //});
-                            //_.each(data.PaymentMethods, function (item) {
-                            //    paymentMethods.push(model.PaymentMethod.Create(item));
-                            //});
-                            ////Email Event List
-                            //emailEvents.removeAll();
-                            //if (data.EmailEvents !== null) {
-                            //    ko.utils.arrayPushAll(emailEvents(), data.EmailEvents);
-                            //    emailEvents.valueHasMutated();
-                            //}
-
-                            //_.each(data.Widgets, function (item) {
-                            //    widgets.push(model.Widget.Create(item));
-                            //});
-
-                            //Field VariableF or Field variable List View
-                            //fieldVariablePager(new pagination.Pagination({ PageSize: 5 }, fieldVariables, getFieldVariables));
-                            //if (data.FieldVariableResponse && data.FieldVariableResponse.FieldVariables) {
-                            //    _.each(data.FieldVariableResponse.FieldVariables, function (item) {
-                            //        var field = model.FieldVariable();
-                            //        field.id(item.VariableId);
-                            //        field.variableName(item.VariableName);
-                            //        field.scopeName(item.ScopeName);
-                            //        field.typeName(item.TypeName);
-                            //        field.variableTag(item.VariableTag);
-                            //        fieldVariables.push(field);
-                            //    });
-                            //    fieldVariablePager().totalCount(data.FieldVariableResponse.RowCount);
-                            //}
-
-                            //Smart Form List View
-                            //smartFormPager(new pagination.Pagination({ PageSize: 5 }, smartForms, getSmartForms));
-                            //if (data.SmartFormResponse && data.SmartFormResponse.SmartForms) {
-                            //    _.each(data.SmartFormResponse.SmartForms, function (item) {
-                            //        var smartForm = model.SmartForm();
-                            //        smartForm.id(item.SmartFormId);
-                            //        smartForm.name(item.Name);
-                            //        smartForm.heading(item.Heading);
-                            //        smartForms.push(smartForm);
-                            //    });
-                            //    smartFormPager().totalCount(data.SmartFormResponse.TotalCount);
-                            //}
-
-                            //if (data.FieldVariableForSmartForms != null) {
-                            //    //Field Variable For Smart Forms
-                            //    _.each(data.FieldVariableForSmartForms, function (item) {
-                            //        fieldVariablesForSmartForm.push(model.FieldVariableForSmartForm.Create(item));
-                            //    });
-                            //}
-                            //_.each(systemVariablesForSmartForms(), function (item) {
-                            //    fieldVariablesForSmartForm.push(item);
-                            //});
-                            //Themes 
-                            //themes.removeAll();
-                            //if (data.Themes) {
-                            //    ko.utils.arrayPushAll(themes(), data.Themes);
-                            //    themes.valueHasMutated();
-                            //}
-
-                            //cmsPagesForStoreLayout.removeAll();
-                            //if (data.CmsPageDropDownList !== null) {
-                            //    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.CmsPageDropDownList);
-                            //    cmsPagesForStoreLayout.valueHasMutated();
-
-                            //    //_.each(cmsPagesBaseData(), function (item) {
-                            //    //    cmsPagesForStoreLayout.push(item);
-                            //    //});
-                            //}
-
-                            ////Countries 
-                            //countries.removeAll();
-                            //ko.utils.arrayPushAll(countries(), data.Countries);
-                            //countries.valueHasMutated();
-                            ////States 
-                            //states.removeAll();
-                            //ko.utils.arrayPushAll(states(), data.States);
-                            //states.valueHasMutated();
-
                         }
                         selectedStore().reset();
-                        //storeHasChanges.reset();
                         isLoadingStores(false);
                         isBaseDataLoded(true);
                         view.initializeLabelPopovers();
@@ -2172,6 +2076,7 @@ define("crm/crm.viewModel",
                         CompanyId: selectedStore().companyId(),
                         PageSize: orderPager().pageSize(),
                         PageNo: orderPager().currentPage(),
+                        IsProspectOrCustomer: isProspectOrCustomerScreen(),
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
@@ -2181,13 +2086,89 @@ define("crm/crm.viewModel",
                                 ordersList.removeAll();
                                 orderPager().totalCount(data.RowCount);
                                 _.each(data.OrdersList, function (order) {
-                                    var newOrder= new model.Estimate.Create(order);
+                                    var newOrder = new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
                                 });
                             }
                         },
                         error: function () {
                             toastr.error("Error: Failed To load Customers!");
+                        }
+                    });
+                },
+
+                //#endregion
+
+                //#region ___________ PURCHASE ORDERS TAB ____________
+                purchaseOrdersTabClickHandler = function (data) {
+                    //if (isPurchaseOrderTab()) {
+                    //    return;
+                    //}
+                    isPurchaseOrderTab(true);
+                    purchaseOrderPager().reset();
+                    getDataForPurchaseOrderTab(data);
+                },
+                // Gets purchase orders for list view
+                getDataForPurchaseOrderTab = function () {
+                    dataservice.getPurchases({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: purchaseOrderPager().pageSize(),
+                        PageNo: purchaseOrderPager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    },
+                    {
+                        success: function (data) {
+                            if (data != null) {
+                                purchasesList.removeAll();
+                                purchaseOrderPager().totalCount(data.RowCount);
+                                _.each(data.PurchasesList, function (purchase) {
+                                    var newPurchase = new model.PurchaseListViewModel.Create(purchase);
+                                    newPurchase.supplierName(selectedStore().name());
+                                    purchasesList.push(newPurchase);
+                                });
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load Purchase Orders!");
+                        }
+                    });
+                },
+
+                //#endregion
+
+                //#region ___________  GOOD RECEIVED NOTES TAB ____________
+                   goodRecievedNotesTabClickHandler = function (data) {
+                       //if (isGoodsReceivedNoteTab()) {
+                       //    return;
+                       //}
+                       isGoodsReceivedNoteTab(true);
+                       goodsReceivedNotePager().reset();
+                       getDataForGoodsReceivedNoteTab(data);
+                   },
+                    // Gets customers for list view
+                getDataForGoodsReceivedNoteTab = function () {
+                    dataservice.getGoodsReceivedNotes({
+                        CompanyId: selectedStore().companyId(),
+                        PageSize: goodsReceivedNotePager().pageSize(),
+                        PageNo: goodsReceivedNotePager().currentPage(),
+                        SortBy: sortOn(),
+                        IsAsc: sortIsAsc()
+                    },
+                    {
+                        success: function (data) {
+                            if (data != null) {
+                                goodRecievedNotesList.removeAll();
+                                goodsReceivedNotePager().totalCount(data.RowCount);
+                                _.each(data.GoodsReceivedNotesList, function (goodRecievedNote) {
+                                    var newgoodRecievedNote = new model.GoodsReceivedNoteListViewModel.Create(goodRecievedNote);
+                                    newgoodRecievedNote.supplierName(selectedStore().name());
+                                    goodRecievedNotesList.push(newgoodRecievedNote);
+                                });
+                            }
+                        },
+                        error: function () {
+                            toastr.error("Error: Failed To load Goods Received Notes!");
                         }
                     });
                 },
@@ -2201,44 +2182,44 @@ define("crm/crm.viewModel",
                        }
                        isInvoiceTab(true);
                        invoicePager().reset();
-                     getsDataForInvoiceTab();
+                       getsDataForInvoiceTab();
                    },
                   // Gets Invoices data
                   getsDataForInvoiceTab = function () {
-                    dataservice.getInvoices({
-                        CompanyId: selectedStore().companyId(),
-                        PageSize: invoicePager().pageSize(),
-                        PageNo: invoicePager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    },
-                    {
-                        success: function (data) {
-                            if (data != null) {
-                                invoicesList.removeAll();
-                                invoicePager().totalCount(data.RowCount);
-                                _.each(data.Invoices, function (item) {
-                                    var invoice = new model.Invoice.Create(item);
-                                    _.each(sectionFlagList(), function (flag) {
-                                        if (invoice.flagId() == flag.SectionFlagId)
-                                            invoice.flagColor(flag.FlagColor);
-                                    });
-                                    invoicesList.push(invoice);
-                                });
-                            }
-                        },
-                        error: function () {
-                            toastr.error("Error: Failed To load Customers!");
-                        }
-                    });
-                },
+                      dataservice.getInvoices({
+                          CompanyId: selectedStore().companyId(),
+                          PageSize: invoicePager().pageSize(),
+                          PageNo: invoicePager().currentPage(),
+                          SortBy: sortOn(),
+                          IsAsc: sortIsAsc()
+                      },
+                      {
+                          success: function (data) {
+                              if (data != null) {
+                                  invoicesList.removeAll();
+                                  invoicePager().totalCount(data.RowCount);
+                                  _.each(data.Invoices, function (item) {
+                                      var invoice = new model.Invoice.Create(item);
+                                      _.each(sectionFlagList(), function (flag) {
+                                          if (invoice.flagId() == flag.SectionFlagId)
+                                              invoice.flagColor(flag.FlagColor);
+                                      });
+                                      invoicesList.push(invoice);
+                                  });
+                              }
+                          },
+                          error: function () {
+                              toastr.error("Error: Failed To load Customers!");
+                          }
+                      });
+                  },
 
                 //#endregion
 
                 //#region ________ MEDIA LIBRARY___________
 
                     //Active Media File
-                    selectedMediaFile = ko.observable(),  
+                    selectedMediaFile = ko.observable(),
                     //Media Library Open From
                     mediaLibraryOpenFrom = ko.observable(),
                     mediaLibraryIdCount = ko.observable(0),
@@ -2415,9 +2396,11 @@ define("crm/crm.viewModel",
                    }
 
                    orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
+                   purchaseOrderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForPurchaseOrderTab));
+                   goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
                    getBaseDataFornewCompany();
-                  
+
 
                };
                 //#endregion
@@ -2438,7 +2421,7 @@ define("crm/crm.viewModel",
                     resetSupplierFilterSection: resetSupplierFilterSection,
                     //#endregion
                     prospectPager: prospectPager,
-                    customerPager:customerPager,
+                    customerPager: customerPager,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
                     isProspectOrCustomerScreen: isProspectOrCustomerScreen,
@@ -2501,22 +2484,22 @@ define("crm/crm.viewModel",
                     addressTerritoryList: addressTerritoryList,
                     //#endregion 
                     //#region Media Library
-                    selectedMediaFile  : selectedMediaFile  ,
-                    mediaLibraryOpenFrom : mediaLibraryOpenFrom ,
+                    selectedMediaFile: selectedMediaFile,
+                    mediaLibraryOpenFrom: mediaLibraryOpenFrom,
                     mediaLibraryIdCount: mediaLibraryIdCount,
-                    newUploadedMediaFile : newUploadedMediaFile ,
-                    mediaLibraryFileLoadedCallback : mediaLibraryFileLoadedCallback ,
+                    newUploadedMediaFile: newUploadedMediaFile,
+                    mediaLibraryFileLoadedCallback: mediaLibraryFileLoadedCallback,
                     showMediaLibraryDialogFromStoreBackground: showMediaLibraryDialogFromStoreBackground,
-                    openMediaLibraryDialogFromCompanyBanner  : openMediaLibraryDialogFromCompanyBanner  ,
-                    openMediaLibraryDialogFromSecondaryPage : openMediaLibraryDialogFromSecondaryPage ,
-                    openMediaLibraryDialogFromProductCategoryThumbnail : openMediaLibraryDialogFromProductCategoryThumbnail ,
+                    openMediaLibraryDialogFromCompanyBanner: openMediaLibraryDialogFromCompanyBanner,
+                    openMediaLibraryDialogFromSecondaryPage: openMediaLibraryDialogFromSecondaryPage,
+                    openMediaLibraryDialogFromProductCategoryThumbnail: openMediaLibraryDialogFromProductCategoryThumbnail,
                     openMediaLibraryDialogFromProductCategoryBanner: openMediaLibraryDialogFromProductCategoryBanner,
-                    hideMediaLibraryDialog : hideMediaLibraryDialog ,
-                    showMediaLibrary : showMediaLibrary ,
-                    selectMediaFile : selectMediaFile ,
-                    resetMediaGallery : resetMediaGallery ,
+                    hideMediaLibraryDialog: hideMediaLibraryDialog,
+                    showMediaLibrary: showMediaLibrary,
+                    selectMediaFile: selectMediaFile,
+                    resetMediaGallery: resetMediaGallery,
                     onSaveMedia: onSaveMedia,
-                     //#endregion 
+                    //#endregion 
                     newCompanyTerritories: newCompanyTerritories,
                     roles: roles,
                     registrationQuestions: registrationQuestions,
@@ -2550,7 +2533,13 @@ define("crm/crm.viewModel",
                     getsDataForInvoiceTab: getsDataForInvoiceTab,
                     userAndAddressesTabSelected: userAndAddressesTabSelected,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
-                    getCustomers: getCustomers
+                    getCustomers: getCustomers,
+                    purchaseOrdersTabClickHandler: purchaseOrdersTabClickHandler,
+                    purchasesList: purchasesList,
+                    goodRecievedNotesList: goodRecievedNotesList,
+                    purchaseOrderPager: purchaseOrderPager,
+                    goodRecievedNotesTabClickHandler: goodRecievedNotesTabClickHandler,
+                    goodsReceivedNotePager: goodsReceivedNotePager
                 };
                 //#endregion
             })()

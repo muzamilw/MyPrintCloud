@@ -3,7 +3,7 @@
 <div class="container content_area">
     <div class="left_right_padding">
         <div class="contact_us_heading">
-            <label id="lbl_ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.StoreId))</label>
+            <label id="lbl_ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</label>
 
         </div>
         <div class="white-container-lightgrey-border textAlignLeft rounded_corners">
@@ -87,7 +87,7 @@
 
         <div id="contactusform" class="white-container-lightgrey-border textAlignLeft rounded_corners">
             <div class="get_in_touch_heading">
-                <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.StoreId))</label>
+                <label id="lbl_GetInTouch">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlgetintouch", UserCookieManager.WBStoreId))</label>
             </div>
             @ViewBag.Message
             <div class="get_in_touch_sub_padding">
@@ -97,12 +97,12 @@
                     <table width="100%" cellpadding="5" cellspacing="5">
                         <tr>
                             <td>
-                                <label id="lbl_Person_Name">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.StoreId))</label>
+                                <label id="lbl_Person_Name">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlname", UserCookieManager.WBStoreId))</label>
                             </td>
                             <td>
-                                <div style="display:none"><label id="lbl_Enquiry_Nature">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnoi", UserCookieManager.StoreId))</label></div>
+                                <div style="display:none"><label id="lbl_Enquiry_Nature">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlnoi", UserCookieManager.WBStoreId))</label></div>
 
-                                <label id="lbl_Enquiry">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenquiry", UserCookieManager.StoreId))</label>
+                                <label id="lbl_Enquiry">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlenquiry", UserCookieManager.WBStoreId))</label>
                             </td>
                         </tr>
                         <tr>
@@ -127,7 +127,7 @@
                         <tr>
                             <td>
 
-                                <label id="lbl_CompanyName">@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.StoreId))</label>
+                                <label id="lbl_CompanyName">@Html.Raw(Html.GetKeyValueFromResourceFile("divcompanyname", UserCookieManager.WBStoreId))</label>
                                 <asp:literal id="ltrlcompany" text=""></asp:literal>
                             </td>
 

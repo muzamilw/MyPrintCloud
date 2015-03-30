@@ -65,6 +65,18 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Purchases
+                    amplify.request.define('getPurchases', 'ajax', {
+                        url: ist.siteUrl + '/Api/Purchase',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Goods Received Notes
+                    amplify.request.define('getGoodsReceivedNotes', 'ajax', {
+                        url: ist.siteUrl + '/Api/GoodsReceivedNote',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -222,6 +234,26 @@
 	                error: callbacks.error,
 	                data: params
 	            });
+	        },
+            // get Purchases
+	        getPurchases = function (params, callbacks) {
+	            initialize();
+	            return amplify.request({
+	                resourceId: 'getPurchases',
+	                success: callbacks.success,
+	                error: callbacks.error,
+	                data: params
+	            });
+	        },
+            // get Goods Received Notes
+	        getGoodsReceivedNotes = function (params, callbacks) {
+	            initialize();
+	            return amplify.request({
+	                resourceId: 'getGoodsReceivedNotes',
+	                success: callbacks.success,
+	                error: callbacks.error,
+	                data: params
+	            });
 	        };
         return {
             getCustomersForListView: getCustomersForListView,
@@ -236,7 +268,9 @@
             searchCompanyTerritory: searchCompanyTerritory,
             getInvoices: getInvoices,
             saveCompanyContact: saveCompanyContact,
-            saveAddress: saveAddress
+            saveAddress: saveAddress,
+            getPurchases: getPurchases,
+            getGoodsReceivedNotes: getGoodsReceivedNotes
         };
     })();
 

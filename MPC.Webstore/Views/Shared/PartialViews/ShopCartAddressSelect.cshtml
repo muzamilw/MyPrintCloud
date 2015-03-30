@@ -104,7 +104,7 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-                            @if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
+                            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                             {
                                 <div id="CorporateBox" class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label id="ltrlcheckoutfirstdiv" class="col-md-3 col-lg-3 col-xs-12 smallCheckoutAvenior">Your Ref / PO</label>
@@ -272,7 +272,7 @@
                                     <label id="ltrlcountry2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Country</label>
                                    
                                    
-                                    @Html.DropDownListFor(model => model.SelectedDeliveryCountry, (IEnumerable<SelectListItem>)@Model.DDShippingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12", @id = "ddShippingCountry", onchange = "OnChangeDeliveryCountry();" }) 
+                                    @Html.DropDownListFor(model => model.SelectedDeliveryCountry, (IEnumerable<SelectListItem>)@Model.DDShippingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12", @id = "ddShippingCountry" }) 
                                 </div>
                                 <div class="clearBoth">
                                 </div>
@@ -414,7 +414,7 @@
                                 <label ID="ltrlcountry"  class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Country</label>
                              
                                
-                                @Html.DropDownListFor(model => model.SelectedBillingCountry, (IEnumerable<SelectListItem>)@Model.DDBillingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12", @id = "BillingCountryDropDown", onchange = "OnChangeBillingCountry();" })
+                                @Html.DropDownListFor(model => model.SelectedBillingCountry, (IEnumerable<SelectListItem>)@Model.DDBillingCountries, " -- Select Country -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12", @id = "BillingCountryDropDown" })
                                 
                                 
                             </div>
@@ -545,7 +545,7 @@
                                                                            style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), @ViewBag.Currency)</label>
                                                                     </td>
                                                                 </tr>
-                                                                @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                                                                @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                                                                 {
                                                                     <tr id="tblRowVoucher"  style="display:none;">
                                                                         <td width="30%" align="left">
@@ -573,7 +573,7 @@
                                                                         &nbsp;
                                                                     </td>
                                                                     <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" >
-                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.StoreId))</span>
+                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId))</span>
                                                                     </td>
                                                                     @if (deliveryCost > 0)
                                                                     {
@@ -721,14 +721,7 @@
                                     <br />
                                     <label ID="lblNotesDetail" class="SpecialNotesContainer" />
                                 </div>
-                                <div class="pad10">
-                                    <div class="float_right marginLeft directDepositcs">
-
-                                        <asp:Button ID="btnDirectDeposit" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
-                                                     OnClick="btnDirectDeposit_Click" Visible="false" Text="Pay Via Direct Deposite"
-                                                    ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />
-                                    </div>
-                                </div>
+                          
                                 <div class="clearBoth">
                                 </div>
                                 <div class="pad10">
@@ -758,7 +751,7 @@
                             &nbsp;
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
-                            @if (UserCookieManager.StoreMode != (int)StoreMode.Corp)
+                            @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                             {
                                 <div class="super_admin_message" id="DivretailMesg" visible="false">
                                     <label ID="ltrlSomeOmeCallU"> Some one will call you</label>
@@ -781,7 +774,7 @@
                                 &nbsp;
                             </div>
                             <div class="super_admin_message" id="divWarnnigMEsg">
-                                <label id="ltrlWarnnigMEsg">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.StoreId))</label>
+                                <label id="ltrlWarnnigMEsg">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkWarnMesg", UserCookieManager.WBStoreId))</label>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-6 col-xs-12 cntcheckoutSummary">
@@ -904,8 +897,8 @@
             $('#innerContainerShippTo').css('display', 'block');
             $("#ltrlShipTo").html("Ship to:");
         }
-        // LoadBrokerByPostCode();
-        if ($("# hfPageIsValid").val() == "0") {
+      
+        if ($("#hfPageIsValid").val() == "0") {
             ValidateCheckout();
         }
 
@@ -987,14 +980,14 @@
     }
     function BillingSameAsDeliveryScriptCheckBox() {
 
-       // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
-      //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+        // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
+        //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
             //  alert("c");
             //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-           // $("#ltrlShipTo").html(BillShippTO);
+            // $("#ltrlShipTo").html(BillShippTO);
             SetNewControlValues();
 
             $('#isSameBillingAddress').val("True");
@@ -1007,7 +1000,7 @@
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
             }
-            var ShipTO = 'ShipToTxt';
+            var ShipTO = 'ShippTo';
             $('#BillTOShippTO').css('display', 'block');
             $('#BillTOShippTOContainer').css('display', 'block');
             $("#ltrlShipTo").html(ShipTO + "");
@@ -1042,7 +1035,7 @@
 
             $('#ddlBilling option').each(function () {
                 if (ddlDelivery.val() != "") {
-                 
+
                     if ($(this).val() == $("#ddlDelivery").val()) {
                         $(this).css('display', 'none');
 
@@ -1051,17 +1044,17 @@
                         $(this).css('display', 'block');
                     }
                 }
-              
+
             });
-           $('#ddlBilling option:eq(2)').attr('selected', 'selected');
-         //   $('#divBilling').val(5);
-         //   OnChangeBillingAddress();
+            $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+            //   $('#divBilling').val(5);
+            //   OnChangeBillingAddress();
         }
 
 
     }
 
-   
+
 
     function getthecheckbox() {
         BillingSameAsDeliveryScriptCheckBox();
@@ -1188,13 +1181,6 @@
     }
 
 
-    $("#txtShipPostCode").keydown(function (e) {
-        if (e.which == 13) {
-
-            LoadBrokerByPostCode();
-            e.preventDefault();
-        }
-    });
 
 
 
@@ -1362,7 +1348,7 @@
             if (isContainBlanksInShipping == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
-                event.preventDefault();
+               
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1376,14 +1362,13 @@
             if (iContainsBlankInBilling == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
-                event.preventDefault();
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
             } else if (isContainBlanksInShipping == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
-                event.preventDefault();
+               
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1394,62 +1379,18 @@
             }
         }
 
-        if (event.keyCode == undefined) {
-        } else {
-            if (event.keyCode == 13) { //if this is enter key
-                event.preventDefault();
-                isValid = false;
-                $("#hfPageIsValid").val(0);
-            } else {
-                $("#hfPageIsValid").val(1);
-            }
-        }
+        //if (event.keyCode == undefined) {
+        //} else {
+        //    if (event.keyCode == 13) { //if this is enter key
+        //        event.preventDefault();
+        //        isValid = false;
+        //        $("#hfPageIsValid").val(0);
+        //    } else {
+        //        $("#hfPageIsValid").val(1);
+        //    }
+        //}
 
         return isValid;
-    }
-    function LoadBrokerByPostCode() {
-        var ISPinkCard = 'IsPinkCards %>';
-        if (ISPinkCard == 1) {
-            var PostCode = $("#txtShipPostCode").val();
-            $('#lodingImg').css("display", "block");
-
-            $.ajax({
-
-                url: "../services/Webstore.svc/GetNearestBrokerStoreByPostCode?PostCode=" + PostCode,
-
-                success: function (data) {
-                    $('#lblYourOrderPRoMesg').css("display", "block");
-
-                    if (data.ContactCompanyID == undefined) {
-                        $('.errorMesgBroker').css("display", "block");
-                        $('.SelectedBroker').css("display", "none");
-                        $('.errorMesgBroker').html("No results found.");
-
-                    } else {
-                        $('#hfBrokerContactCompany').val(data.ContactCompanyID);
-
-                        $('.brokerLogoImg').attr('src', data.Logo + "");
-                        $('#BrokerAddLine1').text(data.Address1);
-                        $('#BrokerAddLine2').text(data.Address2);
-                        $('#BrokerTown').text(data.City);
-                        $('#BrokerState').text(data.State);
-                        $('#BrokerCountry').text(data.Country);
-                        $("#BrokerTeleNo").html(data.HomeContact);
-                        $('.SelectedBroker').css("display", "block");
-                        $('.errorMesgBroker').css("display", "none");
-                    }
-
-                    $('#lodingImg').css("display", "none");
-                }
-            });
-
-        }
-        $('#hfBrokerContactCompany').val(0);
-    }
-
-    function DisableEnableBillingAddressControlls()
-    {
-
     }
 
     function OnChangeShippingAddress()
@@ -1458,7 +1399,7 @@
         var addressId = $('#ddlDelivery').val();
         var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
         // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-       
+
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1481,7 +1422,7 @@
                     else{
                         $('#txthdnDeliveryDefaultAddress').val("false");
                     }
-                   
+
                     $('#ddShippingCountry').val(cAdrres.CountryId);
                     $('#ddShippingState').val(cAdrres.StateId);
 
@@ -1519,7 +1460,7 @@
 
             }
         }
-    //   $('#BtnPost').click();
+        //   $('#BtnPost').click();
     }
     function OnChangeBillingAddress()
     {
@@ -1543,8 +1484,8 @@
                     $('#txtContactNumber').val(cAdrres.Tel1);
                     $('#txthdnBillingAddressID').val(cAdrres.AddressID);
                     $('#txthdnBillingDefaultShippingAddress').val(cAdrres.IsDefaultShippingAddress);
-                   
-                    
+
+
                     if(cAdrres.IsDefaultAddress == true)
                     {
                         $('#txthdnBillingDefaultAddress').val("true");
@@ -1593,65 +1534,61 @@
 
     function BackToShopping(OrderId)
     {
-        alert(OrderId);
+
         window.location.href = "/ShopCart/" + OrderId;
         return false;
     }
-    function OnChangeDeliveryCountry()
-    {
-        var ShippingCountryId = $('#ddShippingCountry').val();
-        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates))) ;
-        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-        $('#ddShippingState option').css("display","none");
-        if(jsonData != null)
-        {
-            for(var i = 0; i <jsonData.length;i++)
+
+
+    $(function () {
+        $('#ddShippingCountry').change(function () {
+            var ShippingCountryId = $('#ddShippingCountry').val();
+            var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates)));
+            console.log(jsonData);
+            if(jsonData != null)
             {
-                var cState = jsonData[i];
-                if(cState.CountryId == ShippingCountryId) {
-                    $('#ddShippingState option').each(function () {
-                        if($(this).val() == cState.StateId)
-                        {
-                            $(this).css("display","block");
-                        }
-
-
-                    });
+                var secondDdl = $('#ddShippingState');
+                secondDdl.empty();
+                for(var i = 0; i <jsonData.length;i++)
+                {
+                    var cState = jsonData[i];
+                    if(cState.CountryId == ShippingCountryId) {
+                        secondDdl.append(
+                                 $('<option/>', {
+                                     value: cState.StateId,
+                                     html: cState.StateName
+                                 })
+                             );
+                    }
                 }
-
-
-               
-
             }
-        }
-    }
-    function OnChangeBillingCountry()
-    {
-        var BillingCountryId = $('#BillingCountryDropDown').val();
-        var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
-        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-        $('#ddBillingState option').css("display","none");
-        if(jsonData != null)
-        {
-            for(var i = 0; i <jsonData.length;i++)
+        });
+    });
+
+    $(function () {
+        $('#BillingCountryDropDown').change(function () {
+            var BillingCountryId = $('#BillingCountryDropDown').val();
+            var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
+            if(jsonData != null)
             {
-                var cAdrres = jsonData[i];
-                if(cAdrres.CountryId == BillingCountryId) { 
-                    $('#ddBillingState option').each(function () {
-                       
-                        if($(this).val() == cAdrres.StateId)
-                        {
-                            $(this).css("display","block");
-                        }
-                    });
+                var billingddp = $('#ddBillingState');
+                billingddp.empty();
+                for(var i = 0; i <jsonData.length;i++)
+                {
+                    var cAdrres = jsonData[i];
+                    if(cAdrres.CountryId == BillingCountryId) {
+                        billingddp.append(
+                               $('<option/>', {
+                                   value: cAdrres.StateId,
+                                   html: cAdrres.StateName
+                               })
+                           );
+                    }
                 }
-
-
-               
-
             }
-        }
-    }
+        });
+    });
+   
 </script>
 
 }

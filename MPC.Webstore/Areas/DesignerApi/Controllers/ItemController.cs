@@ -13,7 +13,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
     public class ItemController : ApiController
     {
        #region Private
-
+        private readonly ISmartFormService smartFormService;
         private readonly IItemService itemService;
         #endregion
         #region Constructor
@@ -22,21 +22,20 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         /// Constructor
         /// </summary>
         /// <param name="companyService"></param>
-        public ItemController(IItemService itemService)
+        public ItemController(IItemService itemService, ISmartFormService smartFormService)
         {
             this.itemService = itemService;
+            this.smartFormService = smartFormService;
         }
 
         #endregion
         #region public
-        public HttpResponseMessage GetItem(long id)
+        //parameter1 = itemID , parameter2 = contactID
+        public HttpResponseMessage GetItem(long parameter1,long parameter2)
         {
-            var item = itemService.GetItemByIdDesigner(id);
-            //not needed in designer 
-            //result.ProductSpecification = "";
-            //result.CompleteSpecification = "";
-            //result.WebDescription = "";
-            //result.TipsAndHints = "";
+            var item = itemService.GetItemByIdDesigner(parameter1);
+
+            string[] images = smartFormService.GetContactImageAndCompanyLogo(parameter2);
             var result = new
             {
                 ItemId = item.ItemId,
@@ -46,7 +45,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 drawWaterMarkTxt = item.drawWaterMarkTxt,
                 drawBleedArea = item.drawBleedArea,
                 printCropMarks = item.printCropMarks,
-                isMultipagePDF = item.isMultipagePDF
+                isMultipagePDF = item.isMultipagePDF,
+                IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 0,
+                userImage = images[1],
+                companyImage = images[0]
             };
 
             var formatter = new JsonMediaTypeFormatter();

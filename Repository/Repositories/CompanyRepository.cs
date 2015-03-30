@@ -1960,7 +1960,8 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId;
+                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
+                         (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =
@@ -4814,6 +4815,18 @@ namespace MPC.Repository.Repositories
             {
                 File.Delete(Path);
             }
+        }
+        public void DeleteStoryBySP(long StoreID)
+        {
+            try
+            {
+                db.usp_DeleteContactCompanyByID(Convert.ToInt32(StoreID));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

@@ -28,6 +28,10 @@ define("costcenter/costcenter.viewModel",
                     questionVariableNodes = ko.observableArray([]),
                     matrixVariableNodes = ko.observableArray([]),
                     lookupVariableNodes = ko.observableArray([]),
+                    selectedCostCenterType = ko.observable(),
+                    selectedVariableType = ko.observable(),
+                    selectedcc = ko.observable(),
+                    fixedvarIndex = ko.observable(1),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
@@ -82,40 +86,42 @@ define("costcenter/costcenter.viewModel",
                         }
                         if (id == 1) {
                             _.each(costcenterVariableNodes(), function (ccType) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccType.TypeId +'> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
                             });
                         }
                         if (id == 2) {
                             _.each(variableVariableNodes(), function (variable) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv'+ '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i class="fa fa-bars"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + variable.CategoryId +"vv")[0]);
                             });
                         }
                         if (id == 3) {
                             _.each(resourceVariableNodes(), function (users) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + users.UserName + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
                             });
                         }
                         if (id == 4) {
                             _.each(questionVariableNodes(), function (question) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + question.QuestionString + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
                             });
                         }
                         if (id == 5) {
                             _.each(matrixVariableNodes(), function (matrix) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + matrix.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + matrix.Name + '<input type="hidden" id="str" value="' + matrix.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
                                 ko.applyBindings(view.viewModel, $("#" + matrix.MatrixId + "mv")[0]);
                             });
                         }
                         if (id == 6) {
                             _.each(lookupVariableNodes(), function (lookup) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + lookup.MethodId+ "lv")[0]);
+                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                ko.applyBindings(view.viewModel, $("#" + lookup.MethodId + "lum")[0]);
                             });
                         }
+
+                        
                         //dataservice.getProductCategoryChilds({
                         //    id: id,
                         //}, {
@@ -140,6 +146,91 @@ define("costcenter/costcenter.viewModel",
                         //        toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
                         //    }
                         //});
+                    },
+                    getCostcenterByCatId = function (dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        if ($(event.target).closest('li').children('ol').length > 0) {
+                            if ($(event.target).closest('li').children('ol').is(':hidden')) {
+                                $(event.target).closest('li').children('ol').show();
+                            } else {
+                                $(event.target).closest('li').children('ol').hide();
+                            }
+                            return;
+                        }
+                        _.each(costcenterVariableNodes(), function (cc) {
+                            if (cc.TypeId == id) {
+                                selectedCostCenterType(cc);
+                                _.each(cc.CostCentres, function (ccd) {
+                                    //selectedcc(ccd);
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.CostCentreId + 'cc' + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterFixedVariables, css: { selectedRow: $data === $root.selectedcc}""><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccd.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                    ko.applyBindings(view.viewModel, $("#" + ccd.CostCentreId + "cc")[0]);
+                                });
+                            }
+                        });
+                    },
+                    getCostcenterFixedVariables = function (dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        if ($(event.target).closest('li').children('ol').length > 0) {
+                            if ($(event.target).closest('li').children('ol').is(':hidden')) {
+                                $(event.target).closest('li').children('ol').show();
+                            } else {
+                                $(event.target).closest('li').children('ol').hide();
+                            }
+                            return;
+                        }
+                        var ccid = id.substring(0, id.length - 2);
+                        _.each(selectedCostCenterType().CostCentres, function (ccv) {
+                            if (ccv.CostCentreId == ccid) {
+                                _.each(ccv.FixedVariables, function (cfv) {
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + cfv.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" data-bind="drag: $root.dragged">' + cfv.Name + '<input type="hidden" id="str" value="' + cfv.VariableString + '" /></span><div class="nested-links"></div></div></li></ol>');
+                                    ko.applyBindings(view.viewModel, $("#" + cfv.Id)[0]);
+                                });
+                            }
+                        });
+
+                        
+                    },
+                    getVariablesByType = function (dataRecieved, event) {
+                        var id = $(event.target).closest('li')[0].id;
+                        if ($(event.target).closest('li').children('ol').length > 0) {
+                            if ($(event.target).closest('li').children('ol').is(':hidden')) {
+                                $(event.target).closest('li').children('ol').show();
+                            } else {
+                                $(event.target).closest('li').children('ol').hide();
+                            }
+                            return;
+                        }
+                        _.each(variableVariableNodes(), function (cc) {
+                            var sid = id.substring(0, id.length - 2);
+                            if (cc.CategoryId == sid) {
+                                selectedVariableType(cc);
+                                _.each(cc.VariablesList, function (ccd) {
+                                    $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + ccd.VarId + 'vvd' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + ccd.Name + '<input type="hidden" id="str" value="' + ccd.FixedVariables + '" /></span><div class="nested-links"></div></div></li></ol>');
+                                    ko.applyBindings(view.viewModel, $("#" + ccd.VarId + "vvd")[0]);
+                                });
+                            }
+                        });
+                    },
+                    
+                    // Returns the item being dragged
+                    dragged = function (source, event) {
+                        if (event != undefined) {
+                            return {
+                                row: source.$parent,
+                                widget: source.$data,
+                                html: event.currentTarget.children[0].value
+                            };
+                        }
+                        return {};
+                    },
+                    dropped = function (source, target, event) {
+                        var vstring = source.html;
+                        if (event.target.disabled == false) {
+                            event.target.value += vstring;
+                        }
+                    },
+                    addVariableToInputControl = function (variable) {
+                        alert('Variable added');
                     },
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
@@ -287,6 +378,7 @@ define("costcenter/costcenter.viewModel",
                         setDataForNewCostCenter(cc);
                         selectedCostCenter(cc);
                         getCostCentersBaseData();
+                        getVariablesTree();
                         showCostCenterDetail();
                         sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                     },
@@ -334,15 +426,13 @@ define("costcenter/costcenter.viewModel",
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
                         getCostCentersBaseData();
-                        if (oCostCenter.calculationMethodType() === 4){
-                            getVariablesTree();
-                        }
+                        getVariablesTree();
                         dataservice.getCostCentreById({
                             id: oCostCenter.costCenterId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    selectedCostCenter(model.costCenterClientMapper(data));
+                                    selectedCostCenter(model.costCenterClientMapper(data));                                    
                                     selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
@@ -512,7 +602,13 @@ define("costcenter/costcenter.viewModel",
                     deleteWorkInstruction: deleteWorkInstruction,
                     deleteWorkInstructionChoice: deleteWorkInstructionChoice,
                     getVariablesTree: getVariablesTree,
-                    getVariableTreeChildListItems: getVariableTreeChildListItems
+                    getVariableTreeChildListItems: getVariableTreeChildListItems,
+                    getCostcenterByCatId: getCostcenterByCatId,
+                    getVariablesByType: getVariablesByType,
+                    dragged: dragged,
+                    addVariableToInputControl: addVariableToInputControl,
+                    getCostcenterFixedVariables: getCostcenterFixedVariables,
+                    dropped: dropped
                 };
             })()
         };

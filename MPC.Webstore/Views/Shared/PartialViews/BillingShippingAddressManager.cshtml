@@ -1,6 +1,6 @@
 ﻿@{
 
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 7);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 12);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
@@ -76,7 +76,7 @@
                     </div>
                 </div>
                 <div class="border_bottom_line">
-                    &nbsp;
+                    
                 </div>
 
                 @*<asp:Repeater ID="rptrShippingAddress" runat="server" OnItemDataBound="rptrShippingAddress_ItemDataBound"
@@ -123,28 +123,30 @@
              alternatingRowStyle: "territory_row_padding GridLineHeight",
     columns: new[] {
 
-    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">@item.AddressName</label>,style: "address_title_corp_div gridfontStyle"),
-    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">@item.Address1</label>,style: "address_detil_corp_div gridfontStyle"),
-    grid.Column(format:@<label onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop">
+    grid.Column(format:@<p onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop PaddingTopForWebGrid2Columns">@item.AddressName</p>,style: "address_title_corp_div gridfontStyle PaddingTopForWebGrid2Columns"),
+    grid.Column(format:@<p style="min-width: 50px; min-height:40px;" class="PaddingTop PaddingTopForWebGrid2Columns" onclick="ShowBillingShippingDetails(@item.AddressId)">@item.Address1</p>,style:"address_detil_corp_div gridfontStyle PaddingTopForWebGrid2Columns"),
+    grid.Column(format:@<p onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop paddingTopForWebGrid3rdColumn">
     @if (item.IsDefaultAddress == null)
     {
-        <label class="PaddingTop">No</label>
+<p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)" >No</p>
 
     }
     else
     {
         if (item.IsDefaultAddress == true)
         {
-            <label class="PaddingTop">Yes</label>
+            <p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)">Yes</p>
         }
         else
         {
-            <label class="PaddingTop">Yes</label>
+            <p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)">Yes</p>
         }
     }
-</label>,style: "main_contact_corp_div gridfontStyle"),
+</p>,style: "main_contact_corp_div gridfontStyle paddingTopForWebGrid3rdColumn"),
 
     })
+   @*@grid.Pager(mode:WebGridPagerModes.All,firstText:"First", lastText:"Last",previousText:"Previous",nextText:"Next",numericLinksCount: 15));*@
+
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -202,6 +204,9 @@
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
         <div class="address_label_area1 ">
             Address Name:
+            <div id="divAddressName" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="Address Name" maxlength="100" id="txtAddressName" class="text_box200 rounded_corners5">
@@ -217,6 +222,9 @@
         </div>
         <div class="address_label_area1 ">
             Address 1:
+            <div id="divAddress1" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="Address 1" maxlength="250" id="txtAddress1" class="text_box200 rounded_corners5">
@@ -280,7 +288,9 @@
         </div>
         <div class="address_label_area1 ">
             City :
-
+            <div id="divCity" class="error_star" style="display: none;">
+                *
+            </div>
         </div>
         <div class="address_contol_area1">
             <input  type="text" value="City" maxlength="100" id="txtCity" class="text_box200 rounded_corners5">
@@ -358,7 +368,7 @@
         </div>
         <div class="address_contol_area1_corp">
 
-            <input type="submit"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="AddAndUpdate()">
+            <input type="submit"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="SaveCall()">
 
             <input value="Cancel" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction()">
         </div>
@@ -453,7 +463,7 @@
             async: true,
             success: function (response) {
                 var CountriesDD = $("#DDCountry");
-                CountriesDD.html('');
+                CountriesDD.html(''); 
                 CountriesDD.append($('<option></option>').val(0).html('Select Country'));
                 $.each(response.Country, function (id, option) {
 
@@ -691,7 +701,6 @@
         $.each(obj, function (id, option) {
             if (option.StateId == stateId) {
 
-                
                 $("#DDSate")[0].selectedIndex = index;
             }
             index++;
@@ -764,6 +773,11 @@
             
             loadCountryStates(CountryID);
         }
+        if (CountryID == 0)
+        {
+           
+            LoadAllStates();
+        }
     });
     function RebindGrid() {
      
@@ -772,5 +786,65 @@
     
     function myFunction() {
         HideLoader();
+    }
+    
+  
+    function Validation()
+    {
+        var IsValid = true;
+        var errorMessage = '';
+        
+            if ($("#txtAddressName").val().trim() == '')
+            { 
+                var AddressNAme = "Address Name Is Required";
+                errorMessage = errorMessage + AddressNAme + "<br>";
+                $("#divAddressName").css('display', 'block');
+                IsValid = false;
+            }
+            else
+            {
+               $("#divAddressName").css('display', 'none');
+            }
+
+            if ($("#txtAddress1").val().trim() == '')
+            {
+                var Address1="Address1 is Ruquired";
+                errorMessage = errorMessage + Address1 + "<br>";
+                $("#divAddress1").css('display', 'block');
+                IsValid = false;
+            }
+            else
+            {
+               
+                $("#divAddress1").css('display', 'none');
+            }
+
+            if ($("#txtCity").val().trim()== '')
+            {
+                var City="City is Ruquired";
+                errorMessage = errorMessage + City + "<br>";
+                $("#divCity").css('display', 'block');
+                IsValid = false;
+            }
+            else
+            {
+                $("#divCity").css('display', 'none');
+            }
+            //if (IsValid == false)
+            //{
+            //    ShowPopUp('Message', errorMessage);
+        //}
+            
+            return IsValid;
+           
+    }
+
+    function SaveCall()
+    {
+        if (Validation() == true)
+        {
+            AddAndUpdate();
+        }
+
     }
         </script>

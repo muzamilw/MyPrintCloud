@@ -17,29 +17,29 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
             }),
             // Is Valid 
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0 ? true : false;
             }),
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             //Convert To Server
-            convertToServerData = function(source) {
+            convertToServerData = function (source) {
             },
             // Reset
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
         self = {
-            id:id,
+            id: id,
             name: name,
             creationdate: creationdate,
             status: status,
-            statusClass:statusClass,
+            statusClass: statusClass,
             email: email,
             storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
@@ -1249,7 +1249,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //        }
             //    }
             //}),
-            webAccessCode = ko.observable(specifiedWebAccessCode).extend({ required: true }),
+            webAccessCode = ko.observable(specifiedWebAccessCode),//.extend({ required: true })
             twitterUrl = ko.observable(specifiedTwitterUrl),
             facebookUrl = ko.observable(specifiedFacebookUrl),
             linkedinUrl = ko.observable(specifiedLinkedinUrl),
@@ -1344,7 +1344,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 companyId: companyId,
                 name: name,
-                webAccessCode: webAccessCode,
+                //webAccessCode: webAccessCode,
                 url: url,
             }),
             // Is Valid 
@@ -1480,7 +1480,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 _.each(source.companyTerritories(), function (item) {
                     result.CompanyTerritories.push(item.convertToServerData());
                 });
-               
+
                 result.CompanyDomains = [];
                 _.each(source.companyDomains(), function (item) {
                     result.CompanyDomains.push(item.convertToServerData());
@@ -1741,7 +1741,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         _.each(source.CompanyContacts, function (item) {
             store.users.push(CompanyContact.Create(item));
         });
-        
+
         return store;
     };
     // #endregion _____________________ S T O R E ______________________________
@@ -2011,10 +2011,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return registrationQuestion;
     };
     // #endregion __________________  R E G I S  T R A T I O N   Q U E S T I O N  ______________________
-    
+
     // #region __________________  O R D E R ______________________
 
-       // ReSharper disable once UnusedLocals
+    // ReSharper disable once UnusedLocals
     var Estimate = function (specifiedId, specifiedCode, specifiedName, specifiedCompanyName, specifiedCreationDate,
         specifiedFlagColor, specifiedOrderCode, specifiedStstud, specifiedestimateTotal, specifiedisDirectOrder) {
         // ReSharper restore InconsistentNaming
@@ -2033,7 +2033,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationDate = ko.observable(specifiedCreationDate || undefined),
             flagColor = ko.observable(specifiedFlagColor || undefined),
             orderCode = ko.observable(specifiedOrderCode || undefined),
-            isDirectSaleUi = ko.computed(function() {
+            isDirectSaleUi = ko.computed(function () {
                 return isDirectOrder() ? "Direct Order" : "Online Order";
             }),
                         // Errors
@@ -2041,44 +2041,44 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name: name,
             }),
             // Is Valid
-            isValid = ko.computed(function() {
+            isValid = ko.computed(function () {
                 return errors().length === 0;
             }),
             // Show All Error Messages
-            showAllErrors = function() {
+            showAllErrors = function () {
                 // Show Item Errors
                 errors.showAllMessages();
             },
             // Set Validation Summary
-            setValidationSummary = function(validationSummaryList) {
+            setValidationSummary = function (validationSummaryList) {
                 validationSummaryList.removeAll();
             },
             // True if the order has been changed
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-              
+
             }),
             // Has Changes
-            hasChanges = ko.computed(function() {
+            hasChanges = ko.computed(function () {
                 return dirtyFlag.isDirty();
             }),
             // Reset
-            reset = function() {
+            reset = function () {
                 dirtyFlag.reset();
             };
 
         return {
-            id:id,
-            status:status,
-            estimateTotal:estimateTotal,
-            isDirectOrder:isDirectOrder,
-            companyName:companyName,
-            name:name,
-            code:code,
-            creationDate:creationDate,
-            flagColor:flagColor,
-            orderCode:orderCode,
-            isDirectSaleUi:isDirectSaleUi,
+            id: id,
+            status: status,
+            estimateTotal: estimateTotal,
+            isDirectOrder: isDirectOrder,
+            companyName: companyName,
+            name: name,
+            code: code,
+            creationDate: creationDate,
+            flagColor: flagColor,
+            orderCode: orderCode,
+            isDirectSaleUi: isDirectSaleUi,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -2106,7 +2106,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var // Unique key
             id = ko.observable(specifiedId || 0),
             // Name
-            companyName = ko.observable(specifiedCmpName ),
+            companyName = ko.observable(specifiedCmpName),
             // Code
             invoiceCode = ko.observable(specifiedinvoiceCode || undefined),
             invoiceDate = ko.observable(specifiedinvoiceDate || undefined),
@@ -2156,7 +2156,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isArchive: isArchive,
             invoiceTotal: invoiceTotal,
             contact: contact,
-            flagId:flagId,
+            flagId: flagId,
             status: status,
             flagColor: flagColor,
             errors: errors,
@@ -2177,7 +2177,164 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // #endregion __________________  O R D E R ______________________
 
-  
+    // #region ______________  PURCHASE LIST VIEW MODEL   _____________
+    // ReSharper disable once InconsistentNaming
+    var PurchaseListViewModel =
+    function (specifiedPurchaseId, specifiedCode, specifiedDatePurchase, specifiedSupplierName, specifiedTotalPrice) {
+        var self,
+           purchaseId = ko.observable(specifiedPurchaseId),
+           code = ko.observable(specifiedCode),
+           datePurchase = ko.observable(specifiedDatePurchase),
+           supplierName = ko.observable(specifiedSupplierName),
+           totalPrice = ko.observable(specifiedTotalPrice),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                purchaseId: purchaseId,
+                code: code,
+                datePurchase: datePurchase,
+                supplierName: supplierName,
+                totalPrice: totalPrice
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+
+            //Convert To Server
+            convertToServerData = function () {
+                var result = {};
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            purchaseId: purchaseId,
+            code: code,
+            datePurchase: datePurchase,
+            supplierName: supplierName,
+            totalPrice: totalPrice,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    PurchaseListViewModel.CreateFromClientModel = function (source) {
+        return new PurchaseListViewModel(
+            source.purchaseId,
+            source.code,
+            source.supplierName,
+            source.totalPrice
+        );
+    };
+    PurchaseListViewModel.Create = function (source) {
+        var purchaseListViewModel = new PurchaseListViewModel(
+           source.PurchaseId,
+           source.Code,
+           source.DatePurchase != null ? moment(source.DatePurchase).format('YYYY/MM/DD') : '',
+           source.SupplierName,
+           source.TotalPrice
+       );
+
+
+        return purchaseListViewModel;
+    };
+    // #endregion
+
+    // #region ______________  GOODS RECIEVED NOTE LIST VIEW MODEL   _____________
+    // ReSharper disable once InconsistentNaming
+    var GoodsReceivedNoteListViewModel =
+    function (specifiedGoodsReceivedId, specifiedCode, specifiedDateReceived, specifiedSupplierName, specifiedTotalPrice) {
+        var self,
+           goodsReceivedId = ko.observable(specifiedGoodsReceivedId),
+           code = ko.observable(specifiedCode),
+           dateReceived = ko.observable(specifiedDateReceived),
+           supplierName = ko.observable(specifiedSupplierName),
+           totalPrice = ko.observable(specifiedTotalPrice),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid 
+            isValid = ko.computed(function () {
+                return errors().length === 0 ? true : false;
+            }),
+
+
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                goodsReceivedId: goodsReceivedId,
+                code: code,
+                dateReceived: dateReceived,
+                supplierName: supplierName,
+                totalPrice: totalPrice
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+
+            //Convert To Server
+            convertToServerData = function () {
+                var result = {};
+                return result;
+            },
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            };
+        self = {
+            goodsReceivedId: goodsReceivedId,
+            code: code,
+            dateReceived: dateReceived,
+            supplierName: supplierName,
+            totalPrice: totalPrice,
+            isValid: isValid,
+            errors: errors,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            convertToServerData: convertToServerData,
+            reset: reset
+        };
+        return self;
+    };
+    GoodsReceivedNoteListViewModel.CreateFromClientModel = function (source) {
+        return new GoodsReceivedNoteListViewModel(
+            source.goodsReceivedId,
+            source.code,
+            source.dateReceived,
+            source.supplierName,
+            source.totalPrice
+            
+        );
+    };
+    GoodsReceivedNoteListViewModel.Create = function (source) {
+        var goodsReceivedNoteListViewModel = new GoodsReceivedNoteListViewModel(
+           source.GoodsReceivedId,
+           source.Code,
+           source.DateReceived != null ? moment(source.DateReceived).format('YYYY/MM/DD') : '',
+           source.SupplierName,
+           source.TotalPrice
+       );
+
+
+        return goodsReceivedNoteListViewModel;
+    };
+    // #endregion
+
     return {
         customerViewListModel: customerViewListModel,
         CrmSupplierListViewModel: CrmSupplierListViewModel,
@@ -2190,6 +2347,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         Role: Role,
         RegistrationQuestion: RegistrationQuestion,
         Estimate: Estimate,
-        Invoice: Invoice
+        Invoice: Invoice,
+        PurchaseListViewModel: PurchaseListViewModel,
+        GoodsReceivedNoteListViewModel: GoodsReceivedNoteListViewModel
     };
 });
