@@ -234,46 +234,46 @@ z-index:1000000011;
   margin: 6px 0 0 43px;
   position: absolute;
   cursor: pointer;}
-   .icondivide{background: url(OperatorIcons.png) -69px -4px no-repeat;
-  height: 21px;
-  width: 24px;
-  margin: 6px 0 0 65px;
-  position: absolute;
-  cursor: pointer;}
-   .iconif{background: url(OperatorIcons.png) -91px -4px no-repeat;
-  height: 21px;
-  width: 25px;
-  margin: 6px 0 0 87px;
-  position: absolute;
-  cursor: pointer;}
-   .iconifelse{background: url(OperatorIcons.png) -113px -4px no-repeat;
-  height: 21px;
-  width: 68px;
-  margin: 6px 0 0 109px;
-  position: absolute;
-  cursor: pointer;}
-    .iconmode{background: url(OperatorIcons.png) -135px -4px no-repeat;
+   .icondivide{  background: url(OperatorIcons.png) -71px -3px no-repeat;
   height: 21px;
   width: 23px;
-  margin: 6px 0 0 131px;
+  margin: 5px 0 0 66px;
   position: absolute;
   cursor: pointer;}
-   .iconpercent{background: url(OperatorIcons.png) -157px -4px no-repeat;
+   .iconif{background: url(OperatorIcons.png) -94px -4px no-repeat;
   height: 21px;
   width: 23px;
-  margin: 6px 0 0 153px;
+  margin: 6px 0 0 88px;
   position: absolute;
   cursor: pointer;}
-   .iconstartbrace{background: url(OperatorIcons.png) -179px -4px no-repeat;
+   .iconifelse{background: url(OperatorIcons.png) -117px -4px no-repeat;
   height: 21px;
-  width: 23px;
-  margin: 6px 0 0 175px;
+  width: 64px;
+  margin: 6px 0 0 110px;
   position: absolute;
   cursor: pointer;}
-   .iconendbrace{background: url(OperatorIcons.png) -201px -4px no-repeat;
+    .iconmode{background: url(OperatorIcons.png) -181px -4px no-repeat;
+  height: 21px;
+  width: 42px;
+  margin: 6px 0 0 173px;
+  position: absolute;
+  cursor: pointer;}
+   .iconpercent{background: url(OperatorIcons.png) -224px -4px no-repeat;
   height: 21px;
   width: 23px;
-  margin: 6px 0 0 197px;
+  margin: 6px 0 0 215px;
+  position: absolute;
+  cursor: pointer;}
+   .iconstartbrace{background: url(OperatorIcons.png) -247px -4px no-repeat;
+  height: 21px;
+  width: 23px;
+  margin: 6px 0 0 237px;
+  position: absolute;
+  cursor: pointer;}
+   .iconendbrace{background: url(OperatorIcons.png) -271px -4px no-repeat;
+  height: 21px;
+  width: 23px;
+  margin: 6px 0 0 260px;
   position: absolute;
   cursor: pointer;}
    
