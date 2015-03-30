@@ -957,8 +957,8 @@ define("order/order.viewModel",
                     selectedPrePayment: selectedPrePayment,
                     onSavePrePayment: onSavePrePayment,
                     onEditPrePayment: onEditPrePayment,
-                    //#endregion,
-                    isCompanyBaseDataLoaded: isCompanyBaseDataLoaded
+                    //#endregion
+                    isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
                     //#endregion
                     //#region Delivery Schedule
                     selectDeliverySchedule: selectDeliverySchedule,
