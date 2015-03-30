@@ -145,8 +145,9 @@
 </p>,style: "main_contact_corp_div gridfontStyle paddingTopForWebGrid3rdColumn"),
 
     })
-   @*@grid.Pager(mode:WebGridPagerModes.All,firstText:"First", lastText:"Last",previousText:"Previous",nextText:"Next",numericLinksCount: 15));*@
-
+                        <div id="Footer" class="pagingCss">
+                            @grid.Pager(mode: WebGridPagerModes.All, numericLinksCount: 15, firstText: "<<", lastText: ">>", previousText: "<", nextText: ">")
+                        </div>
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -379,6 +380,54 @@
 </div>
         
         <script type="text/javascript">
+
+            $(document).ready(function () {
+                var keywords = ['>>', '<<', '<', '>'];
+
+                function linklabels() {
+
+                    var footerDiv = document.getElementById('footer');
+                    var oldLinks = footerDiv.getElementsByTagName('A');
+
+                    var oldLinksCount = oldLinks.length;
+                    var keywordsCount = keywords.length;
+
+                    for (var i = 0; i < oldLinks.length; i++) {
+
+                        if (oldLinks[i].firstChild.nodeValue == '>>' || oldLinks[i].firstChild.nodeValue == '<<' || oldLinks[i].firstChild.nodeValue == '>' || oldLinks[i].firstChild.nodeValue == '<') {
+                            var my_div = null;
+                            var newDiv = null;
+
+                            var newDiv = document.createElement("span");
+                            var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
+                            newDiv.appendChild(newContent);
+                            newDiv.className = "whiteBox";
+
+                            oldLinks[i].firstChild.nodeValue = "";
+
+                            oldLinks[i].appendChild(newDiv);
+                        }
+                        else {
+                            var my_div = null;
+                            var newDiv = null;
+
+                            var newDiv = document.createElement("span");
+                            var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
+                            newDiv.appendChild(newContent);
+                            newDiv.className = "blackBox";
+
+                            oldLinks[i].firstChild.nodeValue = "";
+
+                            oldLinks[i].appendChild(newDiv);
+                        }
+
+                    } // end of for
+
+                    //  footer
+
+                }
+                window.onload = linklabels;
+            });
 
     var AdRessID;
     var CountryID;
