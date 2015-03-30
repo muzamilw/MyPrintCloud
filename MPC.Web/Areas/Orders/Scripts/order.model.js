@@ -226,7 +226,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     CustomerPo: customerPo(),
                     OfficialOrderSetBy: officialOrderSetBy(),
                     OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
-                    PrePayments: []
+                    PrePayments: [],
+                    ShippingInformations: [],
                 };
             };
 
@@ -1004,7 +1005,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              // Price
              price = ko.observable(specifiedPrice),
              //Deliver Not Raised Flag
-             deliveryNoteRaised = ko.observable(specifiedDeliveryNoteRaised),
+             deliveryNoteRaised = ko.observable(specifiedDeliveryNoteRaised !== undefined ? specifiedDeliveryNoteRaised : false),
              // Deliver Date
              deliveryDate = ko.observable((specifiedDeliveryDate === undefined || specifiedDeliveryDate === null) ? moment().toDate() : moment(specifiedDeliveryDate, ist.utcFormat).toDate()),
               // Formatted Delivery Date
