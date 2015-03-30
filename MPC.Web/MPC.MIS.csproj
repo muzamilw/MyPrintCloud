@@ -1887,6 +1887,7 @@
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />

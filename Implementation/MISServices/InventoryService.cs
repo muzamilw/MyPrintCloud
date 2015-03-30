@@ -122,6 +122,54 @@ namespace MPC.Implementation.MISServices
         {
             IEnumerable<SectionFlag> sectionFlags = sectionFlagRepository.GetSectionFlagForInventory();
             IEnumerable<WeightUnit> weightUnits = weightUnitRepository.GetAll();
+            InventorySearchResponse stockItemResponse = null;
+            if (request.SubCategoryId >= 0)
+            {
+                stockItemResponse = stockItemRepository.GetStockItems(request);
+            }
+            else
+            {
+                stockItemResponse = stockItemRepository.GetStockItemsInOrders(request);
+            }
+            IEnumerable<StockItem> stockItems = stockItemResponse.StockItems;
+            int totalCount = stockItemResponse.TotalCount;
+            foreach (var stockItem in stockItems)
+            {
+                //Set selected color code
+                if (stockItem.FlagID != null && stockItem.FlagID != 0 && sectionFlags != null)
+                {
+                    SectionFlag sectionFlag = sectionFlags.FirstOrDefault(x => x.SectionFlagId == stockItem.FlagID);
+                    if (sectionFlag != null)
+                        stockItem.FlagColor = sectionFlag.FlagColor;
+                }
+                //Set selected unit name
+                if (stockItem.ItemWeightSelectedUnit != null && weightUnits != null)
+                {
+                    WeightUnit weightUnit = weightUnits.FirstOrDefault(x => x.Id == stockItem.ItemWeightSelectedUnit);
+                    if (weightUnit != null)
+                        stockItem.WeightUnitName = weightUnit.UnitName;
+                }
+                //Set Supplier Company Name
+                if (stockItem.SupplierId != null)
+                {
+                    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                    if (supplierId != 0)
+                    {
+                        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                    }
+                }
+            }
+        
+            return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
+        }
+
+        /// <summary>
+        /// Load Stock Items, based on search filters
+        /// </summary>
+        public InventorySearchResponse LoadStockItemsInOrder(InventorySearchRequestModel request)
+        {
+            IEnumerable<SectionFlag> sectionFlags = sectionFlagRepository.GetSectionFlagForInventory();
+            IEnumerable<WeightUnit> weightUnits = weightUnitRepository.GetAll();
             var stockItemResponse = stockItemRepository.GetStockItems(request);
             IEnumerable<StockItem> stockItems = stockItemResponse.StockItems;
             int totalCount = stockItemResponse.TotalCount;
@@ -151,9 +199,8 @@ namespace MPC.Implementation.MISServices
                     }
                 }
             }
-
-
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
+
         }
 
         /// <summary>

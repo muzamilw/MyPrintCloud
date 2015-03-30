@@ -10,7 +10,13 @@
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="/CRM/SuppliersList">CRM</a></li>
+                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                    <li class="active"><span>Supplier</span></li>
+                    <!-- /ko -->
+                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
                     <li class="active"><span>Customers</span></li>
+                    <!-- /ko -->
+                    
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
                 <h1 data-bind="text: $root.selectedStore().name()"></h1>
@@ -58,7 +64,7 @@
                             <li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
                             <!--ko if: $root.isProspectOrCustomerScreen() -->
-                            <li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>
+                            @*<li><a href="#tab-DAM" data-toggle="tab">DAM</a></li>*@
                             <li><a href="#tab-orders" data-toggle="tab" data-bind="click: $root.ordersTabClickHandler">Orders</a></li>
                             <li><a href="#tab-invoices" data-toggle="tab" data-bind="click: $root.invoicesTabClickHandler">Invoices</a></li>
                             <!-- /ko -->
@@ -74,7 +80,16 @@
                         <div class="tab-content" data-bind="with: $root.selectedStore">
                             <div class="tab-pane fade in active" id="tab-newsfeedForCrm">
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Store Details</h3>
+                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
+                                    <h3 class="group-header">Prospect Details</h3>
+                                    <!-- /ko -->
+                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                    <h3 class="group-header">Customer Details</h3>
+                                    <!-- /ko -->
+                                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                    <h3 class="group-header">Supplier Details</h3>
+                                    <!-- /ko -->
+                                    
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -83,7 +98,16 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Store Name</label>
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 0-->
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Prospect Name</label>
+                                                <!-- /ko -->
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 1-->
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Customer Name</label>
+                                                <!-- /ko -->
+                                                <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Supplier Name</label>
+                                                <!-- /ko -->
+                                                
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" name="Store Name" class="form-control" id="txtCompanyName" placeholder="Enter Store Name" data-bind="value: name, validationTooltip: name, validationOnElement: name">

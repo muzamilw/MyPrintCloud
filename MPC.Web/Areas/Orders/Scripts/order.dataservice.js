@@ -75,6 +75,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Inventory Stock Items
+                    amplify.request.define('getInventoriesList', 'ajax', {
+                        url: ist.siteUrl + '/Api/Inventory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -157,6 +163,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                // get Stock items
+            getInventoriesList = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getInventoriesList',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -177,7 +193,8 @@ define("order/order.dataservice", function () {
             cloneOrder: cloneOrder,
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
-            getCostCenters: getCostCenters
+            getCostCenters: getCostCenters,
+            getInventoriesList: getInventoriesList
         };
     })();
 

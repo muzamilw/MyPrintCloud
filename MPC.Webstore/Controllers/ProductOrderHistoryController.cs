@@ -107,6 +107,14 @@ namespace MPC.Webstore.Controllers
                 //lblTxtOfRest.Visible = true;
 
             }
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            {
+                ViewBag.res = null;
+            }
+            else
+            {
+                ViewBag.res = string.Empty;
+            }
              if (ordersList == null || ordersList.Count == 0)
                 {
                     TempData["Status"] = "No Records Found";
@@ -117,6 +125,14 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+               {
+                   ViewBag.res = null;
+               }
+               else
+               {
+                   ViewBag.res = string.Empty;
+               }
         }
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)

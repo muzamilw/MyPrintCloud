@@ -158,7 +158,7 @@ namespace MPC.Repository.Repositories
             Expression<Func<Estimate, bool>> query =
                 item =>
                     (item.isEstimate.HasValue && !item.isEstimate.Value) &&
-                    item.CompanyId == request.CompanyId;
+                    item.CompanyId == request.CompanyId && item.StatusId != (int)OrderStatus.ShoppingCart;
         
 
             IEnumerable<Estimate> items = request.IsAsc
