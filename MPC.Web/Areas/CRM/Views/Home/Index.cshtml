@@ -31,7 +31,7 @@
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#tab-Prospect" data-toggle="tab" data-bind="click: function(){$root.getCustomers(0);}">Prospect</a></li>
+                            <li class="active"><a href="#tab-Prospect" data-toggle="tab" data-bind="click: function(){$root.getCustomers(0);}">Prospects</a></li>
                             <li><a href="#tab-Customer" data-toggle="tab" data-bind="click: function(){$root.getCustomers(1);}">Customer</a></li>
                         </ul>
                         <div class="tab-content">
@@ -44,7 +44,7 @@
                                                     <th class="col-lg-1"></th>
                                                     <th class="col-lg-3"><span>Company</span></th>
                                                     <th class="col-lg-2"><span>Created</span></th>
-                                                    <th class="col-lg-2"><span>Status</span></th>
+                                                    @*<th class="col-lg-2"><span>Status</span></th>*@
                                                     <th class="col-lg-2"><span>Email</span></th>
                                                     @*<th class="col-lg-2">&nbsp;</th>*@
 
@@ -63,9 +63,9 @@
                                                     <td>
                                                         <p data-bind="dateString: creationdate"></p>
                                                     </td>
-                                                    <td>
+                                                    @*<td>
                                                         <span data-bind="text:status, css:statusClass"></span>
-                                                    </td>
+                                                    </td>*@
                                                     <td>
                                                         <a>
                                                             <p data-bind="text:email"></p>
@@ -92,7 +92,7 @@
                                                     <th class="col-lg-1"></th>
                                                     <th class="col-lg-3"><span>Company</span></th>
                                                     <th class="col-lg-2"><span>Created</span></th>
-                                                    <th class="col-lg-2"><span>Status</span></th>
+                                                    @*<th class="col-lg-2"><span>Status</span></th>*@
                                                     <th class="col-lg-2"><span>Email</span></th>
                                                     @*<th class="col-lg-2">&nbsp;</th>*@
 
@@ -111,9 +111,9 @@
                                                     <td>
                                                         <p data-bind="dateString: creationdate"></p>
                                                     </td>
-                                                    <td>
+                                                    @*<td>
                                                         <span data-bind="text:status, css:statusClass"></span>
-                                                    </td>
+                                                    </td>*@
                                                     <td>
                                                         <a>
                                                             <p data-bind="text:email"></p>

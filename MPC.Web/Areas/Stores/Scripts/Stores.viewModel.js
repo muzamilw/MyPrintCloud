@@ -1840,6 +1840,7 @@ define("stores/stores.viewModel",
                             selectedAddress().isDefaultTerrorityBilling(true);
                             selectedAddress().isDefaultTerrorityShipping(true);
                             selectedAddress().isDefaultAddress(true);
+                            selectedAddress().isDefaultShippingAddress(true);
                         }
                         if (newAddresses().length > 0) {
                             if (newCompanyTerritories().length > 0) {
@@ -1863,6 +1864,7 @@ define("stores/stores.viewModel",
                             selectedAddress().isDefaultTerrorityBilling(true);
                             selectedAddress().isDefaultTerrorityShipping(true);
                             selectedAddress().isDefaultAddress(true);
+                            selectedAddress().isDefaultShippingAddress(true);
                         }
                         if (newAddresses().length > 0) {
                             if (newCompanyTerritories().length > 0) {
@@ -2031,6 +2033,11 @@ define("stores/stores.viewModel",
                                                             item.isDefaultAddress(false);
                                                         }
                                                     }
+                                                    if (savedAddress.isDefaultShippingAddress()) {
+                                                        if (item.isDefaultShippingAddress() == true) {
+                                                            item.isDefaultShippingAddress(false);
+                                                        }
+                                                    }
                                                 }
                                             });
                                             if (selectedAddress().addressId() <= 0 || selectedAddress().addressId() == undefined) {
@@ -2050,6 +2057,11 @@ define("stores/stores.viewModel",
                                                 if (savedAddress.isDefaultAddress()) {
                                                     if (item.isDefaultAddress() == true && item.territoryId() == savedAddress.territoryId()) {
                                                         item.isDefaultAddress(false);
+                                                    }
+                                                }
+                                                if (savedAddress.isDefaultShippingAddress()) {
+                                                    if (item.isDefaultShippingAddress() == true && item.territoryId() == savedAddress.territoryId()) {
+                                                        item.isDefaultShippingAddress(false);
                                                     }
                                                 }
                                             });
@@ -2076,7 +2088,7 @@ define("stores/stores.viewModel",
                                 });
                         }
                             //#endregion
-                            //#region New Company Case 
+                        //#region New Company Case 
 
                         else {
                             if (selectedAddress().addressId() < 0) {
@@ -2115,6 +2127,11 @@ define("stores/stores.viewModel",
                                     if (selectedAddress().isDefaultAddress()) {
                                         if (item.isDefaultAddress() == true && item.territoryId() == selectedAddress().territoryId()) {
                                             item.isDefaultAddress(false);
+                                        }
+                                    }
+                                    if (selectedAddress().isDefaultShippingAddress()) {
+                                        if (item.isDefaultShippingAddress() == true && item.territoryId() == selectedAddress().territoryId()) {
+                                            item.isDefaultShippingAddress(false);
                                         }
                                     }
                                 });
