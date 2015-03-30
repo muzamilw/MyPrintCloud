@@ -282,6 +282,7 @@
                     isGuillotineClickChargeEditorVisible(false);
                     isMeterPerHourClickChargeEditorVisible(false);
                     selectedlookup(model.lookupMethod());
+                    view.initializeLabelPopovers();
                     if (Id == 1) {
                         isClickChargeEditorVisible(true);
                         selectedClickCharge(model.ClickChargeLookup());
@@ -384,7 +385,7 @@
                 },
                 GetMachineLookupById = function (olookup) {
 
-
+                    view.initializeLabelPopovers();
                     if (isClickChargeEditorVisible() || isSpeedWeightEditorVisible() || isPerHourEditorVisible() || isClickChargeZonesEditorVisible() || isGuillotineClickChargeEditorVisible() || isMeterPerHourClickChargeEditorVisible()) {
 
                         return oncloseEditor(olookup);
@@ -421,6 +422,7 @@
                         MethodId: olookup.MethodId(),
                     }, {
                         success: function (data) {
+                            
                             selectedlookup(olookup);
                             IsSelected(true);
                             CurrencySymbol(data.CurrencySymbol);
@@ -452,7 +454,7 @@
                                 sharedNavigationVM.initialize(selectedSpeedWeight, function (saveCallback) { saveLookup(saveCallback); });
 
                             }
-
+                            view.initializeLabelPopovers();
                         },
                         error: function (response) {
 
