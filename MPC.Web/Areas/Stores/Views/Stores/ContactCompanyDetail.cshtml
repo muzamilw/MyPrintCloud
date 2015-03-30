@@ -316,11 +316,11 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
+                                                    <label for="txtGSTRegNo" class="control-label text-right tooltip-float">Tax Reg. No.</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
-                                                    <span class="help-block text-right">GST registration number</span>
+                                                    <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter Tax Registration Number" data-bind="value: avatRegNumber">
+                                                    <span class="help-block text-right">Tax registration number</span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -330,11 +330,11 @@
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
+                                                    <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">Tax Ref. No.</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number" data-bind="value: avatRegReference">
-                                                    <span class="help-block text-right">GST reference number</span>
+                                                    <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter Tax Reference Number" data-bind="value: avatRegReference">
+                                                    <span class="help-block text-right">Tax reference number</span>
                                                 </div>
                                             </div>
 
@@ -1588,7 +1588,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Store's Tax percentage value e.g 16%</label>
+                                                    <label class="control-label text-right tooltip-float">Store's Tax percentage value 16%</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -1604,7 +1604,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Tax Title/Label VAT</label>
+                                                    <label class="control-label text-right tooltip-float">Tax Title/Label</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
@@ -2375,7 +2375,12 @@ Public  - allows users to see other users addresses and orders." data-original-t
         </script>
         <script id="itemCompanyDomainTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
-                <td class="col-lg-12"><span data-bind="text: domain"></span></td>
+                <!--ko if: isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a>  (Default)</td>
+                <!-- /ko -->
+                <!--ko if: !isMandatoryDomain()-->
+                <td class="col-lg-12"><a data-bind="text: domain"></a></td>
+                <!-- /ko -->
                 <td class="col-lg-1">
                     <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->
                     <!-- /ko -->

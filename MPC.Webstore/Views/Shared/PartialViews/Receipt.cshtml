@@ -212,7 +212,16 @@
                                         {
                                             if (item.ProductType == (int)ProductType.NonPrintProduct)
                                             {
-                                                string completeImgPath = Html.GetAppBasePath() + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                string completeImgPath = ""; 
+                                                if (!string.IsNullOrEmpty(item.Attatchment.FolderPath) && !string.IsNullOrEmpty(item.Attatchment.FileName))
+                                                {
+                                                    completeImgPath = "/"  + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                }
+                                                else
+                                                {
+                                                    completeImgPath = item.ThumbnailPath;
+                                                }
+                                               
                                                 ImageSource = completeImgPath;
                                             }
                                                

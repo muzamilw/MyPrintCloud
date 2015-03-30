@@ -159,7 +159,7 @@
                 <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
             </div>
             <div class="TTL widthAvenior">
-                <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox" multiple />
+                <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox"  multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
             </div>
             <br />
             <br />
@@ -476,8 +476,6 @@
     {
         if (ValidateRec())
         {
-            alert(ValidateRec());
-
             SubmitData();
         }
 
@@ -559,7 +557,7 @@
         if (val == 2) {
 
             if ($("#txtTitle2").val().trim() == '') {
-                var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
+                var inquirytitlexreq = "Inquiry Item title for 2nd item is Required";
                 errorMessage = errorMessage + inquirytitlexreq + "<br>";
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;

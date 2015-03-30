@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MPC.Repository.Repositories
 {
@@ -680,6 +681,26 @@ namespace MPC.Repository.Repositories
             db.SaveChanges();
             result = true;
             return result;
+        }
+        public string[] GetContactImageAndCompanyLogo(long contactID)
+        {
+            string[] array = new string[2];
+            string CompanyLogo = "";
+            string ContactLogo = "";
+            CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
+            if(contact != null)
+            {
+                Company company = db.Companies.Where(g => g.CompanyId == contact.CompanyId).SingleOrDefault();
+                if(contact.image != null && contact.image != "")
+                    ContactLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/" + contact.image;
+                if(company!= null)
+                {
+                   CompanyLogo = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority +  "/" +  company.Image;
+                }
+            }
+            array[0] = CompanyLogo;
+            array[1] = ContactLogo;
+            return array;
         }
         #endregion
     }

@@ -112,8 +112,16 @@
                                          {
                                              if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
-                                                 pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                 string completeImgPath = "";
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
+                                                 {
+                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
+                                                 }
+                                                 else
+                                                 {
+                                                     completeImgPath = prod.ThumbnailPath;
+                                                 }
+                                                 pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
                                              }
                                          }
