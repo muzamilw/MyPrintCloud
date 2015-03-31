@@ -1495,8 +1495,9 @@ function b3_lDimensions() {
     h = h.toFixed(3);
     h = h - 10;
     w = w - 10;
- //   w = w * Template.ScaleFactor;
-  //  h = h * Template.ScaleFactor;
+    //console.log(Template);
+    //w = w * Template.ScaleFactor;
+    //h = h * Template.ScaleFactor;
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
     $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
   //  $(".dimentionsBC").append("<br /><span class='spanZoomContainer'> Zoom - " + D1CS * 100 + " % </span>");
