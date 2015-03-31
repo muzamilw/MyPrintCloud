@@ -10,7 +10,7 @@ define("sectionflags/sectionflags.viewModel",
                 var // the view 
                     view,
                     // Active
-                    selectedsectionflags = ko.observableArray([]),
+                    selectedsectionflags = ko.observableArray(),
                     errorList = ko.observableArray([]),
                     // #region Busy Indicators
                     isLoadingsectionflags = ko.observable(false),
@@ -31,14 +31,17 @@ define("sectionflags/sectionflags.viewModel",
                                 if (data != null)
                                 {
 
-                                    selectedsectionflags.removeAll();
-                                    ko.utils.arrayPushAll(selectedsectionflags(), data.sectionflags);
-                                    selectedsectionflags.valueHasMutated();
+                                    var Counter = self.data.length;
+                                    for (var i = 0; i < Counter; i++)
+                                    {
+                                        self.selectedsectionflags.push(new model.sectionflags(self.data[i]));
+                                    }
                                  
                                 }
                                 
                             },
-                            error: function () {
+                            error: function ()
+                            {
                                 toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                             }
                         });

@@ -327,7 +327,6 @@
     <Compile Include="Areas\Api\Controllers\GetPhraseFiledsBySectionController.cs" />
     <Compile Include="Areas\Api\Controllers\GetSmartFormDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetThemeDetailController.cs" />
-    <Compile Include="Areas\Api\Controllers\GoodsReceivedNoteController.cs" />
     <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
@@ -343,7 +342,6 @@
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
-    <Compile Include="Areas\Api\Controllers\PurchaseController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
@@ -444,6 +442,7 @@
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
+    <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineClickChargeZone.cs" />
@@ -651,6 +650,7 @@
     <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -1887,7 +1887,6 @@
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
-    <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
@@ -3026,7 +3025,7 @@
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditDeliveryCarriers.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_AddEditDeliveryCarriers.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditTerritory.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddSet.cshtml" />
     <Content Include="Views\Shared\Widgets\_EditBanner.cshtml" />
@@ -3070,7 +3069,6 @@
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
-    <Folder Include="Areas\Api\Views\GoodsReceivedNote\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
@@ -3078,7 +3076,6 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
-    <Folder Include="Areas\Api\Views\PurchaseOrder\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Common\Controllers\" />

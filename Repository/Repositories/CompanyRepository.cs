@@ -198,6 +198,7 @@ namespace MPC.Repository.Repositories
                         c.isCalculateTaxByService,
                         c.isWhiteLabel,
                         c.TaxLabel,
+                        c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
@@ -325,6 +326,7 @@ namespace MPC.Repository.Repositories
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
                         TaxLabel = c.TaxLabel,
+                        TaxRate = c.TaxRate,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -2054,29 +2056,47 @@ namespace MPC.Repository.Repositories
 
                         ImportIDs.CostCentreIDs = new List<long>();
                         objExpCorporate = Sets.ExportStore1;
-                        if (objExpCorporate.Company != null)
+                        if(objExpCorporate != null)
                         {
-                            ImportIDs.OldCompanyID = objExpCorporate.Company.CompanyId;
+                            if (objExpCorporate.Company != null)
+                            {
+                                ImportIDs.OldCompanyID = objExpCorporate.Company.CompanyId;
 
+                            }
                         }
+                       
+
                         objExpRetail = Sets.ExportRetailStore1;
-                        if (objExpRetail.RetailCompany != null)
+                        if(objExpRetail != null)
                         {
-                            ImportIDs.RetailOldCompanyID = objExpRetail.RetailCompany.CompanyId;
+                            if (objExpRetail.RetailCompany != null)
+                            {
+                                ImportIDs.RetailOldCompanyID = objExpRetail.RetailCompany.CompanyId;
+                            }
                         }
+                       
+                      
                         objExpCorporateWOP = Sets.ExportStore1WOP;
-                        if (objExpCorporateWOP.Company != null)
+                        if (objExpCorporateWOP != null)
                         {
-                            ImportIDs.OldCompanyIDWOP = objExpCorporateWOP.Company.CompanyId;
+                            if (objExpCorporateWOP.Company != null)
+                            {
+                                ImportIDs.OldCompanyIDWOP = objExpCorporateWOP.Company.CompanyId;
 
+                            }
                         }
+                       
 
                         objExpRetailWOP = Sets.ExportRetailStore1WOP;
-                        if (objExpRetailWOP.RetailCompany != null)
+                        if(objExpRetailWOP != null)
                         {
-                            ImportIDs.RetailOldCompanyIDWOP = objExpRetailWOP.RetailCompany.CompanyId;
+                            if (objExpRetailWOP.RetailCompany != null)
+                            {
+                                ImportIDs.RetailOldCompanyIDWOP = objExpRetailWOP.RetailCompany.CompanyId;
 
+                            }
                         }
+                       
 
 
                         Organisation objExpOrg = Sets.ExportOrganisationSet1.Organisation;

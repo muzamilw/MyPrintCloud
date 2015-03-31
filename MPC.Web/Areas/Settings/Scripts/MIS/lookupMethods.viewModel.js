@@ -22,6 +22,8 @@
                     lookupGuillotineClickChargeList = ko.observableArray([]),
                     lookupMeterPerHourClickChargeList = ko.observableArray([]),
                     CurrencySymbol = ko.observable(),
+                    WeightUnit = ko.observable(),
+            LengthUnit = ko.observable(),
                     selectedlookup = ko.observable(),
                     selectedClickCharge = ko.observable(),
                     selectedSpeedWeight = ko.observable(),
@@ -36,6 +38,24 @@
                     isGuillotineClickChargeEditorVisible = ko.observable(),
                     isMeterPerHourClickChargeEditorVisible = ko.observable(),
                     IsSelected = ko.observable(),
+                    hasChanges = ko.computed(function () {
+                        if (selectedClickCharge() != undefined) {
+                            return selectedClickCharge().hasChanges();
+                        } else if (selectedSpeedWeight() != undefined) {
+                            return selectedSpeedWeight().hasChanges();
+                        } else if (selectedPerHour() != undefined) {
+                            return selectedPerHour().hasChanges();
+                        } else if (selectedClickChargeZones() != undefined) {
+                            return selectedClickChargeZones().hasChanges();
+                        } else if (selectedGuillotineClickCharge() != undefined) {
+                            return selectedGuillotineClickCharge().hasChanges();
+                        } else if (selectedMeterPerHourClickCharge() != undefined) {
+                            return selectedMeterPerHourClickCharge().hasChanges();
+                        } else {
+                            return false;
+                        }
+                        
+                    }),
                      initialize = function (specifiedView) {
                          view = specifiedView;
                          ko.applyBindings(view.viewModel, view.bindingRoot);
@@ -326,6 +346,9 @@
 
                     }, {
                         success: function (data) {
+                            CurrencySymbol(data.CurrencySymbol);
+                            WeightUnit(data.WeightUnit);
+                            LengthUnit(data.LengthUnit);
                             lookupClickChargeList.removeAll();
                             lookupSpeedWeightList.removeAll();
                             lookupPerHourList.removeAll();
@@ -333,9 +356,9 @@
                             lookupGuillotineClickChargeList.removeAll();
                             lookupMeterPerHourClickChargeList.removeAll();
 
-                            if (data != null) {
+                            if (data.LookupMethods != null) {
 
-                                _.each(data, function (item) {
+                                _.each(data.LookupMethods, function (item) {
 
                                     if (item.MethodId == 1) {
                                         lookupClickCharge(item.Name); // model.lookupupListClientMapper(item);
@@ -426,7 +449,7 @@
                             
                             selectedlookup(olookup);
                             IsSelected(true);
-                            CurrencySymbol(data.CurrencySymbol);
+                            
                             if (data.ClickChargeLookup != null) {
                                 isClickChargeEditorVisible(true);
 
@@ -626,7 +649,10 @@
                     DeleteLookup: DeleteLookup,
                     oncloseEditor: oncloseEditor,
                     onCancal: onCancal,
-                    CurrencySymbol: CurrencySymbol
+                    CurrencySymbol: CurrencySymbol,
+                    WeightUnit : WeightUnit,
+                    LengthUnit: LengthUnit,
+                    hasChanges: hasChanges
                 }
             })()
         };

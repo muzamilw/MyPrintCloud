@@ -71,11 +71,22 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 GuilotinePtv = source.GuilotinePtv == null ? null : source.GuilotinePtv.Select(g=>g.CreateFrom()),
                 MeterPerHourLookup = source.MeterPerHourLookup == null ? null : source.MeterPerHourLookup.CreateFrom(),
                 PerHourLookup = source.PerHourLookup == null ? null : source.PerHourLookup.CreateFrom(),
-                SpeedWeightLookup = source.SpeedWeightLookup == null ? null : source.SpeedWeightLookup.CreateFrom(),
-                CurrencySymbol = source.CurrencySymbol
+                SpeedWeightLookup = source.SpeedWeightLookup == null ? null : source.SpeedWeightLookup.CreateFrom()
+               
 
 
 
+            };
+
+        }
+        public static APIDomainModels.LookupMethodListResponse CreateFrom(this ResponseDomainModels.LookupMethodListResponse source)
+        {
+            return new APIDomainModels.LookupMethodListResponse
+            {
+                LookupMethods = source.LookupMethods == null ? null : source.LookupMethods.Select(g => g.CreateFrom()),
+                CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol,
+                WeightUnit = source.WeightUnit == null ? null : source.WeightUnit,
+                LengthUnit = source.LengthUnit == null ? null : source.LengthUnit
             };
 
         }

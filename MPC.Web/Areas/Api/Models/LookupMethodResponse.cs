@@ -15,6 +15,6 @@ namespace MPC.MIS.Areas.Api.Models
         public MachineMeterPerHourLookup MeterPerHourLookup { get; set; }
         public MachinePerHourLookup PerHourLookup { get; set; }
         public MachineSpeedWeightLookup SpeedWeightLookup { get; set; }
-        public string CurrencySymbol { get; set; }
+        
     }
 }

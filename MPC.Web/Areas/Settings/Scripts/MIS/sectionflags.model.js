@@ -27,6 +27,12 @@
         return self;
     };
 
+    function sectionflags(initialsection)
+    {
+        var self = this;
+        self.section = ko.observable(initialMeal);
+    }
+
   var sectionFlagsClientMapper = function (source) {
         var osectionflags = new sectionflags();
         osectionflags.sectionId(source.SectionId);

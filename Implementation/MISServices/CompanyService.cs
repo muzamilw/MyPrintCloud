@@ -1232,11 +1232,11 @@ namespace MPC.Implementation.MISServices
                     CompanyDomain dbVersionMissingItem = companyDbVersion.First(x => x.CompanyDomainId == missingCompanyDomain.CompanyDomainId);
                     using (var client = new HttpClient())
                     {
-                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["RemoveDomainPath"]);
+                        client.BaseAddress = new Uri(ConfigurationManager.AppSettings["AddDomainPath"]);
                         client.DefaultRequestHeaders.Accept.Clear();
                         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                         string mySiteUrl = HttpContext.Current.Request.Url.Host;
-                        string url = "RemoveDomain?siteName=" + mySiteUrl + "&domainName=" + dbVersionMissingItem.Domain + "&isRemoving=" + true;
+                        string url = "AddDomain?siteName=" + mySiteUrl + "&domainName=" + dbVersionMissingItem.Domain + "&isRemoving=" + true;
                         string responsestr = "";
                         var response = client.GetAsync(url);
                         if (response.Result.IsSuccessStatusCode)
