@@ -489,7 +489,7 @@ define("order/order.viewModel",
                         _.each(selectedOrder().deliverySchedules(), function (item) {
                             order.ShippingInformations.push(item.convertToServerData());
                         });
-                        
+
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 if (!selectedOrder().id()) {
@@ -736,30 +736,28 @@ define("order/order.viewModel",
                     onCloseProductFromRetailStore = function () {
                         view.hideProductFromRetailStoreModal();
                     },
-                //Get Inventories
-                getInventoriesListItems = function() {
-                    dataservice.getInventoriesList({
-                        SearchString: inventorySearchFilter(),
-                        CategoryId: selectedCategoryId(),
-                        PageSize: categoryPager().pageSize(),
-                        PageNo: categoryPager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function(data) {
-                            categoryPager().totalCount(data.TotalCount);
-                            inventoryItems.removeAll();
-                            _.each(data.StockItems, function(item) {
-                                var inventory = new model.Inventory.Create(item);
-                                inventoryItems.push(inventory);
-                            });
-                        },
-                        error: function() {
-                            isLoadingInventory(false);
-                            toastr.error("Failed to load inventories.");
-                        }
-                    });
-                },
+                    //Get Inventories
+                    getInventoriesListItems = function () {
+                        dataservice.getInventoriesList({
+                            SearchString: inventorySearchFilter(),
+                            CategoryId: selectedCategoryId(),
+                            PageSize: categoryPager().pageSize(),
+                            PageNo: categoryPager().currentPage()
+                        }, {
+                            success: function (data) {
+                                categoryPager().totalCount(data.TotalCount);
+                                inventoryItems.removeAll();
+                                _.each(data.StockItems, function (item) {
+                                    var inventory = new model.Inventory.Create(item);
+                                    inventoryItems.push(inventory);
+                                });
+                            },
+                            error: function () {
+                                isLoadingInventory(false);
+                                toastr.error("Failed to load inventories.");
+                            }
+                        });
+                    },
                     //#endregion
                     //#region Pre Payment
                     showOrderPrePaymentModal = function () {
@@ -1026,7 +1024,7 @@ define("order/order.viewModel",
                     orderCodeHeader: orderCodeHeader,
                     itemCodeHeader: itemCodeHeader,
                     sectionHeader: sectionHeader,
-                    onAddInventoryItem:onAddInventoryItem,
+                    onAddInventoryItem: onAddInventoryItem,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -1059,7 +1057,7 @@ define("order/order.viewModel",
                     selectedCategoryId: selectedCategoryId,
                     categoryPager: categoryPager,
                     inventorySearchFilter: inventorySearchFilter,
-                    getInventoriesListItems:getInventoriesListItems,
+                    getInventoriesListItems: getInventoriesListItems,
                     //#endregion
                     //#region Pre Payment
                     paymentMethods: paymentMethods,

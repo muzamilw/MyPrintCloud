@@ -1024,6 +1024,17 @@ namespace MPC.Implementation.MISServices
             companyRepository.SaveChanges();
             //Call Service to add or remove the IIS Bindings for Store Domains
             updateDomainsInIIS(companyDbVersion.CompanyDomains, companyDomainsDbVersion);
+
+            // Get List of Skins 
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Host);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                string url = "/clear/" + companyDbVersion.CompanyId;
+                var response = client.GetAsync(url);
+            }
             return companySavingModel.Company;
         }
 
@@ -3111,7 +3122,9 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
                 CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
+                OrganisationId=fieldVariableRepository.OrganisationId
             };
+
         }
         /// <summary>
         /// Base Data for Crm Screen (prospect/customer and suppliers)
@@ -3680,7 +3693,7 @@ namespace MPC.Implementation.MISServices
                     // export corporate store with products
                     CompanyID = companyRepository.GetCompanyByName(OrganisationID, CorporateName);
 
-                   
+
                     if (CompanyID > 0)
                     {
                         ObjExportCorporate = companyRepository.ExportCorporateCompany(CompanyID);
@@ -3694,8 +3707,8 @@ namespace MPC.Implementation.MISServices
                 if (RetailName != "''")
                 {
                     RetailCompanyID = companyRepository.GetCompanyByName(OrganisationID, RetailName);
-                   
-                    if (RetailCompanyID > 0 )
+
+                    if (RetailCompanyID > 0)
                     {
 
                         ObjExportRetail = ExportRetailStore(RetailCompanyID, OrganisationID);
@@ -3706,10 +3719,10 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportCorporateWOProducts = new Models.Common.ExportSets();
                 long CompanyWOP = 0;
                 // export corporate store without products
-                if(CorporateNameWOP != "''")
+                if (CorporateNameWOP != "''")
                 {
                     CompanyWOP = companyRepository.GetCompanyByName(OrganisationID, CorporateNameWOP);
-                    
+
                     if (CompanyWOP > 0 && CompanyWOP != null)
                     {
                         ObjExportCorporateWOProducts = companyRepository.ExportCorporateCompanyWithoutProducts(CompanyWOP);
@@ -3721,18 +3734,18 @@ namespace MPC.Implementation.MISServices
                 ExportSets ObjExportRetailWOProducts = new Models.Common.ExportSets();
                 long RetailCompanyWOP = 0;
                 // export retail store without products
-                if(RetailNameWOP != "''")
+                if (RetailNameWOP != "''")
                 {
                     RetailCompanyWOP = companyRepository.GetCompanyByName(OrganisationID, RetailNameWOP);
 
-                  
+
                     if (RetailCompanyWOP > 0 && RetailCompanyWOP != null)
                     {
 
                         ObjExportRetailWOProducts = ExportRetailStoreWithoutProducts(RetailCompanyWOP, OrganisationID);
                     }
                 }
-               
+
 
                 #endregion
 
@@ -5587,7 +5600,7 @@ namespace MPC.Implementation.MISServices
                 // delete assets 
 
 
-               
+
 
                 Company company = companyRepository.GetCompanyByCompanyID(CID);
 

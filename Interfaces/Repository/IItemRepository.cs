@@ -118,7 +118,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="Quantity"></param>
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
-        Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code);
+        Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId);
 
 
         /// <summary>

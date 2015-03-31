@@ -50,8 +50,8 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-                    // Get Base Date for Collections
-                    amplify.request.define('getVariablesTree', 'ajax', {
+                    // Get Tree Data
+                    amplify.request.define('GetTreeListById', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenterTree',
                         dataType: 'json',
                         type: 'GET'
@@ -69,12 +69,13 @@ define("costcenter/costcenter.dataservice", function () {
                     error: callbacks.error,
                 });
             },
-            getVariablesTree = function (callbacks) {
+            GetTreeListById = function (params, callbacks) {
                 initialize();
                 return amplify.request({
-                    resourceId: 'getVariablesTree',
+                    resourceId: 'GetTreeListById',
                     success: callbacks.success,
                     error: callbacks.error,
+                    data: params
                 });
             };
             // Get Cost Centers List
@@ -134,7 +135,7 @@ define("costcenter/costcenter.dataservice", function () {
             saveNewCostCenter:saveNewCostCenter,
             saveCostCenter: saveCostCenter,
             getBaseData: getBaseData,
-            getVariablesTree: getVariablesTree
+            GetTreeListById: GetTreeListById
         };
     })();
 
