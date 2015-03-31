@@ -100,10 +100,11 @@ function fu03() {
 }
 function fu04_1GetItem(DT)
 {
+    
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
              //console.log(result);
-             fu04_TempCbkGen(DT);
+            
              item = result;
              if (item.SmartFormId != null) {
                  if (item.SmartFormId != 0) {
@@ -114,9 +115,18 @@ function fu04_1GetItem(DT)
                            pcl41(DT);
                        });
                  }
-
+                 fu04_TempCbkGen(DT);
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
+                 
+                 $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
+                      function (userData) {
+                          userVariableData = userData;
+                          fu04_TempCbkGen(DT);
+                          if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {
+                              $("#collapseDesignerMenu").click();
+                          }
+                      });
              }
              if (item.allowPdfDownload == true) {
                  $(".previewBtnContainer").css("display", "block");
@@ -186,6 +196,20 @@ function fu04_01() {
                   }
               }
           });
+ 
+          if (userVariableData != null)
+          {
+              $.each(userVariableData, function (i, vari) {
+                  if(vari.Value != null)
+                  {
+                      var variableTag = vari.FieldVariable.VariableTag;
+                      $.each(DT, function (i, objDT) {
+                          while (objDT.ContentString.indexOf(variableTag) != -1)
+                              objDT.ContentString = objDT.ContentString.replace(variableTag, vari.Value);
+                      });
+                  }
+              });
+          }
           TO = DT;
           fu07();
           fu06();

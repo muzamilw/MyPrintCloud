@@ -148,6 +148,7 @@ var isMultiPageProduct = false;
 var varList = []; var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
+var userVariableData = null;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];
@@ -192,4 +193,5 @@ function restrictControls() {
     $("#btnMenuPaste").css("visibility", "hidden");
     $("#backgrounds").css("visibility", "hidden");
     $("#layersPanel").css("visibility", "hidden");
+    
 }

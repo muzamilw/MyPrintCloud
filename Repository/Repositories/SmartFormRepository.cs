@@ -766,6 +766,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Scope = 0;
                                     objScopeVariable.VariableId = FieldVariable.VariableId;
                                     objScopeVariable.Value = fieldValue;
+                                    objScopeVariable.FieldVariable = FieldVariable;
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -789,7 +790,7 @@ namespace MPC.Repository.Repositories
                                             objScopeVariable.Value = FieldVariable.DefaultValue;
                                             objScopeVariable.Id = contact.AddressId;
                                             objScopeVariable.Scope = scope;
-
+                                            objScopeVariable.FieldVariable = FieldVariable;
                                             result.Add(objScopeVariable);
                                         }
                                     }
@@ -808,7 +809,7 @@ namespace MPC.Repository.Repositories
                                             objScopeVariable.Value = FieldVariable.DefaultValue;
                                             objScopeVariable.Id = contactID;
                                             objScopeVariable.Scope = scope;
-
+                                            objScopeVariable.FieldVariable = FieldVariable;
                                             result.Add(objScopeVariable);
                                         }
                                     }
@@ -836,7 +837,7 @@ namespace MPC.Repository.Repositories
                                             objScopeVariable.Value = FieldVariable.DefaultValue;
                                             objScopeVariable.Id = FieldVariable.CompanyId.Value;
                                             objScopeVariable.Scope = scope;
-
+                                            objScopeVariable.FieldVariable = FieldVariable;
                                             result.Add(objScopeVariable);
                                         }
                                     }
@@ -859,7 +860,7 @@ namespace MPC.Repository.Repositories
                                             objScopeVariable.Value = FieldVariable.DefaultValue;
                                             objScopeVariable.Id = contact.TerritoryId.Value;
                                             objScopeVariable.Scope = scope;
-
+                                            objScopeVariable.FieldVariable = FieldVariable;
                                             result.Add(objScopeVariable);
                                         }
                                     }
