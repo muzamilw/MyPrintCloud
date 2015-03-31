@@ -2010,7 +2010,7 @@ namespace MPC.Repository.Repositories
 
             return db.Addesses.Where(i => i.AddressId == AddressId).FirstOrDefault();
         }
-        public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID)
+        public long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId)
         {
             Estimate ExistingOrder = null;
             Estimate shopCartOrder = null;
@@ -2035,7 +2035,7 @@ namespace MPC.Repository.Repositories
                         {
                             // shopCartOrder = Clone<db.Estimates>(ExistingOrder); // copying order header
                             shopCartOrder = ExistingOrder;
-                            shopCartOrder.EstimateId = 0;
+                           // shopCartOrder.EstimateId = 0;
                             // Order status will be shopping cart
                             shopCartOrder.StatusId = (int)OrderStatus.ShoppingCart;
                             shopCartOrder.DeliveryCompletionTime = 0;
@@ -2063,10 +2063,11 @@ namespace MPC.Repository.Repositories
                         {
                             OrderIdOfReorderItems = shopCartOrder.EstimateId;
                         }
+                        List<Item> esxistingOrderItems = db.Items.Where(i => i.EstimateId == ExistingOrderId && i.IsOrderedItem == true).ToList();
                         //Clone items related to this order
-                        ExistingOrder.Items.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
+                        esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
                         {
-                            Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem, loggedInContactID, shopCartOrder.Order_Code);
+                            Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
                             ClonedItems.Add(item);
                             CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now);
 

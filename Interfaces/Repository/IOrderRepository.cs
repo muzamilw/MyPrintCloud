@@ -83,7 +83,7 @@ namespace MPC.Interfaces.Repository
         void GenerateThumbnailForPdf(byte[] PDFFile, string sideThumbnailPath, bool insertCuttingMargin);
         bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
         void  CopyAttachments(long itemID, Item NewItem, string OrderCode, bool CopyTemplate, DateTime OrderCreationDate);
-        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID);
+        long ReOrder(long ExistingOrderId, long loggedInContactID, double StatTaxVal, StoreMode mode, bool isIncludeTax, int TaxID, long OrganisationId);
         Estimate GetShoppingCartOrderByContactID(long contactID, OrderStatus orderStatus);
 
         /// <summary>
