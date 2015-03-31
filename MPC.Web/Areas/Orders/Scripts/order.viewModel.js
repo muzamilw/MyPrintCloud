@@ -452,6 +452,12 @@ define("order/order.viewModel",
                                         categories.push(item);
                                     });
                                 }
+                                nominalCodes.removeAll();
+                                if (data.ChartOfAccounts) {
+                                    _.each(data.ChartOfAccounts, function (item) {
+                                        nominalCodes.push(item);
+                                    });
+                                }
                                 currencySymbol(data.CurrencySymbol);
                                 view.initializeLabelPopovers();
                             },

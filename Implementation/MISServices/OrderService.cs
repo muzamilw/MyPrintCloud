@@ -25,6 +25,7 @@ namespace MPC.Implementation.MISServices
         private readonly IMarkupRepository _markupRepository;
         private readonly IPaymentMethodRepository paymentMethodRepository;
         private readonly IOrganisationRepository organisationRepository;
+        private readonly IChartOfAccountRepository chartOfAccountRepository;
 
         #endregion
         #region Constructor
@@ -34,7 +35,8 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
-            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository)
+            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository,
+            IChartOfAccountRepository chartOfAccountRepository)
         {
             if (estimateRepository == null)
             {
@@ -64,7 +66,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("organisationRepository");
             }
-            
+            if (chartOfAccountRepository == null)
+            {
+                throw new ArgumentNullException("chartOfAccountRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
@@ -75,11 +80,12 @@ namespace MPC.Implementation.MISServices
             this.paymentMethodRepository = paymentMethodRepository;
             this.organisationRepository = organisationRepository;
             this.stockCategoryRepository = stockCategoryRepository;
+            this.chartOfAccountRepository = chartOfAccountRepository;
         }
 
         #endregion
         #region Public
-        
+
         /// <summary>
         /// Get All Orders
         /// </summary>
@@ -124,9 +130,10 @@ namespace MPC.Implementation.MISServices
                        SystemUsers = systemUserRepository.GetAll(),
                        PipeLineSources = pipeLineSourceRepository.GetAll(),
                        PaymentMethods = paymentMethodRepository.GetAll(),
-                       Markups= _markupRepository.GetAll(),
+                       Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                       StockCategories = stocks
+                       StockCategories = stocks,
+                       ChartOfAccounts = chartOfAccountRepository.GetAll(),
                    };
         }
 
