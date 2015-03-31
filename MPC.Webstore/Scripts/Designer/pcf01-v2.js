@@ -1482,7 +1482,11 @@ function fu04_callBack(DT) {
     fu04_01();
     fu14();
     b3_1();
-    b3_lDimensions();
+    if (!productDimensionUpdated)
+    {
+        b3_lDimensions();
+    }
+    
 }
 function b3_lDimensions() {
     var w = Template.PDFTemplateWidth;
@@ -3042,7 +3046,7 @@ function k16(TempImgType, ImC, Caller) {
                                 }
                             }
                             urlThumbnail += "_thumb." + p[p.length - 1];
-                            console.log(urlThumbnail);
+                           
                         } else {
                             urlThumbnail = url;
                         } 
