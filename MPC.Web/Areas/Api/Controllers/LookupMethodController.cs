@@ -24,11 +24,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _LookupMethodService.GetlookupById(MethodId).CreateFrom();
 
         }
-        
-        public IEnumerable<LookupMethod> Get()
+
+        public LookupMethodListResponse Get()
         {
 
-            return _LookupMethodService.GetAll().Select(g => g.CreateFrom());
+            return _LookupMethodService.GetAll().CreateFrom();
             
         }
         public bool Post(LookupMethodResponse response)
