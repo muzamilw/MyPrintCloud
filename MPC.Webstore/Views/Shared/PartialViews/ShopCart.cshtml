@@ -232,8 +232,8 @@
                                 <div class="cntsubHeadings">
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">VAT</label>
-                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
+                                    <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
 
                                    
                                 </div>
