@@ -73,7 +73,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                        SmartFormResponse = result.SmartFormResponse.CreateFrom(),
                        FieldVariableForSmartForms = result.FieldVariablesForSmartForm != null ? result.FieldVariablesForSmartForm.Select(fv => fv.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
                        CmsPageDropDownList = result.CmsPages != null ? result.CmsPages.Select(x => x.CreateFromForDropDown()) : new List<CmsPageDropDown>(),
-                       Themes = themes ?? new List<SkinForTheme>()
+                       Themes = themes ?? new List<SkinForTheme>(),
+                       PriceFlags = result.PriceFlags != null ? result.PriceFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>()
                    };
         }
 
@@ -115,7 +116,8 @@ namespace MPC.MIS.Areas.Api.Controllers
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>(),
-                SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>()
+                SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
+                PriceFlags = result.PriceFlags != null ? result.PriceFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>()
             };
         }
         #endregion

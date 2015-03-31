@@ -57,5 +57,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string DefaultCompanyCss { get; set; }
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
+
+        public IEnumerable<SectionFlagDropDown> PriceFlags { get; set; }
     }
 }
