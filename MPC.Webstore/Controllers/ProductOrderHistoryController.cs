@@ -125,6 +125,14 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+               {
+                   ViewBag.res = null;
+               }
+               else
+               {
+                   ViewBag.res = string.Empty;
+               }
         }
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
@@ -155,7 +163,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
-              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
+              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
               UserCookieManager.OrderId = UpdatedOrder;
               //JasonResponseObject obj = new JasonResponseObject();
             //obj.billingAddress = _orderService.GetBillingAddress(159296);
