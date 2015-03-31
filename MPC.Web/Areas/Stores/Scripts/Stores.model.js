@@ -138,7 +138,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
-            phoneNo = ko.observable(specifiedPhoneNo),
+            phoneNo = ko.observable(specifiedPhoneNo).extend({ number: true }),
             isCustomer = ko.observable(specifiedIsCustomer),
             notes = ko.observable(specifiedNotes),
             webMasterTag = ko.observable(specifiedWebMasterTag),
@@ -268,7 +268,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         customCSS = ko.observable(specifiedCustomCSS),
         //Company Domain Copy
         defaultCompanyDomainCopy = ko.observable(),
-        taxLabel = ko.observable(undefined),
+        taxLabel = ko.observable(undefined).extend({ number: true }),
         taxRate = ko.observable(undefined),
         activeBannerSetId = ko.observable().extend({ required: true }),
         // Errors
@@ -278,6 +278,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             webAccessCode: webAccessCode,
             url: url,
             activeBannerSetId: activeBannerSetId,
+            taxLabel: taxLabel,
+            phoneNo: phoneNo
+
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -339,11 +342,6 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isBrokerPaymentRequired: isBrokerPaymentRequired,
             isBrokerCanAcceptPaymentOnline: isBrokerCanAcceptPaymentOnline,
             canUserPlaceOrderWithoutApproval: canUserPlaceOrderWithoutApproval,
-            isAllowRegistrationFromWeb:isAllowRegistrationFromWeb,
-            isDisplayDiscountVoucherCode:isDisplayDiscountVoucherCode,
-            canUserEditProfile:canUserEditProfile,
-            isWhiteLabel:isWhiteLabel,
-            showPrices: showPrices,
             isIncludeVAT: isIncludeVAT,
             includeEmailBrokerArtworkOrderReport: includeEmailBrokerArtworkOrderReport,
             includeEmailBrokerArtworkOrderXML: includeEmailBrokerArtworkOrderXML,
@@ -2496,7 +2494,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                mobile: mobile,
+                fAX: fAX
             }),
             // Is Valid 
             isValid = ko.computed(function () {
