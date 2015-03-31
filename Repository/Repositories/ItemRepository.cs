@@ -2123,8 +2123,8 @@ namespace MPC.Repository.Repositories
 
                     if (OrgMarkup != null)
                     {
-                        markupid = OrgMarkup.MarkUpId;
-                        markupRate = (int)OrgMarkup.MarkUpRate;
+                        markupid = 0;//OrgMarkup.MarkUpId;
+                        markupRate = 0;//(int)OrgMarkup.MarkUpRate;
                     }
                     else
                     {

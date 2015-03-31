@@ -80,5 +80,11 @@ namespace MPC.Models.Common
             get;
             set;
         }
+
+        public string TaxLabel
+        {
+            get;
+            set;
+        }
     }
 }

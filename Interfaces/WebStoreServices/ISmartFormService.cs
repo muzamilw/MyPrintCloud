@@ -26,5 +26,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
         string[] GetContactImageAndCompanyLogo(long contactID);
+
+        List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
     }
 }

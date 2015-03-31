@@ -222,7 +222,7 @@
         } else {
             Id = ko.observable(),
             MethodId = ko.observable(),
-            From1 = ko.observable(),
+            From1 = ko.observable(0),
             To1 = ko.observable(),
             Sheets1 = ko.observable(),
             SheetCost1 = ko.observable(),
