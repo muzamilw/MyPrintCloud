@@ -38,7 +38,7 @@ namespace MPC.Repository.Repositories
         #region Public
 
         /// <summary>
-        /// Get All Chart Of Account for User Domain Key
+        /// Get All Chart Of Account By Organisation
         /// </summary>
         public override IEnumerable<ChartOfAccount> GetAll()
         {

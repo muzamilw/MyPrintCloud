@@ -42,5 +42,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Stock Categories
         /// </summary>
         public IEnumerable<StockCategoryDropDown> StockCategories { get; set; }
+
+        /// <summary>
+        /// Chart Of Accounts
+        /// </summary>
+        public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
     }
 }

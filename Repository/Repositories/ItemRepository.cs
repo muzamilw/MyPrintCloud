@@ -2123,8 +2123,8 @@ namespace MPC.Repository.Repositories
 
                     if (OrgMarkup != null)
                     {
-                        markupid = OrgMarkup.MarkUpId;
-                        markupRate = (int)OrgMarkup.MarkUpRate;
+                        markupid = 0;//OrgMarkup.MarkUpId;
+                        markupRate = 0;//(int)OrgMarkup.MarkUpRate;
                     }
                     else
                     {
@@ -3972,20 +3972,24 @@ namespace MPC.Repository.Repositories
 
                 db.SaveChanges();
                 //ItemId will only be availiable after the save changes...
-             
-                //Copy Attachments
-                ExistingItem.ItemAttachments.ToList().ForEach(itemAttatchments =>
+
+                if (ExistingItem.ItemAttachments != null && ExistingItem.ItemAttachments.Count() > 0)
                 {
-                    sideNumber = sideNumber + 1;
-                    ItemAttachment tblItemAttachmentCloned = Clone<ItemAttachment>(itemAttatchments);
-                    if (tblItemAttachmentCloned != null)
+                    //Copy Attachments
+                    ExistingItem.ItemAttachments.ToList().ForEach(itemAttatchments =>
                     {
-                        tblItemAttachmentCloned.ItemId = 0;
-                        tblItemAttachmentCloned.ItemId = newItem.ItemId;
-                        SaveItemAttathmentPaths(tblItemAttachmentCloned, sideNumber, order_code); // create item attment copy files etc
-                        db.ItemAttachments.Add(tblItemAttachmentCloned);
-                    }
-                });
+                        sideNumber = sideNumber + 1;
+                        ItemAttachment tblItemAttachmentCloned = Clone<ItemAttachment>(itemAttatchments);
+                        if (tblItemAttachmentCloned != null)
+                        {
+                            tblItemAttachmentCloned.ItemId = 0;
+                            tblItemAttachmentCloned.ItemId = newItem.ItemId;
+                            SaveItemAttathmentPaths(tblItemAttachmentCloned, sideNumber, order_code); // create item attment copy files etc
+                            db.ItemAttachments.Add(tblItemAttachmentCloned);
+                        }
+                    });
+                }
+             
 
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 //dbContext.SaveChanges();

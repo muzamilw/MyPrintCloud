@@ -128,6 +128,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MapImageUrl= source.MapImageUrl,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                isWhiteLabel = source.isWhiteLabel,
+               PriceFlagId = source.PriceFlagId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -278,7 +279,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
                 CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
-                isCalculateTaxByService = source.isCalculateTaxByService, 
+                isCalculateTaxByService = source.isCalculateTaxByService,
+                PriceFlagId = source.PriceFlagId
                 };
 
         }
@@ -373,6 +375,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxRate = source.TaxRate,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                 isWhiteLabel = source.isWhiteLabel,
+                PriceFlagId = source.PriceFlagId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =

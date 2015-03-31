@@ -404,10 +404,12 @@
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
+    <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
+    <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
     <Compile Include="ResponseModels\LookupMethodResponse.cs" />
     <Compile Include="ResponseModels\MachineResponseModel.cs" />
     <Compile Include="ResponseModels\MachineSearchResponse.cs" />

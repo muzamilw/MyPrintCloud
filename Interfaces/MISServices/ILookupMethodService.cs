@@ -9,7 +9,7 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ILookupMethodService
     {
-        IEnumerable<LookupMethod> GetAll();
+        LookupMethodListResponse GetAll();
         LookupMethodResponse GetlookupById(long MethodId);
         bool UpdateLookup(LookupMethodResponse response);
         LookupMethod AddLookup(LookupMethodResponse response);
