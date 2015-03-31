@@ -708,34 +708,50 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && x.Type == (int)CostCenterTypes.Delivery)
                 .OrderBy(x => x.Name).ToList();
         }
-        public CostCenterVariablesResponseModel GetCostCenterVariablesTree()
+        public CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id)
         {
             db.Configuration.LazyLoadingEnabled = false;
             CostCenterVariablesResponseModel oResponse = new CostCenterVariablesResponseModel();
-            List<CostCentreType> ccTypes = db.CostCentreTypes.Where(c => c.IsSystem != (short)1 && c.OrganisationId == this.OrganisationId).ToList();
-            if(ccTypes != null)
+            if(id == 1) //Cost Centers
             {
-                foreach (var cc in ccTypes)
+                List<CostCentreType> ccTypes = db.CostCentreTypes.Where(c => c.IsSystem != (short)1 && c.OrganisationId == this.OrganisationId).ToList();
+                if (ccTypes != null)
                 {
-                    cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != (short)1).ToList();
+                    foreach (var cc in ccTypes)
+                    {
+                        cc.CostCentres = db.CostCentres.Where(cv => cv.Type == cc.TypeId && cv.OrganisationId == this.OrganisationId && cv.IsDisabled != (short)1).ToList();
+                    }
+                    oResponse.CostCenterVariables = ccTypes;
                 }
-                oResponse.CostCenterVariables = ccTypes;
             }
-            
-            
-            List<CostCentreVariableType> vTypes = db.CostCentreVariableTypes.ToList();
-            if(vTypes != null)
+            else if(id == 2)//Variables
             {
-                foreach(var v in vTypes)
+                List<CostCentreVariableType> vTypes = db.CostCentreVariableTypes.ToList();
+                if (vTypes != null)
                 {
-                   v.VariablesList = db.CostCentreVariables.Where(cv => cv.CategoryId == v.CategoryId).ToList();
+                    foreach (var v in vTypes)
+                    {
+                        v.VariablesList = db.CostCentreVariables.Where(cv => cv.CategoryId == v.CategoryId).ToList();
+                    }
+                    oResponse.VariableVariables = vTypes;
                 }
-                oResponse.VariableVariables = vTypes;
             }
-            oResponse.ResourceVariables = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
-            oResponse.QuestionVariables = db.CostCentreQuestions.ToList();
-            oResponse.MatricesVariables = db.CostCentreMatrices.Where(c => c.OrganisationId == this.OrganisationId).ToList();
-            oResponse.LookupVariables = db.LookupMethods.Where(c => c.OrganisationId == this.OrganisationId && (c.Type != 0 || c.Type != null)).ToList();
+            else if(id == 3)//Resources
+            {
+                oResponse.ResourceVariables = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
+            }
+            else if (id == 4)//Questions
+            {
+                oResponse.QuestionVariables = db.CostCentreQuestions.ToList();
+            }
+            else if (id == 5)//Matrices
+            {
+                oResponse.MatricesVariables = db.CostCentreMatrices.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            }
+            else if (id == 6)//Lookups
+            {
+                oResponse.LookupVariables = db.LookupMethods.Where(c => c.OrganisationId == this.OrganisationId && (c.Type != 0 || c.Type != null)).ToList();
+            }
 
             return oResponse;
         }

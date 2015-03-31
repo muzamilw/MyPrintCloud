@@ -55,7 +55,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
                     <!-- ko with: supplierpager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
                     <!-- /ko -->
@@ -80,7 +80,7 @@
                 <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
                 <span class="user-subhead">Supplier</span>
             </td>
-            <td data-bind="dateString: createdDate"></td>
+            <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>
             <td>
                 <!-- ko if: status() == 1 -->
                 <span class="label label-success">Active</span>
@@ -91,35 +91,30 @@
             </td>
             <td>
                 <a href="#">
-                    
+
                 </a>
             </td>
             @*<td style="width: 20%;">
-                <a class="table-link" data-bind="click: $root.onEditItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
+                    <a class="table-link" data-bind="click: $root.onEditItem">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </td>*@
         </tr>
     </script>
     @* Filter Template *@
     <script id="filterTemplate" type="text/html">
         <div class="filter-body" id="filter">
-            <div class="filter-block pull-left">
-                <div class="pull-left spanfilterlbl">
-                    Search &nbsp;
+            <form data-bind="submit:$root.getSuppliers">
+                <div class="filter-block pull-right">
+                    <div class="form-group pull-left">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
+                        <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
+                    </div>
                 </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
-                    <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
-                </div>
-                @*<div class="pull-right">
-                    <button type="submit" class="btn btn-primary" data-bind="click:$root.getSuppliers">Search</button>
-                    <button type="reset" class="btn btn-default" data-bind="click:$root.resetSupplierFilterSection">Reset</button>
-                </div>*@
-            </div>
+            </form>
             <div class="clearfix">
             </div>
         </div>
@@ -129,12 +124,11 @@
     }
 </div>
 @section Scripts{
-  
-<script>
-    require(["crm/crm.supplier.view", "common/confirmation.view"]);
-    $(function () {
-        $('#licrm').addClass('active');
-    });
-</script>
 
+    <script>
+        require(["crm/crm.supplier.view", "common/confirmation.view"]);
+        $(function () {
+            $('#licrm').addClass('active');
+        });
+    </script>
 }

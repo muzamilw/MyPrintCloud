@@ -89,6 +89,15 @@ namespace MPC.Implementation.MISServices
                     addressRepository.Update(updatingAddress);
                 }
             }
+            if (address.IsDefaultShippingAddress == true)
+            {
+                addressesToUpdate = addressRepository.GetAll().Where(x => x.IsDefaultShippingAddress == true && x.CompanyId == address.CompanyId && x.TerritoryId == address.TerritoryId);
+                foreach (var updatingAddress in addressesToUpdate)
+                {
+                    updatingAddress.IsDefaultShippingAddress = false;
+                    addressRepository.Update(updatingAddress);
+                }
+            }
         }
         #region Constructor
 

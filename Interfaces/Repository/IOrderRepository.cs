@@ -93,5 +93,13 @@ namespace MPC.Interfaces.Repository
         /// <param name="TemporaryCustomerId"></param>
         /// <returns></returns>
         long GetOrderIdByCompanyId(long CompanyId, OrderStatus orderStatus);
+
+        Estimate GetOrderByOrderID(long OrderID);
+
+       // List<Item> GetItemsByOrderID(long orderID);
+
+        List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
+
+      
     }
 }

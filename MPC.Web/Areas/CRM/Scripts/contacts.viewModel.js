@@ -40,9 +40,6 @@ define("crm/contacts.viewModel",
                 selectedCompanyContact = ko.observable(),
                 // Selected Role Id
                 contactRoleId = ko.observable(true),
-                states = ko.observableArray(),
-                // Selected Role Id
-                contactRoleId = ko.observable(true),
                 // list of state
                 states = ko.observableArray(),
                 // Gets customers for list view

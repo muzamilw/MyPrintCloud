@@ -483,7 +483,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true }),
+            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -1231,7 +1231,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status = ko.observable(specifiedStatus),
             image = ko.observable(specifiedImage),
             url = ko.observable(specifiedUrl),
-            accountOpenDate = ko.observable(specifiedAccountOpenDate),
+            accountOpenDate = ko.observable(specifiedAccountOpenDate ? moment(specifiedAccountOpenDate).toDate() : undefined),
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
@@ -1427,7 +1427,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 result.Status = source.status();
                 //result.ImageBytes = source.image();
                 result.URL = source.url();
-                result.AccountOpenDate = source.accountOpenDate();
+                result.AccountOpenDate = source.accountOpenDate() ? moment(source.accountOpenDate()).format(ist.utcFormat) + 'Z' : undefined;
                 result.AccountManagerId = source.accountManagerId();
                 result.AvatRegNumber = source.avatRegNumber();
                 result.PvatRegReference = source.avatRegReference();
