@@ -2405,15 +2405,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             homeTel2 = ko.observable(specifiedHomeTel2),
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
-<<<<<<< HEAD
-            mobile = ko.observable(specifiedMobile).extend({ number: true }),
-            email = ko.observable(specifiedEmail).extend({ required: true }),
-            fAX = ko.observable(specifiedFAX).extend({ number: true }),
-=======
             mobile = ko.observable(specifiedMobile),
             email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
             fAX = ko.observable(specifiedFAX),
->>>>>>> a0da67d7bcff4ae2df272c9a2a22d7948a286f3a
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
             notes = ko.observable(specifiedNotes),
