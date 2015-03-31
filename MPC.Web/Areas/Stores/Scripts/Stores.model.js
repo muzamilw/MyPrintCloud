@@ -2442,7 +2442,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isApprover = ko.observable(specifiedIsApprover),
             isWebAccess = ko.observable(specifiedisWebAccess),
             isPlaceOrder = ko.observable(specifiedisPlaceOrder),
-            creditLimit = ko.observable(specifiedCreditLimit),
+            creditLimit = ko.observable(specifiedCreditLimit).extend({ number: true }),
             isArchived = ko.observable(specifiedisArchived),
             contactRoleId = ko.observable(specifiedContactRoleId),
             territoryId = ko.observable(specifiedTerritoryId),
@@ -2497,8 +2497,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 bussinessAddressId: bussinessAddressId,
                 password: password,
                 confirmPassword: confirmPassword,
-                mobile: mobile,
-                fAX: fAX
+                creditLimit: creditLimit
             }),
             // Is Valid 
             isValid = ko.computed(function () {
