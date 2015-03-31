@@ -22,8 +22,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FlagId = source.FlagId,
                 SystemSiteId = source.SystemSiteId
 
-
-
             };
 
         }
@@ -73,7 +71,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 GuilotinePtv = source.GuilotinePtv == null ? null : source.GuilotinePtv.Select(g=>g.CreateFrom()),
                 MeterPerHourLookup = source.MeterPerHourLookup == null ? null : source.MeterPerHourLookup.CreateFrom(),
                 PerHourLookup = source.PerHourLookup == null ? null : source.PerHourLookup.CreateFrom(),
-                SpeedWeightLookup = source.SpeedWeightLookup == null ? null : source.SpeedWeightLookup.CreateFrom()
+                SpeedWeightLookup = source.SpeedWeightLookup == null ? null : source.SpeedWeightLookup.CreateFrom(),
+                CurrencySymbol = source.CurrencySymbol
 
 
 
@@ -290,7 +289,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         //    };
         //}
 
-
+        
 
     }
 }

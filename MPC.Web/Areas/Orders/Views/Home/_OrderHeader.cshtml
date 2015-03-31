@@ -26,7 +26,7 @@
                     <label class="control-label text-right tooltip-float">Attention</label>
                 </div>
 
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
                     <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId"></select>
                     <span class="help-block text-right"></span>
                 </div>
@@ -36,7 +36,7 @@
 
                     <label class="control-label text-right tooltip-float">Address Name</label>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-5" data-bind="if: $root.isCompanyBaseDataLoaded">
                     <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
@@ -233,7 +233,7 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
                                 <li><a href="#" data-bind="click: $root.onAddCostCenter">Cost Center</a></li>
-                                <li><a href="#">Inventory Item</a></li>
+                                <li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>
                             </ul>
                         </div>
                     </div>
@@ -291,7 +291,7 @@
     @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")
-
+    @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
 
 
 

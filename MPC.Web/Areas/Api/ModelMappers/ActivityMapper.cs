@@ -59,6 +59,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsCustomerType = source.Company != null ? source.Company.IsCustomer : 1
             };
         }
+        
         /// <summary>
         /// Create From Domain Model
         /// </summary>
@@ -73,7 +74,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FlagId = source.FlagId,
             };
         }
-
 
         #endregion
     }

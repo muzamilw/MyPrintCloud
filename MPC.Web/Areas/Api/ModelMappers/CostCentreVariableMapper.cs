@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                PropertyType = source.PropertyType,
                VariableDescription = source.VariableDescription,
                VariableValue = source.VariableValue,
+               FixedVariables = GetVariableString(source)
             };
         }
 
@@ -40,6 +41,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableDescription = source.VariableDescription,
                 VariableValue = source.VariableValue,
             };
+        }
+
+        private static string GetVariableString(MPC.Models.DomainModels.CostCentreVariable source)
+        {
+           // string sv = "{SystemVariable, ID=&dquo;" + source.VarId + "&dquo;,Name=&dquo;" + source.Name + "&dquo;}";
+            string sv = string.Format("{SystemVariable, \"ID={0}\",,Name=\"{1}\"}", source.VarId, source.Name);
+            return sv;
+            //"\"" + value + "\"";
         }
     }
 }

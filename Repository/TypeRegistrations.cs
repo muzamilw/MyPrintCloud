@@ -119,6 +119,8 @@ namespace MPC.Repository
             unityContainer.RegisterType<ICompanyBannerSetRepository, CompanyBannerSetRepository>();
             unityContainer.RegisterType<ILookupMethodRepository, LookupMethodRepository>();
             unityContainer.RegisterType<ICategoryTerritoryRepository, CategoryTerritoryRepository>();
+            unityContainer.RegisterType<IGoodRecieveNoteRepository, GoodRecieveNoteRepository>();
+            unityContainer.RegisterType<IPurchaseRepository, PurchaseRepository>();
 
         }
     }

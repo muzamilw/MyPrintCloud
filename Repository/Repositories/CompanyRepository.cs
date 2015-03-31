@@ -197,6 +197,8 @@ namespace MPC.Repository.Repositories
                         c.LinkedinURL,
                         c.isCalculateTaxByService,
                         c.isWhiteLabel,
+                        c.TaxLabel,
+                        c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
@@ -323,6 +325,8 @@ namespace MPC.Repository.Repositories
                         LinkedinURL = c.LinkedinURL,
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
+                        TaxLabel = c.TaxLabel,
+                        TaxRate = c.TaxRate,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -1566,24 +1570,24 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                bool isCreateTemporaryCompany = true;
-                if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
-                {
-                    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
-                    if (ContactCompany != null)
-                    {
-                        isCreateTemporaryCompany = false;
-                        return ContactCompany.CompanyId;
-                    }
-                    else
-                    {
-                        isCreateTemporaryCompany = true;
-                    }
+                //bool isCreateTemporaryCompany = true;
+                //if ((int)customerType == (int)CompanyTypes.TemporaryCustomer)
+                //{
+                //    Company ContactCompany = db.Companies.Where(c => c.TypeId == (int)customerType && c.OrganisationId == OrganisationId).FirstOrDefault();
+                //    if (ContactCompany != null)
+                //    {
+                //        isCreateTemporaryCompany = false;
+                //        return ContactCompany.CompanyId;
+                //    }
+                //    else
+                //    {
+                //        isCreateTemporaryCompany = true;
+                //    }
 
-                }
+                //}
 
-                if (isCreateTemporaryCompany)
-                {
+                //if (isCreateTemporaryCompany)
+                //{
                     Address Contactaddress = null;
 
                     CompanyTerritory ContactTerritory = null;
@@ -1689,11 +1693,11 @@ namespace MPC.Repository.Repositories
                     }
 
                     return customerID;
-                }
-                else
-                {
-                    return 0;
-                }
+                //}
+                //else
+                //{
+                //    return 0;
+                //}
             }
             catch (Exception ex)
             {
@@ -1960,7 +1964,8 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId;
+                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
+                         (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =
@@ -4814,6 +4819,18 @@ namespace MPC.Repository.Repositories
             {
                 File.Delete(Path);
             }
+        }
+        public void DeleteStoryBySP(long StoreID)
+        {
+            try
+            {
+                db.usp_DeleteContactCompanyByID(Convert.ToInt32(StoreID));
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

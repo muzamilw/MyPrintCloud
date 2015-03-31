@@ -13,6 +13,8 @@
     
     int x = 6;
    // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
+    string Result = ViewBag.res;
+    
 }
 
 <div class="content_area container">
@@ -110,27 +112,28 @@
     fillEmptyRows: false,
     headerStyle: "WebGridheader",
     rowStyle: "gridViewRowStyleForWebGrid",
-    alternatingRowStyle:"gridViewRowStyleForWebGrid",   
+    alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
     grid.Column("OrderCode","OrderCode"),
     grid.Column("YourRef","Your PO reference"),
-    grid.Column("SOrderDate","Order Date	"),
+    grid.Column("SOrderDate","Order Date"),
     grid.Column("SOrderDeliveryDate","Estimated Delivery"),
     grid.Column("StatusName","Status"),
+      grid.Column("Download",header:Result, format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+      {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
+
+      }</text>),
      grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
      </text>),
    
-    
-   grid.Column("Download", format:@<text>@if (UserCookieManager.StoreMode == (int)StoreMode.Corp)
-   {<button id="Download" value="Download" style="height: 28px; width: 28px; background-image: url('Content/Images/Glass.png');" class="rounded_corners" onclick="DownLoad(@item.OrderID)" />
-
-   }</text>),
+   @*grid.Column("Download",format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp){*@
+ 
     
     grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
    </text>),
     
-    }
+          }
     
     )
                     </div>

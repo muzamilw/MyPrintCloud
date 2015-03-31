@@ -29,5 +29,6 @@ namespace MPC.Interfaces.Repository
         List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
         Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts);
         bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
+        string[] GetContactImageAndCompanyLogo(long contactID);
     }
 }

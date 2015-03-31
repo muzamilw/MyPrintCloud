@@ -381,7 +381,7 @@ namespace MPC.Implementation.WebStoreServices
                 bool isUpdateOrder = _ItemRepository.isTemporaryOrder(OrderId, CompanyId, ContactId);
                 if (isUpdateOrder)
                 {
-                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
+                    long orderId = _ItemRepository.UpdateTemporaryCustomerOrderWithRealCustomer(TemporaryCompanyId, CompanyId, ContactId, OrderId, OrganisationId, out orderAllItemsAttatchmentsListToBeRemoved, out clonedTempldateFilesList);
                     if (orderId > 0)
                     {
                         RemoveItemAttacmentPhysically(orderAllItemsAttatchmentsListToBeRemoved);
@@ -509,7 +509,7 @@ namespace MPC.Implementation.WebStoreServices
                 theDoc.Clear();
                 theDoc.Dispose();
 
-                CreatAndSaveThumnail(oImgstream, url);
+                CreatAndSaveThumnail(oImgstream, url,"");
 
             }
         }
@@ -517,15 +517,16 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _ItemRepository.SaveDesignAttachments(templateID, itemID, customerID, DesignName, caller, organisationId);
         }
-        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath)
+        public bool CreatAndSaveThumnail(Stream oImgstream,string sideThumbnailPath,string itemId)
         {
             try
             {
                 string orgPath = sideThumbnailPath;
                 string baseAddress = sideThumbnailPath.Substring(0, sideThumbnailPath.LastIndexOf('\\'));
                 sideThumbnailPath = Path.GetFileNameWithoutExtension(sideThumbnailPath) + "Thumb.png";
+               
 
-                sideThumbnailPath = baseAddress + "\\" + sideThumbnailPath;
+                sideThumbnailPath = baseAddress + "\\" + itemId  +sideThumbnailPath;
 
                 Image origImage = null;
                 if (oImgstream != null)

@@ -47,12 +47,16 @@ define("lookupMethods/lookupMethods.view",
                 bindingRoot = $("#divlookupMethodBinding")[0],
                 initializeLabelPopovers = function () {
                     // ReSharper disable UnknownCssClass
+                    $('[data-toggle="popover"]').popover();
                     $('.bs-example-tooltips a').popover();
                     $('.bs-example-tooltips a').click(function () {
                         $('.bs-example-tooltips a').not(this).popover('hide'); //all but this
                     });
                     $("a").click(function () {
                         $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                    $(".dd-handle").click(function () {
+                        $('[data-toggle="popover"]').popover('hide');
                     });
                     $("button").click(function () {
                         $('.bs-example-tooltips a').not(this).popover('hide');

@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
                 
             //}
            
-            if (UserCookieManager.StoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp && _myClaimHelper.loginContactRoleID()== (int)Roles.Adminstrator)
             {
                 ordersList = _orderService.GetAllCorpOrders(_myClaimHelper.loginContactCompanyID(), status, model.FromData, model.ToDate, model.poSearch);
             }
@@ -107,6 +107,14 @@ namespace MPC.Webstore.Controllers
                 //lblTxtOfRest.Visible = true;
 
             }
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            {
+                ViewBag.res = null;
+            }
+            else
+            {
+                ViewBag.res = string.Empty;
+            }
              if (ordersList == null || ordersList.Count == 0)
                 {
                     TempData["Status"] = "No Records Found";
@@ -117,6 +125,14 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+               {
+                   ViewBag.res = null;
+               }
+               else
+               {
+                   ViewBag.res = string.Empty;
+               }
         }
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
@@ -147,7 +163,7 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public JsonResult OrderResult(long OrderId)
         {
-              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0);
+              long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
               UserCookieManager.OrderId = UpdatedOrder;
               //JasonResponseObject obj = new JasonResponseObject();
             //obj.billingAddress = _orderService.GetBillingAddress(159296);

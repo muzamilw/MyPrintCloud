@@ -17,5 +17,8 @@ namespace MPC.Interfaces.Repository
         void InsertOrganisation(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,bool isCorpStore,ExportSets Sets);
         Organisation GetCompanySiteDataWithTaxes();
 
+        void DeleteOrganisationBySP(long OrganisationID);
+
+        //Estimate GetOrderByOrderID(long OrderID);
     }
 }

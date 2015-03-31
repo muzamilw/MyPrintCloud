@@ -38,7 +38,7 @@ namespace MPC.Interfaces.Repository
         double CalculatePercentage(double itemValue, double percentageValue);
         List<GetCategoryProduct> GetRetailOrCorpPublishedProducts(long ProductCategoryID);
 
-        ItemStockOption GetFirstStockOptByItemID(int ItemId, int CompanyId);
+        ItemStockOption GetFirstStockOptByItemID(long ItemId, long CompanyId);
 
         List<ItemPriceMatrix> GetPriceMatrixByItemID(int ItemId);
         Item CloneItem(long itemID, long RefItemID, long OrderID, long CustomerID, long TemplateID, long StockID, List<AddOnCostsCenter> SelectedAddOnsList, bool isSavedDesign, bool isCopyProduct, long objContactID, long OrganisationID);
@@ -74,7 +74,7 @@ namespace MPC.Interfaces.Repository
 
         double GetMinimumProductValue(long itemId);
 
-        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID, out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
+        long UpdateTemporaryCustomerOrderWithRealCustomer(long TemporaryCustomerID, long realCustomerID, long realContactID, long replacedOrderdID,long OrganisationId ,out List<ArtWorkAttatchment> orderAllItemsAttatchmentsListToBeRemoved, out List<Template> clonedTemplateToRemoveList);
 
         /// <summary>
         /// Get Items For Widgets 
@@ -118,7 +118,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="Quantity"></param>
         /// <returns></returns>
         ItemSection UpdateItemFirstSectionByItemId(long ItemId, int Quantity);
-        Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code);
+        Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId);
 
 
         /// <summary>

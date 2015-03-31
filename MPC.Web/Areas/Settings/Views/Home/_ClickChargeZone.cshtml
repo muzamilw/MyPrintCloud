@@ -81,47 +81,46 @@
         <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
                 <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From1" style="float:right;"></label>
             </div>
-        <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
-            <label for="txtCompanyName" class="control-label text-right tooltip-float" style="float:right;">To</label>
+        <div class="aligndivs" style="text-align:center;width:40px;display:inline;">
+            <label for="txtCompanyName" class="control-label tooltip-float marginR10" >To</label>
+        </div>
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric: To1 , settings:{mDec:0},event:{ change: function(){ $root.onChangeToValue('1');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric: To1 , settings:{mDec:0}"  placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets1, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets1, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost1, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost1, settings:{mDec:2}" placeholder="0" style="width:68px;">
-        </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice1, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice1, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
 
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+    
+        <div class="aligndivsFisrt" >
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From2" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To2, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To2, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('2');}}" placeholder="0" >
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets2, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets2, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost2, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost2, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice2, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice2, settings:{mDec:2}" placeholder="0" >
         </div>
 
 
@@ -129,318 +128,291 @@
 
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From3" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To3, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To3, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('3');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets3, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets3, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost3, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost3, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice3, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice3, settings:{mDec:2}" placeholder="0" >
         </div>
 
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From4" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To4, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To4, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('4');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets4, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets4, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost4, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost4, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice4, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice4, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From5" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To5, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To5, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('5');}}" placeholder="0" style="width:68px;">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets5, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets5, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost5, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost5, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice5, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice5, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From6" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To6, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To6, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('6');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets6, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets6, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost6, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost6, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice6, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice6, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From7" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To7, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To7, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('7');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets7, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets7, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost7, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost7, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice7, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice7, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From8" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To8, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To8, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('8');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets8, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets8, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost8, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost8, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice8, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice8, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From9" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To9, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To9, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('9');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets9, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets9, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost9, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost9, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice9, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice9, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
 
 
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From10" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To10, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To10, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('10');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets10, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets10, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost10, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost10, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice10, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice10, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From11" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To11, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To11, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('11');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets11, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets11, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost11, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost11, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice11, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice11, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From12" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To12, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To12, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('12');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets12, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets12, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost12, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost12, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice12, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice12, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
     <div class="form-group">
-
-
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From13" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To13, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To13, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('13');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets13, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets13, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost13, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost13, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice13, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice13, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From14" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To14, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To14, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('14');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets14, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets14, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost14, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost14, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice14, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice14, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 
     <div class="form-group">
-        <div class="aligndivs" style="text-align:right;width:200px;display:inline;">
-        </div>
-        <div class="aligndivs" style="text-align:center;width:25px;display:inline;">
+        <div class="aligndivsFisrt">
             <label for="txtCompanyName" class="control-label text-right tooltip-float" data-bind="text:From15" style="float:right;"></label>
         </div>
         <div class="aligndivs" style="text-align:center;width:20px;display:inline;">
         </div>
-        <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:To15, settings:{mDec:0}" placeholder="0" style="width:68px;">
+        <div class="aligndivs marginR7">
+            <input type="text" class="form-control" data-bind="autoNumeric:To15, settings:{mDec:0}, event:{change:function(){$root.onChangeToValue('15');}}" placeholder="0">
         </div>
         <div class="aligndivs">
-            <input type="text" class="form-control" data-bind="autoNumeric:Sheets15, settings:{mDec:0}" placeholder="0" style="width:68px;">
+            <input type="text" class="form-control" data-bind="autoNumeric:Sheets15, settings:{mDec:0}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetCost15, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetCost15, settings:{mDec:2}" placeholder="0" >
         </div>
-        <div class="aligndivs">
-            <span class="input-group-addon" style="width:40px;display:inline;float:left;height:34px;padding:10px;margin-left:0px;">$</span>
-            <input type="text" class="form-control" data-bind="autoNumeric:SheetPrice15, settings:{mDec:2}" placeholder="0" style="width:68px;">
+        <div class="aligndivsCurr">
+            <span class="input-group-addon" style="float:left;padding:10px;" data-bind="text:$root.CurrencySymbol"></span>
+            <input type="text" class="form-control textboxwidth" data-bind="autoNumeric:SheetPrice15, settings:{mDec:2}" placeholder="0" >
         </div>
     </div>
 

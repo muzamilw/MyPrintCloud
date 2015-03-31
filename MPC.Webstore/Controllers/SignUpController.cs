@@ -48,7 +48,7 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             if (!string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppId) && !string.IsNullOrEmpty(StoreBaseResopnse.Company.facebookAppKey))
             {
@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             try
             {
@@ -133,7 +133,7 @@ namespace MPC.Webstore.Controllers
                     {
                         if (_myCompanyService.GetContactByFirstName(model.FirstName) != null)
                         {
-                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.StoreId) + model.Email;
+                            ViewBag.Message = Utils.GetKeyValueFromResourceFile("DefaultShippingAddress", UserCookieManager.WBStoreId) + model.Email;
                             return View();
                         }
                         else
@@ -206,7 +206,7 @@ namespace MPC.Webstore.Controllers
             if (isSocial == "1")
                 TwitterScreenName = model.FirstName;
 
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
             if (StoreBaseResopnse.Organisation != null)
             {
@@ -228,24 +228,24 @@ namespace MPC.Webstore.Controllers
                     CompanyContact loginUser = _myCompanyService.GetContactByEmail(model.Email, OID);
 
                     UserCookieManager.isRegisterClaims = 1;
-                    UserCookieManager.ContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
-                    UserCookieManager.ContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
+                    UserCookieManager.WEBContactFirstName = model.FirstName == "First Name" ? "" : model.FirstName;
+                    UserCookieManager.WEBContactLastName = model.LastName == "Last Name" ? "" : model.LastName;
                     UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
                     UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
 
-                    UserCookieManager.Email = model.Email;
+                    UserCookieManager.WEBEmail = model.Email;
 
-                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.StoreId);
+                    Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
                     // work for email to sale manager
 
                     isContactCreate = true;
 
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(0, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.OrganisationID);
+                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
 
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreID = UserCookieManager.StoreId;
-                    Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
+                    cep.StoreID = UserCookieManager.WBStoreId;
+                    Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
                         cep.AddressID = CompanyDefaultAddress.AddressId;
@@ -261,7 +261,7 @@ namespace MPC.Webstore.Controllers
 
                     _campaignService.emailBodyGenerator(RegistrationCampaign, cep, loginUser, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
-                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.OrganisationID, 0, StoreMode.Retail, UserCookieManager.StoreId, EmailOFSM);
+                    _campaignService.SendEmailToSalesManager((int)Events.NewRegistrationToSalesManager, (int)loginUser.ContactId, (int)loginUser.CompanyId, 0, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
 
                     if (OrderId > 0)
                     {
@@ -278,7 +278,9 @@ namespace MPC.Webstore.Controllers
                 {
                     isContactCreate = false;
                 }
-
+                StoreBaseResopnse = null;
+                Response.Redirect("/");
+                return;
             }
             else
             {
@@ -287,18 +289,18 @@ namespace MPC.Webstore.Controllers
                 CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(cid, contact, TwitterScreenName);
 
                 UserCookieManager.isRegisterClaims = 1;
-                UserCookieManager.ContactFirstName = model.FirstName;
-                UserCookieManager.ContactLastName = model.LastName;
+                UserCookieManager.WEBContactFirstName = model.FirstName;
+                UserCookieManager.WEBContactLastName = model.LastName;
                 UserCookieManager.ContactCanEditProfile = CorpContact.CanUserEditProfile ?? false;
                 UserCookieManager.ShowPriceOnWebstore = CorpContact.IsPricingshown ?? true;
 
-                UserCookieManager.Email = model.Email;
+                UserCookieManager.WEBEmail = model.Email;
 
                 cep.ContactId = (int)CorpContact.ContactId;
                 cep.CompanyId = (int)CorpContact.CompanyId;
                 cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                cep.StoreID = UserCookieManager.StoreId;
-                Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.StoreId);
+                cep.StoreID = UserCookieManager.WBStoreId;
+                Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                 if (CompanyDefaultAddress != null)
                 {
                     cep.AddressID = CompanyDefaultAddress.AddressId;
@@ -308,19 +310,19 @@ namespace MPC.Webstore.Controllers
                     cep.AddressID = 0;
                 }
 
-                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.StoreId);
+                Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.WBStoreId);
 
                 SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 _campaignService.emailBodyGenerator(RegistrationCampaign, cep, CorpContact, StoreMode.Corp, (int)StoreBaseResopnse.Company.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");
 
                 int OrganisationId = (int)StoreBaseResopnse.Company.OrganisationId;
-                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.StoreId, OrganisationId);
-
+                _campaignService.SendPendingCorporateUserRegistrationEmailToAdmins((int)CorpContact.ContactId, (int)UserCookieManager.WBStoreId, OrganisationId);
+                StoreBaseResopnse = null;
+                ViewBag.Message = "You are successfully registered on store but your account does not have the web access enabled. Please contact your Order Manager.";
+                return;
             }
-            StoreBaseResopnse = null;
-            Response.Redirect("/");
-            return;
+           
         }
 
         //public void PostLoginCustomerAndCardChanges(out long replacedWithOrderID)

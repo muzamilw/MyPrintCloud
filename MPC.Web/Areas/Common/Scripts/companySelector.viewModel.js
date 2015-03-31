@@ -15,6 +15,8 @@ define("common/companySelector.viewModel",
                     companyDialogFilter = ko.observable(),
                     // company Dialog is Customer Filter
                     companyDialogStoreTypeFilter = ko.observable(),
+                    // Is Opened from Order
+                    isOpenedFromOrder = ko.observable(),
                     // Pagination For Press Dialog
                     companyDialogPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, companies)),
                     // Search Stock Items
@@ -41,16 +43,21 @@ define("common/companySelector.viewModel",
                         companyDialogFilter(undefined);
                         // Reset Category
                         companyDialogStoreTypeFilter(undefined);
+                        // Reset Opened From Order Flag
+                        isOpenedFromOrder(undefined);
                     },
                     // Show
-                    show = function (afterSelectCallback, storeType) {
+                    show = function (afterSelectCallback, storeType, isForOrder) {
                         resetCompanies();
                         view.showDialog();
                         if (storeType) {
                             companyDialogStoreTypeFilter(storeType);
                         }
-                        
+
+                        isOpenedFromOrder(isForOrder || undefined);
+
                         afterSelect = afterSelectCallback;
+                        getCompanies();
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -84,6 +91,7 @@ define("common/companySelector.viewModel",
                             PageSize: companyDialogPager().pageSize(),
                             PageNo: companyDialogPager().currentPage(),
                             IsCustomerType: companyDialogStoreTypeFilter(),
+                            ForOrder: isOpenedFromOrder()
                         }, {
                             success: function (data) {
                                 companies.removeAll();

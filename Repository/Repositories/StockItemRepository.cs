@@ -72,7 +72,7 @@ namespace MPC.Repository.Repositories
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
                      (stockItem.AlternateName.Contains(request.SearchString))) && (
                          (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
-                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && stockItem.Region==request.Region;
+                         (!request.SubCategoryId.HasValue || request.SubCategoryId == stockItem.SubCategoryId)) && stockItem.OrganisationId == OrganisationId && ((string.IsNullOrEmpty(request.Region) || stockItem.Region == request.Region));
 
             IEnumerable<StockItem> stockItems = request.IsAsc
                ? DbSet.Where(query)
@@ -88,6 +88,33 @@ namespace MPC.Repository.Repositories
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };
         }
 
+        /// <summary>
+        /// Get Stock Items In orders 
+        /// </summary>
+        public InventorySearchResponse GetStockItemsInOrders(InventorySearchRequestModel request)
+        {
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            Expression<Func<StockItem, bool>> query =
+                stockItem =>
+                    (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
+                     (stockItem.AlternateName.Contains(request.SearchString))) && (
+                         (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId ;
+
+            IEnumerable<StockItem> stockItems = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(stockItemOrderByClause[request.InventoryOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(stockItemOrderByClause[request.InventoryOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+            return new InventorySearchResponse { StockItems = stockItems, TotalCount = DbSet.Count(query) };   
+        }
         /// <summary>
         /// Get Items For Product
         /// </summary>

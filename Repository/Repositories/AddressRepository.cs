@@ -368,8 +368,22 @@ namespace MPC.Repository.Repositories
                 Address.Extension2 = Model.Extension2;
                 Address.GeoLatitude = Model.GeoLatitude;
                 Address.GeoLongitude = Model.GeoLongitude;
-                Address.CountryId = Model.CountryId;
-                Address.StateId = Model.StateId;
+                if (Model.CountryId == 0)
+                {
+                    Address.CountryId = null;
+                }
+                else {
+
+                    Address.CountryId = Model.CountryId;
+                }
+                if (Model.StateId == 0)
+                {
+                    Address.StateId = null;
+                }
+                else
+                {
+                    Address.StateId = Model.StateId;
+                }
                 db.Addesses.Attach(Address);
                 db.Entry(Address).State = EntityState.Modified;
                 if (db.SaveChanges() > 0)
@@ -424,16 +438,25 @@ namespace MPC.Repository.Repositories
                 AddAddress.Extension2 = Address.Extension2;
                 AddAddress.GeoLatitude = Address.GeoLatitude;
                 AddAddress.GeoLongitude = Address.GeoLongitude;
-                
-                AddAddress.CountryId = Address.CountryId;
-              
-                AddAddress.StateId = Address.StateId;
-                AddAddress.CompanyId = Address.CompanyId;
-                db.Addesses.Add(AddAddress);
-
-                if (db.SaveChanges() > 0)
+                if (Address.CountryId == 0)
+                {
+                    AddAddress.CountryId = null;
+                }
+                else {
+                    AddAddress.CountryId = Address.CountryId;
+                }
+                if (Address.StateId == 0)
                 {
 
+                    AddAddress.StateId = null;
+                }
+                else {
+                    AddAddress.StateId = Address.StateId;
+                }
+                AddAddress.CompanyId = Address.CompanyId;
+                db.Addesses.Add(AddAddress);
+                if (db.SaveChanges() > 0)
+                {
                     Result = true;
                 }
             }
