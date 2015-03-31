@@ -138,7 +138,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
-            phoneNo = ko.observable(specifiedPhoneNo).extend({ number: true }),
+            phoneNo = ko.observable(specifiedPhoneNo),
             isCustomer = ko.observable(specifiedIsCustomer),
             notes = ko.observable(specifiedNotes),
             webMasterTag = ko.observable(specifiedWebMasterTag),
@@ -268,8 +268,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         customCSS = ko.observable(specifiedCustomCSS),
         //Company Domain Copy
         defaultCompanyDomainCopy = ko.observable(),
-        taxLabel = ko.observable(undefined).extend({ number: true }),
-        taxRate = ko.observable(undefined),
+        taxLabel = ko.observable(undefined),
+        taxRate = ko.observable(undefined).extend({ number: true }),
         activeBannerSetId = ko.observable().extend({ required: true }),
         // Errors
         errors = ko.validation.group({
@@ -278,9 +278,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             webAccessCode: webAccessCode,
             url: url,
             activeBannerSetId: activeBannerSetId,
-            taxLabel: taxLabel,
-            phoneNo: phoneNo
-
+            taxRate: taxRate
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -1379,7 +1377,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             countryName = ko.observable(specifiedCountryName),
             postCode = ko.observable(specifiedPostCode),
             fax = ko.observable(specifiedFax),
-            email = ko.observable(specifiedEmail),
+            email = ko.observable(specifiedEmail).extend({ email: true }),
             uRL = ko.observable(specifiedURL),
             tel1 = ko.observable(specifiedTel1),
             tel2 = ko.observable(specifiedTel2),
@@ -1392,8 +1390,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isArchived = ko.observable(specifiedisArchived),
             territoryId = ko.observable(specifiedTerritoryId).extend({ required: true }),
             territoryName = ko.observable(specifiedTerritoryName),
-            geoLatitude = ko.observable(specifiedGeoLatitude),
-            geoLongitude = ko.observable(specifiedGeoLongitude),
+            geoLatitude = ko.observable(specifiedGeoLatitude).extend({ number: true }),
+            geoLongitude = ko.observable(specifiedGeoLongitude).extend({ number: true }),
             isPrivate = ko.observable(specifiedisPrivate),
             isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
@@ -1405,7 +1403,11 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 addressName: addressName,
                 territoryId: territoryId,
                 address1: address1,
-                city: city
+                city: city,
+                geoLatitude: geoLatitude,
+                geoLongitude: geoLongitude,
+                email: email,
+                fax: fax
             }),
             // Is Valid 
             isValid = ko.computed(function () {
