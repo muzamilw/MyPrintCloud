@@ -55,6 +55,21 @@ namespace MPC.MIS.Areas.Api.Models
         /// Default Company Css
         /// </summary>
         public string DefaultCompanyCss { get; set; }
+
+        /// <summary>
+        /// Organisation Id
+        /// </summary>
+        public long? OrganisationId { get; set; }
+
+        /// <summary>
+        /// For Public store use Retail Store Name Key that exist in web config
+        /// </summary>
+        public string RetailStoreNameWebConfigValue { get; set; }
+
+        /// <summary>
+        /// For Private store use Corporate Store Name Key that exist in web config
+        /// </summary>
+        public string CorporateStoreNameWebConfigValue { get; set; }
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }
