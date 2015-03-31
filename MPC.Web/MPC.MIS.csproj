@@ -3014,7 +3014,7 @@
     <Content Include="Views\Shared\Product\_SelectStock.cshtml" />
     <Content Include="Views\Shared\Product\_SignatureEdit.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditCMYKColors.cshtml" />
-    <Content Include="Views\Shared\Widgets\_AddEditDeliveryCarriers.cshtml" />
+    <Content Include="Areas\Settings\Views\Home\_AddEditDeliveryCarriers.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddEditTerritory.cshtml" />
     <Content Include="Views\Shared\Widgets\_AddSet.cshtml" />
     <Content Include="Views\Shared\Widgets\_EditBanner.cshtml" />
