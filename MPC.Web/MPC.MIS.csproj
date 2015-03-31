@@ -342,6 +342,7 @@
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
@@ -453,6 +454,7 @@
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
+    <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
@@ -3077,6 +3079,7 @@
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />

@@ -253,7 +253,7 @@ define("order/order.viewModel",
                     editItem = function (item) {
                         itemCodeHeader(item.code());
                         selectedProduct(item);
-                        calculateSectionChargeTotal();
+                        // calculateSectionChargeTotal();
                         openItemDetail();
                     },
                     // Open Item Detail
@@ -262,13 +262,29 @@ define("order/order.viewModel",
                         view.initializeLabelPopovers();
                     },
                     // Calculates Section Charges 
-                    calculateSectionChargeTotal = function () {
-                        _.each(selectedProduct().itemSections(), function (item) {
-                            baseCharge1Total(baseCharge1Total() + (item.baseCharge1() !== undefined && item.baseCharge1() !== "" ? item.baseCharge1() : 0));
-                            baseCharge2Total(baseCharge2Total() + (item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0));
-                            baseCharge3Total(baseCharge3Total() + (item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0));
-                        });
-                    },
+                    calculateSectionChargeTotal = ko.computed(function () {
+                        if (selectedProduct().itemSections().length > 0) {
+                            baseCharge1Total(0);
+                            baseCharge2Total(0);
+                            baseCharge3Total(0);
+                            _.each(selectedProduct().itemSections(), function (item) {
+                                if (item.qty1Profit() === undefined || item.qty1Profit() === "") {
+                                    item.qty1Profit(0);
+                                }
+                                if (item.qty2Profit() === undefined || item.qty2Profit() === "") {
+                                    item.qty2Profit(0);
+                                }
+                                if (item.qty3Profit() === undefined || item.qty3Profit() === "") {
+                                    item.qty3Profit(0);
+                                }
+
+                                baseCharge1Total(parseInt(baseCharge1Total()) + parseInt((item.baseCharge1() !== undefined && item.baseCharge1() !== "" ? item.baseCharge1() : 0)) + parseInt(item.qty1Profit()));
+                                baseCharge2Total(parseInt(baseCharge2Total()) + parseInt((item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0)) + parseInt(item.qty2Profit()));
+                                baseCharge3Total(parseInt(baseCharge3Total()) + parseInt((item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0)) + parseInt(item.qty3Profit()));
+                            });
+                        }
+
+                    }),
                     // Close Item Detail
                     closeItemDetail = function () {
                         itemCodeHeader('');
@@ -420,6 +436,54 @@ define("order/order.viewModel",
                         // Get Base Data
                         getBaseData();
                     },
+                    onChangeQty1MarkUpId = function (qty1Markup) {
+                        if (selectedProduct().qty1MarkUpId1() !== undefined) {
+                            var markup = _.find(markups(), function (item) {
+                                return item.MarkUpId === selectedProduct().qty1MarkUpId1();
+                            });
+                            if (markup) {
+                                var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge1Total());
+                                selectedProduct().qty1NetTotal(markupValue);
+                            }
+
+                        } else {
+                            selectedProduct().qty1NetTotal(0);
+                        }
+
+                    },
+                     onChangeQty2MarkUpId = function (qtyMarkup) {
+
+                         if (selectedProduct().qty2MarkUpId2() !== undefined) {
+                             var markup = _.find(markups(), function (item) {
+                                 return item.MarkUpId === selectedProduct().qty2MarkUpId2();
+                             });
+                             if (markup) {
+                                 var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge2Total());
+                                 selectedProduct().qty2NetTotal(markupValue);
+                             }
+
+                         } else {
+                             selectedProduct().qty2NetTotal(0);
+                         }
+                     },
+                      onChangeQty3MarkUpId = function (qtyMarkup) {
+
+                          if (selectedProduct().qty3MarkUpId3() !== undefined) {
+                              var markup = _.find(markups(), function (item) {
+                                  return item.MarkUpId === selectedProduct().qty3MarkUpId3();
+                              });
+                              if (markup) {
+                                  var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge3Total());
+                                  selectedProduct().qty3NetTotal(markupValue);
+                              }
+
+                          } else {
+                              selectedProduct().qty3NetTotal(0);
+                          }
+
+
+                      },
+
                     // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -730,7 +794,9 @@ define("order/order.viewModel",
                         });
                     },
                     //Update Items Data On Item Selection
+                    //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function (item) {
+
                         toastr.success(item.id());
                     },
                     onCloseProductFromRetailStore = function () {
@@ -1058,6 +1124,9 @@ define("order/order.viewModel",
                     categoryPager: categoryPager,
                     inventorySearchFilter: inventorySearchFilter,
                     getInventoriesListItems: getInventoriesListItems,
+                    onChangeQty1MarkUpId: onChangeQty1MarkUpId,
+                    onChangeQty2MarkUpId: onChangeQty2MarkUpId,
+                    onChangeQty3MarkUpId: onChangeQty3MarkUpId,
                     //#endregion
                     //#region Pre Payment
                     paymentMethods: paymentMethods,
