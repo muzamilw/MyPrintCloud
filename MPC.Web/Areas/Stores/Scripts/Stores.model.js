@@ -268,8 +268,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
         customCSS = ko.observable(specifiedCustomCSS),
         //Company Domain Copy
         defaultCompanyDomainCopy = ko.observable(),
-        taxLabel = ko.observable(undefined).extend({ number: true }),
-        taxRate = ko.observable(undefined),
+        taxLabel = ko.observable(undefined),
+        taxRate = ko.observable(undefined).extend({ number: true }),
         activeBannerSetId = ko.observable().extend({ required: true }),
         // Errors
         errors = ko.validation.group({
@@ -278,7 +278,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             webAccessCode: webAccessCode,
             url: url,
             activeBannerSetId: activeBannerSetId,
-            taxLabel: taxLabel
+            taxRate: taxRate
         }),
         // Is Valid 
         isValid = ko.computed(function () {
