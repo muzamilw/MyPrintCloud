@@ -1370,7 +1370,7 @@ define("crm/crm.viewModel",
                 scopeVariable.variableOptions.valueHasMutated();
                 return scopeVariable;
             },
-                // Delete CompanyContact
+            // Delete CompanyContact
             onDeleteCompanyContact = function (companyContact) { //CompanyContact
                 if (companyContact.isDefaultContact()) {
                     toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
@@ -1444,7 +1444,7 @@ define("crm/crm.viewModel",
                 //companyContactEditorViewModel.revertItem();
                 isSavingNewCompanyContact(false);
             },
-                //Do Before Save CompanyContact
+            //Do Before Save CompanyContact
             doBeforeSaveCompanyContact = function () {
                 var flag = true;
                 if (!selectedCompanyContact().isValid()) {
@@ -1454,7 +1454,7 @@ define("crm/crm.viewModel",
                 return flag;
             },
             newSavingCompanyContactIdCount = -1,
-                //Add Company Contact Id
+            //Add Company Contact Id
             addCompanyContactId = function () {
                 newSavingCompanyContactIdCount = newSavingCompanyContactIdCount - 1;
             },
@@ -1577,7 +1577,7 @@ define("crm/crm.viewModel",
                     //#endregion
                 }
             },
-                //Method to find email duplicates, returns True is match found else return false
+            //Method to find email duplicates, returns True is match found else return false
             findEmailDuplicatesInCompanyContacts = function () {
                 var flag = false;
                 _.each(newCompanyContacts(), function (companyContact) {

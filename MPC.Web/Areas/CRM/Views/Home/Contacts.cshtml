@@ -43,7 +43,7 @@
                                         </td>
                                         <td>
                                             <a class="user-link" href="#" data-bind="text: firstName, click: $root.editContactbuttonHandler "></a>
-                                            <span data-bind="text:companyName"></span>
+                                            @*<span data-bind="text: email"></span>*@
                                         </td>
                                         <td>
                                             <span data-bind="text:email"></span> <br /> <span data-bind="text:quickPhone"></span>
@@ -77,8 +77,8 @@
             </div>
         </script>
     </div>
-    
-        @Html.Partial("~/Views/Shared/Widgets/_UserProfileDetails.cshtml")
+
+        @Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
 </div>
 
 

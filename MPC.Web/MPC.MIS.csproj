@@ -312,6 +312,7 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterTreeController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
@@ -440,6 +441,7 @@
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
@@ -1888,6 +1890,7 @@
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
@@ -3068,6 +3071,7 @@
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
+    <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\GoodsReceivedNote\" />
