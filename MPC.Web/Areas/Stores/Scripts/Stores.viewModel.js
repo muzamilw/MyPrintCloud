@@ -467,7 +467,7 @@ define("stores/stores.viewModel",
                                     "Your current changes for banner, secondary pages, css, sprite will be overridden.");
                                 confirmation.afterProceed(function () {
                                     selectedStore().currentThemeName(theme.Name);
-                                    getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath)
+                                    getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath);
                                 });
                                 confirmation.afterCancel();
                                 confirmation.show();
@@ -483,10 +483,10 @@ define("stores/stores.viewModel",
                         }, {
                             success: function (data) {
                                 selectedStore().currentThemeId(selectedTheme());
-                                toastr.success("Theme Apply Successfully .");
+                                toastr.success("Theme Applied Successfully.");
                             },
                             error: function (response) {
-                                toastr.error("Failed to Theme apply .", "", ist.toastrOptions);
+                                toastr.error("Failed to apply theme.", "", ist.toastrOptions);
                             }
                         });
                     },
