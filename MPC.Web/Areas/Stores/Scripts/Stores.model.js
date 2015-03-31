@@ -1,6 +1,6 @@
 ﻿
 
-define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore", "underscore-ko"], function (ko, storeProductModel) {
+define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (ko) {
     var
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
@@ -24,8 +24,6 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 isValid = ko.computed(function () {
                     return errors().length === 0 ? true : false;
                 }),
-
-
                 // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
                     // ReSharper restore InconsistentNaming
@@ -140,7 +138,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             accountManagerId = ko.observable(specifiedAccountManagerId),
             avatRegNumber = ko.observable(specifiedAvatRegNumber),
             avatRegReference = ko.observable(specifiedAvatRegReference),
-            phoneNo = ko.observable(specifiedPhoneNo),
+            phoneNo = ko.observable(specifiedPhoneNo).extend({ number: true }),
             isCustomer = ko.observable(specifiedIsCustomer),
             notes = ko.observable(specifiedNotes),
             webMasterTag = ko.observable(specifiedWebMasterTag),
@@ -270,7 +268,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         customCSS = ko.observable(specifiedCustomCSS),
         //Company Domain Copy
         defaultCompanyDomainCopy = ko.observable(),
-        taxLabel = ko.observable(undefined),
+        taxLabel = ko.observable(undefined).extend({ number: true }),
         taxRate = ko.observable(undefined),
         activeBannerSetId = ko.observable().extend({ required: true }),
         // Errors
@@ -280,6 +278,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             webAccessCode: webAccessCode,
             url: url,
             activeBannerSetId: activeBannerSetId,
+            taxLabel: taxLabel,
+            phoneNo: phoneNo
+
         }),
         // Is Valid 
         isValid = ko.computed(function () {
@@ -296,7 +297,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             storeWorkflowImage: storeWorkflowImage,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
             mapImageUrl: mapImageUrl,
-            mapImageUrlBinary:mapImageUrlBinary,
+            mapImageUrlBinary: mapImageUrlBinary,
             activeBannerSetId: activeBannerSetId,
             status: status,
             image: image,
@@ -325,7 +326,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             addresses: addresses,
             users: users,
             secondaryPages: secondaryPages,
-            systemPages:systemPages,
+            systemPages: systemPages,
             companyCMYKColors: companyCMYKColors,
             webMasterTag: webMasterTag,
             webAnalyticCode: webAnalyticCode,
@@ -485,7 +486,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.Deletedproducts = [];
             result.Campaigns = [];
             result.CompanyCostCentres = [];
-           
+
             _.each(source.paymentGateway(), function (item) {
                 result.PaymentGateways.push(item.convertToServerData());
             });
@@ -577,7 +578,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             colorPalette: colorPalette,
             companyBannerSets: companyBannerSets,
             secondaryPages: secondaryPages,
-            systemPages:systemPages,
+            systemPages: systemPages,
             paymentGateway: paymentGateway,
             paymentMethod: paymentMethod,
             productCategories: productCategories,
@@ -607,14 +608,14 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             reset: reset,
             storeWorkflowImageBinary: storeWorkflowImageBinary,
             mapImageUrl: mapImageUrl,
-            mapImageUrlBinary:mapImageUrlBinary,
+            mapImageUrlBinary: mapImageUrlBinary,
             taxLabel: taxLabel,
             taxRate: taxRate,
             scopeVariables: scopeVariables,
-            isAllowRegistrationFromWeb:isAllowRegistrationFromWeb,
-            isDisplayDiscountVoucherCode:isDisplayDiscountVoucherCode,
-            canUserEditProfile:canUserEditProfile,
-            isWhiteLabel:isWhiteLabel,
+            isAllowRegistrationFromWeb: isAllowRegistrationFromWeb,
+            isDisplayDiscountVoucherCode: isDisplayDiscountVoucherCode,
+            canUserEditProfile: canUserEditProfile,
+            isWhiteLabel: isWhiteLabel,
             showPrices: showPrices
 
             //#endregion
@@ -756,17 +757,17 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         store.storeId(source.StoreId);
         // store.activeBannerSetId(source.ActiveBannerSetId);
         store.companyType(CompanyType.Create(source.CompanyType));
-       // store.storeWorkflowImage(source.StoreWorkflowImage);
+        // store.storeWorkflowImage(source.StoreWorkflowImage);
         store.storeWorkflowImageBinary(source.WatermarkText);
         store.mapImageUrl(source.MapImageUrl);
         store.isCalculateTaxByService(source.isCalculateTaxByService == true ? 'true' : 'false');
         store.taxLabel(source.TaxLabel);
         store.taxRate(source.TaxRate);
-        store.isAllowRegistrationFromWeb ( source.isAllowRegistrationFromWeb);
-        store.isDisplayDiscountVoucherCode ( source.IsDisplayDiscountVoucherCode);
-        store.canUserEditProfile ( source.CanUserEditProfile);
-        store.isWhiteLabel ( source.isWhiteLabel);
-        store.showPrices ( source.ShowPrices);
+        store.isAllowRegistrationFromWeb(source.isAllowRegistrationFromWeb);
+        store.isDisplayDiscountVoucherCode(source.IsDisplayDiscountVoucherCode);
+        store.canUserEditProfile(source.CanUserEditProfile);
+        store.isWhiteLabel(source.isWhiteLabel);
+        store.showPrices(source.ShowPrices);
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
         //}
@@ -1803,7 +1804,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             description = ko.observable(specifiedDescription),
             campaignType = ko.observable(specifiedCampaignType),
             isEnabled = ko.observable(specifiedIsEnabled),
-            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime!==null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
+            startDateTime = ko.observable((specifiedStartDateTime !== undefined && specifiedStartDateTime !== null) ? moment(specifiedStartDateTime, ist.utcFormat).toDate() : undefined).extend({
                 required: {
                     message: "Start Date is required",
                     onlyIf: function () {
@@ -1891,7 +1892,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             result.CampaignType = source.campaignType() === undefined ? null : source.campaignType();
             result.IsEnabled = source.isEnabled() === undefined ? false : source.isEnabled();
             result.StartDateTime = (startDateTime() === undefined || startDateTime() === null) ? null : moment(startDateTime()).format(ist.utcFormat);
-           // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
+            // result.StartDateTime = moment(new Date()).format(ist.utcFormat);
             result.IncludeCustomers = (source.includeCustomers() === undefined || source.includeCustomers() === null) ? false : source.includeCustomers();
             result.IncludeSuppliers = source.includeSuppliers() === undefined ? false : source.includeSuppliers();
             result.IncludeProspects = source.includeProspects() === undefined ? false : source.includeProspects();
@@ -2027,19 +2028,21 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
         return new CampaignSection(source.SectionId, source.SectionName);
     };
 
-    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName) {
+    var CampaignEmailVariable = function (specifiedVariableId, specifiedVariableName, specifiedVariableTag) {
         var self,
             id = ko.observable(specifiedVariableId),
-            variableName = ko.observable(specifiedVariableName);
+            variableName = ko.observable(specifiedVariableName),
+           variableTag = ko.observable(specifiedVariableTag);
 
         self = {
             id: id,
             variableName: variableName,
+            variableTag: variableTag,
         };
         return self;
     };
     CampaignEmailVariable.Create = function (source) {
-        return new CampaignEmailVariable(source.VariableId, source.VariableName);
+        return new CampaignEmailVariable(source.VariableId, source.VariableName, source.VariableTag);
     };
 
     var CampaignImage = function (specifiedCampaignImageId, specifiedCampaignId, specifiedImagePath, specifiedImageName, specifiedImageSource) {
@@ -2403,7 +2406,7 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
             homeExtension1 = ko.observable(specifiedHomeExtension1),
             homeExtension2 = ko.observable(specifiedHomeExtension2),
             mobile = ko.observable(specifiedMobile),
-            email = ko.observable(specifiedEmail).extend({ required: true }),
+            email = ko.observable(specifiedEmail).extend({ required: true, email: true }),
             fAX = ko.observable(specifiedFAX),
             jobTitle = ko.observable(specifiedJobTitle),
             dOB = ko.observable(specifiedDOB),
@@ -2491,7 +2494,9 @@ define("stores/stores.model", ["ko", "stores/store.Product.model", "underscore",
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword
+                confirmPassword: confirmPassword,
+                mobile: mobile,
+                fAX: fAX
             }),
             // Is Valid 
             isValid = ko.computed(function () {

@@ -37,14 +37,23 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
        
-        public Models.CostCenterVariablesResponseModel Get()
+        //public Models.CostCenterVariablesResponseModel Get()
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+        //    }
+
+        //    return _costCentersService.GetCostCenterVariablesTree().CreateFrom();
+        //}
+        public Models.CostCenterVariablesResponseModel GetListById(int Id)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return _costCentersService.GetCostCenterVariablesTree().CreateFrom();
+            return _costCentersService.GetCostCenterVariablesTree(Id).CreateFrom();
         }
 
         #endregion

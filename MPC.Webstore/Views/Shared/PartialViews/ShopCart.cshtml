@@ -105,15 +105,23 @@
                                                  //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                  pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                 imgToShowURL = Html.GetAppBasePath() + FolderPathOfAttachment + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                 imgToShowURL = Html.GetAppBasePath() + FolderPathOfAttachment + "/" + prod.Attatchment.FileName + ThumnbString;// completeImgPath;
                                              }
                                          }
                                          else
                                          {
                                              if (prod.ProductType == (int)ProductType.NonPrintProduct)
                                              {
-                                                 string completeImgPath = Html.GetAppBasePath() + prod.Attatchment.FolderPath + prod.Attatchment.FileName + ThumnbString;
-                                                 pdfLinkBtn = completeImgPath;// ImageDisplayScript(completeImgPath);
+                                                 string completeImgPath = "";
+                                                 if (!string.IsNullOrEmpty(prod.Attatchment.FolderPath) && !string.IsNullOrEmpty(prod.Attatchment.FileName))
+                                                 {
+                                                     completeImgPath = "/" + prod.Attatchment.FolderPath + "/" + prod.Attatchment.FileName + ThumnbString;
+                                                 }
+                                                 else
+                                                 {
+                                                     completeImgPath = prod.ThumbnailPath;
+                                                 }
+                                                 pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
                                              }
                                          }

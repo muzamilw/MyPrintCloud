@@ -113,7 +113,7 @@ namespace MPC.Interfaces.WebStoreServices
         List<Item> GetListOfDeliveryItemByOrderID(long OID);
         string SaveDesignAttachments(long templateID, long itemID, long customerID, string DesignName, string caller, long organisationId);
         List<ItemAttachment> SaveArtworkAttachments(List<ItemAttachment> attachmentList);
-        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath);
+        bool CreatAndSaveThumnail(Stream oImgstream, string sideThumbnailPath, string itemID);
         Item GetClonedItemById(long ItemId);
         PaymentGateway GetPaymentGatewayRecord(long CompanyId);
         long GetFirstItemIdByOrderId(long orderId);

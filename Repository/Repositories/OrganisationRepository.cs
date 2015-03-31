@@ -780,58 +780,64 @@ namespace MPC.Repository.Repositories
                          {
                              // language Files
                              string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
-                             
-                             
-                             if(Directory.Exists(Sourcelanguagefiles))
-                             {
-                                 foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
-                                 {
-                                     if (File.Exists(newPath))
-                                     {
 
-                                         string FileName = Path.GetFileName(newPath);
+                             DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID);
 
-                                         DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+                             if (Directory.Exists(Sourcelanguagefiles))
+                                 Copy(Sourcelanguagefiles, DestinationLanguageFilePath);
 
-
-                                         // define destination directory
-                                         string directoty = Path.GetDirectoryName(newPath);
-                                         string[] stringSeparators = new string[] { "MPC_Content" };
-                                         if (!string.IsNullOrEmpty(directoty))
-                                         {
-                                             string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
-
-                                             string FolderName = result[1];
-                                             if (!string.IsNullOrEmpty(FolderName))
-                                             {
-                                                 string[] folder = FolderName.Split('\\');
-                                                 DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
-
-                                                 DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
-
-                                             }
-                                         }
-
-                                         if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
-                                         {
-                                             Directory.CreateDirectory(DestinationLanguageDirectory);
-                                             if (Directory.Exists(DestinationLanguageDirectory))
-                                             {
-                                                 if (!File.Exists(DestinationLanguageFilePath))
-                                                     File.Copy(newPath, DestinationLanguageFilePath);
-                                             }
-                                         }
-                                         else
-                                         {
-                                             if (!File.Exists(DestinationLanguageFilePath))
-                                                 File.Copy(newPath, DestinationLanguageFilePath);
-                                         }
-
-                                     }
-
-                                 }
                             
-                             }
+
+                             //if (Directory.Exists(Sourcelanguagefiles))
+                             //{
+                             //    foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
+                             //    {
+                             //        if (File.Exists(newPath))
+                             //        {
+
+                             //            string FileName = Path.GetFileName(newPath);
+
+                             //            DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + FileName);
+
+
+                             //            // define destination directory
+                             //            string directoty = Path.GetDirectoryName(newPath);
+                             //            string[] stringSeparators = new string[] { "MPC_Content" };
+                             //            if (!string.IsNullOrEmpty(directoty))
+                             //            {
+                             //                string[] result = directoty.Split(stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+                             //                string FolderName = result[1];
+                             //                if (!string.IsNullOrEmpty(FolderName))
+                             //                {
+                             //                    string[] folder = FolderName.Split('\\');
+                             //                    DestinationLanguageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5]);
+
+                             //                    DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID + "/" + folder[5] + "/" + FileName);
+
+                             //                }
+                             //            }
+
+                             //            if (!System.IO.Directory.Exists(DestinationLanguageDirectory))
+                             //            {
+                             //                Directory.CreateDirectory(DestinationLanguageDirectory);
+                             //                if (Directory.Exists(DestinationLanguageDirectory))
+                             //                {
+                             //                    if (!File.Exists(DestinationLanguageFilePath))
+                             //                        File.Copy(newPath, DestinationLanguageFilePath);
+                             //                }
+                             //            }
+                             //            else
+                             //            {
+                             //                if (!File.Exists(DestinationLanguageFilePath))
+                             //                    File.Copy(newPath, DestinationLanguageFilePath);
+                             //            }
+
+                             //        }
+
+                             //    }
+
+                             //}
                           
 
                              
@@ -3290,6 +3296,17 @@ namespace MPC.Repository.Repositories
 
 
         }
+        void Copy(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+
+            foreach (var directory in Directory.GetDirectories(sourceDir))
+                Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)));
+        }
+
         public void DeletePhysicallFiles(string Path)
         {
             if (File.Exists(Path))

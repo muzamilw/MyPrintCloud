@@ -2852,6 +2852,7 @@ function pcl42() {
             pcl42_svc(smartFormData.scopeVariables,ContactID);// save variables
         }
         pcl42_UpdateTO();
+        bleedPrinted = false;
         d5_sub(SP,true);
        
     } else
