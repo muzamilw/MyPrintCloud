@@ -794,7 +794,9 @@ define("order/order.viewModel",
                         });
                     },
                     //Update Items Data On Item Selection
+                    //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function (item) {
+
                         toastr.success(item.id());
                     },
                     onCloseProductFromRetailStore = function () {

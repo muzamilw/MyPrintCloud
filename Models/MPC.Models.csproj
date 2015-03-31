@@ -404,6 +404,7 @@
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
+    <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
