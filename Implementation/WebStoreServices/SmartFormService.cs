@@ -76,6 +76,10 @@ namespace MPC.Implementation.WebStoreServices
         {
            return _smartFormRepository.GetContactImageAndCompanyLogo(contactID);
         }
+        public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
+        {
+            return _smartFormRepository.GetUserTemplateVariables(itemId, contactID);
+        }
         #endregion
     }
 }
