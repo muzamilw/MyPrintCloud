@@ -32,7 +32,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public override List<DeliveryCarrier> GetAll()
+        public override IEnumerable<DeliveryCarrier> GetAll()
         {
             return DbSet.ToList();
         }
