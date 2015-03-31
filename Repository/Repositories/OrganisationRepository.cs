@@ -488,6 +488,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -629,6 +630,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 

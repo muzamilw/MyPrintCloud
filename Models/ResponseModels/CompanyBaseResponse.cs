@@ -29,7 +29,7 @@ namespace MPC.Models.ResponseModels
 
         public FieldVariableResponse FieldVariableResponse { get; set; }
         public SmartFormResponse SmartFormResponse { get; set; }
-
+        public IEnumerable<SectionFlag> PriceFlags { get; set; }
         /// <summary>
         /// Organisation Id
         /// </summary>

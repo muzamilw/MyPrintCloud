@@ -3094,8 +3094,8 @@ namespace MPC.Implementation.MISServices
                 FieldVariableResponse = fieldVariableRepository.GetFieldVariable(request),
                 SmartFormResponse = smartFormRepository.GetSmartForms(smartFormRequest),
                 FieldVariablesForSmartForm = fieldVariableRepository.GetFieldVariablesForSmartForm(storeId),
-                CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId)
-
+                CmsPages = cmsPageRepository.GetCmsPagesForOrders(storeId),
+                PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix)
             };
         }
 
@@ -3122,6 +3122,7 @@ namespace MPC.Implementation.MISServices
                 SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
                 CostCentres = costCentreRepository.GetAllDeliveryCostCentersForStore(),
                 SystemVariablesForSmartForms = fieldVariableRepository.GetSystemVariables(),
+                PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CustomerPriceMatrix),
                 OrganisationId=fieldVariableRepository.OrganisationId
             };
 

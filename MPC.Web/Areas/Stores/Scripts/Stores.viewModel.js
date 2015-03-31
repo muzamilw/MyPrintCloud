@@ -138,6 +138,7 @@ define("stores/stores.viewModel",
                     selectedItemsForOfferList = ko.observableArray([]),
                     //Filtered States
                     filteredStates = ko.observableArray([]),
+                    priceFlags = ko.observableArray([]),
                     //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
@@ -4229,6 +4230,14 @@ define("stores/stores.viewModel",
                             //});
                         }
 
+                            //CostCenterVariables
+                            priceFlags.removeAll();
+                            if (data.PriceFlags !== null) {
+                                ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
+                                priceFlags.valueHasMutated();
+                            }
+                            
+
                         ////Countries 
                         //countries.removeAll();
                         //ko.utils.arrayPushAll(countries(), data.Countries);
@@ -6265,6 +6274,7 @@ define("stores/stores.viewModel",
                     getSystemPages: getSystemPages,
                     selectChildProductCategory: selectChildProductCategory,
                     onArchiveCategory: onArchiveCategory,
+                    priceFlags: priceFlags
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
                 };
