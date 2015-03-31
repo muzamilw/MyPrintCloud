@@ -675,8 +675,15 @@ function d2() {
         m0();
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
-              //  if (ite.Orientation == 1) {
-                    d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
+                var height = Template.PDFTemplateHeight * dfZ1l;
+                var width = Template.PDFTemplateWidth * dfZ1l;
+                if (ite.Height != null && ite.Height != 0) {
+                    height = (ite.Height * dfZ1l);
+                } 
+                if (ite.Width != null && ite.Width != 0) {
+                    width = (ite.Width * dfZ1l);
+                } 
+                d6(width, height, ISG1);
                 //}
                 //else {
                 //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
@@ -692,7 +699,15 @@ function d2() {
         $.each(TP, function (i, ite) {
             if (ite.ProductPageID == SP) {
               //  if (ite.Orientation == 1) {
-                    d6(Template.PDFTemplateWidth * dfZ1l, Template.PDFTemplateHeight * dfZ1l, ISG1);
+                var height = Template.PDFTemplateHeight * dfZ1l;
+                var width = Template.PDFTemplateWidth * dfZ1l;
+                if (ite.Height != null && ite.Height != 0) {
+                    height = (ite.Height * dfZ1l);
+                }
+                if (ite.Width != null && ite.Width != 0) {
+                    width = (ite.Width * dfZ1l);
+                }
+                d6(width, height, ISG1);
                 //}
                 //else {
                 //    d6(Template.PDFTemplateHeight * dfZ1l, Template.PDFTemplateWidth * dfZ1l, ISG1);
@@ -3014,18 +3029,19 @@ function k16(TempImgType, ImC, Caller) {
                             var p = url.split('.');
                             for (var z = 0; z <= p.length - 2; z++) {
                                     if (p[z] != "") {
-                                        if (IsCalledFrom == 3) {
+                                        //if (IsCalledFrom == 3) {
                                             if (z == 0) {
                                                 urlThumbnail += p[z];
                                             } else {
                                                 urlThumbnail += "." + p[z];
                                             }
-                                        } else {
-                                            urlThumbnail += p[z];
-                                        }
+                                        //} else {
+                                        //    urlThumbnail += p[z];
+                                        //}
                                 }
                             }
                             urlThumbnail += "_thumb." + p[p.length - 1];
+                            console.log(urlThumbnail);
                         } else {
                             urlThumbnail = url;
                         } 

@@ -1,4 +1,4 @@
-﻿$("#uploadImagesMB ,#IdUploadBackgrounds").click(function () {
+﻿$(" #IdUploadBackgrounds").click(function () {
     $("#imageUploader").click();
     isBKpnl = false;
    // $("#fontUploader").click();
@@ -10,8 +10,8 @@ $("#uploadBackgroundMn").click(function () {
     // $("#fontUploader").click();
     //animatedcollapse.toggle('textPropertPanel');
 });
-$("#uploadImages, #uploadLogos").click(function (event) {
-        isBKpnl = false;
+$("#uploadImages, #uploadLogos,#uploadImagesMB").click(function (event) {
+    isBKpnl = false; isBkPnlUploads = false;
         $("#imageUploader").click();
     });
 $(".btnAUploadFont").click(function () {
