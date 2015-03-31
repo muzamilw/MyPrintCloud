@@ -1,9 +1,18 @@
-﻿@{
-
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 12);
+﻿<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <link href="@Href("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+</head>
+@using MPC.Webstore.WebGridExtension;
+@using MPC.Models.Common;
+@{
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 2);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
+    
+    
 }
+
 <div class="content_area container">
     <div class="left_right_padding row">
         <div class="signin_heading_div float_left_simple dashboard_heading_signin">
@@ -114,7 +123,7 @@
                 <asp:asyncpostbacktrigger controlid="btnSaveShippingAddress" eventname="Click" />*@
                 <div class="territory_row_padding">
                     <div id="divContainer" class="cursor_pointer">
-                        @grid.GetHtml(
+                        @grid.Table(
     htmlAttributes: new { id = "BillingShippingGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -143,10 +152,14 @@
         }
     }
 </p>,style: "main_contact_corp_div gridfontStyle paddingTopForWebGrid3rdColumn"),
-
-    })
-                        <div id="Footer" class="pagingCss">
-                            @grid.Pager(mode: WebGridPagerModes.All, numericLinksCount: 15, firstText: "<<", lastText: ">>", previousText: "<", nextText: ">")
+                        
+    }
+    
+    )
+                        <div  class="pagination pagination-small pagination-right">
+                            @*@grid.Pager(mode: WebGridPagerModes.All, numericLinksCount: 15, firstText: "<<", lastText: ">>", previousText: "<", nextText: ">")*@
+                            @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All);
+                           
                         </div>
                     </div>
                 </div>
@@ -381,53 +394,53 @@
         
         <script type="text/javascript">
 
-            $(document).ready(function () {
-                var keywords = ['>>', '<<', '<', '>'];
+            //$(document).ready(function () {
+            //    var keywords = ['>>', '<<', '<', '>'];
 
-                function linklabels() {
+            //    function linklabels() {
 
-                    var footerDiv = document.getElementById('footer');
-                    var oldLinks = footerDiv.getElementsByTagName('A');
+            //        var footerDiv = document.getElementById('footer');
+            //        var oldLinks = footerDiv.getElementsByTagName('A');
 
-                    var oldLinksCount = oldLinks.length;
-                    var keywordsCount = keywords.length;
+            //        var oldLinksCount = oldLinks.length;
+            //        var keywordsCount = keywords.length;
 
-                    for (var i = 0; i < oldLinks.length; i++) {
+            //        for (var i = 0; i < oldLinks.length; i++) {
 
-                        if (oldLinks[i].firstChild.nodeValue == '>>' || oldLinks[i].firstChild.nodeValue == '<<' || oldLinks[i].firstChild.nodeValue == '>' || oldLinks[i].firstChild.nodeValue == '<') {
-                            var my_div = null;
-                            var newDiv = null;
+            //            if (oldLinks[i].firstChild.nodeValue == '>>' || oldLinks[i].firstChild.nodeValue == '<<' || oldLinks[i].firstChild.nodeValue == '>' || oldLinks[i].firstChild.nodeValue == '<') {
+            //                var my_div = null;
+            //                var newDiv = null;
 
-                            var newDiv = document.createElement("span");
-                            var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
-                            newDiv.appendChild(newContent);
-                            newDiv.className = "whiteBox";
+            //                var newDiv = document.createElement("span");
+            //                var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
+            //                newDiv.appendChild(newContent);
+            //                newDiv.className = "whiteBox";
 
-                            oldLinks[i].firstChild.nodeValue = "";
+            //                oldLinks[i].firstChild.nodeValue = "";
 
-                            oldLinks[i].appendChild(newDiv);
-                        }
-                        else {
-                            var my_div = null;
-                            var newDiv = null;
+            //                oldLinks[i].appendChild(newDiv);
+            //            }
+            //            else {
+            //                var my_div = null;
+            //                var newDiv = null;
 
-                            var newDiv = document.createElement("span");
-                            var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
-                            newDiv.appendChild(newContent);
-                            newDiv.className = "blackBox";
+            //                var newDiv = document.createElement("span");
+            //                var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
+            //                newDiv.appendChild(newContent);
+            //                newDiv.className = "blackBox";
 
-                            oldLinks[i].firstChild.nodeValue = "";
+            //                oldLinks[i].firstChild.nodeValue = "";
 
-                            oldLinks[i].appendChild(newDiv);
-                        }
+            //                oldLinks[i].appendChild(newDiv);
+            //            }
 
-                    } // end of for
+            //        } // end of for
 
-                    //  footer
+            //        //  footer
 
-                }
-                window.onload = linklabels;
-            });
+            //    }
+            //    window.onload = linklabels;
+            //});
 
     var AdRessID;
     var CountryID;

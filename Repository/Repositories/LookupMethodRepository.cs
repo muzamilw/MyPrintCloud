@@ -29,11 +29,21 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public IEnumerable<LookupMethod> GetAll()
+       
+
+        public LookupMethodListResponse GetAll()
         {
-            // return DbSet.Where(g => g.OrganisationId == OrganisationId || g.OrganisationId == 0).ToList();
-            return DbSet.Where(g => g.OrganisationId == 1 || g.OrganisationId == 0).ToList();
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            return new LookupMethodListResponse {
+                LookupMethods = DbSet.Where(g => g.OrganisationId == OrganisationId || g.OrganisationId == 0).ToList(),
+                CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
+                WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
+                LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
+            };
+
+                
         }
+
         public bool DeleteMachineLookup(long id)
         {
             IEnumerable<Machine> machines = db.Machines.Where(g => g.LookupMethodId == id).ToList();
@@ -546,7 +556,7 @@ namespace MPC.Repository.Repositories
         {
             LookupMethod olookupMethod = DbSet.Where(g => g.MethodId == MethodId).SingleOrDefault();
             MachineGuillotineCalc oGuillotineCalc = olookupMethod.Type == 6 ? db.MachineGuillotineCalcs.Where(g => g.MethodId == MethodId).SingleOrDefault() : null;
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            
             return new LookupMethodResponse
             {
                 ClickChargeLookup = olookupMethod.Type == 1 ? db.MachineClickChargeLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
@@ -556,7 +566,7 @@ namespace MPC.Repository.Repositories
                 MeterPerHourLookup = olookupMethod.Type == 8 ? db.MachineMeterPerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 PerHourLookup = olookupMethod.Type == 4 ? db.MachinePerHourLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
                 SpeedWeightLookup = olookupMethod.Type == 3 ? db.MachineSpeedWeightLookups.Where(g => g.MethodId == MethodId).SingleOrDefault() : null,
-                CurrencySymbol = organisation==null?null: organisation.Currency.CurrencySymbol
+               
             };
         }
 

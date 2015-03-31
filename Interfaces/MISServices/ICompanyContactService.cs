@@ -34,6 +34,9 @@ namespace MPC.Interfaces.MISServices
         /// Get Contact Detail
         /// </summary>
         CompanyBaseResponse GetContactDetail(short companyId);
-
+        /// <summary>
+        /// Get Addresses and Territories Of "Company Contact's company"
+        /// </summary>
+        CrmContactResponse SearchAddressesAndTerritories(CompanyContactRequestModel request);
     }
 }

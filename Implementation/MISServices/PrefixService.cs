@@ -48,7 +48,6 @@ namespace MPC.Implementation.MISServices
 
         public Prefix GetPrefixByOrganisationId()
         {
-
             return _prefixRepository.GetPrefixByOrganisationId(_prefixRepository.OrganisationId);
         }
         
