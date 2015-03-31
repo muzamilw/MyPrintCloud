@@ -35,11 +35,6 @@ namespace MPC.Models.ResponseModels
         /// </summary>
         public long? OrganisationId { get; set; }
 
-        /// <summary>
-        /// Organisation Id
-        /// </summary>
-        public long? OrganisationId { get; set; }
-
         // public IEnumerable<Department> Departments { get; set; }
         // public IEnumerable<AccountManager> AccountManagers { get; set; }
     }
