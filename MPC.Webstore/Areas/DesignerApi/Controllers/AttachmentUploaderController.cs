@@ -65,7 +65,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                         }
                         else 
                         {
-                            itemService.CreatAndSaveThumnail(null,desPath);
+                            itemService.CreatAndSaveThumnail(null, desPath, parameter3 + "/");
                         }
                         attachment = new ItemAttachment();
                         attachment.ContactId = Convert.ToInt64(parameter4);

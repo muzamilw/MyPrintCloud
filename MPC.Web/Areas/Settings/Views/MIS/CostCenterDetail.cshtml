@@ -725,14 +725,14 @@
                                             <h3 class="group-header">Plant Calculation</h3>
                                             <div class="col-lg-7">
                                                 @*Estimated Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -744,22 +744,28 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
-                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtEstimatePlantCost'">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate'} -->
                                                             <!-- /ko -->
                                                         </div>
                                                         
                                                        
                                                     </div>
                                                     
-                                                </div>
+                                            </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strCostPlantUnParsed, enable: isEditPlantCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
                                                     </div>
+                                                    <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label></div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="8" data-bind="value: strCostPlantUnParsed, click: $root.selectVariableString, enable: isEditPlantCost,  drop: $root.dropped"></textarea>
+                                                        
                                                     </div>
+                                                </div>*@
                                                 @*Quoted Charge*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -768,7 +774,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                        <label for="chkPlantQuotedCharge" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -780,7 +786,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtEstimatePlantPrice'">
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
                                                         </div>
@@ -788,21 +794,28 @@
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPricePlantUnParsed, enable: isEditPlantQuote, drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtEstimatePlantPrice" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtEstimatePlantPrice" rows="10" data-bind="value: strPricePlantUnParsed, click: $root.selectVariableString, enable: isEditPlantQuote, drop: $root.dropped"></textarea>
+                                                        
                                                     </div>
                                                 </div>
                                                 @*Actual Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -814,7 +827,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtPlantActualCost'">
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
                                                         </div>
@@ -822,16 +835,23 @@
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtPlantActualCost" rows="5" data-bind="value: strActualCostPlantUnParsed, enable: isEditPlantActualCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtPlantActualCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
-                                                </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtPlantActualCost" rows="8" data-bind="value: strActualCostPlantUnParsed, click: $root.selectVariableString, enable: isEditPlantActualCost,  drop: $root.dropped"></textarea>
+                                                        
+                                                    </div>
+                                                </div>*@
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-5">
                                                 <div class="clearfix">
-                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:600px;overflow-y:scroll;" id="nestable2">
+                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
@@ -846,14 +866,14 @@
                                             <h3 class="group-header">Stock Calculation</h3>
                                             <div class="col-lg-7">
                                                 @*Estimated Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -865,7 +885,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtEstimateStockCost'">
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
                                                         </div>
@@ -873,12 +893,19 @@
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateStockCost" rows="5" data-bind="value: strCostMaterialUnParsed, enable: isEditStockCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtEstimateStockCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
-                                                </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtEstimateStockCost" rows="8" data-bind="value: strCostMaterialUnParsed, click: $root.selectVariableString, enable: isEditStockCost,  drop: $root.dropped"></textarea>
+                                                        
+                                                    </div>
+                                                </div>*@
                                                 @*Quoted Charge*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -887,7 +914,7 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkStockQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                        <label for="chkStockQuotedCharge" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -899,7 +926,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtQuoteStockCost'">
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
                                                         </div>
@@ -907,21 +934,28 @@
                                                    
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtQuoteStockCost" rows="5" data-bind="value: strPriceMaterialUnParsed, enable: isEditStockQuote,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtQuoteStockCost" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtQuoteStockCost" rows="10" data-bind="value: strPriceMaterialUnParsed, click: $root.selectVariableString, enable: isEditStockQuote,  drop: $root.dropped"></textarea>
+                                                        
                                                     </div>
                                                 </div>
                                                 @*Actual Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                        <label for="chkPlantEstimatedCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
                                                     <div class="col-lg-8">
                                                         <div class="col-md-3">
@@ -933,7 +967,7 @@
                                                                 </label>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-9">
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtStockActualCost'">
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
                                                         </div>
@@ -941,16 +975,23 @@
                                                     
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtStockActualCost" rows="5" data-bind="value: strActualCostMaterialUnParsed, enable: isEditStockActualCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtStockActualCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
-                                                </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtStockActualCost" rows="8" data-bind="value: strActualCostMaterialUnParsed, click: $root.selectVariableString, enable: isEditStockActualCost,  drop: $root.dropped"></textarea>
+                                                        
+                                                    </div>
+                                                </div>*@
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-5">
                                                 <div class="clearfix">
-                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
@@ -965,32 +1006,46 @@
                                             <h3 class="group-header">Labour Calculation</h3>
                                             <div class="col-lg-7">
                                                 @*Estimated Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkLabourEstimatedCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkLabourEstimatedCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkLabourEstimatedCost" class="onoffswitch-checkbox" id="chkLabourEstimatedCost" data-bind="checked: isEditLabourCost">
-                                                            <label class="onoffswitch-label" for="chkLabourEstimatedCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkLabourEstimatedCost" class="onoffswitch-checkbox" id="chkLabourEstimatedCost" data-bind="checked: isEditLabourCost">
+                                                                <label class="onoffswitch-label" for="chkLabourEstimatedCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtEstimateLabourCost'">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateLabourCost" rows="5" data-bind="value: strCostLabourUnParsed, enable: isEditLabourCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtEstimateLabourCost" class="control-label text-right tooltip-float">Estimated Cost</label>
                                                     </div>
-                                                </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtEstimateLabourCost" rows="8" data-bind="value: strCostLabourUnParsed, click: $root.selectVariableString, enable: isEditLabourCost,  drop: $root.dropped"></textarea>
+                                                        
+                                                    </div>
+                                                </div>*@
                                                 @*Quoted Charge*@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -999,57 +1054,85 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkLabourQuotedCharge" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                        <label for="chkLabourQuotedCharge" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkLabourQuotedCharge" class="onoffswitch-checkbox" id="chkLabourQuotedCharge" data-bind="checked: isEditLabourQuote">
-                                                            <label class="onoffswitch-label" for="chkLabourQuotedCharge">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkLabourQuotedCharge" class="onoffswitch-checkbox" id="chkLabourQuotedCharge" data-bind="checked: isEditLabourQuote">
+                                                                <label class="onoffswitch-label" for="chkLabourQuotedCharge">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimatePlantCost" rows="5" data-bind="value: strPriceLabourUnParsed, enable: isEditLabourQuote,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Quoted Charge</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtQuotedLabourCost" class="control-label text-right tooltip-float">Quoted Charge</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtQuotedLabourCost" rows="10" data-bind="value: strPriceLabourUnParsed, click: $root.selectVariableString, enable: isEditLabourQuote,  drop: $root.dropped"></textarea>
+                                                       
                                                     </div>
                                                 </div>
                                                 @*Actual Cost*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                             <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Actual Cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkLabourActualCost" class="control-label text-right tooltip-float">Actual Cost</label>
+                                                        <label for="chkLabourActualCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkLabourActualCost" class="onoffswitch-checkbox" id="chkLabourActualCost" data-bind="checked: isEditLabourActualCost">
-                                                            <label class="onoffswitch-label" for="chkPlantActualCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkLabourActualCost" class="onoffswitch-checkbox" id="chkLabourActualCost" data-bind="checked: isEditLabourActualCost">
+                                                                <label class="onoffswitch-label" for="chkLabourActualCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtLabourActualCost'">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtLabourActualCost" rows="5" data-bind="value: strActualCostLabourUnParsed, enable: isEditLabourActualCost,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Actual Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtLabourActualCost" class="control-label text-right tooltip-float">Actual Cost</label>
                                                     </div>
-                                                </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtLabourActualCost" rows="8" data-bind="value: strActualCostLabourUnParsed, click: $root.selectVariableString, enable: isEditLabourActualCost,  drop: $root.dropped"></textarea>
+                                                        
+                                                    </div>
+                                                </div>*@
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-5">
                                                 <div style="margin-top:20px;"></div>
                                                 <div class="clearfix">
-                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
@@ -1071,30 +1154,44 @@
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
-                                                        <label for="chkTimeCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                        <label for="chkTimeCost" class="control-label text-right tooltip-float">Edit</label>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <div class="onoffswitch">
-                                                            <input type="checkbox" name="chkTimeCost" class="onoffswitch-checkbox" id="chkTimeCost" data-bind="checked: isEditTime">
-                                                            <label class="onoffswitch-label" for="chkTimeCost">
-                                                                <div class="onoffswitch-inner"></div>
-                                                                <div class="onoffswitch-switch"></div>
-                                                            </label>
+                                                    <div class="col-lg-8">
+                                                        <div class="col-md-3">
+                                                            <div class="onoffswitch">
+                                                                <input type="checkbox" name="chkTimeCost" class="onoffswitch-checkbox" id="chkTimeCost" data-bind="checked: isEditTime">
+                                                                <label class="onoffswitch-label" for="chkTimeCost">
+                                                                    <div class="onoffswitch-inner"></div>
+                                                                    <div class="onoffswitch-switch"></div>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-9" data-bind="visible: $root.selectedVariableString() === 'txtEstimateTimeCost'">
+                                                            <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
+                                                            <!-- /ko -->
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-lg-3"> </div>
-                                                    <div class="col-lg-6">
-                                                        <textarea class="form-control" id="txtEstimateTimeCost" rows="5" data-bind="value: strTimeUnParsed, enable: isEditTime,  drop: $root.dropped"></textarea>
-                                                        <span class="help-block text-right">Estimated Cost</span>
+                                                    <div class="col-lg-3">
+                                                        <div class="bs-example-tooltips tooltip-float-width">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                            </a>
+                                                        </div>
+                                                        <label for="txtLabourActualCost" class="control-label text-right tooltip-float">Estimated Cost</label>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <textarea class="form-control" id="txtEstimateTimeCost" rows="10" data-bind="value: strTimeUnParsed, click: $root.selectVariableString, enable: isEditTime,  drop: $root.dropped"></textarea>
+                                                       
                                                     </div>
                                                 </div>
                                                
                                             </div>
-                                            <div class="col-lg-3">
+                                            <div class="col-md-5">
                                                 <div class="clearfix">
-                                                    <div style="padding-right: 5px;" id="nestable2">
+                                                    <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
@@ -1219,15 +1316,15 @@
     </tr>
 </script>
 <script id="OperatorButtonsTemplate" type="text/html">
-    <div class="col-md-1 iconplus"></div>
-    <div class="col-md-1 iconsubtract"></div>
-    <div class="col-md-1 iconmultiply"></div>
-    <div class="col-md-1 icondivide"></div>
+    <div class="col-md-1 iconplus" data-bind="click:$root.iconClick" id="icoAdd"></div>
+    <div class="col-md-1 iconsubtract" data-bind="click:$root.iconClick" id="icoSub"></div>
+    <div class="col-md-1 iconmultiply" data-bind="click:$root.iconClick" id="icoMul"></div>
+    <div class="col-md-1 icondivide" data-bind="click:$root.iconClick" id="icoDiv"></div>
 
-    <div class="col-md-1 iconif"></div>
-    <div class="col-md-1 iconifelse"></div>
-    <div class="col-md-1 iconmode"></div>
-    <div class="col-md-1 iconpercent"></div>
-    <div class="col-md-1 iconstartbrace"></div>
-    <div class="col-md-1 iconendbrace"></div>
+    <div class="col-md-1 iconif" data-bind="click:$root.iconClick" id="icoIf"></div>
+    <div class="col-md-1 iconifelse" data-bind="click:$root.iconClick" id="icoIfEl"></div>
+    <div class="col-md-1 iconmode" data-bind="click:$root.iconClick" id="icoMod"></div>
+    <div class="col-md-1 iconpercent" data-bind="click:$root.iconClick" id="icoPer"></div>
+    <div class="col-md-1 iconstartbrace" data-bind="click:$root.iconClick" id="icoBrace1"></div>
+    <div class="col-md-1 iconendbrace" data-bind="click:$root.iconClick" id="icoBrace2"></div>
 </script>

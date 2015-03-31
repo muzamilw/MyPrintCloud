@@ -20,6 +20,11 @@ namespace MPC.Interfaces.MISServices
         InventorySearchResponse LoadStockItems(InventorySearchRequestModel request);
 
         /// <summary>
+        /// Load Stock Items
+        /// </summary>
+        InventorySearchResponse LoadStockItemsInOrder(InventorySearchRequestModel request);
+
+        /// <summary>
         /// Add/Update Stock Item
         /// </summary>
         StockItem SaveInevntory(StockItem request);

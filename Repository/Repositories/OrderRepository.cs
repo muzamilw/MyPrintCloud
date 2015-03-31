@@ -2696,7 +2696,14 @@ namespace MPC.Repository.Repositories
 
         public void DeleteOrderBySP(long OrderID)
         {
+          try
+          {
 
+          }
+          catch (Exception ex)
+          {
+              throw ex;
+          }
         }
         public Estimate GetOrderByOrderID(long OrderID)
         {
@@ -2708,6 +2715,17 @@ namespace MPC.Repository.Repositories
           {
               throw ex;
           }
+        }
+        public List<Estimate> GetCartOrdersByCompanyID(long CompanyID)
+        {
+            try
+            {
+                return db.Estimates.Where(c => c.CompanyId == CompanyID && c.StatusId == 3).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
     }

@@ -7,5 +7,6 @@
     {
         public long VariableId { get; set; }
         public string VariableName { get; set; }
+        public string VariableTag { get; set; }
     }
 }
