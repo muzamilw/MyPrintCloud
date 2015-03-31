@@ -32,6 +32,7 @@ define("costcenter/costcenter.viewModel",
                     selectedVariableType = ko.observable(),
                     selectedcc = ko.observable(),
                     fixedvarIndex = ko.observable(1),
+                    selectedVariableString = ko.observable(),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
@@ -84,68 +85,129 @@ define("costcenter/costcenter.viewModel",
                             }
                             return;
                         }
-                        if (id == 1) {
-                            _.each(costcenterVariableNodes(), function (ccType) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
-                            });
+                        if (id == 1) {                            
+                            dataservice.GetTreeListById({
+                                    id: id,
+                                }, {
+                                    success: function (data) {
+                                        //CostCenterVariables
+                                        costcenterVariableNodes.removeAll();
+                                        ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
+                                        costcenterVariableNodes.valueHasMutated();
+
+                                        _.each(costcenterVariableNodes(), function (ccType) {
+                                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
+                                            ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
+                                        });
+                                        
+                                    },
+                                    error: function () {
+                                        toastr.error("Failed to load variables tree data.");
+                                    }
+                                });
+                                                        
                         }
                         if (id == 2) {
-                            _.each(variableVariableNodes(), function (variable) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i class="fa fa-bars"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + variable.CategoryId +"vv")[0]);
+                            dataservice.GetTreeListById({
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //Variable Variables
+                                    variableVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(variableVariableNodes(), data.VariableVariables);
+                                    variableVariableNodes.valueHasMutated();
+
+                                    _.each(variableVariableNodes(), function (variable) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + variable.CategoryId + 'vv' + '> <div class="dd-handle-list" data-bind="click: $root.getVariablesByType"><i class="fa fa-bars"></i></div><div class="dd-handle"><span>' + variable.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + variable.CategoryId + "vv")[0]);
+                                    });
+
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
                             });
+                            
                         }
                         if (id == 3) {
-                            _.each(resourceVariableNodes(), function (users) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
+                            dataservice.GetTreeListById({
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //Resource Variables
+                                    resourceVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(resourceVariableNodes(), data.ResourceVariables);
+                                    resourceVariableNodes.valueHasMutated();
+
+                                    _.each(resourceVariableNodes(), function (users) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + users.UserName + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + users.UserName + '<input type="hidden" id="str" value="' + users.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + users.UserName)[0]);
+                                    });
+
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
                             });
+                            
                         }
                         if (id == 4) {
-                            _.each(questionVariableNodes(), function (question) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
+                            dataservice.GetTreeListById({
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //Questions Variables
+                                    questionVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
+                                    questionVariableNodes.valueHasMutated();
+                                    _.each(questionVariableNodes(), function (question) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
+                                    });
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
                             });
                         }
                         if (id == 5) {
-                            _.each(matrixVariableNodes(), function (matrix) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + matrix.Name + '<input type="hidden" id="str" value="' + matrix.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + matrix.MatrixId + "mv")[0]);
+                            dataservice.GetTreeListById({
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //Matrix Variables
+                                    matrixVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(matrixVariableNodes(), data.MatricesVariables);
+                                    matrixVariableNodes.valueHasMutated();
+                                    _.each(matrixVariableNodes(), function (matrix) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + matrix.Name + '<input type="hidden" id="str" value="' + matrix.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + matrix.MatrixId + "mv")[0]);
+                                    });
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
                             });
                         }
                         if (id == 6) {
-                            _.each(lookupVariableNodes(), function (lookup) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + lookup.MethodId + "lum")[0]);
+                            dataservice.GetTreeListById({
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //Lookup Variables
+                                    lookupVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
+                                    lookupVariableNodes.valueHasMutated();
+                                    _.each(lookupVariableNodes(), function (lookup) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + lookup.MethodId + 'lum' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + lookup.Name + '</span><div class="nested-links"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + lookup.MethodId + "lum")[0]);
+                                    });
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
                             });
                         }
-
-                        
-                        //dataservice.getProductCategoryChilds({
-                        //    id: id,
-                        //}, {
-                        //    success: function (data) {
-                        //        if (data.ProductCategories != null) {
-                        //            _.each(data.ProductCategories, function (productCategory) {
-                        //                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
-                        //                ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
-                        //                var category = {
-                        //                    productCategoryId: productCategory.ProductCategoryId,
-                        //                    categoryName: productCategory.CategoryName,
-                        //                    parentCategoryId: id
-                        //                };
-                        //                parentCategories.push(category);
-                        //            });
-                        //        }
-                        //        isLoadingStores(false);
-                        //        $("#categoryTabItems li a").first().trigger("click");
-                        //    },
-                        //    error: function (response) {
-                        //        isLoadingStores(false);
-                        //        toastr.error("Error: Failed To load Categories " + response, "", ist.toastrOptions);
-                        //    }
-                        //});
                     },
                     getCostcenterByCatId = function (dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
@@ -229,8 +291,11 @@ define("costcenter/costcenter.viewModel",
                             event.target.value += vstring;
                         }
                     },
+                    selectVariableString = function (varstring, e) {
+                        selectedVariableString(e.currentTarget.id);
+                    },
                     addVariableToInputControl = function (variable) {
-                        alert('Variable added');
+                       
                     },
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
@@ -378,7 +443,7 @@ define("costcenter/costcenter.viewModel",
                         setDataForNewCostCenter(cc);
                         selectedCostCenter(cc);
                         getCostCentersBaseData();
-                        getVariablesTree();
+                       // getVariablesTree();
                         showCostCenterDetail();
                         sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                     },
@@ -426,7 +491,7 @@ define("costcenter/costcenter.viewModel",
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
                         getCostCentersBaseData();
-                        getVariablesTree();
+                        //getVariablesTree();
                         dataservice.getCostCentreById({
                             id: oCostCenter.costCenterId(),
                         }, {
@@ -467,8 +532,10 @@ define("costcenter/costcenter.viewModel",
                         isEditorVisible(true);
                     },
                     //Get variables Tree
-                    getVariablesTree = function () {
+                    getVariablesTree = function (nodeid) {
                         dataservice.getVariablesTree({
+                            id: nodeid,
+                        }, {
                             success: function (data) {
                                 //CostCenterVariables
                                 costcenterVariableNodes.removeAll();
@@ -548,7 +615,53 @@ define("costcenter/costcenter.viewModel",
                             selectedCostCenter.isSelected(true);
                         });
                     },
-                    
+                    iconClick = function (iconid, event) {
+                        var icoId = event.currentTarget.id;
+                        var icoVal;
+                        if (icoId == 'icoAdd') { icoVal = "+"; }                        
+                        else if (icoId == 'icoSub') { icoVal = "-"; }
+                        else if (icoId == 'icoMul') { icoVal = "*"; }
+                        else if (icoId == 'icoDiv') { icoVal = "/"; }
+                        else if (icoId == 'icoIf') { icoVal = "If ('condition') Then 'Statements' End IF"; }
+                        else if (icoId == 'icoIfEl') { icoVal = "If ('condition') Then 'Statements' Else 'Statements' End IF"; }
+                        else if (icoId == 'icoMod') { icoVal = "Mod"; }
+                        else if (icoId == 'icoPer') { icoVal = "%"; }
+                        else if (icoId == 'icoBrace1') { icoVal = "("; }
+                        else if (icoId == 'icoBrace2') { icoVal = ")"; }
+                            
+                        if (selectedVariableString() === 'txtEstimatePlantCost') {
+                            document.getElementById('txtEstimatePlantCost').value += icoVal;
+                            selectedCostCenter().strCostPlantUnParsed(selectedCostCenter().strCostPlantUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtEstimatePlantPrice') {
+                            document.getElementById('txtEstimatePlantPrice').value += icoVal;
+                            //selectedCostCenter().strPricePlantUnParsed(selectedCostCenter().strPricePlantUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtPlantActualCost') {
+                            selectedCostCenter().strActualCostPlantUnParsed(selectedCostCenter().strActualCostPlantUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtEstimateStockCost') {
+                            selectedCostCenter().strCostMaterialUnParsed(selectedCostCenter().strCostMaterialUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtQuoteStockCost') {
+                            selectedCostCenter().strPriceMaterialUnParsed(selectedCostCenter().strPriceMaterialUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtStockActualCost') {
+                            selectedCostCenter().strActualCostMaterialUnParsed(selectedCostCenter().strActualCostMaterialUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtEstimateLabourCost') {
+                            selectedCostCenter().strCostPlantUnParsed(selectedCostCenter().strCostPlantUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtQuotedLabourCost') {
+                            selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtLabourActualCost') {
+                            selectedCostCenter().strActualCostLabourUnParsed(selectedCostCenter().strActualCostLabourUnParsed() + icoVal);
+                        }
+                        if (selectedVariableString() === 'txtEstimateTimeCost') {
+                            selectedCostCenter().strTimeUnParsed(selectedCostCenter().strTimeUnParsed() + icoVal);
+                        }
+                    },
                     // #region Observables
                     // Initialize the view model
                     initialize = function(specifiedView) {
@@ -601,14 +714,17 @@ define("costcenter/costcenter.viewModel",
                     createWorkInstructionChoice: createWorkInstructionChoice,
                     deleteWorkInstruction: deleteWorkInstruction,
                     deleteWorkInstructionChoice: deleteWorkInstructionChoice,
-                    getVariablesTree: getVariablesTree,
+                    //getVariablesTree: getVariablesTree,
                     getVariableTreeChildListItems: getVariableTreeChildListItems,
                     getCostcenterByCatId: getCostcenterByCatId,
                     getVariablesByType: getVariablesByType,
                     dragged: dragged,
                     addVariableToInputControl: addVariableToInputControl,
                     getCostcenterFixedVariables: getCostcenterFixedVariables,
-                    dropped: dropped
+                    dropped: dropped,
+                    selectVariableString: selectVariableString,
+                    selectedVariableString: selectedVariableString,
+                    iconClick: iconClick
                 };
             })()
         };

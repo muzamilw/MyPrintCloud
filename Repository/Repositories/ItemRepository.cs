@@ -3880,13 +3880,17 @@ namespace MPC.Repository.Repositories
         /// </summary>
         /// <returns></returns>
 
-        public Item CloneReOrderItem(long orderID, Item ExistingItem, long loggedInContactID, string order_code)
+        public Item CloneReOrderItem(long orderID, long ExistingItemId, long loggedInContactID, string order_code, long OrganisationId)
         {
 
             bool result = false;
             Template clonedTemplate = null;
             ItemSection tblItemSectionCloned = null;
             SectionCostcentre tblISectionCostCenteresCloned = null;
+
+          
+
+            Item ExistingItem = GetItemToClone(ExistingItemId);
 
             Item newItem = null;
             try
@@ -3918,26 +3922,57 @@ namespace MPC.Repository.Repositories
                             {
                                 tblISectionCostCenteresCloned = Clone<SectionCostcentre>(tblSectCostCenter);
                                 tblISectionCostCenteresCloned.SectionCostcentreId = 0;
-                                tblItemSectionCloned.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                                //tblItemSectionCloned.SectionCostcentres.Add(tblISectionCostCenteresCloned);
+                                tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                                db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                             }
+                        }
+                        else // add web order section Cost center to item
+                        {
+                            tblISectionCostCenteresCloned.SectionCostcentreId = 0;
+                            tblISectionCostCenteresCloned.ItemSectionId = tblItemSectionCloned.ItemSectionId;
+                            tblISectionCostCenteresCloned.CostCentre =
+                                db.CostCentres.Where(c => c.CostCentreId == 206).FirstOrDefault();
+                            db.SectionCostcentres.Add(tblISectionCostCenteresCloned);
                         }
                     }//Existing item Sections
                 }
                 // In re-order we will copy both the Template and the item attachments..
                 //Copy Template if it does exists
-                if (newItem.TemplateId.HasValue)
+                if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
                 {
-                    long? clonedTemplateID = db.sp_cloneTemplate(newItem.TemplateId.Value, 0, "");
-                    clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
-                    newItem.TemplateId = clonedTemplate.ProductId;
+                    clonedTemplate = new Template();
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+                    {
+                        CompanyContact logInUser = db.CompanyContacts.Where(c => c.ContactId == loggedInContactID).FirstOrDefault();
+                        long resultTemplate = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
+
+                        long? clonedTemplateID = resultTemplate;
+                        clonedTemplate = db.Templates.Where(g => g.ProductId == clonedTemplateID).Single();
+
+                        var oCutomer = db.Companies.Where(i => i.CompanyId == logInUser.CompanyId).FirstOrDefault();
+
+                        if (oCutomer != null)
+                        {
+                            clonedTemplate.TempString = oCutomer.WatermarkText;
+                            clonedTemplate.isWatermarkText = oCutomer.isTextWatermark;
+                            if (oCutomer.isTextWatermark == false)
+                            {
+                                clonedTemplate.TempString = HttpContext.Current.Server.MapPath(oCutomer.WatermarkText);
+                            }
+
+                        }
+                        // here 
+
+                        //  VariablesResolve(itemID, clonedTemplate.ProductId, objContactID);
+                    }
 
                 }
-
                 int sideNumber = 0;
 
                 db.SaveChanges();
                 //ItemId will only be availiable after the save changes...
-
+             
                 //Copy Attachments
                 ExistingItem.ItemAttachments.ToList().ForEach(itemAttatchments =>
                 {
@@ -3956,17 +3991,13 @@ namespace MPC.Repository.Repositories
                 //dbContext.SaveChanges();
                 if (db.SaveChanges() > 0)
                 {
-                    if (clonedTemplate != null)
-                    { // an item is associated with it.
-                        //       // newItem.TemplateID = clonedTemplate.ProductID;
-                        CopyTemplatePaths(clonedTemplate, loggedInContactID);
-
-                        //        //result = dbContext.SaveChanges() > 0 ? true : false;
-                        //        //if (result == true)
-                        //        //{
-                        return newItem;
-
+                    if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+                    {
+                        newItem.TemplateId = clonedTemplate.ProductId;
+                       
+                        CopyTemplatePaths(clonedTemplate, OrganisationId);
                     }
+
                 }
 
             }
