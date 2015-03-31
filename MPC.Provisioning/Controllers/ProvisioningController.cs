@@ -11,6 +11,9 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Net;
+using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
 
 namespace MPC.Provisioning.Controllers
 {
@@ -93,7 +96,7 @@ namespace MPC.Provisioning.Controllers
 
         //}
 
-        public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder)
+        public string Get(string subdomain, string sitePhysicalPath, string siteOrganisationId, string ContactFullName, string userId, string username, string Email, string hash, string mpcContentFolder,string isCorp)
         {
             try
             {
@@ -154,15 +157,28 @@ namespace MPC.Provisioning.Controllers
                          
 
                         // import organisation
-                        //string Path = string.Empty;
+                  
                         string sCurrentServer = ConfigurationManager.AppSettings["instanceUrl"];
-                        //Path = sCurrentServer + "/MPC_Content/Organisations/ExportedZip1.zip";
-                        bool isCorp = false;
-                        Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
-                        WebClient oClient = new WebClient();
-                        
-                       // oClient.OpenRead(uri);
+                       
+                       // Uri uri = new Uri(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
+                        //WebClient oClient = new WebClient();
+                        //oClient.OpenRead(uri);
 
+
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
+                        //request.Method = "GET";
+                        ////request.Credentials = new NetworkCredential("xxx", "xxx");
+                        //var iTask = request.GetRequestStreamAsync();
+                        //Task.WaitAll(iTask);
+                        request.Method = "GET";
+                        using (WebResponse response = request.GetResponse())
+                        {
+                            using (Stream stream = response.GetResponseStream())
+                            {
+                                XmlTextReader reader = new XmlTextReader(stream);
+                               
+                            }
+                        }
 
 
                     }
