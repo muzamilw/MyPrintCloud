@@ -200,6 +200,7 @@ namespace MPC.Repository.Repositories
                         c.TaxLabel,
                         c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
+                        c.PriceFlagId,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
@@ -326,6 +327,7 @@ namespace MPC.Repository.Repositories
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
                         TaxLabel = c.TaxLabel,
+                        PriceFlagId = c.PriceFlagId,
                         TaxRate = c.TaxRate,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
@@ -2124,6 +2126,7 @@ namespace MPC.Repository.Repositories
                             comp = objExpRetail.RetailCompany;
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetail.RetailCompany.Name + "- Copy";
+                            comp.IsDisabled = 0;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2262,6 +2265,7 @@ namespace MPC.Repository.Repositories
                             comp = objExpRetailWOP.RetailCompany;
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetailWOP.RetailCompany.Name + "- Copy";
+                            comp.IsDisabled = 0;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2400,6 +2404,7 @@ namespace MPC.Repository.Repositories
                             comp = objExpCorporate.Company;
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporate.Company.Name + "- Copy";
+                            comp.IsDisabled = 0;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2541,6 +2546,7 @@ namespace MPC.Repository.Repositories
                             comp = objExpCorporateWOP.Company;
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporateWOP.Company.Name + "- Copy";
+                            comp.IsDisabled = 0;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
