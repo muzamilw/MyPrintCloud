@@ -18,25 +18,6 @@
         $("ol#treeviewClickChargeZone").hide();
         $("ol#treeviewMeterCharge").hide();
         $("ol#treeviewGuillotine").hide();
-
-
-    //    $(".treeviewSpeedWeight-partial").hide();
-// $(".treeviewPerHour-partial").hide();
-      //  $(".treeviewMeterCharge-partial").hide();
-        //$(".treeviewClickChargeZone-partial").hide();
-     //   $(".treeviewGuillotine-partial").hide();
-
-        //$("li").click(function () {
-        //    var GettingId = this.id;
-        //    $("ol" + "#" + GettingId).toggle();
-        //});
-        //$("ol").click(function () {
-        //    var GettingId = this.id;
-        //    $("div[class*='-partial']").hide();
-        //    $("." + GettingId + "-partial").show();
-        //    return false;
-        //});
-
         $('.bs-example-tooltips a').popover();
     });
 </script>
@@ -72,7 +53,7 @@
         </div>
         <div class="row" id="prefixesdata" style="float:right;">
             <div class="input-group">
-                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup" id="saveBtn">Save</button>
+                <button class="btn  btn-info btn-primary" style="float: right;margin-bottom: 10px;margin-right: 15px;display:inline;" data-bind="click: $root.saveLookup, css: { 'btn-warning': hasChanges }, enable: $root.hasChanges" id="saveBtn">Save</button>
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Add Lookup <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a data-bind="click: function(){ AddLookup('1');}">Click Charge</a></li>
