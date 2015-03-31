@@ -312,6 +312,7 @@ namespace MPC.Webstore.Controllers
                     BindGriViewWithProductItemList(itemsList, baseResponse, IsShowPrices);
                     return;
                 }
+                shopCart.TaxLabel = baseResponse.Company.TaxLabel + ":";
             }
 
 

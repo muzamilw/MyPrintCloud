@@ -15,10 +15,23 @@
                 <div class="clearfix">
                     <h1 class="pull-left">Manage Stores</h1>
                 </div>
-                <div class="pull-right top-page-ui">
+                @*<div class="pull-right top-page-ui">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
                     </a>
+                </div>*@
+                <div class="btn-group pull-right top-page-ui">
+                    <button class="btn btn-primary" >
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
+                    </button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#" data-bind="click : $root.onCreatePrivateStore">Private Store</a></li>
+                        <li><a href="#" data-bind="click: $root.onCreatePublicStore">Public Store</a></li>
+                    </ul>
                 </div>
                 <div id="addStore">
                     &nbsp;
@@ -101,9 +114,9 @@
                 </td>
 
                 @*<td id="actionColumn">
-                    <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                    <!-- /ko -->
-                </td>*@
+                        <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         @* Filter Template *@
@@ -116,7 +129,7 @@
                             <i class="fa fa-search search-icon"></i>
                         </div>
                     </div>
-                  </form>
+                </form>
             </div>
         </script>
     </div>
@@ -124,31 +137,30 @@
     @{
         Html.RenderPartial("~/Areas/Stores/Views/Stores/ContactCompanyDetail.cshtml");
     }
-    
-    <input type="text" id="isStoreScreen" value="true" style="display: none"/>
+
+    <input type="text" id="isStoreScreen" value="true" style="display: none" />
 
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
 <!-- /ko -->
-
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
 @section Scripts{
-    
+
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
 
         require(["product/product.view", "stores/stores.view", "dropzone", "common/confirmation.view", "common/phraseLibrary.view", "common/stockItem.view"]);
-      
+
         $(function () {
-            
+
             $('#listores').addClass('active');
         });
-        
+
         $(document).ready(function () {
-                       
+
             //min/max slider
             $('.bs-example-tooltips a').popover();
         });

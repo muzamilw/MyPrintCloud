@@ -1390,8 +1390,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isArchived = ko.observable(specifiedisArchived),
             territoryId = ko.observable(specifiedTerritoryId).extend({ required: true }),
             territoryName = ko.observable(specifiedTerritoryName),
-            geoLatitude = ko.observable(specifiedGeoLatitude).extend({ number: true }),
-            geoLongitude = ko.observable(specifiedGeoLongitude).extend({ number: true }),
+            geoLatitude = ko.observable(specifiedGeoLatitude),//.extend({ number: true }),
+            geoLongitude = ko.observable(specifiedGeoLongitude),//.extend({ number: true }),
             isPrivate = ko.observable(specifiedisPrivate),
             isDefaultTerrorityBilling = ko.observable(specifiedisDefaultTerrorityBilling),
             isDefaultTerrorityShipping = ko.observable(specifiedisDefaultTerrorityShipping),
@@ -1404,10 +1404,10 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 territoryId: territoryId,
                 address1: address1,
                 city: city,
-                geoLatitude: geoLatitude,
-                geoLongitude: geoLongitude,
-                email: email,
-                fax: fax
+                //geoLatitude: geoLatitude,
+                //geoLongitude: geoLongitude,
+                email: email
+                //fax: fax
             }),
             // Is Valid 
             isValid = ko.computed(function () {
@@ -2442,7 +2442,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             isApprover = ko.observable(specifiedIsApprover),
             isWebAccess = ko.observable(specifiedisWebAccess),
             isPlaceOrder = ko.observable(specifiedisPlaceOrder),
-            creditLimit = ko.observable(specifiedCreditLimit).extend({ number: true }),
+            creditLimit = ko.observable(specifiedCreditLimit), //.extend({ number: true }),
             isArchived = ko.observable(specifiedisArchived),
             contactRoleId = ko.observable(specifiedContactRoleId),
             territoryId = ko.observable(specifiedTerritoryId),
@@ -2496,8 +2496,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 email: email,
                 bussinessAddressId: bussinessAddressId,
                 password: password,
-                confirmPassword: confirmPassword,
-                creditLimit: creditLimit
+                confirmPassword: confirmPassword
+                //creditLimit: creditLimit
             }),
             // Is Valid 
             isValid = ko.computed(function () {

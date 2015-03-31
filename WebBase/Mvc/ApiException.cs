@@ -55,7 +55,7 @@ namespace MPC.WebBase.Mvc
         {
             MPCExceptionContent contents = new MPCExceptionContent
             {
-                Message = "There is some problem while performing this operation." 
+                Message = "There is some problem while performing this operation. " + filterContext.Exception.InnerException.Message
                 // Replace message text with this line for production environment 
                 // filterContext.Exception.InnerException.Message
             };

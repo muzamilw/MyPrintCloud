@@ -48,7 +48,8 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 isMultipagePDF = item.isMultipagePDF,
                 IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 0,
                 userImage = images[1],
-                companyImage = images[0]
+                companyImage = images[0],
+                ScaleFactor = item.Scalar
             };
 
             var formatter = new JsonMediaTypeFormatter();

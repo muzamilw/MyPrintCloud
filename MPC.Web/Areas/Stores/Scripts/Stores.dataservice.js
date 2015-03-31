@@ -187,6 +187,13 @@
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    // Define request to Create Store
+                    amplify.request.define('createStore', 'ajax', {
+                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to save Smart Form
                     amplify.request.define('saveSmartForm', 'ajax', {
                         url: ist.siteUrl + '/Api/SmartForm',
@@ -642,6 +649,16 @@
                 data: param
             });
         },
+         // Create Store
+        createStore = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'createStore',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
          // save Smart Form
         saveSmartForm = function (param, callbacks) {
             initialize();
@@ -703,7 +720,8 @@
             getThemeDetail: getThemeDetail,
             getCmsTags: getCmsTags,
             getCampaignDetailById: getCampaignDetailById,
-            deleteProductCategoryById: deleteProductCategoryById
+            deleteProductCategoryById: deleteProductCategoryById,
+            createStore: createStore
         };
     })();
 

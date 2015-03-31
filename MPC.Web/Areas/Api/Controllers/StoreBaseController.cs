@@ -97,7 +97,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
             }
-
+            string corporateStoreName = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
+            string retailStoreNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
 
             return new CompanyBaseResponse
             {
@@ -115,7 +116,10 @@ namespace MPC.MIS.Areas.Api.Controllers
                 States = result.States != null ? result.States.Select(x => x.CreateFromDropDown()) : new List<StateDropDown>(),
                 SectionFlags = result.SectionFlags != null ? result.SectionFlags.Select(flag => flag.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
                 PaymentMethods = result.PaymentMethods != null ? result.PaymentMethods.Select(pm => pm.CreateFrom()) : new List<PaymentMethod>(),
-                SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>()
+                SystemVariablesForSmartForms = result.SystemVariablesForSmartForms != null ? result.SystemVariablesForSmartForms.Select(pm => pm.CreateFromForSmartForm()) : new List<FieldVariableForSmartForm>(),
+                OrganisationId = result.OrganisationId,
+                CorporateStoreNameWebConfigValue = corporateStoreName,
+                RetailStoreNameWebConfigValue = retailStoreNameWOP
             };
         }
         #endregion
