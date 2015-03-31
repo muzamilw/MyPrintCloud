@@ -149,6 +149,7 @@ var varList = []; var isRealestateproduct = false;
 var item =  null;
 var smartFormData = null;
 var userVariableData = null;
+var smartFormClicked = true;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

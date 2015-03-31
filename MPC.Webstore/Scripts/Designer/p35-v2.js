@@ -939,10 +939,16 @@ $('#btnReplaceImage').click(function () {
 
 });
 $('#editorLogo').click(function () {
-    StartLoader("Saving and generating preview, Please wait...");
-    //   parent.Next(); // webstore caller function
-    fu12("preview", $("#txtTemplateTitle").val());
-    return false;
+    if (smartFormClicked) {
+        StartLoader("Saving and generating preview, Please wait...");
+        //   parent.Next(); // webstore caller function
+        fu12("preview", $("#txtTemplateTitle").val());
+        return false;
+    } else 
+    {
+        alert("Please merge smart form details into template before you continue !");
+        return false;
+    }
 });
 //$('.mainLeftMenu li').click(function () {
 //    if ($(this).attr("class").indexOf("backgrounds") != 1) {
@@ -2125,7 +2131,8 @@ $("#smartFormSelectUserProfile").change(function () {
     pcl40_InsertUserData(data);
 });
 $("#BtnSmartFormSave").click(function () {
-    pcl42(); 
+    pcl42();
+    smartFormClicked = true;
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();

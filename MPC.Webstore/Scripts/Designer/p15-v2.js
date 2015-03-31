@@ -113,6 +113,7 @@ function fu04_1GetItem(DT)
                        function (DT) {
                            $(".QuickTxt").css("visibility", "visible");
                            pcl41(DT);
+                           smartFormClicked = false; 
                        });
                  }
                  fu04_TempCbkGen(DT);
