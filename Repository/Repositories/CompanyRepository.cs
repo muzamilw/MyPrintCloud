@@ -198,6 +198,7 @@ namespace MPC.Repository.Repositories
                         c.isCalculateTaxByService,
                         c.isWhiteLabel,
                         c.TaxLabel,
+                        c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
@@ -325,6 +326,7 @@ namespace MPC.Repository.Repositories
                         isCalculateTaxByService = c.isCalculateTaxByService,
                         RaveReviews = c.RaveReviews,
                         TaxLabel = c.TaxLabel,
+                        TaxRate = c.TaxRate,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
