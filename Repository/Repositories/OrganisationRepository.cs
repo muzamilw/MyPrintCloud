@@ -137,7 +137,7 @@ namespace MPC.Repository.Repositories
                     objOrg.SmtpUserName = objExpOrg.SmtpUserName;
                     objOrg.SmtpPassword = objExpOrg.SmtpPassword;
                     objOrg.SystemWeightUnit = objExpOrg.SystemWeightUnit;
-                    objOrg.CurrencyId = 1;
+                    objOrg.CurrencyId = objExpOrg.CurrencyId;
                      objOrg.LanguageId = objExpOrg.LanguageId;
                      objOrg.BleedAreaSize = objExpOrg.BleedAreaSize;
                      objOrg.ShowBleedArea = objExpOrg.ShowBleedArea;
@@ -488,6 +488,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -629,6 +630,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -779,10 +781,16 @@ namespace MPC.Repository.Repositories
                          if (org != null)
                          {
                              // language Files
-                             //string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
-                             
-                             
-                             //if(Directory.Exists(Sourcelanguagefiles))
+                             string Sourcelanguagefiles = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Resources/" + ImportIDs.OldOrganisationID);
+
+                             DestinationLanguageFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + ImportIDs.NewOrganisationID);
+
+                             if (Directory.Exists(Sourcelanguagefiles))
+                                 Copy(Sourcelanguagefiles, DestinationLanguageFilePath);
+
+                            
+
+                             //if (Directory.Exists(Sourcelanguagefiles))
                              //{
                              //    foreach (string newPath in Directory.GetFiles(Sourcelanguagefiles, "*.*", SearchOption.AllDirectories))
                              //    {
@@ -830,7 +838,7 @@ namespace MPC.Repository.Repositories
                              //        }
 
                              //    }
-                            
+
                              //}
                           
 
@@ -927,119 +935,119 @@ namespace MPC.Repository.Repositories
 
                          // cost centre images
 
-                         //List<CostCentre> costcentres = db.CostCentres.Where(o => o.OrganisationId == OrganisationID).ToList();
-                         //if (costcentres != null && costcentres.Count > 0)
-                         //{
-                         //    string OldCostCentreID = string.Empty;
-                         //    string OldCostCentreName = string.Empty;
-                         //    foreach (var cos in costcentres)
-                         //    {
-                         //        // copy thumbnail images
-                         //        string OldThumbnailURL = string.Empty;
-                         //        string NewThumbnailURL = string.Empty;
-                         //        if (cos.ThumbnailImageURL != null)
-                         //        {
-                         //            // 123_costName_thumbnail.jpg"
-                         //            string FileName = Path.GetFileName(cos.ThumbnailImageURL);
-                         //            string[] SplitThumbnail = FileName.Split('_');
+                         List<CostCentre> costcentres = db.CostCentres.Where(o => o.OrganisationId == OrganisationID).ToList();
+                         if (costcentres != null && costcentres.Count > 0)
+                         {
+                             string OldCostCentreID = string.Empty;
+                             string OldCostCentreName = string.Empty;
+                             foreach (var cos in costcentres)
+                             {
+                                 // copy thumbnail images
+                                 string OldThumbnailURL = string.Empty;
+                                 string NewThumbnailURL = string.Empty;
+                                 if (cos.ThumbnailImageURL != null)
+                                 {
+                                     // 123_costName_thumbnail.jpg"
+                                     string FileName = Path.GetFileName(cos.ThumbnailImageURL);
+                                     string[] SplitThumbnail = FileName.Split('_');
 
-                         //            if (SplitThumbnail[0] != string.Empty)
-                         //            {
-                         //                OldCostCentreID = SplitThumbnail[0];
+                                     if (SplitThumbnail[0] != string.Empty)
+                                     {
+                                         OldCostCentreID = SplitThumbnail[0];
 
-                         //            }
-
-
-                         //            OldThumbnailURL = Path.GetFileName(cos.ThumbnailImageURL);
-
-                         //            NewThumbnailURL = OldThumbnailURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
-
-                         //            DestinationThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL);
-                         //            DestinationsPath.Add(DestinationThumbPath);
-                         //            string SourceThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldThumbnailURL);
-                         //            string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
-                         //            if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
-                         //            {
-                         //                Directory.CreateDirectory(DestinationCostCentreDirectory);
-                         //                if (Directory.Exists(DestinationCostCentreDirectory))
-                         //                {
-                         //                    if (File.Exists(SourceThumbPath))
-                         //                    {
-                         //                        if (!File.Exists(DestinationThumbPath))
-                         //                            File.Copy(SourceThumbPath, DestinationThumbPath);
-                         //                    }
+                                     }
 
 
-                         //                }
+                                     OldThumbnailURL = Path.GetFileName(cos.ThumbnailImageURL);
+
+                                     NewThumbnailURL = OldThumbnailURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
+
+                                     DestinationThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL);
+                                     DestinationsPath.Add(DestinationThumbPath);
+                                     string SourceThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldThumbnailURL);
+                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
+                                     if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
+                                     {
+                                         Directory.CreateDirectory(DestinationCostCentreDirectory);
+                                         if (Directory.Exists(DestinationCostCentreDirectory))
+                                         {
+                                             if (File.Exists(SourceThumbPath))
+                                             {
+                                                 if (!File.Exists(DestinationThumbPath))
+                                                     File.Copy(SourceThumbPath, DestinationThumbPath);
+                                             }
 
 
-                         //            }
-                         //            else
-                         //            {
-                         //                if (File.Exists(SourceThumbPath))
-                         //                {
-                         //                    if (!File.Exists(DestinationThumbPath))
-                         //                        File.Copy(SourceThumbPath, DestinationThumbPath);
-                         //                }
-
-                         //            }
-                         //            cos.ThumbnailImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL;
-                         //        }
-
-                         //        // copy image URLs
-                         //        string OldMainImageURL = string.Empty;
-                         //        string NewMainImageURL = string.Empty;
-                         //        if (cos.MainImageURL != null)
-                         //        {
-                         //            string name = Path.GetFileName(cos.MainImageURL);
-                         //            string[] SplitMain = name.Split('_');
-                         //            if (SplitMain[0] != string.Empty)
-                         //            {
-                         //                OldCostCentreID = SplitMain[0];
-
-                         //            }
-
-                         //            OldMainImageURL = Path.GetFileName(cos.MainImageURL);
-                         //            NewMainImageURL = OldMainImageURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
-                         //            DestinationMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL);
-                         //            DestinationsPath.Add(DestinationMainPath);
+                                         }
 
 
-                         //            string SourceMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldMainImageURL);
-                         //            string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
-                         //            if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
-                         //            {
-                         //                Directory.CreateDirectory(DestinationCostCentreDirectory);
-                         //                if (Directory.Exists(DestinationCostCentreDirectory))
-                         //                {
-                         //                    if (File.Exists(SourceMainPath))
-                         //                    {
-                         //                        if (!File.Exists(DestinationMainPath))
-                         //                            File.Copy(SourceMainPath, DestinationMainPath);
-                         //                    }
+                                     }
+                                     else
+                                     {
+                                         if (File.Exists(SourceThumbPath))
+                                         {
+                                             if (!File.Exists(DestinationThumbPath))
+                                                 File.Copy(SourceThumbPath, DestinationThumbPath);
+                                         }
+
+                                     }
+                                     cos.ThumbnailImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL;
+                                 }
+
+                                 // copy image URLs
+                                 string OldMainImageURL = string.Empty;
+                                 string NewMainImageURL = string.Empty;
+                                 if (cos.MainImageURL != null)
+                                 {
+                                     string name = Path.GetFileName(cos.MainImageURL);
+                                     string[] SplitMain = name.Split('_');
+                                     if (SplitMain[0] != string.Empty)
+                                     {
+                                         OldCostCentreID = SplitMain[0];
+
+                                     }
+
+                                     OldMainImageURL = Path.GetFileName(cos.MainImageURL);
+                                     NewMainImageURL = OldMainImageURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
+                                     DestinationMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL);
+                                     DestinationsPath.Add(DestinationMainPath);
 
 
-                         //                }
+                                     string SourceMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldMainImageURL);
+                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
+                                     if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
+                                     {
+                                         Directory.CreateDirectory(DestinationCostCentreDirectory);
+                                         if (Directory.Exists(DestinationCostCentreDirectory))
+                                         {
+                                             if (File.Exists(SourceMainPath))
+                                             {
+                                                 if (!File.Exists(DestinationMainPath))
+                                                     File.Copy(SourceMainPath, DestinationMainPath);
+                                             }
 
 
-                         //            }
-                         //            else
-                         //            {
-                         //                if (File.Exists(SourceMainPath))
-                         //                {
-                         //                    if (!File.Exists(DestinationMainPath))
-                         //                        File.Copy(SourceMainPath, DestinationMainPath);
-                         //                }
-
-                         //            }
-                         //            cos.MainImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL;
-                         //        }
+                                         }
 
 
+                                     }
+                                     else
+                                     {
+                                         if (File.Exists(SourceMainPath))
+                                         {
+                                             if (!File.Exists(DestinationMainPath))
+                                                 File.Copy(SourceMainPath, DestinationMainPath);
+                                         }
 
-                         //    }
+                                     }
+                                     cos.MainImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL;
+                                 }
 
-                         //}
+
+
+                             }
+
+                         }
                         // copy report banners
 
                          List<ReportNote> notes = db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
@@ -3290,6 +3298,17 @@ namespace MPC.Repository.Repositories
 
 
         }
+        void Copy(string sourceDir, string targetDir)
+        {
+            Directory.CreateDirectory(targetDir);
+
+            foreach (var file in Directory.GetFiles(sourceDir))
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+
+            foreach (var directory in Directory.GetDirectories(sourceDir))
+                Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)));
+        }
+
         public void DeletePhysicallFiles(string Path)
         {
             if (File.Exists(Path))

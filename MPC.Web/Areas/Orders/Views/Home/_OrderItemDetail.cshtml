@@ -89,13 +89,13 @@
                                             <label class="control-label tooltip-float">Apply MarkUp on all components</label>
                                         </div>
                                         <div class="col-xs-2" style="float:left;">
-                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value: $root.selectedMarkup1"></select>
+                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty1MarkUpId1,event:{ change: $root.onChangeQty1MarkUpId}"></select>
                                         </div>
                                         <div class="col-xs-2">
-                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value: $root.selectedMarkup2"></select>
+                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty2MarkUpId2,event:{ change: $root.onChangeQty2MarkUpId}"></select>
                                         </div>
                                         <div class="col-xs-2">
-                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsValue:'MarkUpId', value: $root.selectedMarkup3"></select>
+                                            <select class="form-control col-lg-4" data-bind="options:$root.markups,optionsText:'MarkUpName',optionsCaption: 'Select Markup',optionsValue:'MarkUpId', value: qty3MarkUpId3,event:{ change: $root.onChangeQty3MarkUpId}"></select>
                                         </div>
                                         <div class="col-xs-2">
                                             &nbsp;
@@ -106,13 +106,13 @@
                                             <label class="control-label tooltip-float" style="font-weight:bolder">Net Total with MarkUp Applied</label>
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" value="$64356.72" id="txtQty1" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotal" />
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" value="$0.0" id="txtQty2" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotal" />
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" value="$0.0" id="txtQty3" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotal" />
                                         </div>
                                         <div class="col-xs-2">
                                             &nbsp;
@@ -132,13 +132,13 @@
                                             </select>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label">$ 643.72</label>
+                                            <label class="control-label" data-bind="text:qty1Tax1Value"></label>
                                         </div>
                                         <div class="col-xs-2  txtBox-contentAlignRight">
-                                            <label class="control-label">$ 0.0</label>
+                                            <label class="control-label" data-bind="text:qty2Tax1Value"></label>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label">$ 0.0</label>
+                                            <label class="control-label" data-bind="text:qty3Tax1Value"></label>
                                         </div>
                                         <div class="col-lg-2">
                                             &nbsp;
@@ -150,13 +150,13 @@
                                             <label class="control-label tooltip-float" style="font-weight:bold">Gross</label>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label" style="font-weight:bold;">$ 70845</label>
+                                            <label class="control-label" style="font-weight:bold;" data-bind="text:qty1GrossTotal"></label>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label" style="font-weight:bold;">$ 0.0</label>
+                                            <label class="control-label" style="font-weight:bold;" data-bind="text:qty2GrossTotal"></label>
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
-                                            <label class="control-label" style="font-weight:bold;">$ 0.0</label>
+                                            <label class="control-label" style="font-weight:bold;" data-bind="text:qty3GrossTotal"></label>
                                         </div>
                                         <div class="col-xs-2">
                                             &nbsp;
@@ -334,7 +334,7 @@
                                             </label>
                                         </div>
                                         <div class="col-lg-4">
-                                            <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'name', optionsId: 'id', optionsCaption: 'Select...', value: nominalCodeId"></select>
+                                            <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsId: 'Id', optionsCaption: 'Select...', value: nominalCodeId"></select>
                                         </div>
                                         
                                     </div>

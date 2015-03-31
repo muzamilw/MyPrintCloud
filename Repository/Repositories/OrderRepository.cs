@@ -2018,8 +2018,8 @@ namespace MPC.Repository.Repositories
             // DbTransaction transaction = null;
             List<Item> ClonedItems = new List<Item>();
             long OrderIdOfReorderItems = 0;
-            using (var dbContextTransaction = db.Database.BeginTransaction())
-            {
+            //using (var dbContextTransaction = db.Database.BeginTransaction())
+            //{
                 try
                 {
                     ExistingOrder = db.Estimates.Where(estm => estm.EstimateId == ExistingOrderId).FirstOrDefault();
@@ -2055,7 +2055,7 @@ namespace MPC.Repository.Repositories
 
                             db.Estimates.Add(shopCartOrder); //dbcontext added
 
-                            db.SaveChanges();
+                            
 
                             OrderIdOfReorderItems = shopCartOrder.EstimateId;
                         }
@@ -2088,12 +2088,13 @@ namespace MPC.Repository.Repositories
                             ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
                         }
                         result = true;
+                        db.SaveChanges();
                     }
                 }
                 catch (Exception ex)
                 {
                     // RollBackTransaction(transaction);
-                    dbContextTransaction.Rollback();
+                    //dbContextTransaction.Rollback();
                     throw ex;
                 }
                 //finally
@@ -2112,7 +2113,7 @@ namespace MPC.Repository.Repositories
                 //   // dbContext = null;
                 //}
                 return OrderIdOfReorderItems;
-            }
+            //}
         }
         public string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
         {

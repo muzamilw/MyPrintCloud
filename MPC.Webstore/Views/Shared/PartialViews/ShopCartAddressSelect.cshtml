@@ -1000,16 +1000,16 @@
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
             }
-            var ShipTO = 'ShippTo';
+            var ShipTO = 'ShippTo:';
             $('#BillTOShippTO').css('display', 'block');
             $('#BillTOShippTOContainer').css('display', 'block');
             $("#ltrlShipTo").html(ShipTO + "");
-            $("#lblAddLine1BilSip").html("");
-            $("#lbladdLine2BilSip").html("");
-            $("#lblCityBilSip").html("");
-            $("#lblStateBilSip").html("");
-            $("#lblCountryBilSip").html("");
-            $("#lblPostCdeBilSip").html("");
+            $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
+            $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
+            $("#lblCityBilSip").html($("#txtCity").val());
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+            $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
+            $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
             //                //Set Selected Value to add new Mode
 
             if (ddlBilling.val() != "") {
@@ -1060,7 +1060,7 @@
         BillingSameAsDeliveryScriptCheckBox();
     }
 
-
+    
     function ChangeAddresLinne1() {
         var val = $('#txtAddressLine1').val();
         $('#lblAddLine1BilSip').html(val);
@@ -1562,6 +1562,8 @@
                     }
                 }
             }
+            $("#lblShipTostate").html($("#ddShippingState option:selected").text());
+            $("#lblShipToCountry").html($('#ddShippingCountry option:selected').text());
         });
     });
 
@@ -1586,9 +1588,25 @@
                     }
                 }
             }
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+            $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
         });
     });
    
+
+    $(function () {
+        $('#ddBillingState').change(function () {
+           
+            $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
+        });
+    });
+
+    $(function () {
+        $('#ddShippingState').change(function () {
+           
+            $("#lblShipTostate").html($("#ddShippingState option:selected").text());
+        });
+    });
 </script>
 
 }

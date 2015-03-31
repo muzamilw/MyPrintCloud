@@ -337,6 +337,22 @@
                                                     <span class="help-block text-right">Tax reference number</span>
                                                 </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Each flag has its own price matrix, so select flag for the prices to be available on webstore." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Price Flags</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.priceFlags,optionsText:'FlagName',optionsValue:'SectionFlagId', value: $root.selectedStore().priceFlagId"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                    <span class="help-block text-right">&nbsp;</span>
+
+                                                </div>
+                                            </div>
 
                                         </div>
                                     </div>
@@ -1608,7 +1624,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
+                                                        <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
@@ -2263,7 +2279,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemCompanyContactTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
+            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
                 <td style="width: 20%; max-width: 20%;">
                     <div class="img col-xs-2">
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />
@@ -2272,10 +2288,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
                         <a href="#" class="store-user-link storeSubText" data-bind="text: email,click : $root.onEditCompanyContact"></a>
                         @*<div class="name">
-                                <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
-                            </div>
-                            <div class="time online" data-bind="text: email">
-                            </div>*@
+                        <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                    </div>
+                    <div class="time online" data-bind="text: email">
+                    </div>*@
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;">
@@ -2293,8 +2309,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 @*
-                    <td data-bind="text: firstName "></td>
-                    <td data-bind="text: contactRoleId"></td>*@
+            <td data-bind="text: firstName "></td>
+            <td data-bind="text: contactRoleId"></td>*@
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
                         <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
@@ -2318,9 +2334,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
                 @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                        <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                        <!-- /ko -->
-                    </td>*@
+                <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                <!-- /ko -->
+            </td>*@
             </tr>
         </script>
         <script id="actionsPaymentGatewayTemplate" type="text/html">

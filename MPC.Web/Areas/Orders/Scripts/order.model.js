@@ -296,13 +296,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedIsQtyRanged, specifiedDefaultItemTax, specifiedStatusId, specifiedStatusName, specifiedQty1, specifiedQty1NetTotal, specifiedItemNotes,
         specifiedProductCategories, specifiedJobCode, specifiedJobCreationDateTime, specifiedJobManagerId, specifiedJobActualStartDateTime,
         specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
-        specifiedInvoiceDescription) {
+        specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
+        specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
+         specifiedTax1) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId || 0),
             // Name
             name = ko.observable(specifiedName || undefined),
-            // Code
+             // Code
             code = ko.observable(specifiedCode || undefined),
             // Product Name
             productName = ko.observable(specifiedProductName || undefined).extend({ required: true }),
@@ -393,6 +395,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions = ko.observableArray([]),
             // Item Sections
             itemSections = ko.observableArray([]),
+
+            qty1MarkUpId1 = ko.observable(specifiedQty1MarkUpId1 || undefined),
+            qty2MarkUpId2 = ko.observable(specifiedQty2MarkUpId2 || undefined),
+            qty3MarkUpId3 = ko.observable(specifiedQty3MarkUpId3 || undefined),
+            qty2NetTotal = ko.observable(specifiedQty2NetTotal || undefined),
+            qty3NetTotal = ko.observable(specifiedQty3NetTotal || undefined),
+            qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || undefined),
+            qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || undefined),
+            qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || undefined),
+            qty1GrossTotal = ko.observable(specifiedQty1GrossTotal || undefined),
+            qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || undefined),
+            qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || undefined),
+            tax1 = ko.observable(specifiedTax1 || undefined),
             // Errors
             errors = ko.validation.group({
                 productCode: productCode,
@@ -573,6 +588,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             nominalCodeId: nominalCodeId,
             invoiceDescription: invoiceDescription,
             itemSections: itemSections,
+            qty1MarkUpId1: qty1MarkUpId1,
+            qty2MarkUpId2: qty2MarkUpId2,
+            qty3MarkUpId3: qty3MarkUpId3,
+            qty2NetTotal: qty2NetTotal,
+            qty3NetTotal: qty3NetTotal,
+            qty1Tax1Value: qty1Tax1Value,
+            qty2Tax1Value: qty2Tax1Value,
+            qty3Tax1Value: qty3Tax1Value,
+            qty1GrossTotal: qty1GrossTotal,
+            qty2GrossTotal: qty2GrossTotal,
+            qty3GrossTotal: qty3GrossTotal,
+            tax1: tax1,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -1313,7 +1340,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     costCentre.Create = function (source) {
         var cost = new costCentre(
             source.CostCentreId,
-            source.Name, 
+            source.Name,
             source.Description,
             source.SetupCost,
             source.PricePerUnitQuantity
@@ -1461,7 +1488,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Pre Payment Constructor
         PrePayment: PrePayment,
         // Inventory
-        Inventory: Inventory, 
+        Inventory: Inventory,
         // Shipping Information Constructor
         ShippingInformation: ShippingInformation
     };
