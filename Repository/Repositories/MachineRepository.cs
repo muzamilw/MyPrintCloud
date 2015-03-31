@@ -159,7 +159,9 @@ namespace MPC.Repository.Repositories
                 deFaultPaperSizeName = GetStockItemName(omachine.DefaultPaperId),
                 deFaultPlatesName = GetStockItemName(omachine.DefaultPlateId),
                 InkCoveragItems = GetInkCoveragItems(),
-                CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol
+                CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
+                WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
+                LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
 
             };
 
@@ -170,6 +172,7 @@ namespace MPC.Repository.Repositories
         {
 
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            
             return new MachineResponseModel
             {
                 machine = null,
@@ -180,7 +183,9 @@ namespace MPC.Repository.Repositories
                 deFaultPaperSizeName = null,
                 deFaultPlatesName = null,
                 InkCoveragItems = GetInkCoveragItems(),
-                CurrencySymbol = organisation.Currency.CurrencySymbol
+                CurrencySymbol = organisation == null ? null : organisation.Currency.CurrencySymbol,
+                WeightUnit = organisation == null ? null : organisation.WeightUnit.UnitName,
+                LengthUnit = organisation == null ? null : organisation.LengthUnit.UnitName
 
             };
 
@@ -421,11 +426,11 @@ namespace MPC.Repository.Repositories
         {
             if (IsGuillotine)
             {
-                return db.LookupMethods.Where(g => g.MethodId == 6 || g.Type == 6).ToList();
+                return db.LookupMethods.Where(g => g.MethodId == 6 && g.OrganisationId == 0 || g.MethodId == 6 && g.OrganisationId == OrganisationId || g.Type == 6 && g.OrganisationId == 0 || g.Type == 6 && g.OrganisationId == OrganisationId).ToList();
             }
             else
             {
-                return db.LookupMethods.Where(g => g.MethodId != 6 && g.Type != 6).ToList();
+                return db.LookupMethods.Where(g => g.MethodId != 6 && g.Type != 6 && g.OrganisationId == 0 || g.MethodId != 6 && g.Type != 6 && g.OrganisationId == OrganisationId).ToList();
             }
 
         }

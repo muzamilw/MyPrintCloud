@@ -109,6 +109,21 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
         }
+
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // parameter 1 = item id 
+        // parameter 2 = contactID 
+        public HttpResponseMessage GetUserVariableData(long parameter1, long parameter2)
+        {
+            var result = smartFormService.GetUserTemplateVariables(parameter1, parameter2);
+            var formatter = new JsonMediaTypeFormatter();
+            var json = formatter.SerializerSettings;
+            json.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            return Request.CreateResponse(HttpStatusCode.OK, result, formatter);
+
+        }
         #endregion
     }
 

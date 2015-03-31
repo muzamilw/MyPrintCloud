@@ -16,7 +16,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CampaignEmailVariable()
             {
                 VariableId = source.VariableId,
-                VariableName = source.VariableName
+                VariableName = source.VariableName,
+                VariableTag = source.VariableTag,
             };
         }
     }

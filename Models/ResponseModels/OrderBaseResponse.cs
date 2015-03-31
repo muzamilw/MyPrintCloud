@@ -42,5 +42,10 @@ namespace MPC.Models.ResponseModels
         /// Stock Categories
         /// </summary>
         public IEnumerable<StockCategory> StockCategories { get; set; }
+
+        /// <summary>
+        /// Chart Of Accounts
+        /// </summary>
+        public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public IEnumerable<LookupMethod> GetAll()
+        public LookupMethodListResponse GetAll()
         {
             return _LookupMethodRepository.GetAll();
         }

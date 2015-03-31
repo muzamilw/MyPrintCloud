@@ -166,6 +166,8 @@
             Minimumsheetwidth = ko.observable(),
             LookupMethodId = ko.observable(),
             CurrencySymbol = ko.observable(),
+            WeightUnit = ko.observable(),
+            LengthUnit = ko.observable(),
             onSelectStockItem = function (ostockItem) {
                 if (ostockItem.category == "Plates") {
                     deFaultPlatesName(ostockItem.name);
@@ -341,7 +343,9 @@
             MachineInkCoverages: MachineInkCoverages,
             MachineSpoilageItems: MachineSpoilageItems,
             onSelectStockItem: onSelectStockItem,
-            CurrencySymbol: CurrencySymbol
+            CurrencySymbol: CurrencySymbol,
+            WeightUnit: WeightUnit,
+            LengthUnit: LengthUnit
           
         };
         return self;
@@ -565,11 +569,13 @@
         }
         
         omachine.CurrencySymbol(source.CurrencySymbol);
+        omachine.WeightUnit(source.WeightUnit);
+        omachine.LengthUnit(source.LengthUnit);
+       
         omachine.maximumsheetweight(source.machine.maximumsheetweight);
         omachine.maximumsheetheight(source.machine.maximumsheetheight);
         omachine.maximumsheetwidth(source.machine.maximumsheetwidth);
-        //omachine.minimumsheetheight(source.machine.minimumsheetheight);
-        //omachine.minimumsheetwidth(source.machine.minimumsheetwidth);
+
         if (!(source.machine.gripdepth == 0 || source.machine.gripdepth == null || source.machine.gripdepth == undefined)) {
             omachine.gripdepth(source.machine.gripdepth);
         }
@@ -759,7 +765,9 @@
         //omachine.markupList.removeAll();
         //ko.utils.arrayPushAll(omachine.markupList(), source.Markups);
         //omachine.markupList.valueHasMutated();
-
+        omachine.CurrencySymbol(source.CurrencySymbol);
+        omachine.WeightUnit(source.WeightUnit);
+        omachine.LengthUnit(source.LengthUnit);
 
         for (i = 0; i < 8; i++) {
             omachine.MachineSpoilageItems.push(newMachineSpoilageItemsMapper(i));
