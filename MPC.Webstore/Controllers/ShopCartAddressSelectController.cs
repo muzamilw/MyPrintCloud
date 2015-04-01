@@ -88,7 +88,7 @@ namespace MPC.Webstore.Controllers
 
                 }
 
-                UserCookieManager.OrderId = OrderID;
+                UserCookieManager.WEBOrderId = OrderID;
 
 
                 MyCompanyDomainBaseResponse baseresponseOrg = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromOrganisation();
@@ -664,7 +664,7 @@ namespace MPC.Webstore.Controllers
                 string PostCode = model.ShippingAddress.PostCode;
                 CompanyContact contact = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID());
 
-                ShoppingCart shopCart = LoadShoppingCart(UserCookieManager.OrderId, model);
+                ShoppingCart shopCart = LoadShoppingCart(UserCookieManager.WEBOrderId, model);
 
                 model.shopcart = shopCart;
 
@@ -745,7 +745,7 @@ namespace MPC.Webstore.Controllers
                 model.DDShippingAddresses = new SelectList(model.ShippingAddresses, "AddressId", "AddressName");
 
                 deliveryCostCentersList = GetDeliveryCostCenterList();
-                BindDeliveryCostCenterDropDown(deliveryCostCentersList, UserCookieManager.OrderId, model);
+                BindDeliveryCostCenterDropDown(deliveryCostCentersList, UserCookieManager.WEBOrderId, model);
 
                 List<Country> country = _IOrderService.PopulateBillingCountryDropDown();
                 PopulateBillingCountryDropDown(country, model);
@@ -755,7 +755,7 @@ namespace MPC.Webstore.Controllers
                 bool Result = ConfirmOrder(1, addLine1, city, PostCode, baseresponseComp, model, baseresponseOrg);
                 if (Result)
                 {
-                    Response.Redirect("/OrderConfirmation/" + UserCookieManager.OrderId);
+                    Response.Redirect("/OrderConfirmation/" + UserCookieManager.WEBOrderId);
                     return null;
                 }
                 else
@@ -847,15 +847,15 @@ namespace MPC.Webstore.Controllers
 
                                         //double TaxRate = 0.04;
                                         if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                                            _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Corp);
+                                            _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.WEBOrderId, TaxRate, StoreMode.Corp);
                                         else
-                                            _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Retail);
+                                            _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.WEBOrderId, TaxRate, StoreMode.Retail);
 
                                     }
                                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.WEBOrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
                                     else
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.WEBOrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
                                 }
                                 else
                                 {
@@ -867,9 +867,9 @@ namespace MPC.Webstore.Controllers
 
                                             // double TaxRate = 0.04;
                                             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                                                _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Corp);
+                                                _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.WEBOrderId, TaxRate, StoreMode.Corp);
                                             else
-                                                _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.OrderId, TaxRate, StoreMode.Retail);
+                                                _IOrderService.updateTaxInCloneItemForServic(UserCookieManager.WEBOrderId, TaxRate, StoreMode.Retail);
                                         }
                                         catch (Exception ex)
                                         {
@@ -880,9 +880,9 @@ namespace MPC.Webstore.Controllers
                                         }
                                     }
                                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.WEBOrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Corp);
                                     else
-                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.OrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.OrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
+                                        result = _IOrderService.UpdateOrderWithDetailsToConfirmOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), OrderStatus.ShoppingCart, billingAdd, deliveryAdd, _IOrderService.UpdateORderGrandTotal(UserCookieManager.WEBOrderId), yourRefNumber, specialTelNumber, notes, true, StoreMode.Retail);
                                 }
 
 
@@ -1202,12 +1202,12 @@ namespace MPC.Webstore.Controllers
                             CostOfDelivery = Convert.ToDouble(SelecteddeliveryCostCenter.DeliveryCharges);
                         }
 
-                        List<Item> DeliveryItemList = _IItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.OrderId);
+                        List<Item> DeliveryItemList = _IItemService.GetListOfDeliveryItemByOrderID(UserCookieManager.WEBOrderId);
 
 
                         if (DeliveryItemList.Count > 1)
                         {
-                            if (_IItemService.RemoveListOfDeliveryItemCostCenter(Convert.ToInt32(UserCookieManager.OrderId)))
+                            if (_IItemService.RemoveListOfDeliveryItemCostCenter(Convert.ToInt32(UserCookieManager.WEBOrderId)))
                             {
                                 AddNewDeliveryCostCentreToItem(SelecteddeliveryCostCenter, CostOfDelivery, baseResponseCompany);
                             }
@@ -1234,18 +1234,18 @@ namespace MPC.Webstore.Controllers
                 {
                     if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                     {
-                        _IItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.OrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.Company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.Company.IsDeliveryTaxAble ?? false, baseResponse.Company.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.Company.TaxRate ?? 0);
+                        _IItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.Company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.Company.IsDeliveryTaxAble ?? false, baseResponse.Company.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.Company.TaxRate ?? 0);
 
 
                     }
                     else
                     {
-                        _IItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.OrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.Company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.Company.IsDeliveryTaxAble ?? false, baseResponse.Company.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.Company.TaxRate ?? 0);
+                        _IItemService.AddUpdateItemFordeliveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter.CostCentreId, costOfDelivery, baseResponse.Company.CompanyId, SelecteddeliveryCostCenter.Name, StoreMode.Corp, baseResponse.Company.IsDeliveryTaxAble ?? false, baseResponse.Company.isCalculateTaxByService ?? false, GetServiceTAX, baseResponse.Company.TaxRate ?? 0);
                     }
 
                 }
                 SelecteddeliveryCostCenter.SetupCost = costOfDelivery;
-                bool resultOfDilveryCostCenter = _IOrderService.SaveDilveryCostCenter(UserCookieManager.OrderId, SelecteddeliveryCostCenter);
+                bool resultOfDilveryCostCenter = _IOrderService.SaveDilveryCostCenter(UserCookieManager.WEBOrderId, SelecteddeliveryCostCenter);
             }
         }
         private bool GetFedexResponse(out double Baseamount, out double SurchargeAmount, out double Taxamount, out double NetFedexCharge, MyCompanyDomainBaseResponse baseResponseOrganisation, MyCompanyDomainBaseResponse baseResponseCompany, ShopCartAddressSelectViewModel model)
@@ -1444,10 +1444,10 @@ namespace MPC.Webstore.Controllers
 
             int temp = 1;
             int Counter = 0;
-            Estimate tblOrder = _IOrderService.GetOrderByID(UserCookieManager.OrderId);
+            Estimate tblOrder = _IOrderService.GetOrderByID(UserCookieManager.WEBOrderId);
             if (tblOrder != null)
             {
-                List<Item> ClonedITem = _IItemService.GetItemsByOrderID(UserCookieManager.OrderId);
+                List<Item> ClonedITem = _IItemService.GetItemsByOrderID(UserCookieManager.WEBOrderId);
 
                 if (ClonedITem != null)
                 {

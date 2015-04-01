@@ -7,6 +7,11 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ICompanyService
     {
+        /// <summary>
+        /// Deletes a company permanently
+        /// </summary>
+        void DeleteCompanyPermanently(long companyId);
+
         CompanyResponse GetAllCompaniesOfOrganisation(CompanyRequestModel request);
         CompanyTerritoryResponse SearchCompanyTerritories(CompanyTerritoryRequestModel request);
         CompanyContactResponse SearchCompanyContacts(CompanyContactRequestModel request);

@@ -20,7 +20,7 @@ namespace MPC.Interfaces.Repository
         void DeleteTemplatePagesAndObjects(long ProductID, out List<TemplateObject> listObjs,out List<TemplatePage> listPages);
         bool DeleteTemplate(long ProductID, out long CategoryID);
         void populateTemplateInfo(long templateID, Item ItemRecc, out Template template, out List<TemplatePage> tempPages);
-        bool updateTemplate(long productID, double pdfWidth, double pdfHeight);
+        bool updateTemplate(long productID, double pdfWidth, double pdfHeight,int count);
         bool updateTemplatePages(int count, long productId);
         bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listPages);
         bool updateTemplate(long productID, double pdfWidth, double pdfHeight, List<TemplatePage> listNewPages, List<TemplatePage> listOldPages, List<TemplateObject> listObjects);
@@ -28,5 +28,6 @@ namespace MPC.Interfaces.Repository
         long SaveTemplateLocally(Template oTemplate, List<TemplatePage> oTemplatePages, List<TemplateObject> oTemplateObjects, List<TemplateBackgroundImage> oTemplateImages, List<TemplateFont> oTemplateFonts, long organisationID, out List<TemplateFont> fontsToDownload, int mode, long localTemplateID);
         void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
         Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId);
+
     }
 }

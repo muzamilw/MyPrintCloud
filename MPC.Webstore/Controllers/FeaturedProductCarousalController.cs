@@ -69,7 +69,7 @@ namespace MPC.Webstore.Controllers
 
             long ContactID = _myClaimHelper.loginContactID();
             long CompanyID = _myClaimHelper.loginContactCompanyID();
-            if (UserCookieManager.OrderId == 0)
+            if (UserCookieManager.WEBOrderId == 0)
             {
                 long OrderID = 0;
                 long TemporaryRetailCompanyId = 0;
@@ -79,7 +79,7 @@ namespace MPC.Webstore.Controllers
                     OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
-                        UserCookieManager.OrderId = OrderID;
+                        UserCookieManager.WEBOrderId = OrderID;
                     }
                     if (TemporaryRetailCompanyId != 0)
                     {
@@ -94,7 +94,7 @@ namespace MPC.Webstore.Controllers
                     OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
-                        UserCookieManager.OrderId = OrderID;
+                        UserCookieManager.WEBOrderId = OrderID;
                     }
                 }
 
@@ -123,7 +123,7 @@ namespace MPC.Webstore.Controllers
                     long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                     if (OrderID > 0)
                     {
-                        UserCookieManager.OrderId = OrderID;
+                        UserCookieManager.WEBOrderId = OrderID;
                     }
                     if (TemporaryRetailCompanyId != 0)
                     {
@@ -137,7 +137,7 @@ namespace MPC.Webstore.Controllers
                     CompanyID = UserCookieManager.TemporaryCompanyId;
                     ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                 }
-                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+                Item item = _IItemService.CloneItem(id, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                 if (item != null)
                 {

@@ -46,7 +46,8 @@
                         </div>
                         <div class="col-xs-2">
                         </div>
-                        <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
+                        <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                            <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
                         </div>
@@ -1038,7 +1039,7 @@
                                                     </div>
                                                 </div>
 
-                                               
+
                                                 @*Banners Grid Starts here*@
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="table-responsive">
@@ -2288,10 +2289,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
                         <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
                         <a href="#" class="store-user-link storeSubText" data-bind="text: email,click : $root.onEditCompanyContact"></a>
                         @*<div class="name">
-                        <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
-                    </div>
-                    <div class="time online" data-bind="text: email">
-                    </div>*@
+                                <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                            </div>
+                            <div class="time online" data-bind="text: email">
+                            </div>*@
                     </div>
                 </td>
                 <td style="width: 10%; max-width: 10%;">
@@ -2309,8 +2310,8 @@ Public  - allows users to see other users addresses and orders." data-original-t
                     </div>
                 </td>
                 @*
-            <td data-bind="text: firstName "></td>
-            <td data-bind="text: contactRoleId"></td>*@
+                    <td data-bind="text: firstName "></td>
+                    <td data-bind="text: contactRoleId"></td>*@
                 <td style="width: 10%; max-width: 10%;">
                     <div class="type">
                         <span class="label" data-bind="text: isWebAccess() == true ? 'Yes' : 'No' , css: { 'label-success': (isWebAccess() == true),'label-danger': (isWebAccess() != true)}"></span>   @*class="label label-danger"*@
@@ -2334,9 +2335,9 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </td>
                 <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
                 @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
-                <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
-                <!-- /ko -->
-            </td>*@
+                        <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
+                        <!-- /ko -->
+                    </td>*@
             </tr>
         </script>
         <script id="actionsPaymentGatewayTemplate" type="text/html">
