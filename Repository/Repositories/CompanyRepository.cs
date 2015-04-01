@@ -1953,6 +1953,7 @@ namespace MPC.Repository.Repositories
             }
             return Result;
         }
+
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>

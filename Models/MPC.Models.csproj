@@ -365,6 +365,7 @@
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
+    <Compile Include="RequestModels\DeleteCompanyRequest.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
