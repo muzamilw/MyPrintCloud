@@ -241,18 +241,18 @@ namespace MPC.Webstore.Controllers
 
                     isContactCreate = true;
 
-                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.OrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
+                    long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
 
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
                     cep.StoreID = UserCookieManager.WBStoreId;
                     Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
-                        cep.AddressID = CompanyDefaultAddress.AddressId;
+                        cep.AddressId = CompanyDefaultAddress.AddressId;
                     }
                     else
                     {
-                        cep.AddressID = 0;
+                        cep.AddressId = 0;
                     }
 
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
@@ -303,11 +303,11 @@ namespace MPC.Webstore.Controllers
                 Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                 if (CompanyDefaultAddress != null)
                 {
-                    cep.AddressID = CompanyDefaultAddress.AddressId;
+                    cep.AddressId = CompanyDefaultAddress.AddressId;
                 }
                 else
                 {
-                    cep.AddressID = 0;
+                    cep.AddressId = 0;
                 }
 
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.CorpUserRegistration, StoreBaseResopnse.Company.OrganisationId ?? 0 , UserCookieManager.WBStoreId);

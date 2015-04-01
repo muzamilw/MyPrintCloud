@@ -216,7 +216,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (result)
                                     {
-                                        UpdateEstimateRecord(variablValues.EstimateID);
+                                        UpdateEstimateRecord(variablValues.EstimateId);
                                     }
                                 }
                             }
@@ -273,14 +273,14 @@ namespace MPC.Repository.Repositories
                 // SalesManager = GetSalesManagerDataByID(Convert.ToInt32(company.SalesAndOrderManagerId1));
                 if (SalesManager != null)
                 {
-                    Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event, OrganisationId, CompanyId);
+                    Campaign EventCampaign = GetCampaignRecordByEmailEvent(Event, OrganisationId, StoreId);
                     CampaignEmailParams EmailParams = new CampaignEmailParams();
                     EmailParams.ContactId = ContactId;
                     EmailParams.CompanyId = CompanyId;
-                    EmailParams.CompanySiteID = 1;
-                    EmailParams.AddressID = CompanyId;
-                    EmailParams.SystemUserID = SalesManager.SystemUserId;
-                    EmailParams.InquiryID = RFQId;
+                    EmailParams.OrganisationId = 1;
+                    EmailParams.AddressId = CompanyId;
+                    EmailParams.SystemUserId = SalesManager.SystemUserId;
+                    EmailParams.InquiryId = RFQId;
                     if (Mode == StoreMode.Retail)
                     {
                         EmailParams.StoreID = ServerSettings.OrganisationId;
@@ -315,9 +315,9 @@ namespace MPC.Repository.Repositories
                     }
                     if (OrderId > 0)
                     {
-                        EmailParams.EstimateID = OrderId;
+                        EmailParams.EstimateId = OrderId;
 
-                        EmailParams.ItemID = ItemID;
+                        EmailParams.ItemId = ItemID;
                     }
 
                     if (!string.IsNullOrEmpty(MarketingBreifMesgSummry))
@@ -366,6 +366,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 string tagValue = null;
+                bool HasVariableValue = false;
                 do
                 {
                     int firstindex = HtmlDocToResolve.IndexOf("«");
@@ -424,7 +425,20 @@ namespace MPC.Repository.Repositories
 
                                             if (propertyInfo.Name == tagRecord.CriteriaFieldName)
                                             {
-                                                if (Convert.ToInt32(propertyInfo.GetValue(variablValues, null)) > 0)
+
+                                                if (propertyInfo.Name == "SystemUserId")
+                                                {
+                                                    if (!string.IsNullOrEmpty(Convert.ToString(propertyInfo.GetValue(variablValues, null))))
+                                                    {
+                                                        HasVariableValue = true;
+                                                    }
+                                                }
+                                                else if(Convert.ToInt32(propertyInfo.GetValue(variablValues, null)) > 0)
+                                                {
+                                                    HasVariableValue = true;
+                                                }
+
+                                                if (HasVariableValue)
                                                 {
                                                     if (propertyInfo.Name == "ApprovarID")
                                                     {
@@ -488,41 +502,6 @@ namespace MPC.Repository.Repositories
                                                         else
                                                         {
                                                             tagValue = DynamicQueryToGetAddressByCompanyID(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                        }
-
-                                                    }
-                                                    else if (propertyInfo.Name == "BrokerID")
-                                                    {
-                                                        if (Tag.Contains("Broker_Website"))
-                                                        {
-                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                            tagValue = oContext.Request.Url.Scheme + "://" + tagValue;
-                                                        }
-                                                        if (Tag.Contains("StoreDomainName"))
-                                                        {
-                                                            tagValue = DynamicQueryToGetBrokerImageURL(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                            tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue + "/login";
-                                                        }
-                                                    }
-                                                    else if (propertyInfo.Name == "BrokerContactID")
-                                                    {
-                                                        if (Tag.Contains("Broker_Address"))
-                                                        {
-                                                            // address
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
-                                                            Address Address = GetAddressById(Convert.ToInt32(tagValue));
-
-                                                            string country = Address.Country != null
-                                                                ? Address.Country.CountryName
-                                                                : string.Empty;
-                                                            string state = Address.State != null
-                                                                ? Address.State.StateName
-                                                                : string.Empty;
-                                                            tagValue = Address.Address1 + Address.Address2 + ", " + Address.City + ", " + state + ", " + country + ", " + Address.PostCode;
-                                                        }
-                                                        else
-                                                        {
-                                                            tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ContactID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                         }
 
                                                     }
@@ -611,6 +590,11 @@ namespace MPC.Repository.Repositories
                                                     else if (propertyInfo.Name == "orderedItemID")
                                                     {
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "ItemID", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
+                                                    }
+                                                    else if (propertyInfo.Name == "SystemUserId")
+                                                    {
+                                                        Guid SystemUserId = (Guid)propertyInfo.GetValue(variablValues, null);
+                                                        tagValue = DynamicQueryToSystemUserRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, SystemUserId);
                                                     }
                                                     else
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, propertyInfo.Name, Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
@@ -702,6 +686,26 @@ namespace MPC.Repository.Repositories
                 //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
 
                 System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+                oResult = result.FirstOrDefault();
+                return oResult;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+        public string DynamicQueryToSystemUserRecord(string feildname, string tblname, string keyName, Guid keyValue)
+        {
+            try
+            {
+
+                string oResult = null;
+                //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+
+                System.Data.Entity.Infrastructure.DbRawSqlQuery<string> result = db.Database.SqlQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= '" + keyValue + "'", "");
                 oResult = result.FirstOrDefault();
                 return oResult;
             }
@@ -919,7 +923,7 @@ namespace MPC.Repository.Repositories
                         obj.CompanyId = Companyid;
                         obj.SalesManagerContactID = corpRec.ContactId;
                         obj.StoreID = Companyid;
-                        obj.AddressID = Companyid;
+                        obj.AddressId = Companyid;
                         emailBodyGenerator(CorporateOrderForApprovalCampaign, SeverSettings, obj, corpRec, StoreMode.Corp, "", "", "", corpRec.Email, "");
                     }
                 }

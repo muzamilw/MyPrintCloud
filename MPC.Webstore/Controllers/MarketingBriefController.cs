@@ -172,7 +172,7 @@ namespace MPC.Webstore.Controllers
             CampaignEmailParams EmailParams = new CampaignEmailParams();
             EmailParams.ContactId = _myClaimHelper.loginContactID();
             EmailParams.CompanyId = UserCookieManager.WBStoreId;
-            EmailParams.CompanySiteID = 1;
+            EmailParams.OrganisationId = 1;
 
             EmailParams.MarketingID = 1;
 
@@ -191,12 +191,12 @@ namespace MPC.Webstore.Controllers
                 SystemUser SalesMagerRec = _IUserManagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
                 if (SalesMagerRec != null)
                 {
-                    EmailParams.SystemUserID = SalesMagerRec.SystemUserId;
+                    EmailParams.SystemUserId = SalesMagerRec.SystemUserId;
                     Email = SalesMagerRec.Email;
                 }
                 else
                 {
-                    EmailParams.SystemUserID = null;
+                    EmailParams.SystemUserId = null;
                   
                 }
                 EmailParams.StoreID = StoreBaseResopnse.Organisation.OrganisationId;

@@ -360,10 +360,10 @@ namespace MPC.Webstore.Controllers
                 ViewBag.txtTemplateID = TempID;
                 ViewBag.Count = count;
 
-                if (UserCookieManager.OrderId > 0)
+                if (UserCookieManager.WEBOrderId > 0)
                 {
 
-                            var result = _IItemService.GetItemByOrderAndItemID(ItemID,UserCookieManager.OrderId);
+                            var result = _IItemService.GetItemByOrderAndItemID(ItemID,UserCookieManager.WEBOrderId);
                             if (result != null)
                             {
 
@@ -798,7 +798,7 @@ namespace MPC.Webstore.Controllers
                
                 if (EditTempType == "SameTemplate" && DesignState == "resume")
                 {
-                    Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                    Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.WEBOrderId);
                     if (Item != null)
                     {
                         var localTemplate = _ITemplateService.GetTemplate(Item.TemplateId ?? 0);
@@ -815,7 +815,7 @@ namespace MPC.Webstore.Controllers
                 {
 
                     //  long itemID = itemID;
-                      Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                      Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.WEBOrderId);
                       if (Item != null)
                       {
                           var localTemplate = _ITemplateService.GetTemplate(Item.TemplateId ?? 0);
@@ -835,7 +835,7 @@ namespace MPC.Webstore.Controllers
                        
                         List<ArtWorkAttatchment> attachments = new List<ArtWorkAttatchment>();
                         Template template = new Template();
-                        Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                        Item Item = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.WEBOrderId);
                         if (Item != null)
                         {
                             _IItemService.RemoveCloneItem(Item.ItemId, out attachments, out template);
@@ -849,7 +849,7 @@ namespace MPC.Webstore.Controllers
                         List<ArtWorkAttatchment> attachments = new List<ArtWorkAttatchment>();
                         Template template = new Template();
 
-                        Item result = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.OrderId);
+                        Item result = _IItemService.GetItemByOrderItemID(ItemID, UserCookieManager.WEBOrderId);
                         if (result != null)
                         {
                             _IItemService.RemoveCloneItem(result.ItemId,out attachments,out template);
@@ -877,7 +877,7 @@ namespace MPC.Webstore.Controllers
                       //processing order information and adding the selected item
                    
                    
-                    if (UserCookieManager.OrderId == 0)
+                    if (UserCookieManager.WEBOrderId == 0)
                     {
                         long TemporaryRetailCompanyId = 0;
                         if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
@@ -886,7 +886,7 @@ namespace MPC.Webstore.Controllers
                             long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
-                                UserCookieManager.OrderId = OrderID;
+                                UserCookieManager.WEBOrderId = OrderID;
                             }
                             if (TemporaryRetailCompanyId != 0)
                             {
@@ -901,14 +901,14 @@ namespace MPC.Webstore.Controllers
                             long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
-                                UserCookieManager.OrderId = OrderID;
+                                UserCookieManager.WEBOrderId = OrderID;
                             }
                         }
 
                         // create new order
 
 
-                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                             if (item != null)
                             {
@@ -930,7 +930,7 @@ namespace MPC.Webstore.Controllers
                             long OrderID = _orderService.ProcessPublicUserOrder(string.Empty, StoreBaseResopnse.Organisation.OrganisationId, (StoreMode)UserCookieManager.WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
                             if (OrderID > 0)
                             {
-                                UserCookieManager.OrderId = OrderID;
+                                UserCookieManager.WEBOrderId = OrderID;
                             }
                             if (TemporaryRetailCompanyId != 0)
                             {
@@ -944,7 +944,7 @@ namespace MPC.Webstore.Controllers
                             CompanyID = UserCookieManager.TemporaryCompanyId;
                             ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
                         }
-                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.OrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
+                        Item item = _IItemService.CloneItem(ItemID, 0, UserCookieManager.WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, StoreBaseResopnse.Organisation.OrganisationId);
 
                         if (item != null)
                         {

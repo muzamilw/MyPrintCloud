@@ -328,13 +328,13 @@ namespace MPC.Webstore.Common
             }
         }
 
-        public static long OrderId
+        public static long WEBOrderId
         {
             get
             {
-                if (HttpContext.Current.Request.Cookies["OrderId"] != null)
+                if (HttpContext.Current.Request.Cookies["WEBOrderId"] != null)
                 {
-                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["OrderId"].Value));
+                    return Convert.ToInt64((HttpContext.Current.Request.Cookies["WEBOrderId"].Value));
                 }
                 else
                 {
@@ -344,14 +344,14 @@ namespace MPC.Webstore.Common
             }
             set
             {
-                if (HttpContext.Current.Response.Cookies["OrderId"] != null)
+                if (HttpContext.Current.Response.Cookies["WEBOrderId"] != null)
                 {
-                    HttpContext.Current.Response.Cookies.Remove("OrderId");
+                    HttpContext.Current.Response.Cookies.Remove("WEBOrderId");
 
                 }
 
                 HttpCookie OrderIdCookie = null;
-                OrderIdCookie = new HttpCookie("OrderId", value.ToString());
+                OrderIdCookie = new HttpCookie("WEBOrderId", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(OrderIdCookie);
             }
         }
