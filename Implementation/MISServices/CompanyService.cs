@@ -5723,9 +5723,9 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpCorpWOP = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpRetailWOP = new Models.Common.ExportOrganisation();
-                string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore");
+                string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore");
 
-                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/DefaulStorePackage/DefaultStores.zip");
+                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/DefaulStorePackage/DefaultStores.zip");
 
 
                 if (File.Exists(ZipPath))
