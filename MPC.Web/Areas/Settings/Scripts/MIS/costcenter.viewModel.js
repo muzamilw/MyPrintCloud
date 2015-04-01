@@ -447,6 +447,18 @@ define("costcenter/costcenter.viewModel",
                         showCostCenterDetail();
                         sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                     },
+                    createDeliveryCostCenter = function () {
+                        errorList.removeAll();
+                        var cc = new model.CostCenter();
+                        cc.setupCost('0');
+                        cc.minimumCost('0');
+                        cc.type('11');
+                        selectedCostCenter(cc);
+                        getCostCentersBaseData();
+                        // getVariablesTree();
+                        showCostCenterDetail();
+                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                    },
                     setDataForNewCostCenter = function (newcostcenter) {
                         newcostcenter.costPerUnitQuantity('0');
                         newcostcenter.unitQuantity('0');
@@ -724,7 +736,8 @@ define("costcenter/costcenter.viewModel",
                     dropped: dropped,
                     selectVariableString: selectVariableString,
                     selectedVariableString: selectedVariableString,
-                    iconClick: iconClick
+                    iconClick: iconClick,
+                    createDeliveryCostCenter: createDeliveryCostCenter
                 };
             })()
         };
