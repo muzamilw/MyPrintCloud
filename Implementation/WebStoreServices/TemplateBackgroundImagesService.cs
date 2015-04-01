@@ -603,7 +603,6 @@ namespace MPC.Implementation.WebStoreServices
                 try
                 {
                     theDoc.Read(physicalPath);
-                    _templateRepository.updateTemplate(TemplateID, theDoc.MediaBox.Width, theDoc.MediaBox.Height);
                     int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
                     int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
                     for (int i = 1; i <= theDoc.PageCount; i++)
@@ -664,6 +663,8 @@ namespace MPC.Implementation.WebStoreServices
                                 singlePagePdf.Dispose();
                         }
                     }
+
+                    _templateRepository.updateTemplate(TemplateID, theDoc.MediaBox.Width, theDoc.MediaBox.Height,count);
                 }
                 catch (Exception ex)
                 {

@@ -447,6 +447,18 @@ define("costcenter/costcenter.viewModel",
                         showCostCenterDetail();
                         sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                     },
+                    createDeliveryCostCenter = function () {
+                        errorList.removeAll();
+                        var cc = new model.CostCenter();
+                        cc.setupCost('0');
+                        cc.minimumCost('0');
+                        cc.type('11');
+                        selectedCostCenter(cc);
+                        getCostCentersBaseData();
+                        // getVariablesTree();
+                        showCostCenterDetail();
+                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                    },
                     setDataForNewCostCenter = function (newcostcenter) {
                         newcostcenter.costPerUnitQuantity('0');
                         newcostcenter.unitQuantity('0');
@@ -490,14 +502,17 @@ define("costcenter/costcenter.viewModel",
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
-                        getCostCentersBaseData();
+                        getCostCentersBaseData(oCostCenter);
                         //getVariablesTree();
+                       
+                    },
+                    getCostCenterById = function (oCostCenter) {
                         dataservice.getCostCentreById({
                             id: oCostCenter.costCenterId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    selectedCostCenter(model.costCenterClientMapper(data));                                    
+                                    selectedCostCenter(model.costCenterClientMapper(data));
                                     selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
@@ -506,7 +521,7 @@ define("costcenter/costcenter.viewModel",
                                 toastr.error("Failed to load Detail . Error: ");
                             }
                         });
-                    },
+                    }
                     openEditDialog = function () {
                         view.showCostCenterDialog();
                     },
@@ -568,7 +583,7 @@ define("costcenter/costcenter.viewModel",
                         });
                     };
                     // Get Base
-                    getCostCentersBaseData = function () {
+                getCostCentersBaseData = function (oCostCenter) {
                         dataservice.getBaseData({
                             success: function (data) {
                                 //costCenter Calculation Types
@@ -600,6 +615,10 @@ define("costcenter/costcenter.viewModel",
                                 deliveryCarriers.removeAll();
                                 ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
                                 deliveryCarriers.valueHasMutated();
+                                if (oCostCenter != undefined) {
+                                    getCostCenterById(oCostCenter);
+                                }
+                                
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -724,7 +743,8 @@ define("costcenter/costcenter.viewModel",
                     dropped: dropped,
                     selectVariableString: selectVariableString,
                     selectedVariableString: selectedVariableString,
-                    iconClick: iconClick
+                    iconClick: iconClick,
+                    createDeliveryCostCenter: createDeliveryCostCenter
                 };
             })()
         };

@@ -331,7 +331,7 @@ function c4_RS() {
         appendTo: "body",
         cursor: 'move'
     });
-    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + ContactID + "/"+organisationId ,
+    $.getJSON("/designerapi/SmartForm/GetVariablesList/" + isRealestateproduct + "/" + CustomerID + "/" + organisationId,
         function (xdata) {
             pcl40(xdata);
         });
