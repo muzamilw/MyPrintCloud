@@ -309,7 +309,7 @@ define("stores/stores.viewModel",
                                toastr.error( "Failed to create store.", "", ist.toastrOptions);
                            }
                        });
-                   }
+                   },
                 //getItemsForWidgets
                 getItemsForWidgets = function (callBack) {
                     dataservice.getItemsForWidgets({

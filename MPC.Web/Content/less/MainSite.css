@@ -650,6 +650,9 @@
 #productFromRetailStoreModalDialog {
   width: 1100px;
 }
+#AddOnHeading {
+  font-weight: bold;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }
