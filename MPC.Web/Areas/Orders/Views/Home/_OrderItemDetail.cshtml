@@ -125,11 +125,13 @@
                                             <label class="control-label tooltip-float">VAT</label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <select class="form-control Qty-TextBox-width Qty-TextBox-float ">
+                                            <select class="form-control Qty-TextBox-width Qty-TextBox-float " data-bind="options:$root.vatList,optionsText:'name',optionsCaption: 'Select VAT',optionsValue:'id', value: tax1,event:{ change: $root.onChangeTax}"></select>
+
+                                            @*<select class="form-control Qty-TextBox-width Qty-TextBox-float ">
                                                 <option>VAT Free</option>
                                                 <option>VAT 20%</option>
                                                 <option>VAT 10%</option>
-                                            </select>
+                                            </select>*@
                                         </div>
                                         <div class="col-xs-2 txtBox-contentAlignRight">
                                             <label class="control-label" data-bind="text:qty1Tax1Value"></label>
