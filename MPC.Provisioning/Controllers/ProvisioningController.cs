@@ -171,7 +171,7 @@ namespace MPC.Provisioning.Controllers
                         //var iTask = request.GetRequestStreamAsync();
                         //Task.WaitAll(iTask);
                         request.Method = "GET";
-                        request.Timeout = 180000;
+                        request.Timeout = 500000;
                         using (WebResponse response = request.GetResponse())
                         {
                             using (Stream stream = response.GetResponseStream())
