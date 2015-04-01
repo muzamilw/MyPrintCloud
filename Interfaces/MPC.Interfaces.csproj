@@ -79,8 +79,10 @@
     <Compile Include="MISServices\ICrmSupplierService.cs" />
     <Compile Include="MISServices\ICustomerService.cs" />
     <Compile Include="MISServices\IDashboardService.cs" />
+    <Compile Include="MISServices\IDeliveryCarriersService.cs" />
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
+    <Compile Include="MISServices\ILengthConversionService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />

@@ -35,6 +35,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsSectionSizeCustom = source.IsSectionSizeCustom,
                 Qty1 = source.Qty1,
                 Qty1Profit = source.Qty1Profit,
+                Qty2Profit = source.Qty2Profit,
+                Qty3Profit = source.Qty3Profit,
+                BaseCharge1 = source.BaseCharge1,
+                BaseCharge2 = source.BaseCharge2,
+                Basecharge3 = source.Basecharge3,
                 
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
                 new List<SectionCostcentre>()

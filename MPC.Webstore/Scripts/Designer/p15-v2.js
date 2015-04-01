@@ -103,8 +103,25 @@ function fu04_1GetItem(DT)
     
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
-             //console.log(result);
+             //update dimestions 
+
+             var w = DT.PDFTemplateWidth;
+             var h = DT.PDFTemplateHeight;
+             h = h / 96 * 72;
+             w = w / 96 * 72;
+             h = h / 2.834645669;
+             w = w / 2.834645669;
+             w = w.toFixed(3);
+             h = h.toFixed(3);
+             h = h - 10;
+             w = w - 10;
+             w = w * result.ScaleFactor;
+             h = h * result.ScaleFactor;
             
+             //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+             $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
+             productDimensionUpdated = true;
+
              item = result;
              if (item.SmartFormId != null) {
                  if (item.SmartFormId != 0) {

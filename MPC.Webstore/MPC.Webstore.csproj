@@ -388,7 +388,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="JasonClass\jclasscs.cs" />
     <Compile Include="ModelMappers\CmsPageMapper.cs" />
     <Compile Include="ModelMappers\CmsSkinPageWidgetMapper.cs" />
     <Compile Include="ModelMappers\CompanyBannerMapper.cs" />
@@ -420,6 +419,7 @@
     <Compile Include="ViewModels\SearchOrderViewModel.cs" />
     <Compile Include="ViewModels\ShopCartAddressSelectViewModel.cs" />
     <Compile Include="ViewModels\ViewOrderDetails.cs" />
+    <Compile Include="WebGridExtension\WebGridExt.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

@@ -161,10 +161,13 @@
     <Compile Include="MISServices\CrmSupplierService.cs" />
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
+    <Compile Include="MISServices\DeliveryCarrierService.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
+    <Compile Include="MISServices\LengthConversionHelper.cs" />
+    <Compile Include="MISServices\LengthConversionService.cs" />
     <Compile Include="MISServices\LookupMethodService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
     <Compile Include="MISServices\OrderForCrmService.cs" />
