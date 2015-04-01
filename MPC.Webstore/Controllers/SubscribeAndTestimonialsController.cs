@@ -82,7 +82,7 @@ namespace MPC.Webstore.Controllers
                     subscriber.Email = txtEmailbox;
                     subscriber.ContactCompanyID = Convert.ToInt32(UserCookieManager.WBStoreId);
 
-                    CEP.CompanySiteID = StoreBaseResopnse.Organisation.OrganisationId;
+                    CEP.OrganisationId = StoreBaseResopnse.Organisation.OrganisationId;
 
                     if (Contact != null)
                     {

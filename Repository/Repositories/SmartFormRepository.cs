@@ -109,7 +109,12 @@ namespace MPC.Repository.Repositories
                 }
             }
 
-
+            var customVariables = db.FieldVariables.Where(g => g.CompanyId == companyId && (g.IsSystem == null || g.IsSystem == false)).ToList();
+            foreach (var customVar in customVariables)
+            {
+                VariableList objVarList = new VariableList("Custom CRM Fields", customVar.VariableId, customVar.VariableName, customVar.VariableTag, customVar.VariableType);
+                resultList.Add(objVarList);
+            }
             return resultList;
             // return db.FieldVariables.Take(10).ToList();
         }

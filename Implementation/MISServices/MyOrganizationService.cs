@@ -562,6 +562,14 @@ namespace MPC.Implementation.MISServices
                     if (Directory.Exists(SourceDelOrganisation))
                     {
                         Directory.Delete(SourceDelOrganisation, true);
+                    
+                    }
+
+                    string SourceDelProducts = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + OrganisationID);
+
+                    if (Directory.Exists(SourceDelProducts))
+                    {
+                        Directory.Delete(SourceDelProducts, true);
                     }
 
                     string SourceDelResources = HttpContext.Current.Server.MapPath("/MPC_Content/Resources/" + OrganisationID);
