@@ -2700,7 +2700,7 @@ namespace MPC.Repository.Repositories
         {
           try
           {
-
+              //db.usp_del
           }
           catch (Exception ex)
           {
