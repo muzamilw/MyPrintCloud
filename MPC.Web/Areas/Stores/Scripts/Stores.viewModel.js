@@ -516,10 +516,10 @@ define("stores/stores.viewModel",
                     }, {
                         success: function (data) {
                             selectedStore().currentThemeId(selectedTheme());
-                            toastr.success("Theme Apply Successfully .");
+                            toastr.success("Theme Applied Successfully.");
                         },
                         error: function (response) {
-                            toastr.error("Failed to Theme apply .", "", ist.toastrOptions);
+                            toastr.error("Failed to apply Theme.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -3667,6 +3667,9 @@ define("stores/stores.viewModel",
             if (selectedItem.activeBannerSetId.error) {
                 errorList.push({ name: selectedItem.activeBannerSetId.domElement.name, element: selectedItem.activeBannerSetId.domElement });
             }
+            if (selectedItem.taxRate.error) {
+                errorList.push({ name: selectedItem.taxRate.domElement.name, element: selectedItem.taxRate.domElement });
+            }
         },
                 // Go To Element
         gotoElement = function (validation) {
@@ -6274,7 +6277,7 @@ define("stores/stores.viewModel",
                     getSystemPages: getSystemPages,
                     selectChildProductCategory: selectChildProductCategory,
                     onArchiveCategory: onArchiveCategory,
-                    priceFlags: priceFlags
+                    priceFlags: priceFlags,
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
                 };
