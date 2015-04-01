@@ -978,6 +978,9 @@
     <Content Include="Content\less\CompanySelector.css">
       <DependentUpon>CompanySelector.less</DependentUpon>
     </Content>
+    <Content Include="Content\less\MainSite.min.css">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
     <Content Include="Content\less\Organisation.css">
       <DependentUpon>Organisation.less</DependentUpon>
     </Content>
@@ -995,6 +998,9 @@
     </Content>
     <Content Include="Content\less\Store.css">
       <DependentUpon>Store.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Store.min.css">
+      <DependentUpon>Store.css</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1894,6 +1900,12 @@
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
+    <Content Include="Content\less\Store.css.map">
+      <DependentUpon>Store.css</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.css.map">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
