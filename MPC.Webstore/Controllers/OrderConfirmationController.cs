@@ -148,9 +148,9 @@ namespace MPC.Webstore.Controllers
             cep.ContactId = _myClaimHelper.loginContactID();
             cep.CompanyId = _myClaimHelper.loginContactCompanyID();
             cep.SalesManagerContactID = _myClaimHelper.loginContactID();
-            cep.CompanySiteID = UserCookieManager.WEBOrganisationID;
-            cep.EstimateID = Convert.ToInt32(OrderId);
-            cep.ItemID = _ItemService.GetFirstItemIdByOrderId(OrderId);
+            cep.OrganisationId = UserCookieManager.WEBOrganisationID;
+            cep.EstimateId = Convert.ToInt32(OrderId);
+            cep.ItemId = _ItemService.GetFirstItemIdByOrderId(OrderId);
             Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
             if (user != null)
             {
@@ -158,7 +158,7 @@ namespace MPC.Webstore.Controllers
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     cep.StoreID = UserCookieManager.WBStoreId;
-                    cep.AddressID = UserCookieManager.WBStoreId;
+                    cep.AddressId = UserCookieManager.WBStoreId;
                     if (baseResponse.Company.isPaymentRequired == false || baseResponse.Company.isPaymentRequired == null)
                     {
                         try
@@ -174,7 +174,7 @@ namespace MPC.Webstore.Controllers
 
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.OrderId = 0;
+                            UserCookieManager.WEBOrderId = 0;
                             
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
@@ -275,9 +275,9 @@ namespace MPC.Webstore.Controllers
                 {
                     cep.StoreID = UserCookieManager.WBStoreId;
 
-                    cep.AddressID = UserCookieManager.WBStoreId;
+                    cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                    cep.SystemUserID = EmailOFSM.SystemUserId;
+                    cep.SystemUserId = EmailOFSM.SystemUserId;
                     if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
                     {
                         try
@@ -291,7 +291,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                            // emailmgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, SessionParameters.ContactID, SessionParameters.CustomerID, 0, OrderId, SessionParameters.CompanySite, 0, ManagerID, StoreMode.Corp);
-                           UserCookieManager.OrderId = 0;
+                           UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {
@@ -324,7 +324,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation.Organisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             //emailmgr.EmailsToCorpUser(OrderId, SessionParameters.ContactID, StoreMode.Corp, Convert.ToInt32(SessionParameters.CustomerContact.TerritoryID));
-                            UserCookieManager.OrderId = 0;
+                            UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {

@@ -303,13 +303,13 @@ define("stores/stores.viewModel",
                                } else {
                                    toastr.error("Failed to create store.", "", ist.toastrOptions);
                                }
-                               
+
                            },
                            error: function (response) {
-                               toastr.error( "Failed to create store.", "", ist.toastrOptions);
+                               toastr.error("Failed to create store.", "", ist.toastrOptions);
                            }
                        });
-                   }
+                   },
                 //getItemsForWidgets
                 getItemsForWidgets = function (callBack) {
                     dataservice.getItemsForWidgets({
@@ -352,7 +352,7 @@ define("stores/stores.viewModel",
                 },
 
                 setThemeName = ko.computed(function () {
-                    if (isBaseDataLoded() && !isThemeNameSet()) {
+                    if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
                         var theme = _.find(themes(), function (item) {
                             return item.SkinId == selectedTheme();
                         });
@@ -629,7 +629,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Territory 
                 deletedCompanyTerritories = ko.observableArray([]),
                 edittedCompanyTerritories = ko.observableArray([]),
-                
+
                 //Company Territory Pager
                 companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //CompanyTerritory Search Filter
@@ -4233,13 +4233,13 @@ define("stores/stores.viewModel",
                             //});
                         }
 
-                            //CostCenterVariables
-                            priceFlags.removeAll();
-                            if (data.PriceFlags !== null) {
-                                ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
-                                priceFlags.valueHasMutated();
-                            }
-                            
+                        //CostCenterVariables
+                        priceFlags.removeAll();
+                        if (data.PriceFlags !== null) {
+                            ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
+                            priceFlags.valueHasMutated();
+                        }
+
 
                         ////Countries 
                         //countries.removeAll();

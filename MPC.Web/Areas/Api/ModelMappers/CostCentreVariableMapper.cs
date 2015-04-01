@@ -45,8 +45,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         private static string GetVariableString(MPC.Models.DomainModels.CostCentreVariable source)
         {
-            string sv = "{SystemVariable, ID=" + source.VarId + ",Name=" + source.Name + "}";
-            return sv;
+
+            return @"{SystemVariable, ID=&quot;" + source.VarId + "&quot;,Name= &quot;" + source.Name + "&quot;}";
+
         }
     }
 }

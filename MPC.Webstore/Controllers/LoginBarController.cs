@@ -72,7 +72,7 @@ namespace MPC.Webstore.Controllers
             UserCookieManager.ContactCanEditProfile = false;
             UserCookieManager.ShowPriceOnWebstore = true;
             UserCookieManager.isRegisterClaims = 2;
-            UserCookieManager.OrderId = 0;
+            UserCookieManager.WEBOrderId = 0;
         
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {

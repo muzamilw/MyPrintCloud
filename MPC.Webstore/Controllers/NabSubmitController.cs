@@ -305,11 +305,11 @@ namespace MPC.Webstore.Controllers
                                         // order code and order creation date
                                         CampaignEmailParams cep = new CampaignEmailParams();
                                         string HTMLOfShopReceipt = null;
-                                        cep.CompanySiteID = 1;
+                                        cep.OrganisationId = 1;
                                         cep.ContactId = modelOrder.ContactId ?? 0; //SessionParameters.ContactID;
                                         cep.CompanyId = modelOrder.CompanyId;
 
-                                        cep.EstimateID = model.OrderId; //PageParameters.OrderID;
+                                        cep.EstimateId = model.OrderId; //PageParameters.OrderID;
 
                                         Company CustomerCompany = _CompanyService.GetCustomer(Convert.ToInt32(modelOrder.CompanyId));
                                         CompanyContact CustomrContact = _CompanyService.GetContactById(Convert.ToInt32(modelOrder.ContactId));
@@ -332,7 +332,7 @@ namespace MPC.Webstore.Controllers
                                         cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
                                         SystemUser EmailOFSM =  _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
                                         cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
-                                        cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
+                                        cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                                         {
 

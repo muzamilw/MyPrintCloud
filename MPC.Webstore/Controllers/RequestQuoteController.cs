@@ -88,8 +88,8 @@ namespace MPC.Webstore.Controllers
                     Campaign RegistrationCampaignn = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
                     cep.ContactId = NewInqury.ContactId;
 
-                    cep.CompanySiteID = 1;
-                    cep.AddressID = (int)NewInqury.ContactCompanyId;
+                    cep.OrganisationId = 1;
+                    cep.AddressId = (int)NewInqury.ContactCompanyId;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                     cep.StoreID = UserCookieManager.WEBOrganisationID;
 
@@ -143,8 +143,8 @@ namespace MPC.Webstore.Controllers
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.RequestAQuote, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
                 cep.ContactId = NewInqury.ContactId;
 
-                cep.CompanySiteID = 1;
-                cep.AddressID = (int)NewInqury.ContactCompanyId;
+                cep.OrganisationId = 1;
+                cep.AddressId = (int)NewInqury.ContactCompanyId;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreID = UserCookieManager.WBStoreId;
 
