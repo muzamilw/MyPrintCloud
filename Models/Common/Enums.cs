@@ -367,4 +367,13 @@ namespace MPC.Models.Common
         DoNotLoadDesigner = 4
     }
 
+    /// <summary>
+    /// Length Unit Enum
+    /// </summary>
+    public enum LengthUnit
+    {
+        Mm = 1,
+        Cm = 2,
+        Inch = 3
+    }
 }
