@@ -804,6 +804,28 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrganisation", organisationIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteCarts(long? companyId)
+// ReSharper restore InconsistentNaming
+        {
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteCarts", companyIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public int usp_DeleteOrderByID(long? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrderByID", orderIdParameter);
+        }
+
         #endregion
     }
 }

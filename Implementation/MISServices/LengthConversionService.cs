@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -36,34 +34,29 @@ namespace MPC.Implementation.MISServices
         }
 
         #endregion
-
-
+        
         #region Public
 
         /// <summary>
         /// Converts length to a specified output unit
         /// </summary>
-        public List<double> ConvertLengthToPoints(List<double> inputs, LengthUnit inputUnit, LengthUnit outputUnit)
+        public List<double> ConvertLengthFromSystemUnitToPoints(List<double> inputs)
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
 
             if (organisation == null)
             {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Organisation with Id {0} not found", organisationRepository.OrganisationId), 
-                    organisationRepository.OrganisationId);
+                return new List<double>();
             }
 
             if (organisation.LengthUnit == null)
             {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Length Unit not defined for Current Organisation"),
-                    organisationRepository.OrganisationId);
+                return new List<double>();
             }
 
             if (inputs == null)
             {
-// ReSharper disable LocalizableElement
-                throw new ArgumentException("Input list can't be null", "inputs");
-// ReSharper restore LocalizableElement
+                return new List<double>();
             }
 
           // ReSharper disable SuggestUseVarKeywordEvident
@@ -75,13 +68,13 @@ namespace MPC.Implementation.MISServices
                 
                 if (organisation.LengthUnit.Id == (int)LengthUnit.Inch)
                 {
-                    outputvalue = LengthConversionHelper.ConvertLength(input, outputUnit, organisation.LengthUnit);
+                    outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Inch, organisation.LengthUnit);
                     outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
                     outputValues.Add(outputvalue);
                 }
                 else if (organisation.LengthUnit.Id == (int)LengthUnit.Cm)
                 {
-                    outputvalue = LengthConversionHelper.ConvertLength(input, outputUnit, organisation.LengthUnit);
+                    outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Cm, organisation.LengthUnit);
                     outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
                     outputValues.Add(outputvalue);
                 }
@@ -98,27 +91,23 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Converts length to a specified output unit
         /// </summary>
-        public List<double> ConvertLengthFromPoints(List<double> inputs, LengthUnit inputUnit, LengthUnit outputUnit)
+        public List<double> ConvertLengthFromPointsToSystemUnit(List<double> inputs)
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
 
             if (organisation == null)
             {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Organisation with Id {0} not found", organisationRepository.OrganisationId),
-                    organisationRepository.OrganisationId);
+                return new List<double>();
             }
 
             if (organisation.LengthUnit == null)
             {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Length Unit not defined for Current Organisation"),
-                    organisationRepository.OrganisationId);
+                return new List<double>();
             }
 
             if (inputs == null)
             {
-                // ReSharper disable LocalizableElement
-                throw new ArgumentException("Input list can't be null", "inputs");
-                // ReSharper restore LocalizableElement
+                return new List<double>();
             }
 
             // ReSharper disable SuggestUseVarKeywordEvident
@@ -131,13 +120,13 @@ namespace MPC.Implementation.MISServices
                 if (organisation.LengthUnit.Id == (int)LengthUnit.Inch)
                 {
                     outputvalue = LengthConversionHelper.PointToMm(input);
-                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, outputUnit, organisation.LengthUnit);
+                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Inch, organisation.LengthUnit);
                     outputValues.Add(outputvalue);
                 }
                 else if (organisation.LengthUnit.Id == (int)LengthUnit.Cm)
                 {
                     outputvalue = LengthConversionHelper.PointToMm(input);
-                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, outputUnit, organisation.LengthUnit);
+                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Cm, organisation.LengthUnit);
                     outputValues.Add(outputvalue);
                 }
                 else
@@ -151,7 +140,5 @@ namespace MPC.Implementation.MISServices
         }
 
         #endregion
-
-        
     }
 }

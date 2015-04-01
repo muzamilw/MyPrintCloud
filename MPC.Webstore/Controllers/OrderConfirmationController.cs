@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using System.Net;
+using System.IO;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -157,7 +159,7 @@ namespace MPC.Webstore.Controllers
                
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
-                    cep.StoreID = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
                     cep.AddressId = UserCookieManager.WBStoreId;
                     if (baseResponse.Company.isPaymentRequired == false || baseResponse.Company.isPaymentRequired == null)
                     {
@@ -171,7 +173,7 @@ namespace MPC.Webstore.Controllers
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-
+                            HTMLOfShopReceipt = GetReceiptPage(OrderId);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                             UserCookieManager.WEBOrderId = 0;
@@ -273,7 +275,7 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    cep.StoreID = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
 
                     cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
@@ -413,5 +415,68 @@ namespace MPC.Webstore.Controllers
                 Response.Redirect("/");
             }
         }
+
+        public string GetReceiptPage(long OrderId)
+        {
+            try
+            {
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
+                WebClient myClient = new WebClient();
+                Stream response = myClient.OpenRead(URl);
+                StreamReader streamreader = new StreamReader(response);
+                string pageHtml = streamreader.ReadToEnd();
+                return pageHtml;
+            }
+            catch (Exception ex)
+            {
+
+                // LoggingManager.LogBLLException(e);
+                return null;
+            }
+        }
+        //public string OrderConfirmationPDF(int OrderId)
+        //{
+        //    try
+        //    {
+        //        string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
+        //        // string html = GetShopReceiptPage(OrderId, BrokerID, CorpID);
+        //        ////Stream stream = GenerateStreamFromString(html)
+
+
+
+        //        string FileName = OrderId + "_OrderReceipt.pdf";
+        //        string FilePath = HttpContext.Current.Server.MapPath("~/mpc_content/Assets/" + FileName);
+        //        string AttachmentPath = "/mpc_content/Assets/" + FileName;
+        //        using (Doc theDoc = new Doc())
+        //        {
+        //            theDoc.HtmlOptions.Engine = EngineType.Gecko;
+        //            //  theDoc.FontSize = 22;
+        //            int objid = theDoc.AddImageUrl(URl);
+
+
+        //            while (true)
+        //            {
+        //                theDoc.FrameRect();
+        //                if (!theDoc.Chainable(objid))
+        //                    break;
+        //                theDoc.Page = theDoc.AddPage();
+        //                objid = theDoc.AddImageToChain(objid);
+        //            }
+
+
+        //            theDoc.Save(FilePath);
+        //            theDoc.Clear();
+        //        }
+        //        if (File.Exists(FilePath))
+        //            return AttachmentPath;
+        //        else
+        //            return null;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LoggingManager.LogBLLException(e);
+        //        return null;
+        //    }
+        //}
     }
 }
