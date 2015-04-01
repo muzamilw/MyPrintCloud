@@ -8,7 +8,7 @@
                 <div class="col-lg-12">
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">Home</a></li>
-                        <li><a href="~/Settings/MIS/Inventory" class="my-navigator">Inventories</a></li>
+                        <li><a href="~/Settings/MIS/Inventory" class="my-navigator">Inventory</a></li>
                         <li class="active"><span>Inventory Detail</span></li>
                     </ol>
                     <div data-bind="with:selectedInventory">
@@ -253,7 +253,7 @@
                                     <div class="main-box clearfix">
                                         <div class="tabs-wrapper profile-tabs" id="tabsHeader">
                                             <ul class="nav nav-tabs" id="myTab">
-                                                <li class="active"><a href="#tab-CostPrice" data-toggle="tab">Cost/Price</a></li>
+                                                <li class="active"><a href="#tab-CostPrice" data-toggle="tab">Cost / Price</a></li>
                                                 <li><a href="#tab-Properties" data-toggle="tab">Properties</a></li>
                                                 <li><a href="#tab-StockControl" data-toggle="tab">Stock Control</a></li>
                                             </ul>
@@ -261,7 +261,7 @@
                                                 <div class="tab-pane fade in active" id="tab-CostPrice">
                                                     <div class="main-box-body clearfix">
                                                         <div class="col-md-12 form-horizontal">
-                                                            <h3 class="group-header">Cost / Price</h3>
+                                                            @*<h3 class="group-header">Cost / Price</h3>*@
 
                                                             <div class="col-lg-12">
                                                                 <div class="col-lg-6" data-bind="visible:itemId()===0">
@@ -300,7 +300,7 @@
                                                                 </div>
                                                                 @*In case of Sheet*@
 
-                                                                <div class="form-group" data-bind="visible:paperTypeId()==='1' ">
+                                                                <div class="form-group" data-bind="visible:paperTypeId()===1 ">
                                                                     <div class="col-lg-2 text-right">
                                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                                             <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Paper Size" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -340,7 +340,7 @@
                                                                     </div>
 
                                                                 </div>
-                                                                <div class="form-group" data-bind="visible:paperTypeId()==='1' ">
+                                                                <div class="form-group" data-bind="visible:paperTypeId()===1 ">
                                                                     <div class="col-lg-2 text-right">
                                                                         <div class="bs-example-tooltips tooltip-float-width">
                                                                             <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Custom" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
@@ -357,7 +357,7 @@
                                                                     </div>
                                                                 </div>
                                                                 @*In case of Roll Paper*@
-                                                                <div class="form-group" data-bind="visible:paperTypeId()==='2' ">
+                                                                <div class="form-group" data-bind="visible:paperTypeId()===2 ">
                                                                     @*<div class="col-md-6">
                                                                         </div>*@
                                                                     <div class="col-lg-2 text-right">
@@ -391,7 +391,7 @@
                                                             </div>
                                                             <div class="table-bordered">
                                                                 <div class="form-group">
-                                                                    <label class="control-label h5 col-sm-2"><b>Price/Cost</b></label>
+                                                                    <label class="control-label h5 col-sm-2"><b>Cost / Price</b></label>
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <div class="col-lg-2 text-right">
