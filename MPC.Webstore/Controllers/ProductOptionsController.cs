@@ -96,7 +96,7 @@ namespace MPC.Webstore.Controllers
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (ItemMode == "UploadDesign")
             {
-                if (UserCookieManager.OrderId == 0)
+                if (UserCookieManager.WEBOrderId == 0)
                 {
                     long TemporaryRetailCompanyId = UserCookieManager.TemporaryCompanyId;
 
@@ -107,7 +107,7 @@ namespace MPC.Webstore.Controllers
                     if (OrderID > 0)
                     {
                         UserCookieManager.TemporaryCompanyId = TemporaryRetailCompanyId;
-                        UserCookieManager.OrderId = OrderID;
+                        UserCookieManager.WEBOrderId = OrderID;
                         // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
                         clonedItem = _myItemService.GetExisitingClonedItemInOrder(OrderID, Convert.ToInt64(ItemId));
 
@@ -120,13 +120,13 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
-                    OrderID = UserCookieManager.OrderId;
+                    OrderID = UserCookieManager.WEBOrderId;
                     // gets the item from reference item id in case of upload design when user process the item but not add the item in cart
-                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.OrderId, Convert.ToInt64(ItemId));
+                    clonedItem = _myItemService.GetExisitingClonedItemInOrder(UserCookieManager.WEBOrderId, Convert.ToInt64(ItemId));
 
                     if (clonedItem == null)
                     {
-                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.OrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
+                        clonedItem = _myItemService.CloneItem(Convert.ToInt64(ItemId), 0, UserCookieManager.WEBOrderId, UserCookieManager.WBStoreId, 0, 0, null, false, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
                     }
                 }
                 ViewData["ArtworkAttachments"] = clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList();
@@ -135,7 +135,7 @@ namespace MPC.Webstore.Controllers
             }
             else if (ItemMode == "Modify")// modify item case
             {
-                OrderID = UserCookieManager.OrderId;
+                OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 if (!string.IsNullOrEmpty(TemplateId))
                 {
@@ -153,9 +153,9 @@ namespace MPC.Webstore.Controllers
 
                 referenceItemId = clonedItem.RefItemId ?? 0;
 
-                if(UserCookieManager.OrderId == 0)
+                if(UserCookieManager.WEBOrderId == 0)
                 {
-                    UserCookieManager.OrderId = clonedItem.EstimateId ?? 0;
+                    UserCookieManager.WEBOrderId = clonedItem.EstimateId ?? 0;
                 }
 
                 QueueItem = clonedItem.ItemSections.Where(s => s.SectionNo == 1).FirstOrDefault().QuestionQueue;
@@ -164,7 +164,7 @@ namespace MPC.Webstore.Controllers
             }
             else if (!string.IsNullOrEmpty(TemplateId))// template case
             {
-                OrderID = UserCookieManager.OrderId;
+                OrderID = UserCookieManager.WEBOrderId;
                 clonedItem = _myItemService.GetClonedItemById(Convert.ToInt64(ItemId));
                 BindTemplatesList(Convert.ToInt64(TemplateId), clonedItem.ItemAttachments == null ? null : clonedItem.ItemAttachments.ToList(), Convert.ToInt64(ItemId), Convert.ToInt32(clonedItem.DesignerCategoryId));
                 referenceItemId = clonedItem.RefItemId ?? 0;
@@ -272,7 +272,7 @@ namespace MPC.Webstore.Controllers
                         _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode),false, 0, QuestionQueueJason);
                     }
                 }
-                Response.Redirect("/ShopCart/" + UserCookieManager.OrderId);
+                Response.Redirect("/ShopCart/" + UserCookieManager.WEBOrderId);
 
                 return null;
 
