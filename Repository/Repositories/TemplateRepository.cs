@@ -142,7 +142,7 @@ namespace MPC.Repository.Repositories
             }
         }
         // update template height and width , called while uploading pdf as background // added by saqib ali
-        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight)
+        public bool updateTemplate(long productID, double pdfWidth, double pdfHeight,int count)
         {
             bool result = false;
             Template objTemplate = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
@@ -151,7 +151,15 @@ namespace MPC.Repository.Repositories
                 objTemplate.PDFTemplateWidth = pdfWidth;
                 objTemplate.PDFTemplateHeight = pdfHeight;
                 objTemplate.CuttingMargin = 14.173228345;
-              
+
+                List<TemplatePage> listpages = db.TemplatePages.Where(g => g.ProductId == productID).ToList();
+                if (listpages.Count > count)
+                    listpages = listpages.Take(count).ToList();
+                foreach(TemplatePage page in listpages)
+                {
+                    page.Height = pdfHeight;
+                    page.Width = pdfWidth;
+                }
                 db.SaveChanges();
                 result = true;
             }
