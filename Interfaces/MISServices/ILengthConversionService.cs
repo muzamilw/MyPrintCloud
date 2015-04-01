@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using MPC.Models.Common;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -11,11 +10,11 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Converts input length unit to specified output unit
         /// </summary>
-        List<double> ConvertLengthToPoints(List<double> inputs, LengthUnit inputUnit, LengthUnit outputUnit);
+        List<double> ConvertLengthFromSystemUnitToPoints(List<double> inputs);
 
         /// <summary>
         /// Converts input length unit to specified output unit
         /// </summary>
-        List<double> ConvertLengthFromPoints(List<double> inputs, LengthUnit inputUnit, LengthUnit outputUnit);
+        List<double> ConvertLengthFromPointsToSystemUnit(List<double> inputs);
     }
 }
