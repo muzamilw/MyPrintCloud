@@ -277,10 +277,10 @@ define("order/order.viewModel",
                                 if (item.qty3Profit() === undefined || item.qty3Profit() === "") {
                                     item.qty3Profit(0);
                                 }
-
-                                baseCharge1Total(parseInt(baseCharge1Total()) + parseInt((item.baseCharge1() !== undefined && item.baseCharge1() !== "" ? item.baseCharge1() : 0)) + parseInt(item.qty1Profit()));
-                                baseCharge2Total(parseInt(baseCharge2Total()) + parseInt((item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0)) + parseInt(item.qty2Profit()));
-                                baseCharge3Total(parseInt(baseCharge3Total()) + parseInt((item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0)) + parseInt(item.qty3Profit()));
+                                var basCharge1 = parseFloat(((item.baseCharge1() !== undefined && item.baseCharge1() !== "") ? item.baseCharge1() : 0));
+                                baseCharge1Total(parseFloat(baseCharge1Total()) + basCharge1 + parseFloat(item.qty1Profit()));
+                                baseCharge2Total(parseFloat(baseCharge2Total()) + parseFloat(((item.baseCharge2() !== undefined && item.baseCharge2() !== "") ? item.baseCharge2() : 0)) + parseFloat(item.qty2Profit()));
+                                baseCharge3Total(parseFloat(baseCharge3Total()) + parseFloat(((item.baseCharge3() !== undefined && item.baseCharge3() !== "") ? item.baseCharge3() : 0)) + parseFloat(item.qty3Profit()));
                             });
                         }
 
@@ -450,8 +450,8 @@ define("order/order.viewModel",
                             return item.MarkUpId === selectedProduct().qty1MarkUpId1();
                         });
                         if (markup) {
-                            var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge1Total());
-                            selectedProduct().qty1NetTotal(markupValue);
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge1Total()).toFixed(2);
+                            selectedProduct().qty1NetTotal(parseFloat(markupValue) + parseFloat(baseCharge1Total()));
                         }
 
                     } else {
@@ -467,8 +467,8 @@ define("order/order.viewModel",
                             return item.MarkUpId === selectedProduct().qty2MarkUpId2();
                         });
                         if (markup) {
-                            var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge2Total());
-                            selectedProduct().qty2NetTotal(markupValue);
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge2Total()).toFixed(2);
+                            selectedProduct().qty2NetTotal(parseFloat(markupValue) + parseFloat(baseCharge2Total()));
                         }
 
                     } else {
@@ -483,42 +483,46 @@ define("order/order.viewModel",
                             return item.MarkUpId === selectedProduct().qty3MarkUpId3();
                         });
                         if (markup) {
-                            var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge3Total());
-                            selectedProduct().qty3NetTotal(markupValue);
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge3Total()).toFixed(2);
+                            selectedProduct().qty3NetTotal(parseFloat(markupValue) + parseFloat(baseCharge3Total()));
                         }
 
                     } else {
                         selectedProduct().qty3NetTotal(0);
                     }
-
-
                 },
-                // Change on VAT
-                onChangeTax = function (productItem) {
-                    if (selectedProduct().tax1() !== undefined) {
-                        var vatItem = _.find(vatList(), function (item) {
-                            return item.id === selectedProduct().tax1();
-                        });
-                        if (vatItem) {
-                            var tax = (parseInt(vatItem.tax));
-                            var taxCalculate1 = (tax / 100) * (parseInt((selectedProduct().qty1NetTotal() !== undefined || selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0));
-                            selectedProduct().qty1GrossTotal(taxCalculate1 + (parseInt((selectedProduct().qty1NetTotal() !== undefined || selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0)));
-                            selectedProduct().qty1Tax1Value(taxCalculate1);
+                // Change on Tax Rate
+                calculateTax = ko.computed(function () {
+                    var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
+                    var qty2NetTotal = parseFloat((selectedProduct().qty2NetTotal() !== undefined && selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0).toFixed(2);
+                    var qty3NetTotal = parseFloat((selectedProduct().qty3NetTotal() !== undefined && selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0).toFixed(2);
 
-                            var taxCalculate2 = (tax / 100) * (parseInt((selectedProduct().qty2NetTotal() !== undefined || selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0));
-                            selectedProduct().qty2GrossTotal(taxCalculate2 + (parseInt((selectedProduct().qty2NetTotal() !== undefined || selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0)));
-                            selectedProduct().qty2Tax1Value(taxCalculate2);
+                    var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
+                    if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
+                        var taxCalculate1 = ((tax / 100) * parseFloat(qty1NetTotal)).toFixed(2);
+                        var total1 = (parseFloat(taxCalculate1) + parseFloat(qty1NetTotal)).toFixed(2);
+                        selectedProduct().qty1GrossTotal(total1);
+                        selectedProduct().qty1Tax1Value(taxCalculate1);
 
-                            var taxCalculate3 = (tax / 100) * (parseInt((selectedProduct().qty3NetTotal() !== undefined || selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0));
-                            selectedProduct().qty3GrossTotal(taxCalculate3 + (parseInt((selectedProduct().qty3NetTotal() !== undefined || selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0)));
-                            selectedProduct().qty3Tax1Value(taxCalculate3);
-                        }
+                        var taxCalculate2 = ((tax / 100) * (parseFloat(qty2NetTotal))).toFixed(2);
+                        var total2 = (parseFloat(taxCalculate2) + parseFloat(qty2NetTotal)).toFixed(2);
+                        selectedProduct().qty2GrossTotal(total2);
+                        selectedProduct().qty2Tax1Value(taxCalculate2);
+
+                        var taxCalculate3 = ((tax / 100) * parseFloat(qty3NetTotal)).toFixed(2);
+                        var total3 = (parseFloat(taxCalculate3) + parseFloat(qty3NetTotal)).toFixed(2);
+                        selectedProduct().qty3GrossTotal(total3);
+                        selectedProduct().qty3Tax1Value(taxCalculate3);
+
                     } else {
-                        selectedProduct().qty1GrossTotal(0);
-                        selectedProduct().qty2GrossTotal(0);
-                        selectedProduct().qty3GrossTotal(0);
+                        selectedProduct().qty1GrossTotal(qty1NetTotal);
+                        selectedProduct().qty2GrossTotal(qty2NetTotal);
+                        selectedProduct().qty3GrossTotal(qty3NetTotal);
+                        selectedProduct().qty1Tax1Value(0);
+                        selectedProduct().qty2Tax1Value(0);
+                        selectedProduct().qty3Tax1Value(0);
                     }
-                },
+                }),
                 // #endregion
                 // #region ServiceCalls
                 // Get Base Data
@@ -984,8 +988,8 @@ define("order/order.viewModel",
                         // calculate Price Of Delievry Selected Schedule 
                         if (selectedItem && selectedDeliverySchedule().quantity() !== undefined && selectedItem.qty1NetTotal() !== undefined && selectedItem.qty1() !== undefined) {
                             var perUnitPrice = parseInt(selectedDeliverySchedule().quantity()) / parseInt(selectedItem.qty1());
-                            var netPrice = parseInt(selectedItem.qty1NetTotal());
-                            selectedDeliverySchedule().price(perUnitPrice * netPrice);
+                            var netPrice = parseFloat(selectedItem.qty1NetTotal()).toFixed(2);
+                            selectedDeliverySchedule().price(perUnitPrice * netPrice).toFixed(2);
                         }
                     }
                 }),
