@@ -5723,9 +5723,9 @@ namespace MPC.Implementation.MISServices
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpCorpWOP = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpRetailWOP = new Models.Common.ExportOrganisation();
-                string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore");
+                string extractPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore");
 
-                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/DefaulStorePackage/DefaultStores.zip");
+                string ZipPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/DefaulStorePackage/DefaultStores.zip");
 
 
                 if (File.Exists(ZipPath))
@@ -5743,7 +5743,7 @@ namespace MPC.Implementation.MISServices
                     }
 
                     // deserialize organisation json file for old org id
-                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/OrganisationJson1.txt");
+                    string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/OrganisationJson1.txt");
                     if (File.Exists(JsonFilePath))
                     {
                         string json = System.IO.File.ReadAllText(JsonFilePath);
@@ -5754,7 +5754,7 @@ namespace MPC.Implementation.MISServices
                     }
 
                     // deserialize retail json file
-                    string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailJson1.txt");
+                    string JsonRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailJson1.txt");
                     if (File.Exists(JsonRetailFilePath))
                     {
                         string json = System.IO.File.ReadAllText(JsonRetailFilePath);
@@ -5763,7 +5763,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailJson2.txt");
+                    string JsonRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailJson2.txt");
                     if (File.Exists(JsonRetailFilePath2))
                     {
                         string json = System.IO.File.ReadAllText(JsonRetailFilePath2);
@@ -5773,7 +5773,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailProductCategories.txt");
+                    string ProdCatRetailFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailProductCategories.txt");
                     if (File.Exists(ProdCatRetailFilePath))
                     {
                         string json = System.IO.File.ReadAllText(ProdCatRetailFilePath);
@@ -5782,7 +5782,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string SecRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailSecondaryPages.txt");
+                    string SecRetailFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailSecondaryPages.txt");
                     if (File.Exists(SecRetailFilePath2))
                     {
                         string json = System.IO.File.ReadAllText(SecRetailFilePath2);
@@ -5792,7 +5792,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
                     // deserialize corpoate json file
-                    string JsonCorpFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateJson1.txt");
+                    string JsonCorpFilePath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateJson1.txt");
                     if (File.Exists(JsonCorpFilePath))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath);
@@ -5801,7 +5801,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonCorpFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateJson2.txt");
+                    string JsonCorpFilePath2 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateJson2.txt");
                     if (File.Exists(JsonCorpFilePath2))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath2);
@@ -5811,7 +5811,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    string JsonCorpFilePath3 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateProductCategories.txt");
+                    string JsonCorpFilePath3 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateProductCategories.txt");
                     if (File.Exists(JsonCorpFilePath3))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath3);
@@ -5820,7 +5820,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonCorpFilePath4 = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateSecondaryPages.txt");
+                    string JsonCorpFilePath4 = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateSecondaryPages.txt");
                     if (File.Exists(JsonCorpFilePath4))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath4);
@@ -5830,7 +5830,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
                     // deserialize corpoate json file WOP
-                    string JsonCorpFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateJson1WOP.txt");
+                    string JsonCorpFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateJson1WOP.txt");
                     if (File.Exists(JsonCorpFilePathWOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePathWOP);
@@ -5839,7 +5839,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonCorpFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateJson2WOP.txt");
+                    string JsonCorpFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateJson2WOP.txt");
                     if (File.Exists(JsonCorpFilePath2WOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath2WOP);
@@ -5849,7 +5849,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    string JsonCorpFilePath3WOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateProductCategoriesWOP.txt");
+                    string JsonCorpFilePath3WOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateProductCategoriesWOP.txt");
                     if (File.Exists(JsonCorpFilePath3WOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath3WOP);
@@ -5858,7 +5858,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonCorpFilePath4WOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/CorporateSecondaryPagesWOP.txt");
+                    string JsonCorpFilePath4WOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/CorporateSecondaryPagesWOP.txt");
                     if (File.Exists(JsonCorpFilePath4WOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonCorpFilePath4WOP);
@@ -5869,7 +5869,7 @@ namespace MPC.Implementation.MISServices
                     }
                     // deserialize retail without product
                     // deserialize retail json file
-                    string JsonRetailFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailJson1WOP.txt");
+                    string JsonRetailFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailJson1WOP.txt");
                     if (File.Exists(JsonRetailFilePathWOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonRetailFilePathWOP);
@@ -5878,7 +5878,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string JsonRetailFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailJson2WOP.txt");
+                    string JsonRetailFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailJson2WOP.txt");
                     if (File.Exists(JsonRetailFilePath2WOP))
                     {
                         string json = System.IO.File.ReadAllText(JsonRetailFilePath2WOP);
@@ -5888,7 +5888,7 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    string ProdCatRetailFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailProductCategoriesWOP.txt");
+                    string ProdCatRetailFilePathWOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailProductCategoriesWOP.txt");
                     if (File.Exists(ProdCatRetailFilePathWOP))
                     {
                         string json = System.IO.File.ReadAllText(ProdCatRetailFilePathWOP);
@@ -5897,7 +5897,7 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    string SecRetailFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportStore/RetailSecondaryPagesWOP.txt");
+                    string SecRetailFilePath2WOP = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content/Artworks/ImportStore/RetailSecondaryPagesWOP.txt");
                     if (File.Exists(SecRetailFilePath2WOP))
                     {
                         string json = System.IO.File.ReadAllText(SecRetailFilePath2WOP);

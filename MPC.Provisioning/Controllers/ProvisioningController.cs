@@ -171,11 +171,16 @@ namespace MPC.Provisioning.Controllers
                         //var iTask = request.GetRequestStreamAsync();
                         //Task.WaitAll(iTask);
                         request.Method = "GET";
+                        request.Timeout = 180000;
                         using (WebResponse response = request.GetResponse())
                         {
                             using (Stream stream = response.GetResponseStream())
                             {
-                                XmlTextReader reader = new XmlTextReader(stream);
+                                StreamReader reader = new StreamReader(stream);
+                                string text = reader.ReadToEnd();
+                                if (text != "true")
+                                    throw new Exception("Failed to import store");
+
                                
                             }
                         }

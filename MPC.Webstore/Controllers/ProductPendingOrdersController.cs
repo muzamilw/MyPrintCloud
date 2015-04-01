@@ -100,20 +100,15 @@ namespace MPC.Webstore.Controllers
             CompanyContact UserContact = _CompanyService.GetContactByID(_myClaimHelper.loginContactID());
            
             CampaignEmailParams CPE = new CampaignEmailParams();
-            CPE.CompanySiteID = 1;
+            CPE.OrganisationId = 1;
             CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
             CPE.ContactId = userID;
             CPE.SalesManagerContactID = userID; // this is only dummy data these variables replaced with organization values 
-            if ( UserCookieManager.WEBStoreMode ==(int)StoreMode.Corp)
-            {
-                CPE.StoreID = _myClaimHelper.loginContactCompanyID();
-            }
-            else
-            {
-                CPE.StoreID = UserCookieManager.WBStoreId;
-            }
-            CPE.AddressID = _myClaimHelper.loginContactCompanyID();
-            CPE.EstimateID = orderID;
+            
+            CPE.StoreId = UserCookieManager.WBStoreId;
+            
+            CPE.AddressId = _myClaimHelper.loginContactCompanyID();
+            CPE.EstimateId = orderID;
             CPE.ApprovarID =(int) _myClaimHelper.loginContactID();
             Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent(Event, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
             _campaignService.emailBodyGenerator(RegistrationCampaign, CPE, UserContact, StoreMode.Retail, (int)loginUserCompany.OrganisationId, "", "", "", EmailOFSM.Email, "", "", null, "");

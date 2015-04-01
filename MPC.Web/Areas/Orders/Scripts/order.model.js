@@ -395,7 +395,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             itemStockOptions = ko.observableArray([]),
             // Item Sections
             itemSections = ko.observableArray([]),
-
+            //ItemPriceMatrix
+            itemPriceMatrices = ko.observableArray([]),
             qty1MarkUpId1 = ko.observable(specifiedQty1MarkUpId1 || undefined),
             qty2MarkUpId2 = ko.observable(specifiedQty2MarkUpId2 || undefined),
             qty3MarkUpId3 = ko.observable(specifiedQty3MarkUpId3 || undefined),
@@ -408,6 +409,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0),
             qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
             tax1 = ko.observable(specifiedTax1 || undefined),
+           
             // Errors
             errors = ko.validation.group({
                 productCode: productCode,
@@ -600,6 +602,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal: qty2GrossTotal,
             qty3GrossTotal: qty3GrossTotal,
             tax1: tax1,
+            itemStockOptions: itemStockOptions,
+            itemPriceMatrices: itemPriceMatrices,
             errors: errors,
             isValid: isValid,
             showAllErrors: showAllErrors,
@@ -1143,6 +1147,471 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     },
 
+    // Item Stock Option Entity
+    ItemStockOption = function (specifiedId, specifiedStockLabel, specifiedStockId, specifiedStockItemName, specifiedStockItemDescription, specifiedImage,
+        specifiedOptionSequence, specifiedItemId, callbacks) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId),
+            // Label
+            label = ko.observable(specifiedStockLabel || undefined).extend({ required: true }),
+            // Stock Item Id
+            stockItemId = ko.observable(specifiedStockId || undefined),
+            // Stock Item Name
+            stockItemName = ko.observable(specifiedStockItemName || undefined),
+            // Stock Item Description
+            stockItemDescription = ko.observable(specifiedStockItemDescription || undefined),
+            // image
+            image = ko.observable(specifiedImage || undefined),
+            // file source
+            fileSource = ko.observable(),
+            // file name
+            fileName = ko.observable(),
+            // Option Sequence
+            optionSequence = ko.observable(specifiedOptionSequence || undefined),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || undefined),
+            // Item Addon Cost Centers
+            itemAddonCostCentres = ko.observableArray([]),
+            // Active Video Item
+            activeItemAddonCostCentre = ko.observable(ItemAddonCostCentre.Create({}, callbacks)),
+            // Added ItemAddonCostCentre Counter
+            itemAddonCostCentreCounter = -1,
+            // On Add ItemAddonCostCentre
+            onAddItemAddonCostCentre = function () {
+                activeItemAddonCostCentre(ItemAddonCostCentre.Create({ ProductAddOnId: 0, ItemStockOptionId: id() }, callbacks));
+            },
+            onEditItemAddonCostCentre = function (itemAddonCostCentre) {
+                activeItemAddonCostCentre(itemAddonCostCentre);
+            },
+            // Save ItemAddonCostCentre
+            saveItemAddonCostCentre = function () {
+                if (activeItemAddonCostCentre().id() === 0) { // Add
+                    activeItemAddonCostCentre().id(itemAddonCostCentreCounter);
+                    addItemAddonCostCentre(activeItemAddonCostCentre());
+                    itemAddonCostCentreCounter -= 1;
+                    return;
+                }
+            },
+            // Add Item Addon Cost Center
+            addItemAddonCostCentre = function (itemAddonCostCentre) {
+                itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
+            },
+            // Remove ItemAddon Cost Centre
+            removeItemAddonCostCentre = function (itemAddonCostCentre) {
+                itemAddonCostCentres.remove(itemAddonCostCentre);
+            },
+            // Select Stock Item
+            selectStock = function (stockItem) {
+                if (!stockItem || stockItemId() === stockItem.id) {
+                    return;
+                }
+
+                stockItemId(stockItem.id);
+                stockItemName(stockItem.name);
+                stockItemDescription(stockItem.description);
+                label(stockItem.name);
+            },
+            // On Select File
+            onSelectImage = function (file, data) {
+                image(data);
+                fileSource(data);
+                fileName(file.name);
+            },
+            
+            // Errors
+            errors = ko.validation.group({
+                label: label
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0 && itemAddonCostCentres.filter(function (itemAddonCostCentre) {
+                    return !itemAddonCostCentre.isValid();
+                }).length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                stockItemId: stockItemId,
+                label: label,
+                image: image,
+                itemAddonCostCentres: itemAddonCostCentres
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty() || itemAddonCostCentres.find(function (itemAddonCostCentre) {
+                    return itemAddonCostCentre.hasChanges();
+                }) != null;
+            }),
+            // Reset
+            reset = function () {
+                // Reset Item Addon Cost Centres State to Un-Modified
+                itemAddonCostCentres.each(function (itemAddonCostCentre) {
+                    return itemAddonCostCentre.reset();
+                });
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ItemStockOptionId: id(),
+                    StockLabel: label(),
+                    StockId: stockItemId(),
+                    ItemId: itemId(),
+                    FileSource: fileSource(),
+                    FileName: fileName(),
+                    OptionSequence: optionSequence(),
+                    ItemAddOnCostCentres: itemAddonCostCentres.map(function (itemAddonCostCentre) {
+                        return itemAddonCostCentre.convertToServerData();
+                    })
+                };
+            };
+
+        return {
+            id: id,
+            stockItemId: stockItemId,
+            label: label,
+            stockItemName: stockItemName,
+            stockItemDescription: stockItemDescription,
+            itemId: itemId,
+            image: image,
+            fileSource: fileSource,
+            fileName: fileName,
+            optionSequence: optionSequence,
+            activeItemAddonCostCentre: activeItemAddonCostCentre,
+            itemAddonCostCentres: itemAddonCostCentres,
+            addItemAddonCostCentre: addItemAddonCostCentre,
+            removeItemAddonCostCentre: removeItemAddonCostCentre,
+            onAddItemAddonCostCentre: onAddItemAddonCostCentre,
+            onEditItemAddonCostCentre: onEditItemAddonCostCentre,
+            saveItemAddonCostCentre: saveItemAddonCostCentre,
+            selectStock: selectStock,
+            onSelectImage: onSelectImage,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Item Price Matrix Entity
+    ItemPriceMatrix = function (specifiedId, specifiedQuantity, specifiedQtyRangedFrom, specifiedQtyRangedTo, specifiedPricePaperType1, specifiedPricePaperType2,
+        specifiedPricePaperType3, specifiedPriceStockType4, specifiedPriceStockType5, specifiedPriceStockType6, specifiedPriceStockType7, specifiedPriceStockType8,
+        specifiedPriceStockType9, specifiedPriceStockType10, specifiedPriceStockType11, specifiedFlagId, specifiedSupplierId, specifiedSupplierSequence, specifiedItemId) {
+        // ReSharper restore InconsistentNaming
+        var // Unique key
+            id = ko.observable(specifiedId || 0),
+            // Quantity
+            quantity = ko.observable(specifiedQuantity || 0),
+            // Qty Ranged From
+            qtyRangedFrom = ko.observable(specifiedQtyRangedFrom || 0),
+            // Qty Ranged To
+            qtyRangedTo = ko.observable(specifiedQtyRangedTo || 0),
+            // Flag Id
+            flagId = ko.observable(specifiedFlagId || undefined),
+            // Supplier Id
+            supplierId = ko.observable(specifiedSupplierId || undefined),
+            // Supplier Sequence
+            supplierSequence = ko.observable(specifiedSupplierSequence || undefined),
+            // Price Paper Type1
+            pricePaperType1 = ko.observable(specifiedPricePaperType1 || 0),
+            // Price Paper Type1 Ui
+            pricePaperType1Ui = ko.computed(function () {
+                if (!pricePaperType1()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType1();
+            }),
+            // Price Paper Type2
+            pricePaperType2 = ko.observable(specifiedPricePaperType2 || 0),
+            // Price Paper Type2 Ui
+            pricePaperType2Ui = ko.computed(function () {
+                if (!pricePaperType2()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType2();
+            }),
+            // Price Paper Type3
+            pricePaperType3 = ko.observable(specifiedPricePaperType3 || 0),
+            // Price Paper Type3 Ui
+            pricePaperType3Ui = ko.computed(function () {
+                if (!pricePaperType3()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + pricePaperType3();
+            }),
+            // Price Stock Type4
+            priceStockType4 = ko.observable(specifiedPriceStockType4 || 0),
+            // Price Stock Type4 Ui
+            priceStockType4Ui = ko.computed(function () {
+                if (!priceStockType4()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType4();
+            }),
+            // Price Stock Type5
+            priceStockType5 = ko.observable(specifiedPriceStockType5 || 0),
+            // Price Stock Type5 Ui
+            priceStockType5Ui = ko.computed(function () {
+                if (!priceStockType5()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType5();
+            }),
+            // Price Stock Type6
+            priceStockType6 = ko.observable(specifiedPriceStockType6 || 0),
+            // Price Stock Type6 Ui
+            priceStockType6Ui = ko.computed(function () {
+                if (!priceStockType6()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType6();
+            }),
+            // Price Stock Type7
+            priceStockType7 = ko.observable(specifiedPriceStockType7 || 0),
+            // Price Stock Type7 Ui
+            priceStockType7Ui = ko.computed(function () {
+                if (!priceStockType7()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType7();
+            }),
+            // Price Stock Type8
+            priceStockType8 = ko.observable(specifiedPriceStockType8 || 0),
+            // Price Stock Type8 Ui
+            priceStockType8Ui = ko.computed(function () {
+                if (!priceStockType8()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType8();
+            }),
+            // Price Stock Type9
+            priceStockType9 = ko.observable(specifiedPriceStockType9 || 0),
+            // Price Stock Type9 Ui
+            priceStockType9Ui = ko.computed(function () {
+                if (!priceStockType4()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType9();
+            }),
+            // Price Stock Type10
+            priceStockType10 = ko.observable(specifiedPriceStockType10 || 0),
+            // Price Stock Type10 Ui
+            priceStockType10Ui = ko.computed(function () {
+                if (!priceStockType10()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType10();
+            }),
+            // Price Stock Type11
+            priceStockType11 = ko.observable(specifiedPriceStockType11 || 0),
+            // Price Stock Type11 Ui
+            priceStockType11Ui = ko.computed(function () {
+                if (!priceStockType11()) {
+                    return '$ 0.00';
+                }
+
+                return '$ ' + priceStockType11();
+            }),
+            // Item Id
+            itemId = ko.observable(specifiedItemId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                quantity: quantity,
+                qtyRangedFrom: qtyRangedFrom,
+                qtyRangedTo: qtyRangedTo,
+                flagId: flagId,
+                supplierId: supplierId,
+                supplierSequence: supplierSequence,
+                pricePaperType1: pricePaperType1,
+                pricePaperType2: pricePaperType2,
+                pricePaperType3: pricePaperType3,
+                priceStockType4: priceStockType4,
+                priceStockType5: priceStockType5,
+                priceStockType6: priceStockType6,
+                priceStockType7: priceStockType7,
+                priceStockType8: priceStockType8,
+                priceStockType9: priceStockType9,
+                priceStockType10: priceStockType10,
+                priceStockType11: priceStockType11
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    PriceMatrixId: id(),
+                    ItemId: itemId(),
+                    Quantity: quantity(),
+                    QtyRangeFrom: qtyRangedFrom(),
+                    QtyRangeTo: qtyRangedTo(),
+                    FlagId: flagId(),
+                    SupplierId: supplierId(),
+                    SupplierSequence: supplierSequence(),
+                    PricePaperType1: pricePaperType1(),
+                    PricePaperType2: pricePaperType2(),
+                    PricePaperType3: pricePaperType3(),
+                    PriceStockType4: priceStockType4(),
+                    PriceStockType5: priceStockType5(),
+                    PriceStockType6: priceStockType6(),
+                    PriceStockType7: priceStockType7(),
+                    PriceStockType8: priceStockType8(),
+                    PriceStockType9: priceStockType9(),
+                    PriceStockType10: priceStockType10(),
+                    PriceStockType11: priceStockType11()
+                };
+            };
+
+        return {
+            id: id,
+            itemId: itemId,
+            quantity: quantity,
+            qtyRangedFrom: qtyRangedFrom,
+            qtyRangedTo: qtyRangedTo,
+            flagId: flagId,
+            supplierId: supplierId,
+            supplierSequence: supplierSequence,
+            pricePaperType1: pricePaperType1,
+            pricePaperType2: pricePaperType2,
+            pricePaperType3: pricePaperType3,
+            priceStockType4: priceStockType4,
+            priceStockType5: priceStockType5,
+            priceStockType6: priceStockType6,
+            priceStockType7: priceStockType7,
+            priceStockType8: priceStockType8,
+            priceStockType9: priceStockType9,
+            priceStockType10: priceStockType10,
+            priceStockType11: priceStockType11,
+            pricePaperType1Ui: pricePaperType1Ui,
+            pricePaperType2Ui: pricePaperType2Ui,
+            pricePaperType3Ui: pricePaperType3Ui,
+            priceStockType4Ui: priceStockType4Ui,
+            priceStockType5Ui: priceStockType5Ui,
+            priceStockType6Ui: priceStockType6Ui,
+            priceStockType7Ui: priceStockType7Ui,
+            priceStockType8Ui: priceStockType8Ui,
+            priceStockType9Ui: priceStockType9Ui,
+            priceStockType10Ui: priceStockType10Ui,
+            priceStockType11Ui: priceStockType11Ui,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
+    // Item Addon Cost Centre Entity
+    ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
+        specifiedCostCentreType, callbacks) {
+        // ReSharper restore InconsistentNaming
+        var
+            // self reference
+            self,
+            // Unique key
+            id = ko.observable(specifiedId),
+            // is Mandatory
+            isMandatory = ko.observable(specifiedIsMandatory || undefined),
+            // Cost Centre Id
+            internalCostCentreId = ko.observable(specifiedCostCentreId || undefined),
+            // Cost Centre Name
+            costCentreName = ko.observable(specifiedCostCentreName || undefined),
+            // Cost Centre Type
+            costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Cost Centre Id - On Change
+            costCentreId = ko.computed({
+                read: function () {
+                    return internalCostCentreId();
+                },
+                write: function (value) {
+                    if (!value || value === internalCostCentreId()) {
+                        return;
+                    }
+
+                    internalCostCentreId(value);
+                    if (callbacks && callbacks.onCostCentreChange && typeof callbacks.onCostCentreChange === "function") {
+                        callbacks.onCostCentreChange(value, self);
+                    }
+                }
+            }),
+            // Item Stock Option Id
+            itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+            // Errors
+            errors = ko.validation.group({
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+            // True if the Item Vdp Price has been changed
+            // ReSharper disable InconsistentNaming
+            dirtyFlag = new ko.dirtyFlag({
+                isMandatory: isMandatory,
+                costCentreId: costCentreId
+            }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    ProductAddOnId: id(),
+                    IsMandatory: isMandatory(),
+                    CostCentreId: costCentreId(),
+                    ItemStockOptionId: itemStockOptionId()
+                };
+            };
+
+        self = {
+            id: id,
+            itemStockOptionId: itemStockOptionId,
+            costCentreId: costCentreId,
+            costCentreName: costCentreName,
+            costCentreType: costCentreType,
+            isMandatory: isMandatory,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+
+        return self;
+    },
+
     // Company Contact Entity
     CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
         return {
@@ -1461,8 +1930,46 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new PrePayment(source.PrePaymentId, source.CustomerId, source.OrderId, source.Amount, source.PaymentDate, source.PaymentMethodId,
             source.PaymentMethodName, source.ReferenceCode, source.PaymentDescription);
     };
+
     ShippingInformation.Create = function (source) {
         return new ShippingInformation(source.ShippingId, source.ItemId, source.AddressId, source.Quantity, source.Price, source.DeliveryNoteRaised, source.DeliveryDate);
+    };
+
+    // Item Stock Option Factory
+    ItemStockOption.Create = function (source, callbacks) {
+        var itemStockOption = new ItemStockOption(source.ItemStockOptionId, source.StockLabel, source.StockId, source.StockItemName, source.StockItemDescription,
+            source.ImageUrlSource, source.OptionSequence, source.ItemId, callbacks);
+
+        // If Item Addon CostCentres exists then add
+        if (source.ItemAddOnCostCentres) {
+            var itemAddonCostCentres = [];
+
+            _.each(source.ItemAddOnCostCentres, function (itemAddonCostCenter) {
+                itemAddonCostCentres.push(ItemAddonCostCentre.Create(itemAddonCostCenter, callbacks));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemStockOption.itemAddonCostCentres(), itemAddonCostCentres);
+            itemStockOption.itemAddonCostCentres.valueHasMutated();
+        }
+
+        // Reset State to Un-Modified
+        itemStockOption.reset();
+
+        return itemStockOption;
+    };
+
+    // Item Price Matrix Factory
+    ItemPriceMatrix.Create = function (source) {
+        return new ItemPriceMatrix(source.PriceMatrixId, source.Quantity, source.QtyRangeFrom, source.QtyRangeTo, source.PricePaperType1, source.PricePaperType2,
+            source.PricePaperType3, source.PriceStockType4, source.PriceStockType5, source.PriceStockType6, source.PriceStockType7, source.PriceStockType8,
+            source.PriceStockType9, source.PriceStockType10, source.PriceStockType11, source.FlagId, source.SupplierId, source.SupplierSequence, source.ItemId);
+    };
+
+    // Item Addon Cost Centre Factory
+    ItemAddonCostCentre.Create = function (source, callbacks) {
+        return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
+            source.CostCentreTypeName, callbacks);
     };
     return {
         // Estimate Constructor
@@ -1492,6 +1999,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Inventory
         Inventory: Inventory,
         // Shipping Information Constructor
-        ShippingInformation: ShippingInformation
+        ShippingInformation: ShippingInformation,
+        //Item Stock Option
+        ItemStockOption: ItemStockOption,
+        //Item Price Matrix
+        ItemPriceMatrix: ItemPriceMatrix,
+        //Item Add on Cost Centre
+        ItemAddonCostCentre: ItemAddonCostCentre
     };
 });

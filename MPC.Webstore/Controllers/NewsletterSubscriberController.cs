@@ -84,7 +84,7 @@ namespace MPC.Webstore.Controllers
                     subscriber.Email = txtEmailbox;
                     subscriber.ContactCompanyID = Convert.ToInt32(UserCookieManager.WBStoreId);
 
-                    CEP.CompanySiteID = StoreBaseResopnse.Organisation.OrganisationId;
+                    CEP.OrganisationId = StoreBaseResopnse.Organisation.OrganisationId;
 
                     if (Contact != null)
                     {
@@ -92,7 +92,7 @@ namespace MPC.Webstore.Controllers
                         CEP.ContactId = Contact.ContactId;
                         CEP.CompanyId = Contact.CompanyId;
                         CEP.SalesManagerContactID = Contact.ContactId;
-                        CEP.StoreID = UserCookieManager.WBStoreId;
+                        CEP.StoreId = UserCookieManager.WBStoreId;
 
                     }
                     else
@@ -100,7 +100,7 @@ namespace MPC.Webstore.Controllers
                         SubscriberEmail = txtEmailbox;
                         // should be greater than one to resolve variaables
                         CEP.SalesManagerContactID = 1;
-                        CEP.StoreID = UserCookieManager.WBStoreId;
+                        CEP.StoreId = UserCookieManager.WBStoreId;
 
 
                     }

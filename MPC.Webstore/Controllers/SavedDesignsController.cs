@@ -171,19 +171,19 @@ namespace MPC.Webstore.Controllers
                     
 
 
-                    if (UserCookieManager.OrderId == null || UserCookieManager.OrderId == 0)
+                    if (UserCookieManager.WEBOrderId == null || UserCookieManager.WEBOrderId == 0)
                     {
-                       UserCookieManager.OrderId = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(),OrganisationID,string.Empty);
+                       UserCookieManager.WEBOrderId = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(),OrganisationID,string.Empty);
                        
                     }
 
 
                     Item clonedItem = null;
      
-                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.OrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,false,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
+                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,false,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
                     // Code to copy item attachments ..
-                    Estimate objOrder = _IOrderService.GetOrderByID(UserCookieManager.OrderId);
+                    Estimate objOrder = _IOrderService.GetOrderByID(UserCookieManager.WEBOrderId);
              
                    // _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 

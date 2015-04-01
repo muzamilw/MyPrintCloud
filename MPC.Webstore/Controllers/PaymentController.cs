@@ -212,11 +212,11 @@ namespace MPC.Webstore.Controllers
 
                             // order code and order creation date
                             CampaignEmailParams cep = new CampaignEmailParams();
-                            cep.CompanySiteID = 1;
+                            cep.OrganisationId = 1;
                             string HTMLOfShopReceipt = null;
                             cep.ContactId = modelOrder.ContactId ?? 0;
                             cep.CompanyId = modelOrder.CompanyId;
-                            cep.EstimateID = orderID; //PageParameters.OrderID;
+                            cep.EstimateId = orderID; //PageParameters.OrderID;
                             Company CustomerCompany = _myCompanyService.GetCompanyByCompanyID(modelOrder.CompanyId);
                             CompanyContact CustomrContact = _myCompanyService.GetContactByID(cep.ContactId);
                             _OrderService.SetOrderCreationDateAndCode(orderID);
@@ -234,8 +234,8 @@ namespace MPC.Webstore.Controllers
 
                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                            cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
-                            cep.AddressID = Convert.ToInt32(modelOrder.CompanyId);
+                            cep.StoreId = UserCookieManager.WBStoreId;
+                            cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
                             cep.CorporateManagerID = ManagerID;
                             if (CustomerCompany.StoreId != null) ///Retail Mode
