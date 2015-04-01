@@ -104,14 +104,9 @@ namespace MPC.Webstore.Controllers
             CPE.CompanyId = _myClaimHelper.loginContactCompanyID();
             CPE.ContactId = userID;
             CPE.SalesManagerContactID = userID; // this is only dummy data these variables replaced with organization values 
-            if ( UserCookieManager.WEBStoreMode ==(int)StoreMode.Corp)
-            {
-                CPE.StoreID = _myClaimHelper.loginContactCompanyID();
-            }
-            else
-            {
-                CPE.StoreID = UserCookieManager.WBStoreId;
-            }
+            
+            CPE.StoreId = UserCookieManager.WBStoreId;
+            
             CPE.AddressId = _myClaimHelper.loginContactCompanyID();
             CPE.EstimateId = orderID;
             CPE.ApprovarID =(int) _myClaimHelper.loginContactID();

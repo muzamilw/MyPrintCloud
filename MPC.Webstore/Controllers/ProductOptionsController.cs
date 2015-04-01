@@ -246,6 +246,7 @@ namespace MPC.Webstore.Controllers
                 {
                     if (false) // calculate tax by service
                     {
+                        
                         _myItemService.UpdateCloneItemService(Convert.ToInt64(cartObject.ItemId), Convert.ToDouble(cartObject.QuantityOrdered), Convert.ToDouble(cartObject.ItemPrice), Convert.ToDouble(cartObject.AddOnPrice), Convert.ToInt64(cartObject.StockId), ccObjectList, UserCookieManager.WEBStoreMode, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), 0, Convert.ToString(ITemMode), false, 0, QuestionQueueJason); // set files count
                     }
                     else
@@ -432,7 +433,10 @@ namespace MPC.Webstore.Controllers
             }
 
             PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();
-            foreach (var matrixItem in referenceItem.ItemPriceMatrices)
+            List<ItemPriceMatrix> ActualPriceMatrix = new List<ItemPriceMatrix>();
+            ActualPriceMatrix = referenceItem.ItemPriceMatrices.ToList();
+            ViewData["ActualPriceMatrix"] = referenceItem.ItemPriceMatrices.ToList();
+            foreach (var matrixItem in ActualPriceMatrix)
             {
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {

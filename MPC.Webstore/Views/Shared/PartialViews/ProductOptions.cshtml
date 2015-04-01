@@ -8,6 +8,7 @@
     int PriceBackgroundCount = 0;
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
+    var ActualPriceMatrix = ViewData["ActualPriceMatrix"] as List<MPC.Models.DomainModels.ItemPriceMatrix>;
 }
 
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
@@ -416,7 +417,7 @@
                         {
                             priceMatrixBackground = "white";
                         }
-                        PriceBackgroundCount++;
+                      
                             <div class="@priceMatrixBackground">
                                 <div class="divfloat WhtBakg">
                                     <input type="hidden" id="txtHiddenPriceMatrixID" class="AccessPriceInScript" value='@matrix.PriceMatrixId' />
@@ -438,70 +439,70 @@
                                     </div>
                                 }
                                 <div id="matrixItemColumn1" class="mattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='1_PriceMatrixID_@matrix.PriceMatrixId' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString())'>
+                                    <span id='1_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PricePaperType1' title='@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString())'>
                                         <label id="lblMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType1.ToString()) </label>
 
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn2" class="glossyPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='2_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType2'>
+                                    <span id='2_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PricePaperType2' title='@matrix.PricePaperType2'>
                                         <label id="lblGlossy">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType2.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn3" class="premiumMattPriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='3_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PricePaperType3'>
+                                    <span id='3_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PricePaperType3' title='@matrix.PricePaperType3'>
                                         <label id="lblPremiumMatt">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PricePaperType3.ToString())</label>
 
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='4_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType4'>
+                                    <span id='4_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType4' title='@matrix.PriceStockType4'>
                                         <label id="lblForthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType4.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='5_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType5'>
+                                    <span id='5_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType5' title='@matrix.PriceStockType5'>
                                         <label id="lblFifthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType5.ToString())</label>
                                         <label id="lblFifthStockDiscountedPrice" class="custom_colorTS" style="display:none;">@matrix.PriceStockType5</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='6_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType6'>
+                                    <span id='6_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType6' title='@matrix.PriceStockType6'>
                                         <label id="lblSixthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType6.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='7_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType7'>
+                                    <span id='7_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType7' title='@matrix.PriceStockType7'>
                                         <label id="lblSevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType7.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='8_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType8'>
+                                    <span id='8_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType8' title='@matrix.PriceStockType8'>
                                         <label id="lblEightStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType8.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='9_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType9'>
+                                    <span id='9_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType9' title='@matrix.PriceStockType9'>
                                         <label id="lblNinthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType9.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='10_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType10'>
+                                    <span id='10_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType10' title='@matrix.PriceStockType10'>
                                         <label id="lblTenthStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType10.ToString())</label>
 
                                     </span>
                                 </div>
                                 <div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
-                                    <span id='11_PriceMatrixID_@matrix.PriceMatrixId' title='@matrix.PriceStockType11'>
+                                    <span id='11_PriceMatrixID_@matrix.PriceMatrixId' data-actualprice='@ActualPriceMatrix[PriceBackgroundCount].PriceStockType10' title='@matrix.PriceStockType11'>
                                         <label id="lblElevenStock">@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(matrix.PriceStockType11.ToString())</label>
 
                                     </span>
@@ -509,6 +510,7 @@
                                 <div style="clear: both;">
                                 </div>
                             </div>
+                        PriceBackgroundCount++;
                     }
             </div>
         </div>
