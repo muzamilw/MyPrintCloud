@@ -128,7 +128,7 @@ namespace MPC.Implementation.MISServices
         public bool Delete(long addressId)
         {
             var dbAddress = addressRepository.GetAddressByID(addressId);
-            if (dbAddress != null && dbAddress.CompanyContacts.Count == 0)
+            if (dbAddress != null && (dbAddress.CompanyContacts == null || !dbAddress.CompanyContacts.Any()))
             {
                 addressRepository.Delete(dbAddress);
                 addressRepository.SaveChanges();
