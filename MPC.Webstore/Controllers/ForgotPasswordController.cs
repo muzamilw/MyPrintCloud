@@ -104,7 +104,7 @@ namespace MPC.Webstore.Controllers
                     objtCEP.AddressId = 0;
                 }
                 objtCEP.SalesManagerContactID = CustomerEmailAcc.ContactId;
-                objtCEP.StoreID = UserCookieManager.WBStoreId;
+                objtCEP.StoreId = UserCookieManager.WBStoreId;
                 if (companyDomain.Company.IsCustomer == (int)StoreMode.Corp)
                 {
                     objtCEP.CompanyId = (int)companyDomain.Company.CompanyId;

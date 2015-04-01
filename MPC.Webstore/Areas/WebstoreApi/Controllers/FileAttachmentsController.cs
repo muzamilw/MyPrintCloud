@@ -95,7 +95,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     cep.OrganisationId = 1;
                     cep.AddressId = (int)NewInqury.ContactCompanyId;
                     cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
-                    cep.StoreID = UserCookieManager.WEBOrganisationID;
+                    cep.StoreId = UserCookieManager.WBStoreId;
 
                     SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(loginUserCompany.SalesAndOrderManagerId1.Value);
 
@@ -154,7 +154,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.OrganisationId = 1;
                 cep.AddressId = (int)NewInqury.ContactCompanyId;
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
-                cep.StoreID = UserCookieManager.WBStoreId;
+                cep.StoreId = UserCookieManager.WBStoreId;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
                 string CacheKeyName = "CompanyBaseResponse";
                 ObjectCache cache = MemoryCache.Default;
@@ -163,7 +163,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    cep.StoreID = _webstoreAuthorizationChecker.loginContactCompanyID();
+                   
                     long MID = _companyContact.GetContactIdByRole(_webstoreAuthorizationChecker.loginContactCompanyID(), (int)Roles.Manager);
                     cep.CorporateManagerID = MID;
                     int ManagerID = (int)MID;

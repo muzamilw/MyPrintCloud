@@ -14,7 +14,7 @@ namespace MPC.Models.Common
         public long EstimateId { get; set; }
         public long ItemId { get; set; }
         public int BrokerID { get; set; }
-        public Int64 StoreID { get; set; }
+        public long StoreId { get; set; }
         public Int64 SalesManagerContactID { get; set; }
         public int ApprovarID { get; set; }
         public int BrokerContactID { get; set; }

@@ -234,7 +234,7 @@ namespace MPC.Webstore.Controllers
 
                             Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                             cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
-                            cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
+                            cep.StoreId = UserCookieManager.WBStoreId;
                             cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(Convert.ToInt32(modelOrder.CompanyId), (int)Roles.Manager); 
                             cep.CorporateManagerID = ManagerID;
