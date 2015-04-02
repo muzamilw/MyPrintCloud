@@ -298,7 +298,7 @@ define("stores/stores.viewModel",
                        }, {
                            success: function (data) {
                                if (data) {
-                                   toastr.success("Successfully created.");
+                                   toastr.success("Store created successfully.");
                                    getStores();
                                } else {
                                    toastr.error("Failed to create store.", "", ist.toastrOptions);

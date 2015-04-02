@@ -290,11 +290,17 @@ define("order/order.viewModel",
 
                     }),
                     vatList = ko.observableArray([
+<<<<<<< HEAD
                         {
                              name: "VAT Free", id: 1, tax: 0
                         },
                         { name: "VAT 20%", id: 2, tax: 20 },
                         { name: "VAT 10%", id: 3, tax: 10 }
+=======
+                    { name: "VAT Free", id: 1, tax: 0 },
+                    { name: "VAT 20%", id: 2, tax: 20 },
+                    { name: "VAT 10%", id: 3, tax: 10 }
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                     ]),
 
                 // Close Item Detail
@@ -528,6 +534,7 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
+<<<<<<< HEAD
                 deleteOrderButtonHandler = function () {
                         confirmation.messageText("Are you sure you want to delete order?");
                         confirmation.afterProceed(deleteOrder);
@@ -556,6 +563,8 @@ define("order/order.viewModel",
                         }
                     });
                 },
+=======
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -1148,6 +1157,43 @@ define("order/order.viewModel",
                          }
 
                      },
+<<<<<<< HEAD
+=======
+                    getPtvPlan = function () {
+                        isLoadingOrders(true);
+                        dataservice.getPTV({
+                            orientation: 1,
+                            reversRows: 0,
+                            revrseCols: 0,
+                            isDoubleSided: false,
+                            isWorknTurn: false,
+                            isWorknTumble:false,
+                            applyPress: false,
+                            itemHeight: 300,
+                            itemWidth: 400,
+                            printHeight: 300,
+                            printWidth: 400,
+                            grip: 1,
+                            gripDepth: 0,
+                            headDepth: 0,
+                            printGutter: 0,
+                            horizentalGutter: 0,
+                            verticalGutter:0
+                        }, {
+                            success: function (data) {                                
+                                if (data != null) {
+                                        
+                                    
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load PTV Data." + response);
+                            }
+                        });
+                    },
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                     // Template Chooser For Delivery Schedule
                      templateToUseDeliverySchedule = function (deliverySchedule) {
                          return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -1277,7 +1323,7 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
-
+                    getPtvPlan: getPtvPlan
                     //#endregion
                 };
             })()

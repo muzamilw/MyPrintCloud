@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MPC.Interfaces.Repository;
-using MPC.Models.DomainModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -17,5 +16,6 @@ namespace MPC.Interfaces.Repository
         List<CostCentreAnswer> LoadAnswer(int QuestionID);
 
         List<CostCentreQuestion> GetCostCentreQuestionsByOID(long OrganisationID, out List<CostCentreAnswer> CostAnswers);
+        bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer);
     }
 }

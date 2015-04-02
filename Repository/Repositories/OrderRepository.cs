@@ -2708,12 +2708,25 @@ namespace MPC.Repository.Repositories
         {
           try
           {
-              //db.usp_del
+              db.usp_DeleteOrderByID(OrderID);
+
           }
           catch (Exception ex)
           {
               throw ex;
           }
+        }
+        public void DeleteCart(long CompanyID)
+        {
+            try
+            {
+                db.usp_DeleteCarts(CompanyID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Estimate GetOrderByOrderID(long OrderID)
         {

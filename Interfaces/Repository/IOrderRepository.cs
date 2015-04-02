@@ -101,5 +101,14 @@ namespace MPC.Interfaces.Repository
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
         void DeleteOrder(long orderId);
 
+<<<<<<< HEAD
+=======
+
+        void DeleteCart(long CompanyID);
+
+        void DeleteOrderBySP(long OrderID);
+
+      
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
     }
 }

@@ -18,17 +18,29 @@
                         type: 'GET'
                     });
 <<<<<<< HEAD
-                    // Define request to Delete Company Contact
-                    amplify.request.define('deleteCompanyContact', 'ajax', {
-                        url: ist.siteUrl + '/Api/CompanyContact',
-                        dataType: 'json',
-                        type: 'DELETE'
+<<<<<<< HEAD
 =======
                     // Define request to Delete Company Contact
                     amplify.request.define('deleteCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
                         dataType: 'json',
                         type: 'DELETE'
+=======
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+<<<<<<< HEAD
+=======
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+=======
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 >>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
                     });
                     amplify.request.define('getContacts', 'ajax', {
@@ -71,6 +83,7 @@
                 });
             },
 <<<<<<< HEAD
+<<<<<<< HEAD
 
             // Delete Company Contact
             deleteCompanyContact = function (param, callbacks) {
@@ -81,6 +94,18 @@
                     error: callbacks.error,
                     data: param
                 });
+=======
+
+            // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 =======
 
             // Delete Company Contact

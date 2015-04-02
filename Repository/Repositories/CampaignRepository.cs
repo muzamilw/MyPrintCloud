@@ -456,7 +456,7 @@ namespace MPC.Repository.Repositories
 
 
                                                     }
-                                                    else if (propertyInfo.Name == "AddressID")
+                                                    else if (propertyInfo.Name == "AddressId")
                                                     {
                                                         if (Mode == StoreMode.Retail)
                                                         {
@@ -505,7 +505,7 @@ namespace MPC.Repository.Repositories
                                                     {
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));
                                                     }
-                                                    else if (propertyInfo.Name == "StoreID")
+                                                    else if (propertyInfo.Name == "StoreId")
                                                     {
 
                                                         tagValue = DynamicQueryToGetRecord(tagRecord.RefFieldName, tagRecord.RefTableName, "CompanyId", Convert.ToInt32(propertyInfo.GetValue(variablValues, null)));

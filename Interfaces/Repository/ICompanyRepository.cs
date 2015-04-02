@@ -66,11 +66,13 @@ namespace MPC.Interfaces.Repository
 
         Company GetCompanyByCompanyID(long CompanyID);
 
-        void InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets);
+        void InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain);
         ExportSets ExportCorporateCompanyWithoutProducts(long CompanyId);
 
         ExportSets ExportRetailCompanyWithoutProducts(long CompanyId);
 
         void DeleteStoryBySP(long StoreID);
+        IEnumerable<Company> GetAllRetailAndCorporateStores();
+        CompanyResponse GetCompanyByIdForCrm(long companyId);
     }
 }

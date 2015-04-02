@@ -117,14 +117,16 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         /// <returns></returns>
         CrmBaseResponse GetBaseDataForCrm();
+
+        CompanyResponse GetCompanyByIdForCrm(long companyId);
         #region exportOrganisation
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
-        bool ImportOrganisation(long OrganisationId, bool isCorpStore);
+        bool ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore);
 
 
-        bool ImportStore(long OrganisationId, string StoreName);
+        bool ImportStore(long OrganisationId, string StoreName,string SubDomain);
         #endregion
 
        

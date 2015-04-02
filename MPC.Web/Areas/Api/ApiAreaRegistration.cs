@@ -29,8 +29,8 @@ namespace MPC.MIS.Areas.Api
             );
             context.Routes.MapHttpRoute(
               name: "ImportAPI",
-              routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}",
-              defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional }
+              routeTemplate: AreaName + "/{controller}/{parameter1}/{parameter2}/{parameter3}",
+              defaults: new { parameter1 = UrlParameter.Optional, parameter2 = UrlParameter.Optional, parameter3 = UrlParameter.Optional  }
           );
             context.Routes.MapHttpRoute(
               name: "ImportStoreAPI",

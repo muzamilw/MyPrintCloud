@@ -35,7 +35,11 @@ define("crm/contacts.viewModel",
                 sortIsAsc = ko.observable(true),
                 selectedBussinessAddress = ko.observable(),
                 selectedShippingAddress = ko.observable(),
+<<<<<<< HEAD
                 //Addresses to be used in store users shipping and billing address
+=======
+                //Addresses to be used in store users shipping and billing address
+>>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
                 allCompanyAddressesList = ko.observableArray([]),
                 // Selected Company
                 selectedCompanyContact = ko.observable(),
@@ -135,6 +139,7 @@ define("crm/contacts.viewModel",
                         }
                     });
                 },
+<<<<<<< HEAD
                 // Delete CompanyContact
             onDeleteCompanyContact = function (companyContact) { //CompanyContact
                 if (companyContact.isDefaultContact()) {
@@ -181,6 +186,54 @@ define("crm/contacts.viewModel",
                 });
                 confirmation.show();
                 return;
+=======
+                // Delete CompanyContact
+            onDeleteCompanyContact = function (companyContact) { //CompanyContact
+                if (companyContact.isDefaultContact()) {
+                    toastr.error("Default Contact Cannot be deleted", "", ist.toastrOptions);
+                    return;
+                }
+                // Ask for confirmation
+                confirmation.afterProceed(function () {
+                    //#region Db Saved Record Id > 0
+                    if (companyContact.contactId() > 0) {
+
+                        if (companyContact.companyId() > 0 && companyContact.contactId() > 0) {
+                            dataservice.deleteCompanyContact({
+                                CompanyContactId: companyContact.contactId()
+                            }, {
+                                success: function (data) {
+                                    if (data) {
+                                        selectedStore().users.remove(companyContact);
+                                        toastr.success("Deleted Successfully");
+                                    } else {
+                                        toastr.error("Contact can not be deleted", "", ist.toastrOptions);
+                                    }
+                                },
+                                error: function (response) {
+                                    toastr.error("Error: Failed To Delete Company Contact " + response, "", ist.toastrOptions);
+                                }
+                            });
+                        }
+                    }
+                        //#endregion
+                    else {
+                        if (companyContact.contactId() < 0 || companyContact.contactId() == undefined) {
+
+                            _.each(newCompanyContacts(), function (item) {
+                                if (item.contactId() == companyContact.contactId()) {
+                                    newCompanyContacts.remove(companyContact);
+                                }
+                            });
+                            selectedStore().users.remove(companyContact);
+                        }
+                    }
+                    view.hideCompanyContactDialog();
+
+                });
+                confirmation.show();
+                return;
+>>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
             },
                 getContactDetail = function (contact) {
                    dataservice.getContactsDetail({ companyId: contact.companyId() },
@@ -229,6 +282,7 @@ define("crm/contacts.viewModel",
                         }
                     });
                 },
+<<<<<<< HEAD
                 populateAddressesList = ko.computed(function () {
                     if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
                         shippingAddresses.removeAll();
@@ -291,6 +345,70 @@ define("crm/contacts.viewModel",
                         selectedShippingAddress(undefined);
                     }
                 }),
+=======
+                populateAddressesList = ko.computed(function () {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().territoryId() != undefined) {
+                        shippingAddresses.removeAll();
+                        bussinessAddresses.removeAll();
+                        _.each(allCompanyAddressesList(), function (item) {
+
+                            if (item.territoryId() == selectedCompanyContact().territoryId()) {
+                                shippingAddresses.push(item);
+                                bussinessAddresses.push(item);
+                            }
+                        });
+                    }
+                }),
+                selectBussinessAddress = ko.computed(function () {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().addressId() != undefined) {
+                    }
+                    //if (selectedBussinessAddressId() != undefined) {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() != undefined) {
+                        _.each(allCompanyAddressesList(), function (item) {
+                            if (item.addressId() == selectedCompanyContact().bussinessAddressId()) {
+                                selectedBussinessAddress(item);
+                                if (item.city() == null) {
+                                    selectedBussinessAddress().city(undefined);
+                                }
+                                if (item.state() == null) {
+                                    selectedBussinessAddress().state(undefined);
+                                }
+                                if (selectedCompanyContact() != undefined) {
+                                    selectedCompanyContact().bussinessAddressId(item.addressId());
+                                    selectedCompanyContact().addressId(item.addressId());
+                                    selectedBussinessAddress().stateName(item.stateName());
+                                }
+                            }
+                        });
+                    }
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().bussinessAddressId() == undefined) {
+                        selectedBussinessAddress(undefined);
+                    }
+                }),
+                selectShippingAddress = ko.computed(function () {
+                    //if (selectedShippingAddressId() != undefined) {
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().shippingAddressId() != undefined) {
+                        _.each(allCompanyAddressesList(), function (item) {
+                            if (item.addressId() == selectedCompanyContact().shippingAddressId()) {
+                                selectedShippingAddress(item);
+                                if (item.city() == null) {
+                                    selectedShippingAddress().city(undefined);
+                                }
+                                if (item.state() == null) {
+                                    selectedShippingAddress().state(undefined);
+                                }
+                                if (selectedCompanyContact() != undefined) {
+                                    selectedCompanyContact().shippingAddressId(item.addressId());
+                                    selectedShippingAddress().stateName(item.stateName());
+                                }
+                            }
+                        });
+                    }
+                    if (selectedCompanyContact() != undefined && selectedCompanyContact().shippingAddressId() == undefined) {
+                        selectedShippingAddress(undefined);
+                    }
+                }),
+>>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
                 // Bussiness Address Updater
                 // ReSharper disable once UnusedLocals
                 //updateBussinessAddress = ko.computed(function () {
