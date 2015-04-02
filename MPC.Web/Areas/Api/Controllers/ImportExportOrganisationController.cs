@@ -32,7 +32,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         [HttpGet]
-        public bool InsertOrganisation(long parameter1, bool parameter2,string parameter3)
+        public bool InsertOrganisation(long parameter1, string parameter2,bool parameter3)
         {
             try
             {

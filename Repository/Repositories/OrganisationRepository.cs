@@ -537,6 +537,7 @@ namespace MPC.Repository.Repositories
                          CompanyDomain domain = new CompanyDomain();
                          domain.Domain = DomainName;
                          domain.CompanyId = oCID;
+                         db.CompanyDomains.Add(domain);
                          db.SaveChanges();
 
 

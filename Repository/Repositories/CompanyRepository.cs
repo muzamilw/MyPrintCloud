@@ -2186,6 +2186,7 @@ namespace MPC.Repository.Repositories
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oRetailCID;
+                            db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4;
@@ -2333,6 +2334,7 @@ namespace MPC.Repository.Repositories
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oRetailCIDWOP;
+                            db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
@@ -2474,6 +2476,7 @@ namespace MPC.Repository.Repositories
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oCID;
+                            db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4;
@@ -2624,6 +2627,7 @@ namespace MPC.Repository.Repositories
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oCIDWOP;
+                            db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4WOP;
