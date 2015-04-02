@@ -289,12 +289,13 @@ define("order/order.viewModel",
                         }
 
                     }),
-
                     vatList = ko.observableArray([
-                    { name: "VAT Free", id: 1, tax: 0 },
-    { name: "VAT 20%", id: 2, tax: 20 },
-    { name: "VAT 10%", id: 3, tax: 10 }
-                    ]);
+                        {
+                             name: "VAT Free", id: 1, tax: 0
+                        },
+                        { name: "VAT 20%", id: 2, tax: 20 },
+                        { name: "VAT 10%", id: 3, tax: 10 }
+                    ]),
 
                 // Close Item Detail
                     closeItemDetail = function() {
@@ -527,6 +528,18 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
+                deleteOrderButtonHandler= function() {
+                    dataservice.deleteOrder({
+                        OrderId: selectedOrder().id()
+                    }, {
+                        success: function () {
+                            toastr.success ("Order successfully deleted!");
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to delete order!" + response);
+                        }
+                    });
+                },
                 // #endregion
                 // #region ServiceCalls
                 // Get Base Data
@@ -1191,6 +1204,7 @@ define("order/order.viewModel",
                     selectedStockOptionName: selectedStockOptionName,
                     selectedStockOptionSequenceNumber: selectedStockOptionSequenceNumber,
                     selectedStockOption: selectedStockOption,
+                    deleteOrderButtonHandler: deleteOrderButtonHandler,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,

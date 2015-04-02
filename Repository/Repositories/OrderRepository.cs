@@ -212,6 +212,14 @@ namespace MPC.Repository.Repositories
             }
 
         }
+
+        /// <summary>
+        /// Delete Order
+        /// </summary>
+        public void DeleteOrder(long orderId)
+        {
+            //db.us(orderId);
+        }
         public bool IsUserLoggedIn()
         {
             try

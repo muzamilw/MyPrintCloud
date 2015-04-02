@@ -18,7 +18,8 @@
                     <div class="col-lg-6">
                         <div class="slider" ></div>
                     </div>
-                    <div data-bind="with: selectedOrder" style="text-align:right;padding-right:16px">
+                    <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
+                        <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
                         <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
                         <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
                     </div>

@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to delete Order
+                    amplify.request.define('deleteOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+
                     // Define request to get order by id
                     amplify.request.define('getOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
@@ -126,7 +133,17 @@ define("order/order.dataservice", function () {
                     resourceId: 'getOrders',
                     data: params,
                     success: callbacks.success,
-                    error: callbacks.error,
+                    error: callbacks.error
+                });
+            },
+             // Delete Orders
+           deleteOrder = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteOrder',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
                 });
             },
             // Archive Order
@@ -211,7 +228,8 @@ define("order/order.dataservice", function () {
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
             getInventoriesList: getInventoriesList,
-            getItemsDetailsByItemId: getItemsDetailsByItemId
+            getItemsDetailsByItemId: getItemsDetailsByItemId,
+            deleteOrder: deleteOrder
         };
     })();
 
