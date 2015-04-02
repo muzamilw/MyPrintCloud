@@ -11,6 +11,7 @@ using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Models.ResponseModels;
 using System.Resources;
+using MPC.Models.Common;
 
 
 namespace MPC.Implementation.MISServices
@@ -342,6 +343,7 @@ namespace MPC.Implementation.MISServices
             }
             #endregion
 
+            organisation.MISLogo = SaveMiSLogo(organisation);
             organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
@@ -352,7 +354,37 @@ namespace MPC.Implementation.MISServices
                 Markups = markupRepository.GetAll(),
             };
         }
+        /// <summary>
+        /// Save Images for Company Contact Profile Image
+        /// </summary>
+        private string SaveMiSLogo(Organisation companyContact)
+        {
+            if (companyContact.MISLogo != null)
+            {
+                string base64 = companyContact.MISLogo.Substring(companyContact.MISLogo.IndexOf(',') + 1);
+                base64 = base64.Trim('\0');
+                byte[] data = Convert.FromBase64String(base64);
 
+                string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyContact.OrganisationId + "/" + companyContact.OrganisationName + "/Logo");
+                if (File.Exists(directoryPath))
+                {
+                    //If already organisation logo is save,it delete it 
+                    File.Delete(directoryPath);
+                }
+                if (directoryPath != null && !Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string savePath =
+                    directoryPath + "\\" +
+                    companyContact.OrganisationId + "_" + StringHelper.SimplifyString(companyContact.OrganisationName) + "_MIS_Logo.png";
+                File.WriteAllBytes(savePath, data);
+                int indexOf = savePath.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                savePath = savePath.Substring(indexOf, savePath.Length - indexOf);
+                return savePath;
+            }
+            return null;
+        }
 
         public IList<int> GetOrganizationIds(int request)
         {
