@@ -3074,6 +3074,18 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
+            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
+        }
+        public CompanyResponse GetCompanyByIdForCrm(long companyId)
+        {
             CompanyResponse response = companyRepository.GetCompanyByIdForCrm(companyId);
             int userCount = 0;
             int newOrdersCount = 0;
@@ -3084,6 +3096,7 @@ namespace MPC.Implementation.MISServices
             response.NewUsersCount = userCount;
             return response;
         }
+
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
