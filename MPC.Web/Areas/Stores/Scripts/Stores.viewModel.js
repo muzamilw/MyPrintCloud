@@ -5940,6 +5940,11 @@ define("stores/stores.viewModel",
                     dataservice.deleteCompanyPermanent({ CompanyId: id }, {
                         success: function () {
                             toastr.success("Store deleted successfully!");
+                            isEditorVisible(false);
+                            if (selectedStore()) {
+                                stores.remove(selectedStore());
+                            }
+                            resetStoreEditor();
                         },
                         error: function (response) {
                             toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
