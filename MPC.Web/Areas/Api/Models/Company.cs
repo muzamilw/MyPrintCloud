@@ -113,7 +113,7 @@ namespace MPC.MIS.Areas.Api.Models
         public int CompanyContactCount { get; set; }
         public int CompanyAddressesCount { get; set; }
         public long? ActiveBannerSetId { get; set; }
-
+        public long? StoreId { get; set; }
         /// <summary>
         /// Map Image Url
         /// </summary>

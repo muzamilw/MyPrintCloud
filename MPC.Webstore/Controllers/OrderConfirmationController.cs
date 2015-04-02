@@ -45,8 +45,7 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-           // MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-          
+           
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
             {
@@ -173,7 +172,7 @@ namespace MPC.Webstore.Controllers
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                            HTMLOfShopReceipt = GetReceiptPage(OrderId);
+                           // HTMLOfShopReceipt = GetReceiptPage(OrderId);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                             UserCookieManager.WEBOrderId = 0;

@@ -45,5 +45,7 @@ namespace MPC.Interfaces.MISServices
         /// </summary>
         /// <returns></returns>
         OrderMenuCount GetOrderScreenMenuItemCount();
+
+        PtvDTO GetPTV(PTVRequestModel request);
     }
 }

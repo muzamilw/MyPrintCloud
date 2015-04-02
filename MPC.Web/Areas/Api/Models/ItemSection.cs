@@ -40,6 +40,8 @@ namespace MPC.MIS.Areas.Api.Models
         public int? Side1PlateQty { get; set; }
         public int? Side2PlateQty { get; set; }
         public bool? IsPlateSupplied { get; set; }
+        public bool? IsDoubleSided { get; set; }
+        public bool? IsWorknTurn { get; set; }
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
     }
 }

@@ -79,11 +79,13 @@ namespace MPC.Webstore.Controllers
                     else
                     {
                         ViewBag.OrderList = ManagerordersList;
+                        ViewBag.TotalOrders = ManagerordersList.Count;
                     }
                 }
                 else
                 {
                     ViewBag.OrderList= ordersList;
+                    ViewBag.TotalOrders = ordersList.Count;
                 }
             }
         }

@@ -50,7 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
         public CompanyResponse Get([FromUri]int companyId)
         {
-            return companyService.GetCompanyById(companyId).CreateFromForCrm();
+            return companyService.GetCompanyByIdForCrm(companyId).CreateFromForCrm();
         }
         #endregion
     }
