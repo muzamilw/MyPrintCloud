@@ -292,9 +292,9 @@ define("order/order.viewModel",
 
                     vatList = ko.observableArray([
                     { name: "VAT Free", id: 1, tax: 0 },
-    { name: "VAT 20%", id: 2, tax: 20 },
-    { name: "VAT 10%", id: 3, tax: 10 }
-                    ]);
+                    { name: "VAT 20%", id: 2, tax: 20 },
+                    { name: "VAT 10%", id: 3, tax: 10 }
+                    ]),
 
                 // Close Item Detail
                     closeItemDetail = function() {
