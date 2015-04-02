@@ -1,7 +1,7 @@
 ﻿<head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-   
+    
 </head>
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
@@ -156,12 +156,12 @@
     
     )
                          
-                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
-                         { 
+                        @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
+                         {
                         <div id="footerr"  class="pagination pagination-small pagination-right">
                             @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
                         </div>
-                         }
+                        }
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
