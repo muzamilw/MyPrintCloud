@@ -290,17 +290,11 @@ define("order/order.viewModel",
 
                     }),
                     vatList = ko.observableArray([
-<<<<<<< HEAD
                         {
                              name: "VAT Free", id: 1, tax: 0
                         },
                         { name: "VAT 20%", id: 2, tax: 20 },
                         { name: "VAT 10%", id: 3, tax: 10 }
-=======
-                    { name: "VAT Free", id: 1, tax: 0 },
-                    { name: "VAT 20%", id: 2, tax: 20 },
-                    { name: "VAT 10%", id: 3, tax: 10 }
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                     ]),
 
                 // Close Item Detail
@@ -534,7 +528,7 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
-<<<<<<< HEAD
+//<<<<<<< HEAD
                 deleteOrderButtonHandler = function () {
                         confirmation.messageText("Are you sure you want to delete order?");
                         confirmation.afterProceed(deleteOrder);
@@ -563,8 +557,8 @@ define("order/order.viewModel",
                         }
                     });
                 },
-=======
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
+//=======
+//>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -1157,8 +1151,6 @@ define("order/order.viewModel",
                          }
 
                      },
-<<<<<<< HEAD
-=======
                     getPtvPlan = function () {
                         isLoadingOrders(true);
                         dataservice.getPTV({
@@ -1193,7 +1185,6 @@ define("order/order.viewModel",
                             }
                         });
                     },
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                     // Template Chooser For Delivery Schedule
                      templateToUseDeliverySchedule = function (deliverySchedule) {
                          return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');

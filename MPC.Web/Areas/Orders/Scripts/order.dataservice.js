@@ -243,13 +243,10 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
-            getInventoriesList: getInventoriesList,
+            getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
-<<<<<<< HEAD
-            deleteOrder: deleteOrder
-=======
+            deleteOrder: deleteOrder,
             getPTV: getPTV
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
         };
     })();
 

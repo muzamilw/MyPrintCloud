@@ -1,20 +1,12 @@
 ﻿<head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-<<<<<<< HEAD
-   
-=======
     
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 </head>
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-<<<<<<< HEAD
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 4);
-=======
     var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 13);
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 
     grid.Pager(WebGridPagerModes.NextPrevious);
     
@@ -164,20 +156,12 @@
     
     )
                          
-<<<<<<< HEAD
-                         
-                        <div id="footerr"  class="pagination pagination-small pagination-right">
-                            @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
-                        </div>
-                         
-=======
                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
                          {
                         <div id="footerr"  class="pagination pagination-small pagination-right">
                             @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
                         </div>
                         }
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />

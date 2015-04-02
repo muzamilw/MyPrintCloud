@@ -77,7 +77,6 @@ namespace MPC.Webstore.Controllers
             {
                 //Get the Category from QueryString
                 string url = "";
-<<<<<<< HEAD
               //  string id = RouteData.Values["id"].ToString();
                 //if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
                 //{
@@ -91,21 +90,6 @@ namespace MPC.Webstore.Controllers
                 //        this.BuildBreadCrumbMenu(categoryID, _productCatList);
 
                 //    }
-=======
-              //  string id = RouteData.Values["id"].ToString();
-                //if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
-                //{
-                //    string id = RouteData.Values["id"].ToString();
-                //    categoryID = Convert.ToInt64(id);
-
-                //    if (categoryID > 0)
-                //    {
-
-                //        List<ProductCategory> _productCatList = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
-                //        this.BuildBreadCrumbMenu(categoryID, _productCatList);
-
-                //    }
->>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 //}
             }           
             catch(Exception ex)
