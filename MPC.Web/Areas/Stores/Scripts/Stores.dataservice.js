@@ -189,10 +189,11 @@
                     });
                     // Define request to Create Store
                     amplify.request.define('createStore', 'ajax', {
-                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}',
+                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}&parameter3={parameter3}',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'POST'
+                        type: 'POST',
+                        data: { parameter3: location.host }
                     });
                     // Define request to save Smart Form
                     amplify.request.define('saveSmartForm', 'ajax', {
