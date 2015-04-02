@@ -1103,6 +1103,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 productName: productName,
                 internalFlagId: internalFlagId
             }),
+            // Has Valid Template
+            hasTemplatePagesForManual = function () {
+                if ((isFinishedGoodsUi() !== '1') || (templateTypeUi() !== '1')) {
+                    return true;
+                }
+
+                return (isFinishedGoodsUi() === '1') && (templateTypeUi() === '1') && (template() && template().templatePages().length > 0);
+            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
@@ -1114,7 +1122,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemSections.filter(function (itemSection) {
                     return !itemSection.isValid();
                 }).length === 0 &&
-                template().isValid();
+                template().isValid() &&
+                hasTemplatePagesForManual();
             }),
             // Show All Error Messages
             showAllErrors = function () {
@@ -1171,12 +1180,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var templateFileElement = template().fileSource.domElement;
                         validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
                     }
-                    if (!template().hasTemplatePagesForManual()) {
-                        validationSummaryList.push({
-                            name: "Atleast one Template Page is required in case of Blank Template",
-                            element: template().isCreatedManual.domElement
-                        });
-                    }
+                }
+                // If Print Item and don't has Template Pages for Blank Template
+                if (!hasTemplatePagesForManual()) {
+                    validationSummaryList.push({
+                        name: "Atleast one Template Page is required in case of Blank Template",
+                        element: template().isCreatedManual.domElement
+                    });
                 }
                 // Show Item Section Errors
                 var itemSectionInvalid = itemSections.find(function (itemSection) {
@@ -1892,20 +1902,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 fileSource: fileSource
             }),
-            // Has Valid Template
-            hasTemplatePagesForManual = function () {
-                if (!isCreatedManual()) {
-                    return true;
-                }
-                
-                return isCreatedManual() && templatePages().length > 0;
-            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && templatePages.filter(function (templatePage) {
                     return !templatePage.isValid();
-                }).length === 0 &&
-                hasTemplatePagesForManual();
+                }).length === 0;
             }),
             // True if the Item Vdp Price has been changed
             // ReSharper disable InconsistentNaming
@@ -1965,7 +1966,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             moveTemplatePageDown: moveTemplatePageDown,
             errors: errors,
             isValid: isValid,
-            hasTemplatePagesForManual: hasTemplatePagesForManual,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
