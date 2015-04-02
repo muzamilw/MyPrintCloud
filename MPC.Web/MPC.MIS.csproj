@@ -656,6 +656,7 @@
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
+    <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />

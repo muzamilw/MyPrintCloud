@@ -72,5 +72,7 @@ namespace MPC.Interfaces.Repository
         ExportSets ExportRetailCompanyWithoutProducts(long CompanyId);
 
         void DeleteStoryBySP(long StoreID);
+        IEnumerable<Company> GetAllRetailAndCorporateStores();
+        CompanyResponse GetCompanyByIdForCrm(long companyId);
     }
 }
