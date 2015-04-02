@@ -130,7 +130,7 @@ namespace MPC.Implementation.MISServices
             var dbAddress = addressRepository.GetAddressByID(addressId);
             if (dbAddress != null && (dbAddress.CompanyContacts == null || !dbAddress.CompanyContacts.Any()))
             {
-                addressRepository.Delete(dbAddress);
+                dbAddress.isArchived = true;
                 addressRepository.SaveChanges();
                 return true;
             }

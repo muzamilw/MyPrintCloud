@@ -3014,6 +3014,21 @@ namespace MPC.Implementation.MISServices
         #region Public
 
         /// <summary>
+        /// Delete Company Permanently
+        /// </summary>
+        public void DeleteCompanyPermanently(long companyId)
+        {
+            Company company = companyRepository.Find(companyId);
+
+            if (company == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+            }
+
+            companyRepository.DeleteStoryBySP(companyId);
+        }
+
+        /// <summary>
         /// Get Items For Widgets
         /// </summary>
         public List<Item> GetItemsForWidgets()
