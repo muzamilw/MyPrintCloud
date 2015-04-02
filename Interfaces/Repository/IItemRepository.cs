@@ -13,7 +13,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IItemRepository : IBaseRepository<Item, long>
     {
-
         /// <summary>
         /// Get Items With Details
         /// </summary>

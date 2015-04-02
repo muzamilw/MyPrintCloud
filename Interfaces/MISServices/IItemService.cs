@@ -12,6 +12,11 @@ namespace MPC.Interfaces.MISServices
     public interface IItemService
     {
         /// <summary>
+        /// Deletes Product Permanently
+        /// </summary>
+        void DeleteProduct(long itemId);
+
+        /// <summary>
         /// Load Items, based on search filters
         /// </summary>
         ItemListViewSearchResponse GetItems(ItemSearchRequestModel request);
