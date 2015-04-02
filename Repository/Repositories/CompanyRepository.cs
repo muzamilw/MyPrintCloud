@@ -2279,7 +2279,7 @@ namespace MPC.Repository.Repositories
                             Company comp = new Company();
                             comp = objExpRetailWOP.RetailCompany;
                             comp.OrganisationId = OrganisationID;
-                            comp.Name = objExpRetailWOP.RetailCompany.Name + "- Copy";
+                            comp.Name = objExpRetailWOP.RetailCompany.Name;
                             comp.IsDisabled = 0;
 
                             comp.CompanyDomains = null;
