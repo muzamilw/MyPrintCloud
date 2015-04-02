@@ -24,7 +24,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Estimate Id
         /// </summary>
         public long? EstimateId { get; set; }
-        
+
         /// <summary>
         /// Title
         /// </summary>
@@ -34,17 +34,17 @@ namespace MPC.MIS.Areas.Api.Models
         /// Tax1
         /// </summary>
         public int? Tax1 { get; set; }
-        
+
         /// <summary>
         /// Status Id
         /// </summary>
         public short? StatusId { get; set; }
-        
+
         /// <summary>
         /// Qty1
         /// </summary>
         public int? Qty1 { get; set; }
-        
+
         /// <summary>
         /// Qty1 Cost Center Profit
         /// </summary>
@@ -64,7 +64,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// Qty1 Marup Percentage Value
         /// </summary>
         public double? Qty1MarkUpPercentageValue { get; set; }
-        
+
 
         /// <summary>
         /// Qty1 Marup1 Value
@@ -118,6 +118,20 @@ namespace MPC.MIS.Areas.Api.Models
         public double? DefaultItemTax { get; set; }
         public bool? IsQtyRanged { get; set; }
         public string Status { get; set; }
+        /// <summary>
+        /// Qty2 Marup Id 2
+        /// </summary>
+        public int? Qty2MarkUpId2 { get; set; }
+        /// <summary>
+        /// Qty3Marup Id 3
+        /// </summary>
+        public int? Qty3MarkUpId3 { get; set; }
+        public double? Qty2NetTotal { get; set; }
+        public double? Qty3NetTotal { get; set; }
+        public double? Qty2Tax1Value { get; set; }
+        public double? Qty3Tax1Value { get; set; }
+        public double? Qty2GrossTotal { get; set; }
+        public double? Qty3GrossTotal { get; set; }
         public DateTime? ItemCreationDateTime { get; set; }
         public string InvoiceDescription { get; set; }
         public Guid? JobCardPrintedBy { get; set; }

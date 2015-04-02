@@ -298,7 +298,7 @@ define("stores/stores.viewModel",
                        }, {
                            success: function (data) {
                                if (data) {
-                                   toastr.success("Successfully created.");
+                                   toastr.success("Store created successfully.");
                                    getStores();
                                } else {
                                    toastr.error("Failed to create store.", "", ist.toastrOptions);
@@ -500,7 +500,7 @@ define("stores/stores.viewModel",
                                 "Your current changes for banner, secondary pages, css, sprite will be overridden.");
                             confirmation.afterProceed(function () {
                                 selectedStore().currentThemeName(theme.Name);
-                                getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath)
+                                getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath);
                             });
                             confirmation.afterCancel();
                             confirmation.show();
@@ -5916,7 +5916,7 @@ define("stores/stores.viewModel",
                 //Store Map Image File Loaded Callback
         storeMapImageLoadedCallback = function (file, data) {
             selectedStore().mapImageUrlBinary(data);
-        };
+        },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -5927,6 +5927,29 @@ define("stores/stores.viewModel",
                     getStores();
                     getBaseDataFornewCompany();
                     view.initializeForm();
+                },
+                // On Delete Store Permanently
+                onDeletePermanent = function() {
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                    dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                        success: function () {
+                            toastr.success("Store deleted successfully!");
+                            isEditorVisible(false);
+                            if (selectedStore()) {
+                                stores.remove(selectedStore());
+                            }
+                            resetStoreEditor();
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                        }
+                    });
                 };
                 //#region _________R E T U R N_____________________
 
@@ -6280,6 +6303,7 @@ define("stores/stores.viewModel",
                     priceFlags: priceFlags,
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
+                    onDeletePermanent: onDeletePermanent
                 };
                 //#endregion
             })()

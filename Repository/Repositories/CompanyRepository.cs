@@ -65,6 +65,17 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public IEnumerable<Company> GetAllRetailAndCorporateStores()
+        {
+            try
+            {
+                return DbSet.Where(c => c.OrganisationId == OrganisationId && (c.IsCustomer == 3 || c.IsCustomer == 4)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public long GetStoreIdFromDomain(string domain)
         {
@@ -201,6 +212,7 @@ namespace MPC.Repository.Repositories
                         c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
                         c.PriceFlagId,
+                        c.StoreId,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
@@ -329,6 +341,7 @@ namespace MPC.Repository.Repositories
                         TaxLabel = c.TaxLabel,
                         PriceFlagId = c.PriceFlagId,
                         TaxRate = c.TaxRate,
+                        StoreId = c.StoreId,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -397,6 +410,211 @@ namespace MPC.Repository.Repositories
                             ? company.SystemPages
                             : new List<CmsPage>()
                 };
+                companyResponse.Company = company;
+                return companyResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+        public CompanyResponse GetCompanyByIdForCrm(long companyId)
+        {
+            try
+            {
+                CompanyResponse companyResponse = new CompanyResponse();
+                var company = db.Companies.Include(c => c.CmsPages)
+                    .Include(c => c.Addresses)
+                    .Include(c => c.CompanyContacts)
+                    .Include(c => c.CompanyTerritories)
+                    .Where(c => c.CompanyId == companyId)
+                    .Select(c => new
+                    {
+                        c.CompanyId,
+                        c.Name,
+                        c.AccountNumber,
+                        c.URL,
+                        c.CreditReference,
+                        c.CreditLimit,
+                        c.Terms,
+                        c.TypeId,
+                        c.DefaultMarkUpId,
+                        c.AccountOpenDate,
+                        c.AccountManagerId,
+                        c.DefaultNominalCode,
+                        c.CurrentThemeId,
+                        c.Status,
+                        c.IsCustomer,
+                        c.Notes,
+                        c.IsDisabled,
+                        c.AccountBalance,
+                        c.CreationDate,
+                        c.VATRegNumber,
+                        c.VATRegReference,
+                        c.FlagId,
+                        c.PhoneNo,
+                        c.IsGeneral,
+                        c.WebAccessCode,
+                        c.isArchived,
+                        c.PayByPersonalCredeitCard,
+                        c.PONumberRequired,
+                        c.ShowPrices,
+                        c.isDisplayBanners,
+                        c.isDisplayMenuBar,
+                        c.isDisplaySecondaryPages,
+                        c.isAllowRegistrationFromWeb,
+                        c.isDisplayFeaturedProducts,
+                        c.isDisplayPromotionalProducts,
+                        c.isDisplaySiteFooter,
+                        c.isDisplaySiteHeader,
+                        c.isShowGoogleMap,
+                        c.RedirectWebstoreURL,
+                        c.isTextWatermark,
+                        c.WatermarkText,
+                        c.MapImageUrl,
+                        c.facebookAppId,
+                        c.facebookAppKey,
+                        c.twitterAppId,
+                        c.twitterAppKey,
+                        c.TwitterURL,
+                        c.isStoreModePrivate,
+                        c.TaxPercentageId,
+                        c.canUserPlaceOrderWithoutApproval,
+                        c.CanUserEditProfile,
+                        c.SalesAndOrderManagerId1,
+                        c.SalesAndOrderManagerId2,
+                        c.ProductionManagerId1,
+                        c.ProductionManagerId2,
+                        c.StockNotificationManagerId1,
+                        c.StockNotificationManagerId2,
+                        c.IsDeliveryTaxAble,
+                        c.IsDisplayDeliveryOnCheckout,
+                        c.isPaymentRequired,
+                        c.isIncludeVAT,
+                        c.includeEmailArtworkOrderReport,
+                        c.includeEmailArtworkOrderXML,
+                        c.includeEmailArtworkOrderJobCard,
+                        c.StoreBackgroundImage,
+                        c.makeEmailArtworkOrderProductionReady,
+                        c.CompanyType,
+                        c.PickupAddressId,
+                        c.WebAnalyticCode,
+                        c.WebMasterTag,
+                        c.FacebookURL,
+                        c.LinkedinURL,
+                        c.isCalculateTaxByService,
+                        c.isWhiteLabel,
+                        c.TaxLabel,
+                        c.TaxRate,
+                        c.IsDisplayDiscountVoucherCode,
+                        c.PriceFlagId,
+                        c.StoreId,
+                        c.CompanyCMYKColors,
+                        c.CompanyBannerSets,
+                        c.PaymentGateways,
+                        ProductCategories = c.ProductCategories.Where(pc => pc.ParentCategoryId == null),
+                        c.MediaLibraries,
+                        c.CompanyDomains,
+                        c.CmsOffers,
+                        c.CompanyCostCentres,
+                        CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList(),
+                        c.Image,
+                        c.ActiveBannerSetId,
+                        c.OrganisationId
+                    }).ToList().Select(c => new Company
+                    {
+                        CompanyId = c.CompanyId,
+                        Name = c.Name,
+                        AccountNumber = c.AccountNumber,
+                        URL = c.URL,
+                        CreditReference = c.CreditReference,
+                        CreditLimit = c.CreditLimit,
+                        Terms = c.Terms,
+                        TypeId = c.TypeId,
+                        DefaultMarkUpId = c.DefaultMarkUpId,
+                        AccountOpenDate = c.AccountOpenDate,
+                        AccountManagerId = c.AccountManagerId,
+                        DefaultNominalCode = c.DefaultNominalCode,
+                        Status = c.Status,
+                        IsCustomer = c.IsCustomer,
+                        Notes = c.Notes,
+                        IsDisabled = c.IsDisabled,
+                        CurrentThemeId = c.CurrentThemeId,
+                        AccountBalance = c.AccountBalance,
+                        CreationDate = c.CreationDate,
+                        VATRegNumber = c.VATRegNumber,
+                        VATRegReference = c.VATRegReference,
+                        FlagId = c.FlagId,
+                        PhoneNo = c.PhoneNo,
+                        IsDisplayDiscountVoucherCode = c.IsDisplayDiscountVoucherCode,
+                        isWhiteLabel = c.isWhiteLabel,
+                        IsGeneral = c.IsGeneral,
+                        WebAccessCode = c.WebAccessCode,
+                        isArchived = c.isArchived,
+                        PayByPersonalCredeitCard = c.PayByPersonalCredeitCard,
+                        PONumberRequired = c.PONumberRequired,
+                        ShowPrices = c.ShowPrices,
+                        isDisplayBanners = c.isDisplayBanners,
+                        isDisplayMenuBar = c.isDisplayMenuBar,
+                        isDisplaySecondaryPages = c.isDisplaySecondaryPages,
+                        isAllowRegistrationFromWeb = c.isAllowRegistrationFromWeb,
+                        isDisplayFeaturedProducts = c.isDisplayFeaturedProducts,
+                        isDisplayPromotionalProducts = c.isDisplayPromotionalProducts,
+                        isDisplaySiteFooter = c.isDisplaySiteFooter,
+                        isDisplaySiteHeader = c.isDisplaySiteHeader,
+                        isShowGoogleMap = c.isShowGoogleMap,
+                        RedirectWebstoreURL = c.RedirectWebstoreURL,
+                        isTextWatermark = c.isTextWatermark,
+                        WatermarkText = c.WatermarkText,
+                        MapImageUrl = c.MapImageUrl,
+                        facebookAppId = c.facebookAppId,
+                        facebookAppKey = c.facebookAppKey,
+                        twitterAppId = c.twitterAppId,
+                        twitterAppKey = c.twitterAppKey,
+                        TwitterURL = c.TwitterURL,
+                        isStoreModePrivate = c.isStoreModePrivate,
+                        TaxPercentageId = c.TaxPercentageId,
+                        canUserPlaceOrderWithoutApproval = c.canUserPlaceOrderWithoutApproval,
+                        CanUserEditProfile = c.CanUserEditProfile,
+                        SalesAndOrderManagerId1 = c.SalesAndOrderManagerId1,
+                        SalesAndOrderManagerId2 = c.SalesAndOrderManagerId2,
+                        ProductionManagerId1 = c.ProductionManagerId1,
+                        ProductionManagerId2 = c.ProductionManagerId2,
+                        StockNotificationManagerId1 = c.StockNotificationManagerId1,
+                        StockNotificationManagerId2 = c.StockNotificationManagerId2,
+                        IsDeliveryTaxAble = c.IsDeliveryTaxAble,
+                        IsDisplayDeliveryOnCheckout = c.IsDisplayDeliveryOnCheckout,
+                        isPaymentRequired = c.isPaymentRequired,
+                        isIncludeVAT = c.isIncludeVAT,
+                        includeEmailArtworkOrderReport = c.includeEmailArtworkOrderReport,
+                        includeEmailArtworkOrderXML = c.includeEmailArtworkOrderXML,
+                        includeEmailArtworkOrderJobCard = c.includeEmailArtworkOrderJobCard,
+                        StoreBackgroundImage = c.StoreBackgroundImage,
+                        makeEmailArtworkOrderProductionReady = c.makeEmailArtworkOrderProductionReady,
+                        CompanyType = c.CompanyType,
+                        PickupAddressId = c.PickupAddressId,
+                        WebAnalyticCode = c.WebAnalyticCode,
+                        WebMasterTag = c.WebMasterTag,
+                        FacebookURL = c.FacebookURL,
+                        LinkedinURL = c.LinkedinURL,
+                        isCalculateTaxByService = c.isCalculateTaxByService,
+                        TaxLabel = c.TaxLabel,
+                        PriceFlagId = c.PriceFlagId,
+                        TaxRate = c.TaxRate,
+                        StoreId = c.StoreId,
+                        Image = c.Image,
+                        ActiveBannerSetId = c.ActiveBannerSetId,
+                        OrganisationId = c.OrganisationId,
+                        CompanyTerritories = c.CompanyTerritories.ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList()
+                    }).FirstOrDefault();
+
+               
                 companyResponse.Company = company;
                 return companyResponse;
             }
@@ -1953,6 +2171,7 @@ namespace MPC.Repository.Repositories
             }
             return Result;
         }
+
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
@@ -2040,7 +2259,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets)
+        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain)
         {
             try
             {
@@ -2120,6 +2339,9 @@ namespace MPC.Repository.Repositories
                         string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
                         string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
+
+                        
+                            
                         if (StoreName == SName)
                         {
                             Company comp = new Company();
@@ -2127,6 +2349,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetail.RetailCompany.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2173,6 +2398,14 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCID = comp.CompanyId;
 
+                          
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCID;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2264,8 +2497,10 @@ namespace MPC.Repository.Repositories
                             Company comp = new Company();
                             comp = objExpRetailWOP.RetailCompany;
                             comp.OrganisationId = OrganisationID;
-                            comp.Name = objExpRetailWOP.RetailCompany.Name + "- Copy";
+                            comp.Name = objExpRetailWOP.RetailCompany.Name;
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2312,6 +2547,13 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCIDWOP = comp.CompanyId;
 
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCIDWOP;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2405,6 +2647,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporate.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2442,6 +2687,15 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCID = comp.CompanyId;
+
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCID;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2547,6 +2801,7 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporateWOP.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2584,6 +2839,14 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCIDWOP = comp.CompanyId;
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCIDWOP;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)

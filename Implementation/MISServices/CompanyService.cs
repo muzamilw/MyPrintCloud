@@ -3014,6 +3014,21 @@ namespace MPC.Implementation.MISServices
         #region Public
 
         /// <summary>
+        /// Delete Company Permanently
+        /// </summary>
+        public void DeleteCompanyPermanently(long companyId)
+        {
+            Company company = companyRepository.Find(companyId);
+
+            if (company == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+            }
+
+            companyRepository.DeleteStoryBySP(companyId);
+        }
+
+        /// <summary>
         /// Get Items For Widgets
         /// </summary>
         public List<Item> GetItemsForWidgets()
@@ -3069,6 +3084,19 @@ namespace MPC.Implementation.MISServices
             response.NewUsersCount = userCount;
             return response;
         }
+        public CompanyResponse GetCompanyByIdForCrm(long companyId)
+        {
+            CompanyResponse response = companyRepository.GetCompanyByIdForCrm(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
+        }
+
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
@@ -3140,7 +3168,8 @@ namespace MPC.Implementation.MISServices
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM)
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
+                Companies = companyRepository.GetAllRetailAndCorporateStores()
             };
         }
         public void SaveFile(string filePath, long companyId)
@@ -5432,7 +5461,7 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public bool ImportOrganisation(long OrganisationId, bool isCorpStore)
+        public bool ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
         {
             try
             {
@@ -5570,7 +5599,11 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets);
+                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets,SubDomain);
+                    string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
+                    ImportStore(OrganisationId, StoreName,SubDomain);
+                    string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+                    ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
                     return true;
                 }
                 else
@@ -5714,7 +5747,7 @@ namespace MPC.Implementation.MISServices
 
         #region CopyStore
 
-        public bool ImportStore(long OrganisationId, string StoreName)
+        public bool ImportStore(long OrganisationId, string StoreName,string SubDomain)
         {
             try
             {
@@ -5907,7 +5940,8 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets);
+                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets,SubDomain);
+
                     return true;
                 }
                 else

@@ -5323,8 +5323,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_DeleteCarts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_DeleteContactCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SelectedID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_DeleteOrderByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_DeleteOrganisation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="int" Mode="In" />
@@ -6883,7 +6889,13 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteOrganisation">
-            <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
+          <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DeleteCarts">
+            <Parameter Name="CompanyID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DeleteOrderByID">
+            <Parameter Name="OrderID" Mode="In" Type="Int64" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Company">
@@ -16370,6 +16382,8 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteOrganisation" FunctionName="DomainModels.Store.usp_DeleteOrganisation" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteCarts" FunctionName="DomainModels.Store.usp_DeleteCarts" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteOrderByID" FunctionName="DomainModels.Store.usp_DeleteOrderByID" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

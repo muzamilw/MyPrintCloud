@@ -189,10 +189,11 @@
                     });
                     // Define request to Create Store
                     amplify.request.define('createStore', 'ajax', {
-                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}',
+                        url: ist.siteUrl + '/Api/ImportExportOrganisation/ImportStore?parameter1={parameter1}&parameter2={parameter2}&parameter3={parameter3}',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
-                        type: 'POST'
+                        type: 'POST',
+                        data: { parameter3: location.host }
                     });
                     // Define request to save Smart Form
                     amplify.request.define('saveSmartForm', 'ajax', {
@@ -267,6 +268,13 @@
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
+                    });
+                    // Define request to Delete Company Permanently
+                    amplify.request.define('deleteCompanyPermanent', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteCompany',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
                     });
                     isInitialized = true;
                 }
@@ -637,7 +645,15 @@
                     data: param
                 });
             },
-
+            deleteCompanyPermanent = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyPermanent',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
 
         // save Field Variable
         saveFieldVariable = function (param, callbacks) {
@@ -721,7 +737,8 @@
             getCmsTags: getCmsTags,
             getCampaignDetailById: getCampaignDetailById,
             deleteProductCategoryById: deleteProductCategoryById,
-            createStore: createStore
+            createStore: createStore,
+            deleteCompanyPermanent: deleteCompanyPermanent
         };
     })();
 

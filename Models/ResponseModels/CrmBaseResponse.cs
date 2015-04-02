@@ -15,5 +15,6 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<RegistrationQuestion> RegistrationQuestions { get; set; }
         public IEnumerable<Country> Countries { get; set; }
         public IEnumerable<State> States { get; set; }
+        public IEnumerable<Company> Companies { get; set; }
     }
 }

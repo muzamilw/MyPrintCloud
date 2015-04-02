@@ -164,14 +164,14 @@ namespace MPC.Provisioning.Controllers
                         //WebClient oClient = new WebClient();
                         //oClient.OpenRead(uri);
 
-
-                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp);
+                        isCorp = "true";
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + subdomain + "/" + isCorp);
                         //request.Method = "GET";
                         ////request.Credentials = new NetworkCredential("xxx", "xxx");
                         //var iTask = request.GetRequestStreamAsync();
                         //Task.WaitAll(iTask);
                         request.Method = "GET";
-                        request.Timeout = 180000;
+                        request.Timeout = 500000;
                         using (WebResponse response = request.GetResponse())
                         {
                             using (Stream stream = response.GetResponseStream())

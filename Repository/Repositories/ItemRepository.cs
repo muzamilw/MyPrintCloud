@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -64,7 +65,7 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
-
+        
         /// <summary>
         /// Get Item With Details
         /// </summary>

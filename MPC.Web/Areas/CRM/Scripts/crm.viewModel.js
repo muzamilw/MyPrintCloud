@@ -141,6 +141,8 @@ define("crm/crm.viewModel",
                 filteredStates = ko.observableArray([]),
                 // Error List
                 errorList = ko.observableArray([]),
+                //Stores List For DropDown
+                storesListForDropDown = ko.observableArray([]),
                 //#endregion
 
                 //#region ___________ LIST VIEW ______________
@@ -1747,6 +1749,10 @@ define("crm/crm.viewModel",
                                 states.removeAll();
                                 ko.utils.arrayPushAll(states(), data.States);
                                 states.valueHasMutated();
+                                //stores List For DropDown 
+                                storesListForDropDown.removeAll();
+                                ko.utils.arrayPushAll(storesListForDropDown(), data.StoresListDropDown);
+                                storesListForDropDown.valueHasMutated();
 
 
                                 //Sefault Sprite Image
@@ -2400,8 +2406,6 @@ define("crm/crm.viewModel",
                    goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
                    getBaseDataFornewCompany();
-
-
                };
                 //#endregion
 
@@ -2448,6 +2452,7 @@ define("crm/crm.viewModel",
 
                     isSavingNewAddress: isSavingNewAddress,
                     onCreateNewStore: onCreateNewStore,
+                    storesListForDropDown: storesListForDropDown,
                     //#region Company Contacts
                     selectedCompanyContact: selectedCompanyContact,
                     companyContactFilter: companyContactFilter,

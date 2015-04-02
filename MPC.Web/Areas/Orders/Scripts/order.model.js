@@ -400,14 +400,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty1MarkUpId1 = ko.observable(specifiedQty1MarkUpId1 || undefined),
             qty2MarkUpId2 = ko.observable(specifiedQty2MarkUpId2 || undefined),
             qty3MarkUpId3 = ko.observable(specifiedQty3MarkUpId3 || undefined),
-            qty2NetTotal = ko.observable(specifiedQty2NetTotal || undefined),
-            qty3NetTotal = ko.observable(specifiedQty3NetTotal || undefined),
-            qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || undefined),
-            qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || undefined),
-            qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || undefined),
-            qty1GrossTotal = ko.observable(specifiedQty1GrossTotal || undefined),
-            qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || undefined),
-            qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || undefined),
+            qty2NetTotal = ko.observable(specifiedQty2NetTotal || 0),
+            qty3NetTotal = ko.observable(specifiedQty3NetTotal || 0),
+            qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || 0),
+            qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || 0),
+            qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || 0),
+            qty1GrossTotal = ko.observable(specifiedQty1GrossTotal || 0),
+            qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0),
+            qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
             tax1 = ko.observable(specifiedTax1 || undefined),
            
             // Errors
@@ -662,17 +662,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Qty3
             qty3 = ko.observable(specifiedQty3 || undefined),
             // Qty1 Profit
-            qty1Profit = ko.observable(specifiedQty1Profit || undefined),
+            qty1Profit = ko.observable(specifiedQty1Profit || 0),
             // Qty2Profit Width
-            qty2Profit = ko.observable(specifiedQty2Profit || undefined),
+            qty2Profit = ko.observable(specifiedQty2Profit || 0),
             // Qty3Profit Width
-            qty3Profit = ko.observable(specifiedQty3Profit || undefined),
+            qty3Profit = ko.observable(specifiedQty3Profit || 0),
             // Base Charge1
-            baseCharge1 = ko.observable(specifiedBaseCharge1 || undefined),
+            baseCharge1 = ko.observable(specifiedBaseCharge1 || 0),
             // Base Charge2
-            baseCharge2 = ko.observable(specifiedBaseCharge2 || undefined),
+            baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
             // Base Charge3
-            baseCharge3 = ko.observable(specifiedBaseCharge3 || undefined),
+            baseCharge3 = ko.observable(specifiedBaseCharge3 || 0),
             // Include Gutter
             includeGutter = ko.observable(specifiedIncludeGutter || undefined),
             // FilmId
@@ -1675,7 +1675,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.JobDescriptionTitle5, source.JobDescription5, source.JobDescriptionTitle6, source.JobDescription6, source.JobDescriptionTitle7,
             source.JobDescription7, source.IsQtyRanged, source.DefaultItemTax, source.StatusId, source.Status, source.Qty1, source.Qty1NetTotal,
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
-            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId);
+            source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId,source.JobStatusId, source.InvoiceDescription,
+            source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
+            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
