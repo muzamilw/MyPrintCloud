@@ -681,6 +681,16 @@ namespace MPC.Webstore.Controllers
                 }
                 else
                 {
+                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    {
+                        ViewBag.IsShowPrices = true;
+                        //do nothing because pricing are already visible.
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                        //  cntRightPricing1.Visible = false;
+                    }
                     List<Address> customerAddresses = new List<Address>();
                     CompanyTerritory Territory = new CompanyTerritory();
                     List<CostCentre> deliveryCostCentersList = null;
