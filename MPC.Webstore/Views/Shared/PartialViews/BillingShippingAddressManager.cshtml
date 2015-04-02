@@ -6,7 +6,7 @@
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 4);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
     
@@ -156,11 +156,12 @@
     
     )
                          
-                         
+                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
+                         { 
                         <div id="footerr"  class="pagination pagination-small pagination-right">
                             @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
                         </div>
-                         
+                         }
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />

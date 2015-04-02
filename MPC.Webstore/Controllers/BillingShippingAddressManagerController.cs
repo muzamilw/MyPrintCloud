@@ -23,13 +23,18 @@ namespace MPC.Webstore.Controllers
         
         public ActionResult Index()
         {
+            List<Address> AddressList = new List<Address>();
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
-                ViewBag.Address = FilterAddresses();
+                AddressList = FilterAddresses();
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
             }
             else
             {
-                ViewBag.Address = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+                AddressList=_companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
             }
 
             return View("PartialViews/BillingShippingAddressManager");
@@ -150,7 +155,10 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
+                CompanyContact UserContact = _companyService.GetContactByID(_myClaimHelper.loginContactID());
+                Address.TerritoryId = UserContact.TerritoryId;
                 Address.CompanyId = _myClaimHelper.loginContactCompanyID();
+
                _companyService.AddAddBillingShippingAdd(Address);
             }
             catch (Exception Ex)
