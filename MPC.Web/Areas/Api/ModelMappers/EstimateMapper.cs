@@ -56,6 +56,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CustomerPo = source.CustomerPO,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                OrderCode = source.Order_Code,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :

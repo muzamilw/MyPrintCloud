@@ -45,8 +45,7 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-           // MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-          
+           
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
             {

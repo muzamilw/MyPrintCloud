@@ -54,7 +54,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Address Id
             addressId = ko.observable(specifiedAddressId || undefined),
             // Is Direct Sale
-            isDirectSale = ko.observable(specifiedIsDirectSale || true),
+            isDirectSale = ko.observable(!specifiedIsDirectSale ? false : true),
             // Is Direct Sale Ui
             isDirectSaleUi = ko.computed(function () {
                 return isDirectSale() ? "Direct Order" : "Online Order";
