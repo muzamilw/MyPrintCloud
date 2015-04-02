@@ -170,6 +170,7 @@ namespace MPC.Implementation.MISServices
             {
                 List<Estimate> cartorders = orderRepository.GetCartOrdersByCompanyID(CompanyID);
 
+                orderRepository.DeleteCart(CompanyID);
                 List<string> ImagesPath = new List<string>();
                 
                 if(cartorders != null && cartorders.Count > 0)
@@ -194,6 +195,7 @@ namespace MPC.Implementation.MISServices
             {
 
                 Estimate order = orderRepository.GetOrderByOrderID(OrderID);
+                orderRepository.DeleteOrderBySP(OrderID);
 
                 DeleteItemsPhysically(order, OrganisationID);
                 return true;

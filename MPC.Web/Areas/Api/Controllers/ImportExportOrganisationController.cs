@@ -32,11 +32,11 @@ namespace MPC.MIS.Areas.Api.Controllers
 
 
         [HttpGet]
-        public bool InsertOrganisation(long parameter1, bool parameter2)
+        public bool InsertOrganisation(long parameter1, bool parameter2,string parameter3)
         {
             try
             {
-                return companyService.ImportOrganisation(parameter1, parameter2);
+                return companyService.ImportOrganisation(parameter1, parameter2, parameter3);
             }
             catch (Exception ex)
             {
@@ -63,11 +63,11 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [HttpPost]
-        public bool ImportStore(long parameter1, string parameter2)
+        public bool ImportStore(long parameter1, string parameter2,string parameter3)
         {
             try
             {
-                return companyService.ImportStore(parameter1, parameter2);
+                return companyService.ImportStore(parameter1, parameter2, parameter3);
             }
             catch (Exception ex)
             {

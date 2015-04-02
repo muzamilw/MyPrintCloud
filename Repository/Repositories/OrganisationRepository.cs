@@ -83,7 +83,7 @@ namespace MPC.Repository.Repositories
 
             return omappedItem;
         }
-        public void InsertOrganisation(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,bool isCorpStore,ExportSets Sets)
+        public void InsertOrganisation(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, bool isCorpStore, ExportSets Sets, string SubDomain)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -489,6 +489,11 @@ namespace MPC.Repository.Repositories
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
                          comp.IsDisabled = 0;
+                        
+
+                         comp.CompanyDomains = null;
+
+                      
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -526,6 +531,14 @@ namespace MPC.Repository.Repositories
                          db.Companies.Add(comp);
                          db.SaveChanges();
                          oCID = comp.CompanyId;
+
+                         // add companydomain
+                         string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                         CompanyDomain domain = new CompanyDomain();
+                         domain.Domain = DomainName;
+                         domain.CompanyId = oCID;
+                         db.SaveChanges();
+
 
                          List<CmsPage> cmsPages = Sets.ExportStore4;
                          if (cmsPages != null && cmsPages.Count > 0)
