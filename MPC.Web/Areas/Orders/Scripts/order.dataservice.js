@@ -87,6 +87,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTV', 'ajax', {
+                        url: ist.siteUrl + '/Api/DrawPtv',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -189,6 +195,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                 // get Stock items
+            getPTV = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTV',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -211,7 +227,8 @@ define("order/order.dataservice", function () {
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
             getInventoriesList: getInventoriesList,
-            getItemsDetailsByItemId: getItemsDetailsByItemId
+            getItemsDetailsByItemId: getItemsDetailsByItemId,
+            getPTV: getPTV
         };
     })();
 

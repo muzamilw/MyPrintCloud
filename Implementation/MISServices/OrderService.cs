@@ -577,20 +577,23 @@ namespace MPC.Implementation.MISServices
 
         }
 
-
+        public PtvDTO GetPTV(PTVRequestModel request)
+        {
+            return DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
+        }
 
         public PtvDTO DrawPTV(PrintViewOrientation strOrient, int ReversePTVRows, int ReversePTVCols, bool IsDoubleSided, bool IsWorknTurn, bool IsWorknTumble, bool ApplyPressRestrict, double ItemHeight, double ItemWidth, double PrintHeight, double PrintWidth, GripSide Grip, double GripDepth, double HeadDepth, double PrintGutter, double ItemHorizontalGutter, double ItemVerticalGutter)
         {
-            Image imgCardL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-up.gif"));
-            Image imgCardBackL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-up.gif"));
-            Image imgCardDownL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-down.gif"));
-            Image imgCardBackDownL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-down.gif"));
-            Image imgCardP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-upP.gif"));
-            Image imgCardBackP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-upP.gif"));
-            Image imgCardDownP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-downP.gif"));
-            Image imgCardBackDownP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-downP.gif"));
-            Image imgCardBackW = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-upW.gif"));
-            Image DottedImage = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/dotTexture.gif"));
+            Image imgCardL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-up.gif"));
+            Image imgCardBackL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-up.gif"));
+            Image imgCardDownL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-down.gif"));
+            Image imgCardBackDownL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-down.gif"));
+            Image imgCardP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-upP.gif"));
+            Image imgCardBackP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-upP.gif"));
+            Image imgCardDownP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-downP.gif"));
+            Image imgCardBackDownP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-downP.gif"));
+            Image imgCardBackW = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-upW.gif"));
+            Image DottedImage = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/dotTexture.gif"));
 
 
 
