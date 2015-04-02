@@ -967,6 +967,18 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\Ptv\back-down.gif" />
+    <Content Include="Content\Images\Ptv\back-downP.gif" />
+    <Content Include="Content\Images\Ptv\back-up.gif" />
+    <Content Include="Content\Images\Ptv\back-upP.gif" />
+    <Content Include="Content\Images\Ptv\back-upW.gif" />
+    <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\Ptv\front-down.gif" />
+    <Content Include="Content\Images\Ptv\front-downP.gif" />
+    <Content Include="Content\Images\Ptv\front-up.gif" />
+    <Content Include="Content\Images\Ptv\front-upP.gif" />
+    <Content Include="Content\Images\Ptv\imgLongSide.gif" />
+    <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
