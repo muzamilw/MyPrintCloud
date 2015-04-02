@@ -93,6 +93,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDoubleSided = source.IsDoubleSided,
                 IsWorknTurn = source.isWorknTurn,
                 IsPaperSupplied = source.IsPaperSupplied,
+                IncludeGutter = source.IncludeGutter,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
                 new List<SectionCostcentre>()
             };
