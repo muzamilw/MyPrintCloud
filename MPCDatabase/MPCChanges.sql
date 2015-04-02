@@ -1691,6 +1691,112 @@ end
 
 GO
 
+/* Execution Date: 01/04/2015 */
+
+/****** Object:  StoredProcedure [dbo].[usp_DeleteOrderByID]    Script Date: 4/1/2015 6:52:58 PM ******/
+
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+Create PROCEDURE [dbo].[usp_DeleteOrderByID]	
+		@OrderID bigint
+AS
+BEGIN
+
+--declare @OrderID bigint = 36704
+
+declare @TItems table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    ItemID bigint
+)
+
+INSERT INTO @TItems (ItemID)
+		select  ItemID from Items
+		where EstimateId = @OrderID
+
+
+ declare @Totalrec int
+ declare @ItemID bigint
+ select @Totalrec = COUNT(*) from @TItems
+ 
+ declare @currentrec int
+
+ set @currentrec = 1
+
+		 WHILE (@currentrec <= @Totalrec)
+		 BEGIN
+		     select @ItemID = ItemID from @TItems
+						 where ID = @currentrec
+
+			exec usp_DeleteProduct @ItemID
+		    set @currentrec = @currentrec + 1
+		 End
+
+		 delete 
+				from PrePayment where orderid = @OrderID
+
+delete from Estimate where EstimateId = @OrderID
+
+end
+	   
+
+GO
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeleteCarts]    Script Date: 4/1/2015 6:55:48 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+Create PROCEDURE [dbo].[usp_DeleteCarts]	
+		@CompanyID bigint
+AS
+BEGIN
+
+--declare @OrderID bigint = 36704
+
+declare @TOrders table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    OrderID bigint
+)
+
+INSERT INTO @TOrders (OrderID)
+		select  Estimateid from estimate
+		where CompanyId = @CompanyID and StatusId = 3
+
+
+ declare @Totalrec int
+ declare @OrderID bigint
+ select @Totalrec = COUNT(*) from @TOrders
+ 
+ declare @currentrec int
+
+ set @currentrec = 1
+
+		 WHILE (@currentrec <= @Totalrec)
+		 BEGIN
+		     select @OrderID = OrderID from @TOrders
+						 where ID = @currentrec
+
+			exec usp_DeleteOrderByID @OrderID
+		    set @currentrec = @currentrec + 1
+		 End
+end
+	   
+
+GO
+
+
 
 
 

@@ -1,15 +1,14 @@
 ﻿<head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link href="@Href("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
-    <link href="@Href("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
+   
 </head>
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 2);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 4);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
-    
     
 }
 
@@ -156,11 +155,12 @@
     }
     
     )
-                        <div  class="pagination pagination-small pagination-right">
-                            @*@grid.Pager(mode: WebGridPagerModes.All, numericLinksCount: 15, firstText: "<<", lastText: ">>", previousText: "<", nextText: ">")*@
-                            @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All);
-                           
+                         
+                         
+                        <div id="footerr"  class="pagination pagination-small pagination-right">
+                            @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
                         </div>
+                         
                     </div>
                 </div>
                 @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
@@ -392,55 +392,7 @@
     </div>
 </div>
         
-        <script type="text/javascript">
-
-            //$(document).ready(function () {
-            //    var keywords = ['>>', '<<', '<', '>'];
-
-            //    function linklabels() {
-
-            //        var footerDiv = document.getElementById('footer');
-            //        var oldLinks = footerDiv.getElementsByTagName('A');
-
-            //        var oldLinksCount = oldLinks.length;
-            //        var keywordsCount = keywords.length;
-
-            //        for (var i = 0; i < oldLinks.length; i++) {
-
-            //            if (oldLinks[i].firstChild.nodeValue == '>>' || oldLinks[i].firstChild.nodeValue == '<<' || oldLinks[i].firstChild.nodeValue == '>' || oldLinks[i].firstChild.nodeValue == '<') {
-            //                var my_div = null;
-            //                var newDiv = null;
-
-            //                var newDiv = document.createElement("span");
-            //                var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
-            //                newDiv.appendChild(newContent);
-            //                newDiv.className = "whiteBox";
-
-            //                oldLinks[i].firstChild.nodeValue = "";
-
-            //                oldLinks[i].appendChild(newDiv);
-            //            }
-            //            else {
-            //                var my_div = null;
-            //                var newDiv = null;
-
-            //                var newDiv = document.createElement("span");
-            //                var newContent = document.createTextNode(oldLinks[i].firstChild.nodeValue);
-            //                newDiv.appendChild(newContent);
-            //                newDiv.className = "blackBox";
-
-            //                oldLinks[i].firstChild.nodeValue = "";
-
-            //                oldLinks[i].appendChild(newDiv);
-            //            }
-
-            //        } // end of for
-
-            //        //  footer
-
-            //    }
-            //    window.onload = linklabels;
-            //});
+  <script type="text/javascript">
 
     var AdRessID;
     var CountryID;

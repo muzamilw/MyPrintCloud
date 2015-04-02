@@ -3014,6 +3014,21 @@ namespace MPC.Implementation.MISServices
         #region Public
 
         /// <summary>
+        /// Delete Company Permanently
+        /// </summary>
+        public void DeleteCompanyPermanently(long companyId)
+        {
+            Company company = companyRepository.Find(companyId);
+
+            if (company == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, "Company with id {0} not found", companyId), companyRepository.OrganisationId);
+            }
+
+            companyRepository.DeleteStoryBySP(companyId);
+        }
+
+        /// <summary>
         /// Get Items For Widgets
         /// </summary>
         public List<Item> GetItemsForWidgets()
@@ -5432,7 +5447,7 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public bool ImportOrganisation(long OrganisationId, bool isCorpStore)
+        public bool ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
         {
             try
             {
@@ -5570,7 +5585,11 @@ namespace MPC.Implementation.MISServices
 
                         json = string.Empty;
                     }
-                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets);
+                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets,SubDomain);
+                    string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
+                    ImportStore(OrganisationId, StoreName,SubDomain);
+                    string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+                    ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
                     return true;
                 }
                 else
@@ -5714,7 +5733,7 @@ namespace MPC.Implementation.MISServices
 
         #region CopyStore
 
-        public bool ImportStore(long OrganisationId, string StoreName)
+        public bool ImportStore(long OrganisationId, string StoreName,string SubDomain)
         {
             try
             {
@@ -5907,7 +5926,8 @@ namespace MPC.Implementation.MISServices
                         json = string.Empty;
                     }
 
-                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets);
+                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets,SubDomain);
+
                     return true;
                 }
                 else

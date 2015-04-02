@@ -64,7 +64,7 @@ namespace MPC.Repository.Repositories
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
 		{
-			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1)
+			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1 && costcentre.IsDisabled != 1 && costcentre.Type != 11)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
 
@@ -661,11 +661,11 @@ namespace MPC.Repository.Repositories
             Expression<Func<CostCentre, bool>> query;
             if (request.CostCenterType != 0)
             {
-                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type == request.CostCenterType && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
             }
             else
             {
-                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled == 0 && oCostCenter.OrganisationId == OrganisationId;
+                query = oCostCenter => oCostCenter.Type != 1 && oCostCenter.IsDisabled != 1 && oCostCenter.OrganisationId == OrganisationId;
             }
 			var rowCount = DbSet.Count(query);
 			var costCenters = request.IsAsc
