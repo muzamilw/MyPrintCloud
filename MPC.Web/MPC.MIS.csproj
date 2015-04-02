@@ -360,6 +360,7 @@
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterVariableTreeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
@@ -435,8 +436,10 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
@@ -1892,6 +1895,7 @@
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
