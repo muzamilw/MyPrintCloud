@@ -37,7 +37,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         private static string GetVariableString(MPC.Models.DomainModels.CostCentreQuestion source)
         {
-            string sv = "{question, ID="+source.Id+",caption="+source.QuestionString+"}";
+            string sv = "{question, ID=&quot;" + source.Id + "&quot;,caption=&quot;" + source.QuestionString + "&quot;}";
             return sv;
         }
     }

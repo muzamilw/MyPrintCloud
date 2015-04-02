@@ -16,6 +16,10 @@
                         category: category
                     });
                 },
+                 showCostCentreQuestionDialog = function () {
+                     $("#CostCentreQuestionModal").modal("show");
+                  //   initializeLabelPopovers();
+                 },
                 //showCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("show");
                 //},
@@ -33,7 +37,8 @@
             return {
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
-                productCategorySelectedEvent: productCategorySelectedEvent
+                productCategorySelectedEvent: productCategorySelectedEvent,
+                showCostCentreQuestionDialog: showCostCentreQuestionDialog
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };
