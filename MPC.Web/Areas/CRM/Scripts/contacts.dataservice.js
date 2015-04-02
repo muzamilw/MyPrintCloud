@@ -17,11 +17,19 @@
                         dataType: 'json',
                         type: 'GET'
                     });
+<<<<<<< HEAD
                     // Define request to Delete Company Contact
                     amplify.request.define('deleteCompanyContact', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContact',
                         dataType: 'json',
                         type: 'DELETE'
+=======
+                    // Define request to Delete Company Contact
+                    amplify.request.define('deleteCompanyContact', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContact',
+                        dataType: 'json',
+                        type: 'DELETE'
+>>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
                     });
                     amplify.request.define('getContacts', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyContactForCrm',
@@ -62,6 +70,7 @@
                     data: params
                 });
             },
+<<<<<<< HEAD
 
             // Delete Company Contact
             deleteCompanyContact = function (param, callbacks) {
@@ -72,6 +81,18 @@
                     error: callbacks.error,
                     data: param
                 });
+=======
+
+            // Delete Company Contact
+            deleteCompanyContact = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteCompanyContact',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+>>>>>>> 4285946d566be89a619d99dbfcb78d7b1ab8e68f
             },
             // get base Data
             getbaseData = function(params, callbacks) {

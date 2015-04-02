@@ -95,7 +95,7 @@ namespace MPC.Implementation.MISServices
         public bool Delete(long companyTerritoryId)
         {
             var dbCompanyTerritory = companyTerritoryRepository.GetTerritoryById(companyTerritoryId);
-            if (dbCompanyTerritory != null && dbCompanyTerritory.Addresses.Count == 0 && dbCompanyTerritory.CompanyContacts.Count == 0)
+            if (dbCompanyTerritory != null && (dbCompanyTerritory.Addresses == null || !dbCompanyTerritory.Addresses.Any()) && (dbCompanyTerritory.CompanyContacts == null || !dbCompanyTerritory.CompanyContacts.Any()))
             {
                 companyTerritoryRepository.Delete(dbCompanyTerritory);
                 companyTerritoryRepository.SaveChanges();

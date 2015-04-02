@@ -2,11 +2,13 @@
 @model List<MPC.Models.DomainModels.CompanyBanner>
 @using MPC.Webstore.Common;
 <script src="/Scripts/zoomSlider.js" type="text/javascript"></script>
+
 <div class="content_area">
     <div class="wrapper">
         <div class="zoom-slider">
             @foreach (var banner in Model)
             {
+                
                 <a id="hlItemUrl" href="@banner.ButtonURL">
                     <img id="imgBanner" src="@banner.ImageURL" />
                 </a>

@@ -99,7 +99,7 @@ namespace MPC.Interfaces.Repository
        // List<Item> GetItemsByOrderID(long orderID);
 
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
+        void DeleteOrder(long orderId);
 
-      
     }
 }

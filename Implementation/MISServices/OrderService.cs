@@ -114,7 +114,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void DeleteOrder(long orderId)
         {
-
+            orderRepository.DeleteOrder(orderId);
         }
 
         /// <summary>
