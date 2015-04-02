@@ -56,15 +56,15 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g=>g.CreateFrom()));
         }
 
-        public IEnumerable<CostCentreAnswer> Get(int QuestionId)
-        {
-            if (!ModelState.IsValid)
-            {
-                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
-            }
+        //public IEnumerable<CostCentreAnswer> Get(int QuestionId)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+        //    }
 
-            //return _costCentersService.GetCostCenterVariablesTree(Id).CreateFrom();
-        }
+        //    //return _costCentersService.GetCostCenterVariablesTree(Id).CreateFrom();
+        //}
         public Models.CostCenterVariablesResponseModel GetListById(int Id)
         {
             if (!ModelState.IsValid)
