@@ -425,7 +425,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Address3,
             source.City,
             source.StateId,
-            source.Country,
+            source.CountryId,
             source.StateName,
             source.CountryName,
             source.PostCode,
