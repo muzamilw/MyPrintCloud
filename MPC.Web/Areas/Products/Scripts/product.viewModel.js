@@ -533,6 +533,13 @@ define("product/product.viewModel",
                     editTemplate = function(product) {
                         view.editTemplate(product);
                     },
+                    // On Delete Product
+                    onDeleteProduct = function() {
+                        confirmation.afterProceed(function () {
+                            deleteProduct(selectedProduct().id());
+                        });
+                        confirmation.show();
+                    },
                     // Initialize the view model
                     initialize = function (specifiedView, isOnStoreScreen) {
                         view = specifiedView;
@@ -1273,6 +1280,22 @@ define("product/product.viewModel",
                                 toastr.error("Error: Failed To load Categories " + response);
                             }
                         });
+                    },
+                    // Delete Product
+                    deleteProduct = function (id) {
+                        dataservice.deleteItem({ ItemId: id }, {
+                            success: function () {
+                                toastr.success("Product deleted successfully!");
+                                var product = getItemByIdLocal(id);
+                                if (product) {
+                                    products.remove(product);
+                                }
+                                closeProductEditor();
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                            }
+                        });
                     };
                 // #endregion Service Calls
 
@@ -1357,6 +1380,7 @@ define("product/product.viewModel",
                     closeSignatureDialog: closeSignatureDialog,
                     onCloneProduct: onCloneProduct,
                     editTemplate: editTemplate,
+                    onDeleteProduct: onDeleteProduct,
                     // For Store
                     initializeForStore: initializeForStore,
                     categorySelectedEventHandler: categorySelectedEventHandler,
