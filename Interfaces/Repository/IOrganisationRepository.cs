@@ -14,7 +14,7 @@ namespace MPC.Interfaces.Repository
 
         Organisation GetOrganizatiobByOrganisationID(long organisationId);
 
-        void InsertOrganisation(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,bool isCorpStore,ExportSets Sets);
+        void InsertOrganisation(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, bool isCorpStore, ExportSets Sets,string SubDomain);
         Organisation GetCompanySiteDataWithTaxes();
 
         void DeleteOrganisationBySP(long OrganisationID);

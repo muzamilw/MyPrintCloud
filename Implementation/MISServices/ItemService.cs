@@ -2144,6 +2144,14 @@ namespace MPC.Implementation.MISServices
             return productCategoryRepository.GetParentCategories(companyId);
         }
 
+        /// <summary>
+        /// Deletes Product Permanently
+        /// </summary>
+        public void DeleteProduct(long itemId)
+        {
+            DeleteItem(itemId, itemRepository.OrganisationId);
+        }
+
         #endregion
 
         #region DeleteProducts
@@ -2232,5 +2240,6 @@ namespace MPC.Implementation.MISServices
             }
         }
         #endregion
+
     }
 }
