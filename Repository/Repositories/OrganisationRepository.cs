@@ -488,6 +488,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -629,6 +630,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -3298,10 +3300,18 @@ namespace MPC.Repository.Repositories
         }
         void Copy(string sourceDir, string targetDir)
         {
-            Directory.CreateDirectory(targetDir);
+            if(!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+            }
+          
 
             foreach (var file in Directory.GetFiles(sourceDir))
-                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+            {
+                
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)),true);
+            }
+                
 
             foreach (var directory in Directory.GetDirectories(sourceDir))
                 Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)));

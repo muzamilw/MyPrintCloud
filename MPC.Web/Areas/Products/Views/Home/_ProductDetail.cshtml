@@ -104,7 +104,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Product Name" data-original-title="" title="">
+                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter a unique product code" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -115,7 +115,7 @@
 
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="txtProductCode" name="Product Code" placeholder="Enter Product Code" maxlength="50" data-bind="value: productCode, validationTooltip: productCode, validationOnElement: productCode">
+                                                <input type="text" class="form-control" id="txtProductCode" name="Product Code" placeholder="Enter a unique product code" maxlength="50" data-bind="value: productCode, validationTooltip: productCode, validationOnElement: productCode">
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -124,12 +124,12 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Display Option" data-original-title="" title="">
+                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-html="true" data-content="How the product Images or banners are displayed on store's product details page." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
                                                 </div>
-                                                <label class="control-label text-right">Display Options</label>
+                                                <label class="control-label text-right">Product detail page display options</label>
 
                                             </div>
                                             <div class="col-lg-9">
@@ -152,7 +152,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort order of product on the category page" data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -172,7 +172,7 @@
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Categories List" data-original-title="" title="">
+                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="All the categories in which this product has been selected to appear accross store. Multiple categories can be selected." data-original-title="" title="">
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
 
@@ -242,6 +242,7 @@
                                 </div>
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Product Dimension</h3>
+                                    <p class="group-header-description">These dimensions are used for calculating delivery charges if store uses External delivery carriers </p>
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
@@ -326,7 +327,7 @@
                                 </div>
 
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Product Option</h3>
+                                    <h3 class="group-header">Product Options</h3>
                                     <div class="col-lg-9">
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
@@ -350,7 +351,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchPublishOnWebsite">Publish on Store</label>
+                                                <label class="control-label text-right" for="switchPublishOnWebsite">Published on Store</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -402,7 +403,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchIsRealStateProduct">Is this Real Estate Product ( Allows Merging of Property/Asset data into Template )</label>
+                                                <label class="control-label text-right" for="switchIsRealStateProduct">Is this a Real Estate Product ( Allows Merging of Property/Asset data into Template )</label>
 
                                             </div>
                                             <div class="col-lg-3">
@@ -421,8 +422,8 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right" for="switchIsUploadImage">User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) for this product? </label>
-                                                <span class="label label-circle-questions">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                <label class="control-label text-right" for="switchIsUploadImage">End User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) to order this product? </label>
+                                               
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -455,7 +456,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing page</label>
+                                                <label class="control-label text-right tooltip-float" for="switchStockLevelProduct">Display available stock level on store pricing & selection page</label>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -468,7 +469,7 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        @*<div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
                                                 <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Add crop marks to artwork in editor</label>
@@ -483,11 +484,11 @@
                                                 </div>
                                                 <span class="help-block text-right"></span>
                                             </div>
-                                        </div>
+                                        </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchPrintCropMarksProduct">Output crop marks on final artwork</label>
+                                                <label class="control-label text-right tooltip-float" for="switchPrintCropMarksProduct">Add crop marks to artwork in editor</label>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -503,7 +504,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchDrawWaterMarkTxtProduct">Display watermarks on proof page</label>
+                                                <label class="control-label text-right tooltip-float" for="switchDrawWaterMarkTxtProduct">Display watermarks on proofs</label>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -934,6 +935,7 @@
                             <div class="tab-pane fade" id="tab-StockLabels" data-bind="with: selectedProduct">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Selling Price Stock Attributes</h3>
+                                    <p class="group-header-description">You can select upto 11 stock attributes and each stock attribute can have its price matrix and multiple cost centers which can be marked mandatory or optional. These Stock price attributes will appear on price selection page allowing user to select a stock option and it's cost centers and final price will be based on the stock options prices</p>
                                     <div class="col-lg-12 clearfix">
 
                                         <div id="stockMainDiv" class="form-group">
@@ -1075,7 +1077,7 @@
                                                     </a>
 
                                                 </div>
-                                                <label class="control-label text-right tooltip-float">Default Tax</label>
+                                                <label class="control-label text-right tooltip-float">Override Store tax value</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -1709,10 +1711,11 @@
                             <div class="tab-pane fade" id="tab-tempProperties">
                                 <div class="col-lg-12 form-horizontal">
                                     <h3 class="group-header">Template Properties</h3>
+                                    <p class="group-header-description">Define how this product will link to a designer template ( in case of print product ) and also control the behavior of template designer and output.</p>
                                     <div class="col-lg-9" data-bind="with: template">
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
-                                                <label for="txtMaster Template" class="control-label text-right Label-Bold">Master Template</label>
+                                                <label for="txtMaster Template" class="control-label text-right Label-Bold">Template type</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -1782,7 +1785,7 @@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Can User Customize Size</label>
+                                                <label class="control-label text-right" for="switchSecondaryPages">Can end user customize template size</label>
 
                                             </div>
                                             <div class="col-lg-6">
@@ -1806,7 +1809,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios1" data-bind="checked: $parent.templateTypeUi" id="optionUploadPDF" value="2">
                                                     <label for="optionUploadPDF">
-                                                        Create a template from an existing PDF
+                                                        Create a template by uploading an existing PDF
                                                     </label>
                                                 </div>
 
@@ -1844,7 +1847,7 @@
                                                 <div class="radio">
                                                     <input type="radio" data-bind="checked: $parent.templateTypeUi" name="optionsRadios1" id="optionManuallyNoStartDesigner" value="3">
                                                     <label for="optionManuallyNoStartDesigner">
-                                                        Start the designer empty showing available stock layouts
+                                                        Start the designer empty and allow end user to select and customize a template from MyPrintCloud global template library's Category. A separate license is required if Stock Layout category is selected. Select category below:
                                                     </label>
                                                 </div>
 
@@ -1899,11 +1902,11 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Zoom factor." data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Initial template designer Zoom level" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Zoom Factor</label>
+                                                    <label class="control-label text-right tooltip-float"> Designer initial zoom level</label>
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" data-bind="value: $parent.zoomFactor" placeholder="Enter Zoom Factor">
@@ -1913,14 +1916,14 @@
                                             <div class="form-group">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
-                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Scaler Factor" data-original-title="" title="">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" data-container="body" data-toggle="popover" data-placement="right" data-content="Scale Factor is used to display scaled dimensions" data-original-title="" title="">
                                                             <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                         </a>
                                                     </div>
-                                                    <label class="control-label text-right tooltip-float">Scaler Factor</label>
+                                                    <label class="control-label text-right tooltip-float">Scale Factor</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <input type="text" class="form-control" data-bind="value: $parent.scalar" placeholder="Enter Scalar Factor">
+                                                    <input type="text" class="form-control" data-bind="value: $parent.scalar" placeholder="Enter Scale Factor">
                                                 </div>
                                             </div>
 
@@ -1984,7 +1987,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch" data-bind="checked: $parent.isTemplateDesignModeUi" value="3">
                                                     <label for="optionLaunch">
-                                                        Do not load Designer, show avaliable smart forms and provide a proof
+                                                        Do not load Designer, show selected smart form and provide a proof.
                                                     </label>
                                                 </div>
 
@@ -2004,7 +2007,7 @@
                                                 <div class="radio">
                                                     <input type="radio" name="optionsRadios2" id="optionLaunch1" data-bind="checked: $parent.isTemplateDesignModeUi" value="4">
                                                     <label for="optionLaunch1">
-                                                        Do not load Designer
+                                                        Do not load Designer and skip to proof screen.
                                                     </label>
                                                 </div>
 
@@ -2427,11 +2430,11 @@
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Column Name" data-original-title="" title="">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="This is used to show the price table column name" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label class="control-label text-right tooltip-float">Display Name</label>
+                        <label class="control-label text-right tooltip-float">Price column display name</label>
                     </div>
                     <div class="col-lg-4">
                         <div style="width: 325px;">

@@ -50,7 +50,8 @@ namespace MPC.Repository.Repositories
                 var query = (from product in db.ProductCategories
                              join CT in db.CategoryTerritories on product.ProductCategoryId equals CT.ProductCategoryId
                              join contact in db.CompanyContacts on CT.TerritoryId equals contact.TerritoryId
-                             where contact.ContactId == ContactId && product.CompanyId == customerId && (product.ParentCategoryId == 0 || product.ParentCategoryId == null) && product.isEnabled == true && product.isPublished == true
+                             where contact.ContactId == ContactId && contact.CompanyId == customerId && product.CompanyId == customerId 
+                             && (product.ParentCategoryId == 0 || product.ParentCategoryId == null) && product.isEnabled == true && product.isPublished == true
                              && (product.isArchived == false || product.isArchived == null)
                              select product).ToList();
                 return query.OrderBy(i => i.DisplayOrder).ToList();
@@ -79,7 +80,7 @@ namespace MPC.Repository.Repositories
         public List<ProductCategory> GetChildCategories(long categoryId, long CompanyId)
         {
 
-            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && category.isArchived == false && category.isEnabled == true && category.isPublished == true && category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
+            List<ProductCategory> childCategoresList = db.ProductCategories.Where(category => category.ParentCategoryId.HasValue && category.ParentCategoryId.Value == categoryId && (category.isArchived == false || category.isArchived == null) && category.isEnabled == true && category.isPublished == true && category.CompanyId == CompanyId).ToList().OrderBy(x => x.DisplayOrder).ToList();
                 return childCategoresList;
        
 

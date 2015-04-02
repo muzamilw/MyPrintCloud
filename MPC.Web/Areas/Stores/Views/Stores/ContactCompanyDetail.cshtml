@@ -46,7 +46,8 @@
                         </div>
                         <div class="col-xs-2">
                         </div>
-                        <div class="col-xs-4" style="text-align: right; padding-right: 0px;">
+                        <div class="col-xs-4" style="text-align: right; padding-right: 0;">
+                            <button class="btn btn-danger" data-bind="click: $root.onDeletePermanent, enable: $root.selectedStore().companyId() > 0">Delete</button>
                             <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.saveStore, enable: $root.hasChangesOnStore, css: { 'btn-warning': $root.hasChangesOnStore }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeEditDialog">Close</button>
                         </div>
@@ -335,6 +336,22 @@
                                                 <div class="col-lg-6">
                                                     <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter Tax Reference Number" data-bind="value: avatRegReference">
                                                     <span class="help-block text-right">Tax reference number</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-lg-3 text-right">
+                                                    <div class="bs-example-tooltips tooltip-float-width">
+                                                        <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Each flag has its own price matrix, so select flag for the prices to be available on webstore." data-original-title="" title="">
+                                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                        </a>
+                                                    </div>
+                                                    <label class="control-label text-right tooltip-float">Price Flags</label>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <select class="form-control col-lg-4" data-bind="options:$root.priceFlags,optionsText:'FlagName',optionsValue:'SectionFlagId', value: $root.selectedStore().priceFlagId"></select>   @*,value: $root.selectedClaimFilterListitem*@
+                                                    <span class="help-block text-right">&nbsp;</span>
+
                                                 </div>
                                             </div>
 
@@ -1022,7 +1039,7 @@
                                                     </div>
                                                 </div>
 
-                                               
+
                                                 @*Banners Grid Starts here*@
                                                 <div class="col-md-12 form-horizontal">
                                                     <div class="table-responsive">
@@ -1608,7 +1625,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                 </div>
                                                 <div class="col-lg-6">
                                                     <div class="input-group" style="width:50%;">
-                                                        <input type="text" class="form-control" id="txtTax" data-bind="value:$root.selectedStore().taxRate" placeholder="">
+                                                        <input type="text" class="form-control" name="Tax Rate should be a valid number" id="txtTax" data-bind="value:$root.selectedStore().taxRate, validationOnElement: $root.selectedStore().taxRate" placeholder="">
                                                         <span class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus">%</span>
                                                     </div>
                                                 </div>
@@ -2263,7 +2280,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </a>
         </script>
         <script id="itemCompanyContactTemplate" type="text/html">
-            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact}">
+            <tr data-bind="click: $root.selectCompanyContact, css: { selectedRow: $data === $root.selectedCompanyContact }">
                 <td style="width: 20%; max-width: 20%;">
                     <div class="img col-xs-2">
                         <img style="min-height: 20px; width: 20px;" data-bind="attr:{src: image}" alt="" />

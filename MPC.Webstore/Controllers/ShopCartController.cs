@@ -46,22 +46,22 @@ namespace MPC.Webstore.Controllers
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             if (string.IsNullOrEmpty(optionalOrderId)) // check if parameter have order id
             {
-                if (UserCookieManager.OrderId == 0) // cookie contains order id
+                if (UserCookieManager.WEBOrderId == 0) // cookie contains order id
                 {
                     if (_myClaimHelper.loginContactID() > 0) // is user logged in
                     {
                         OrderId = _OrderService.GetOrderIdByContactId(_myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID());
-                        UserCookieManager.OrderId = OrderId;
+                        UserCookieManager.WEBOrderId = OrderId;
                     }
                     else if (UserCookieManager.TemporaryCompanyId > 0 && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                     {
                         OrderId = _OrderService.GetOrderIdByCompanyId(UserCookieManager.TemporaryCompanyId, OrderStatus.ShoppingCart);
-                        UserCookieManager.OrderId = OrderId;
+                        UserCookieManager.WEBOrderId = OrderId;
                     }
                 }
                 else
                 {
-                    OrderId = UserCookieManager.OrderId;
+                    OrderId = UserCookieManager.WEBOrderId;
                 }
 
             }
@@ -306,13 +306,15 @@ namespace MPC.Webstore.Controllers
 
             if (shopCart != null)
             {
+                shopCart.TaxLabel = baseResponse.Company.TaxLabel + ":";
                 itemsList = shopCart.CartItemsList;
+
                 if (itemsList != null && itemsList.Count > 0)
                 {
                     BindGriViewWithProductItemList(itemsList, baseResponse, IsShowPrices);
                     return;
                 }
-                shopCart.TaxLabel = baseResponse.Company.TaxLabel + ":";
+                
             }
 
 

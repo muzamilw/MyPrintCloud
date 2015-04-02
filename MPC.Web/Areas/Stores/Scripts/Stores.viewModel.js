@@ -138,6 +138,7 @@ define("stores/stores.viewModel",
                     selectedItemsForOfferList = ko.observableArray([]),
                     //Filtered States
                     filteredStates = ko.observableArray([]),
+                    priceFlags = ko.observableArray([]),
                     //#endregion
 
                     //#region _________E D I T O R I AL   V I E W    M O D E L_______
@@ -302,13 +303,13 @@ define("stores/stores.viewModel",
                                } else {
                                    toastr.error("Failed to create store.", "", ist.toastrOptions);
                                }
-                               
+
                            },
                            error: function (response) {
-                               toastr.error( "Failed to create store.", "", ist.toastrOptions);
+                               toastr.error("Failed to create store.", "", ist.toastrOptions);
                            }
                        });
-                   }
+                   },
                 //getItemsForWidgets
                 getItemsForWidgets = function (callBack) {
                     dataservice.getItemsForWidgets({
@@ -351,7 +352,7 @@ define("stores/stores.viewModel",
                 },
 
                 setThemeName = ko.computed(function () {
-                    if (isBaseDataLoded() && !isThemeNameSet()) {
+                    if (isBaseDataLoded() && !isThemeNameSet() && selectedTheme() !== undefined) {
                         var theme = _.find(themes(), function (item) {
                             return item.SkinId == selectedTheme();
                         });
@@ -499,7 +500,7 @@ define("stores/stores.viewModel",
                                 "Your current changes for banner, secondary pages, css, sprite will be overridden.");
                             confirmation.afterProceed(function () {
                                 selectedStore().currentThemeName(theme.Name);
-                                getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath)
+                                getgetThemeDetailByFullZipPath(selectedTheme(), theme.FullZipPath);
                             });
                             confirmation.afterCancel();
                             confirmation.show();
@@ -515,10 +516,10 @@ define("stores/stores.viewModel",
                     }, {
                         success: function (data) {
                             selectedStore().currentThemeId(selectedTheme());
-                            toastr.success("Theme Apply Successfully .");
+                            toastr.success("Theme Applied Successfully.");
                         },
                         error: function (response) {
-                            toastr.error("Failed to Theme apply .", "", ist.toastrOptions);
+                            toastr.error("Failed to apply Theme.", "", ist.toastrOptions);
                         }
                     });
                 },
@@ -628,7 +629,7 @@ define("stores/stores.viewModel",
                 //Deleted Company Territory 
                 deletedCompanyTerritories = ko.observableArray([]),
                 edittedCompanyTerritories = ko.observableArray([]),
-                
+
                 //Company Territory Pager
                 companyTerritoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, ko.observableArray([]), null)),
                 //CompanyTerritory Search Filter
@@ -3666,6 +3667,9 @@ define("stores/stores.viewModel",
             if (selectedItem.activeBannerSetId.error) {
                 errorList.push({ name: selectedItem.activeBannerSetId.domElement.name, element: selectedItem.activeBannerSetId.domElement });
             }
+            if (selectedItem.taxRate.error) {
+                errorList.push({ name: selectedItem.taxRate.domElement.name, element: selectedItem.taxRate.domElement });
+            }
         },
                 // Go To Element
         gotoElement = function (validation) {
@@ -4228,6 +4232,14 @@ define("stores/stores.viewModel",
                             //    cmsPagesForStoreLayout.push(item);
                             //});
                         }
+
+                        //CostCenterVariables
+                        priceFlags.removeAll();
+                        if (data.PriceFlags !== null) {
+                            ko.utils.arrayPushAll(priceFlags(), data.PriceFlags);
+                            priceFlags.valueHasMutated();
+                        }
+
 
                         ////Countries 
                         //countries.removeAll();
@@ -5904,7 +5916,7 @@ define("stores/stores.viewModel",
                 //Store Map Image File Loaded Callback
         storeMapImageLoadedCallback = function (file, data) {
             selectedStore().mapImageUrlBinary(data);
-        };
+        },
                 //Initialize
                 // ReSharper disable once AssignToImplicitGlobalInFunctionScope
                 initialize = function (specifiedView) {
@@ -5915,6 +5927,24 @@ define("stores/stores.viewModel",
                     getStores();
                     getBaseDataFornewCompany();
                     view.initializeForm();
+                },
+                // On Delete Store Permanently
+                onDeletePermanent = function() {
+                    confirmation.afterProceed(function () {
+                        deleteCompanyPermanently(selectedStore().companyId());
+                    });
+                    confirmation.show();
+                },
+                // Delete Company Permanently
+                deleteCompanyPermanently = function (id) {
+                    dataservice.deleteCompanyPermanent({ CompanyId: id }, {
+                        success: function () {
+                            toastr.success("Store deleted successfully!");
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to delete store. Error: " + response, "", ist.toastrOptions);
+                        }
+                    });
                 };
                 //#region _________R E T U R N_____________________
 
@@ -6265,8 +6295,10 @@ define("stores/stores.viewModel",
                     getSystemPages: getSystemPages,
                     selectChildProductCategory: selectChildProductCategory,
                     onArchiveCategory: onArchiveCategory,
+                    priceFlags: priceFlags,
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
+                    onDeletePermanent: onDeletePermanent
                 };
                 //#endregion
             })()
