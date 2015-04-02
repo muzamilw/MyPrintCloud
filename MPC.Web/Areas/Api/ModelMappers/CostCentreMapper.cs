@@ -254,14 +254,14 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         private static List<CostCenterFixedVariable> CostCenterVariables(DomainModels.CostCentre source)
         {
             List<CostCenterFixedVariable> dict = new List<CostCenterFixedVariable>();
-            dict.Add(new CostCenterFixedVariable { Id = "1fv" + source.CostCentreId, Name = "Total Cost", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=TotalCost}" });
-            dict.Add(new CostCenterFixedVariable { Id = "2fv" + source.CostCentreId, Name = "Total Price", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=TotalPrice}" });
-            dict.Add(new CostCenterFixedVariable { Id = "3fv" + source.CostCentreId, Name = "Plant Cost", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=PlantCost}" });
-            dict.Add(new CostCenterFixedVariable { Id = "4fv" + source.CostCentreId, Name = "Resource Cost", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=ResourceCost}" });
-            dict.Add(new CostCenterFixedVariable { Id = "5fv" + source.CostCentreId, Name = "Stock Cost", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=StockCost}" });
-            dict.Add(new CostCenterFixedVariable { Id = "6fv" + source.CostCentreId, Name = "Plant Price", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=PlantPrice}" });
-            dict.Add(new CostCenterFixedVariable { Id = "7fv" + source.CostCentreId, Name = "Resource Price", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=ResourcePrice}" });
-            dict.Add(new CostCenterFixedVariable { Id = "8fv" + source.CostCentreId, Name = "Stock Price", VariableString = "{SubCostCentre," + "ID=" + source.CostCentreId + ",Name=" + source.Name + ",ReturnValue=StockPrice}" });
+            dict.Add(new CostCenterFixedVariable { Id = "1fv" + source.CostCentreId, Name = "Total Cost", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=TotalCost}" });
+            dict.Add(new CostCenterFixedVariable { Id = "2fv" + source.CostCentreId, Name = "Total Price", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=TotalPrice}" });
+            dict.Add(new CostCenterFixedVariable { Id = "3fv" + source.CostCentreId, Name = "Plant Cost", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=PlantCost}" });
+            dict.Add(new CostCenterFixedVariable { Id = "4fv" + source.CostCentreId, Name = "Resource Cost", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=ResourceCost}" });
+            dict.Add(new CostCenterFixedVariable { Id = "5fv" + source.CostCentreId, Name = "Stock Cost", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=StockCost}" });
+            dict.Add(new CostCenterFixedVariable { Id = "6fv" + source.CostCentreId, Name = "Plant Price", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=PlantPrice}" });
+            dict.Add(new CostCenterFixedVariable { Id = "7fv" + source.CostCentreId, Name = "Resource Price", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=ResourcePrice}" });
+            dict.Add(new CostCenterFixedVariable { Id = "8fv" + source.CostCentreId, Name = "Stock Price", VariableString = "{SubCostCentre," + "ID=&quot;" + source.CostCentreId + "&quot;,Name=&quot;" + source.Name + "&quot;,ReturnValue=StockPrice}" });
             
             return dict;
         }

@@ -165,7 +165,7 @@ namespace MPC.Provisioning.Controllers
                         //oClient.OpenRead(uri);
 
                         isCorp = "true";
-                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + isCorp + "/" + subdomain);
+                        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(sCurrentServer + "/mis/Api/ImportExportOrganisation/" + siteOrganisationId + "/" + subdomain + "/" + isCorp);
                         //request.Method = "GET";
                         ////request.Credentials = new NetworkCredential("xxx", "xxx");
                         //var iTask = request.GetRequestStreamAsync();

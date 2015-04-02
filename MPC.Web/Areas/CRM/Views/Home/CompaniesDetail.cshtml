@@ -136,6 +136,21 @@
                                                     <span class="help-block text-right">URL http://pinkcards.com/corporatedemo/login</span>
                                                 </div>
                                             </div>*@
+                                        <!--ko if:$root.selectedStore() != undefined && ($root.selectedStore().type() == 0 || $root.selectedStore().type() == 1)-->
+                                        <div class="form-group ">
+                                            <div class="col-lg-3 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Store" data-container="body" data-toggle="popover" data-placement="right" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="selectStore" class="control-label text-right tooltip-float">Select Store</label>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <select id="selectStore" class="form-control" data-bind="options: $root.storesListForDropDown , optionsText: 'Name', optionsValue: 'CompanyId', optionsCaption: ' --- Select Store --- ',value: storeId "></select>  @*,,value: stateId  value:country,validationtooltip:country*@
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -895,7 +910,7 @@
     </script>
     <script id="itemAddressTemplate" type="text/html">
         <tr data-bind="click: $root.selectAddress, css: { selectedRow: $data === $root.selectedAddress}">
-            <td data-bind="text: addressName"></td>
+            <td><a href="#" class="store-user-link" data-bind="text: addressName,click : $root.onEditAddress"></a></td>
             <td data-bind="text: city"></td>
             @*<td data-bind="text: territoryName"></td>*@
             @*<!--ko if: $root.selectedStore().type() == 4-->
@@ -911,12 +926,12 @@
                 <!-- /ko -->
                 <!--/ko-->*@
             @*<!--ko if:  $root.selectedStore().type() == 3-->*@
-            <!--ko if: isDefaultTerrorityBilling() == true -->
+            <!--ko if: isDefaultShippingAddress() == true -->
             <td class="type">
                 <span class="label label-success">Yes </span>
             </td>
             <!-- /ko -->
-            <!--ko if: isDefaultTerrorityBilling() != true-->
+            <!--ko if: isDefaultShippingAddress() != true-->
             <td class="type">
                 <span class="label label-danger">No </span>
             </td>
@@ -932,10 +947,10 @@
                 <span class="label label-danger">No </span>
             </td>
             <!-- /ko -->
-            <td id="actionColumn" class="text-right">
+            @*<td id="actionColumn" class="text-right">
                 <!-- ko template: { name: "actionsAddressTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
-            </td>
+            </td>*@
         </tr>
     </script>
     <script id="actionsCompanyContactTemplate" type="text/html">
@@ -960,7 +975,7 @@
                 </div>
                 <div class="details col-lg-1">
                     <div class="name">
-                        <a data-toggle="modal" href="#" data-bind="text: firstName "></a>
+                        <a href="#" class="store-user-link" data-bind="text: firstName,click : $root.onEditCompanyContact"></a>
                     </div>
                     <div class="time online" data-bind="text: email">
                     </div>
@@ -1003,10 +1018,10 @@
                 </div>
             </td>
             <td style="width: 10%; max-width: 10%;" data-bind="text: creditLimit() != null ? '$ '+ creditLimit() +'.00' : '$ 0.00'"></td>
-            <td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
+            @*<td style="width: 10%; max-width: 10%;" class=" text-right" id="actionColumn">
                 <!-- ko template: { name: "actionsCompanyContactTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                 <!-- /ko -->
-            </td>
+            </td>*@
         </tr>
     </script>
     <script id="mediaLibraryItemTemplate" type="text/html">

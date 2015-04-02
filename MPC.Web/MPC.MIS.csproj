@@ -317,6 +317,7 @@
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
+    <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
@@ -362,6 +363,7 @@
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterVariableTreeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
@@ -375,6 +377,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
@@ -437,8 +440,10 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
@@ -458,6 +463,8 @@
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\PtvDTO.cs" />
+    <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
@@ -657,6 +664,7 @@
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
+    <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -967,6 +975,18 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\Ptv\back-down.gif" />
+    <Content Include="Content\Images\Ptv\back-downP.gif" />
+    <Content Include="Content\Images\Ptv\back-up.gif" />
+    <Content Include="Content\Images\Ptv\back-upP.gif" />
+    <Content Include="Content\Images\Ptv\back-upW.gif" />
+    <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\Ptv\front-down.gif" />
+    <Content Include="Content\Images\Ptv\front-downP.gif" />
+    <Content Include="Content\Images\Ptv\front-up.gif" />
+    <Content Include="Content\Images\Ptv\front-upP.gif" />
+    <Content Include="Content\Images\Ptv\imgLongSide.gif" />
+    <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -1894,6 +1914,7 @@
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />

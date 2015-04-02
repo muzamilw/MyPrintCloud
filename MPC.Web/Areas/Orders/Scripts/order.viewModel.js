@@ -1121,6 +1121,40 @@ define("order/order.viewModel",
                          }
 
                      },
+                    getPtvPlan = function () {
+                        isLoadingOrders(true);
+                        dataservice.getPTV({
+                            orientation: 1,
+                            reversRows: 0,
+                            revrseCols: 0,
+                            isDoubleSided: false,
+                            isWorknTurn: false,
+                            isWorknTumble:false,
+                            applyPress: false,
+                            itemHeight: 300,
+                            itemWidth: 400,
+                            printHeight: 300,
+                            printWidth: 400,
+                            grip: 1,
+                            gripDepth: 0,
+                            headDepth: 0,
+                            printGutter: 0,
+                            horizentalGutter: 0,
+                            verticalGutter:0
+                        }, {
+                            success: function (data) {                                
+                                if (data != null) {
+                                        
+                                    
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load PTV Data." + response);
+                            }
+                        });
+                    },
                     // Template Chooser For Delivery Schedule
                      templateToUseDeliverySchedule = function (deliverySchedule) {
                          return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -1249,7 +1283,7 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
-
+                    getPtvPlan: getPtvPlan
                     //#endregion
                 };
             })()

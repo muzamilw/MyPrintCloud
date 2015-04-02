@@ -295,6 +295,11 @@ namespace MPC.Models.Common
         Landscape = 1,
         Portrait = 0
     }
+    public enum GripSide :int
+    {
+        LongSide = 1,
+        ShortSide = 2
+    }
     public enum SecondryPagesInfo : int
     {
         AboutUs = 2,
