@@ -331,8 +331,8 @@ namespace MPC.Webstore.Controllers
                                         Campaign OnlineOrderCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
                                         cep.SalesManagerContactID = Convert.ToInt32(modelOrder.ContactId);
                                         SystemUser EmailOFSM =  _usermanagerService.GetSalesManagerDataByID(CustomerCompany.SalesAndOrderManagerId1.Value);
-                                        cep.StoreID = Convert.ToInt32(modelOrder.CompanyId);
-                                        cep.AddressId = Convert.ToInt32(modelOrder.CompanyId);
+                                        cep.StoreId = UserCookieManager.WBStoreId;
+                                        cep.AddressId = modelOrder.CompanyId;
                                         if (CustomerCompany.IsCustomer == (int)CustomerTypes.Corporate)
                                         {
 

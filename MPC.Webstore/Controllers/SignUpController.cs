@@ -244,7 +244,7 @@ namespace MPC.Webstore.Controllers
                     long OrderId = _ItemService.PostLoginCustomerAndCardChanges(UserCookieManager.WEBOrderId, loginUserCompany.CompanyId, loginUser.ContactId, UserCookieManager.TemporaryCompanyId, UserCookieManager.WEBOrganisationID);
 
                     cep.SalesManagerContactID = loginUser.ContactId; // this is only dummy data these variables replaced with organization values 
-                    cep.StoreID = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
                     Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                     if (CompanyDefaultAddress != null)
                     {
@@ -299,7 +299,7 @@ namespace MPC.Webstore.Controllers
                 cep.ContactId = (int)CorpContact.ContactId;
                 cep.CompanyId = (int)CorpContact.CompanyId;
                 cep.SalesManagerContactID = CorpContact.ContactId; // this is only dummy data these variables replaced with organization values 
-                cep.StoreID = UserCookieManager.WBStoreId;
+                cep.StoreId = UserCookieManager.WBStoreId;
                 Address CompanyDefaultAddress = _myCompanyService.GetDefaultAddressByStoreID(UserCookieManager.WBStoreId);
                 if (CompanyDefaultAddress != null)
                 {

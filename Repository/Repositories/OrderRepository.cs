@@ -1747,7 +1747,7 @@ namespace MPC.Repository.Repositories
                     {
                         obj.SystemUserId = stRec.SystemUserId;
                         obj.SalesManagerContactID = salesId;
-                        obj.StoreID = CompanyId;
+                        obj.StoreId = CompanyId;
                         obj.CompanyId = CompanyId;
                         obj.OrganisationId = 1;
                         obj.ItemId = (int)itemId;

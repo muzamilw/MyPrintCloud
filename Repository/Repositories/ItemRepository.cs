@@ -2150,7 +2150,7 @@ namespace MPC.Repository.Repositories
                             double currTax = (itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
                             itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
 
-                            itemPrice = itemPrice - (currTax - ((currTax * TaxRate) / 100));
+                            itemPrice = itemPrice - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
@@ -2160,7 +2160,7 @@ namespace MPC.Repository.Repositories
                         else
                         {
                             double currTax = (itemPrice * TaxRate / 100);
-                            itemPrice = itemPrice - (currTax - (currTax * TaxRate / 100));
+                            itemPrice = itemPrice - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
