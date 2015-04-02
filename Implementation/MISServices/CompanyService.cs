@@ -3084,6 +3084,19 @@ namespace MPC.Implementation.MISServices
             response.NewUsersCount = userCount;
             return response;
         }
+        public CompanyResponse GetCompanyByIdForCrm(long companyId)
+        {
+            CompanyResponse response = companyRepository.GetCompanyByIdForCrm(companyId);
+            int userCount = 0;
+            int newOrdersCount = 0;
+            if (response.Company != null && response.Company.StoreId != null)
+                userCount = companyRepository.UserCount(response.Company.StoreId, 5);
+            newOrdersCount = estimateRepository.GetNewOrdersCount(5, companyId);
+            response.NewOrdersCount = newOrdersCount;
+            response.NewUsersCount = userCount;
+            return response;
+        }
+
 
         public CompanyBaseResponse GetBaseData(long storeId)
         {
@@ -3155,7 +3168,8 @@ namespace MPC.Implementation.MISServices
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM)
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
+                Companies = companyRepository.GetAllRetailAndCorporateStores()
             };
         }
         public void SaveFile(string filePath, long companyId)
