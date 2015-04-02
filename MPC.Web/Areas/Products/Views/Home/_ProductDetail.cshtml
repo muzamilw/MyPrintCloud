@@ -18,7 +18,7 @@
                     <div class="pull-right top-page-ui">
                         <button class="btn btn-success" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
                         <button class="btn btn-danger" data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
-                        <button class="btn btn-warning" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
+                        <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
                         <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
                         <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Cancel</button>
                     </div>
@@ -2095,7 +2095,7 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: addTemplatePage">
+                                                    <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Page
                                                     </a>
                                                 </div>
