@@ -116,7 +116,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void DeleteOrder(long orderId)
         {
-            throw new NotImplementedException();
+            orderRepository.DeleteOrder(orderId);
         }
 
         /// <summary>
@@ -577,20 +577,36 @@ namespace MPC.Implementation.MISServices
 
         }
 
+        public PtvDTO GetPTV(PTVRequestModel request)
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            
+            if(organisation != null)
+            {
+                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);              
+            }
+            
 
+            return DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
+        }
 
         public PtvDTO DrawPTV(PrintViewOrientation strOrient, int ReversePTVRows, int ReversePTVCols, bool IsDoubleSided, bool IsWorknTurn, bool IsWorknTumble, bool ApplyPressRestrict, double ItemHeight, double ItemWidth, double PrintHeight, double PrintWidth, GripSide Grip, double GripDepth, double HeadDepth, double PrintGutter, double ItemHorizontalGutter, double ItemVerticalGutter)
         {
-            Image imgCardL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-up.gif"));
-            Image imgCardBackL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-up.gif"));
-            Image imgCardDownL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-down.gif"));
-            Image imgCardBackDownL = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-down.gif"));
-            Image imgCardP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-upP.gif"));
-            Image imgCardBackP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-upP.gif"));
-            Image imgCardDownP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/front-downP.gif"));
-            Image imgCardBackDownP = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-downP.gif"));
-            Image imgCardBackW = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/back-upW.gif"));
-            Image DottedImage = Image.FromFile(HttpContext.Current.Server.MapPath("Content/Images/ptv/dotTexture.gif"));
+            Image imgCardL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-up.gif"));
+            Image imgCardBackL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-up.gif"));
+            Image imgCardDownL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-down.gif"));
+            Image imgCardBackDownL = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-down.gif"));
+            Image imgCardP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-upP.gif"));
+            Image imgCardBackP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-upP.gif"));
+            Image imgCardDownP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/front-downP.gif"));
+            Image imgCardBackDownP = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-downP.gif"));
+            Image imgCardBackW = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/back-upW.gif"));
+            Image DottedImage = Image.FromFile(HttpContext.Current.Server.MapPath("../Content/Images/ptv/dotTexture.gif"));
 
 
 
@@ -986,6 +1002,22 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        public PtvDTO GetPTVCalculation(PTVRequestModel request)
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+
+            if (organisation != null)
+            {
+                request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
+            }
+            return CalculatePTV(request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, false, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, 1, request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.isWorknTrun, request.isWorknTumble);
+        }
+        
         #endregion
     }
 }

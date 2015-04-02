@@ -80,6 +80,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IPurchaseService, PurchaseService>();
             unityContainer.RegisterType<IGoodsReceivedNoteService, GoodsReceivedNoteService>();
             unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
+            unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
         }
     }
 }

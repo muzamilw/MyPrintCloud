@@ -31,6 +31,12 @@ define("costcenter/costcenter.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
+                    amplify.request.define('saveQuestionVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenter',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     // Define request to save Prefixes
                     amplify.request.define('saveCostCenter', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenter',

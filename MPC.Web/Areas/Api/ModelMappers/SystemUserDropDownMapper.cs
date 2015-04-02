@@ -17,7 +17,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
 
         private static string GetVariableString(MPC.Models.DomainModels.SystemUser source)
         {
-            string sv = "{resource, ID="+source.Email+",Name="+source.FullName+",returnvalue=costperhour}";
+            string sv = "{resource, ID=&quot;" + source.Email + "&quot;,Name=&quot;" + source.FullName + "&quot;,returnvalue=costperhour}";
             return sv;
         }
     }

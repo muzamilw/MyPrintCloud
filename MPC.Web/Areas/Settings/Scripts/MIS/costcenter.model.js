@@ -748,12 +748,65 @@
         return result;
     };
     
+
+   var QuestionVariableMapper = function (source) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source[0]),
+            QuestionString = ko.observable(source[1]),
+            Type = ko.observable(source[2]),
+            Answer= ko.observable(source[3])
+           
+        } else {
+            Id = ko.observable(),
+            QuestionString = ko.observable(),
+            Type = ko.observable(),
+             Answer = ko.observable()
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           Id: Id,
+           QuestionString: QuestionString,
+           Type: Type,
+           Answer: Answer
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            QuestionString: QuestionString,
+            Type: Type,
+            Answer:Answer,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
         costCenterServerMapper: costCenterServerMapper,
         costCenterListView: costCenterListView,
         NewCostCenterInstruction: NewCostCenterInstruction,
-        NewInstructionChoice: NewInstructionChoice
+        NewInstructionChoice: NewInstructionChoice,
+        QuestionVariableMapper: QuestionVariableMapper
     };
 });

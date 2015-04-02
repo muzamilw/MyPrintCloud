@@ -54,11 +54,12 @@
                                                 <!-- ko foreach: $root.customersForListView -->
                                                 <tr data-bind="click: $root.selectStore">
                                                     <td>
-                                                        <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                        <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt=""/>
+
                                                     </td>
                                                     <td>
                                                         <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>
-                                                        <span class="user-subhead"></span>
+                                                        <span class="user-subhead" data-bind="text:defaultContact"></span>
                                                     </td>
                                                     <td>
                                                         <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
@@ -68,7 +69,7 @@
                                                         </td>*@
                                                     <td>
                                                         <a>
-                                                            <p data-bind="text:email"></p>
+                                                            <p data-bind="text:defaultContactEmail"></p>
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -106,7 +107,7 @@
                                                     </td>
                                                     <td>
                                                         <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>
-                                                        <span class="user-subhead"></span>
+                                                        <span class="user-subhead" data-bind="text:defaultContact"></span>
                                                     </td>
                                                     <td>
                                                         <p data-bind="dateString: creationdate"></p>
@@ -116,7 +117,7 @@
                                                         </td>*@
                                                     <td>
                                                         <a>
-                                                            <p data-bind="text:email"></p>
+                                                            <p data-bind="text:defaultContactEmail"></p>
                                                         </a>
                                                     </td>
                                                 </tr>
