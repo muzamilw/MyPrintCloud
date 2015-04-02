@@ -15,6 +15,7 @@ using MPC.Webstore.ModelMappers;
 using MPC.Models.ResponseModels;
 using System.Runtime.Caching;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MPC.Webstore.Common
 {
@@ -208,6 +209,21 @@ namespace MPC.Webstore.Common
             CategoryName = specialCharactersEncoder(CategoryName);
             queryString += string.Format("{0}{1}{2}", CategoryName, "/", CategoryId);
             return queryString;
+        }
+      
+    }
+
+    public static class CloneList
+    {
+        public static T DeepClone<T>(this T o)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, o);
+                stream.Position = 0;
+                return (T)formatter.Deserialize(stream);
+            }
         }
     }
     public static class CommonHtmlExtensions
