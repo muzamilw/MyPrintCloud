@@ -2400,8 +2400,6 @@ define("crm/crm.viewModel",
                    goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
                    getBaseDataFornewCompany();
-
-
                };
                 //#endregion
 
