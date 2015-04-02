@@ -6813,8 +6813,13 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+<<<<<<< HEAD
 }
 
+=======
+}
+
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 .pagination-right {
   text-align: right;
 }
@@ -6823,8 +6828,13 @@ td.visible-print {
 .pagination-large ul > li > span {
   padding: 11px 19px;
   font-size: 17.5px;
+<<<<<<< HEAD
 }
 
+=======
+}
+
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
 
 .pagination-small ul > li:first-child > a,
 .pagination-mini ul > li:first-child > span,
@@ -6855,5 +6865,10 @@ td.visible-print {
   font-size: 11.9px;
 }
 
+<<<<<<< HEAD
 .pagination-mini ul > li > a
 
+=======
+.pagination-mini ul > li > a
+
+>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a

@@ -289,9 +289,10 @@ define("order/order.viewModel",
                         }
 
                     }),
-
                     vatList = ko.observableArray([
-                        { name: "VAT Free", id: 1, tax: 0 },
+                        {
+                             name: "VAT Free", id: 1, tax: 0
+                        },
                         { name: "VAT 20%", id: 2, tax: 20 },
                         { name: "VAT 10%", id: 3, tax: 10 }
                     ]),
@@ -528,6 +529,37 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
+//<<<<<<< HEAD
+                deleteOrderButtonHandler = function () {
+                        confirmation.messageText("Are you sure you want to delete order?");
+                        confirmation.afterProceed(deleteOrder);
+                        confirmation.afterCancel(function () {
+                            
+                        });
+                        confirmation.show();
+                        return;
+                },
+                deleteOrder=function() {
+                    dataservice.deleteOrder({
+                        OrderId: selectedOrder().id()
+                    }, {
+                        success: function () {
+                            toastr.success("Order successfully deleted!");
+                            selectedOrder().reset();
+                            closeOrderEditor();
+                            orderCodeHeader('');
+                            sectionHeader('');
+                            itemCodeHeader('');
+                            isSectionDetailVisible(false);
+                            isItemDetailVisible(false);
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to delete order!" + response);
+                        }
+                    });
+                },
+//=======
+//>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -1227,6 +1259,7 @@ define("order/order.viewModel",
                     selectedStockOptionName: selectedStockOptionName,
                     selectedStockOptionSequenceNumber: selectedStockOptionSequenceNumber,
                     selectedStockOption: selectedStockOption,
+                    deleteOrderButtonHandler: deleteOrderButtonHandler,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,

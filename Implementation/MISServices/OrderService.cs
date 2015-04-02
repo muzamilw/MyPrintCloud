@@ -116,7 +116,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void DeleteOrder(long orderId)
         {
-            throw new NotImplementedException();
+            orderRepository.DeleteOrder(orderId);
         }
 
         /// <summary>
