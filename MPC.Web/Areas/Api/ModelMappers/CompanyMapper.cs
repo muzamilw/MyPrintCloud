@@ -511,17 +511,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            //if (!string.IsNullOrEmpty(source.Image))
-            //{
-            //    string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            //    if (File.Exists(imagePath))
-            //    {
-            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-            //    }
-            //}
-            return new ApiModels.CrmSupplierListViewModel
+            string defaultContact = null;
+              string defaultContactEmail = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            if ( companyContact!= null)
+            {
+                defaultContact = companyContact.FirstName;
+                defaultContactEmail = companyContact.Email;
+            }
+            return new CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
+                DefaultContactName = defaultContact,
+                DefaultContactEmail= defaultContactEmail,
                 CompanyId = source.CompanyId,
                 IsCustomer = source.IsCustomer,
                 Name = source.Name,
