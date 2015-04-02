@@ -138,6 +138,7 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               ViewBag.TotalOrder = ordersList.Count;
                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                {
                    ViewBag.res = null;
