@@ -1,6 +1,10 @@
-﻿
+﻿<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
 
+</head>
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
+@using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
@@ -11,7 +15,7 @@
 }
 @{
     
-    int x = 6;
+    
    // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
     string Result = ViewBag.res;
     
@@ -106,7 +110,7 @@
                     <div class="ProductOrderContainer">
                        
 
-    @grid.GetHtml(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
+    @grid.Table(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
     htmlAttributes: new { id = "OrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -136,6 +140,12 @@
           }
     
     )
+                        @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
+                        {
+                            <div id="footerr" class="pagination pagination-small pagination-right">
+                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -273,7 +283,6 @@
                                width="100%">
                             <tr>
                                 <td>
-                                    
                                         <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
                                             <div class="product_detail_sup_padding">
                                                 <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -477,6 +486,8 @@
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(d),
                 success: function (response) {
+                 
+                    createCookie("WEBOrderId", response);
                     window.location.href = "/ShopCart";
                 }
             });
@@ -611,7 +622,16 @@
         }
         function ShowImage(ImagePath)
         {
-            alert(ImagePath);
+            
+        }
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
         }
     </script>
 }

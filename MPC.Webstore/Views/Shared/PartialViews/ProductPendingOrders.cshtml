@@ -1,10 +1,15 @@
 ﻿
+<head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
 
+</head>
+@using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
 
-    var grid = new WebGrid(source: ViewBag.OrderList,canSort:false ,rowsPerPage: 15);
+    var grid = new WebGrid(source: ViewBag.OrderList,canSort:false ,rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
@@ -43,7 +48,7 @@
                     <div class="ProductOrderContainer paddingForGridContainer">
 
 
-                        @grid.GetHtml(
+                        @grid.Table(
     htmlAttributes: new { id = "PendingOrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -64,7 +69,12 @@
    }
 
                     )
-
+                        @if (Convert.ToInt32(ViewBag.TotalOrders) > 13)
+                        {
+                            <div id="footerr" class="pagination pagination-small pagination-right">
+                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

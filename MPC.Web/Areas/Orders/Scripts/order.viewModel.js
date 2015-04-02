@@ -74,10 +74,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -124,7 +124,7 @@ define("order/order.viewModel",
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -133,7 +133,7 @@ define("order/order.viewModel",
                     sortIsAsc = ko.observable(false),
                     // Pagination
                     pager = ko.observable(new pagination.Pagination({ PageSize: 5 }, orders)),
-                     // Pagination for Categories
+                    // Pagination for Categories
                     categoryPager = ko.observable(new pagination.Pagination({ PageSize: 5 }, categories)),
                     // Pagination for Cost Centres
                     costCentrePager = ko.observable(new pagination.Pagination({ PageSize: 5 }, costCentres)),
@@ -142,24 +142,24 @@ define("order/order.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
                         return addressResult || defaultAddress();
                     }),
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -176,29 +176,33 @@ define("order/order.viewModel",
                     selectedFilterFlag = ko.observable(0),
                     // Active Pre Payment
                     selectedPrePayment = ko.observable(),
+                    //Selected item
+                    selecteditem = ko.observable(),
+                    //Selected Stock Item
+                    selectedStockItem = ko.observable(),
                     // #endregion
                     // #region Utility Functions
                     // Create New Order
-                    createOrder = function () {
+                    createOrder = function() {
                         selectedOrder(model.Estimate.Create({}));
                         openOrderEditor();
                     },
                     // Edit Order
-                    editOrder = function (data) {
+                    editOrder = function(data) {
                         var code = !data.code() ? "ORDER CODE" : data.code();
                         orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
-                    openOrderEditor = function () {
+                    openOrderEditor = function() {
                         isOrderDetailsVisible(true);
                     },
                     // On Close Editor
-                    onCloseOrderEditor = function () {
+                    onCloseOrderEditor = function() {
                         if (selectedOrder().hasChanges()) {
                             confirmation.messageText("Do you want to save changes?");
                             confirmation.afterProceed(onSaveOrder);
-                            confirmation.afterCancel(function () {
+                            confirmation.afterCancel(function() {
                                 selectedOrder().reset();
                                 closeOrderEditor();
                                 orderCodeHeader('');
@@ -213,24 +217,24 @@ define("order/order.viewModel",
                         closeOrderEditor();
                     },
                     // Close Editor
-                    closeOrderEditor = function () {
+                    closeOrderEditor = function() {
                         selectedOrder(model.Estimate.Create({}));
                         isOrderDetailsVisible(false);
                         errorList.removeAll();
                     },
                     // On Archive
-                    onArchiveOrder = function (order) {
-                        confirmation.afterProceed(function () {
+                    onArchiveOrder = function(order) {
+                        confirmation.afterProceed(function() {
                             archiveOrder(order.id());
                         });
                         confirmation.show();
                     },
                     // Open Company Dialog
-                    openCompanyDialog = function () {
+                    openCompanyDialog = function() {
                         companySelector.show(onSelectCompany, 1, true);
                     },
                     // On Select Company
-                    onSelectCompany = function (company) {
+                    onSelectCompany = function(company) {
                         if (!company) {
                             return;
                         }
@@ -246,28 +250,28 @@ define("order/order.viewModel",
                         getBaseForCompany(company.id);
                     },
                     // Add Item
-                    addItem = function () {
+                    addItem = function() {
                         // Open Product Selector Dialog
                     },
                     // Edit Item
-                    editItem = function (item) {
+                    editItem = function(item) {
                         itemCodeHeader(item.code());
                         selectedProduct(item);
                         // calculateSectionChargeTotal();
                         openItemDetail();
                     },
                     // Open Item Detail
-                    openItemDetail = function () {
+                    openItemDetail = function() {
                         isItemDetailVisible(true);
                         view.initializeLabelPopovers();
                     },
                     // Calculates Section Charges 
-                    calculateSectionChargeTotal = ko.computed(function () {
+                    calculateSectionChargeTotal = ko.computed(function() {
                         if (selectedProduct().itemSections().length > 0) {
                             baseCharge1Total(0);
                             baseCharge2Total(0);
                             baseCharge3Total(0);
-                            _.each(selectedProduct().itemSections(), function (item) {
+                            _.each(selectedProduct().itemSections(), function(item) {
                                 if (item.qty1Profit() === undefined || item.qty1Profit() === "") {
                                     item.qty1Profit(0);
                                 }
@@ -277,217 +281,256 @@ define("order/order.viewModel",
                                 if (item.qty3Profit() === undefined || item.qty3Profit() === "") {
                                     item.qty3Profit(0);
                                 }
-
-                                baseCharge1Total(parseInt(baseCharge1Total()) + parseInt((item.baseCharge1() !== undefined && item.baseCharge1() !== "" ? item.baseCharge1() : 0)) + parseInt(item.qty1Profit()));
-                                baseCharge2Total(parseInt(baseCharge2Total()) + parseInt((item.baseCharge2() !== undefined && item.baseCharge2() !== "" ? item.baseCharge2() : 0)) + parseInt(item.qty2Profit()));
-                                baseCharge3Total(parseInt(baseCharge3Total()) + parseInt((item.baseCharge3() !== undefined && item.baseCharge3() !== "" ? item.baseCharge3() : 0)) + parseInt(item.qty3Profit()));
+                                var basCharge1 = parseFloat(((item.baseCharge1() !== undefined && item.baseCharge1() !== "") ? item.baseCharge1() : 0));
+                                baseCharge1Total(parseFloat(baseCharge1Total()) + basCharge1 + parseFloat(item.qty1Profit()));
+                                baseCharge2Total(parseFloat(baseCharge2Total()) + parseFloat(((item.baseCharge2() !== undefined && item.baseCharge2() !== "") ? item.baseCharge2() : 0)) + parseFloat(item.qty2Profit()));
+                                baseCharge3Total(parseFloat(baseCharge3Total()) + parseFloat(((item.baseCharge3() !== undefined && item.baseCharge3() !== "") ? item.baseCharge3() : 0)) + parseFloat(item.qty3Profit()));
                             });
                         }
 
                     }),
-                    // Close Item Detail
-                    closeItemDetail = function () {
-                        itemCodeHeader('');
-                        sectionHeader('');
-                        isItemDetailVisible(false);
-                        isSectionDetailVisible(false);
-                    },
-                    // Save Product
-                    saveProduct = function () {
 
-                    },
-                    // Delete Product
-                    deleteProduct = function (item) {
-                        selectedOrder().items.remove(item);
-                    },
-                    // Add Section
-                    addSection = function () {
-                        // Open Product Selector Dialog
-                    },
-                    // Edit Section
-                    editSection = function (item) {
-                        sectionHeader("SECTION - " + item.sectionNo());
-                        selectedSection(item);
-                        openSectionDetail();
-                    },
-                    // Open Section Detail
-                    openSectionDetail = function () {
-                        isSectionDetailVisible(true);
-                        view.initializeLabelPopovers();
-                    },
-                    // Close Section Detail
-                    closeSectionDetail = function () {
-                        sectionHeader('');
-                        isSectionDetailVisible(false);
+                    vatList = ko.observableArray([
+                    { name: "VAT Free", id: 1, tax: 0 },
+                    { name: "VAT 20%", id: 2, tax: 20 },
+                    { name: "VAT 10%", id: 3, tax: 10 }
+                    ]),
 
-                    },
-                    // Select Job Description
-                    selectJobDescription = function (jobDescription, e) {
-                        selectedJobDescription(e.currentTarget.id);
-                    },
-                    // Open Phrase Library
-                    openPhraseLibrary = function () {
-                        phraseLibrary.show(function (phrase) {
-                            updateJobDescription(phrase);
+                // Close Item Detail
+                    closeItemDetail = function() {
+                    itemCodeHeader('');
+                    sectionHeader('');
+                    isItemDetailVisible(false);
+                    isSectionDetailVisible(false);
+                },
+                // Save Product
+                    saveProduct = function() {
+
+                },
+                // Delete Product
+                    deleteProduct = function(item) {
+                    selectedOrder().items.remove(item);
+                },
+                // Add Section
+                    addSection = function() {
+                    // Open Product Selector Dialog
+                },
+                // Edit Section
+                    editSection = function(item) {
+                    sectionHeader("SECTION - " + item.sectionNo());
+                    selectedSection(item);
+                    openSectionDetail();
+                },
+                // Open Section Detail
+                    openSectionDetail = function() {
+                    isSectionDetailVisible(true);
+                    view.initializeLabelPopovers();
+                },
+                // Close Section Detail
+                    closeSectionDetail = function() {
+                    sectionHeader('');
+                    isSectionDetailVisible(false);
+
+                },
+                // Select Job Description
+                    selectJobDescription = function(jobDescription, e) {
+                    selectedJobDescription(e.currentTarget.id);
+                },
+                // Open Phrase Library
+                    openPhraseLibrary = function() {
+                        phraseLibrary.show(function(phrase) {
+                        updateJobDescription(phrase);
+                    });
+                },
+                // Update Job Description
+                    updateJobDescription = function(phrase) {
+                    if (!phrase) {
+                        return;
+                    }
+
+                    // Set Phrase to selected Job Description
+                    if (selectedJobDescription() === 'txtDescription1') {
+                        selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription2') {
+                        selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription3') {
+                        selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription4') {
+                        selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription5') {
+                        selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription6') {
+                        selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
+                    } else if (selectedJobDescription() === 'txtDescription7') {
+                        selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
+                    }
+                },
+                // Map List
+                    mapList = function(observableList, data, factory) {
+                    var list = [];
+                        _.each(data, function(item) {
+                        list.push(factory.Create(item));
+                    });
+
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(observableList(), list);
+                    observableList.valueHasMutated();
+                },
+                // Map Orders 
+                    mapOrders = function(data) {
+                    var ordersList = [];
+                    _.each(data, function (order) {
+                        order.FlagColor = getSectionFlagColor(order.SectionFlagId);
+                        ordersList.push(model.Estimate.Create(order));
+                    });
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(orders(), ordersList);
+                    orders.valueHasMutated();
+                },
+                // Filter Orders
+                    filterOrders = function() {
+                    // Reset Pager
+                    pager().reset();
+                    // Get Orders
+                    getOrders(currentScreen());
+                },
+                // Reset Filter
+                    resetFilter = function() {
+                    // Reset Text 
+                    filterText(undefined);
+                    // Filter Record
+                    filterOrders();
+                },
+                // On Save Order
+                    onSaveOrder = function(data, event, navigateCallback) {
+                    if (!doBeforeSave()) {
+                        return;
+                    }
+                        _.each(selectedOrder().prePayments(), function(item) {
+                        item.customerId(selectedOrder().companyId());
+                    });
+                    saveOrder(closeOrderEditor, navigateCallback);
+                },
+                // Do Before Save
+                    doBeforeSave = function() {
+                    var flag = true;
+                    if (!selectedOrder().isValid()) {
+                        selectedOrder().showAllErrors();
+                        selectedOrder().setValidationSummary(errorList);
+                        flag = false;
+                    }
+                    return flag;
+                },
+                // On Clone Order
+                    onCloneOrder = function(data) {
+                    cloneOrder(data, openOrderEditor);
+                },
+                // Go To Element
+                    gotoElement = function(validation) {
+                    view.gotoElement(validation.element);
+                },
+                // Get Order From list
+                    getOrderFromList = function(id) {
+                        return orders.find(function(order) {
+                        return order.id() === id;
+                    });
+                },
+                // Initialize the view model
+                    initialize = function(specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+
+                    pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+                    categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
+                    costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+
+                    // Get Base Data
+                    getBaseData();
+                },
+                // On Change Quantity 1 Markup
+                    onChangeQty1MarkUpId = function(qty1Markup) {
+                    if (selectedProduct().qty1MarkUpId1() !== undefined) {
+                            var markup = _.find(markups(), function(item) {
+                            return item.MarkUpId === selectedProduct().qty1MarkUpId1();
                         });
-                    },
-                    // Update Job Description
-                    updateJobDescription = function (phrase) {
-                        if (!phrase) {
-                            return;
+                        if (markup) {
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge1Total()).toFixed(2);
+                            selectedProduct().qty1NetTotal(parseFloat(markupValue) + parseFloat(baseCharge1Total()));
                         }
 
-                        // Set Phrase to selected Job Description
-                        if (selectedJobDescription() === 'txtDescription1') {
-                            selectedProduct().jobDescription1(selectedProduct().jobDescription1() ? selectedProduct().jobDescription1() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription2') {
-                            selectedProduct().jobDescription2(selectedProduct().jobDescription2() ? selectedProduct().jobDescription2() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription3') {
-                            selectedProduct().jobDescription3(selectedProduct().jobDescription3() ? selectedProduct().jobDescription3() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription4') {
-                            selectedProduct().jobDescription4(selectedProduct().jobDescription4() ? selectedProduct().jobDescription4() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription5') {
-                            selectedProduct().jobDescription5(selectedProduct().jobDescription5() ? selectedProduct().jobDescription5() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription6') {
-                            selectedProduct().jobDescription6(selectedProduct().jobDescription6() ? selectedProduct().jobDescription6() + ' ' + phrase : phrase);
-                        } else if (selectedJobDescription() === 'txtDescription7') {
-                            selectedProduct().jobDescription7(selectedProduct().jobDescription7() ? selectedProduct().jobDescription7() + ' ' + phrase : phrase);
-                        }
-                    },
-                    // Map List
-                    mapList = function (observableList, data, factory) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(factory.Create(item));
-                        });
+                    } else {
+                        selectedProduct().qty1NetTotal(0);
+                    }
 
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(observableList(), list);
-                        observableList.valueHasMutated();
-                    },
-                    // Map Orders 
-                    mapOrders = function (data) {
-                        var ordersList = [];
-                        _.each(data, function (order) {
-                            order.FlagColor = getSectionFlagColor(order.SectionFlagId);
-                            ordersList.push(model.Estimate.Create(order));
-                        });
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(orders(), ordersList);
-                        orders.valueHasMutated();
-                    },
-                    // Filter Orders
-                    filterOrders = function () {
-                        // Reset Pager
-                        pager().reset();
-                        // Get Orders
-                        getOrders(currentScreen());
-                    },
-                    // Reset Filter
-                    resetFilter = function () {
-                        // Reset Text 
-                        filterText(undefined);
-                        // Filter Record
-                        filterOrders();
-                    },
-                    // On Save Order
-                    onSaveOrder = function (data, event, navigateCallback) {
-                        if (!doBeforeSave()) {
-                            return;
-                        }
-                        _.each(selectedOrder().prePayments(), function (item) {
-                            item.customerId(selectedOrder().companyId());
-                        });
-                        saveOrder(closeOrderEditor, navigateCallback);
-                    },
-                    // Do Before Save
-                    doBeforeSave = function () {
-                        var flag = true;
-                        if (!selectedOrder().isValid()) {
-                            selectedOrder().showAllErrors();
-                            selectedOrder().setValidationSummary(errorList);
-                            flag = false;
-                        }
-                        return flag;
-                    },
-                    // On Clone Order
-                    onCloneOrder = function (data) {
-                        cloneOrder(data, openOrderEditor);
-                    },
-                    // Go To Element
-                    gotoElement = function (validation) {
-                        view.gotoElement(validation.element);
-                    },
-                    // Get Order From list
-                    getOrderFromList = function (id) {
-                        return orders.find(function (order) {
-                            return order.id() === id;
-                        });
-                    },
-                    // Initialize the view model
-                    initialize = function (specifiedView) {
-                        view = specifiedView;
-                        ko.applyBindings(view.viewModel, view.bindingRoot);
+                },
+                // On Change Quantity 2 Markup
+                    onChangeQty2MarkUpId = function(qtyMarkup) {
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
-                        categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
-                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
-
-                        // Get Base Data
-                        getBaseData();
-                    },
-                    onChangeQty1MarkUpId = function (qty1Markup) {
-                        if (selectedProduct().qty1MarkUpId1() !== undefined) {
-                            var markup = _.find(markups(), function (item) {
-                                return item.MarkUpId === selectedProduct().qty1MarkUpId1();
+                        if (selectedProduct().qty2MarkUpId2() !== undefined) {
+                            var markup = _.find(markups(), function(item) {
+                                return item.MarkUpId === selectedProduct().qty2MarkUpId2();
                             });
                             if (markup) {
-                                var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge1Total());
-                                selectedProduct().qty1NetTotal(markupValue);
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge2Total()).toFixed(2);
+                            selectedProduct().qty2NetTotal(parseFloat(markupValue) + parseFloat(baseCharge2Total()));
                             }
 
-                        } else {
-                            selectedProduct().qty1NetTotal(0);
+                    } else {
+                        selectedProduct().qty2NetTotal(0);
+                    }
+                },
+                // On Change Quantity 3 Markup
+                onChangeQty3MarkUpId = function (qtyMarkup) {
+
+                    if (selectedProduct().qty3MarkUpId3() !== undefined) {
+                        var markup = _.find(markups(), function (item) {
+                            return item.MarkUpId === selectedProduct().qty3MarkUpId3();
+                        });
+                        if (markup) {
+                            var markupValue = ((parseFloat(markup.MarkUpRate) / 100) * baseCharge3Total()).toFixed(2);
+                            selectedProduct().qty3NetTotal(parseFloat(markupValue) + parseFloat(baseCharge3Total()));
                         }
 
-                    },
-                     onChangeQty2MarkUpId = function (qtyMarkup) {
+                    } else {
+                        selectedProduct().qty3NetTotal(0);
+                    }
+                },
+                // Change on Tax Rate
+                calculateTax = ko.computed(function () {
+                    var qty1NetTotal = parseFloat((selectedProduct().qty1NetTotal() !== undefined && selectedProduct().qty1NetTotal() !== null) ? selectedProduct().qty1NetTotal() : 0).toFixed(2);
+                    var qty2NetTotal = parseFloat((selectedProduct().qty2NetTotal() !== undefined && selectedProduct().qty2NetTotal() !== null) ? selectedProduct().qty2NetTotal() : 0).toFixed(2);
+                    var qty3NetTotal = parseFloat((selectedProduct().qty3NetTotal() !== undefined && selectedProduct().qty3NetTotal() !== null) ? selectedProduct().qty3NetTotal() : 0).toFixed(2);
 
-                         if (selectedProduct().qty2MarkUpId2() !== undefined) {
-                             var markup = _.find(markups(), function (item) {
-                                 return item.MarkUpId === selectedProduct().qty2MarkUpId2();
-                             });
-                             if (markup) {
-                                 var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge2Total());
-                                 selectedProduct().qty2NetTotal(markupValue);
-                             }
+                    var tax = selectedProduct().tax1() !== undefined ? selectedProduct().tax1() : 0;
+                    if (selectedProduct().tax1() !== undefined && selectedProduct().tax1() !== null && selectedProduct().tax1() !== "") {
+                        var taxCalculate1 = ((tax / 100) * parseFloat(qty1NetTotal)).toFixed(2);
+                        var total1 = (parseFloat(taxCalculate1) + parseFloat(qty1NetTotal)).toFixed(2);
+                        selectedProduct().qty1GrossTotal(total1);
+                        selectedProduct().qty1Tax1Value(taxCalculate1);
 
-                         } else {
-                             selectedProduct().qty2NetTotal(0);
-                         }
-                     },
-                      onChangeQty3MarkUpId = function (qtyMarkup) {
+                        var taxCalculate2 = ((tax / 100) * (parseFloat(qty2NetTotal))).toFixed(2);
+                        var total2 = (parseFloat(taxCalculate2) + parseFloat(qty2NetTotal)).toFixed(2);
+                        selectedProduct().qty2GrossTotal(total2);
+                        selectedProduct().qty2Tax1Value(taxCalculate2);
 
-                          if (selectedProduct().qty3MarkUpId3() !== undefined) {
-                              var markup = _.find(markups(), function (item) {
-                                  return item.MarkUpId === selectedProduct().qty3MarkUpId3();
-                              });
-                              if (markup) {
-                                  var markupValue = ((parseInt(markup.MarkUpRate) / 100) * baseCharge3Total());
-                                  selectedProduct().qty3NetTotal(markupValue);
-                              }
+                        var taxCalculate3 = ((tax / 100) * parseFloat(qty3NetTotal)).toFixed(2);
+                        var total3 = (parseFloat(taxCalculate3) + parseFloat(qty3NetTotal)).toFixed(2);
+                        selectedProduct().qty3GrossTotal(total3);
+                        selectedProduct().qty3Tax1Value(taxCalculate3);
 
-                          } else {
-                              selectedProduct().qty3NetTotal(0);
-                          }
-
-
-                      },
-
-                    // #endregion
+                    } else {
+                        selectedProduct().qty1GrossTotal(qty1NetTotal);
+                        selectedProduct().qty2GrossTotal(qty2NetTotal);
+                        selectedProduct().qty3GrossTotal(qty3NetTotal);
+                        selectedProduct().qty1Tax1Value(0);
+                        selectedProduct().qty2Tax1Value(0);
+                        selectedProduct().qty3Tax1Value(0);
+                    }
+                }),
+                // #endregion
                     // #region ServiceCalls
                     // Get Base Data
-                    getBaseData = function () {
+                        getBaseData = function() {
                         dataservice.getBaseData({
                             success: function (data) {
                                 if (data.SectionFlags) {
@@ -532,8 +575,8 @@ define("order/order.viewModel",
                         });
                     },
                     // Get Section flag color
-                    getSectionFlagColor = function (sectionFlagId) {
-                        var sectionFlg = sectionFlags.find(function (sectionFlag) {
+                        getSectionFlagColor = function(sectionFlagId) {
+                            var sectionFlg = sectionFlags.find(function(sectionFlag) {
                             return sectionFlag.id == sectionFlagId;
                         });
 
@@ -544,18 +587,18 @@ define("order/order.viewModel",
                         return sectionFlg.color;
                     },
                     // Save Order
-                    saveOrder = function (callback, navigateCallback) {
+                        saveOrder = function(callback, navigateCallback) {
                         selectedOrder().statusId(view.orderstate());
                         var order = selectedOrder().convertToServerData();
-                        _.each(selectedOrder().prePayments(), function (item) {
+                            _.each(selectedOrder().prePayments(), function(item) {
                             order.PrePayments.push(item.convertToServerData());
                         });
-                        _.each(selectedOrder().deliverySchedules(), function (item) {
+                            _.each(selectedOrder().deliverySchedules(), function(item) {
                             order.ShippingInformations.push(item.convertToServerData());
                         });
 
                         dataservice.saveOrder(order, {
-                            success: function (data) {
+                                success: function(data) {
                                 if (!selectedOrder().id()) {
                                     // Update Id
                                     selectedOrder().id(data.OrderId);
@@ -582,15 +625,15 @@ define("order/order.viewModel",
                                 }
                                 orderCodeHeader('');
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
                             }
                         });
                     },
                     // Clone Order
-                    cloneOrder = function (order, callback) {
+                        cloneOrder = function(order, callback) {
                         dataservice.cloneOrder({ OrderId: order.id() }, {
-                            success: function (data) {
+                                success: function(data) {
                                 if (data) {
                                     var newOrder = model.Estimate.Create(data);
                                     // Add to top of list
@@ -604,7 +647,7 @@ define("order/order.viewModel",
 
                                 toastr.success("Cloned Successfully.");
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 toastr.error("Failed to Clone Order. Error: " + response);
                             }
                         });
@@ -614,21 +657,21 @@ define("order/order.viewModel",
                         dataservice.archiveOrder({
                             OrderId: selectedOrder().id()
                         }, {
-                            success: function () {
+                                success: function() {
                                 selectedOrder().isArchived(true);
                                 toastr.success("Archived Successfully.");
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 toastr.error("Failed to archive Order. Error: " + response);
                             }
                         });
                     },
                     //get Orders Of Current Screen
-                    getOrdersOfCurrentScreen = function () {
+                        getOrdersOfCurrentScreen = function() {
                         getOrders(currentScreen());
                     },
                     // Get Orders
-                    getOrders = function (currentTab) {
+                        getOrders = function(currentTab) {
 
                         isLoadingOrders(true);
                         currentScreen(currentTab);
@@ -642,7 +685,7 @@ define("order/order.viewModel",
                             SortBy: sortOn(),
                             IsAsc: sortIsAsc()
                         }, {
-                            success: function (data) {
+                                success: function(data) {
                                 orders.removeAll();
                                 if (data && data.TotalCount > 0) {
                                     pager().totalCount(data.TotalCount);
@@ -650,22 +693,22 @@ define("order/order.viewModel",
                                 }
                                 isLoadingOrders(false);
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load orders" + response);
                             }
                         });
                     },
                     // Get Order By Id
-                    getOrderById = function (id, callback) {
+                        getOrderById = function(id, callback) {
                         isLoadingOrders(true);
                         dataservice.getOrder({
                             id: id
                         }, {
-                            success: function (data) {
+                                success: function(data) {
                                 if (data) {
                                     selectedOrder(model.Estimate.Create(data));
-                                    _.each(data.PrePayments, function (item) {
+                                        _.each(data.PrePayments, function(item) {
                                         selectedOrder().prePayments.push(model.PrePayment.Create(item));
                                     });
                                     view.setOrderState(selectedOrder().statusId());
@@ -681,7 +724,7 @@ define("order/order.viewModel",
                                 isLoadingOrders(false);
                                 view.initializeLabelPopovers();
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 isLoadingOrders(false);
                                 toastr.error("Failed to load order details" + response);
                                 view.initializeLabelPopovers();
@@ -689,12 +732,12 @@ define("order/order.viewModel",
                         });
                     },
                     // Get Company Base Data
-                    getBaseForCompany = function (id) {
+                        getBaseForCompany = function(id) {
                         isCompanyBaseDataLoaded(false);
                         dataservice.getBaseDataForCompany({
                             id: id
                         }, {
-                            success: function (data) {
+                                success: function(data) {
                                 companyAddresses.removeAll();
                                 companyContacts.removeAll();
                                 if (data) {
@@ -707,7 +750,7 @@ define("order/order.viewModel",
                                 }
                                 isCompanyBaseDataLoaded(true);
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 isCompanyBaseDataLoaded(true);
                                 toastr.error("Failed to load details for selected company" + response);
                             }
@@ -718,90 +761,142 @@ define("order/order.viewModel",
                     orderProductItems = ko.observableArray([]),
 
                     //#region Product From Retail Store
-                    openProductFromStoreDialog = function () {
+                        openProductFromStoreDialog = function() {
                         view.showProductFromRetailStoreModal();
 
                     },
-                    onCreateNewProductFromRetailStore = function () {
+                        onCreateNewProductFromRetailStore = function() {
                         getItemsByCompanyId();
                         openProductFromStoreDialog();
                     },
-                    onAddCostCenter = function () {
+                        onAddCostCenter = function() {
                         getCostCenters();
                         view.showCostCentersDialog();
                     },
-                     onAddInventoryItem = function () {
-                         getInventoriesListItems();
-                         view.showInventoryItemDialog();
-                     },
-                    closeCostCenterDialog = function () {
+                        onAddInventoryItem = function() {
+                            getInventoriesListItems();
+                            view.showInventoryItemDialog();
+                        },
+                        closeCostCenterDialog = function() {
                         view.hideRCostCentersDialog();
                     },
-                    getCostCenters = function () {
+
+                        getCostCenters = function() {
                         dataservice.getCostCenters({
                             CompanyId: selectedOrder().companyId(),
                             SearchString: costCentrefilterText(),
                             PageSize: costCentrePager().pageSize(),
                             PageNo: costCentrePager().currentPage(),
                         }, {
-                            success: function (data) {
+                                success: function(data) {
                                 if (data != null) {
                                     costCentrePager().totalCount(data.RowCount);
                                     costCentres.removeAll();
-                                    _.each(data.CostCentres, function (item) {
+                                        _.each(data.CostCentres, function(item) {
                                         var costCentre = new model.costCentre.Create(item);
                                         costCentres.push(costCentre);
                                     });
                                 }
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 //isLoadingStores(false);
                                 toastr.error("Failed to Load Company Products . Error: " + response);
                             }
                         });
                     },
-                    resetCostCentrefilter = function () {
+                        resetCostCentrefilter = function() {
                         costCentrefilterText('');
                         getCostCenters();
                     },
-                    costCenterClickLIstner = function (costCentre) {
+                        costCenterClickLIstner = function(costCentre) {
                         selectedCostCentre(costCentre);
                         view.showCostCentersQuantityDialog();
                     },
-                    hideCostCentreQuantityDialog = function () {
+                        hideCostCentreQuantityDialog = function() {
                         view.hideCostCentersQuantityDialog();
                     },
-                    hideCostCentreDialog = function () {
+                        hideCostCentreDialog = function() {
                         view.hideRCostCentersDialog();
                     },
+                        //#region product From Retail Store
+
                     //Get Items By CompanyId
-                    getItemsByCompanyId = function () {
+                        getItemsByCompanyId = function() {
                         dataservice.getItemsByCompanyId({
                             CompanyId: selectedOrder().companyId()
                         }, {
-                            success: function (data) {
+                                success: function(data) {
                                 if (data != null) {
                                     orderProductItems.removeAll();
-                                    _.each(data.Items, function (item) {
+                                        _.each(data.Items, function(item) {
                                         var itemToBePushed = new model.Item.Create(item);
                                         orderProductItems.push(itemToBePushed);
                                     });
+                                        //Select First Item by Default if list is not empty
+                                        if (orderProductItems().length > 0) {
+                                            updateItemsDataOnItemSelection(orderProductItems()[0]);
+                                        }
                                 }
                             },
-                            error: function (response) {
+                                error: function(response) {
                                 toastr.error("Failed to Load Company Products . Error: " + response);
                             }
                         });
                     },
+
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
-                    updateItemsDataOnItemSelection = function (item) {
-
-                        toastr.success(item.id());
+                        updateItemsDataOnItemSelection = function(item) {
+                            dataservice.getItemsDetailsByItemId({
+                                itemId: item.id()
+                            }, {
+                                success: function(data) {
+                                    if (data != null) {
+                                        item.itemStockOptions.removeAll();
+                                        item.itemPriceMatrices.removeAll();
+                                        _.each(data.ItemStockOptions, function(itemStockoption) {
+                                            var itemToBePushed = new model.ItemStockOption.Create(itemStockoption);
+                                            item.itemStockOptions.push(itemToBePushed);
+                                        });
+                                        _.each(data.ItemPriceMatrices, function(itemPriceMatrix) {
+                                            var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
+                                            item.itemPriceMatrices.push(itemToBePushed);
+                                        });
+                                        selecteditem(item);
+                                    }
+                                },
+                                error: function(response) {
+                                    toastr.error("Failed to Load Company Products . Error: " + response);
+                                }
+                            });
                     },
-                    onCloseProductFromRetailStore = function () {
+                        onCloseProductFromRetailStore = function() {
                         view.hideProductFromRetailStoreModal();
                     },
+                        //Selected Stock Option Name
+                        selectedStockOptionName = ko.observable(),
+                        //Filtered Item Price matrix List
+                        filteredItemPriceMatrixList = ko.observableArray([]),
+                        //Selected Stock Option Sequence Number
+                        selectedStockOptionSequenceNumber = ko.observable(),
+                        //SelectedStockOption
+                        selectedStockOption = ko.observable(),
+                        //On Product From Retail Store update Item price matrix table and Add on Table 
+                        updateViewOnStockOptionChange = ko.computed(function () {
+                            if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
+                                return;
+                            }
+                            var count = 0;
+                            _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
+                                count = count + 1;
+                                if (itemStockOption.id() == selectedStockItem()) {
+                                    selectedStockOptionName(itemStockOption.label());
+                                    selectedStockOptionSequenceNumber(count);
+                                    selectedStockOption(itemStockOption);
+                                }
+                            });
+                        }),
+                        //#endregion
                     //Get Inventories
                     getInventoriesListItems = function () {
                         dataservice.getInventoriesList({
@@ -948,8 +1043,8 @@ define("order/order.viewModel",
                             // calculate Price Of Delievry Selected Schedule 
                             if (selectedItem && selectedDeliverySchedule().quantity() !== undefined && selectedItem.qty1NetTotal() !== undefined && selectedItem.qty1() !== undefined) {
                                 var perUnitPrice = parseInt(selectedDeliverySchedule().quantity()) / parseInt(selectedItem.qty1());
-                                var netPrice = parseInt(selectedItem.qty1NetTotal());
-                                selectedDeliverySchedule().price(perUnitPrice * netPrice);
+                                var netPrice = parseFloat(selectedItem.qty1NetTotal()).toFixed(2);
+                                selectedDeliverySchedule().price(perUnitPrice * netPrice).toFixed(2);
                             }
                         }
                     }),
@@ -1024,12 +1119,46 @@ define("order/order.viewModel",
                          }
 
                      },
+                    getPtvPlan = function () {
+                        isLoadingOrders(true);
+                        dataservice.getPTV({
+                            orientation: 1,
+                            reversRows: 0,
+                            revrseCols: 0,
+                            isDoubleSided: false,
+                            isWorknTurn: false,
+                            isWorknTumble:false,
+                            applyPress: false,
+                            itemHeight: 300,
+                            itemWidth: 400,
+                            printHeight: 300,
+                            printWidth: 400,
+                            grip: 1,
+                            gripDepth: 0,
+                            headDepth: 0,
+                            printGutter: 0,
+                            horizentalGutter: 0,
+                            verticalGutter:0
+                        }, {
+                            success: function (data) {                                
+                                if (data != null) {
+                                        
+                                    
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load PTV Data." + response);
+                            }
+                        });
+                    },
                     // Template Chooser For Delivery Schedule
                      templateToUseDeliverySchedule = function (deliverySchedule) {
                          return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
                      };
-                //#endregion
-                //#endregion
+                    //#endregion
+                    //#endregion
 
                 return {
                     // #region Observables
@@ -1091,6 +1220,11 @@ define("order/order.viewModel",
                     itemCodeHeader: itemCodeHeader,
                     sectionHeader: sectionHeader,
                     onAddInventoryItem: onAddInventoryItem,
+                    selecteditem: selecteditem,
+                    selectedStockItem: selectedStockItem,
+                    selectedStockOptionName: selectedStockOptionName,
+                    selectedStockOptionSequenceNumber: selectedStockOptionSequenceNumber,
+                    selectedStockOption: selectedStockOption,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -1127,6 +1261,7 @@ define("order/order.viewModel",
                     onChangeQty1MarkUpId: onChangeQty1MarkUpId,
                     onChangeQty2MarkUpId: onChangeQty2MarkUpId,
                     onChangeQty3MarkUpId: onChangeQty3MarkUpId,
+                    vatList: vatList,
                     //#endregion
                     //#region Pre Payment
                     paymentMethods: paymentMethods,
@@ -1146,6 +1281,7 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
+                    getPtvPlan: getPtvPlan
                     //#endregion
                 };
             })()

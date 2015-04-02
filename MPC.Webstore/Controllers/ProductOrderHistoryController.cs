@@ -138,6 +138,7 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               ViewBag.TotalOrder = ordersList.Count;
                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                {
                    ViewBag.res = null;
@@ -148,7 +149,6 @@ namespace MPC.Webstore.Controllers
                }
         }
 
-       
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
         {
@@ -200,17 +200,9 @@ namespace MPC.Webstore.Controllers
         public JsonResult OrderResult(long OrderId)
         {
               long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
-              UserCookieManager.OrderId = UpdatedOrder;
-              //JasonResponseObject obj = new JasonResponseObject();
-            //obj.billingAddress = _orderService.GetBillingAddress(159296);
-           
-            //var formatter = new JsonMediaTypeFormatter();
-            //var json = formatter.SerializerSettings;
-            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
-            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-           // Response.Write(list);
-
-           return Json(true,JsonRequestBehavior.DenyGet);
+              UserCookieManager.WEBOrderId = UpdatedOrder;
+          
+              return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
         }
         [HttpPost]
         public JsonResult DownLoadArtWork(long OrderId)

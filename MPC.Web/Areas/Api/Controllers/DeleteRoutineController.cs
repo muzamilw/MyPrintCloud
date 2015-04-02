@@ -47,5 +47,22 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
+        [HttpGet]
+        public bool DeleteProduct(long parameter1, string parameter2)
+        {
+            try
+            {
+                long param2 = Convert.ToInt64(parameter2);
+                return itemService.DeleteItem(parameter1, param2);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+
+
     }
 }

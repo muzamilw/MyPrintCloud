@@ -425,7 +425,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Address3,
             source.City,
             source.StateId,
-            source.Country,
+            source.CountryId,
             source.StateName,
             source.CountryName,
             source.PostCode,
@@ -1214,7 +1214,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
-    var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+    var Store = function (specifiedStoreId,specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -1226,6 +1226,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
+            //storeId is used for select store dropdown on crm prospect/customer screen
+            storeId = ko.observable(specifiedStoreId),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -1356,6 +1358,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
+                storeId: storeId,
                 companyId: companyId,
                 name: name,
                 status: status,
@@ -1422,6 +1425,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
+                result.StoreId = source.storeId();
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
@@ -1539,6 +1543,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
         self = {
             //#region SELF
+            storeId: storeId,
             companyId: companyId,
             name: name,
             status: status,
@@ -1623,6 +1628,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.CreateFromClientModel = function (source) {
         var result = new Store(
+            source.storeId,
             source.companyId,
             source.name,
             source.status,
@@ -1675,6 +1681,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.Create = function (source) {
         var store = new Store(
+            source.StoreId,
             source.CompanyId,
             source.Name,
             source.Status,

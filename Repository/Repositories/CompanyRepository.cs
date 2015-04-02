@@ -65,6 +65,17 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public IEnumerable<Company> GetAllRetailAndCorporateStores()
+        {
+            try
+            {
+                return DbSet.Where(c => c.OrganisationId == OrganisationId && (c.IsCustomer == 3 || c.IsCustomer == 4)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public long GetStoreIdFromDomain(string domain)
         {
@@ -201,6 +212,7 @@ namespace MPC.Repository.Repositories
                         c.TaxRate,
                         c.IsDisplayDiscountVoucherCode,
                         c.PriceFlagId,
+                        c.StoreId,
                         RaveReviews = c.RaveReviews.OrderBy(r => r.SortOrder).ToList(),
                         CmsPages = c.CmsPages.Where(page => page.isUserDefined==true).Take(5).Select(cms => new
                         {
@@ -329,6 +341,7 @@ namespace MPC.Repository.Repositories
                         TaxLabel = c.TaxLabel,
                         PriceFlagId = c.PriceFlagId,
                         TaxRate = c.TaxRate,
+                        StoreId = c.StoreId,
                         CmsPages = c.CmsPages.Select(cms => new CmsPage
                         {
                             PageId = cms.PageId,
@@ -397,6 +410,211 @@ namespace MPC.Repository.Repositories
                             ? company.SystemPages
                             : new List<CmsPage>()
                 };
+                companyResponse.Company = company;
+                return companyResponse;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
+        }
+        public CompanyResponse GetCompanyByIdForCrm(long companyId)
+        {
+            try
+            {
+                CompanyResponse companyResponse = new CompanyResponse();
+                var company = db.Companies.Include(c => c.CmsPages)
+                    .Include(c => c.Addresses)
+                    .Include(c => c.CompanyContacts)
+                    .Include(c => c.CompanyTerritories)
+                    .Where(c => c.CompanyId == companyId)
+                    .Select(c => new
+                    {
+                        c.CompanyId,
+                        c.Name,
+                        c.AccountNumber,
+                        c.URL,
+                        c.CreditReference,
+                        c.CreditLimit,
+                        c.Terms,
+                        c.TypeId,
+                        c.DefaultMarkUpId,
+                        c.AccountOpenDate,
+                        c.AccountManagerId,
+                        c.DefaultNominalCode,
+                        c.CurrentThemeId,
+                        c.Status,
+                        c.IsCustomer,
+                        c.Notes,
+                        c.IsDisabled,
+                        c.AccountBalance,
+                        c.CreationDate,
+                        c.VATRegNumber,
+                        c.VATRegReference,
+                        c.FlagId,
+                        c.PhoneNo,
+                        c.IsGeneral,
+                        c.WebAccessCode,
+                        c.isArchived,
+                        c.PayByPersonalCredeitCard,
+                        c.PONumberRequired,
+                        c.ShowPrices,
+                        c.isDisplayBanners,
+                        c.isDisplayMenuBar,
+                        c.isDisplaySecondaryPages,
+                        c.isAllowRegistrationFromWeb,
+                        c.isDisplayFeaturedProducts,
+                        c.isDisplayPromotionalProducts,
+                        c.isDisplaySiteFooter,
+                        c.isDisplaySiteHeader,
+                        c.isShowGoogleMap,
+                        c.RedirectWebstoreURL,
+                        c.isTextWatermark,
+                        c.WatermarkText,
+                        c.MapImageUrl,
+                        c.facebookAppId,
+                        c.facebookAppKey,
+                        c.twitterAppId,
+                        c.twitterAppKey,
+                        c.TwitterURL,
+                        c.isStoreModePrivate,
+                        c.TaxPercentageId,
+                        c.canUserPlaceOrderWithoutApproval,
+                        c.CanUserEditProfile,
+                        c.SalesAndOrderManagerId1,
+                        c.SalesAndOrderManagerId2,
+                        c.ProductionManagerId1,
+                        c.ProductionManagerId2,
+                        c.StockNotificationManagerId1,
+                        c.StockNotificationManagerId2,
+                        c.IsDeliveryTaxAble,
+                        c.IsDisplayDeliveryOnCheckout,
+                        c.isPaymentRequired,
+                        c.isIncludeVAT,
+                        c.includeEmailArtworkOrderReport,
+                        c.includeEmailArtworkOrderXML,
+                        c.includeEmailArtworkOrderJobCard,
+                        c.StoreBackgroundImage,
+                        c.makeEmailArtworkOrderProductionReady,
+                        c.CompanyType,
+                        c.PickupAddressId,
+                        c.WebAnalyticCode,
+                        c.WebMasterTag,
+                        c.FacebookURL,
+                        c.LinkedinURL,
+                        c.isCalculateTaxByService,
+                        c.isWhiteLabel,
+                        c.TaxLabel,
+                        c.TaxRate,
+                        c.IsDisplayDiscountVoucherCode,
+                        c.PriceFlagId,
+                        c.StoreId,
+                        c.CompanyCMYKColors,
+                        c.CompanyBannerSets,
+                        c.PaymentGateways,
+                        ProductCategories = c.ProductCategories.Where(pc => pc.ParentCategoryId == null),
+                        c.MediaLibraries,
+                        c.CompanyDomains,
+                        c.CmsOffers,
+                        c.CompanyCostCentres,
+                        CompanyTerritories = c.CompanyTerritories.Take(1).ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList(),
+                        c.Image,
+                        c.ActiveBannerSetId,
+                        c.OrganisationId
+                    }).ToList().Select(c => new Company
+                    {
+                        CompanyId = c.CompanyId,
+                        Name = c.Name,
+                        AccountNumber = c.AccountNumber,
+                        URL = c.URL,
+                        CreditReference = c.CreditReference,
+                        CreditLimit = c.CreditLimit,
+                        Terms = c.Terms,
+                        TypeId = c.TypeId,
+                        DefaultMarkUpId = c.DefaultMarkUpId,
+                        AccountOpenDate = c.AccountOpenDate,
+                        AccountManagerId = c.AccountManagerId,
+                        DefaultNominalCode = c.DefaultNominalCode,
+                        Status = c.Status,
+                        IsCustomer = c.IsCustomer,
+                        Notes = c.Notes,
+                        IsDisabled = c.IsDisabled,
+                        CurrentThemeId = c.CurrentThemeId,
+                        AccountBalance = c.AccountBalance,
+                        CreationDate = c.CreationDate,
+                        VATRegNumber = c.VATRegNumber,
+                        VATRegReference = c.VATRegReference,
+                        FlagId = c.FlagId,
+                        PhoneNo = c.PhoneNo,
+                        IsDisplayDiscountVoucherCode = c.IsDisplayDiscountVoucherCode,
+                        isWhiteLabel = c.isWhiteLabel,
+                        IsGeneral = c.IsGeneral,
+                        WebAccessCode = c.WebAccessCode,
+                        isArchived = c.isArchived,
+                        PayByPersonalCredeitCard = c.PayByPersonalCredeitCard,
+                        PONumberRequired = c.PONumberRequired,
+                        ShowPrices = c.ShowPrices,
+                        isDisplayBanners = c.isDisplayBanners,
+                        isDisplayMenuBar = c.isDisplayMenuBar,
+                        isDisplaySecondaryPages = c.isDisplaySecondaryPages,
+                        isAllowRegistrationFromWeb = c.isAllowRegistrationFromWeb,
+                        isDisplayFeaturedProducts = c.isDisplayFeaturedProducts,
+                        isDisplayPromotionalProducts = c.isDisplayPromotionalProducts,
+                        isDisplaySiteFooter = c.isDisplaySiteFooter,
+                        isDisplaySiteHeader = c.isDisplaySiteHeader,
+                        isShowGoogleMap = c.isShowGoogleMap,
+                        RedirectWebstoreURL = c.RedirectWebstoreURL,
+                        isTextWatermark = c.isTextWatermark,
+                        WatermarkText = c.WatermarkText,
+                        MapImageUrl = c.MapImageUrl,
+                        facebookAppId = c.facebookAppId,
+                        facebookAppKey = c.facebookAppKey,
+                        twitterAppId = c.twitterAppId,
+                        twitterAppKey = c.twitterAppKey,
+                        TwitterURL = c.TwitterURL,
+                        isStoreModePrivate = c.isStoreModePrivate,
+                        TaxPercentageId = c.TaxPercentageId,
+                        canUserPlaceOrderWithoutApproval = c.canUserPlaceOrderWithoutApproval,
+                        CanUserEditProfile = c.CanUserEditProfile,
+                        SalesAndOrderManagerId1 = c.SalesAndOrderManagerId1,
+                        SalesAndOrderManagerId2 = c.SalesAndOrderManagerId2,
+                        ProductionManagerId1 = c.ProductionManagerId1,
+                        ProductionManagerId2 = c.ProductionManagerId2,
+                        StockNotificationManagerId1 = c.StockNotificationManagerId1,
+                        StockNotificationManagerId2 = c.StockNotificationManagerId2,
+                        IsDeliveryTaxAble = c.IsDeliveryTaxAble,
+                        IsDisplayDeliveryOnCheckout = c.IsDisplayDeliveryOnCheckout,
+                        isPaymentRequired = c.isPaymentRequired,
+                        isIncludeVAT = c.isIncludeVAT,
+                        includeEmailArtworkOrderReport = c.includeEmailArtworkOrderReport,
+                        includeEmailArtworkOrderXML = c.includeEmailArtworkOrderXML,
+                        includeEmailArtworkOrderJobCard = c.includeEmailArtworkOrderJobCard,
+                        StoreBackgroundImage = c.StoreBackgroundImage,
+                        makeEmailArtworkOrderProductionReady = c.makeEmailArtworkOrderProductionReady,
+                        CompanyType = c.CompanyType,
+                        PickupAddressId = c.PickupAddressId,
+                        WebAnalyticCode = c.WebAnalyticCode,
+                        WebMasterTag = c.WebMasterTag,
+                        FacebookURL = c.FacebookURL,
+                        LinkedinURL = c.LinkedinURL,
+                        isCalculateTaxByService = c.isCalculateTaxByService,
+                        TaxLabel = c.TaxLabel,
+                        PriceFlagId = c.PriceFlagId,
+                        TaxRate = c.TaxRate,
+                        StoreId = c.StoreId,
+                        Image = c.Image,
+                        ActiveBannerSetId = c.ActiveBannerSetId,
+                        OrganisationId = c.OrganisationId,
+                        CompanyTerritories = c.CompanyTerritories.ToList(),
+                        Addresses = c.Addresses.ToList(),
+                        CompanyContacts = c.CompanyContacts.ToList()
+                    }).FirstOrDefault();
+
+               
                 companyResponse.Company = company;
                 return companyResponse;
             }
@@ -1953,6 +2171,7 @@ namespace MPC.Repository.Repositories
             }
             return Result;
         }
+
         /// <summary>
         /// Get Company By Is Customer Type
         /// </summary>
@@ -2040,7 +2259,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets)
+        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain)
         {
             try
             {
@@ -2120,6 +2339,9 @@ namespace MPC.Repository.Repositories
                         string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
                         string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
+
+                        
+                            
                         if (StoreName == SName)
                         {
                             Company comp = new Company();
@@ -2127,6 +2349,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetail.RetailCompany.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2173,6 +2398,14 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCID = comp.CompanyId;
 
+                          
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCID;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2264,8 +2497,10 @@ namespace MPC.Repository.Repositories
                             Company comp = new Company();
                             comp = objExpRetailWOP.RetailCompany;
                             comp.OrganisationId = OrganisationID;
-                            comp.Name = objExpRetailWOP.RetailCompany.Name + "- Copy";
+                            comp.Name = objExpRetailWOP.RetailCompany.Name;
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2312,6 +2547,13 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCIDWOP = comp.CompanyId;
 
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCIDWOP;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2405,6 +2647,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporate.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2442,6 +2687,15 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCID = comp.CompanyId;
+
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCID;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2547,6 +2801,7 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporateWOP.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2584,6 +2839,14 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCIDWOP = comp.CompanyId;
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCIDWOP;
+                            db.CompanyDomains.Add(domain);
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2717,7 +2980,7 @@ namespace MPC.Repository.Repositories
                         db.SaveChanges();
                         dbContextTransaction.Commit();
 
-                        string SourceImportOrg = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore");
+                        string SourceImportOrg = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore");
 
                         if (Directory.Exists(SourceImportOrg))
                         {
@@ -3837,10 +4100,10 @@ namespace MPC.Repository.Repositories
 
                         CompanylogoPathNew = CompanyPathOld.Replace(OldCompanyID + "_", oCID + "_");
 
-                        string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/" + CompanylogoPathNew);
+                        string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/" + CompanylogoPathNew);
                         DestinationsPath.Add(DestinationCompanyLogoFilePath);
-                        string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
-                        string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/" + CompanyPathOld);
+                        string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
+                        string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/" + CompanyPathOld);
                         if (!System.IO.Directory.Exists(DestinationCompanyLogoDirectory))
                         {
                             Directory.CreateDirectory(DestinationCompanyLogoDirectory);
@@ -3889,10 +4152,10 @@ namespace MPC.Repository.Repositories
                                 OldContactImage = Path.GetFileName(contact.image);
                                 NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
 
-                                DestinationContactFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
+                                DestinationContactFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
                                 DestinationsPath.Add(DestinationContactFilesPath);
-                                string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Contacts/" + contact.ContactId);
-                                string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
+                                string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Contacts/" + contact.ContactId);
+                                string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
                                 if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationContactFilesDirectory);
@@ -3952,10 +4215,10 @@ namespace MPC.Repository.Repositories
                                 OldMediaFilePath = Path.GetFileName(media.FilePath);
                                 NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
 
-                                DestinationMediaFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + NewMediaFilePath);
+                                DestinationMediaFilesPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + NewOrgID + "/" + oCID + "/" + NewMediaFilePath);
                                 DestinationsPath.Add(DestinationMediaFilesPath);
-                                string DestinationMediaFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + NewOrgID + "/" + oCID);
-                                string MediaFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Media/" + oldOrgID + "/" + OldCompanyID + "/" + OldMediaFilePath);
+                                string DestinationMediaFilesDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Media/" + NewOrgID + "/" + oCID);
+                                string MediaFilesSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Media/" + oldOrgID + "/" + OldCompanyID + "/" + OldMediaFilePath);
                                 if (!System.IO.Directory.Exists(DestinationMediaFilesDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationMediaFilesDirectory);
@@ -4060,10 +4323,10 @@ namespace MPC.Repository.Repositories
 
 
 
-                                DestinationThumbPathCat = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath);
+                                DestinationThumbPathCat = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath);
                                 DestinationsPath.Add(DestinationThumbPathCat);
-                                string DestinationThumbDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories");
-                                string ThumbSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/ProductCategories/" + OldThumbnailPath);
+                                string DestinationThumbDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories");
+                                string ThumbSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/ProductCategories/" + OldThumbnailPath);
                                 if (!System.IO.Directory.Exists(DestinationThumbDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationThumbDirectory);
@@ -4107,10 +4370,10 @@ namespace MPC.Repository.Repositories
                                 OldImagePath = Path.GetFileName(prodCat.ImagePath);
                                 NewImagePath = OldImagePath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
 
-                                DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewImagePath);
+                                DestinationImagePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewImagePath);
                                 DestinationsPath.Add(DestinationImagePath);
-                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories");
-                                string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/ProductCategories/" + OldImagePath);
+                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories");
+                                string ImageSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/ProductCategories/" + OldImagePath);
 
                                 if (!System.IO.Directory.Exists(DestinationImageDirectory))
                                 {
@@ -4166,10 +4429,10 @@ namespace MPC.Repository.Repositories
                                 NewThumbnailPath = OldThumbnailPath.Replace(ItemID + "_", item.ItemId + "_");
 
 
-                                DestinationThumbnailPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewThumbnailPath);
+                                DestinationThumbnailPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewThumbnailPath);
                                 DestinationsPath.Add(DestinationThumbnailPath);
-                                string DestinationThumbnailDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string ThumbnailSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldThumbnailPath);
+                                string DestinationThumbnailDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string ThumbnailSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldThumbnailPath);
                                 if (!System.IO.Directory.Exists(DestinationThumbnailDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationThumbnailDirectory);
@@ -4217,10 +4480,10 @@ namespace MPC.Repository.Repositories
                                 NewImagePath = OldImagePath.Replace(ItemID + "_", item.ItemId + "_");
 
 
-                                DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewImagePath);
+                                DestinationImagePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewImagePath);
                                 DestinationsPath.Add(DestinationImagePath);
-                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldImagePath);
+                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string ImageSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldImagePath);
                                 if (!System.IO.Directory.Exists(DestinationImageDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationImageDirectory);
@@ -4265,10 +4528,10 @@ namespace MPC.Repository.Repositories
                                 OldGridPath = Path.GetFileName(item.GridImage);
                                 NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationGridPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewGridPath);
+                                DestinationGridPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewGridPath);
                                 DestinationsPath.Add(DestinationGridPath);
-                                string DestinationGridDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string GridSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldGridPath);
+                                string DestinationGridDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string GridSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldGridPath);
                                 if (!System.IO.Directory.Exists(DestinationGridDirectory))
                                 {
                                     Directory.CreateDirectory(DestinationGridDirectory);
@@ -4313,10 +4576,10 @@ namespace MPC.Repository.Repositories
                                 OldF1Path = Path.GetFileName(item.File1);
                                 NewF1Path = OldF1Path.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationFile1Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF1Path);
+                                DestinationFile1Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF1Path);
                                 DestinationsPath.Add(DestinationFile1Path);
-                                string DestinationFile1Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string File1SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF1Path);
+                                string DestinationFile1Directory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string File1SourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF1Path);
                                 if (!System.IO.Directory.Exists(DestinationFile1Directory))
                                 {
                                     Directory.CreateDirectory(DestinationFile1Directory);
@@ -4363,10 +4626,10 @@ namespace MPC.Repository.Repositories
                                 OldF2Path = Path.GetFileName(item.File2);
                                 NewF2Path = OldF2Path.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationFile2Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF2Path);
+                                DestinationFile2Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF2Path);
                                 DestinationsPath.Add(DestinationFile2Path);
-                                string DestinationFile2Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string File2SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF2Path);
+                                string DestinationFile2Directory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string File2SourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF2Path);
                                 if (!System.IO.Directory.Exists(DestinationFile2Directory))
                                 {
                                     Directory.CreateDirectory(DestinationFile2Directory);
@@ -4411,10 +4674,10 @@ namespace MPC.Repository.Repositories
                                 OldF3Path = Path.GetFileName(item.File3);
                                 NewF3Path = OldF3Path.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationFil3Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF3Path);
+                                DestinationFil3Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF3Path);
                                 DestinationsPath.Add(DestinationFil3Path);
-                                string DestinationFile3Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string File3SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF3Path);
+                                string DestinationFile3Directory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string File3SourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF3Path);
                                 if (!System.IO.Directory.Exists(DestinationFile3Directory))
                                 {
                                     Directory.CreateDirectory(DestinationFile3Directory);
@@ -4459,10 +4722,10 @@ namespace MPC.Repository.Repositories
                                 OldF4Path = Path.GetFileName(item.File4);
                                 NewF4Path = OldF4Path.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationFile4Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF4Path);
+                                DestinationFile4Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF4Path);
                                 DestinationsPath.Add(DestinationFile4Path);
-                                string DestinationFile4Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string File4SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF4Path);
+                                string DestinationFile4Directory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string File4SourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF4Path);
                                 if (!System.IO.Directory.Exists(DestinationFile4Directory))
                                 {
                                     Directory.CreateDirectory(DestinationFile4Directory);
@@ -4507,10 +4770,10 @@ namespace MPC.Repository.Repositories
                                 OldF5Path = Path.GetFileName(item.File5);
                                 NewF5Path = OldF5Path.Replace(ItemID + "_", item.ItemId + "_");
 
-                                DestinationFile5Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF5Path);
+                                DestinationFile5Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF5Path);
                                 DestinationsPath.Add(DestinationFile5Path);
-                                string DestinationFile5Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                string File5SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF5Path);
+                                string DestinationFile5Directory = HttpContext.Current.Server.MapPath("~/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
+                                string File5SourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + OldF5Path);
                                 if (!System.IO.Directory.Exists(DestinationFile5Directory))
                                 {
                                     Directory.CreateDirectory(DestinationFile5Directory);
@@ -4554,19 +4817,19 @@ namespace MPC.Repository.Repositories
 
                                                 if (!string.IsNullOrEmpty(fonts.FontPath))
                                                 {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
 
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
 
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
 
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath);
+                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontPath);
 
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+                                                    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
 
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
 
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
 
                                                     if (!System.IO.Directory.Exists(DestinationFontDirectory))
                                                     {
@@ -4623,17 +4886,17 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
 
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts");
+                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts");
 
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                                    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
 
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
 
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
 
                                                     if (!System.IO.Directory.Exists(DestinationFontDirectory))
                                                     {
@@ -4715,10 +4978,10 @@ namespace MPC.Repository.Repositories
                                                     string OldTempID = tempID[0];
 
 
-                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/" + NewPath);
+                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/" + NewPath);
                                                     DestinationsPath.Add(DestinationTempBackGroundImages);
-                                                    string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/" + tempImg.ProductId);
-                                                    string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Designer/Organisation" + oldOrgID + "/Templates/" + OldTempID + "/" + ImageName);
+                                                    string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/" + tempImg.ProductId);
+                                                    string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + oldOrgID + "/Templates/" + OldTempID + "/" + ImageName);
                                                     if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
                                                     {
                                                         Directory.CreateDirectory(DestinationTempBackgroundDirectory);
@@ -4758,10 +5021,10 @@ namespace MPC.Repository.Repositories
                         }
                     }
                     // site.css
-                    DestinationSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Site.css");
+                    DestinationSiteFile = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Site.css");
                     DestinationsPath.Add(DestinationSiteFile);
-                    string DestinationSiteFileDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
-                    string SourceSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Site.css");
+                    string DestinationSiteFileDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
+                    string SourceSiteFile = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Site.css");
                     if (!System.IO.Directory.Exists(DestinationSiteFileDirectory))
                     {
                         Directory.CreateDirectory(DestinationSiteFileDirectory);
@@ -4789,10 +5052,10 @@ namespace MPC.Repository.Repositories
                     }
 
                     // sprite.png
-                    DestinationSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Sprite.png");
+                    DestinationSpriteFile = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/Sprite.png");
                     DestinationsPath.Add(DestinationSpriteFile);
-                    string DestinationSpriteDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
-                    string SourceSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Sprite.png");
+                    string DestinationSpriteDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + NewOrgID + "/" + oCID);
+                    string SourceSpriteFile = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Assets/" + oldOrgID + "/" + OldCompanyID + "/Sprite.png");
                     if (!System.IO.Directory.Exists(DestinationSpriteDirectory))
                     {
                         Directory.CreateDirectory(DestinationSpriteDirectory);

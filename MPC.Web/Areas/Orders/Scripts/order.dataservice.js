@@ -69,6 +69,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Items Details By Item Id
+                    amplify.request.define('getItemsDetailsByItemId', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrderRetailStoreDetail',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get cost centers By CompanyId
                     amplify.request.define('getCostCentersByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyCostCenters',
@@ -78,6 +84,12 @@ define("order/order.dataservice", function () {
                     // Define request to get Inventory Stock Items
                     amplify.request.define('getInventoriesList', 'ajax', {
                         url: ist.siteUrl + '/Api/Inventory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTV', 'ajax', {
+                        url: ist.siteUrl + '/Api/DrawPtv',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -163,11 +175,31 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            // get Items Detail by id
+            getItemsDetailsByItemId = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getItemsDetailsByItemId',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
                 // get Stock items
             getInventoriesList = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getInventoriesList',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+                 // get Stock items
+            getPTV = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTV',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -194,7 +226,9 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
-            getInventoriesList: getInventoriesList
+            getInventoriesList: getInventoriesList,
+            getItemsDetailsByItemId: getItemsDetailsByItemId,
+            getPTV: getPTV
         };
     })();
 

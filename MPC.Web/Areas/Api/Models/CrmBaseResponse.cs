@@ -11,6 +11,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<RegistrationQuestionDropDown> RegistrationQuestions { get; set; }
         public IEnumerable<CountryDropDown> Countries { get; set; }
         public IEnumerable<StateDropDown> States { get; set; }
+        public IEnumerable<StoresListDropDown> StoresListDropDown { get; set; }
 
         public byte[] DefaultSpriteImage { get; set; }
 

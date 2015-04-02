@@ -1586,7 +1586,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Address3,
             source.City,
             source.StateId,
-            source.Country,
+            source.CountryId,
             source.StateName,
             source.CountryName,
             source.PostCode,

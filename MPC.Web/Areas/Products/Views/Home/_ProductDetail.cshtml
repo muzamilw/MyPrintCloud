@@ -17,7 +17,8 @@
                     </div>
                     <div class="pull-right top-page-ui">
                         <button class="btn btn-success" id="editTemplate" data-bind="click: $root.editTemplate, visible: $root.canEditTemplateFromEditor">Edit Template</button>
-                        <button class="btn btn-danger" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
+                        <button class="btn btn-danger" data-bind="click: $root.onDeleteProduct, visible: id() > 0">Delete</button>
+                        <button class="btn" data-bind="click: $root.onArchiveProduct, visible: id() > 0">Archive</button>
                         <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveProduct, css: { 'btn-warning': hasChanges }, enable: hasChanges() && !$root.pageHasErrors()">Save</button>
                         <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseProductEditor">Cancel</button>
                     </div>
@@ -423,7 +424,7 @@
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
                                                 <label class="control-label text-right" for="switchIsUploadImage">End User must upload Files or Artwork (pdf,jpg,eps,tiff,csv,xls,xlsx) to order this product? </label>
-                                               
+
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -469,26 +470,26 @@
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="col-lg-7 text-right" style="margin-right:35px;">
+                                        @*<div class="form-group">
+                                                <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Add crop marks to artwork in editor</label>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAddCropMarksProduct" data-bind="checked: isAddCropMarks">
-                                                    <label class="onoffswitch-label" for="switchAddCropMarksProduct">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
+                                                    <label class="control-label text-right tooltip-float" for="switchFeaturedProduct">Add crop marks to artwork in editor</label>
                                                 </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>
+                                                <div class="col-lg-3">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchAddCropMarksProduct" data-bind="checked: isAddCropMarks">
+                                                        <label class="onoffswitch-label" for="switchAddCropMarksProduct">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right" style="margin-right:35px;">
 
-                                                <label class="control-label text-right tooltip-float" for="switchPrintCropMarksProduct">Output crop marks on final artwork (PDF)</label>
+                                                <label class="control-label text-right tooltip-float" for="switchPrintCropMarksProduct">Add crop marks to artwork in editor</label>
                                             </div>
                                             <div class="col-lg-3">
                                                 <div class="onoffswitch">
@@ -2094,7 +2095,7 @@
                                             <header class="main-box-header clearfix">
                                                 <div class="filter-block pull-right">
 
-                                                    <a href="#" class="btn btn-primary pull-right" data-bind="click: addTemplatePage">
+                                                    <a href="#" id="addTemplatePageBtn" class="btn btn-primary pull-right" data-bind="click: addTemplatePage, validationOnElement: isCreatedManual">
                                                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Page
                                                     </a>
                                                 </div>

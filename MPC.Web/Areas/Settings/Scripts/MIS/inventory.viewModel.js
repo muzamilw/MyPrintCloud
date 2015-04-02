@@ -607,7 +607,7 @@ define("inventory/inventory.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
-                        pager(pagination.Pagination({ PageSize: 5 }, inventories, getInventoriesListItems));
+                        pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
 
                     };
                 // #endregion Arrays

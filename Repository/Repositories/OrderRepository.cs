@@ -1745,12 +1745,12 @@ namespace MPC.Repository.Repositories
 
                     foreach (SystemUser stRec in listOfManagers)
                     {
-                        obj.SystemUserID = stRec.SystemUserId;
+                        obj.SystemUserId = stRec.SystemUserId;
                         obj.SalesManagerContactID = salesId;
-                        obj.StoreID = CompanyId;
+                        obj.StoreId = CompanyId;
                         obj.CompanyId = CompanyId;
-                        obj.CompanySiteID = 1;
-                        obj.ItemID = (int)itemId;
+                        obj.OrganisationId = 1;
+                        obj.ItemId = (int)itemId;
                         obj.ContactId = contactId;
                         obj.orderedItemID = (int)orderedItemid;
                         //emailBodyGenerator(stockCampaign, SeverSettings, obj, null, ModeOfStore, "", "", "", stRec.Email, stRec.FullName);
@@ -2112,7 +2112,7 @@ namespace MPC.Repository.Repositories
                 //   // dbContext.Dispose();
                 //   // dbContext = null;
                 //}
-                return OrderIdOfReorderItems;
+                return shopCartOrder.EstimateId;
             //}
         }
         public string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
@@ -2700,12 +2700,25 @@ namespace MPC.Repository.Repositories
         {
           try
           {
+              db.usp_DeleteOrderByID(OrderID);
 
           }
           catch (Exception ex)
           {
               throw ex;
           }
+        }
+        public void DeleteCart(long CompanyID)
+        {
+            try
+            {
+                db.usp_DeleteCarts(CompanyID);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public Estimate GetOrderByOrderID(long OrderID)
         {
