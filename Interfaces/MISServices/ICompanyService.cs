@@ -121,10 +121,10 @@ namespace MPC.Interfaces.MISServices
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
-        bool ImportOrganisation(long OrganisationId, bool isCorpStore);
+        bool ImportOrganisation(long OrganisationId, bool isCorpStore,string SubDomain);
 
 
-        bool ImportStore(long OrganisationId, string StoreName);
+        bool ImportStore(long OrganisationId, string StoreName,string SubDomain);
         #endregion
 
        

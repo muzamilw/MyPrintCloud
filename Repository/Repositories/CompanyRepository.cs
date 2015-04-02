@@ -2041,7 +2041,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets)
+        public void InsertStore(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain)
         {
             try
             {
@@ -2121,6 +2121,9 @@ namespace MPC.Repository.Repositories
                         string SNameWOP = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
                         string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
+
+                        
+                            
                         if (StoreName == SName)
                         {
                             Company comp = new Company();
@@ -2128,6 +2131,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetail.RetailCompany.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2174,6 +2180,13 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCID = comp.CompanyId;
 
+                          
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCID;
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2267,6 +2280,8 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpRetailWOP.RetailCompany.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -2313,6 +2328,12 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCIDWOP = comp.CompanyId;
 
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oRetailCIDWOP;
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2406,6 +2427,9 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporate.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+
+                            comp.CompanyDomains = null;
+
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2443,6 +2467,14 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCID = comp.CompanyId;
+
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCID;
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4;
                             if (cmsPages != null && cmsPages.Count > 0)
@@ -2548,6 +2580,7 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporateWOP.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
+                            comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
@@ -2585,6 +2618,13 @@ namespace MPC.Repository.Repositories
                             db.Companies.Add(comp);
                             db.SaveChanges();
                             oCIDWOP = comp.CompanyId;
+
+                            // add companydomain
+                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            CompanyDomain domain = new CompanyDomain();
+                            domain.Domain = DomainName;
+                            domain.CompanyId = oCIDWOP;
+                            db.SaveChanges();
 
                             List<CmsPage> cmsPages = Sets.ExportStore4WOP;
                             if (cmsPages != null && cmsPages.Count > 0)
