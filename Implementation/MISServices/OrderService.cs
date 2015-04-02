@@ -989,6 +989,11 @@ namespace MPC.Implementation.MISServices
             }
         }
 
+        public PtvDTO GetPTVCalculation(PTVRequestModel request)
+        {
+            return CalculatePTV(request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, false, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, 1, request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.isWorknTrun, request.isWorknTumble);
+        }
+        
         #endregion
     }
 }
