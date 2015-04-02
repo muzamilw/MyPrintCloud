@@ -3074,7 +3074,7 @@ namespace MPC.Implementation.MISServices
         }
         public CompanyResponse GetCompanyById(long companyId)
         {
-            CompanyResponse response = companyRepository.GetCompanyById(companyId);
+            CompanyResponse response = companyRepository.GetCompanyByIdForCrm(companyId);
             int userCount = 0;
             int newOrdersCount = 0;
             if (response.Company != null && response.Company.StoreId != null)
@@ -3155,7 +3155,8 @@ namespace MPC.Implementation.MISServices
                 RegistrationQuestions = registrationQuestionRepository.GetAll(),
                 States = stateRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
-                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM)
+                SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((long)SectionEnum.CRM),
+                Companies = companyRepository.GetAllRetailAndCorporateStores()
             };
         }
         public void SaveFile(string filePath, long companyId)

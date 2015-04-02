@@ -129,6 +129,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                isWhiteLabel = source.isWhiteLabel,
                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -280,7 +281,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
                 CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
                 isCalculateTaxByService = source.isCalculateTaxByService,
-                PriceFlagId = source.PriceFlagId
+                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId
                 };
 
         }
@@ -376,6 +378,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                 isWhiteLabel = source.isWhiteLabel,
                 PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
@@ -539,6 +542,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,
+            };
+        }
+
+        public static StoresListDropDown CreateFromForDropDown(this DomainModels.Company source)
+        {
+            return new StoresListDropDown
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name
             };
         }
         #endregion
