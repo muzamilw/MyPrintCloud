@@ -280,7 +280,7 @@ define("order/order.dataservice", function () {
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
             getPTV: getPTV,
-            getBestPress: getBestPress
+            getBestPress: getBestPress,
             getPTVCalculation: getPTVCalculation
         };
     })();
