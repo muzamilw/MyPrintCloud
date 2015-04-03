@@ -600,6 +600,8 @@
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
+    <Content Include="Content\smoothslide.css" />
+    <Content Include="Content\smoothslides.theme.css" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
@@ -688,6 +690,7 @@
     <Content Include="Scripts\Designer\pvcc1.js" />
     <Content Include="Scripts\Designer\XMLWriter.js" />
     <Content Include="Scripts\input.watermark.js" />
+    <Content Include="Scripts\JavaScript1.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -711,6 +714,8 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\SlidingBanner.js" />
     <Content Include="Scripts\SmartFormJCarousel.js" />
+    <Content Include="Scripts\smoothslides.js" />
+    <Content Include="Scripts\smoothslides.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\TransparentPopup.js" />

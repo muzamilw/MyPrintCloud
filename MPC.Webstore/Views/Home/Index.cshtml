@@ -16,6 +16,7 @@
         <meta name="keywords" content="@ViewBag.MetaKeywords" />
     }
 }
+@{Html.RenderAction("Index", "ZoomSlider");}
 @foreach (var widget in Model)
 {
     if (widget.WidgetId == 14)
@@ -33,6 +34,6 @@
 
 }
 
-@*@{Html.RenderAction("Index", "ZoomSlider");}*@
+
 @*@{Html.RenderAction("Index", "HomePageBanner");}
 @{Html.RenderAction("Index", "HomePageBannerS4");}*@
