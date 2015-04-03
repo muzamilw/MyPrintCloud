@@ -389,6 +389,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />

@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to delete Order
+                    amplify.request.define('deleteOrder', 'ajax', {
+                        url: ist.siteUrl + '/Api/Order',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+
                     // Define request to get order by id
                     amplify.request.define('getOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
@@ -87,6 +94,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTV', 'ajax', {
+                        url: ist.siteUrl + '/Api/DrawPtv',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -126,7 +139,17 @@ define("order/order.dataservice", function () {
                     resourceId: 'getOrders',
                     data: params,
                     success: callbacks.success,
-                    error: callbacks.error,
+                    error: callbacks.error
+                });
+            },
+             // Delete Orders
+           deleteOrder = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteOrder',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
                 });
             },
             // Archive Order
@@ -189,6 +212,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                 // get Stock items
+            getPTV = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTV',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -210,8 +243,10 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
-            getInventoriesList: getInventoriesList,
-            getItemsDetailsByItemId: getItemsDetailsByItemId
+            getInventoriesList: getInventoriesList,          
+            getItemsDetailsByItemId: getItemsDetailsByItemId,
+            deleteOrder: deleteOrder,
+            getPTV: getPTV
         };
     })();
 

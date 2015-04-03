@@ -89,14 +89,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        public void Delete(OrderDeleteRequest request)
+        public Boolean Delete(OrderDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.OrderId <= 0)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
-
             orderService.DeleteOrder(request.OrderId);
+            return true;
         }
 
         #endregion

@@ -78,7 +78,7 @@
             </td>
             <td>
                 <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                <span class="user-subhead">Supplier</span>
+                <span class="user-subhead" data-bind="text:defaultContact"></span>
             </td>
             <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>
             @*<td>
@@ -91,7 +91,7 @@
             </td>*@
             <td>
                 <a href="#">
-
+                    <p data-bind="text:defaultContactEmail"></p>
                 </a>
             </td>
             @*<td style="width: 20%;">

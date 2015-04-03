@@ -546,7 +546,11 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                             });
                         }
-                    }
+                    },
+                    //Store Image Files Loaded Callback
+                orgImageLoadedCallback = function (file, data) {
+                    selectedMyOrganization().orgnizationImage(data);
+                },
                 //Search Nominal Code
                 searchNominalCode = function () {
                     var nominalCode = filteredNominalCodes()[0];
@@ -616,6 +620,7 @@ define("myOrganization/myOrganization.viewModel",
                     searchMarkup: searchMarkup,
                     getLanguageEditorDataByLanguageId: getLanguageEditorDataByLanguageId,
                     gotoElement: gotoElement,
+                    orgImageLoadedCallback: orgImageLoadedCallback
 
                 };
             })()

@@ -554,6 +554,18 @@
 #storesBinding #productDetailBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
   margin-top: -3px;
 }
+#storesBinding #tab-products .dd-item {
+  height: auto;
+  overflow: hidden;
+  clear: both;
+}
+#storesBinding #tab-products .dd-handle-list {
+  height: 90%;
+  overflow: hidden;
+}
+#storesBinding #tab-products .dd-handle {
+  height: auto;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -661,3 +673,4 @@
   margin-bottom: 30px;
   height: 63px;
 }
+/*# sourceMappingURL=MainSite.css.map */
