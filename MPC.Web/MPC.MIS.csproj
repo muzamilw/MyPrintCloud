@@ -299,6 +299,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\AddressController.cs" />
@@ -312,10 +314,11 @@
     <Compile Include="Areas\Api\Controllers\CompanyProductController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterTreeController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmBaseController.cs" />
+    <Compile Include="Areas\Api\Controllers\CrmContactController.cs" />
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
-    <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
+    <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
@@ -331,6 +334,7 @@
     <Compile Include="Areas\Api\Controllers\ImportExportOrganisationController.cs" />
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
@@ -342,13 +346,17 @@
     <Compile Include="Areas\Api\Controllers\CostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\MachineController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
+    <Compile Include="Areas\Api\Controllers\OrderRetailStoreDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\PTVCalculationController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
@@ -359,6 +367,7 @@
     <Compile Include="Areas\Api\ModelMappers\CategoryRegionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCentreMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCenterVariableTreeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\CostCentreAnswerMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
@@ -372,6 +381,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ScopeVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CompanyCostCenterMapper.cs" />
@@ -420,6 +430,8 @@
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
     <Compile Include="Areas\Api\Models\ActivityTypeDropDown.cs" />
     <Compile Include="Areas\Api\Models\AddressDropDown.cs" />
+    <Compile Include="Areas\Api\Models\BestPress.cs" />
+    <Compile Include="Areas\Api\Models\BestPressResponse.cs" />
     <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
@@ -434,11 +446,14 @@
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
     <Compile Include="Areas\Api\Models\CrmBaseResponse.cs" />
+    <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
@@ -452,7 +467,10 @@
     <Compile Include="Areas\Api\Models\MachineMeterPerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
+    <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
+    <Compile Include="Areas\Api\Models\PtvDTO.cs" />
+    <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
@@ -652,6 +670,7 @@
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
+    <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\SupplierForInventory.cs" />
     <Compile Include="Areas\Api\Models\SupplierSearchResponseForInventory.cs" />
@@ -965,6 +984,18 @@
     <Content Include="Content\Images\loaders\horizontal\058.gif" />
     <Content Include="Content\Images\loaders\horizontal\062.gif" />
     <Content Include="Content\Images\loaders\horizontal\063.gif" />
+    <Content Include="Content\Images\Ptv\back-down.gif" />
+    <Content Include="Content\Images\Ptv\back-downP.gif" />
+    <Content Include="Content\Images\Ptv\back-up.gif" />
+    <Content Include="Content\Images\Ptv\back-upP.gif" />
+    <Content Include="Content\Images\Ptv\back-upW.gif" />
+    <Content Include="Content\Images\Ptv\dotTexture.gif" />
+    <Content Include="Content\Images\Ptv\front-down.gif" />
+    <Content Include="Content\Images\Ptv\front-downP.gif" />
+    <Content Include="Content\Images\Ptv\front-up.gif" />
+    <Content Include="Content\Images\Ptv\front-upP.gif" />
+    <Content Include="Content\Images\Ptv\imgLongSide.gif" />
+    <Content Include="Content\Images\Ptv\imgShortSide.gif" />
     <Content Include="Content\layout.css" />
     <Content Include="Content\less\Inventory.css">
       <DependentUpon>Inventory.less</DependentUpon>
@@ -977,6 +1008,9 @@
     </Content>
     <Content Include="Content\less\CompanySelector.css">
       <DependentUpon>CompanySelector.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.min.css">
+      <DependentUpon>MainSite.css</DependentUpon>
     </Content>
     <Content Include="Content\less\Organisation.css">
       <DependentUpon>Organisation.less</DependentUpon>
@@ -995,6 +1029,9 @@
     </Content>
     <Content Include="Content\less\Store.css">
       <DependentUpon>Store.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\Store.min.css">
+      <DependentUpon>Store.css</DependentUpon>
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -1891,9 +1928,17 @@
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
-    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.dataservice.js" />
+    <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
+    <Content Include="Content\less\Store.css.map">
+      <DependentUpon>Store.css</DependentUpon>
+    </Content>
+    <Content Include="Content\less\MainSite.css.map">
+      <DependentUpon>MainSite.css</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3072,6 +3117,7 @@
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
+    <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
@@ -3079,9 +3125,11 @@
     <Folder Include="Areas\Api\Views\Invoice\" />
     <Folder Include="Areas\Api\Views\LookupMethod\" />
     <Folder Include="Areas\Api\Views\Machine\" />
+    <Folder Include="Areas\Api\Views\OrderRetailStoreDetail\" />
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Common\Controllers\" />

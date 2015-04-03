@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using MPC.ExceptionHandling;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
@@ -56,6 +57,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemImageRepository itemImageRepository;
         private readonly IOrganisationRepository organizationRepository;
         private readonly ISmartFormRepository smartFormRepository;
+        private readonly ILengthConversionService lengthConversionService;
 
         /// <summary>
         /// Create Item Vdp Price
@@ -331,7 +333,7 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Template Pages BackgroundFileName updation
         /// </summary>
-        private void UpdateTemplatePagesBackgroundFileNames(Item item, Item itemTarget)
+        private void UpdateTemplatePagesBackgroundFileNames(Item itemTarget)
         {
             if (itemTarget.Template != null && itemTarget.Template.ProductId > 0)
             {
@@ -341,6 +343,102 @@ namespace MPC.Implementation.MISServices
                     {
                         templatePage.BackgroundFileName = itemTarget.Template.ProductId + "/Side" + templatePage.PageNo + ".pdf";
                     }
+                }
+
+                // Convert Template Length to Points
+                ConvertTemplateLengthToPoints(itemTarget);
+            }
+        }
+
+        /// <summary>
+        /// Converts Template Length to Points
+        /// </summary>
+        private void ConvertTemplateLengthToPoints(Item itemTarget)
+        {
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
+
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
+            
+            if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
+            }
+
+            if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
+            }
+
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
+            {
+                return;
+            }
+
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
+                {
+                    templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Converts Template Length to System Unit
+        /// </summary>
+        private void ConvertTemplateLengthToSystemUnit(Item itemTarget)
+        {
+            if (itemTarget.Template == null || itemTarget.Template.ProductId <= 0)
+            {
+                return;
+            }
+
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
+
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
+
+            if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
+            }
+
+            if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
+            {
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
+            }
+
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
+            {
+                return;
+            }
+
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
+                {
+                    templatePage.Height = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Width.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -387,14 +485,14 @@ namespace MPC.Implementation.MISServices
             foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
             {
                 // Write Image
-                SaveItemStockOptionImage(target, mapPath, itemStockOption);
+                SaveItemStockOptionImage(mapPath, itemStockOption);
             }
         }
 
         /// <summary>
         /// Save Item Stock Option Image
         /// </summary>
-        private void SaveItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        private void SaveItemStockOptionImage(string mapPath, ItemStockOption itemStockOption)
         {
             string imageUrl = SaveImage(mapPath, itemStockOption.ImageURL,
                 itemStockOption.ItemStockOptionId + "_" + StringHelper.SimplifyString(itemStockOption.StockLabel) + "_StockOption_",
@@ -1003,14 +1101,14 @@ namespace MPC.Implementation.MISServices
             foreach (ItemStockOption itemStockOption in target.ItemStockOptions)
             {
                 // Write Image
-                CloneItemStockOptionImage(target, mapPath, itemStockOption);
+                CloneItemStockOptionImage(mapPath, itemStockOption);
             }
         }
 
         /// <summary>
         /// Clone Item Stock Option Image
         /// </summary>
-        private void CloneItemStockOptionImage(Item target, string mapPath, ItemStockOption itemStockOption)
+        private void CloneItemStockOptionImage(string mapPath, ItemStockOption itemStockOption)
         {
             if (string.IsNullOrEmpty((itemStockOption.ImageURL)))
             {
@@ -1569,7 +1667,8 @@ namespace MPC.Implementation.MISServices
             IItemProductDetailRepository itemProductDetailRepository, IProductCategoryItemRepository productCategoryItemRepository,
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
-            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository)
+            IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
+            ILengthConversionService lengthConversionService)
         {
             if (itemRepository == null)
             {
@@ -1687,8 +1786,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("smartFormRepository");
             }
+            if (lengthConversionService == null)
+            {
+                throw new ArgumentNullException("lengthConversionService");
+            }
+
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
+            this.lengthConversionService = lengthConversionService;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1742,7 +1847,24 @@ namespace MPC.Implementation.MISServices
 
             Item item = itemRepository.Find(id);
 
-            // Get Pdf File in case of Template Type 2
+            if (item == null)
+            {
+                throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
+            }
+            
+            // If template Exists then Convert the Height & Width to System Unit
+            ConvertTemplateLengthToSystemUnit(item);
+
+            return item;
+        }
+
+        /// <summary>
+        /// Returns Pdf File  for Template
+        /// </summary>
+// ReSharper disable UnusedMember.Local
+        private void GetTemplatePdfFile(Item item)
+// ReSharper restore UnusedMember.Local
+        {
             if (item.TemplateType == 2 && item.Template != null)
             {
                 string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
@@ -1755,13 +1877,6 @@ namespace MPC.Implementation.MISServices
                     item.Template.FileOriginalBytes = File.ReadAllBytes(mapPath);
                 }
             }
-
-            if (item == null)
-            {
-                throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
-            }
-
-            return item;
         }
 
         /// <summary>
@@ -1871,7 +1986,7 @@ namespace MPC.Implementation.MISServices
             SaveProductImages(itemTarget);
 
             // Update Template Pages Background Image
-            UpdateTemplatePagesBackgroundFileNames(item, itemTarget);
+            UpdateTemplatePagesBackgroundFileNames(itemTarget);
 
             // Save Changes
             itemRepository.SaveChanges();
@@ -2048,93 +2163,102 @@ namespace MPC.Implementation.MISServices
             return productCategoryRepository.GetParentCategories(companyId);
         }
 
+        /// <summary>
+        /// Deletes Product Permanently
+        /// </summary>
+        public void DeleteProduct(long itemId)
+        {
+            DeleteItem(itemId, itemRepository.OrganisationId);
+        }
+
         #endregion
 
         #region DeleteProducts
 
-        public bool DeleteItem(long ItemID,long OrganisationID)
+        public bool DeleteItem(long ItemID, long OrganisationID)
         {
             try
             {
 
-               
+
                 List<string> ImagesPath = new List<string>();
                 Item DelItem = itemRepository.GetItemByItemID(ItemID);
                 itemRepository.DeleteItemBySP(ItemID);
-               if(DelItem != null)
-               {
-                  
-                   if(DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
-                   {
-                       foreach(var itemAttach in DelItem.ItemAttachments)
-                       {
-                           string path = itemAttach.FolderPath + itemAttach.FileName;
+                if (DelItem != null)
+                {
 
-                           ImagesPath.Add(path);
-                       }
-                   }
-                   if (DelItem.ItemStockOptions != null && DelItem.ItemStockOptions.Count > 0)
-                   {
-                       foreach (var itemStock in DelItem.ItemStockOptions)
-                       {
-                           string path = itemStock.ImageURL;
+                    if (DelItem.ItemAttachments != null && DelItem.ItemAttachments.Count > 0)
+                    {
+                        foreach (var itemAttach in DelItem.ItemAttachments)
+                        {
+                            string path = itemAttach.FolderPath + itemAttach.FileName;
 
-                           ImagesPath.Add(path);
-                       }
-                   }
+                            ImagesPath.Add(path);
+                        }
+                    }
+                    if (DelItem.ItemStockOptions != null && DelItem.ItemStockOptions.Count > 0)
+                    {
+                        foreach (var itemStock in DelItem.ItemStockOptions)
+                        {
+                            string path = itemStock.ImageURL;
 
-                   // delete files
-                   
+                            ImagesPath.Add(path);
+                        }
+                    }
 
-                   if(ImagesPath != null && ImagesPath.Count > 0)
-                   {
-                       foreach(var img in ImagesPath)
-                       {
-                           if(!string.IsNullOrEmpty(img))
-                           {
-                               string filePath = HttpContext.Current.Server.MapPath("~/" + img);
-                               if(File.Exists(filePath))
-                               {
-                                   File.Delete(filePath);
-                               }
-                           }
-                       }
-                   }
+                    // delete files
 
 
-                   if (DelItem.TemplateId != null && DelItem.TemplateId > 0)
-                   {
-                       templateService.DeleteTemplateFiles(DelItem.ItemId, OrganisationID);
-                       // delete template folder
-                   }
+                    if (ImagesPath != null && ImagesPath.Count > 0)
+                    {
+                        foreach (var img in ImagesPath)
+                        {
+                            if (!string.IsNullOrEmpty(img))
+                            {
+                                string filePath = HttpContext.Current.Server.MapPath("~/" + img);
+                                if (File.Exists(filePath))
+                                {
+                                    File.Delete(filePath);
+                                }
+                            }
+                        }
+                    }
 
-                   // delete item files
-                   string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + OrganisationID + "/" + ItemID);
 
-                   if (Directory.Exists(SourceDelFiles))
-                   {
-                       Directory.Delete(SourceDelFiles, true);
-                   }
+                    if (DelItem.TemplateId != null && DelItem.TemplateId > 0)
+                    {
+                        templateService.DeleteTemplateFiles(DelItem.ItemId, OrganisationID);
+                        // delete template folder
+                    }
 
-                   // delete itemattachments
+                    // delete item files
+                    string SourceDelFiles = HttpContext.Current.Server.MapPath("/MPC_Content/products/" + OrganisationID + "/" + ItemID);
 
-                   string SourceDelAttachments = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/Organisation" + OrganisationID + "/" + OrganisationID + "/" + ItemID);
+                    if (Directory.Exists(SourceDelFiles))
+                    {
+                        Directory.Delete(SourceDelFiles, true);
+                    }
 
-                   if (Directory.Exists(SourceDelAttachments))
-                   {
-                       Directory.Delete(SourceDelAttachments, true);
-                   }
+                    // delete itemattachments
 
-               }
+                    string SourceDelAttachments = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/Organisation" + OrganisationID + "/" + OrganisationID + "/" + ItemID);
 
-               return true;
+                    if (Directory.Exists(SourceDelAttachments))
+                    {
+                        Directory.Delete(SourceDelAttachments, true);
+                    }
+
+                }
+
+                return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
             }
         }
         #endregion
+
     }
 }

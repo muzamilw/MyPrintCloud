@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using System.Net;
+using System.IO;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -43,8 +45,7 @@ namespace MPC.Webstore.Controllers
             ObjectCache cache = MemoryCache.Default;
 
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-           // MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-          
+           
             long OrderID = Convert.ToInt64(OrderId);
             if (OrderID > 0)
             {
@@ -148,17 +149,17 @@ namespace MPC.Webstore.Controllers
             cep.ContactId = _myClaimHelper.loginContactID();
             cep.CompanyId = _myClaimHelper.loginContactCompanyID();
             cep.SalesManagerContactID = _myClaimHelper.loginContactID();
-            cep.CompanySiteID = UserCookieManager.WEBOrganisationID;
-            cep.EstimateID = Convert.ToInt32(OrderId);
-            cep.ItemID = _ItemService.GetFirstItemIdByOrderId(OrderId);
+            cep.OrganisationId = UserCookieManager.WEBOrganisationID;
+            cep.EstimateId = Convert.ToInt32(OrderId);
+            cep.ItemId = _ItemService.GetFirstItemIdByOrderId(OrderId);
             Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
             if (user != null)
             {
                
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
-                    cep.StoreID = UserCookieManager.WBStoreId;
-                    cep.AddressID = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
+                    cep.AddressId = UserCookieManager.WBStoreId;
                     if (baseResponse.Company.isPaymentRequired == false || baseResponse.Company.isPaymentRequired == null)
                     {
                         try
@@ -171,10 +172,10 @@ namespace MPC.Webstore.Controllers
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-
+                           // HTMLOfShopReceipt = GetReceiptPage(OrderId);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
-                            UserCookieManager.OrderId = 0;
+                            UserCookieManager.WEBOrderId = 0;
                             
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
@@ -273,11 +274,11 @@ namespace MPC.Webstore.Controllers
                 }
                 else if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    cep.StoreID = UserCookieManager.WBStoreId;
+                    cep.StoreId = UserCookieManager.WBStoreId;
 
-                    cep.AddressID = UserCookieManager.WBStoreId;
+                    cep.AddressId = UserCookieManager.WBStoreId;
                     SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                    cep.SystemUserID = EmailOFSM.SystemUserId;
+                    cep.SystemUserId = EmailOFSM.SystemUserId;
                     if (((user.ContactRoleId == Convert.ToInt32(Roles.Adminstrator) || user.ContactRoleId == Convert.ToInt32(Roles.Manager)) && ((user.IsPayByPersonalCreditCard ?? false) == false)) || (modOverride == 3) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && modOverride == 2) || (user.ContactRoleId == Convert.ToInt32(Roles.User) && user.canUserPlaceOrderWithoutApproval == true && user.IsPayByPersonalCreditCard == false)) // Corporate user that can approve the orders
                     {
                         try
@@ -291,7 +292,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                            // emailmgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, SessionParameters.ContactID, SessionParameters.CustomerID, 0, OrderId, SessionParameters.CompanySite, 0, ManagerID, StoreMode.Corp);
-                           UserCookieManager.OrderId = 0;
+                           UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {
@@ -324,7 +325,7 @@ namespace MPC.Webstore.Controllers
                             AttachmentList.Add(AttachmentPath);
                             //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation.Organisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             //emailmgr.EmailsToCorpUser(OrderId, SessionParameters.ContactID, StoreMode.Corp, Convert.ToInt32(SessionParameters.CustomerContact.TerritoryID));
-                            UserCookieManager.OrderId = 0;
+                            UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {
@@ -413,5 +414,68 @@ namespace MPC.Webstore.Controllers
                 Response.Redirect("/");
             }
         }
+
+        public string GetReceiptPage(long OrderId)
+        {
+            try
+            {
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
+                WebClient myClient = new WebClient();
+                Stream response = myClient.OpenRead(URl);
+                StreamReader streamreader = new StreamReader(response);
+                string pageHtml = streamreader.ReadToEnd();
+                return pageHtml;
+            }
+            catch (Exception ex)
+            {
+
+                // LoggingManager.LogBLLException(e);
+                return null;
+            }
+        }
+        //public string OrderConfirmationPDF(int OrderId)
+        //{
+        //    try
+        //    {
+        //        string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
+        //        // string html = GetShopReceiptPage(OrderId, BrokerID, CorpID);
+        //        ////Stream stream = GenerateStreamFromString(html)
+
+
+
+        //        string FileName = OrderId + "_OrderReceipt.pdf";
+        //        string FilePath = HttpContext.Current.Server.MapPath("~/mpc_content/Assets/" + FileName);
+        //        string AttachmentPath = "/mpc_content/Assets/" + FileName;
+        //        using (Doc theDoc = new Doc())
+        //        {
+        //            theDoc.HtmlOptions.Engine = EngineType.Gecko;
+        //            //  theDoc.FontSize = 22;
+        //            int objid = theDoc.AddImageUrl(URl);
+
+
+        //            while (true)
+        //            {
+        //                theDoc.FrameRect();
+        //                if (!theDoc.Chainable(objid))
+        //                    break;
+        //                theDoc.Page = theDoc.AddPage();
+        //                objid = theDoc.AddImageToChain(objid);
+        //            }
+
+
+        //            theDoc.Save(FilePath);
+        //            theDoc.Clear();
+        //        }
+        //        if (File.Exists(FilePath))
+        //            return AttachmentPath;
+        //        else
+        //            return null;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LoggingManager.LogBLLException(e);
+        //        return null;
+        //    }
+        //}
     }
 }

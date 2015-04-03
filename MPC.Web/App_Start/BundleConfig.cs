@@ -56,6 +56,7 @@ namespace MPC.MIS
                 .Include("~/Scripts/App/architecture.js")
                 .Include("~/Scripts/App/requireConfig.js")
                  .Include("~/Scripts/Ace/lib/ace/ace.js")
+                  .Include("~/Scripts/autoNumeric/autoNumeric-1.9.25.min.js")
                 .Include("~/Scripts/knockout-ace.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -88,6 +89,8 @@ namespace MPC.MIS
             bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
                      "~/Scripts/dropzone/css/basic.css",
                      "~/Scripts/dropzone/css/dropzone.css"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

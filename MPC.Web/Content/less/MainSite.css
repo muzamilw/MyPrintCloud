@@ -554,6 +554,18 @@
 #storesBinding #productDetailBinding #productCategoryDialog ol.dd-list li.dd-item .nested-links {
   margin-top: -3px;
 }
+#storesBinding #tab-products .dd-item {
+  height: auto;
+  overflow: hidden;
+  clear: both;
+}
+#storesBinding #tab-products .dd-handle-list {
+  height: 90%;
+  overflow: hidden;
+}
+#storesBinding #tab-products .dd-handle {
+  height: auto;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -649,6 +661,15 @@
 }
 #productFromRetailStoreModalDialog {
   width: 1100px;
+}
+#AddOnHeading {
+  font-weight: bold;
+}
+#SectionDetailImage {
+  text-align: center;
+}
+#SectionDetailButtons {
+  float: right;
 }
 #companySelectorDialog .modal-dialog {
   width: 838px;

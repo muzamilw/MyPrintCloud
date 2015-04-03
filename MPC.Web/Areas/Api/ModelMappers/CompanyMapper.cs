@@ -128,6 +128,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MapImageUrl= source.MapImageUrl,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                isWhiteLabel = source.isWhiteLabel,
+               PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCmykColors =
@@ -278,7 +280,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MediaLibraries = source.MediaLibraries != null ? source.MediaLibraries.Select(m => m.CreateFrom()).ToList() : null,
                 CompanyContactCount = source.CompanyContacts != null ? source.CompanyContacts.Count : 0,
                 CompanyAddressesCount= source.Addresses != null ? source.Addresses.Count : 0,
-                isCalculateTaxByService = source.isCalculateTaxByService, 
+                isCalculateTaxByService = source.isCalculateTaxByService,
+                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId
                 };
 
         }
@@ -373,6 +377,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TaxRate = source.TaxRate,
                 IsDisplayDiscountVoucherCode = source.IsDisplayDiscountVoucherCode,
                 isWhiteLabel = source.isWhiteLabel,
+                PriceFlagId = source.PriceFlagId,
+                StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
                 CompanyCMYKColors =
@@ -505,17 +511,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static ApiModels.CrmSupplierListViewModel CrmSupplierListViewCreateFrom(this DomainModels.Company source)
         {
             byte[] bytes = null;
-            //if (!string.IsNullOrEmpty(source.Image))
-            //{
-            //    string imagePath = HttpContext.Current.Server.MapPath("~/" + source.Image);
-            //    if (File.Exists(imagePath))
-            //    {
-            //        bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
-            //    }
-            //}
-            return new ApiModels.CrmSupplierListViewModel
+            string defaultContact = null;
+              string defaultContactEmail = null;
+            DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            if ( companyContact!= null)
+            {
+                defaultContact = companyContact.FirstName +" "+ companyContact.LastName;
+                defaultContactEmail = companyContact.Email;
+            }
+            return new CrmSupplierListViewModel
             {
                 AccountNumber = source.AccountNumber,
+                DefaultContactName = defaultContact,
+                DefaultContactEmail= defaultContactEmail,
                 CompanyId = source.CompanyId,
                 IsCustomer = source.IsCustomer,
                 Name = source.Name,
@@ -536,6 +544,15 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,
+            };
+        }
+
+        public static StoresListDropDown CreateFromForDropDown(this DomainModels.Company source)
+        {
+            return new StoresListDropDown
+            {
+                CompanyId = source.CompanyId,
+                Name = source.Name
             };
         }
         #endregion

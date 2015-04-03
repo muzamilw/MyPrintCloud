@@ -33,7 +33,44 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer)
+        {
+            CostCentreQuestion oQuestion = db.CostCentreQuestions.Where(g => g.Id == question.Id).SingleOrDefault();
+            oQuestion.QuestionString = question.QuestionString;
+            oQuestion.Type = question.Type;
+            oQuestion.DefaultAnswer = question.DefaultAnswer;
+            if (question.Type == 2 && answer.Count() >0)
+            {
+                foreach (CostCentreAnswer ans in answer)
+                {
+                    if (ans.Id > 0)
+                    {
+                        CostCentreAnswer oAns = db.CostCentreAnswers.Where(g => g.Id == ans.Id).FirstOrDefault();
+                        oAns.AnswerString = ans.AnswerString;
+                    }
+                    else
+                    {
+                        CostCentreAnswer oAns = new CostCentreAnswer();
+                        oAns.AnswerString = ans.AnswerString;
+                        oAns.QuestionId = ans.QuestionId;
+                        db.CostCentreAnswers.Add(oAns);
+                    }
+                    
+                }
+               
 
+            }
+            if (db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+            
+        }
         
 
         /// <summary>

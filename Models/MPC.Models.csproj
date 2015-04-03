@@ -102,6 +102,7 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\BestPress.cs" />
     <Compile Include="Common\BreadCrumbModel.cs" />
     <Compile Include="Common\CategoryType.cs" />
     <Compile Include="Common\CategoryRegion.cs" />
@@ -117,8 +118,10 @@
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
     <Compile Include="Common\DesignerPostSettings.cs" />
+    <Compile Include="Common\DividerLine.cs" />
     <Compile Include="Common\ExecutionQueue.cs" />
     <Compile Include="Common\ExportOrganisation.cs" />
+    <Compile Include="Common\GlobalData.cs" />
     <Compile Include="Common\GoodsReceivedNoteByColumn.cs" />
     <Compile Include="Common\InlineTextStyles.cs" />
     <Compile Include="Common\FileTableCaption.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Common\OrderStatusEnum.cs" />
     <Compile Include="Common\PaypalOrderParameter.cs" />
     <Compile Include="Common\ProductModel.cs" />
+    <Compile Include="Common\PtvDTO.cs" />
     <Compile Include="Common\PurchaseByColumn.cs" />
     <Compile Include="Common\StringHelper.cs" />
     <Compile Include="Common\SystemUserClaimValue.cs" />
@@ -175,6 +179,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
+    <Compile Include="DomainModels\JobPreference.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />
@@ -365,6 +370,7 @@
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
+    <Compile Include="RequestModels\DeleteCompanyRequest.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
     <Compile Include="RequestModels\CompanySavingModel.cs" />
@@ -385,6 +391,7 @@
     <Compile Include="RequestModels\PaymentGatewayRequestModel.cs" />
     <Compile Include="RequestModels\PhraseLibrarySaveModel.cs" />
     <Compile Include="RequestModels\ProductCategoryRequestModel.cs" />
+    <Compile Include="RequestModels\PTVRequestModel.cs" />
     <Compile Include="RequestModels\PurchaseRequestModel.cs" />
     <Compile Include="RequestModels\SecondaryPageRequestModel.cs" />
     <Compile Include="RequestModels\SmartFormRequestModel.cs" />
@@ -392,6 +399,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\BestPressResponse.cs" />
     <Compile Include="ResponseModels\CalendarBaseResponse.cs" />
     <Compile Include="ResponseModels\CampaignBaseResponse.cs" />
     <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
@@ -404,6 +412,7 @@
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
+    <Compile Include="ResponseModels\CrmContactResponse.cs" />
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />

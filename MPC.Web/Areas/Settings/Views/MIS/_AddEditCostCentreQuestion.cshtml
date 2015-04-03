@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Cost Centre Question";
+}
+
+
+<div class="modal fade my-modal"  id="CostCentreQuestionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div style="width: 538px;" class="modal-dialog" data-bind="with: $root.SelectedQuestionVariable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Cost Centre Question</h4>
+            </div>
+            <div class="col-lg-12 form-horizontal outerDiv-Padding">
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Question" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Question" class="control-label text-right tooltip-float">Question</label>
+                    </div>
+                    <div class="col-lg-6">
+                        
+                        <input type="text" class="form-control" data-bind="value:QuestionString">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Type" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Type" class="control-label text-right tooltip-float">Type</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" data-bind="value:Type">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+
+                            <a class="input-group-addon" href="#" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Default Answer" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="Answer" class="control-label text-right tooltip-float">Default Answer</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" data-bind="value:Answer">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <hr />
+                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" style="margin-left: 0px;">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

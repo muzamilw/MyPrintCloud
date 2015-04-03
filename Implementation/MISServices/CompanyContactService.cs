@@ -134,6 +134,17 @@ namespace MPC.Implementation.MISServices
         {
             return companyContactRepository.GetCompanyContactsForCrm(request);
         }
+        /// <summary>
+        /// Get Addresses and Territories Of "Company Contact's company"
+        /// </summary>
+        public CrmContactResponse SearchAddressesAndTerritories(CompanyContactRequestModel request)
+        {
+            return new CrmContactResponse
+            {
+                Addresses = addressRepository.GetAddressByCompanyID(request.CompanyId),
+                CompanyTerritories = companyTerritoryRepository.GetCompanyTerritory(new CompanyTerritoryRequestModel{CompanyId = request.CompanyId}).CompanyTerritories
+            };
+        }
         public bool Delete(long companyContactId)
         {
             var dbCompanyContact = companyContactRepository.GetContactByID(companyContactId);

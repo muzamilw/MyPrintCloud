@@ -217,7 +217,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 TemplateId = source.TemplateId,
                 TemplateType = source.TemplateType
             };
-            
+
             // Load Thumbnail Image
             if (!string.IsNullOrEmpty(source.ThumbnailPath))
             {
@@ -499,12 +499,23 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 JobCardPrintedBy = source.JobCardPrintedBy,
                 InvoiceDescription = source.InvoiceDescription,
                 NominalCodeId = source.NominalCodeId,
-                ProductCategories = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.ProductCategory.CategoryName) : 
+                ProductCategories = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.ProductCategory.CategoryName) :
                 new List<string>(),
-                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
-                new List<ItemSection>()
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFromForOrder()) :
+                new List<ItemSection>(),
+                Qty1MarkUpId1 = source.Qty1MarkUpId1,
+                Qty2MarkUpId2 = source.Qty2MarkUpId2,
+                Qty3MarkUpId3 = source.Qty3MarkUpId3,
+                Qty2NetTotal = source.Qty2NetTotal,
+                Qty3NetTotal = source.Qty3NetTotal,
+                Qty1Tax1Value = source.Qty1Tax1Value,
+                Qty2Tax1Value = source.Qty2Tax1Value,
+                Qty3Tax1Value = source.Qty3Tax1Value,
+                Qty1GrossTotal = source.Qty1GrossTotal,
+                Qty2GrossTotal = source.Qty2GrossTotal,
+                Qty3GrossTotal = source.Qty3GrossTotal,
+                Tax1 = source.Tax1,
             };
-
             return item;
         }
 
@@ -520,7 +531,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ProductName = source.ProductName,
                 ProductSpecification = source.ProductSpecification,
                 // ReSharper disable once PossibleNullReferenceException
-                ProductCategoryName = source.ProductCategoryItems.Count > 0? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
+                ProductCategoryName = source.ProductCategoryItems.Count > 0 ? source.ProductCategoryItems.FirstOrDefault().ProductCategory.CategoryName : null,
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,

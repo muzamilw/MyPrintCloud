@@ -13,6 +13,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = ko.observable(cusStatusClass),
             storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
             }),
@@ -41,6 +43,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass: statusClass,
             email: email,
+            defaultContact: defaultContact,
+            defaultContactEmail:defaultContactEmail,
             storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
             errors: errors,
@@ -70,6 +74,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Email,
             source.StoreImagePath
         );
+        customer.defaultContact(source.DefaultContactName);
+        customer.defaultContactEmail(source.DefaultContactEmail);
         return customer;
     };
     // #endregion
@@ -86,6 +92,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            url = ko.observable(specifiedUrl),
            isCustomer = ko.observable(specifiedIsCustomer),
            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
            type = ko.observable(),
             email = ko.observable(specifiedEmail),
            createdDate = ko.observable(specifiedCreatedDate),
@@ -140,6 +148,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isCustomer: isCustomer,
             storeImageFileBinary: storeImageFileBinary,
             email: email,
+            defaultContact: defaultContact,
+            defaultContactEmail: defaultContactEmail,
             createdDate: createdDate,
             isValid: isValid,
             errors: errors,
@@ -175,6 +185,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            source.Email,
            source.CreatedDate != null ? moment(source.CreatedDate).format('YYYY/MM/DD') : ''
        );
+        crmSupplierListViewModel.defaultContact(source.DefaultContactName);
+        crmSupplierListViewModel.defaultContactEmail(source.DefaultContactEmail);
 
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -425,7 +437,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Address3,
             source.City,
             source.StateId,
-            source.Country,
+            source.CountryId,
             source.StateName,
             source.CountryName,
             source.PostCode,
@@ -497,7 +509,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword).extend({ required: true }),
+            password = ko.observable(specifiedPassword).extend({ required: { params: true, message: 'This field is required with minimum 6 characters!' }, minLength: 6 }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -1214,7 +1226,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     //WebMasterTag WebAnalyticCode
     // ReSharper disable once InconsistentNaming
-    var Store = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
+    var Store = function (specifiedStoreId,specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedAccountOpenDate, specifiedAccountManagerId, specifiedAvatRegNumber,
         specifiedAvatRegReference, specifiedPhoneNo, specifiedIsCustomer, specifiedNotes, specifiedWebMasterTag, specifiedWebAnalyticCode, specifiedWebAccessCode, specifiedTwitterUrl,
         specifiedFacebookUrl, specifiedLinkedinUrl, specifiedFacebookAppId, specifiedFacebookAppKey, specifiedTwitterAppId, specifiedTwitterAppKey,
         specifiedSalesAndOrderManagerId1, specifiedSalesAndOrderManagerId2, specifiedProductionManagerId1, specifiedProductionManagerId2,
@@ -1226,6 +1238,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedDefaultSpriteImageSource, specifiedUserDefinedSpriteImageSource, specifiedUserDefinedSpriteFileName, specifiedCustomCSS, specifiedStoreBackgroundImage, specifiedStoreImagePath
     ) {
         var self,
+            //storeId is used for select store dropdown on crm prospect/customer screen
+            storeId = ko.observable(specifiedStoreId),
             companyId = ko.observable(specifiedCompanyId), //.extend({ required: true }),
             name = ko.observable(specifiedName).extend({ required: true }),
             status = ko.observable(specifiedStatus),
@@ -1356,6 +1370,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
                 // ReSharper restore InconsistentNaming
+                storeId: storeId,
                 companyId: companyId,
                 name: name,
                 status: status,
@@ -1422,6 +1437,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Convert To Server
             convertToServerData = function (source) {
                 var result = {};
+                result.StoreId = source.storeId();
                 result.CompanyId = source.companyId();
                 result.Name = source.name();
                 result.Status = source.status();
@@ -1539,6 +1555,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             };
         self = {
             //#region SELF
+            storeId: storeId,
             companyId: companyId,
             name: name,
             status: status,
@@ -1623,6 +1640,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.CreateFromClientModel = function (source) {
         var result = new Store(
+            source.storeId,
             source.companyId,
             source.name,
             source.status,
@@ -1675,6 +1693,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     Store.Create = function (source) {
         var store = new Store(
+            source.StoreId,
             source.CompanyId,
             source.Name,
             source.Status,

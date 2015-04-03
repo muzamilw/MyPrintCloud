@@ -23,3 +23,12 @@
 #productFromRetailStoreModalDialog {
   width: 1100px;
 }
+#AddOnHeading {
+  font-weight: bold;
+}
+#SectionDetailImage {
+  text-align: center;
+}
+#SectionDetailButtons {
+  float: right;
+}

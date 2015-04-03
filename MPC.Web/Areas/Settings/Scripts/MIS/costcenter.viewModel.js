@@ -22,6 +22,7 @@ define("costcenter/costcenter.viewModel",
                     costCenterVariables = ko.observableArray([]),
                     // Markups
                     markups = ko.observableArray([]),
+                    SelectedQuestionVariable = ko.observable(),
                     costcenterVariableNodes = ko.observableArray([]),
                     variableVariableNodes = ko.observableArray([]),
                     resourceVariableNodes = ko.observableArray([]),
@@ -36,7 +37,8 @@ define("costcenter/costcenter.viewModel",
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
-                    variablesTreePrent = ko.observableArray([{ Id: 1, Text: 'Cost Centers' },
+                //{ Id: 1, Text: 'Cost Centers' },
+                    variablesTreePrent = ko.observableArray([
                                                 { Id: 2, Text: 'Variables' },
                                                 { Id: 3, Text: 'Resources' },
                                                 { Id: 4, Text: 'Questions' },
@@ -161,7 +163,7 @@ define("costcenter/costcenter.viewModel",
                                     ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
                                     questionVariableNodes.valueHasMutated();
                                     _.each(questionVariableNodes(), function (question) {
-                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged,click: function() { $root.addVariableToInputControl(&quot;' + question.Id + "," + question.QuestionString + "," + question.Type + "," + question.DefaultAnswer + '&quot;)}">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
                                         ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
                                     });
                                 },
@@ -180,7 +182,7 @@ define("costcenter/costcenter.viewModel",
                                     ko.utils.arrayPushAll(matrixVariableNodes(), data.MatricesVariables);
                                     matrixVariableNodes.valueHasMutated();
                                     _.each(matrixVariableNodes(), function (matrix) {
-                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + matrix.Name + '<input type="hidden" id="str" value="' + matrix.VariableString + '" /></span><div class="nested-links" data-bind="click:$root.addVariableToInputControl"></div></div></li></ol>');
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + matrix.MatrixId + 'mv' + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged">' + matrix.Name + '<input type="hidden" id="str" value="' + matrix.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
                                         ko.applyBindings(view.viewModel, $("#" + matrix.MatrixId + "mv")[0]);
                                     });
                                 },
@@ -295,7 +297,13 @@ define("costcenter/costcenter.viewModel",
                         selectedVariableString(e.currentTarget.id);
                     },
                     addVariableToInputControl = function (variable) {
-                       
+                        if (variable != null && variable != undefined) {
+                            questionData = variable.split(",");
+                            SelectedQuestionVariable(model.QuestionVariableMapper(questionData));
+                        } else {
+                            SelectedQuestionVariable(model.QuestionVariableMapper());
+                        }
+                        view.showCostCentreQuestionDialog();
                     },
                     // #region Busy Indicators
                     isLoadingCostCenter = ko.observable(false),
@@ -447,6 +455,18 @@ define("costcenter/costcenter.viewModel",
                         showCostCenterDetail();
                         sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
                     },
+                    createDeliveryCostCenter = function () {
+                        errorList.removeAll();
+                        var cc = new model.CostCenter();
+                        cc.setupCost('0');
+                        cc.minimumCost('0');
+                        cc.type('11');
+                        selectedCostCenter(cc);
+                        getCostCentersBaseData();
+                        // getVariablesTree();
+                        showCostCenterDetail();
+                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                    },
                     setDataForNewCostCenter = function (newcostcenter) {
                         newcostcenter.costPerUnitQuantity('0');
                         newcostcenter.unitQuantity('0');
@@ -490,14 +510,17 @@ define("costcenter/costcenter.viewModel",
                     //On Edit Click Of Cost Center
                     onEditItem = function (oCostCenter) {
                         errorList.removeAll();
-                        getCostCentersBaseData();
+                        getCostCentersBaseData(oCostCenter);
                         //getVariablesTree();
+                       
+                    },
+                    getCostCenterById = function (oCostCenter) {
                         dataservice.getCostCentreById({
                             id: oCostCenter.costCenterId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    selectedCostCenter(model.costCenterClientMapper(data));                                    
+                                    selectedCostCenter(model.costCenterClientMapper(data));
                                     selectedCostCenter().reset();
                                     showCostCenterDetail();
                                 }
@@ -506,7 +529,7 @@ define("costcenter/costcenter.viewModel",
                                 toastr.error("Failed to load Detail . Error: ");
                             }
                         });
-                    },
+                    }
                     openEditDialog = function () {
                         view.showCostCenterDialog();
                     },
@@ -568,7 +591,7 @@ define("costcenter/costcenter.viewModel",
                         });
                     };
                     // Get Base
-                    getCostCentersBaseData = function () {
+                getCostCentersBaseData = function (oCostCenter) {
                         dataservice.getBaseData({
                             success: function (data) {
                                 //costCenter Calculation Types
@@ -600,6 +623,10 @@ define("costcenter/costcenter.viewModel",
                                 deliveryCarriers.removeAll();
                                 ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
                                 deliveryCarriers.valueHasMutated();
+                                if (oCostCenter != undefined) {
+                                    getCostCenterById(oCostCenter);
+                                }
+                                
                             },
                             error: function () {
                                 toastr.error("Failed to base data.");
@@ -724,7 +751,10 @@ define("costcenter/costcenter.viewModel",
                     dropped: dropped,
                     selectVariableString: selectVariableString,
                     selectedVariableString: selectedVariableString,
-                    iconClick: iconClick
+                    iconClick: iconClick,
+                    questionVariableNodes: questionVariableNodes,
+                    createDeliveryCostCenter: createDeliveryCostCenter,
+                    SelectedQuestionVariable: SelectedQuestionVariable
                 };
             })()
         };

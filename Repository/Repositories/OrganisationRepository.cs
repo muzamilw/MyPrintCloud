@@ -83,7 +83,7 @@ namespace MPC.Repository.Repositories
 
             return omappedItem;
         }
-        public void InsertOrganisation(long OID,ExportOrganisation objExpCorporate,ExportOrganisation objExpRetail,bool isCorpStore,ExportSets Sets)
+        public void InsertOrganisation(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, bool isCorpStore, ExportSets Sets, string SubDomain)
         {
             using (var dbContextTransaction = db.Database.BeginTransaction())
             {
@@ -488,14 +488,21 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
+                        
+
+                         comp.CompanyDomains = null;
+
+                      
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                         if (comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                         if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                          {
                              comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                              comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                             comp.CmsPages.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          }
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                          {
@@ -526,18 +533,27 @@ namespace MPC.Repository.Repositories
                          db.SaveChanges();
                          oCID = comp.CompanyId;
 
-                         List<CmsPage> cmsPages = Sets.ExportStore4;
-                         if (cmsPages != null && cmsPages.Count > 0)
-                         {
-                             foreach (var Page in cmsPages)
-                             {
-                                 Page.OrganisationId = OrganisationID;
-                                 Page.PageCategory = null;
-                                 Page.CompanyId = oCID;
-                                 db.CmsPages.Add(Page);
-                             }
-                             db.SaveChanges();
-                         }
+                         // add companydomain
+                         string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                         CompanyDomain domain = new CompanyDomain();
+                         domain.Domain = DomainName;
+                         domain.CompanyId = oCID;
+                         db.CompanyDomains.Add(domain);
+                         db.SaveChanges();
+
+
+                         //List<CmsPage> cmsPages = Sets.ExportStore4;
+                         //if (cmsPages != null && cmsPages.Count > 0)
+                         //{
+                         //    foreach (var Page in cmsPages)
+                         //    {
+                         //        Page.OrganisationId = OrganisationID;
+                         //        Page.PageCategory = null;
+                         //        Page.CompanyId = oCID;
+                         //        db.CmsPages.Add(Page);
+                         //    }
+                         //    db.SaveChanges();
+                         //}
                          //  import items
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
@@ -569,6 +585,8 @@ namespace MPC.Repository.Repositories
                          //    }
                          //    db.SaveChanges();
                          //}
+
+                         List<long> OldCatIds = new List<long>();
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportStore2;
                          if (prodCats != null && prodCats.Count > 0)
@@ -581,12 +599,48 @@ namespace MPC.Repository.Repositories
                                  //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
 
                                  //cat.ParentCategoryId = null;
+                                 if (OldCatIds != null)
+                                     OldCatIds.Add(cat.ProductCategoryId); // 1144
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oCID;
                                  db.ProductCategories.Add(cat);
+                                 db.SaveChanges();
 
+
+                                 if (OldCatIds != null && OldCatIds.Count > 0)
+                                 {
+                                     foreach (long id in OldCatIds)
+                                     {
+
+                                         //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                         if (comp.Items != null && comp.Items.Count > 0)
+                                         {
+                                             foreach (var itm in comp.Items)
+                                             {
+                                                 if (itm.ProductCategoryItems != null)
+                                                 {
+                                                     List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+
+                                                     foreach (var pc in pcis)
+                                                     {
+                                                         pc.CategoryId = cat.ProductCategoryId;
+                                                     }
+                                                 }
+
+
+
+                                             }
+                                             db.SaveChanges();
+                                         }
+
+
+
+                                     }
+
+                                 }
                              }
-                             db.SaveChanges();
+                         
+
                          }
 
 
@@ -629,6 +683,7 @@ namespace MPC.Repository.Repositories
                          Company comp = new Company();
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
+                         comp.IsDisabled = 0;
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -3298,10 +3353,18 @@ namespace MPC.Repository.Repositories
         }
         void Copy(string sourceDir, string targetDir)
         {
-            Directory.CreateDirectory(targetDir);
+            if(!Directory.Exists(targetDir))
+            {
+                Directory.CreateDirectory(targetDir);
+            }
+          
 
             foreach (var file in Directory.GetFiles(sourceDir))
-                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)));
+            {
+                
+                File.Copy(file, Path.Combine(targetDir, Path.GetFileName(file)),true);
+            }
+                
 
             foreach (var directory in Directory.GetDirectories(sourceDir))
                 Copy(directory, Path.Combine(targetDir, Path.GetFileName(directory)));

@@ -105,6 +105,14 @@ define("order/order.view",
                         });
                     });
                 },
+                // Show Sheet Plan Image the dialog
+                showSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Sheet Plan Image the dialog
+                hideSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
                 showProductFromRetailStoreModal = function () {
@@ -161,6 +169,8 @@ define("order/order.view",
                 hideOrderPrePaymentModal: hideOrderPrePaymentModal,
                 setOrderState: setOrderState,
                 orderstate: orderstate,
+                showSheetPlanImageDialog: showSheetPlanImageDialog,
+                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog
             };

@@ -80,5 +80,6 @@ namespace MPC.Models.Common
         public string CostCentreDescription { get; set; }
 
         public string CostCentreJsonData { get; set; }
+        public int IsMandatory { get; set; }
     }
 }

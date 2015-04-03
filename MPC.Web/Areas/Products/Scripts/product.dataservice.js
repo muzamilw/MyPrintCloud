@@ -99,6 +99,14 @@ define("product/product.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    
+                    // Define request to delete Item
+                    amplify.request.define('deleteItem', 'ajax', {
+                        url: ist.siteUrl + '/Api/DeleteItem',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'DELETE'
+                    });
 
                     isInitialized = true;
                 }
@@ -211,6 +219,16 @@ define("product/product.dataservice", function () {
                     error: callbacks.error,
                     data: params
                 });
+            },
+            // Delete Item
+            deleteItem = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteItem',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
             };
 
         return {
@@ -224,7 +242,8 @@ define("product/product.dataservice", function () {
             getBaseDataForDesignerCategory: getBaseDataForDesignerCategory,
             getMachines: getMachines,
             cloneItem: cloneItem,
-            getProductCategories: getProductCategories
+            getProductCategories: getProductCategories,
+            deleteItem: deleteItem
         };
     })();
 

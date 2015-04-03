@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.Practices.Unity;
+using MPC.ExceptionHandling;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
@@ -64,7 +65,7 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
-
+        
         /// <summary>
         /// Get Item With Details
         /// </summary>
@@ -2147,25 +2148,25 @@ namespace MPC.Repository.Repositories
                     {
                         if (clonedItem.DefaultItemTax != null)
                         {
-                            double currTax = (itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
-                            itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
+                            double currTax = ((itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax)) / 100); //(itemPrice * Convert.ToDouble(clonedItem.DefaultItemTax) / 100);
+                            //itemPrice = itemPrice - (currTax - (currTax * Convert.ToDouble(clonedItem.DefaultItemTax) / 100));
 
-                            itemPrice = itemPrice - (currTax - ((currTax * TaxRate) / 100));
+                            itemPrice = itemPrice; //- (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
-                            grossTotal = netTotal + CalculatePercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
-                            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
+                            grossTotal = netTotal + (netTotal * currTax);
+                            clonedItem.Qty1Tax1Value = currTax;//GetTaxPercentage(netTotal, Convert.ToDouble(clonedItem.DefaultItemTax));
                         }
                         else
                         {
                             double currTax = (itemPrice * TaxRate / 100);
-                            itemPrice = itemPrice - (currTax - (currTax * TaxRate / 100));
+                            itemPrice = itemPrice;// - (currTax - Math.Ceiling(((currTax * TaxRate) / 100)));
                             netTotal = itemPrice + addonsPrice;
 
                             netTotal = netTotal + markupRate ?? 0;
-                            grossTotal = netTotal + CalculatePercentage(netTotal, TaxRate);
-                            clonedItem.Qty1Tax1Value = GetTaxPercentage(netTotal, TaxRate);
+                            grossTotal = netTotal + currTax;//CalculatePercentage(netTotal, TaxRate);
+                            clonedItem.Qty1Tax1Value = currTax;//GetTaxPercentage(netTotal, TaxRate);
                         }
                     }
                     else 
@@ -3068,8 +3069,8 @@ namespace MPC.Repository.Repositories
                     NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
                     NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
                     NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
-                    NewtblItemSection.SectionCostcentres.Add(NewtblISectionCostCenteres);
-                    newItem.ItemSections.Add(NewtblItemSection);
+                    db.SectionCostcentres.Add(NewtblISectionCostCenteres);
+                    db.ItemSections.Add(NewtblItemSection);
                     db.Items.Add(newItem);
 
                     if (db.SaveChanges() > 0)
@@ -3972,20 +3973,24 @@ namespace MPC.Repository.Repositories
 
                 db.SaveChanges();
                 //ItemId will only be availiable after the save changes...
-             
-                //Copy Attachments
-                ExistingItem.ItemAttachments.ToList().ForEach(itemAttatchments =>
+
+                if (ExistingItem.ItemAttachments != null && ExistingItem.ItemAttachments.Count() > 0)
                 {
-                    sideNumber = sideNumber + 1;
-                    ItemAttachment tblItemAttachmentCloned = Clone<ItemAttachment>(itemAttatchments);
-                    if (tblItemAttachmentCloned != null)
+                    //Copy Attachments
+                    ExistingItem.ItemAttachments.ToList().ForEach(itemAttatchments =>
                     {
-                        tblItemAttachmentCloned.ItemId = 0;
-                        tblItemAttachmentCloned.ItemId = newItem.ItemId;
-                        SaveItemAttathmentPaths(tblItemAttachmentCloned, sideNumber, order_code); // create item attment copy files etc
-                        db.ItemAttachments.Add(tblItemAttachmentCloned);
-                    }
-                });
+                        sideNumber = sideNumber + 1;
+                        ItemAttachment tblItemAttachmentCloned = Clone<ItemAttachment>(itemAttatchments);
+                        if (tblItemAttachmentCloned != null)
+                        {
+                            tblItemAttachmentCloned.ItemId = 0;
+                            tblItemAttachmentCloned.ItemId = newItem.ItemId;
+                            SaveItemAttathmentPaths(tblItemAttachmentCloned, sideNumber, order_code); // create item attment copy files etc
+                            db.ItemAttachments.Add(tblItemAttachmentCloned);
+                        }
+                    });
+                }
+             
 
                 newItem.ItemCode = "ITM-0-001-" + newItem.ItemId;
                 //dbContext.SaveChanges();

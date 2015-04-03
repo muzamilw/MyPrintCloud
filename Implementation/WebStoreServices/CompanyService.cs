@@ -160,7 +160,7 @@ namespace MPC.Implementation.WebStoreServices
                         oStore.SystemPages = AllPages.Where(s => s.isUserDefined == false).ToList();
                         oStore.SecondaryPages = AllPages.Where(s => s.isUserDefined == true).ToList();
                         oStore.PageCategories = _pageCategoryRepositary.GetCmsSecondaryPageCategories();
-                        oStore.Currency = _currencyRepository.GetCurrencyCodeById(Convert.ToInt64(oCompany.OrganisationId));
+                        oStore.Currency = _currencyRepository.GetCurrencySymbolById(Convert.ToInt64(oCompany.OrganisationId));
                         oStore.ResourceFile = _globalLanguageRepository.GetResourceFileByOrganisationId(Convert.ToInt64(oCompany.OrganisationId));
                         oStore.StoreDetaultAddress = GetDefaultAddressByStoreID(companyId);
                         stores.Add(oCompany.CompanyId, oStore);

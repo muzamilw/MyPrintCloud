@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using MPC.MIS.Areas.Api.Models;
 using Company = MPC.Models.DomainModels.Company;
+using CompanyContact = MPC.Models.DomainModels.CompanyContact;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -41,9 +43,19 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 bytes = source.Image != null ? File.ReadAllBytes(imagePath) : null;
             }
+            string defaultContact = null;
+            string email = null;
+            CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
+            if (companyContact != null)
+            {
+                defaultContact = companyContact.FirstName + " "+ companyContact.LastName;
+                email = companyContact.Email;
+            }
             return new CustomerListViewModel
             {
                 CustomerName = source.Name,
+                DefaultContactName = defaultContact,
+                DefaultContactEmail=email,
                 DateCreted = source.CreationDate,
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),

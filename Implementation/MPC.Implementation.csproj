@@ -158,6 +158,7 @@
     <Compile Include="MISServices\CompanyContactService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\CompanyTerritoryService.cs" />
+    <Compile Include="MISServices\CostCentreQuestionService.cs" />
     <Compile Include="MISServices\CrmSupplierService.cs" />
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
@@ -166,6 +167,8 @@
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
+    <Compile Include="MISServices\LengthConversionHelper.cs" />
+    <Compile Include="MISServices\LengthConversionService.cs" />
     <Compile Include="MISServices\LookupMethodService.cs" />
     <Compile Include="MISServices\MachineService.cs" />
     <Compile Include="MISServices\OrderForCrmService.cs" />

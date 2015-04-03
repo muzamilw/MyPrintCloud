@@ -31,7 +31,7 @@ namespace MPC.Webstore.Controllers
         }
         public ActionResult Index()
         {
-            
+            long contactid = _myClaimHelper.loginContactID();
             int STATUS_TYPE_ID = 2;
             ViewBag.RecordStatus = false;
             SearchOrderViewModel model = new SearchOrderViewModel();
@@ -44,16 +44,29 @@ namespace MPC.Webstore.Controllers
         public SearchOrderViewModel BindStatusDropdown(int STATUS_TYPE_ID)
         {
             SearchOrderViewModel SearchOrder = new SearchOrderViewModel();
-         //   if(_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID()==(int)Roles.Manager)
-           // {
+              if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
+              {
                 List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(STATUS_TYPE_ID);
+                List<Status> list = new List<Status>();
+                list = ReturnStatus();
+                foreach (var item in list)
+                {
+                    statusList.Add(item);
+                }
+                
                 if (statusList.Count > 0)
                 {
                     SearchOrder.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
                 }
+            }
+            else
+            {
+                    List<Status> list = new List<Status>();
+                    list = ReturnStatus();
+                    SearchOrder.DDOderStatus = new SelectList(list, "StatusId", "StatusName");
+            }
 
-                BindGrid(0, _myClaimHelper.loginContactID(),SearchOrder);
-            //}
+           BindGrid(0, _myClaimHelper.loginContactID(), SearchOrder);
             return SearchOrder;
         }
         public void BindGrid(long statusID, long contactID, SearchOrderViewModel model)
@@ -125,6 +138,7 @@ namespace MPC.Webstore.Controllers
                     TempData["HeaderStatus"] = true;
                 }
                ViewBag.OrderList = ordersList;
+               ViewBag.TotalOrder = ordersList.Count;
                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                {
                    ViewBag.res = null;
@@ -134,12 +148,34 @@ namespace MPC.Webstore.Controllers
                    ViewBag.res = string.Empty;
                }
         }
+
         [HttpPost]
         public ActionResult Index(SearchOrderViewModel model)
         {
-            BindGrid(model.SelectedOrder, _myClaimHelper.loginContactID(), model);
-            List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
-            model.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
+            if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator)
+            {
+                List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
+                List<Status> list = new List<Status>();
+                list = ReturnStatus();
+                foreach (var item in list)
+                {
+                    statusList.Add(item);
+                }
+
+                if (statusList.Count > 0)
+                {
+                    model.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
+                }
+            }
+            else
+            {
+                List<Status> list = new List<Status>();
+                list = ReturnStatus();
+                model.DDOderStatus = new SelectList(list, "StatusId", "StatusName");
+            }
+              BindGrid(model.SelectedOrder, _myClaimHelper.loginContactID(), model);
+          //  List<Status> statusList = _StatusService.GetStatusListByStatusTypeID(2);
+            //model.DDOderStatus = new SelectList(statusList, "StatusId", "StatusName");
             return View("PartialViews/ProductOrderHistory", model);
         }
         //[HttpGet]
@@ -164,17 +200,9 @@ namespace MPC.Webstore.Controllers
         public JsonResult OrderResult(long OrderId)
         {
               long UpdatedOrder = _orderService.ReOrder(OrderId, _myClaimHelper.loginContactID(), UserCookieManager.TaxRate, StoreMode.Retail, true, 0, UserCookieManager.WEBOrganisationID);
-              UserCookieManager.OrderId = UpdatedOrder;
-              //JasonResponseObject obj = new JasonResponseObject();
-            //obj.billingAddress = _orderService.GetBillingAddress(159296);
-           
-            //var formatter = new JsonMediaTypeFormatter();
-            //var json = formatter.SerializerSettings;
-            //json.Formatting = Newtonsoft.Json.Formatting.Indented;
-            //json.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-           // Response.Write(list);
-
-           return Json(true,JsonRequestBehavior.DenyGet);
+              UserCookieManager.WEBOrderId = UpdatedOrder;
+          
+              return Json(UpdatedOrder, JsonRequestBehavior.DenyGet);
         }
         [HttpPost]
         public JsonResult DownLoadArtWork(long OrderId)
@@ -257,7 +285,20 @@ namespace MPC.Webstore.Controllers
             }
            
         }
-      
+        private List<Status> ReturnStatus()
+        {
+            List<Status> list = new List<Status>();
+            Status newStatus1 = new Status();
+            newStatus1.StatusId = 38;
+            newStatus1.StatusName="In Progress";
+            list.Add(newStatus1);
+            Status newStatus2 = new Status();
+            newStatus2.StatusId = 37;
+            newStatus2.StatusName = "Completed";
+            list.Add(newStatus2);
+            return list;
+
+        }
     }
     //public class JasonResponseObject
     //{

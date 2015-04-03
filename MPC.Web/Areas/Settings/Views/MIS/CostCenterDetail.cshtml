@@ -37,10 +37,10 @@
                                     <li><a href="#tab-FixedCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 1">Fixed Calculation</a></li>
                                     <li><a href="#tab-QtyBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 3">Quantity Base Calculation</a></li>
                                     <li><a href="#tab-HourBaseCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 2">Hour Base Calculation</a></li>
-                                    <li><a href="#tab-PlantCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Plant Calculation</a></li>
-                                    <li><a href="#tab-StockCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Stock Calculation</a></li>
+                                    @*<li><a href="#tab-PlantCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Plant Calculation</a></li>
+                                    <li><a href="#tab-StockCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Stock Calculation</a></li>*@
                                     <li><a href="#tab-LabourCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Labour Calculation</a></li>
-                                    <li><a href="#tab-TimeCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Time Calculation</a></li>
+                                    @*<li><a href="#tab-TimeCalculation" data-toggle="tab" data-bind="visible: calculationMethodType() === 4">Time Calculation</a></li>*@
                                     <li><a href="#tab-WorkInstruction" data-toggle="tab">Work Instruction</a></li>
                                 </ul>
                                 <div class="tab-content">
@@ -114,6 +114,7 @@
                                                         <label for="ddlbCostCenterType" class="control-label text-right tooltip-float">Calculation Method Type</label>
                                                     </div>
                                                     <div class="col-lg-6">
+                                                        
                                                         <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType"></select>
                                                         <span class="help-block text-right">Cost Center Type</span>
                                                     </div>
@@ -302,7 +303,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <input type="text" class="form-control" id="txtRunonCost" placeholder="Enter Run On cost" data-bind="value: costPerThousand">
-                                                        <span class="help-block text-right">Rnon Cost</span>
+                                                        <span class="help-block text-right">Run On Cost</span>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
@@ -720,10 +721,10 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
+                                    @*<div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-PlantCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Plant Calculation</h3>
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-7">*@
                                                 @*Estimated Cost*@
                                                 @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -767,10 +768,10 @@
                                                     </div>
                                                 </div>*@
                                                 @*Quoted Charge*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to edit formula string?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -796,7 +797,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="If you want to have a different cost for your quote you can write a formula for quoting." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -806,7 +807,7 @@
                                                         <textarea class="form-control" id="txtEstimatePlantPrice" rows="10" data-bind="value: strPricePlantUnParsed, click: $root.selectVariableString, enable: isEditPlantQuote, drop: $root.dropped"></textarea>
                                                         
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 @*Actual Cost*@
                                                 @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -848,7 +849,7 @@
                                                         
                                                     </div>
                                                 </div>*@
-                                            </div>
+                                            @*</div>
                                             <div class="col-md-5">
                                                 <div class="clearfix">
                                                     <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
@@ -860,11 +861,11 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="tab-pane clearfix fade" id="tab-StockCalculation">
+                                    </div>*@
+                                    @*<div class="tab-pane clearfix fade" id="tab-StockCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Stock Calculation</h3>
-                                            <div class="col-lg-7">
+                                            <div class="col-lg-7">*@
                                                 @*Estimated Cost*@
                                                 @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -907,10 +908,10 @@
                                                     </div>
                                                 </div>*@
                                                 @*Quoted Charge*@
-                                                <div class="form-group">
+                                                @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to edit formula string?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -936,7 +937,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Write a quoted charge by adding markups to your formula and using materials price instead of cost." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -946,7 +947,7 @@
                                                         <textarea class="form-control" id="txtQuoteStockCost" rows="10" data-bind="value: strPriceMaterialUnParsed, click: $root.selectVariableString, enable: isEditStockQuote,  drop: $root.dropped"></textarea>
                                                         
                                                     </div>
-                                                </div>
+                                                </div>*@
                                                 @*Actual Cost*@
                                                 @*<div class="form-group">
                                                     <div class="col-lg-3 text-right">
@@ -988,7 +989,7 @@
                                                         
                                                     </div>
                                                 </div>*@
-                                            </div>
+                                            @*</div>
                                             <div class="col-md-5">
                                                 <div class="clearfix">
                                                     <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
@@ -1000,7 +1001,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Labour Calculation</h3>
@@ -1050,7 +1051,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Quoted Charge" data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to edit formula string?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1076,7 +1077,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create a formula for quoted labor costs using database fields. Example: stitcher(number of pockets / 3) * (helper rate) + operator rate * markup. Make sure you add markups and any additional charges." data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1142,15 +1143,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
+                                    @*<div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-TimeCalculation">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Time Calculation</h3>
                                             <div class="col-lg-7">
-                                                @*Estimated Time*@
+                                               
                                                 <div class="form-group">
                                                     <div class="col-lg-3 text-right">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Estimated Cost." data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Would you like to edit formula string?" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1176,7 +1177,7 @@
                                                 <div class="form-group">
                                                     <div class="col-lg-3">
                                                         <div class="bs-example-tooltips tooltip-float-width">
-                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Generate string for estimated plant cost by dropping variables or type manually." data-original-title="" title="">
+                                                            <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Create a formula to calculate how long jobs will take to run on this cost center. Example: Folding(quantity + spoilage / speed table) - (number of folds - 1 * 10%)" data-original-title="" title="">
                                                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                             </a>
                                                         </div>
@@ -1200,7 +1201,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                     <div class="tab-pane clearfix fade Empty-Tabs-Heights" id="tab-WorkInstruction">
                                         <div class="col-lg-12 form-horizontal">
                                             <h3 class="group-header">Work Instructions</h3>

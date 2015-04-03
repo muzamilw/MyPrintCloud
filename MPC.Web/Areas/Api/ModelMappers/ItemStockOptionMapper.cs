@@ -17,16 +17,16 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ItemStockOption CreateFrom(this DomainModels.ItemStockOption source)
         {
-// ReSharper disable SuggestUseVarKeywordEvident
+            // ReSharper disable SuggestUseVarKeywordEvident
             ItemStockOption itemStockOption = new ItemStockOption
-// ReSharper restore SuggestUseVarKeywordEvident
+            // ReSharper restore SuggestUseVarKeywordEvident
             {
                 ItemStockOptionId = source.ItemStockOptionId,
                 ItemId = source.ItemId,
                 StockLabel = source.StockLabel,
                 StockId = source.StockId,
                 OptionSequence = source.OptionSequence,
-                ItemAddOnCostCentres = source.ItemAddonCostCentres != null ? source.ItemAddonCostCentres.Select(addon => addon.CreateFrom()) : 
+                ItemAddOnCostCentres = source.ItemAddonCostCentres != null ? source.ItemAddonCostCentres.Select(addon => addon.CreateFrom()) :
                 new List<ItemAddOnCostCentre>()
             };
 
@@ -65,7 +65,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FileSource = source.FileSource,
                 OptionSequence = source.OptionSequence,
                 FileName = source.FileName,
-                ItemAddonCostCentres = source.ItemAddOnCostCentres != null ? source.ItemAddOnCostCentres.Select(addon => addon.CreateFrom()).ToList() : 
+                ItemAddonCostCentres = source.ItemAddOnCostCentres != null ? source.ItemAddOnCostCentres.Select(addon => addon.CreateFrom()).ToList() :
                 new List<DomainModels.ItemAddonCostCentre>()
             };
         }

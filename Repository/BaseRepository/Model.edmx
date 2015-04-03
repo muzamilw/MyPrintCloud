@@ -1979,6 +1979,44 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="Caption" Type="varchar" MaxLength="255" />
           <Property Name="ItemId" Type="bigint" />
         </EntityType>
+        <EntityType Name="JobPreference">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsDefaultInkColorUsed" Type="bit" />
+          <Property Name="IsDefaultFilmUsed" Type="bit" />
+          <Property Name="IsdefaultPlateUsed" Type="bit" />
+          <Property Name="IsDefaultMakereadyUsed" Type="bit" />
+          <Property Name="IsDefaultWashupUsed" Type="bit" />
+          <Property Name="IsDefaultPressInstruction" Type="bit" />
+          <Property Name="IsWorkingSize" Type="bit" />
+          <Property Name="IsItemSize" Type="bit" />
+          <Property Name="IsImpressionCount" Type="bit" />
+          <Property Name="IsNumberOfPasses" Type="bit" />
+          <Property Name="IsPrintSheetQty" Type="bit" />
+          <Property Name="IsDefaultStockDetail" Type="bit" />
+          <Property Name="IsOrderSheetSize" Type="bit" />
+          <Property Name="IsSpoilageAllowed" Type="bit" />
+          <Property Name="IsPaperWeight" Type="bit" />
+          <Property Name="IsPaperSheetQty" Type="bit" />
+          <Property Name="IsDefaultGuilotine" Type="bit" />
+          <Property Name="IsGuilotineWorkingSize" Type="bit" />
+          <Property Name="IsGuilotineItemSize" Type="bit" />
+          <Property Name="IsNoOfTrims" Type="bit" />
+          <Property Name="IsNoOfCuts" Type="bit" />
+          <Property Name="IsInksEstTime" Type="bit" />
+          <Property Name="InFilmEstTime" Type="bit" />
+          <Property Name="IsPlateEstTime" Type="bit" />
+          <Property Name="IsWashupEstTime" Type="bit" />
+          <Property Name="IsMakereadyEstTime" Type="bit" />
+          <Property Name="IsPressEstTime" Type="bit" />
+          <Property Name="IsPaperEstTime" Type="bit" />
+          <Property Name="IsGuillotineEstTime" Type="bit" />
+          <Property Name="IsReelMakeReady" Type="bit" />
+          <Property Name="IsReelMakeReadyTime" Type="bit" />
+          <Property Name="SystemSiteId" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="LengthUnit">
           <Key>
             <PropertyRef Name="Id" />
@@ -5323,8 +5361,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="TemplateID" Type="bigint" Mode="In" />
           <Parameter Name="CustomerID" Type="bigint" Mode="In" />
         </Function>
+        <Function Name="usp_DeleteCarts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CompanyID" Type="bigint" Mode="In" />
+        </Function>
         <Function Name="usp_DeleteContactCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="SelectedID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_DeleteOrderByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderID" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_DeleteOrganisation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrganisationID" Type="int" Mode="In" />
@@ -5412,6 +5456,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="ItemStockUpdateHistory" EntityType="Self.ItemStockUpdateHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVDPPrice" EntityType="Self.ItemVDPPrice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemVideo" EntityType="Self.ItemVideo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="JobPreference" EntityType="Self.JobPreference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LengthUnit" EntityType="Self.LengthUnit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Listing" EntityType="Self.Listing" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ListingAgent" EntityType="Self.ListingAgent" Schema="dbo" store:Type="Tables" />
@@ -6883,8 +6928,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <End Role="PurchaseDetail" EntitySet="PurchaseDetails" />
           </AssociationSet>
           <FunctionImport Name="usp_DeleteOrganisation">
-            <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
+          <Parameter Name="OrganisationID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="usp_DeleteCarts">
+          <Parameter Name="CompanyID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="usp_DeleteOrderByID">
+          <Parameter Name="OrderID" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <EntitySet Name="JobPreferences" EntityType="DomainModels.JobPreference" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -12473,6 +12525,44 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="JobPreference">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsDefaultInkColorUsed" Type="Boolean" />
+          <Property Name="IsDefaultFilmUsed" Type="Boolean" />
+          <Property Name="IsdefaultPlateUsed" Type="Boolean" />
+          <Property Name="IsDefaultMakereadyUsed" Type="Boolean" />
+          <Property Name="IsDefaultWashupUsed" Type="Boolean" />
+          <Property Name="IsDefaultPressInstruction" Type="Boolean" />
+          <Property Name="IsWorkingSize" Type="Boolean" />
+          <Property Name="IsItemSize" Type="Boolean" />
+          <Property Name="IsImpressionCount" Type="Boolean" />
+          <Property Name="IsNumberOfPasses" Type="Boolean" />
+          <Property Name="IsPrintSheetQty" Type="Boolean" />
+          <Property Name="IsDefaultStockDetail" Type="Boolean" />
+          <Property Name="IsOrderSheetSize" Type="Boolean" />
+          <Property Name="IsSpoilageAllowed" Type="Boolean" />
+          <Property Name="IsPaperWeight" Type="Boolean" />
+          <Property Name="IsPaperSheetQty" Type="Boolean" />
+          <Property Name="IsDefaultGuilotine" Type="Boolean" />
+          <Property Name="IsGuilotineWorkingSize" Type="Boolean" />
+          <Property Name="IsGuilotineItemSize" Type="Boolean" />
+          <Property Name="IsNoOfTrims" Type="Boolean" />
+          <Property Name="IsNoOfCuts" Type="Boolean" />
+          <Property Name="IsInksEstTime" Type="Boolean" />
+          <Property Name="InFilmEstTime" Type="Boolean" />
+          <Property Name="IsPlateEstTime" Type="Boolean" />
+          <Property Name="IsWashupEstTime" Type="Boolean" />
+          <Property Name="IsMakereadyEstTime" Type="Boolean" />
+          <Property Name="IsPressEstTime" Type="Boolean" />
+          <Property Name="IsPaperEstTime" Type="Boolean" />
+          <Property Name="IsGuillotineEstTime" Type="Boolean" />
+          <Property Name="IsReelMakeReady" Type="Boolean" />
+          <Property Name="IsReelMakeReadyTime" Type="Boolean" />
+          <Property Name="SystemSiteId" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16370,6 +16460,47 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="usp_DeleteOrganisation" FunctionName="DomainModels.Store.usp_DeleteOrganisation" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteCarts" FunctionName="DomainModels.Store.usp_DeleteCarts" />
+          <FunctionImportMapping FunctionImportName="usp_DeleteOrderByID" FunctionName="DomainModels.Store.usp_DeleteOrderByID" />
+          <EntitySetMapping Name="JobPreferences">
+            <EntityTypeMapping TypeName="DomainModels.JobPreference">
+              <MappingFragment StoreEntitySet="JobPreference">
+                <ScalarProperty Name="SystemSiteId" ColumnName="SystemSiteId" />
+                <ScalarProperty Name="IsReelMakeReadyTime" ColumnName="IsReelMakeReadyTime" />
+                <ScalarProperty Name="IsReelMakeReady" ColumnName="IsReelMakeReady" />
+                <ScalarProperty Name="IsGuillotineEstTime" ColumnName="IsGuillotineEstTime" />
+                <ScalarProperty Name="IsPaperEstTime" ColumnName="IsPaperEstTime" />
+                <ScalarProperty Name="IsPressEstTime" ColumnName="IsPressEstTime" />
+                <ScalarProperty Name="IsMakereadyEstTime" ColumnName="IsMakereadyEstTime" />
+                <ScalarProperty Name="IsWashupEstTime" ColumnName="IsWashupEstTime" />
+                <ScalarProperty Name="IsPlateEstTime" ColumnName="IsPlateEstTime" />
+                <ScalarProperty Name="InFilmEstTime" ColumnName="InFilmEstTime" />
+                <ScalarProperty Name="IsInksEstTime" ColumnName="IsInksEstTime" />
+                <ScalarProperty Name="IsNoOfCuts" ColumnName="IsNoOfCuts" />
+                <ScalarProperty Name="IsNoOfTrims" ColumnName="IsNoOfTrims" />
+                <ScalarProperty Name="IsGuilotineItemSize" ColumnName="IsGuilotineItemSize" />
+                <ScalarProperty Name="IsGuilotineWorkingSize" ColumnName="IsGuilotineWorkingSize" />
+                <ScalarProperty Name="IsDefaultGuilotine" ColumnName="IsDefaultGuilotine" />
+                <ScalarProperty Name="IsPaperSheetQty" ColumnName="IsPaperSheetQty" />
+                <ScalarProperty Name="IsPaperWeight" ColumnName="IsPaperWeight" />
+                <ScalarProperty Name="IsSpoilageAllowed" ColumnName="IsSpoilageAllowed" />
+                <ScalarProperty Name="IsOrderSheetSize" ColumnName="IsOrderSheetSize" />
+                <ScalarProperty Name="IsDefaultStockDetail" ColumnName="IsDefaultStockDetail" />
+                <ScalarProperty Name="IsPrintSheetQty" ColumnName="IsPrintSheetQty" />
+                <ScalarProperty Name="IsNumberOfPasses" ColumnName="IsNumberOfPasses" />
+                <ScalarProperty Name="IsImpressionCount" ColumnName="IsImpressionCount" />
+                <ScalarProperty Name="IsItemSize" ColumnName="IsItemSize" />
+                <ScalarProperty Name="IsWorkingSize" ColumnName="IsWorkingSize" />
+                <ScalarProperty Name="IsDefaultPressInstruction" ColumnName="IsDefaultPressInstruction" />
+                <ScalarProperty Name="IsDefaultWashupUsed" ColumnName="IsDefaultWashupUsed" />
+                <ScalarProperty Name="IsDefaultMakereadyUsed" ColumnName="IsDefaultMakereadyUsed" />
+                <ScalarProperty Name="IsdefaultPlateUsed" ColumnName="IsdefaultPlateUsed" />
+                <ScalarProperty Name="IsDefaultFilmUsed" ColumnName="IsDefaultFilmUsed" />
+                <ScalarProperty Name="IsDefaultInkColorUsed" ColumnName="IsDefaultInkColorUsed" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

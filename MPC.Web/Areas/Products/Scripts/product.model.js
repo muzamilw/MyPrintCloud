@@ -356,14 +356,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     templateType(tempType);
                     if (template()) {
                         if (tempType === 1) {
-                            template().isCreatedManual(true);
+                            template().isCreatedManualUi(true);
                         }
                         else if (tempType === 2) {
-                            template().isCreatedManual(false);
+                            template().isCreatedManualUi(false);
                             template().fileSource(undefined);
                         }
                         else {
-                            template().isCreatedManual(undefined);
+                            template().isCreatedManualUi(undefined);
                         }
                     }
                 }
@@ -1103,6 +1103,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 productName: productName,
                 internalFlagId: internalFlagId
             }),
+            // Has Valid Template
+            hasTemplatePagesForManual = function () {
+                if ((isFinishedGoodsUi() !== '1') || (templateTypeUi() !== '1')) {
+                    return true;
+                }
+
+                return (isFinishedGoodsUi() === '1') && (templateTypeUi() === '1') && (template() && template().templatePages().length > 0);
+            },
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0 && itemVdpPrices.filter(function (itemVdpPrice) {
@@ -1114,7 +1122,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemSections.filter(function (itemSection) {
                     return !itemSection.isValid();
                 }).length === 0 &&
-                template().isValid();
+                template().isValid() &&
+                hasTemplatePagesForManual();
             }),
             // Show All Error Messages
             showAllErrors = function () {
@@ -1171,6 +1180,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var templateFileElement = template().fileSource.domElement;
                         validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
                     }
+                }
+                // If Print Item and don't has Template Pages for Blank Template
+                if (!hasTemplatePagesForManual()) {
+                    validationSummaryList.push({
+                        name: "Atleast one Template Page is required in case of Blank Template",
+                        element: template().isCreatedManual.domElement
+                    });
                 }
                 // Show Item Section Errors
                 var itemSectionInvalid = itemSections.find(function (itemSection) {
@@ -1834,6 +1850,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
                 (!specifiedId ? true : undefined)),
+            // Is Created Manual Changed
+            isCreatedManualUi = ko.computed({
+                read: function() {
+                    return isCreatedManual();
+                },
+                write: function(value) {
+                    if (value === isCreatedManual()) {
+                        return;
+                    }
+
+                    isCreatedManual(value);
+                    if (specifiedIsCreatedManual === false) {
+                        specifiedIsCreatedManual = value;
+                    }
+                }
+            }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate !== null && specifiedIsSpotTemplate !== undefined ? specifiedIsSpotTemplate :
                 (!specifiedId ? true : undefined)),
@@ -1841,7 +1873,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileSource = ko.observable(specifiedFileSource).extend({
                 required: {
                     onlyIf: function () {
-                        return isCreatedManual() === false;
+                        return specifiedIsCreatedManual !== false && isCreatedManual() === false;
                     }
                 }
             }),
@@ -1851,7 +1883,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             templatePages = ko.observableArray([]),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
-                return isCreatedManual() || (isCreatedManual() === false && !fileSource());
+                return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
             }),
             // Add Template Page
             addTemplatePage = function () {
@@ -1938,6 +1970,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
+            isCreatedManualUi: isCreatedManualUi,
             isSpotTemplate: isSpotTemplate,
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,
