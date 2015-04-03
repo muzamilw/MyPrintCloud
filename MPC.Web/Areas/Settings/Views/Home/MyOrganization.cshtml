@@ -309,14 +309,11 @@
                                                         <div class="col-lg-6">
                                                             <div class="fileUpload btn btn-primary col-md-2">
                                                                 <span>....</span>
-                                                                <input type="file" class="upload" id="orgLogo" name="file" onchange="readURL(this);" />
+                                                                <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
                                                             </div>
-                                                            <div class="col-md-3">
-                                                                <button type="submit" id="orgImageSubmitBtn" disabled class="btn btn-primary"> Upload</button>
-                                                            </div>
-
+                                                           
                                                             <div class="col-md-12" style="margin-top: 10px;">
-                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: $root.orgnizationImage }" />
+                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: orgnizationImage }," />
                                                             </div>
                                                             <div class="col-md-12">
                                                                 <span class="help-block text-right">Company logo on MIS Dashboard</span>

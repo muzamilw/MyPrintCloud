@@ -835,7 +835,7 @@ namespace MPC.Repository.Repositories
                 sets.ExportRetailStore1 = ExportRetailCompany1(CompanyId, sets,true);
                 sets.ExportRetailStore3 = ExportRetailCompany3(CompanyId, sets,2);// 2 for retail store
                 sets.ExportRetailStore2 = ExportRetailCompany2(CompanyId, sets, 2);// 2 for retail store
-                sets.ExportRetailStore4 = ExportRetailCompany4(CompanyId, sets, 2); // 2 for retail store
+               // sets.ExportRetailStore4 = ExportRetailCompany4(CompanyId, sets, 2); // 2 for retail store
 
                 return sets;
 
@@ -856,7 +856,7 @@ namespace MPC.Repository.Repositories
                 sets.ExportRetailStore1WOP = ExportRetailCompany1(CompanyId, sets, false);
                 sets.ExportRetailStore3WOP = ExportRetailCompany3(CompanyId, sets, 4);// 4 for retail store without products
                 sets.ExportRetailStore2WOP = ExportRetailCompany2(CompanyId, sets, 4);// 4 for retail store without products
-                sets.ExportRetailStore4WOP = ExportRetailCompany4(CompanyId, sets, 4); // 4 for retail store without products
+              //  sets.ExportRetailStore4WOP = ExportRetailCompany4(CompanyId, sets, 4); // 4 for retail store without products
 
                 return sets;
 
@@ -881,14 +881,19 @@ namespace MPC.Repository.Repositories
                 .ForMember(x => x.Estimates, opt => opt.Ignore())
                 .ForMember(x => x.Invoices, opt => opt.Ignore())
                 .ForMember(x => x.Items, opt => opt.Ignore())
-                .ForMember(x => x.ProductCategories, opt => opt.Ignore())
-                .ForMember(x => x.CmsPages, opt => opt.Ignore());
+                .ForMember(x => x.ProductCategories, opt => opt.Ignore());
 
                 Mapper.CreateMap<CompanyDomain, CompanyDomain>()
                 .ForMember(x => x.Company, opt => opt.Ignore());
 
                 Mapper.CreateMap<CmsOffer, CmsOffer>()
                .ForMember(x => x.Company, opt => opt.Ignore());
+
+                Mapper.CreateMap<CmsPage, CmsPage>()
+                .ForMember(x => x.CmsPageTags, opt => opt.Ignore())
+                .ForMember(x => x.PageCategory, opt => opt.Ignore())
+                .ForMember(x => x.CmsSkinPageWidgets, opt => opt.Ignore())
+                .ForMember(x => x.Company, opt => opt.Ignore());
 
                 Mapper.CreateMap<MediaLibrary, MediaLibrary>()
               .ForMember(x => x.Company, opt => opt.Ignore());
@@ -974,6 +979,13 @@ namespace MPC.Repository.Repositories
                 if(widgets != null && widgets.Count > 0)
                 {
                     ObjCompany.CmsSkinPageWidgets = widgets;
+                }
+
+                List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
+
+                if (pages != null && pages.Count > 0)
+                {
+                    ObjCompany.CmsPages = pages;
                 }
 
                  var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
@@ -1434,7 +1446,7 @@ namespace MPC.Repository.Repositories
                 sets.ExportStore1 = ExportCorporateCompany1(CompanyId, sets,true);
                 sets.ExportStore3 = ExportRetailCompany3(CompanyId, sets,1);// 1 to make coporate json file
                 sets.ExportStore2 = ExportRetailCompany2(CompanyId, sets, 1);// 1 to make coporate json file
-                sets.ExportStore4 = ExportRetailCompany4(CompanyId, sets, 1);// 1 to make coporate json file
+                //sets.ExportStore4 = ExportRetailCompany4(CompanyId, sets, 1);// 1 to make coporate json file
 
                 return sets;
 
@@ -1458,7 +1470,7 @@ namespace MPC.Repository.Repositories
                 sets.ExportStore1WOP = ExportCorporateCompany1(CompanyId, sets,false);
                 sets.ExportStore3WOP = ExportRetailCompany3(CompanyId, sets, 3); // 3 to make corporate json without products
                 sets.ExportStore2WOP = ExportRetailCompany2(CompanyId, sets, 3); // 3 to make corporate json without products
-                sets.ExportStore4WOP = ExportRetailCompany4(CompanyId, sets, 3); // 3 to make corporate json without products
+               // sets.ExportStore4WOP = ExportRetailCompany4(CompanyId, sets, 3); // 3 to make corporate json without products
 
                 return sets;
 
@@ -1484,14 +1496,21 @@ namespace MPC.Repository.Repositories
                 .ForMember(x => x.Estimates, opt => opt.Ignore())
                 .ForMember(x => x.Invoices, opt => opt.Ignore())
                 .ForMember(x => x.Items, opt => opt.Ignore())
-                .ForMember(x => x.ProductCategories, opt => opt.Ignore())
-                .ForMember(x => x.CmsPages, opt => opt.Ignore());
+                .ForMember(x => x.ProductCategories, opt => opt.Ignore());
 
                 Mapper.CreateMap<CompanyDomain, CompanyDomain>()
                 .ForMember(x => x.Company, opt => opt.Ignore());
 
                 Mapper.CreateMap<CmsOffer, CmsOffer>()
                .ForMember(x => x.Company, opt => opt.Ignore());
+
+               
+
+                Mapper.CreateMap<CmsPage, CmsPage>()
+                    .ForMember(x => x.CmsPageTags, opt => opt.Ignore())
+                    .ForMember(x => x.PageCategory, opt => opt.Ignore())
+                    .ForMember(x => x.CmsSkinPageWidgets, opt => opt.Ignore())
+                    .ForMember(x => x.Company, opt => opt.Ignore());
 
                 Mapper.CreateMap<MediaLibrary, MediaLibrary>()
               .ForMember(x => x.Company, opt => opt.Ignore());
@@ -1573,10 +1592,14 @@ namespace MPC.Repository.Repositories
                 //Include("CmsSkinPageWidgets")
 
                 List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
-
+                List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
                 if (widgets != null && widgets.Count > 0)
                 {
                     ObjCompany.CmsSkinPageWidgets = widgets;
+                }
+                if (pages != null && pages.Count > 0)
+                {
+                    ObjCompany.CmsPages = pages;
                 }
 
                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
@@ -2347,7 +2370,7 @@ namespace MPC.Repository.Repositories
                             Company comp = new Company();
                             comp = objExpRetail.RetailCompany;
                             comp.OrganisationId = OrganisationID;
-                            comp.Name = objExpRetail.RetailCompany.Name + "- Copy";
+                            comp.Name = objExpRetail.RetailCompany.Name;
                             comp.IsDisabled = 0;
 
                             comp.CompanyDomains = null;
@@ -2407,19 +2430,19 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            List<CmsPage> cmsPages = Sets.ExportRetailStore4;
-                            if (cmsPages != null && cmsPages.Count > 0)
-                            {
-                                foreach (var Page in cmsPages)
-                                {
+                            //List<CmsPage> cmsPages = Sets.ExportRetailStore4;
+                            //if (cmsPages != null && cmsPages.Count > 0)
+                            //{
+                            //    foreach (var Page in cmsPages)
+                            //    {
 
-                                    Page.PageCategory = null;
-                                    Page.CompanyId = oRetailCID;
-                                    Page.OrganisationId = OrganisationID;
-                                    db.CmsPages.Add(Page);
-                                }
-                                db.SaveChanges();
-                            }
+                            //        Page.PageCategory = null;
+                            //        Page.CompanyId = oRetailCID;
+                            //        Page.OrganisationId = OrganisationID;
+                            //        db.CmsPages.Add(Page);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             //  import items
                             List<Item> items = Sets.ExportRetailStore3;
                             if (items != null && items.Count > 0)
@@ -2555,19 +2578,19 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
-                            if (cmsPages != null && cmsPages.Count > 0)
-                            {
-                                foreach (var Page in cmsPages)
-                                {
+                            //List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
+                            //if (cmsPages != null && cmsPages.Count > 0)
+                            //{
+                            //    foreach (var Page in cmsPages)
+                            //    {
 
-                                    Page.PageCategory = null;
-                                    Page.CompanyId = oRetailCIDWOP;
-                                    Page.OrganisationId = OrganisationID;
-                                    db.CmsPages.Add(Page);
-                                }
-                                db.SaveChanges();
-                            }
+                            //        Page.PageCategory = null;
+                            //        Page.CompanyId = oRetailCIDWOP;
+                            //        Page.OrganisationId = OrganisationID;
+                            //        db.CmsPages.Add(Page);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             //  import items
                             List<Item> items = Sets.ExportRetailStore3WOP;
                             if (items != null && items.Count > 0)
@@ -2654,7 +2677,7 @@ namespace MPC.Repository.Repositories
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                             comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                            if (comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                            if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                             {
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
@@ -2697,18 +2720,18 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            List<CmsPage> cmsPages = Sets.ExportStore4;
-                            if (cmsPages != null && cmsPages.Count > 0)
-                            {
-                                foreach (var Page in cmsPages)
-                                {
-                                    Page.OrganisationId = OrganisationID;
-                                    Page.PageCategory = null;
-                                    Page.CompanyId = oCID;
-                                    db.CmsPages.Add(Page);
-                                }
-                                db.SaveChanges();
-                            }
+                            //List<CmsPage> cmsPages = Sets.ExportStore4;
+                            //if (cmsPages != null && cmsPages.Count > 0)
+                            //{
+                            //    foreach (var Page in cmsPages)
+                            //    {
+                            //        Page.OrganisationId = OrganisationID;
+                            //        Page.PageCategory = null;
+                            //        Page.CompanyId = oCID;
+                            //        db.CmsPages.Add(Page);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             //  import items
                             List<Item> items = Sets.ExportStore3;
                             if (items != null && items.Count > 0)
@@ -2806,10 +2829,12 @@ namespace MPC.Repository.Repositories
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                             comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                             comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                            if (comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                            if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                             {
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                                comp.CmsPages.ToList().ForEach(x => x.CmsPageTags = null);
+                               
                             }
                             if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             {
@@ -2848,18 +2873,19 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            List<CmsPage> cmsPages = Sets.ExportStore4WOP;
-                            if (cmsPages != null && cmsPages.Count > 0)
-                            {
-                                foreach (var Page in cmsPages)
-                                {
-                                    Page.OrganisationId = OrganisationID;
-                                    Page.PageCategory = null;
-                                    Page.CompanyId = oCIDWOP;
-                                    db.CmsPages.Add(Page);
-                                }
-                                db.SaveChanges();
-                            }
+                            //List<CmsPage> cmsPages = Sets.ExportStore4WOP;
+                            //if (cmsPages != null && cmsPages.Count > 0)
+                            //{
+                            //    foreach (var Page in cmsPages)
+                            //    {
+                            //        Page.OrganisationId = OrganisationID;
+                            //        Page.PageCategory = null;
+                            //        Page.CompanyId = oCIDWOP;
+                            //        db.CmsPages.Add(Page);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
+
                             //  import items
                             List<Item> items = Sets.ExportStore3WOP;
                             if (items != null && items.Count > 0)

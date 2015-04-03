@@ -13,6 +13,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              id = ko.observable(),
              //Name
              name = ko.observable().extend({ required: true }),
+             // logo Image
+             orgnizationImage = ko.observable(),
              //Address 1
              address1 = ko.observable(),
              //Address 2
@@ -70,6 +72,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              // ReSharper disable InconsistentNaming
              dirtyFlag = new ko.dirtyFlag({
                  name: name,
+                 orgnizationImage:orgnizationImage,
                  address1: address1,
                  address2: address2,
                  city: city,
@@ -102,6 +105,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
          self = {
              id: id,
              name: name,
+             orgnizationImage:orgnizationImage,
              address1: address1,
              address2: address2,
              city: city,
@@ -128,7 +132,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              isValid: isValid,
              dirtyFlag: dirtyFlag,
              hasChanges: hasChanges,
-             reset: reset,
+             reset: reset
          };
          return self;
      };
@@ -299,6 +303,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         companySites.state(source.StateId === null ? undefined : source.StateId);
         companySites.country(source.CountryId === null ? undefined : source.CountryId);
         // companySites.languageEditor(source.LanguageEditor === null ? undefined : LanguageEditor.Create(source.LanguageEditor));
+        companySites.orgnizationImage(source.ImageSource);
         return companySites;
     };
     //Convert Server To Client
@@ -355,6 +360,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         _.each(source.languageEditors(), function (item) {
             result.LanguageEditors.push(item.convertToServerData());
         });
+        result.MisLogo = source.orgnizationImage();
         return result;
     };
     //Convert Client To Server

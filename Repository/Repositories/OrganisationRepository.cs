@@ -498,10 +498,11 @@ namespace MPC.Repository.Repositories
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
                          comp.Addresses.ToList().ForEach(a => a.CompanyContacts = null);
                          comp.Addresses.ToList().ForEach(v => v.CompanyTerritory = null);
-                         if (comp.CmsPages != null && comp.CmsSkinPageWidgets.Count > 0)
+                         if (comp.CmsPages != null && comp.CmsPages.Count > 0)
                          {
                              comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                              comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                             comp.CmsPages.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          }
                          if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                          {
@@ -541,18 +542,18 @@ namespace MPC.Repository.Repositories
                          db.SaveChanges();
 
 
-                         List<CmsPage> cmsPages = Sets.ExportStore4;
-                         if (cmsPages != null && cmsPages.Count > 0)
-                         {
-                             foreach (var Page in cmsPages)
-                             {
-                                 Page.OrganisationId = OrganisationID;
-                                 Page.PageCategory = null;
-                                 Page.CompanyId = oCID;
-                                 db.CmsPages.Add(Page);
-                             }
-                             db.SaveChanges();
-                         }
+                         //List<CmsPage> cmsPages = Sets.ExportStore4;
+                         //if (cmsPages != null && cmsPages.Count > 0)
+                         //{
+                         //    foreach (var Page in cmsPages)
+                         //    {
+                         //        Page.OrganisationId = OrganisationID;
+                         //        Page.PageCategory = null;
+                         //        Page.CompanyId = oCID;
+                         //        db.CmsPages.Add(Page);
+                         //    }
+                         //    db.SaveChanges();
+                         //}
                          //  import items
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
