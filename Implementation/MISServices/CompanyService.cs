@@ -5607,8 +5607,8 @@ namespace MPC.Implementation.MISServices
                     organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets,SubDomain);
                     string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
                     ImportStore(OrganisationId, StoreName,SubDomain);
-                    string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
-                    ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
+                    //string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+                    //ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
                     return true;
                 }
                 else
