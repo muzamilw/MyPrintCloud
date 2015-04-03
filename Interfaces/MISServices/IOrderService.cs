@@ -48,6 +48,7 @@ namespace MPC.Interfaces.MISServices
 
         PtvDTO GetPTV(PTVRequestModel request);
 
+        PtvDTO GetPTVCalculation(PTVRequestModel request);
         BestPressResponse GetBestPresses(ItemSection currentSection);
     }
 }

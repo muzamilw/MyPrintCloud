@@ -103,6 +103,9 @@ define("order/order.dataservice", function () {
                     // Define request to get Best Press list for section screen with run wizard button
                     amplify.request.define('getBestPress', 'ajax', {
                         url: ist.siteUrl + '/Api/BestPress',
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTVCalculation', 'ajax', {
+                        url: ist.siteUrl + '/Api/PtvCalculation',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -218,6 +221,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                 // get PTV Calculation
+            getPTVCalculation = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTVCalculation',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
                  // get Stock items
             getPTV = function (params, callbacks) {
                 initialize();
@@ -263,6 +276,7 @@ define("order/order.dataservice", function () {
             deleteOrder: deleteOrder,
             getPTV: getPTV,
             getBestPress: getBestPress
+            getPTVCalculation: getPTVCalculation
         };
     })();
 
