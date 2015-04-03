@@ -12,6 +12,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? ItemSectionId { get; set; }
         public long? CostCentreId { get; set; }
         public int? CostCentreType { get; set; }
+        public string CostCentreName { get; set; }
         public int? SystemCostCentreType { get; set; }
         public short Order { get; set; }
         public short? IsDirectCost { get; set; }
