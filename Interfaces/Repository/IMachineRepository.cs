@@ -22,6 +22,8 @@ namespace MPC.Interfaces.Repository
         List<Machine> GetMachinesByOrganisationID(long OID);
 
         List<LookupMethod> getLookupmethodsbyOrganisationID(long OID);
+
+        IEnumerable<MachineSpoilage> GetMachineSpoilageItems(long machineId);
     }
 }
 

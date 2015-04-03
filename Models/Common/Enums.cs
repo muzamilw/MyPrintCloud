@@ -381,4 +381,34 @@ namespace MPC.Models.Common
         Cm = 2,
         Inch = 3
     }
+    public enum SystemCostCenterTypes
+    {
+        Ink = 1,
+        Paper = 2,
+        Film = 3,
+        Plate = 4,
+        Makeready = 5,
+        Press = 6,
+        Washup = 7,
+        Guillotine = 8,
+        UserDefinedCostcentres = 9,
+        Stock = 10,
+        Outwork = 11,
+        ReelMakeready = 12,
+        FinishedGood = 13
+    }
+
+    public enum MachineCategories
+    {
+        Guillotin = 4,
+        Presses = 1,
+        DigitalPresses = 2,
+        copier = 3
+    }
+    public enum PressReRunModes
+    {
+        NotReRun = 1,
+        CalculateValuesToShow = 2,
+        ReRunPress = 3
+    }
 }

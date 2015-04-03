@@ -10,6 +10,7 @@ using System.Web;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 
 namespace MPC.Implementation.MISServices
 {
@@ -33,6 +34,8 @@ namespace MPC.Implementation.MISServices
         private readonly IOrderRepository orderRepository;
         private readonly IItemRepository itemRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
+        
+        
         #endregion
         #region Constructor
 
@@ -76,6 +79,7 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("chartOfAccountRepository");
             }
+            
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
@@ -90,6 +94,7 @@ namespace MPC.Implementation.MISServices
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.itemRepository = itemRepository;
             this.templateService = templateService;
+
         }
 
         #endregion
@@ -1019,5 +1024,7 @@ namespace MPC.Implementation.MISServices
         }
         
         #endregion
+
+        
     }
 }
