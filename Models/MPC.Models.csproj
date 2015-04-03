@@ -102,6 +102,7 @@
     <Compile Include="Common\AccessRight.cs" />
     <Compile Include="Common\AccessRightClaimValue.cs" />
     <Compile Include="Common\AddOnCostsCenter.cs" />
+    <Compile Include="Common\BestPress.cs" />
     <Compile Include="Common\BreadCrumbModel.cs" />
     <Compile Include="Common\CategoryType.cs" />
     <Compile Include="Common\CategoryRegion.cs" />
@@ -398,6 +399,7 @@
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
+    <Compile Include="ResponseModels\BestPressResponse.cs" />
     <Compile Include="ResponseModels\CalendarBaseResponse.cs" />
     <Compile Include="ResponseModels\CampaignBaseResponse.cs" />
     <Compile Include="ResponseModels\CmsPageWithWidgetList.cs" />
