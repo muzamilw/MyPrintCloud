@@ -93,6 +93,7 @@
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
     <Compile Include="Repository\IGoodRecieveNoteRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
+    <Compile Include="Repository\IInkPlateSideRepository.cs" />
     <Compile Include="Repository\ILookupMethodRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />

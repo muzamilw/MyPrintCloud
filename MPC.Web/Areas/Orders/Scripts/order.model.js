@@ -841,6 +841,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             side1PlateQty: side1PlateQty,
             side2PlateQty: side2PlateQty,
             isPlateSupplied: isPlateSupplied,
+            isDoubleSided: isDoubleSided,
+            isWorknTurn: isWorknTurn,
+            doubleWorknTurn: doubleWorknTurn,
+            printViewLayoutPortrait: printViewLayoutPortrait,
+            printViewLayoutLandscape: printViewLayoutLandscape,
+            plateInkId: plateInkId,
+            similarSections: similarSections,
             sectionCostCentres: sectionCostCentres,
             selectStock: selectStock,
             selectPress: selectPress,
@@ -1001,7 +1008,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
              referenceCode = ko.observable(specifiedReferenceCode),
              // Payment Description
              paymentDescription = ko.observable(specifiedPaymentDescription),
+// ReSharper disable UnusedLocals
              customerAddress = ko.observable(),
+// ReSharper restore UnusedLocals
               // Formatted Payment Date
              formattedPaymentDate = ko.computed({
                  read: function () {
@@ -1662,10 +1671,36 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Company Contact Entity
     CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
+// ReSharper restore InconsistentNaming
         return {
             id: specifiedId,
             name: specifiedName,
             email: specifiedEmail || ""
+        };
+    },
+    
+    // Paper Size Entity
+// ReSharper disable InconsistentNaming
+    PaperSize = function (specifiedId, specifiedName, specifiedHeight, specifiedWidth) {
+// ReSharper restore InconsistentNaming
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            height: specifiedHeight,
+            width: specifiedWidth
+        };
+    },
+    
+    // Ink Plate Side Entity
+// ReSharper disable InconsistentNaming
+    InkPlateSide = function (specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
+// ReSharper restore InconsistentNaming
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            isDoubleSided: specifiedIsDoubleSided,
+            plateInkSide1: specifiedPlateInkSide1,
+            plateInkSide2: specifiedPlateInkSide2
         };
     };
 
@@ -2019,6 +2054,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
             source.CostCentreTypeName, callbacks);
     };
+    
+    // Paper Size Factory
+    PaperSize.Create = function (source) {
+        return new PaperSize(source.PaperSizeId, source.Name, source.Height, source.Width);
+    };
+    
+    // Ink Plate Side Factory
+    InkPlateSide.Create = function (source) {
+        return new InkPlateSide(source.InkPlateId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
+    };
+
+
     return {
         // Estimate Constructor
         Estimate: Estimate,
@@ -2053,6 +2100,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         //Item Price Matrix
         ItemPriceMatrix: ItemPriceMatrix,
         //Item Add on Cost Centre
-        ItemAddonCostCentre: ItemAddonCostCentre
+        ItemAddonCostCentre: ItemAddonCostCentre,
+        // Paper Size Constructor
+        PaperSize: PaperSize,
+        // Ink Plate Side Constructor
+        InkPlateSide: InkPlateSide
     };
 });

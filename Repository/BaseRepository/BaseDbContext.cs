@@ -641,6 +641,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<JobPreference> JobPreferences { get; set; }
 
         /// <summary>
+        /// Ink Plate Side DbSet
+        /// </summary>
+        public DbSet<InkPlateSide> InkPlateSides { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

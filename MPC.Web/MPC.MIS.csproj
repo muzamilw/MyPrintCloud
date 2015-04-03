@@ -376,6 +376,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
@@ -450,6 +451,7 @@
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />

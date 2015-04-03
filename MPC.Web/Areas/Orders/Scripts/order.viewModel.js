@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockItem) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -33,6 +33,10 @@ define("order/order.viewModel",
                     pipelineSources = ko.observableArray([]),
                     // Payment Methods
                     paymentMethods = ko.observableArray([]),
+                    // paper sizes Methods
+                    paperSizes = ko.observableArray([]),
+                    // Ink Plate Sides Methods
+                    inkPlateSides = ko.observableArray([]),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // Job Statuses
@@ -66,6 +70,13 @@ define("order/order.viewModel",
                             StatusName: "Not Progressed to Job"
                         }
                     ]),
+                    // Stock Category 
+                    stockCategory = {
+                        paper: 1,
+                        inks: 2,
+                        films: 3,
+                        plates: 4
+                    },
                     // Nominal Codes
                     nominalCodes = ko.observableArray([]),
                     //Filter 
@@ -168,6 +179,16 @@ define("order/order.viewModel",
 
                     // Selected Section
                     selectedSection = ko.observable(),
+                    // Available Ink Plate Sides
+                    availableInkPlateSides = ko.computed(function () {
+                        if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
+                            return inkPlateSides();
+                        }
+
+                        return inkPlateSides.filter(function (inkPlateSide) {
+                            return inkPlateSide.isDoubleSided === selectedSection().isDoubleSided();
+                        });
+                    }),
                     // Selected Job Description
                     selectedJobDescription = ko.observable(),
                     //Current Screen
@@ -291,7 +312,7 @@ define("order/order.viewModel",
                     }),
                     vatList = ko.observableArray([
                         {
-                             name: "VAT Free", id: 1, tax: 0
+                            name: "VAT Free", id: 1, tax: 0
                         },
                         { name: "VAT 20%", id: 2, tax: 20 },
                         { name: "VAT 10%", id: 3, tax: 10 }
@@ -529,17 +550,16 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
-//<<<<<<< HEAD
                 deleteOrderButtonHandler = function () {
-                        confirmation.messageText("Are you sure you want to delete order?");
-                        confirmation.afterProceed(deleteOrder);
-                        confirmation.afterCancel(function () {
-                            
-                        });
-                        confirmation.show();
-                        return;
+                    confirmation.messageText("Are you sure you want to delete order?");
+                    confirmation.afterProceed(deleteOrder);
+                    confirmation.afterCancel(function () {
+
+                    });
+                    confirmation.show();
+                    return;
                 },
-                deleteOrder=function() {
+                deleteOrder = function () {
                     dataservice.deleteOrder({
                         OrderId: selectedOrder().id()
                     }, {
@@ -558,14 +578,15 @@ define("order/order.viewModel",
                         }
                     });
                 },
-//=======
-//>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 // #endregion
                     // #region ServiceCalls
                     // Get Base Data
                         getBaseData = function () {
                             dataservice.getBaseData({
                                 success: function (data) {
+                                    paperSizes.removeAll();
+                                    inkPlateSides.removeAll();
+                                    
                                     if (data.SectionFlags) {
                                         mapList(sectionFlags, data.SectionFlags, model.SectionFlag);
                                     }
@@ -598,6 +619,17 @@ define("order/order.viewModel",
                                             nominalCodes.push(item);
                                         });
                                     }
+                                    
+                                    // Paper Sizes
+                                    if (data.PaperSizes) {
+                                        mapList(paperSizes, data.PaperSizes, model.PaperSize);
+                                    }
+                                    
+                                    // Ink Plate Sides
+                                    if (data.InkPlateSides) {
+                                        mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
+                                    }
+                                    
                                     currencySymbol(data.CurrencySymbol);
                                     view.initializeLabelPopovers();
                                 },
@@ -1161,7 +1193,7 @@ define("order/order.viewModel",
                             revrseCols: 0,
                             isDoubleSided: false,
                             isWorknTurn: false,
-                            isWorknTumble:false,
+                            isWorknTumble: false,
                             applyPress: false,
                             itemHeight: 300,
                             itemWidth: 400,
@@ -1172,12 +1204,12 @@ define("order/order.viewModel",
                             headDepth: 0,
                             printGutter: 0,
                             horizentalGutter: 0,
-                            verticalGutter:0
+                            verticalGutter: 0
                         }, {
-                            success: function (data) {                                
+                            success: function (data) {
                                 if (data != null) {
-                                        
-                                    
+
+
                                 }
                                 isLoadingOrders(false);
                             },
@@ -1316,7 +1348,11 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
-                    getPtvPlan: getPtvPlan
+                    getPtvPlan: getPtvPlan,
+                    //#endregion
+                    //#region Section Detail
+                    availableInkPlateSides: availableInkPlateSides,
+                    paperSizes: paperSizes
                     //#endregion
                 };
             })()
