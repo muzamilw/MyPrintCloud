@@ -356,14 +356,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     templateType(tempType);
                     if (template()) {
                         if (tempType === 1) {
-                            template().isCreatedManual(true);
+                            template().isCreatedManualUi(true);
                         }
                         else if (tempType === 2) {
-                            template().isCreatedManual(false);
+                            template().isCreatedManualUi(false);
                             template().fileSource(undefined);
                         }
                         else {
-                            template().isCreatedManual(undefined);
+                            template().isCreatedManualUi(undefined);
                         }
                     }
                 }
@@ -1850,6 +1850,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
                 (!specifiedId ? true : undefined)),
+            // Is Created Manual Changed
+            isCreatedManualUi = ko.computed({
+                read: function() {
+                    return isCreatedManual();
+                },
+                write: function(value) {
+                    if (value === isCreatedManual()) {
+                        return;
+                    }
+
+                    isCreatedManual(value);
+                    if (specifiedIsCreatedManual === false) {
+                        specifiedIsCreatedManual = value;
+                    }
+                }
+            }),
             // Is Spot Template
             isSpotTemplate = ko.observable(specifiedIsSpotTemplate !== null && specifiedIsSpotTemplate !== undefined ? specifiedIsSpotTemplate :
                 (!specifiedId ? true : undefined)),
@@ -1857,7 +1873,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             fileSource = ko.observable(specifiedFileSource).extend({
                 required: {
                     onlyIf: function () {
-                        return isCreatedManual() === false;
+                        return specifiedIsCreatedManual !== false && isCreatedManual() === false;
                     }
                 }
             }),
@@ -1867,7 +1883,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             templatePages = ko.observableArray([]),
             // Can add Template Pages
             canAddTemplatePages = ko.computed(function () {
-                return isCreatedManual() || (isCreatedManual() === false && !fileSource());
+                return isCreatedManual() || (specifiedIsCreatedManual !== false && isCreatedManual() === false && !fileSource());
             }),
             // Add Template Page
             addTemplatePage = function () {
@@ -1954,6 +1970,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             pdfTemplateWidth: pdfTemplateWidth,
             pdfTemplateHeight: pdfTemplateHeight,
             isCreatedManual: isCreatedManual,
+            isCreatedManualUi: isCreatedManualUi,
             isSpotTemplate: isSpotTemplate,
             canAddTemplatePages: canAddTemplatePages,
             fileSource: fileSource,

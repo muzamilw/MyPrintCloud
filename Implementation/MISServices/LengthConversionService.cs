@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using MPC.Interfaces.MISServices;
-using MPC.Interfaces.Repository;
-using MPC.Models.DomainModels;
-using LengthUnit = MPC.Models.Common.LengthUnit;
+﻿using MPC.Interfaces.MISServices;
+using MPC.Models.Common;
 
 namespace MPC.Implementation.MISServices
 {
@@ -13,130 +9,65 @@ namespace MPC.Implementation.MISServices
     public class LengthConversionService : ILengthConversionService
     {
         #region Private
-        
-        private readonly IOrganisationRepository organisationRepository;
 
         #endregion
 
         #region Constructor
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public LengthConversionService(IOrganisationRepository organisationRepository)
-        {
-            if (organisationRepository == null)
-            {
-                throw new ArgumentNullException("organisationRepository");
-            }
-
-            this.organisationRepository = organisationRepository;
-        }
-
         #endregion
-        
+
         #region Public
 
         /// <summary>
         /// Converts length to a specified output unit
         /// </summary>
-        public List<double> ConvertLengthFromSystemUnitToPoints(List<double> inputs)
+        public double ConvertLengthFromSystemUnitToPoints(double input, Models.DomainModels.LengthUnit systemUnit)
         {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
 
-            if (organisation == null)
+            double outputvalue;
+
+            if (systemUnit.Id == (int)LengthUnit.Inch)
             {
-                return new List<double>();
+                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Inch, systemUnit);
+                outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
+            }
+            else if (systemUnit.Id == (int)LengthUnit.Cm)
+            {
+                outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Cm, systemUnit);
+                outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
+            }
+            else
+            {
+                outputvalue = LengthConversionHelper.MmToPoint(input);
             }
 
-            if (organisation.LengthUnit == null)
-            {
-                return new List<double>();
-            }
-
-            if (inputs == null)
-            {
-                return new List<double>();
-            }
-
-          // ReSharper disable SuggestUseVarKeywordEvident
-            List<double> outputValues = new List<double>();
-// ReSharper restore SuggestUseVarKeywordEvident
-            foreach (double input in inputs)
-            {
-                double outputvalue;
-                
-                if (organisation.LengthUnit.Id == (int)LengthUnit.Inch)
-                {
-                    outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Inch, organisation.LengthUnit);
-                    outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
-                    outputValues.Add(outputvalue);
-                }
-                else if (organisation.LengthUnit.Id == (int)LengthUnit.Cm)
-                {
-                    outputvalue = LengthConversionHelper.ConvertLength(input, LengthUnit.Cm, organisation.LengthUnit);
-                    outputvalue = LengthConversionHelper.MmToPoint(outputvalue);
-                    outputValues.Add(outputvalue);
-                }
-                else
-                {
-                    outputvalue = LengthConversionHelper.MmToPoint(input);
-                    outputValues.Add(outputvalue);
-                }
-            }
-
-            return outputValues;
+            return outputvalue;
         }
 
         /// <summary>
         /// Converts length to a specified output unit
         /// </summary>
-        public List<double> ConvertLengthFromPointsToSystemUnit(List<double> inputs)
+        public double ConvertLengthFromPointsToSystemUnit(double input, Models.DomainModels.LengthUnit systemUnit)
         {
-            Organisation organisation = organisationRepository.GetOrganizatiobByID();
 
-            if (organisation == null)
+            double outputvalue;
+
+            if (systemUnit.Id == (int)LengthUnit.Inch)
             {
-                return new List<double>();
+                outputvalue = LengthConversionHelper.PointToMm(input);
+                outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Inch, systemUnit);
+            }
+            else if (systemUnit.Id == (int)LengthUnit.Cm)
+            {
+                outputvalue = LengthConversionHelper.PointToMm(input);
+                outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Cm, systemUnit);
+            }
+            else
+            {
+                outputvalue = LengthConversionHelper.PointToMm(input);
             }
 
-            if (organisation.LengthUnit == null)
-            {
-                return new List<double>();
-            }
-
-            if (inputs == null)
-            {
-                return new List<double>();
-            }
-
-            // ReSharper disable SuggestUseVarKeywordEvident
-            List<double> outputValues = new List<double>();
-            // ReSharper restore SuggestUseVarKeywordEvident
-            foreach (double input in inputs)
-            {
-                double outputvalue;
-
-                if (organisation.LengthUnit.Id == (int)LengthUnit.Inch)
-                {
-                    outputvalue = LengthConversionHelper.PointToMm(input);
-                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Inch, organisation.LengthUnit);
-                    outputValues.Add(outputvalue);
-                }
-                else if (organisation.LengthUnit.Id == (int)LengthUnit.Cm)
-                {
-                    outputvalue = LengthConversionHelper.PointToMm(input);
-                    outputvalue = LengthConversionHelper.ConvertLength(outputvalue, LengthUnit.Cm, organisation.LengthUnit);
-                    outputValues.Add(outputvalue);
-                }
-                else
-                {
-                    outputvalue = LengthConversionHelper.PointToMm(input);
-                    outputValues.Add(outputvalue);
-                }
-            }
-
-            return outputValues;
+            return outputvalue;
         }
 
         #endregion

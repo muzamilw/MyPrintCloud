@@ -296,6 +296,7 @@
         <EntityTypeShape EntityType="DomainModels.PurchaseDetail" Width="1.5" PointX="41.625" PointY="36.625" />
         <AssociationConnector Association="DomainModels.FK_GoodsreceivedID" />
         <AssociationConnector Association="DomainModels.FK_PurchaseID" />
+        <EntityTypeShape EntityType="DomainModels.JobPreference" Width="1.5" PointX="7.375" PointY="40.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

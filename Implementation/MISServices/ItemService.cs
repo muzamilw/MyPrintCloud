@@ -355,31 +355,41 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private void ConvertTemplateLengthToPoints(Item itemTarget)
         {
-            // ReSharper disable SuggestUseVarKeywordEvident
-            List<double> inputs = new List<double>();
-            // ReSharper restore SuggestUseVarKeywordEvident
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
 
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
+            
             if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
             {
-                inputs.Add(itemTarget.Template.PDFTemplateHeight.Value);
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
             }
 
             if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
             {
-                inputs.Add(itemTarget.Template.PDFTemplateWidth.Value);
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromSystemUnitToPoints(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
             }
 
-            // Convert Length to Points
-            List<double> outputs = lengthConversionService.ConvertLengthFromSystemUnitToPoints(inputs);
-
-            // Update Template Height and Width
-            if (outputs.Any())
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
             {
-                itemTarget.Template.PDFTemplateHeight = outputs[0];
+                return;
+            }
 
-                if (outputs.Count > 1)
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
                 {
-                    itemTarget.Template.PDFTemplateWidth = outputs[1];
+                    templatePage.Height = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromSystemUnitToPoints(templatePage.Width.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -394,31 +404,41 @@ namespace MPC.Implementation.MISServices
                 return;
             }
 
-            // ReSharper disable SuggestUseVarKeywordEvident
-            List<double> inputs = new List<double>();
-            // ReSharper restore SuggestUseVarKeywordEvident
+            Organisation organisation = organizationRepository.GetOrganizatiobByID();
+
+            if (organisation == null || organisation.LengthUnit == null)
+            {
+                return;
+            }
 
             if (itemTarget.Template.PDFTemplateHeight.HasValue && itemTarget.Template.PDFTemplateHeight.Value > 0)
             {
-                inputs.Add(itemTarget.Template.PDFTemplateHeight.Value);
+                itemTarget.Template.PDFTemplateHeight = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateHeight.Value, organisation.LengthUnit);
             }
 
             if (itemTarget.Template.PDFTemplateWidth.HasValue && itemTarget.Template.PDFTemplateWidth.Value > 0)
             {
-                inputs.Add(itemTarget.Template.PDFTemplateWidth.Value);
+                itemTarget.Template.PDFTemplateWidth = 
+                    lengthConversionService.ConvertLengthFromPointsToSystemUnit(itemTarget.Template.PDFTemplateWidth.Value, organisation.LengthUnit);
             }
 
-            // Convert Length to Points
-            List<double> outputs = lengthConversionService.ConvertLengthFromPointsToSystemUnit(inputs);
-
-            // Update Template Height and Width
-            if (outputs.Any())
+            // Convert Template Pages length to Points
+            if (itemTarget.Template.TemplatePages == null)
             {
-                itemTarget.Template.PDFTemplateHeight = outputs[0];
+                return;
+            }
 
-                if (outputs.Count > 1)
+            foreach (TemplatePage templatePage in itemTarget.Template.TemplatePages)
+            {
+                if (templatePage.Height.HasValue && templatePage.Height.Value > 0)
                 {
-                    itemTarget.Template.PDFTemplateWidth = outputs[1];
+                    templatePage.Height = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Height.Value, organisation.LengthUnit);
+                }
+
+                if (templatePage.Width.HasValue && templatePage.Width.Value > 0)
+                {
+                    templatePage.Width = lengthConversionService.ConvertLengthFromPointsToSystemUnit(templatePage.Width.Value, organisation.LengthUnit);
                 }
             }
         }
@@ -1831,10 +1851,7 @@ namespace MPC.Implementation.MISServices
             {
                 throw new MPCException(string.Format(CultureInfo.InvariantCulture, LanguageResources.ItemService_ItemNotFound, id), itemRepository.OrganisationId);
             }
-
-            // Get Pdf File in case of Template Type 2
-            GetTemplatePdfFile(item);
-
+            
             // If template Exists then Convert the Height & Width to System Unit
             ConvertTemplateLengthToSystemUnit(item);
 
@@ -1844,7 +1861,9 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Returns Pdf File  for Template
         /// </summary>
+// ReSharper disable UnusedMember.Local
         private void GetTemplatePdfFile(Item item)
+// ReSharper restore UnusedMember.Local
         {
             if (item.TemplateType == 2 && item.Template != null)
             {

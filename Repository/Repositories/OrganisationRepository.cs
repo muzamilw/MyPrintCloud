@@ -585,6 +585,8 @@ namespace MPC.Repository.Repositories
                          //    }
                          //    db.SaveChanges();
                          //}
+
+                         List<long> OldCatIds = new List<long>();
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportStore2;
                          if (prodCats != null && prodCats.Count > 0)
@@ -597,12 +599,48 @@ namespace MPC.Repository.Repositories
                                  //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
 
                                  //cat.ParentCategoryId = null;
+                                 if (OldCatIds != null)
+                                     OldCatIds.Add(cat.ProductCategoryId); // 1144
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oCID;
                                  db.ProductCategories.Add(cat);
+                                 db.SaveChanges();
 
+
+                                 if (OldCatIds != null && OldCatIds.Count > 0)
+                                 {
+                                     foreach (long id in OldCatIds)
+                                     {
+
+                                         //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                         if (comp.Items != null && comp.Items.Count > 0)
+                                         {
+                                             foreach (var itm in comp.Items)
+                                             {
+                                                 if (itm.ProductCategoryItems != null)
+                                                 {
+                                                     List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+
+                                                     foreach (var pc in pcis)
+                                                     {
+                                                         pc.CategoryId = cat.ProductCategoryId;
+                                                     }
+                                                 }
+
+
+
+                                             }
+                                             db.SaveChanges();
+                                         }
+
+
+
+                                     }
+
+                                 }
                              }
-                             db.SaveChanges();
+                         
+
                          }
 
 

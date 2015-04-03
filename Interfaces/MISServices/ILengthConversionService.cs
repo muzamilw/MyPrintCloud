@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using LengthUnit = MPC.Models.DomainModels.LengthUnit;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -10,11 +10,11 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Converts input length unit to specified output unit
         /// </summary>
-        List<double> ConvertLengthFromSystemUnitToPoints(List<double> inputs);
+        double ConvertLengthFromSystemUnitToPoints(double input, LengthUnit systemUnit);
 
         /// <summary>
         /// Converts input length unit to specified output unit
         /// </summary>
-        List<double> ConvertLengthFromPointsToSystemUnit(List<double> inputs);
+        double ConvertLengthFromPointsToSystemUnit(double input, LengthUnit systemUnit);
     }
 }
