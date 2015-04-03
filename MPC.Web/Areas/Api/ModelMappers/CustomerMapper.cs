@@ -48,7 +48,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
             if (companyContact != null)
             {
-                defaultContact = companyContact.FirstName;
+                defaultContact = companyContact.FirstName + " "+ companyContact.LastName;
                 email = companyContact.Email;
             }
             return new CustomerListViewModel
