@@ -84,6 +84,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsItemSizeCustom = source.IsItemSizeCustom,
                 IsSectionSizeCustom = source.IsSectionSizeCustom,
                 Qty1 = source.Qty1,
+                Qty2 = source.Qty2,
+                Qty3 = source.Qty3,
                 Qty1Profit = source.Qty1Profit,
                 Qty2Profit = source.Qty2Profit,
                 Qty3Profit = source.Qty3Profit,
@@ -94,6 +96,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsWorknTurn = source.isWorknTurn,
                 IsPaperSupplied = source.IsPaperSupplied,
                 IncludeGutter = source.IncludeGutter,
+                SimilarSections = source.SimilarSections,
+                PlateInkId = source.PlateInkId,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
                 new List<SectionCostcentre>()
             };
