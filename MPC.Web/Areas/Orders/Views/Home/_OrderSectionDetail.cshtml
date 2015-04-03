@@ -268,15 +268,15 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                             </a>
                                         </div>
                                        
-                                </div>
+                                    </div>
 
 
                                   
                                    
-                            </div>
+                                </div>
 
                               
-                   </div>
+                            </div>
 
                             <div>
                                 <div class="col-lg-12 form-horizontal" style="background-color:#d9d9d9;margin-top:20px;margin-bottom:20px;padding-top:20px;">
@@ -315,7 +315,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                                 <a href="#myModal" class="btn btn-primary">
                                                     <i class="fa fa-lg"></i>&nbsp;Add Stock
                                                 </a>
-                                                <a href="#myModal" class="btn btn-primary">
+                                                <a href="#myModal" class="btn btn-primary" data-bind="click:$root.getBestPress">
                                                     <i class="fa fa-lg"></i>&nbsp;Run Wizard
                                                 </a>
                                             </div>
@@ -431,7 +431,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
         </div>
     </div>
 </div>
-
+@Html.Partial("~/Areas/Orders/Views/Home/_SheetPlanImage.cshtml")
 
 @*<div class="modal fade my-modal" id="orderSectionDetailDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog" id="orderSectionDetail">
