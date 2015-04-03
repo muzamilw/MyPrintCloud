@@ -2480,37 +2480,37 @@ namespace MPC.Repository.Repositories
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
-                                    if (OldCatIds != null && OldCatIds.Count > 0)
-                                    {
-                                        foreach (long id in OldCatIds)
-                                        {
+                                    //if (OldCatIds != null && OldCatIds.Count > 0)
+                                    //{
+                                    //    foreach (long id in OldCatIds)
+                                    //    {
 
-                                            //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                            if (comp.Items != null && comp.Items.Count > 0)
-                                            {
-                                                foreach (var itm in comp.Items)
-                                                {
-                                                    if (itm.ProductCategoryItems != null)
-                                                    {
-                                                        List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+                                    //        //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //        if (comp.Items != null && comp.Items.Count > 0)
+                                    //        {
+                                    //            foreach (var itm in comp.Items)
+                                    //            {
+                                    //                if (itm.ProductCategoryItems != null)
+                                    //                {
+                                    //                    List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
 
-                                                        foreach (var pc in pcis)
-                                                        {
-                                                            pc.CategoryId = cat.ProductCategoryId;
-                                                        }
-                                                    }
-
-
-
-                                                }
-                                                db.SaveChanges();
-                                            }
+                                    //                    foreach (var pc in pcis)
+                                    //                    {
+                                    //                        pc.CategoryId = cat.ProductCategoryId;
+                                    //                    }
+                                    //                }
 
 
 
-                                        }
+                                    //            }
+                                    //            db.SaveChanges();
+                                    //        }
+
+
+
+                                    //    }
                                         
-                                    }
+                                    //}
 
                                 }
                                 
@@ -2665,36 +2665,36 @@ namespace MPC.Repository.Repositories
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
-                                    if (OldCatIds != null && OldCatIds.Count > 0)
-                                    {
-                                        foreach (long id in OldCatIds)
-                                        {
+                                    //if (OldCatIds != null && OldCatIds.Count > 0)
+                                    //{
+                                    //    foreach (long id in OldCatIds)
+                                    //    {
 
-                                            //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                            if (comp.Items != null && comp.Items.Count > 0)
-                                            {
-                                                foreach (var itm in comp.Items)
-                                                {
-                                                    if (itm.ProductCategoryItems != null)
-                                                    {
-                                                        List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+                                    //        //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //        if (comp.Items != null && comp.Items.Count > 0)
+                                    //        {
+                                    //            foreach (var itm in comp.Items)
+                                    //            {
+                                    //                if (itm.ProductCategoryItems != null)
+                                    //                {
+                                    //                    List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
 
-                                                        foreach (var pc in pcis)
-                                                        {
-                                                            pc.CategoryId = cat.ProductCategoryId;
-                                                        }
-                                                    }
-
-
-
-                                                }
-                                            }
+                                    //                    foreach (var pc in pcis)
+                                    //                    {
+                                    //                        pc.CategoryId = cat.ProductCategoryId;
+                                    //                    }
+                                    //                }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //            }
+                                    //        }
+
+
+
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
 
                                 }
                              
@@ -2857,36 +2857,36 @@ namespace MPC.Repository.Repositories
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
-                                    if (OldCatIds != null && OldCatIds.Count > 0)
-                                    {
-                                        foreach (long id in OldCatIds)
-                                        {
+                                    //if (OldCatIds != null && OldCatIds.Count > 0)
+                                    //{
+                                    //    foreach (long id in OldCatIds)
+                                    //    {
 
-                                            //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                            if (comp.Items != null && comp.Items.Count > 0)
-                                            {
-                                                foreach (var itm in comp.Items)
-                                                {
-                                                    if (itm.ProductCategoryItems != null)
-                                                    {
-                                                        List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+                                    //        //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //        if (comp.Items != null && comp.Items.Count > 0)
+                                    //        {
+                                    //            foreach (var itm in comp.Items)
+                                    //            {
+                                    //                if (itm.ProductCategoryItems != null)
+                                    //                {
+                                    //                    List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
 
-                                                        foreach (var pc in pcis)
-                                                        {
-                                                            pc.CategoryId = cat.ProductCategoryId;
-                                                        }
-                                                    }
-
-
-
-                                                }
-                                            }
+                                    //                    foreach (var pc in pcis)
+                                    //                    {
+                                    //                        pc.CategoryId = cat.ProductCategoryId;
+                                    //                    }
+                                    //                }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //            }
+                                    //        }
+
+
+
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
                                 }
                                
                                
@@ -3048,36 +3048,36 @@ namespace MPC.Repository.Repositories
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
                                     
-                                    if (OldCatIds != null && OldCatIds.Count > 0)
-                                    {
-                                        foreach (long id in OldCatIds)
-                                        {
+                                    //if (OldCatIds != null && OldCatIds.Count > 0)
+                                    //{
+                                    //    foreach (long id in OldCatIds)
+                                    //    {
 
-                                            //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                            if(comp.Items != null && comp.Items.Count > 0)
-                                            {
-                                                foreach (var itm in comp.Items)
-                                                {
-                                                    if (itm.ProductCategoryItems != null)
-                                                    {
-                                                         List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
+                                    //        //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //        if(comp.Items != null && comp.Items.Count > 0)
+                                    //        {
+                                    //            foreach (var itm in comp.Items)
+                                    //            {
+                                    //                if (itm.ProductCategoryItems != null)
+                                    //                {
+                                    //                     List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == id).ToList();
 
-                                                    foreach (var pc in pcis)
-                                                    {
-                                                        pc.CategoryId = cat.ProductCategoryId;
-                                                    }
-                                                    }
+                                    //                foreach (var pc in pcis)
+                                    //                {
+                                    //                    pc.CategoryId = cat.ProductCategoryId;
+                                    //                }
+                                    //                }
                                                    
 
 
-                                                }
-                                            }
+                                    //            }
+                                    //        }
                                            
 
                                             
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
                                        
 
                                 }
