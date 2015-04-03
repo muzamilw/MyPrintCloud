@@ -529,7 +529,6 @@ define("order/order.viewModel",
                         selectedProduct().qty3Tax1Value(0);
                     }
                 }),
-//<<<<<<< HEAD
                 deleteOrderButtonHandler = function () {
                         confirmation.messageText("Are you sure you want to delete order?");
                         confirmation.afterProceed(deleteOrder);
@@ -558,8 +557,6 @@ define("order/order.viewModel",
                         }
                     });
                 },
-//=======
-//>>>>>>> 543cfcd5aab4d0dc150350dec949bd58eb76281a
                 // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -793,7 +790,7 @@ define("order/order.viewModel",
                     // #endregion Service Calls
                     //#region Dialog Product Section
                     orderProductItems = ko.observableArray([]),
-
+                    productQuantitiesList = ko.observableArray([]),
                     //#region Product From Retail Store
                         openProductFromStoreDialog = function () {
                             view.showProductFromRetailStoreModal();
@@ -854,7 +851,7 @@ define("order/order.viewModel",
                         },
                         //#region product From Retail Store
 
-                    //Get Items By CompanyId
+                        //Get Items By CompanyId
                         getItemsByCompanyId = function () {
                             dataservice.getItemsByCompanyId({
                                 CompanyId: selectedOrder().companyId()
@@ -878,8 +875,8 @@ define("order/order.viewModel",
                             });
                         },
 
-                    //Update Items Data On Item Selection
-                    //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
+                        //Update Items Data On Item Selection
+                        //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                         updateItemsDataOnItemSelection = function (item) {
                             dataservice.getItemsDetailsByItemId({
                                 itemId: item.id()
@@ -888,6 +885,7 @@ define("order/order.viewModel",
                                     if (data != null) {
                                         item.itemStockOptions.removeAll();
                                         item.itemPriceMatrices.removeAll();
+                                        productQuantitiesList.removeAll();
                                         _.each(data.ItemStockOptions, function (itemStockoption) {
                                             var itemToBePushed = new model.ItemStockOption.Create(itemStockoption);
                                             item.itemStockOptions.push(itemToBePushed);
@@ -895,7 +893,11 @@ define("order/order.viewModel",
                                         _.each(data.ItemPriceMatrices, function (itemPriceMatrix) {
                                             var itemToBePushed = new model.ItemPriceMatrix.Create(itemPriceMatrix);
                                             item.itemPriceMatrices.push(itemToBePushed);
+                                            if (item.isQtyRanged() == 2) {
+                                                productQuantitiesList.push(itemToBePushed.quantity());
+                                            }
                                         });
+                                        
                                         selecteditem(item);
                                     }
                                 },
@@ -930,6 +932,7 @@ define("order/order.viewModel",
                                 }
                             });
                         }),
+
                         //#endregion
                     //Get Inventories
                     getInventoriesListItems = function () {
@@ -1260,6 +1263,7 @@ define("order/order.viewModel",
                     selectedStockOptionSequenceNumber: selectedStockOptionSequenceNumber,
                     selectedStockOption: selectedStockOption,
                     deleteOrderButtonHandler: deleteOrderButtonHandler,
+                    productQuantitiesList:productQuantitiesList,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
