@@ -100,6 +100,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTVCalculation', 'ajax', {
+                        url: ist.siteUrl + '/Api/PtvCalculation',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -212,6 +218,16 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                 // get PTV Calculation
+            getPTVCalculation = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTVCalculation',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
                  // get Stock items
             getPTV = function (params, callbacks) {
                 initialize();
@@ -246,7 +262,8 @@ define("order/order.dataservice", function () {
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
-            getPTV: getPTV
+            getPTV: getPTV,
+            getPTVCalculation: getPTVCalculation
         };
     })();
 
