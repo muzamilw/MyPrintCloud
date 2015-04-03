@@ -1,4 +1,6 @@
-﻿using MPC.Models.DomainModels;
+﻿
+using MPC.Models.DomainModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Interfaces.Repository
 {
@@ -7,5 +9,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IItemSectionRepository : IBaseRepository<ItemSection, long>
     {
+        BestPressResponse GetBestPressResponse(ItemSection section);
     }
 }

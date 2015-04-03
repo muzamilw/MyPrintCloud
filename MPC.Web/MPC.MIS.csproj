@@ -299,6 +299,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
+    <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -354,6 +355,8 @@
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\BestPressResponseMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CalendarMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignEmailVariableMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CampaignImageMapper.cs" />
@@ -428,6 +431,8 @@
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
     <Compile Include="Areas\Api\Models\ActivityTypeDropDown.cs" />
     <Compile Include="Areas\Api\Models\AddressDropDown.cs" />
+    <Compile Include="Areas\Api\Models\BestPress.cs" />
+    <Compile Include="Areas\Api\Models\BestPressResponse.cs" />
     <Compile Include="Areas\Api\Models\CalendarBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignBaseResponse.cs" />
     <Compile Include="Areas\Api\Models\CampaignEmailVariable.cs" />
