@@ -2426,7 +2426,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword).extend({ required: true }),
+            password = ko.observable(specifiedPassword).extend({ required: { params: true, message: 'This field is required with minimum 6 characters!' }, minLength: 6 }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),
@@ -2491,7 +2491,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             stateName = ko.observable(),
 
             companyContactVariables = ko.observableArray([]),
-            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password }),
+            confirmPassword = ko.observable(specifiedPassword).extend({ compareWith: password}),
 
 
             // Errors
