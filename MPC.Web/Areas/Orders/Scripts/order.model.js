@@ -347,9 +347,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Status Name
             statusName = ko.observable(specifiedStatusName || undefined),
             // Qty 1
-            qty1 = ko.observable(specifiedQty1 || undefined),
+            qty1 = ko.observable(specifiedQty1 || 0),
             // Qty 1 Net Total
-            qty1NetTotal = ko.observable(specifiedQty1NetTotal || undefined),
+            qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0),
             // Item Notes
             itemNotes = ko.observable(specifiedItemNotes || undefined),
             // Job Code
@@ -621,7 +621,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedPressId, specifiedStockItemId, specifiedStockItemName, specifiedPressName, specifiedGuillotineId, specifiedQty1, specifiedQty2,
         specifiedQty3, specifiedQty1Profit, specifiedQty2Profit, specifiedQty3Profit, specifiedBaseCharge1, specifiedBaseCharge2, specifiedBaseCharge3,
         specifiedIncludeGutter, specifiedFilmId, specifiedIsPaperSupplied, specifiedSide1PlateQty, specifiedSide2PlateQty, specifiedIsPlateSupplied,
-        specifiedItemId) {
+        specifiedItemId, specifiedIsDoubleSided, specifiedIsWorknTurn, specifiedPrintViewLayoutPortrait, specifiedPrintViewLayoutLandscape, specifiedPlateInkId,
+        specifiedSimilarSections) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -687,6 +688,47 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isPlateSupplied = ko.observable(specifiedIsPlateSupplied || undefined),
             // Item Id
             itemId = ko.observable(specifiedItemId || undefined),
+            // Is Double Sided
+            isDoubleSided = ko.observable(specifiedIsDoubleSided || false),
+            // Is Work N Turn
+            isWorknTurn = ko.observable(specifiedIsWorknTurn || false),
+            // DoubleOrWorknTurn
+            doubleOrWorknTurn = ko.observable(specifiedIsDoubleSided !== null || specifiedIsDoubleSided !== undefined ? 
+                (!specifiedIsDoubleSided ? 1 : ((specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined) && specifiedIsWorknTurn ? 3 : 2)) :
+                (specifiedIsWorknTurn !== null || specifiedIsWorknTurn !== undefined ? (!specifiedIsWorknTurn ? 1 : 3) : 1)),
+            // Double Or Work n Turn
+            doubleWorknTurn = ko.computed({
+                read: function() {
+                    return '' + doubleOrWorknTurn();
+                },
+                write: function(value) {
+                    if (!value || value === doubleOrWorknTurn()) {
+                        return;
+                    }
+
+                    // Single Side
+                    if (value === "1") {
+                        isDoubleSided(false);
+                        isWorknTurn(false);
+                    }
+                    else if (value === "2") { // Double Sided
+                        isDoubleSided(true);
+                        isWorknTurn(false);
+                    }
+                    else if (value === "3") { // Work n Turn
+                        isDoubleSided(true);
+                        isWorknTurn(true);
+                    }
+                }
+            }),
+            // PrintViewLayoutPortrait
+            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || undefined),
+            // PrintViewLayoutLandscape
+            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || undefined),
+            // Plate Ink Id
+            plateInkId = ko.observable(specifiedPlateInkId || undefined),
+            // SimilarSections
+            similarSections = ko.observable(specifiedSimilarSections || undefined),
             // Section Cost Centres
             sectionCostCentres = ko.observableArray([]),
             // Select Stock Item
@@ -730,7 +772,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionSizeHeight: sectionSizeHeight,
                 sectionSizeWidth: sectionSizeWidth,
                 itemSizeHeight: itemSizeHeight,
-                itemSizeWidth: itemSizeWidth
+                itemSizeWidth: itemSizeWidth,
+                isDoubleSided: isDoubleSided,
+                isWorknTurn: isWorknTurn,
+                printViewLayoutPortrait: printViewLayoutPortrait,
+                printViewLayoutLandscape: printViewLayoutLandscape,
+                plateInkId: plateInkId,
+                similarSections: similarSections
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1530,7 +1578,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Addon Cost Centre Entity
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-        specifiedCostCentreType, callbacks) {
+        specifiedCostCentreType, specifiedTotalPrice, callbacks) {
         // ReSharper restore InconsistentNaming
         var
             // self reference
@@ -1545,6 +1593,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName = ko.observable(specifiedCostCentreName || undefined),
             // Cost Centre Type
             costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Total Price
+            totalPrice = ko.observable(specifiedTotalPrice || undefined),
             // Cost Centre Id - On Change
             costCentreId = ko.computed({
                 read: function () {
@@ -1600,6 +1650,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreId: costCentreId,
             costCentreName: costCentreName,
             costCentreType: costCentreType,
+            totalPrice: totalPrice,
             isMandatory: isMandatory,
             errors: errors,
             isValid: isValid,
@@ -1969,7 +2020,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreTypeName, callbacks);
+            source.CostCentreTypeName,source.TotalPrice, callbacks);
     };
     return {
         // Estimate Constructor

@@ -102,16 +102,15 @@
 </div>
 <script id="itemsTemplate" type="text/html">
     <tr data-bind="click : $root.updateItemsDataOnItemSelection">
-        @*data-bind="click: $root.selectCompanyTerritory, css: { selectedRow: $data === $root.selectedCompanyTerritory}"*@
         <td data-bind="text: productName"></td>
         <td data-bind="text: productCode"></td>
     </tr>
 </script>
 <script id="addOnTemplate" type="text/html">
     <tr>
-        <td></td>
+        <td> <input type="checkbox"/></td>
         <td data-bind="text: costCentreName"></td>
-        @*<td data-bind="text: productCode"></td>*@
+        <td data-bind="text: totalPrice"></td>
     </tr>
 </script>
 <script id="itemPriceMatrixTemplate" type="text/html">
@@ -160,4 +159,3 @@
         @*<td data-bind="text: productCode"></td>*@
     </tr>
 </script>
-@* Wizard Popup ends here*@

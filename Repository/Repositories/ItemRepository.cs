@@ -3069,8 +3069,8 @@ namespace MPC.Repository.Repositories
                     NewtblISectionCostCenteres.ItemSectionId = NewtblItemSection.ItemSectionId;
                     NewtblISectionCostCenteres.Qty1Charge = DeliveryCost;
                     NewtblISectionCostCenteres.Qty1NetTotal = DeliveryCost;
-                    NewtblItemSection.SectionCostcentres.Add(NewtblISectionCostCenteres);
-                    newItem.ItemSections.Add(NewtblItemSection);
+                    db.SectionCostcentres.Add(NewtblISectionCostCenteres);
+                    db.ItemSections.Add(NewtblItemSection);
                     db.Items.Add(newItem);
 
                     if (db.SaveChanges() > 0)

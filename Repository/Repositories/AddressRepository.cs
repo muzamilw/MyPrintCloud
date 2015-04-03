@@ -290,8 +290,8 @@ namespace MPC.Repository.Repositories
             {
                 List<Address> oAddressList = new List<Address>();
 
-                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == ShippingAddressid).FirstOrDefault());
-                oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == BillingAddressId).FirstOrDefault());
+                oAddressList.Add(db.Addesses.Include("State").Include("Country").Where(estm => estm.AddressId == ShippingAddressid).FirstOrDefault());
+                oAddressList.Add(db.Addesses.Include("State").Include("Country").Where(estm => estm.AddressId == BillingAddressId).FirstOrDefault());
                 if (PickUpAddressId > 0)
                 {
                     oAddressList.Add(db.Addesses.Where(estm => estm.AddressId == PickUpAddressId).FirstOrDefault());

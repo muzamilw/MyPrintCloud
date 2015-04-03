@@ -520,7 +520,7 @@
                                             <br />
                                             @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                             {
-                                                if (UserCookieManager.ShowPriceOnWebstore)
+                                                if (ViewBag.IsShowPrices)
                                                 {
                                                     <div id="PnalTotalBox" >
                                                         <table border="0" cellpadding="3" cellspacing="0" width="100%" class="left_align">

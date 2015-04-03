@@ -98,7 +98,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 defaultCss = File.ReadAllText(HttpContext.Current.Server.MapPath("~/MPC_Content/DefaultCss/Default_CompanyStyles.css"));
             }
-            string corporateStoreName = ConfigurationManager.AppSettings["CorporateStoreName"];
+            string corporateStoreName = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
             string retailStoreName = ConfigurationManager.AppSettings["RetailStoreName"];
 
             return new CompanyBaseResponse
