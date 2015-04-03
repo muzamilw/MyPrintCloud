@@ -7,6 +7,7 @@ using System.Linq;
 using MPC.Models.Common;
 using System;
 using System.Collections.Generic;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Repository.Repositories
 {
@@ -59,7 +60,7 @@ namespace MPC.Repository.Repositories
         {
 
             oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
-            tbl_job_preferences oJobCardOptionsDTO = this.GetJobPreferences(1);
+            JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             bool functionReturnValue = false;
             string sMinimumCost = null;
             double dblPassFront = 0;
@@ -71,7 +72,7 @@ namespace MPC.Repository.Repositories
             int SheetPTV = 0;
             int SetupSpoilage = 0;
             double RunningSpoilagePercentage = 0;
-            CostCentre oCostCentreDTO = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Press && c.SystemSiteID == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            CostCentre oCostCentreDTO = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Press && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
 
             double PressCost1 = 0;
             double PressPrice1 = 0;
@@ -537,7 +538,7 @@ namespace MPC.Repository.Repositories
 
 
                             //Checing Whether Print is Double sided and Press can't perform perfecting
-                            if (Convert.ToBoolean(oItemSection.IsDoubleSided) && !Convert.ToBoolean((oPressDTO.isPerfecting)) ?? false)
+                            if (Convert.ToBoolean(oItemSection.IsDoubleSided) && !Convert.ToBoolean(oPressDTO.isPerfecting ?? false))
                             {
                                 //Calculating and Setting Print Cost
                                 dblPrintCost[i] = Convert.ToDouble((dblPassFront * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost)) + ((dblPassBack * ((intWorkSheetQty[i] / dblPrintSpeed[i]) * oModelSpeedWeight.hourlyCost)) + oPressDTO.SetupCharge));
@@ -1042,8 +1043,8 @@ namespace MPC.Repository.Repositories
                 SectionCostcentre oItemSectionCostCenter = new SectionCostcentre();
                 if (IsReRun == false)
                 {
-                    oItemSectionCostCenter.ItemSectionID = oItemSection.ItemSectionID;
-                    oItemSectionCostCenter.CostCentreID = (int)oCostCentreDTO.CostCentreID;
+                    oItemSectionCostCenter.ItemSectionId = oItemSection.ItemSectionId;
+                    oItemSectionCostCenter.CostCentreId = (int)oCostCentreDTO.CostCentreId;
                     oItemSectionCostCenter.SystemCostCentreType = (int)SystemCostCenterTypes.Press;
                     oItemSectionCostCenter.Order = 107;
                     oItemSectionCostCenter.IsOptionalExtra = 0;
@@ -1394,8 +1395,8 @@ namespace MPC.Repository.Repositories
             int ReturnColumnIndex = 0;
             DateTime currentDate = DateTime.Now;
 
-            List<StockCostAndPrice> InkCostTable = stockCostnPriceRepository.GetAll().Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 0).ToList();
-            List<StockCostAndPrice> InkPriceTable = stockCostnPriceRepository.GetAll().Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 1).ToList();
+            List<StockCostAndPrice> InkCostTable = db.StockCostAndPrices.Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 0).ToList();
+            List<StockCostAndPrice> InkPriceTable = db.StockCostAndPrices.Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 1).ToList();
             ReturnColumnIndex = 2;
 
             //COST calculation
@@ -1532,8 +1533,8 @@ namespace MPC.Repository.Repositories
             DateTime currentDate = DateTime.Now;
             GlobalData gData = new GlobalData();
             //INK is just a prefix, dont confuse it for only inks table, its general
-            List<StockCostAndPrice> InkCostTable = stockCostnPriceRepository.GetAll().Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 0).ToList();
-            List<StockCostAndPrice> InkPriceTable = stockCostnPriceRepository.GetAll().Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == -1).ToList();
+            List<StockCostAndPrice> InkCostTable = db.StockCostAndPrices.Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == 0).ToList();
+            List<StockCostAndPrice> InkPriceTable = db.StockCostAndPrices.Where(s => s.ItemId == StockItemID && s.CostOrPriceIdentifier == -1).ToList();
 
             //COST calculation
             //there is only one only 1 cost available use it.. anyway
@@ -1636,13 +1637,13 @@ namespace MPC.Repository.Repositories
             return gData;
         }
 
-        private tbl_job_preferences GetJobPreferences(int SystemSiteID)
+        private JobPreference GetJobPreferences(int SystemSiteID)
         {
-            return this.ObjectContext.tbl_job_preferences.Where(g => g.SystemSiteID == SystemSiteID).Single();
+            return db.JobPreferences.Where(g => g.SystemSiteId == SystemSiteID).Single();
         }
-        private int GetSystemCostCentreID(SystemCostCenterTypes SystemType)
+        private long GetSystemCostCentreID(SystemCostCenterTypes SystemType)
         {
-            return costcentreRepository.GetAll().Where(g => g.SystemTypeId == (int)SystemType).Select(g => g.CostCentreId).Single();
+            return db.CostCentres.Where(g => g.SystemTypeId == (int)SystemType).Select(g => g.CostCentreId).Single();
         }
 
         public ItemSection CalculatePlateCost(ItemSection oItemSection, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
@@ -1650,7 +1651,7 @@ namespace MPC.Repository.Repositories
 
             oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
 
-            tbl_job_preferences oJobCardOptionsDTO = this.GetJobPreferences(1);
+            JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             bool IsSectionCostCentreFoundInReRun = false;
             string sMinimumCost = null;
             SectionCostCentreResource oResourceDto;
@@ -1662,13 +1663,13 @@ namespace MPC.Repository.Repositories
             double dblPlateProcessingtCost = 0;
             double dblPlateProcessingPrice = 0;
 
-            StockItem oPlateDTO = stockItemRepository.GetAll().Where(s => s.StockItemId == oItemSection.PlateId).FirstOrDefault();
-            CostCentre oPlateCostCentreDTO = costcentreRepository.GetAll().Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Plate).FirstOrDefault();
+            StockItem oPlateDTO = db.StockItems.Where(s => s.StockItemId == oItemSection.PlateId).FirstOrDefault();
+            CostCentre oPlateCostCentreDTO = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Plate).FirstOrDefault();
             double dblItemProcessingCharge = 0;
             int PlatesQty = (oItemSection.Side1PlateQty > 0 ? (int)oItemSection.Side1PlateQty : 0) + (oItemSection.Side2PlateQty > 0 ? (int)oItemSection.Side2PlateQty : 0);
             if (oItemSection.IsPlateUsed != false && oItemSection.IsPlateSupplied == false)
             {
-                int PlateID = (int)oItemSection.PlateID;
+                int PlateID = (int)oItemSection.PlateId;
                 GlobalData gData = GetItemPriceCost(PlateID, true);
                 if (gData != null)
                 {
@@ -1752,7 +1753,7 @@ namespace MPC.Repository.Repositories
             {
                 sMinimumCost = "0";
             }
-            var markup = _markupRepository.GetAll().Where(m => m.MarkUpId == oPlateCostCentreDTO.DefaultVAId).FirstOrDefault();
+            var markup = db.Markups.Where(m => m.MarkUpId == oPlateCostCentreDTO.DefaultVAId).FirstOrDefault();
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
 
             oItemSectionCostCenter.Qty1MarkUpID = oPlateCostCentreDTO.DefaultVAId;
@@ -1862,13 +1863,13 @@ namespace MPC.Repository.Repositories
             oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
 
 
-            oItemSectionCostCenterDetail.SupplierId = oPlateDTO.SupplierId;
+            oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPlateDTO.SupplierId);
 
             oItemSectionCostCenter.Name = "Plate ( " + oPlateDTO.ItemName + " )";
 
 
             //Section CostCentre Resource repository is to add and update below line
-            oItemSectionCostCenter.SectionCostCentreResources.ToList().ForEach(c => ObjectContext.tbl_section_costcentre_resources.DeleteObject(c));
+            oItemSectionCostCenter.SectionCostCentreResources.ToList().ForEach(c => db.SectionCostCentreResources.Remove(c));
             //adding new resources.
             foreach (var orow in oItemSectionCostCenter.SectionCostCentreResources)
             {
@@ -1889,18 +1890,18 @@ namespace MPC.Repository.Repositories
         public List<BestPress> GetBestPresses(ItemSection currentSection)
         {
             List<BestPress> bestpress = new List<BestPress>();
-            List<Machine> EnablePresses = machineRepository.GetAll().Where(m => m.MachineCatId != (int)MachineCategories.Guillotin && m.minimumsheetheight <= currentSection.SectionSizeHeight && m.minimumsheetwidth <= currentSection.SectionSizeWidth && m.OrganisationId == machineRepository.OrganisationId && (m.IsDisabled != true)).ToList();
-            CostCentre oPressCostCentre = costcentreRepository.GetAll().Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Press && c.SystemSiteId == 1 && c.OrganisationId == costcentreRepository.OrganisationId).FirstOrDefault();
+            List<Machine> EnablePresses = db.Machines.Where(m => m.MachineCatId != (int)MachineCategories.Guillotin && m.minimumsheetheight <= currentSection.SectionSizeHeight && m.minimumsheetwidth <= currentSection.SectionSizeWidth && m.OrganisationId == this.OrganisationId && (m.IsDisabled != true)).ToList();
+            CostCentre oPressCostCentre = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Press && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
 
             foreach (var press in EnablePresses)
             {
 
                 currentSection.PressId = press.MachineId;
-                List<MachineSpoilage> machineSpoilageList = machineRepository.GetMachineSpoilageItems(press.MachineId);
+                List<MachineSpoilage> machineSpoilageList = db.MachineSpoilages.Where(m => m.MachineId == press.MachineId).ToList();
                 if (press.isplateused == true)
                 {
                     currentSection.IsPlateUsed = true;
-                    currentSection.PlateID = press.DefaultPlateid;
+                    currentSection.PlateId = press.DefaultPlateId;
                 }
                 else
                     currentSection.IsPlateUsed = false;
@@ -1935,9 +1936,26 @@ namespace MPC.Repository.Repositories
             return bestpress.OrderBy(p => p.Qty1Cost).ToList();
 
         }
+
+        public BestPressResponse GetBestPressResponse(ItemSection section)
+        {
+            return new BestPressResponse
+            { 
+                PressList = GetBestPresses(section),
+                UserCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList()
+            };
+        }
         #endregion
 
+        private string GetLengthUnitName(int UnitID)
+        {
+            return db.LengthUnits.Where(o => o.Id == UnitID).FirstOrDefault().UnitName;
+        }
 
+        private Organisation CompanyGeneralSettings()
+        {
+            return db.Organisations.Where(c => c.OrganisationId == this.OrganisationId).FirstOrDefault();
+        }
         #endregion
 
         

@@ -1190,6 +1190,22 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    getBestPress = function () {
+                        isLoadingOrders(true);
+                        dataservice.getBestPress(selectedSection().convertToServerData, {
+                            success: function (data) {
+                                if (data != null) {
+
+
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load Best Press List." + response);
+                            }
+                        });
+                    },
                     // Template Chooser For Delivery Schedule
                      templateToUseDeliverySchedule = function (deliverySchedule) {
                          return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -1320,7 +1336,8 @@ define("order/order.viewModel",
                     selectedDeliverySchedule: selectedDeliverySchedule,
                     templateToUseDeliverySchedule: templateToUseDeliverySchedule,
                     onRaised: onRaised,
-                    getPtvPlan: getPtvPlan
+                    getPtvPlan: getPtvPlan,
+                    getBestPress: getBestPress
                     //#endregion
                 };
             })()

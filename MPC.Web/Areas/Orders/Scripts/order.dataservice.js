@@ -100,6 +100,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Best Press list for section screen with run wizard button
+                    amplify.request.define('getBestPress', 'ajax', {
+                        url: ist.siteUrl + '/Api/BestPress',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -222,6 +228,15 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            getBestPress = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBestPress',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -246,7 +261,8 @@ define("order/order.dataservice", function () {
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
-            getPTV: getPTV
+            getPTV: getPTV,
+            getBestPress: getBestPress
         };
     })();
 

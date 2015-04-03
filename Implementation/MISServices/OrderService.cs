@@ -34,7 +34,7 @@ namespace MPC.Implementation.MISServices
         private readonly IOrderRepository orderRepository;
         private readonly IItemRepository itemRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
-        
+        private readonly IItemSectionRepository itemsectionRepository;
         
         #endregion
         #region Constructor
@@ -45,7 +45,7 @@ namespace MPC.Implementation.MISServices
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository,IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
-            IChartOfAccountRepository chartOfAccountRepository)
+            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository)
         {
             if (estimateRepository == null)
             {
@@ -79,6 +79,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("chartOfAccountRepository");
             }
+            if (itemsectionRepository == null)
+            {
+                throw new ArgumentNullException("itemsectionRepository");
+            }
             
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
@@ -94,7 +98,7 @@ namespace MPC.Implementation.MISServices
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.itemRepository = itemRepository;
             this.templateService = templateService;
-
+            this.itemsectionRepository = itemsectionRepository;
         }
 
         #endregion
@@ -1025,6 +1029,13 @@ namespace MPC.Implementation.MISServices
         
         #endregion
 
-        
+        #region Estimation Methods
+        public BestPressResponse GetBestPresses(ItemSection currentSection)
+        {
+            return itemsectionRepository.GetBestPressResponse(currentSection);
+        }
+        #endregion
+
+
     }
 }

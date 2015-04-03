@@ -411,4 +411,13 @@ namespace MPC.Models.Common
         CalculateValuesToShow = 2,
         ReRunPress = 3
     }
+    public enum MethodTypes
+    {
+        ClickCharge = 1,
+        SpeedWeight = 3,
+        PerHour = 4,
+        ClickChargeZone = 5,
+        Guilotine = 6,
+        MeterPerHour = 8
+    }
 }
