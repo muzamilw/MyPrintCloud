@@ -1530,7 +1530,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
     // Item Addon Cost Centre Entity
     ItemAddonCostCentre = function (specifiedId, specifiedIsMandatory, specifiedItemStockOptionId, specifiedCostCentreId, specifiedCostCentreName,
-        specifiedCostCentreType, callbacks) {
+        specifiedCostCentreType, specifiedTotalPrice, callbacks) {
         // ReSharper restore InconsistentNaming
         var
             // self reference
@@ -1545,6 +1545,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreName = ko.observable(specifiedCostCentreName || undefined),
             // Cost Centre Type
             costCentreType = ko.observable(specifiedCostCentreType || undefined),
+            // Total Price
+            totalPrice = ko.observable(specifiedTotalPrice || undefined),
             // Cost Centre Id - On Change
             costCentreId = ko.computed({
                 read: function () {
@@ -1600,6 +1602,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             costCentreId: costCentreId,
             costCentreName: costCentreName,
             costCentreType: costCentreType,
+            totalPrice: totalPrice,
             isMandatory: isMandatory,
             errors: errors,
             isValid: isValid,
@@ -1969,7 +1972,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     // Item Addon Cost Centre Factory
     ItemAddonCostCentre.Create = function (source, callbacks) {
         return new ItemAddonCostCentre(source.ProductAddOnId, source.IsMandatory, source.ItemStockOptionId, source.CostCentreId, source.CostCentreName,
-            source.CostCentreTypeName, callbacks);
+            source.CostCentreTypeName,source.TotalPrice, callbacks);
     };
     return {
         // Estimate Constructor
