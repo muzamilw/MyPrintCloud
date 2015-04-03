@@ -5376,7 +5376,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="CompanyID" Type="bigint" Mode="In" />
         </Function>
         <Function Name="usp_DeleteContactCompanyByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="SelectedID" Type="int" Mode="In" />
+          <Parameter Name="CompanyID" Type="int" Mode="In" />
         </Function>
         <Function Name="usp_DeleteOrderByID" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="OrderID" Type="bigint" Mode="In" />
@@ -6925,7 +6925,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Parameter Name="itemid" Mode="In" Type="Int64" />
           </FunctionImport>
           <FunctionImport Name="usp_DeleteContactCompanyByID">
-          <Parameter Name="SelectedID" Mode="In" Type="Int32" />
+          <Parameter Name="CompanyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <EntitySet Name="GoodsReceivedNotes" EntityType="DomainModels.GoodsReceivedNote" />
           <EntitySet Name="GoodsReceivedNoteDetails" EntityType="DomainModels.GoodsReceivedNoteDetail" />
