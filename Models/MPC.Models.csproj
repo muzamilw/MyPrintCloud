@@ -178,6 +178,7 @@
     <Compile Include="DomainModels\CmsOffer.cs" />
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
+    <Compile Include="DomainModels\JobPreference.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
     <Compile Include="DomainModels\MachineGuillotineCalc.cs" />

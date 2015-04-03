@@ -636,6 +636,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
         /// <summary>
+        /// Job Preference DbSet
+        /// </summary>
+        public DbSet<JobPreference> JobPreferences { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
