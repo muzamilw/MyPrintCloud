@@ -10,11 +10,11 @@ namespace MPC.Interfaces.MISServices
 {
     public interface IDeliveryCarriersService
     {
-        DeliveryCarrier Add(DeliveryCarrier adddeliverycarriers);
+        bool Add(DeliveryCarrier adddeliverycarriers);
 
-        DeliveryCarrier Update(DeliveryCarrier upddeliverycarriers);
+        bool Update(DeliveryCarrier upddeliverycarriers);
 
-        IEnumerable<DeliveryCarrier> GetAllDeliveryCarrier();
+        IEnumerable<DeliveryCarrier> GetAll();
 
     }
 }
