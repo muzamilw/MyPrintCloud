@@ -212,6 +212,7 @@
     <Compile Include="DomainModels\NABTransaction.cs" />
     <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
     <Compile Include="DomainModels\PayPalResponse.cs" />
+    <Compile Include="DomainModels\SectionInkCoverage.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
