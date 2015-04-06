@@ -183,6 +183,7 @@ define("order/order.viewModel",
 
                     // Selected Section
                     selectedSection = ko.observable(),
+                    sectionInkCoverage = ko.observableArray([]),
                     // Available Ink Plate Sides
                     availableInkPlateSides = ko.computed(function () {
                         if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
@@ -1439,7 +1440,7 @@ define("order/order.viewModel",
                     },
                     getBestPress = function () {
                         isLoadingOrders(true);
-                        dataservice.getBestPress(selectedSection().convertToServerData, {
+                        dataservice.getBestPress(selectedSection().convertToServerData(), {
                             success: function (data) {
                                 if (data != null) {
 
@@ -1450,6 +1451,26 @@ define("order/order.viewModel",
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
+                    getSectionSystemCostCenters = function () {
+                        isLoadingOrders(true);
+                        dataservice.getUpdatedSystemCostCenters({
+                            CurrentSection: selectedSection().convertToServerData(),
+                            PressId: selectedSection().pressId,
+                            AllSectionInks: sectionInkCoverage()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+
+
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load System Cost Centers." + response);
                             }
                         });
                     },
@@ -1595,7 +1616,8 @@ define("order/order.viewModel",
                     //#region Section Detail
                     availableInkPlateSides: availableInkPlateSides,
                     paperSizes: paperSizes,
-                    openStockItemDialog: openStockItemDialog
+                    openStockItemDialog: openStockItemDialog,
+                    getSectionSystemCostCenters: getSectionSystemCostCenters
                     //#endregion
                 };
             })()
