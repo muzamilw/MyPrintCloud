@@ -10,6 +10,14 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#carrierdeliveryBinding")[0],
+                showDeliveryCarrierDialog = function()
+                {
+                    $("#myAddEditDelvCarrierModalDialog").modal("show");
+                },
+                hideDeliveryCarrierDialog = function()
+                {
+                    $("#myAddEditDelvCarrierModalDialog").modal("hide");
+                }
                 
                 // Initialize
                 initialize = function () {
@@ -19,9 +27,11 @@
                 };
             initialize();
             return {
+
                 bindingRoot: bindingRoot,
-                viewModel: viewModel 
-               
+                viewModel: viewModel, 
+                showDeliveryCarrierDialog: showDeliveryCarrierDialog,
+                hideDeliveryCarrierDialog: hideDeliveryCarrierDialog
 
             };
         })(carrierdeliveryViewModel);

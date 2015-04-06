@@ -14,7 +14,15 @@ define("deliverycarrier/deliverycarrier.viewModel",
                 errorList = ko.observableArray([]),
                 // #region Busy Indicators
                 isLoadingdeliverycarrier = ko.observable(false),
-
+                createNewDelivery = function()
+                {
+                    openDialog();
+                },
+                openDialog = function()
+                {
+                    view.showDeliveryCarrierDialog();
+                }
+               
                 // #endregion Busy Indicators
                 // #region Observables
                 // Initialize the view model
@@ -54,7 +62,9 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     deliverycarrierlist: deliverycarrierlist,
                     errorList: errorList,
                     // Utility Methods
-                    initialize: initialize
+                    initialize: initialize,
+                    createNewDelivery: createNewDelivery,
+                    openDialog: openDialog
                     
                 };
             })()
