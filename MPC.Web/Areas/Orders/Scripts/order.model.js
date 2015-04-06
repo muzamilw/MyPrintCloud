@@ -659,11 +659,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Guillotine Id
             guillotineId = ko.observable(specifiedGuillotineId || undefined),
             // Qty1
-            qty1 = ko.observable(specifiedQty1 || undefined),
+            qty1 = ko.observable(specifiedQty1 || 0),
             // Qty2
-            qty2 = ko.observable(specifiedQty2 || undefined),
+            qty2 = ko.observable(specifiedQty2 || 0),
             // Qty3
-            qty3 = ko.observable(specifiedQty3 || undefined),
+            qty3 = ko.observable(specifiedQty3 || 0),
             // Qty1 Profit
             qty1Profit = ko.observable(specifiedQty1Profit || 0),
             // Qty2Profit Width
@@ -721,16 +721,29 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         isDoubleSided(true);
                         isWorknTurn(true);
                     }
+
+                    doubleOrWorknTurn(value);
                 }
             }),
             // PrintViewLayoutPortrait
-            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || undefined),
+            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
             // PrintViewLayoutLandscape
-            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || undefined),
+            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || 0),
+            // Number Up
+            numberUp = ko.computed(function() {
+                if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
+                    return printViewLayoutPortrait();
+                }
+                else if (printViewLayoutPortrait() <= printViewLayoutLandscape()) {
+                    return printViewLayoutLandscape();
+                }
+
+                return 0;
+            }),
             // Plate Ink Id
             plateInkId = ko.observable(specifiedPlateInkId || undefined),
             // SimilarSections
-            similarSections = ko.observable(specifiedSimilarSections || undefined),
+            similarSections = ko.observable(specifiedSimilarSections || 0),
             // Section Cost Centres
             sectionCostCentres = ko.observableArray([]),
             // Select Stock Item
@@ -750,6 +763,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 pressId(press.id);
                 pressName(press.name);
+            },
+            // Swap Section Height and Width
+            swapSectionHeightWidth = function() {
+                var sectionHeight = sectionSizeHeight();
+                sectionSizeHeight(sectionSizeWidth());
+                sectionSizeWidth(sectionHeight);
+            },
+            // Swap Item Size Height and Width
+            swapItemHeightWidth = function () {
+                var itemHeight = itemSizeHeight();
+                itemSizeHeight(itemSizeWidth());
+                itemSizeWidth(itemHeight);
             },
             // Errors
             errors = ko.validation.group({
@@ -848,11 +873,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             doubleWorknTurn: doubleWorknTurn,
             printViewLayoutPortrait: printViewLayoutPortrait,
             printViewLayoutLandscape: printViewLayoutLandscape,
+            numberUp: numberUp,
             plateInkId: plateInkId,
             similarSections: similarSections,
             sectionCostCentres: sectionCostCentres,
             selectStock: selectStock,
             selectPress: selectPress,
+            swapSectionHeightWidth: swapSectionHeightWidth,
+            swapItemHeightWidth: swapItemHeightWidth,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -1714,7 +1742,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCenterType, source.Order,
             source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
-            source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.costCentreName,
+            source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
             source.ItemSectionId);
 
         // Map Section Cost Centre Details if Any
@@ -2067,7 +2095,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     
     // Ink Plate Side Factory
     InkPlateSide.Create = function (source) {
-        return new InkPlateSide(source.InkPlateId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
+        return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
     };
 
 

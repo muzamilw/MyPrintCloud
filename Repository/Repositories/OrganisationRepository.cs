@@ -305,7 +305,8 @@ namespace MPC.Repository.Repositories
                             Objmatrix = matrix;
                             Objmatrix.MatrixId = 0;
                             Objmatrix.OrganisationId = (int)OrganisationID;
-                            Objmatrix.Description = Convert.ToString(MID);
+                            if (MID > 0)
+                                Objmatrix.Description = Convert.ToString(MID);
                             db.CostCentreMatrices.Add(Objmatrix);
 
                            
@@ -386,7 +387,8 @@ namespace MPC.Repository.Repositories
 
                             SC.CategoryId = 0;
                             SC.OrganisationId = OrganisationID;
-                            SC.Description = Convert.ToString(gg);
+                            if (gg > 0)
+                                 SC.Description = Convert.ToString(gg);
                             //if(SC.StockItems != null)
                             //{
                             //    SC.StockItems.ToList().ForEach(s => s.OrganisationId = OrganisationID);
@@ -403,7 +405,8 @@ namespace MPC.Repository.Repositories
                                     SSC = subCat;
                                     SSC.SubCategoryId = 0;
                                     SSC.CategoryId = SC.CategoryId;
-                                    SSC.Description = Convert.ToString(ggf);
+                                    if (ggf > 0)
+                                     SSC.Description = Convert.ToString(ggf);
                                     db.StockSubCategories.Add(subCat);
 
                                    
