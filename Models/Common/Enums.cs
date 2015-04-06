@@ -420,4 +420,10 @@ namespace MPC.Models.Common
         Guilotine = 6,
         MeterPerHour = 8
     }
+    public enum WeightUnits
+    {
+        lbs = 1,
+        GSM = 2,
+        KG = 3
+    }
 }
