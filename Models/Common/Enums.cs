@@ -426,4 +426,9 @@ namespace MPC.Models.Common
         GSM = 2,
         KG = 3
     }
+    public enum WebSpoilageTypes
+    {
+        inSheets = 1,
+        inMetters = 2
+    }
 }

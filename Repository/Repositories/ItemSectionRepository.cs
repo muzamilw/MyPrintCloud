@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using MPC.Models.ResponseModels;
 using System.Drawing;
 using System.Web;
+using lengthunit = MPC.Models.Common.LengthUnit;
+using System.Drawing.Text;
 
 namespace MPC.Repository.Repositories
 {
@@ -2053,7 +2055,7 @@ namespace MPC.Repository.Repositories
 
             if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
             {
-                oItemSectionCostCenterDetail = new tbl_section_costcentre_detail();
+                oItemSectionCostCenterDetail = new SectionCostCentreDetail();
             }
             else
             {
@@ -2096,7 +2098,7 @@ namespace MPC.Repository.Repositories
             //adding new resources.
             foreach (var orow in oItemSectionCostCenter.SectionCostCentreResources)
             {
-                oResourceDto = new SectionCostcentre { ResourceID = orow.ResourceId, SectionCostcentreID = oItemSectionCostCenter.SectionCostcentreId };
+                oResourceDto = new SectionCostCentreResource { ResourceId = orow.ResourceId, SectionCostcentreId = oItemSectionCostCenter.SectionCostcentreId };
                 oItemSectionCostCenter.SectionCostCentreResources.Add(oResourceDto);
             }
             if (IsReRun == false || IsSectionCostCentreFoundInReRun == false)
@@ -2163,7 +2165,7 @@ namespace MPC.Repository.Repositories
                     sMinimumCost = "0";
                 }
 
-                var markup = db.Markups.Where(m => m.MarkUpID == oMakeReadyCostCentreDTO.DefaultVAId).FirstOrDefault();
+                var markup = db.Markups.Where(m => m.MarkUpId == oMakeReadyCostCentreDTO.DefaultVAId).FirstOrDefault();
                 var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
                 oItemSectionCostCenter.Qty1MarkUpID = oMakeReadyCostCentreDTO.DefaultVAId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
@@ -2563,13 +2565,22 @@ namespace MPC.Repository.Repositories
             //because this is a Reel/continous paper
 
             //convert reel width from whatever standard into mm
-            ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, (MPC.Models.Common.LengthUnit)oPaperDTO.RollStandards, MPC.Models.Common.LengthUnit.mm);
+
+
+            if (oPaperDTO.RollStandards == (int)lengthunit.Cm)
+                ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Cm, lengthunit.Mm);
+            else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
+                ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Inch, lengthunit.Mm);
+            else 
+                ReelWidth = (double)oPaperDTO.RollWidth;
+
+           // ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, roleStandard , MPC.Models.Common.LengthUnit.Mm);
             //roll length is always going into meters
             ReelLength = (double)oPaperDTO.RollLength;
-            
-            SectionHeight = ConvertLength((double)oItemSection.SectionSizeHeight, org.LengthUnit, MPC.Models.Common.LengthUnit.mm);
 
-            SectionWidth = ConvertLength((double)oItemSection.SectionSizeWidth, org.LengthUnit, MPC.Models.Common.LengthUnit.mm);
+            SectionHeight = ConvertLength((double)oItemSection.SectionSizeHeight, (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
+
+            SectionWidth = ConvertLength((double)oItemSection.SectionSizeWidth, (lengthunit)org.SystemLengthUnit, lengthunit.Mm);
 
             if (oItemSection.PrintViewLayout == 1) // 1 is for Landscape 0 is for portrait
             {
@@ -2994,7 +3005,7 @@ namespace MPC.Repository.Repositories
             }
             oItemSectionCostCenterDetail.StockId = oPaperDTO.StockItemId;
             oItemSectionCostCenterDetail.StockName = oPaperDTO.ItemName;
-            oItemSectionCostCenterDetail.SupplierId = oPaperDTO.SupplierId;
+            oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPaperDTO.SupplierId);
 
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
             oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
@@ -3018,7 +3029,7 @@ namespace MPC.Repository.Repositories
             return oItemSection;//.tbl_section_costcentres.ToList();
         }
 
-        public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<tbl_section_inkcoverage> oSectionAllInks = null)
+        public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<SectionInkCoverage> oSectionAllInks = null)
         {
             //oItemSection.tbl_section_costcentres.ToList().ForEach(c => oItemSection.tbl_section_costcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
@@ -3089,14 +3100,14 @@ namespace MPC.Repository.Repositories
             }
             //------ End of Spoilage Calculation
             //List<tbl_section_inkcoverage> oSectionAllInks = ObjectContext.tbl_section_inkcoverage.Where(i => i.SectionID == oItemSection.ItemSectionID).ToList();
-            List<tbl_section_inkcoverage> oSectionUniqueInks;
+            List<SectionInkCoverage> oSectionUniqueInks;
             double InkPercentage = 0;
 
             oSectionUniqueInks = oSectionAllInks;
 
             //InkPercentage = ObjectContext.tbl_ink_coverage_groups.Where(c => c.CoverageGroupID == section.CoverageGroupID).FirstOrDefault() != null ? (double)ObjectContext.tbl_ink_coverage_groups.Where(c => c.CoverageGroupID == section.CoverageGroupID).FirstOrDefault().Percentage : 0;
-            CostCentre oInksCostcentreDTO = db.CostCentres.Where(c => c.Type == 1 && c.SystemTypeId == (int)SystemCostCenterTypes.Ink).FirstOrDefault();
-            tbl_machines Press = db.Machines.Where(m => m.MachineId == oItemSection.PressId).FirstOrDefault();
+            CostCentre oInksCostcentreDTO = db.CostCentres.Where(c => c.Type == 1 && c.SystemTypeId == (int)SystemCostCenterTypes.Ink && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            Machine Press = db.Machines.Where(m => m.MachineId == oItemSection.PressId).FirstOrDefault();
             dblMinCharge = Press != null ? Convert.ToDouble(Press.InkChargeForUniqueColors) : 0;
             // dblMinCharge = oItemSection.Press.InkChargeForUniqueColors;
 
@@ -3130,15 +3141,15 @@ namespace MPC.Repository.Repositories
 
             //handling costcentre resources
             oCostCentreDTO = db.CostCentres.Where(c => c.CostCentreId == oItemSectionCostCentre.CostCentreId).FirstOrDefault();
-            LengthUnit height = CompanyGeneralSettings().SystemLengthUnit;
-            LengthUnit width = CompanyGeneralSettings().SystemLengthUnit;
+            lengthunit height = (lengthunit)CompanyGeneralSettings().SystemLengthUnit;
+            lengthunit width = (lengthunit)CompanyGeneralSettings().SystemLengthUnit;
             if (oItemSection.IsSectionSizeCustom == true)
             {
                 intPrintArea = (int)oItemSection.ItemSizeHeight * (int)oItemSection.ItemSizeWidth;
             }
             else
             {
-                intPrintArea = ConvertLength((int)oItemSection.ItemSizeID, height, MPC.Models.Common.LengthUnit.inch) * ConvertLength((int)oItemSection.ItemSizeID, width, MPC.Models.Common.LengthUnit.inch);
+                intPrintArea = ConvertLength((int)oItemSection.ItemSizeId, height, lengthunit.Inch) * ConvertLength((int)oItemSection.ItemSizeId, width, lengthunit.Inch);
             }
 
 
@@ -3146,7 +3157,7 @@ namespace MPC.Repository.Repositories
             //creation the work instructions / item description
             foreach (var icounter in oSectionAllInks)
             {
-                StockItem oInkDTO = db.StockItems.Where(c => c.StockItemId == (int)icounter.InkID).FirstOrDefault();
+                StockItem oInkDTO = db.StockItems.Where(c => c.StockItemId == (int)icounter.InkId).FirstOrDefault();
                 if (oInkDTO != null)
                 {
                     if (icounter.Side == 1)
@@ -3191,19 +3202,19 @@ namespace MPC.Repository.Repositories
             for (int i = 0; i <= oSectionUniqueInks.Count - 1; i++)
             {
                 //Getting Each Ink Detail Used in Wizard from Stock Items
-                int iInkID = (int)oSectionUniqueInks[i].InkID;
+                int iInkID = (int)oSectionUniqueInks[i].InkId;
                 StockItem oRowInkDetail;
                 oRowInkDetail = db.StockItems.Where(s => s.StockItemId == iInkID).FirstOrDefault();
 
                 //loading cost / price tables
                 //, dblInkCost, dblInkPrice
-                GlobalData gData = GetItemPriceCost(Convert.ToInt32(oSectionUniqueInks[i].InkID), true);
+                GlobalData gData = GetItemPriceCost(Convert.ToInt32(oSectionUniqueInks[i].InkId), true);
                 if (gData != null)
                 {
                     dblInkCost = gData.dblUnitCost;
                     dblInkPrice = gData.dblUnitPrice;
                 }
-                int iCoverGroupID = (int)oSectionUniqueInks[i].CoverageGroupID;
+                int iCoverGroupID = (int)oSectionUniqueInks[i].CoverageGroupId;
                 var InkCoverageGroup = db.InkCoverageGroups.Where(c => c.CoverageGroupId == iCoverGroupID).FirstOrDefault();
                 InkPercentage = InkCoverageGroup != null ? (double)InkCoverageGroup.Percentage : 0;
                 dblQty[0] = Convert.ToDouble((((InkPercentage * 0.01) * (intPrintArea * Convert.ToDouble(oItemSection.FinishedItemQty1)) / oRowInkDetail.InkYield) / 2) * (oPaper.InkAbsorption * 0.01));
@@ -3291,13 +3302,13 @@ namespace MPC.Repository.Repositories
 
                 oItemSectionCostCentreDetail.CostPrice = dblInkPrice;
                 oItemSectionCostCentreDetail.StockId = oRowInkDetail.StockItemId;
-                oItemSectionCostCentreDetail.SupplierId = oRowInkDetail.SupplierId;
+                oItemSectionCostCentreDetail.SupplierId = Convert.ToInt32(oRowInkDetail.SupplierId);
                 oItemSectionCostCentreDetail.StockName = oRowInkDetail.ItemName;
 
                 oItemSectionCostCentre.SectionCostCentreDetails.Add(oItemSectionCostCentreDetail);
 
             }
-            var markup = db.Markups.Where(m => m.MarkUpID == oInksCostcentreDTO.DefaultVAId).FirstOrDefault();
+            var markup = db.Markups.Where(m => m.MarkUpId == oInksCostcentreDTO.DefaultVAId).FirstOrDefault();
             var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
             //Calculating and setting cost for qty1
             if (oItemSection.Qty1 >= 0)
@@ -3403,7 +3414,7 @@ namespace MPC.Repository.Repositories
             double[] PrintSheetSpoilage = new double[3];
             int TempQuantity = 0;
 
-            CostCentre oPaperCostCentreDTO = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Paper && c.SystemSiteID == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            CostCentre oPaperCostCentreDTO = db.CostCentres.Where(c => c.SystemTypeId == (int)SystemCostCenterTypes.Paper && c.SystemSiteId == 1 && c.OrganisationId == this.OrganisationId).FirstOrDefault();
             StockItem oPaperDTO = db.StockItems.Where(s => s.StockItemId == oItemSection.StockItemID1).FirstOrDefault();
             //Updating the Paper Gsm in Item Section
             oItemSection.PaperGsm = oPaperDTO.ItemWeight;
@@ -3592,7 +3603,7 @@ namespace MPC.Repository.Repositories
                 {
                     sMinimumCost = "0";
                 }
-                var markup = db.Markups.Where(m => m.MarkUpID == oPaperCostCentreDTO.DefaultVAId).FirstOrDefault();
+                var markup = db.Markups.Where(m => m.MarkUpId == oPaperCostCentreDTO.DefaultVAId).FirstOrDefault();
                 var ProfitMargin = markup != null ? markup.MarkUpRate : 0;
                 oItemSectionCostCenter.Qty1MarkUpID = oPaperCostCentreDTO.DefaultVAId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
@@ -3873,7 +3884,7 @@ namespace MPC.Repository.Repositories
             oItemSectionCostCenter.Name = "Paper ( " + oPaperDTO.ItemName + " )";
             oItemSectionCostCenterDetail.StockId = oPaperDTO.StockItemId;
             oItemSectionCostCenterDetail.StockName = oPaperDTO.ItemName;
-            oItemSectionCostCenterDetail.SupplierId = oPaperDTO.SupplierId;
+            oItemSectionCostCenterDetail.SupplierId = Convert.ToInt32(oPaperDTO.SupplierId);
             oItemSectionCostCenter.SectionCostCentreResources.ToList().ForEach(c => db.SectionCostCentreResources.Remove(c));
             //adding new resources.
             oItemSectionCostCenter.Qty1 = oItemSection.Qty1;
@@ -4642,12 +4653,15 @@ namespace MPC.Repository.Repositories
         {
             return db.LengthUnits.Where(o => o.Id == UnitID).FirstOrDefault().UnitName;
         }
-
+        private string GetWeightUnitName(int UnitID)
+        {
+            return db.WeightUnits.Where(o => o.Id == UnitID).FirstOrDefault().UnitName;
+        }
         private Organisation CompanyGeneralSettings()
         {
             return db.Organisations.Where(c => c.OrganisationId == this.OrganisationId).FirstOrDefault();
         }
-        public double ConvertLength(double Input, MPC.Models.DomainModels.LengthUnit InputUnit, LengthUnit OutputUnit)
+        public double ConvertLength(double Input, lengthunit InputUnit, lengthunit OutputUnit)
         {
             double ConversionUnit = 0;
             MPC.Models.DomainModels.LengthUnit oRows = db.LengthUnits.Where(o => o.Id == (int)InputUnit).FirstOrDefault();
@@ -4655,13 +4669,13 @@ namespace MPC.Repository.Repositories
             {
                 switch (OutputUnit)
                 {
-                    case MPC.Models.Common.LengthUnit.Cm:
+                    case lengthunit.Cm:
                         ConversionUnit = (double)oRows.CM;
                         break;
-                    case MPC.Models.Common.LengthUnit.inch:
+                    case lengthunit.Inch:
                         ConversionUnit = (double)oRows.Inch;
                         break;
-                    case MPC.Models.Common.LengthUnit.mm:
+                    case lengthunit.Mm:
                         ConversionUnit = (double)oRows.MM;
                         break;
                 }
