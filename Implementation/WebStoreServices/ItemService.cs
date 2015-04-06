@@ -916,6 +916,10 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+        public long getParentTemplateID(long itemId)
+        {
+           return _ItemRepository.getParentTemplateID(itemId);
+        }
 
     }
 }
