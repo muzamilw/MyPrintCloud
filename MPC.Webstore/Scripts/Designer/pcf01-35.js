@@ -1095,7 +1095,9 @@ function g2(e) {
             $("#BtnDeleteTxtObj").attr("disabled", "disabled");
             $("#BtnRotateTxtLft").attr("disabled", "disabled");
             $("#BtnRotateTxtRight").attr("disabled", "disabled");
-            $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            if (IsCalledFrom != 2) {
+                $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            }
             $("#BtnPrintObj").attr("disabled", "disabled");
 
             $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
@@ -1317,7 +1319,7 @@ function g2_1(e) {
             if (IsEmbedded && !D1AO.IsEditable) {
                 $("#BtnLockEditing").attr("disabled", "disabled");
             }
-            if (IsEmbedded && D1AO.IsPositionLocked) {
+            if (IsEmbedded && D1AO.IsPositionLocked && IsCalledFrom != 2) {
                 $("#BtnLockTxtPosition").attr("disabled", "disabled");
             }
             $(".fontSelector").removeAttr("disabled");

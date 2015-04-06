@@ -37,7 +37,8 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRepository itemRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
         private readonly IItemSectionRepository itemsectionRepository;
-        
+        private readonly ICompanyRepository companyRepository;
+
         #endregion
         #region Constructor
 
@@ -46,8 +47,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
-            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository,IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
-            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository)
+            IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
+            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository,
+            IInkPlateSideRepository inkPlateSideRepository, ICompanyRepository companyRepository)
         {
             if (estimateRepository == null)
             {
@@ -89,11 +91,16 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("inkPlateSideRepository");
             }
-             if (itemsectionRepository == null)
+            if (itemsectionRepository == null)
             {
                 throw new ArgumentNullException("itemsectionRepository");
             }
+            if (companyRepository == null)
+            {
+                throw new ArgumentNullException("companyRepository");
+            }
             this.estimateRepository = estimateRepository;
+            this.companyRepository = companyRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
@@ -170,12 +177,13 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Get Base Data For Company
         /// </summary>
-        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId)
+        public OrderBaseResponseForCompany GetBaseDataForCompany(long companyId, long storeId)
         {
             return new OrderBaseResponseForCompany
                 {
                     CompanyContacts = companyContactRepository.GetCompanyContactsByCompanyId(companyId),
-                    CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId)
+                    CompanyAddresses = addressRepository.GetAddressByCompanyID(companyId),
+                    TaxRate = companyRepository.GetTaxRateByStoreId(storeId)
                 };
         }
         /// <summary>
@@ -187,7 +195,7 @@ namespace MPC.Implementation.MISServices
             return estimateRepository.GetOrderStatusesCountForMenuItems();
         }
 
-        public bool DeleteCart(long CompanyID,long OrganisationID)
+        public bool DeleteCart(long CompanyID, long OrganisationID)
         {
             try
             {
@@ -195,24 +203,24 @@ namespace MPC.Implementation.MISServices
 
                 orderRepository.DeleteCart(CompanyID);
                 List<string> ImagesPath = new List<string>();
-                
-                if(cartorders != null && cartorders.Count > 0)
+
+                if (cartorders != null && cartorders.Count > 0)
                 {
-                    
-                    foreach(var cartOrd in cartorders)
+
+                    foreach (var cartOrd in cartorders)
                     {
                         DeleteItemsPhysically(cartOrd, OrganisationID);
                     }
                 }
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
 
             }
         }
-        public bool DeleteOrderSP(long OrderID,long OrganisationID)
+        public bool DeleteOrderSP(long OrderID, long OrganisationID)
         {
             try
             {
@@ -307,9 +315,9 @@ namespace MPC.Implementation.MISServices
 
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw ex; 
+                throw ex;
             }
         }
         #endregion
@@ -321,17 +329,17 @@ namespace MPC.Implementation.MISServices
         public PtvDTO GetPTV(PTVRequestModel request)
         {
             Organisation organisation = organisationRepository.GetOrganizatiobByID();
-            
-            if(organisation != null)
+
+            if (organisation != null)
             {
                 request.ItemHeight = LengthConversionHelper.ConvertLength(request.ItemHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
                 request.ItemWidth = LengthConversionHelper.ConvertLength(request.ItemWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
                 request.PrintHeight = LengthConversionHelper.ConvertLength(request.PrintHeight, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
                 request.PrintWidth = LengthConversionHelper.ConvertLength(request.PrintWidth, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
                 request.ItemHorizentalGutter = LengthConversionHelper.ConvertLength(request.ItemHorizentalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
-                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);              
+                request.ItemVerticalGutter = LengthConversionHelper.ConvertLength(request.ItemVerticalGutter, MPC.Models.Common.LengthUnit.Mm, organisation.LengthUnit);
             }
-            
+
 
             return itemsectionRepository.DrawPTV((PrintViewOrientation)request.Orientation, request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, request.isWorknTrun, request.isWorknTumble, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, (GripSide)request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter);
         }
@@ -353,7 +361,7 @@ namespace MPC.Implementation.MISServices
             }
             return itemsectionRepository.CalculatePTV(request.ReversePtvRows, request.ReversePtvCols, request.isDoubleSided, false, request.ApplyPressRestrict, request.ItemHeight, request.ItemWidth, request.PrintHeight, request.PrintWidth, 1, request.Grip, request.GripDepth, request.HeadDepth, request.PrintGutter, request.ItemHorizentalGutter, request.ItemVerticalGutter, request.isWorknTrun, request.isWorknTumble);
         }
-        
+
         #endregion
 
         #region Estimation Methods
