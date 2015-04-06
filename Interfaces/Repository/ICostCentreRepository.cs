@@ -63,5 +63,7 @@ namespace MPC.Interfaces.Repository
 
         CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id);
         IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore();
+
+        CostCenterBaseResponse GetBaseData();
     }
 }

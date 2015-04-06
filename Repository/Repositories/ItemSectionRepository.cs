@@ -3032,6 +3032,7 @@ namespace MPC.Repository.Repositories
         public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<SectionInkCoverage> oSectionAllInks = null)
         {
             //oItemSection.tbl_section_costcentres.ToList().ForEach(c => oItemSection.tbl_section_costcentres.Remove(c));
+            oItemSection.Qty1 = 1000;// Hard Coded for testing. this is to remove after testing
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             string sMinimumCost = null;
             double intPrintArea = 0;
@@ -3069,7 +3070,7 @@ namespace MPC.Repository.Repositories
             int NoofSheetsQty1 = 0;
             int NoofSheetsQty2 = 0;
             int NoofSheetsQty3 = 0;
-            int NoofInks = 0;
+            int NoofInks = 4; //Its value is 0, but hardcoded 4 for testing should be reverted after testing.
             if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
 
