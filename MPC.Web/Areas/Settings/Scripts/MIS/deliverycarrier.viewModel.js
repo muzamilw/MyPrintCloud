@@ -30,6 +30,8 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     getBase();
+                    
+
                 },
                 //Get DeliveryCarrier
                 getBase = function (callBack) {
@@ -50,16 +52,37 @@ define("deliverycarrier/deliverycarrier.viewModel",
                             toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                         }
                     });
+                },
+                onsaveDeliveryCarrier = function(deliverycarrier)
+                {
+                    saveDeliveryCarrier(deliverycarrier);
+                },
+                saveDeliveryCarrier = function (deliverycarrier) {
+                    dataservice.saveDeliveryCarrier(model.deliverycarrier(deliverycarrier), {
+                        success: function (data) {
+                            toastr.success("Successfully save.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                toastr.error(exceptionMessage);
+
+                            } else {
+
+                                toastr.error("Failed to save.");
+
+                            }
+
+                        }
+                    });
                 };
-
-                
-               
-                
+                    
                 // #endregion Service Calls
-
                 return {
                     // Observables
                     deliverycarrierlist: deliverycarrierlist,
+                    onsaveDeliveryCarrier:onsaveDeliveryCarrier,
                     errorList: errorList,
                     // Utility Methods
                     initialize: initialize,

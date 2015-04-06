@@ -23,7 +23,7 @@
                         <label for="txtCName" class="control-label text-right tooltip-float">Name</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" id="txtCName">
+                        <input type="text" class="form-control" data-bind="value:carrierName" id="txtCName">
                     </div>
                 </div>
                 <div class="form-group">
@@ -34,7 +34,7 @@
                             </a>
                         </div>
 
-                        <label for="txtBillingCInfo" class="control-label text-right tooltip-float">URL</label>
+                        <label for="txtBillingCInfo" class="control-label text-right tooltip-float" data-bind="value:url">URL</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtBillingCInfo">
@@ -48,7 +48,7 @@
                             </a>
                         </div>
 
-                        <label for="txtTrackingCInfo" class="control-label text-right tooltip-float">API Key</label>
+                        <label for="txtTrackingCInfo" class="control-label text-right tooltip-float" data-bind="value:apiKey">API Key</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtTrackingCInfo">
@@ -61,7 +61,7 @@
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>
-                        <label for="txtTrackingCInfo" class="control-label text-right tooltip-float">API Password</label>
+                        <label for="txtTrackingCInfo" class="control-label text-right tooltip-float" data-bind="value:apiPassword">API Password</label>
                     </div>
                     <div class="col-lg-6">
                         <input type="text" class="form-control" id="txtTrackingCInfo">
@@ -82,7 +82,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" data-bind="click:$root.onsaveDeliveryCarrier">Save</button>
             </div>
         </div>
     </div>
