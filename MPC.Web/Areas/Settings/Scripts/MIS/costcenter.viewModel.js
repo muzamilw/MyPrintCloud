@@ -753,7 +753,7 @@ define("costcenter/costcenter.viewModel",
                     selectedVariableString: selectedVariableString,
                     iconClick: iconClick,
                     questionVariableNodes: questionVariableNodes,
-                    createDeliveryCostCenter: createDeliveryCostCenter
+                    createDeliveryCostCenter: createDeliveryCostCenter,
                     SelectedQuestionVariable: SelectedQuestionVariable
                 };
             })()

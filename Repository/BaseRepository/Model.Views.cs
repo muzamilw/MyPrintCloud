@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets38B8F232F22B4E8B5D05E236DAFE1E1989AE47E53B38DF548150FC901AC15BE4))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySets38B8F232F22B4E8B5D05E236DAFE1E1989AE47E53B38DF548150FC901AC15BE4 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySets38B8F232F22B4E8B5D05E236DAFE1E1989AE47E53B38DF548150FC901AC15BE4()
+        public ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "a6d93684e5d873bb0671add2ffe9dda4212c0e6b9683210c6d987fa30d05b7fc";
-            this.HashOverAllExtentViews = "a57b04e8181b8a42bcfea2327a40d36ed927687c52215f4f105384cd60a8882f";
-            this.ViewCount = 320;
+            this.HashOverMappingClosure = "93fe8fdb4c6ac938ed06e6e3f244c725ff60f2ee26573dced3c8710d9d7c32dd";
+            this.HashOverAllExtentViews = "e137512490ef4fc5ccd286ca00b71aecb698697ce2e10fae42632681cd7ff18e";
+            this.ViewCount = 322;
         }
         
         /// <Summary>
@@ -1316,6 +1316,14 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 319))
             {
                 return GetView319();
+            }
+            if ((index == 320))
+            {
+                return GetView320();
+            }
+            if ((index == 321))
+            {
+                return GetView321();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -12205,6 +12213,48 @@ namespace Edm_EntityMappingGeneratedViews
             viewString.Append("           T.SystemSiteId AS JobPreference_SystemSiteId, \r\n            True AS _");
             viewString.Append("from0\r\n        FROM DomainModelsStoreContainer.JobPreference AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.JobPreferences", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.InkPlateSide
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView320()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.InkPlateSide", @"
+    SELECT VALUE -- Constructing InkPlateSide
+        [DomainModels.Store.InkPlateSide](T1.InkPlateSide_PlateInkId, T1.InkPlateSide_InkTitle, T1.InkPlateSide_PlateInkDescription, T1.InkPlateSide_isDoubleSided, T1.InkPlateSide_PlateInkSide1, T1.InkPlateSide_PlateInkSide2)
+    FROM (
+        SELECT 
+            T.PlateInkId AS InkPlateSide_PlateInkId, 
+            T.InkTitle AS InkPlateSide_InkTitle, 
+            T.PlateInkDescription AS InkPlateSide_PlateInkDescription, 
+            T.isDoubleSided AS InkPlateSide_isDoubleSided, 
+            T.PlateInkSide1 AS InkPlateSide_PlateInkSide1, 
+            T.PlateInkSide2 AS InkPlateSide_PlateInkSide2, 
+            True AS _from0
+        FROM BaseDbContext.InkPlateSides AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.InkPlateSides
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView321()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InkPlateSides", @"
+    SELECT VALUE -- Constructing InkPlateSides
+        [DomainModels.InkPlateSide](T1.InkPlateSide_PlateInkId, T1.InkPlateSide_InkTitle, T1.InkPlateSide_PlateInkDescription, T1.InkPlateSide_isDoubleSided, T1.InkPlateSide_PlateInkSide1, T1.InkPlateSide_PlateInkSide2)
+    FROM (
+        SELECT 
+            T.PlateInkId AS InkPlateSide_PlateInkId, 
+            T.InkTitle AS InkPlateSide_InkTitle, 
+            T.PlateInkDescription AS InkPlateSide_PlateInkDescription, 
+            T.isDoubleSided AS InkPlateSide_isDoubleSided, 
+            T.PlateInkSide1 AS InkPlateSide_PlateInkSide1, 
+            T.PlateInkSide2 AS InkPlateSide_PlateInkSide2, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.InkPlateSide AS T
+    ) AS T1");
         }
     }
 }

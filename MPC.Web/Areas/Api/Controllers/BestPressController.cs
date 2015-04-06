@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
-using System.Web;
+using System.Net.Http;
 using System.Web.Http;
 using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
-using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.WebBase.Mvc;
+using MPC.MIS.Areas.Api.ModelMappers;
+using System.Web;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
-    public class PtvCalculationController : ApiController
+    public class BestPressController : ApiController
     {
         #region Private
 
@@ -22,7 +25,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public PtvCalculationController(IOrderService orderService)
+        public BestPressController(IOrderService orderService)
         {
             if (orderService == null)
             {
@@ -35,14 +38,14 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        public PtvDTO Get([FromUri] MPC.Models.RequestModels.PTVRequestModel request)
+        public BestPressResponse Get([FromUri] ItemSection section)
         {
-            if (request == null || !ModelState.IsValid)
+            if (section == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return orderService.GetPTVCalculation(request).CreateFrom();
+            return orderService.GetBestPresses(section.CreateFrom()).CreateFrom();
         }
         #endregion
     }
