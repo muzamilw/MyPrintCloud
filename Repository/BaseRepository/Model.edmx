@@ -3183,6 +3183,17 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="FlagColumn" Type="varchar" MaxLength="50" />
           <Property Name="isDefault" Type="bit" />
         </EntityType>
+        <EntityType Name="SectionInkCoverage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SectionId" Type="int" />
+          <Property Name="InkOrder" Type="int" />
+          <Property Name="InkId" Type="int" />
+          <Property Name="CoverageGroupId" Type="int" />
+          <Property Name="Side" Type="int" />
+        </EntityType>
         <EntityType Name="SmartForm">
           <Key>
             <PropertyRef Name="SmartFormId" />
@@ -5526,6 +5537,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="SectionCostCentreDetail" EntityType="Self.SectionCostCentreDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionCostCentreResource" EntityType="Self.SectionCostCentreResource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SectionFlag" EntityType="Self.SectionFlag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SectionInkCoverage" EntityType="Self.SectionInkCoverage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartForm" EntityType="Self.SmartForm" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SmartFormDetail" EntityType="Self.SmartFormDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="State" EntityType="Self.State" Schema="dbo" store:Type="Tables" />
@@ -6950,6 +6962,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           </FunctionImport>
           <EntitySet Name="JobPreferences" EntityType="DomainModels.JobPreference" />
           <EntitySet Name="InkPlateSides" EntityType="DomainModels.InkPlateSide" />
+          <EntitySet Name="SectionInkCoverages" EntityType="DomainModels.SectionInkCoverage" />
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -12587,6 +12600,17 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="PlateInkSide1" Type="Int32" Nullable="false" />
           <Property Name="PlateInkSide2" Type="Int32" Nullable="false" />
         </EntityType>
+        <EntityType Name="SectionInkCoverage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SectionId" Type="Int32" />
+          <Property Name="InkOrder" Type="Int32" />
+          <Property Name="InkId" Type="Int32" />
+          <Property Name="CoverageGroupId" Type="Int32" />
+          <Property Name="Side" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -16534,6 +16558,18 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
                 <ScalarProperty Name="PlateInkDescription" ColumnName="PlateInkDescription" />
                 <ScalarProperty Name="InkTitle" ColumnName="InkTitle" />
                 <ScalarProperty Name="PlateInkId" ColumnName="PlateInkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SectionInkCoverages">
+            <EntityTypeMapping TypeName="DomainModels.SectionInkCoverage">
+              <MappingFragment StoreEntitySet="SectionInkCoverage">
+                <ScalarProperty Name="Side" ColumnName="Side" />
+                <ScalarProperty Name="CoverageGroupId" ColumnName="CoverageGroupId" />
+                <ScalarProperty Name="InkId" ColumnName="InkId" />
+                <ScalarProperty Name="InkOrder" ColumnName="InkOrder" />
+                <ScalarProperty Name="SectionId" ColumnName="SectionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

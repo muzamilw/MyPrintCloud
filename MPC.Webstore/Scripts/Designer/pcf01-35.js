@@ -2864,7 +2864,9 @@ function pcl42() {
 function pcl42_updateVariables(data) {
     
     $.each(data, function (i, IT) {
-        IT.Value = $("#txtSmart" + IT.VariableId).val();
+        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+            IT.Value = $("#txtSmart" + IT.VariableId).val();
+        }
     });
 }
 function pcl42_UpdateTO() {
@@ -2881,17 +2883,32 @@ function pcl42_UpdateTO() {
             }
         });
     });
-
-    $.each(TO, function (i, IT) {
-        $.each(smartFormData.smartFormObjs, function (i, obj) {
-            if (obj.ObjectType == 3)  // replacing variables
-            {
-                var variableTag = obj.FieldVariable.VariableTag;
-                while (IT.ContentString.indexOf(variableTag) != -1)
-                    IT.ContentString = IT.ContentString.replace(variableTag, $("#txtSmart" + obj.VariableId).val())
-            }
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+              //  if (obj.ObjectType == 3)  // replacing variables
+                //    {
+                if (obj.Value != null && obj.Value != "") {
+                    var variableTag = obj.FieldVariable.VariableTag;
+                    while (IT.ContentString.indexOf(variableTag) != -1)
+                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+              //  }
+            });
         });
-    });
+    }
+    else {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.scopeVariables, function (i, obj) {
+                var variableTag = obj.FieldVariable.VariableTag;
+                if (obj.Value != null && obj.Value != "") {
+                    while (IT.ContentString.indexOf(variableTag) != -1)
+                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+            });
+        }); 
+    }
+  
 
 }
 
