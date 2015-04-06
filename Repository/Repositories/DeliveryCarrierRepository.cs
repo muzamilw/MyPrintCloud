@@ -37,7 +37,16 @@ namespace MPC.Repository.Repositories
             return DbSet.ToList();
         }
 
-       
+        public bool AddDeliveryCarrier(DeliveryCarrier deliveryc)
+        {
+
+            db.DeliveryCarriers.Add(deliveryc);
+            db.SaveChanges();
+
+            return true;
+
+        }
+
 
     }
 }

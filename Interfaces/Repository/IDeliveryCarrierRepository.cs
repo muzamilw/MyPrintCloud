@@ -8,6 +8,6 @@ namespace MPC.Interfaces.Repository
 {
     public interface IDeliveryCarrierRepository : IBaseRepository<DeliveryCarrier, long>
     {
-        
+        bool AddDeliveryCarrier(DeliveryCarrier deliveryc);
     }
 }

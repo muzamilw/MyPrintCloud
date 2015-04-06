@@ -318,6 +318,7 @@
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
@@ -380,6 +381,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachineMeterPerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
@@ -456,6 +458,7 @@
     <Compile Include="Areas\Api\Models\CrmContactResponse.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
@@ -803,6 +806,10 @@
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
     <Content Include="Areas\Products\Scripts\product.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.dataservice.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.model.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.view.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.viewModel.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\inventoryCategory.view.js" />
@@ -3116,6 +3123,7 @@
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
+    <Folder Include="Areas\Api\Views\Deliverycarrier\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
