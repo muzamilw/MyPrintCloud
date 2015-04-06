@@ -17,5 +17,11 @@ namespace MPC.Models.ResponseModels
         /// Addresses
         /// </summary>
         public IEnumerable<Address> CompanyAddresses { get; set; }
+        
+        /// <summary>
+        /// Tax Rate
+        /// </summary>
+
+        public double? TaxRate { get; set; }
     }
 }

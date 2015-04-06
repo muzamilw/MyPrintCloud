@@ -409,6 +409,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0),
             qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
             tax1 = ko.observable(specifiedTax1 || undefined),
+            taxRateIsDisabled = ko.observable(false),
            
             // Errors
             errors = ko.validation.group({
@@ -602,6 +603,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal: qty2GrossTotal,
             qty3GrossTotal: qty3GrossTotal,
             tax1: tax1,
+            taxRateIsDisabled: taxRateIsDisabled,
             itemStockOptions: itemStockOptions,
             itemPriceMatrices: itemPriceMatrices,
             errors: errors,

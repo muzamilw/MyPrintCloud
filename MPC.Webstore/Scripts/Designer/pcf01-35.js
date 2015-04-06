@@ -1095,7 +1095,9 @@ function g2(e) {
             $("#BtnDeleteTxtObj").attr("disabled", "disabled");
             $("#BtnRotateTxtLft").attr("disabled", "disabled");
             $("#BtnRotateTxtRight").attr("disabled", "disabled");
-            $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            if (IsCalledFrom != 2) {
+                $("#BtnLockTxtPosition").attr("disabled", "disabled");
+            }
             $("#BtnPrintObj").attr("disabled", "disabled");
 
             $("#BtnTxtCanvasAlignLeft").attr("disabled", "disabled");
@@ -1317,7 +1319,7 @@ function g2_1(e) {
             if (IsEmbedded && !D1AO.IsEditable) {
                 $("#BtnLockEditing").attr("disabled", "disabled");
             }
-            if (IsEmbedded && D1AO.IsPositionLocked) {
+            if (IsEmbedded && D1AO.IsPositionLocked && IsCalledFrom != 2) {
                 $("#BtnLockTxtPosition").attr("disabled", "disabled");
             }
             $(".fontSelector").removeAttr("disabled");
@@ -2864,7 +2866,9 @@ function pcl42() {
 function pcl42_updateVariables(data) {
     
     $.each(data, function (i, IT) {
-        IT.Value = $("#txtSmart" + IT.VariableId).val();
+        if ($("#txtSmart" + IT.VariableId).val() != null && $("#txtSmart" + IT.VariableId).val() != "") {
+            IT.Value = $("#txtSmart" + IT.VariableId).val();
+        }
     });
 }
 function pcl42_UpdateTO() {
@@ -2881,17 +2885,32 @@ function pcl42_UpdateTO() {
             }
         });
     });
-
-    $.each(TO, function (i, IT) {
-        $.each(smartFormData.smartFormObjs, function (i, obj) {
-            if (obj.ObjectType == 3)  // replacing variables
-            {
-                var variableTag = obj.FieldVariable.VariableTag;
-                while (IT.ContentString.indexOf(variableTag) != -1)
-                    IT.ContentString = IT.ContentString.replace(variableTag, $("#txtSmart" + obj.VariableId).val())
-            }
+    if ($("#optionRadioOtherProfile").is(':checked')) {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
+              //  if (obj.ObjectType == 3)  // replacing variables
+                //    {
+                if (obj.Value != null && obj.Value != "") {
+                    var variableTag = obj.FieldVariable.VariableTag;
+                    while (IT.ContentString.indexOf(variableTag) != -1)
+                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+              //  }
+            });
         });
-    });
+    }
+    else {
+        $.each(TO, function (i, IT) {
+            $.each(smartFormData.scopeVariables, function (i, obj) {
+                var variableTag = obj.FieldVariable.VariableTag;
+                if (obj.Value != null && obj.Value != "") {
+                    while (IT.ContentString.indexOf(variableTag) != -1)
+                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                }
+            });
+        }); 
+    }
+  
 
 }
 
