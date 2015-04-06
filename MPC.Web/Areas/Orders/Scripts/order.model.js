@@ -2095,7 +2095,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     
     // Ink Plate Side Factory
     InkPlateSide.Create = function (source) {
-        return new InkPlateSide(source.InkPlateId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
+        return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
     };
 
 
