@@ -122,8 +122,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IGoodRecieveNoteRepository, GoodRecieveNoteRepository>();
             unityContainer.RegisterType<IPurchaseRepository, PurchaseRepository>();
             unityContainer.RegisterType<ICostCentreAnswerRepository, CostCentreAnswerRepository>();
-            
-
+            unityContainer.RegisterType<IInkPlateSideRepository, InkPlateSideRepository>();
         }
     }
 }

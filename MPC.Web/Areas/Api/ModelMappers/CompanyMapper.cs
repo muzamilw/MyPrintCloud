@@ -516,7 +516,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             DomainModels.CompanyContact companyContact = source.CompanyContacts.FirstOrDefault(contact => contact.IsDefaultContact == 1);
             if ( companyContact!= null)
             {
-                defaultContact = companyContact.FirstName;
+                defaultContact = companyContact.FirstName +" "+ companyContact.LastName;
                 defaultContactEmail = companyContact.Email;
             }
             return new CrmSupplierListViewModel

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0 : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsD33F5F63A27290F9750DC07B7DC372D7D6349C7C979F8D9739C3F83485F219A0()
+        public ViewsForBaseEntitySets5ED7042E973397822667FAA22B74885ADFF572DEFDE1B54AE895E10410000BDB()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "fe061f0798c99110bdac89d3fee36bea19eac7875057a1af219e843fee23100b";
-            this.HashOverAllExtentViews = "57586f149e7e59ded2b997c3aae94dd13e2340dfc2628995d8f121564a18f4c7";
-            this.ViewCount = 318;
+            this.HashOverMappingClosure = "93fe8fdb4c6ac938ed06e6e3f244c725ff60f2ee26573dced3c8710d9d7c32dd";
+            this.HashOverAllExtentViews = "e137512490ef4fc5ccd286ca00b71aecb698697ce2e10fae42632681cd7ff18e";
+            this.ViewCount = 322;
         }
         
         /// <Summary>
@@ -1308,6 +1308,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 317))
             {
                 return GetView317();
+            }
+            if ((index == 318))
+            {
+                return GetView318();
+            }
+            if ((index == 319))
+            {
+                return GetView319();
+            }
+            if ((index == 320))
+            {
+                return GetView320();
+            }
+            if ((index == 321))
+            {
+                return GetView321();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -12089,6 +12105,156 @@ namespace Edm_EntityMappingGeneratedViews
                     "ce AS PurchaseDetail_ItemBalance, \r\n            T.DepartmentId AS PurchaseDetail" +
                     "_DepartmentId, \r\n            True AS _from0\r\n        FROM DomainModelsStoreConta" +
                     "iner.PurchaseDetail AS T\r\n    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.JobPreference
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView318()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3591);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing JobPreference\r\n        [DomainModels.Store.Jo");
+            viewString.Append("bPreference](T1.JobPreference_Id, T1.JobPreference_IsDefaultInkColorUsed, T1.Job");
+            viewString.Append("Preference_IsDefaultFilmUsed, T1.JobPreference_IsdefaultPlateUsed, T1.JobPrefere");
+            viewString.Append("nce_IsDefaultMakereadyUsed, T1.JobPreference_IsDefaultWashupUsed, T1.JobPreferen");
+            viewString.Append("ce_IsDefaultPressInstruction, T1.JobPreference_IsWorkingSize, T1.JobPreference_I");
+            viewString.Append("sItemSize, T1.JobPreference_IsImpressionCount, T1.JobPreference_IsNumberOfPasses");
+            viewString.Append(", T1.JobPreference_IsPrintSheetQty, T1.JobPreference_IsDefaultStockDetail, T1.Jo");
+            viewString.Append("bPreference_IsOrderSheetSize, T1.JobPreference_IsSpoilageAllowed, T1.JobPreferen");
+            viewString.Append("ce_IsPaperWeight, T1.JobPreference_IsPaperSheetQty, T1.JobPreference_IsDefaultGu");
+            viewString.Append("ilotine, T1.JobPreference_IsGuilotineWorkingSize, T1.JobPreference_IsGuilotineIt");
+            viewString.Append("emSize, T1.JobPreference_IsNoOfTrims, T1.JobPreference_IsNoOfCuts, T1.JobPrefere");
+            viewString.Append("nce_IsInksEstTime, T1.JobPreference_InFilmEstTime, T1.JobPreference_IsPlateEstTi");
+            viewString.Append("me, T1.JobPreference_IsWashupEstTime, T1.JobPreference_IsMakereadyEstTime, T1.Jo");
+            viewString.Append("bPreference_IsPressEstTime, T1.JobPreference_IsPaperEstTime, T1.JobPreference_Is");
+            viewString.Append("GuillotineEstTime, T1.JobPreference_IsReelMakeReady, T1.JobPreference_IsReelMake");
+            viewString.Append("ReadyTime, T1.JobPreference_SystemSiteId)\r\n    FROM (\r\n        SELECT \r\n        ");
+            viewString.Append("    T.Id AS JobPreference_Id, \r\n            T.IsDefaultInkColorUsed AS JobPrefer");
+            viewString.Append("ence_IsDefaultInkColorUsed, \r\n            T.IsDefaultFilmUsed AS JobPreference_I");
+            viewString.Append("sDefaultFilmUsed, \r\n            T.IsdefaultPlateUsed AS JobPreference_IsdefaultP");
+            viewString.Append("lateUsed, \r\n            T.IsDefaultMakereadyUsed AS JobPreference_IsDefaultMaker");
+            viewString.Append("eadyUsed, \r\n            T.IsDefaultWashupUsed AS JobPreference_IsDefaultWashupUs");
+            viewString.Append("ed, \r\n            T.IsDefaultPressInstruction AS JobPreference_IsDefaultPressIns");
+            viewString.Append("truction, \r\n            T.IsWorkingSize AS JobPreference_IsWorkingSize, \r\n      ");
+            viewString.Append("      T.IsItemSize AS JobPreference_IsItemSize, \r\n            T.IsImpressionCoun");
+            viewString.Append("t AS JobPreference_IsImpressionCount, \r\n            T.IsNumberOfPasses AS JobPre");
+            viewString.Append("ference_IsNumberOfPasses, \r\n            T.IsPrintSheetQty AS JobPreference_IsPri");
+            viewString.Append("ntSheetQty, \r\n            T.IsDefaultStockDetail AS JobPreference_IsDefaultStock");
+            viewString.Append("Detail, \r\n            T.IsOrderSheetSize AS JobPreference_IsOrderSheetSize, \r\n  ");
+            viewString.Append("          T.IsSpoilageAllowed AS JobPreference_IsSpoilageAllowed, \r\n            ");
+            viewString.Append("T.IsPaperWeight AS JobPreference_IsPaperWeight, \r\n            T.IsPaperSheetQty ");
+            viewString.Append("AS JobPreference_IsPaperSheetQty, \r\n            T.IsDefaultGuilotine AS JobPrefe");
+            viewString.Append("rence_IsDefaultGuilotine, \r\n            T.IsGuilotineWorkingSize AS JobPreferenc");
+            viewString.Append("e_IsGuilotineWorkingSize, \r\n            T.IsGuilotineItemSize AS JobPreference_I");
+            viewString.Append("sGuilotineItemSize, \r\n            T.IsNoOfTrims AS JobPreference_IsNoOfTrims, \r\n");
+            viewString.Append("            T.IsNoOfCuts AS JobPreference_IsNoOfCuts, \r\n            T.IsInksEstT");
+            viewString.Append("ime AS JobPreference_IsInksEstTime, \r\n            T.InFilmEstTime AS JobPreferen");
+            viewString.Append("ce_InFilmEstTime, \r\n            T.IsPlateEstTime AS JobPreference_IsPlateEstTime");
+            viewString.Append(", \r\n            T.IsWashupEstTime AS JobPreference_IsWashupEstTime, \r\n          ");
+            viewString.Append("  T.IsMakereadyEstTime AS JobPreference_IsMakereadyEstTime, \r\n            T.IsPr");
+            viewString.Append("essEstTime AS JobPreference_IsPressEstTime, \r\n            T.IsPaperEstTime AS Jo");
+            viewString.Append("bPreference_IsPaperEstTime, \r\n            T.IsGuillotineEstTime AS JobPreference");
+            viewString.Append("_IsGuillotineEstTime, \r\n            T.IsReelMakeReady AS JobPreference_IsReelMak");
+            viewString.Append("eReady, \r\n            T.IsReelMakeReadyTime AS JobPreference_IsReelMakeReadyTime");
+            viewString.Append(", \r\n            T.SystemSiteId AS JobPreference_SystemSiteId, \r\n            True");
+            viewString.Append(" AS _from0\r\n        FROM BaseDbContext.JobPreferences AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.JobPreference", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.JobPreferences
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView319()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(3598);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing JobPreferences\r\n        [DomainModels.JobPref");
+            viewString.Append("erence](T1.JobPreference_Id, T1.JobPreference_IsDefaultInkColorUsed, T1.JobPrefe");
+            viewString.Append("rence_IsDefaultFilmUsed, T1.JobPreference_IsdefaultPlateUsed, T1.JobPreference_I");
+            viewString.Append("sDefaultMakereadyUsed, T1.JobPreference_IsDefaultWashupUsed, T1.JobPreference_Is");
+            viewString.Append("DefaultPressInstruction, T1.JobPreference_IsWorkingSize, T1.JobPreference_IsItem");
+            viewString.Append("Size, T1.JobPreference_IsImpressionCount, T1.JobPreference_IsNumberOfPasses, T1.");
+            viewString.Append("JobPreference_IsPrintSheetQty, T1.JobPreference_IsDefaultStockDetail, T1.JobPref");
+            viewString.Append("erence_IsOrderSheetSize, T1.JobPreference_IsSpoilageAllowed, T1.JobPreference_Is");
+            viewString.Append("PaperWeight, T1.JobPreference_IsPaperSheetQty, T1.JobPreference_IsDefaultGuiloti");
+            viewString.Append("ne, T1.JobPreference_IsGuilotineWorkingSize, T1.JobPreference_IsGuilotineItemSiz");
+            viewString.Append("e, T1.JobPreference_IsNoOfTrims, T1.JobPreference_IsNoOfCuts, T1.JobPreference_I");
+            viewString.Append("sInksEstTime, T1.JobPreference_InFilmEstTime, T1.JobPreference_IsPlateEstTime, T");
+            viewString.Append("1.JobPreference_IsWashupEstTime, T1.JobPreference_IsMakereadyEstTime, T1.JobPref");
+            viewString.Append("erence_IsPressEstTime, T1.JobPreference_IsPaperEstTime, T1.JobPreference_IsGuill");
+            viewString.Append("otineEstTime, T1.JobPreference_IsReelMakeReady, T1.JobPreference_IsReelMakeReady");
+            viewString.Append("Time, T1.JobPreference_SystemSiteId)\r\n    FROM (\r\n        SELECT \r\n            T");
+            viewString.Append(".Id AS JobPreference_Id, \r\n            T.IsDefaultInkColorUsed AS JobPreference_");
+            viewString.Append("IsDefaultInkColorUsed, \r\n            T.IsDefaultFilmUsed AS JobPreference_IsDefa");
+            viewString.Append("ultFilmUsed, \r\n            T.IsdefaultPlateUsed AS JobPreference_IsdefaultPlateU");
+            viewString.Append("sed, \r\n            T.IsDefaultMakereadyUsed AS JobPreference_IsDefaultMakereadyU");
+            viewString.Append("sed, \r\n            T.IsDefaultWashupUsed AS JobPreference_IsDefaultWashupUsed, \r");
+            viewString.Append("\n            T.IsDefaultPressInstruction AS JobPreference_IsDefaultPressInstruct");
+            viewString.Append("ion, \r\n            T.IsWorkingSize AS JobPreference_IsWorkingSize, \r\n           ");
+            viewString.Append(" T.IsItemSize AS JobPreference_IsItemSize, \r\n            T.IsImpressionCount AS ");
+            viewString.Append("JobPreference_IsImpressionCount, \r\n            T.IsNumberOfPasses AS JobPreferen");
+            viewString.Append("ce_IsNumberOfPasses, \r\n            T.IsPrintSheetQty AS JobPreference_IsPrintShe");
+            viewString.Append("etQty, \r\n            T.IsDefaultStockDetail AS JobPreference_IsDefaultStockDetai");
+            viewString.Append("l, \r\n            T.IsOrderSheetSize AS JobPreference_IsOrderSheetSize, \r\n       ");
+            viewString.Append("     T.IsSpoilageAllowed AS JobPreference_IsSpoilageAllowed, \r\n            T.IsP");
+            viewString.Append("aperWeight AS JobPreference_IsPaperWeight, \r\n            T.IsPaperSheetQty AS Jo");
+            viewString.Append("bPreference_IsPaperSheetQty, \r\n            T.IsDefaultGuilotine AS JobPreference");
+            viewString.Append("_IsDefaultGuilotine, \r\n            T.IsGuilotineWorkingSize AS JobPreference_IsG");
+            viewString.Append("uilotineWorkingSize, \r\n            T.IsGuilotineItemSize AS JobPreference_IsGuil");
+            viewString.Append("otineItemSize, \r\n            T.IsNoOfTrims AS JobPreference_IsNoOfTrims, \r\n     ");
+            viewString.Append("       T.IsNoOfCuts AS JobPreference_IsNoOfCuts, \r\n            T.IsInksEstTime A");
+            viewString.Append("S JobPreference_IsInksEstTime, \r\n            T.InFilmEstTime AS JobPreference_In");
+            viewString.Append("FilmEstTime, \r\n            T.IsPlateEstTime AS JobPreference_IsPlateEstTime, \r\n ");
+            viewString.Append("           T.IsWashupEstTime AS JobPreference_IsWashupEstTime, \r\n            T.I");
+            viewString.Append("sMakereadyEstTime AS JobPreference_IsMakereadyEstTime, \r\n            T.IsPressEs");
+            viewString.Append("tTime AS JobPreference_IsPressEstTime, \r\n            T.IsPaperEstTime AS JobPref");
+            viewString.Append("erence_IsPaperEstTime, \r\n            T.IsGuillotineEstTime AS JobPreference_IsGu");
+            viewString.Append("illotineEstTime, \r\n            T.IsReelMakeReady AS JobPreference_IsReelMakeRead");
+            viewString.Append("y, \r\n            T.IsReelMakeReadyTime AS JobPreference_IsReelMakeReadyTime, \r\n ");
+            viewString.Append("           T.SystemSiteId AS JobPreference_SystemSiteId, \r\n            True AS _");
+            viewString.Append("from0\r\n        FROM DomainModelsStoreContainer.JobPreference AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.JobPreferences", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.InkPlateSide
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView320()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.InkPlateSide", @"
+    SELECT VALUE -- Constructing InkPlateSide
+        [DomainModels.Store.InkPlateSide](T1.InkPlateSide_PlateInkId, T1.InkPlateSide_InkTitle, T1.InkPlateSide_PlateInkDescription, T1.InkPlateSide_isDoubleSided, T1.InkPlateSide_PlateInkSide1, T1.InkPlateSide_PlateInkSide2)
+    FROM (
+        SELECT 
+            T.PlateInkId AS InkPlateSide_PlateInkId, 
+            T.InkTitle AS InkPlateSide_InkTitle, 
+            T.PlateInkDescription AS InkPlateSide_PlateInkDescription, 
+            T.isDoubleSided AS InkPlateSide_isDoubleSided, 
+            T.PlateInkSide1 AS InkPlateSide_PlateInkSide1, 
+            T.PlateInkSide2 AS InkPlateSide_PlateInkSide2, 
+            True AS _from0
+        FROM BaseDbContext.InkPlateSides AS T
+    ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.InkPlateSides
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView321()
+        {
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.InkPlateSides", @"
+    SELECT VALUE -- Constructing InkPlateSides
+        [DomainModels.InkPlateSide](T1.InkPlateSide_PlateInkId, T1.InkPlateSide_InkTitle, T1.InkPlateSide_PlateInkDescription, T1.InkPlateSide_isDoubleSided, T1.InkPlateSide_PlateInkSide1, T1.InkPlateSide_PlateInkSide2)
+    FROM (
+        SELECT 
+            T.PlateInkId AS InkPlateSide_PlateInkId, 
+            T.InkTitle AS InkPlateSide_InkTitle, 
+            T.PlateInkDescription AS InkPlateSide_PlateInkDescription, 
+            T.isDoubleSided AS InkPlateSide_isDoubleSided, 
+            T.PlateInkSide1 AS InkPlateSide_PlateInkSide1, 
+            T.PlateInkSide2 AS InkPlateSide_PlateInkSide2, 
+            True AS _from0
+        FROM DomainModelsStoreContainer.InkPlateSide AS T
+    ) AS T1");
         }
     }
 }

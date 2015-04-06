@@ -10,6 +10,7 @@ using System.Web;
 using System.IO;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Linq;
 
 namespace MPC.Implementation.MISServices
 {
@@ -30,9 +31,13 @@ namespace MPC.Implementation.MISServices
         private readonly IPaymentMethodRepository paymentMethodRepository;
         private readonly IOrganisationRepository organisationRepository;
         private readonly IChartOfAccountRepository chartOfAccountRepository;
+        private readonly IPaperSizeRepository paperSizeRepository;
+        private readonly IInkPlateSideRepository inkPlateSideRepository;
         private readonly IOrderRepository orderRepository;
         private readonly IItemRepository itemRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
+        private readonly IItemSectionRepository itemsectionRepository;
+        
         #endregion
         #region Constructor
 
@@ -42,7 +47,7 @@ namespace MPC.Implementation.MISServices
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository,IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
-            IChartOfAccountRepository chartOfAccountRepository)
+            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository)
         {
             if (estimateRepository == null)
             {
@@ -76,6 +81,18 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("chartOfAccountRepository");
             }
+            if (paperSizeRepository == null)
+            {
+                throw new ArgumentNullException("paperSizeRepository");
+            }
+            if (inkPlateSideRepository == null)
+            {
+                throw new ArgumentNullException("inkPlateSideRepository");
+            }
+             if (itemsectionRepository == null)
+            {
+                throw new ArgumentNullException("itemsectionRepository");
+            }
             this.estimateRepository = estimateRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
@@ -88,8 +105,11 @@ namespace MPC.Implementation.MISServices
             this.orderRepository = orderRepository;
             this.stockCategoryRepository = stockCategoryRepository;
             this.chartOfAccountRepository = chartOfAccountRepository;
+            this.paperSizeRepository = paperSizeRepository;
+            this.inkPlateSideRepository = inkPlateSideRepository;
             this.itemRepository = itemRepository;
             this.templateService = templateService;
+            this.itemsectionRepository = itemsectionRepository;
         }
 
         #endregion
@@ -132,7 +152,6 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public OrderBaseResponse GetBaseData()
         {
-            IEnumerable<StockCategory> stocks = stockCategoryRepository.GetAll();
             return new OrderBaseResponse
                    {
                        SectionFlags = sectionFlagRepository.GetSectionFlagBySectionId((int)SectionEnum.Order),
@@ -141,8 +160,10 @@ namespace MPC.Implementation.MISServices
                        PaymentMethods = paymentMethodRepository.GetAll(),
                        Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
-                       StockCategories = stocks,
+                       StockCategories = stockCategoryRepository.GetAll(),
                        ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                       PaperSizes = paperSizeRepository.GetAll(),
+                       InkPlateSides = inkPlateSideRepository.GetAll()
                    };
         }
 
@@ -1019,5 +1040,14 @@ namespace MPC.Implementation.MISServices
         }
         
         #endregion
+
+        #region Estimation Methods
+        public BestPressResponse GetBestPresses(ItemSection currentSection)
+        {
+            return itemsectionRepository.GetBestPressResponse(currentSection);
+        }
+        #endregion
+
+
     }
 }
