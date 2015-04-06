@@ -3070,7 +3070,7 @@ namespace MPC.Repository.Repositories
             int NoofSheetsQty2 = 0;
             int NoofSheetsQty3 = 0;
             int NoofInks = 0;
-            if (oSectionAllInks.Count > 0)
+            if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
 
             var pressSpoilage = db.MachineSpoilages.Where(s => s.MachineId == PressID && s.NoOfColors == NoofInks).FirstOrDefault();
@@ -3963,6 +3963,57 @@ namespace MPC.Repository.Repositories
                 PressList = GetBestPresses(section),
                 UserCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList()
             };
+        }
+
+        public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection, int PressId, List<SectionInkCoverage> AllInks)
+        {
+            if (currentSection.SectionCostcentres != null)
+                currentSection.SectionCostcentres.ToList().ForEach(a => currentSection.SectionCostcentres.Remove(a));
+            ItemSection updatedSection = currentSection;
+            updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
+            if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
+            {
+                updatedSection = CalculatePaperCostWebPress(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            else
+            {
+                if (updatedSection.PrintViewLayout == null || updatedSection.PrintViewLayout == 0)
+                    updatedSection.PrintViewLayout = 0;
+                else
+                    updatedSection.PrintViewLayout = 1;
+                updatedSection = CalculatePaperCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.IsPlateUsed != null && updatedSection.IsPlateUsed != false)//Plates
+            {
+                if (updatedSection.IsPlateSupplied == null)
+                    updatedSection.IsPlateSupplied = false;
+                updatedSection = CalculatePlateCost(updatedSection, false, false);               
+            }
+            if (updatedSection.IsMakeReadyUsed != false)//Make Readies
+            {
+                if (updatedSection.IsDoubleSided == true)
+                    updatedSection.MakeReadyQty = updatedSection.Side1Inks + updatedSection.Side2Inks;
+                else
+                    updatedSection.MakeReadyQty = updatedSection.Side1Inks; // is to set later
+                updatedSection = CalculateMakeReadyCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.IsWashup != null && updatedSection.IsWashup != false)//Washups
+            {
+                updatedSection.WashupQty = updatedSection.WashupQty ?? 0;
+                updatedSection = CalculateWashUpCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
+            {
+                //CalculatePressCostWebPress
+                //CalculateGuillotineCostWebPress
+            }
+            else
+            {
+                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);                
+            }
+
+            return updatedSection;
+            
         }
         #endregion
 
