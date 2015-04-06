@@ -96,6 +96,8 @@ define("order/order.viewModel",
                     // #endregion Arrays
                     // #region Busy Indicators
                     isLoadingOrders = ko.observable(false),
+                    // Is Calculating Ptv
+                    isPtvCalculationInProgress = ko.observable(false),
                     // Is Order Editor Visible
                     isOrderDetailsVisible = ko.observable(false),
                     // Is Item Detail Visible
@@ -349,6 +351,9 @@ define("order/order.viewModel",
                     openSectionDetail = function() {
                         isSectionDetailVisible(true);
                         view.initializeLabelPopovers();
+                        
+                        // Subscribe Section Changes
+                        subscribeSectionChanges();
                     },
                     // Close Section Detail
                     closeSectionDetail = function() {
@@ -463,8 +468,14 @@ define("order/order.viewModel",
                     // Open Stock Item Dialog
                     openStockItemDialog = function () {
                         stockDialog.show(function (stockItem) {
-                            selectedProduct().onSelectStockItem(stockItem);
+                            selectedSection().selectStock(stockItem);
                         }, stockCategory.paper, false);
+                    },
+                    // Get Paper Size by id
+                    getPaperSizeById = function(id) {
+                        return paperSizes.find(function(paperSize) {
+                            return paperSize.id === id;
+                        });
                     },
                     // Initialize the view model
                     initialize = function(specifiedView) {
@@ -477,6 +488,127 @@ define("order/order.viewModel",
 
                         // Get Base Data
                         getBaseData();
+                        
+                        
+                    },
+                    // Subscribe Section Changes for Ptv Calculation
+                    subscribeSectionChanges = function() {
+                        // Subscribe change events for ptv calculation
+                        selectedSection().isDoubleSided.subscribe(function (value) {
+                            if (value !== selectedSection().isDoubleSided()) {
+                                selectedSection().isDoubleSided(value);
+                            }
+
+                            getPtvCalculation();
+                        });
+
+                        // Work n Turn
+                        selectedSection().isWorknTurn.subscribe(function (value) {
+                            if (value !== selectedSection().isWorknTurn()) {
+                                selectedSection().isWorknTurn(value);
+                            }
+
+                            getPtvCalculation();
+                        });
+
+                        // On Select Sheet Size
+                        selectedSection().sectionSizeId.subscribe(function (value) {
+                            if (value !== selectedSection().sectionSizeId()) {
+                                selectedSection().sectionSizeId(value);
+                            }
+
+                            // Get Paper Size by id
+                            var paperSize = getPaperSizeById(value);
+
+                            // Set Sizes To Custom Fields 
+                            if (paperSize) {
+                                selectedSection().sectionSizeHeight(paperSize.height);
+                                selectedSection().sectionSizeWidth(paperSize.width);
+
+                                // Get Ptv Calculation
+                                getPtvCalculation();
+                            }
+                        });
+
+                        // Section Height
+                        selectedSection().sectionSizeHeight.subscribe(function (value) {
+                            if (value !== selectedSection().sectionSizeHeight()) {
+                                selectedSection().sectionSizeHeight(value);
+                            }
+
+                            if (!selectedSection().isSectionSizeCustom()) {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+
+                        // Section Width
+                        selectedSection().sectionSizeWidth.subscribe(function (value) {
+                            if (value !== selectedSection().sectionSizeWidth()) {
+                                selectedSection().sectionSizeWidth(value);
+                            }
+
+                            if (!selectedSection().isSectionSizeCustom()) {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+                        
+                        // On Select Item Size
+                        selectedSection().itemSizeId.subscribe(function (value) {
+                            if (value !== selectedSection().itemSizeId()) {
+                                selectedSection().itemSizeId(value);
+                            }
+
+                            // Get Paper Size by id
+                            var paperSize = getPaperSizeById(value);
+
+                            // Set Sizes To Custom Fields 
+                            if (paperSize) {
+                                selectedSection().itemSizeHeight(paperSize.height);
+                                selectedSection().itemSizeWidth(paperSize.width);
+
+                                // Get Ptv Calculation
+                                getPtvCalculation();
+                            }
+                        });
+
+                        // item Height
+                        selectedSection().itemSizeHeight.subscribe(function (value) {
+                            if (value !== selectedSection().itemSizeHeight()) {
+                                selectedSection().itemSizeHeight(value);
+                            }
+
+                            if (!selectedSection().isItemSizeCustom()) {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+
+                        // item Width
+                        selectedSection().itemSizeWidth.subscribe(function (value) {
+                            if (value !== selectedSection().itemSizeWidth()) {
+                                selectedSection().itemSizeWidth(value);
+                            }
+
+                            if (!selectedSection().isItemSizeCustom()) {
+                                return;
+                            }
+
+                            getPtvCalculation();
+                        });
+
+                        // Include Gutter
+                        selectedSection().includeGutter.subscribe(function (value) {
+                            if (value !== selectedSection().includeGutter()) {
+                                selectedSection().includeGutter(value);
+                            }
+
+                            getPtvCalculation();
+                        });
                     },
                     // On Change Quantity 1 Markup
                     onChangeQty1MarkUpId = function(qty1Markup) {
@@ -1239,41 +1371,46 @@ define("order/order.viewModel",
                             },
                             error: function(response) {
                                 isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load PTV Data." + response);
+                                toastr.error("Error: Failed to Load Sheet Plan. Error: " + response, "", ist.toastrOptions);
                             }
                         });
                     },
                     //Get PTV Calculation
                     getPtvCalculation = function () {
-                        isLoadingOrders(true);
+                        if (isPtvCalculationInProgress()) {
+                            return;
+                        }
+
+                        isPtvCalculationInProgress(true);
                         dataservice.getPTVCalculation({
                             orientation: 1,
                             reversRows: 0,
                             revrseCols: 0,
-                            isDoubleSided: false,
-                            isWorknTurn: false,
+                            isDoubleSided: selectedSection().isDoubleSided(),
+                            isWorknTurn: selectedSection().isWorknTurn(),
                             isWorknTumble: false,
                             applyPress: false,
-                            itemHeight: 300,
-                            itemWidth: 400,
-                            printHeight: 300,
-                            printWidth: 400,
+                            itemHeight: selectedSection().itemSizeHeight(),
+                            itemWidth: selectedSection().itemSizeWidth(),
+                            printHeight: selectedSection().sectionSizeHeight(),
+                            printWidth: selectedSection().sectionSizeWidth(),
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 0,
+                            printGutter: selectedSection().includeGutter() ? 1 : 0,
                             horizentalGutter: 0,
                             verticalGutter: 0
                         }, {
                             success: function (data) {
                                 if (data != null) {
-
+                                    selectedSection().printViewLayoutLandscape(data.LandscapePTV || 0);
+                                    selectedSection().printViewLayoutPortrait(data.PortraitPTV || 0);
                                 }
-                                isLoadingOrders(false);
+                                isPtvCalculationInProgress(false);
                             },
                             error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load PTV Calculation Data." + response);
+                                isPtvCalculationInProgress(false);
+                                toastr.error("Error: Failed to Calculate Number up value. Error: " + response, "", ist.toastrOptions);
                             }
                         });
                     },
@@ -1297,7 +1434,7 @@ define("order/order.viewModel",
                             },
                             error: function (response) {
                                 isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load Best Press List." + response);
+                                toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
                             }
                         });
                     },
