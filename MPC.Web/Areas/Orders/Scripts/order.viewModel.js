@@ -738,21 +738,86 @@ define("order/order.viewModel",
                     },
                     openInkDialog = function () {
                         if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
-
                             var count = 0;
-                            //_.each(availableInkPlateSides, function(item) {
-                            //    if (item.) {
-                                    
-                            //    }
-                            //});
-                            // _.each(data.CostCentres, function (item) {
-                            // var costCentre = new model.costCentre.Create(item);
-                            //    costCentres.push(costCentre);
-                            //});
+                                _.each(availableInkPlateSides(), function(item) {
+                                    if (item.id == selectedSection().plateInkId()) {
+                                        updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                    }
+                                });
                         }
                         view.showInksDialog();
                     },
-                    // #endregion
+                    updateSectionInkCoverageLists = function(side1Count, side2Count) {
+                        if (getSide1Count() != side1Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide1Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side1Count - getSide1Count(), 1);
+                            }
+                            //If List is greater then dropDown (Plate Ink)
+                            else if (getSide1Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide1Count() - side1Count, 1);
+                            }
+                        }
+                        if (getSide2Count() != side2Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide2Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
+                            }
+                            //If List is greater then dropDown (Plate Ink)
+                            else if (getSide2Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
+                            }
+                        }
+                    },
+                    getSide1Count = function () {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function(item) {
+                            if (item.side == 1) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    getSide2Count = function() {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                            if (item.side == 2) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    addNewFieldsInSectionInkCoverageList = function(addNewCount, side) {
+                        var counter = 0;
+                        while (counter < addNewCount) {
+                            var item = new model.SectionInkCoverage();
+                            item.side = side;
+                            selectedSection().sectionInkCoverageList.splice(0, 0, item);
+                            counter ++;
+                        }
+                    },
+                    removeFieldsInSectionInkCoverageList = function(removeItemCount, side) {
+                        var counter = removeItemCount;
+                        while (counter != 0) {
+                            _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                                    if (item.side == side && counter != 0) {
+                                        selectedSection().sectionInkCoverageList.remove(item);
+                                        counter --;
+                                    }
+                            }); 
+                            //selectedSection().sectionInkCoverageList.remove(selectedSection().sectionInkCoverageList()[0]);
+                            //counter--;
+                        }
+                        //_.each(selectedSection().sectionInkCoverageList(), function (item) {
+                          
+                        //        if (item.side == side && counter != 0) {
+                        //            selectedSection().sectionInkCoverageList.remove(item);
+                        //            counter --;
+                        //        }
+                        //}); 
+                    },
+
+                // #endregion
                     // #region ServiceCalls
                     // Get Base Data
                     getBaseData = function () {
