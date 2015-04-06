@@ -65,6 +65,10 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
 
             }
+            foreach(SkinForTheme theme in themes)
+            {
+                theme.Thumbnail = "C:\\Users\\Baqer\\Pictures\\baba_G.jpg";
+            }
             return new CompanyBaseResponse
                    {
                        CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(x => x.CreateFrom()) : new List<CompanyTerritory>(),
