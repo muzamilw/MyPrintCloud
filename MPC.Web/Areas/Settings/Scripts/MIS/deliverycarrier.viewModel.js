@@ -14,6 +14,7 @@ define("deliverycarrier/deliverycarrier.viewModel",
                 errorList = ko.observableArray([]),
                 // #region Busy Indicators
                 isLoadingdeliverycarrier = ko.observable(false),
+
                 // #endregion Busy Indicators
                 // #region Observables
                 // Initialize the view model
@@ -29,41 +30,23 @@ define("deliverycarrier/deliverycarrier.viewModel",
                         success: function (data) {
                             // getPrefixByOrganisationId();
                             if (data != null) {
-                               
+
                                 deliverycarrierlist.removeAll();
                                 ko.utils.arrayPushAll(deliverycarrierlist(), data);
                                 deliverycarrierlist.valueHasMutated();// Use When you Push All Data at One Time
                             }
 
                             isLoadingdeliverycarrier(false);
-
                         },
                         error: function () {
                             toastr.error(ist.resourceText.loadBaseDataFailedMsg);
                         }
                     });
-                },
-                saveDeliveryCarrier = function (deliverycarrier) {
-                    dataservice.saveDeliveryCarrier(model.deliverycarrierServerMapper(deliverycarrier), {
-                            success: function (data) {
-                                
-                                toastr.success("Successfully save.");
-                            },
-                            error: function (exceptionMessage, exceptionType) {
+                };
 
-                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
-
-                                    toastr.error(exceptionMessage);
-
-                                } else {
-
-                                    toastr.error("Failed to save.");
-
-                                }
-
-                            }
-                        });
-                    };
+                
+               
+                
                 // #endregion Service Calls
 
                 return {
@@ -71,8 +54,8 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     deliverycarrierlist: deliverycarrierlist,
                     errorList: errorList,
                     // Utility Methods
-                    initialize: initialize,
-                   
+                    initialize: initialize
+                    
                 };
             })()
         };

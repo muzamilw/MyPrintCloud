@@ -8,12 +8,10 @@
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li class="active">Delivery Cost Centers</li>
-
                 </ol>
                 <h1>Delivery Carriers</h1>
             </div>
         </div>
-
         <div class="col-lg-12">
             <div class="pull-right">
                 <button id="open-wizard" class="btn btn-primary pull-right">
@@ -25,7 +23,6 @@
             &nbsp;
         </div>
         <div class="row" id="user-profile">
-
             <div class="col-lg-12 form-horizontal ">
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
@@ -40,10 +37,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     <!-- ko template: { name: 'listDeliveryCarrierTemplate' , foreach: $root.deliverycarrierlist } -->
                                     <!-- /ko -->
-
                                 </tbody>
                             </table>
                         </div>
@@ -69,10 +64,9 @@
             </td>
         </tr>
     </script>
-
 </div>
 
-@Html.Partial("_AddEditDeliveryCarriers")
+@Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
 
 @section Scripts {
      
@@ -84,8 +78,5 @@
             $('#limissettings').addClass('active');
 
         });
-
-      
-
-     </script>
+    </script>
 }

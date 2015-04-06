@@ -318,6 +318,7 @@
     <Compile Include="Areas\Api\Controllers\CrmSupplierController.cs" />
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
+    <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
@@ -803,6 +804,7 @@
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
     <Content Include="Areas\Products\Scripts\product.viewModel.js" />
+    <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.dataservice.js" />
     <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.model.js" />
     <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.view.js" />
     <Content Include="Areas\Settings\Scripts\MIS\deliverycarrier.viewModel.js" />

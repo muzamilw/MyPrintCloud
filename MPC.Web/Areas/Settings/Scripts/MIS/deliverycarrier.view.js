@@ -10,6 +10,7 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#carrierdeliveryBinding")[0],
+                
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -19,7 +20,9 @@
             initialize();
             return {
                 bindingRoot: bindingRoot,
-                viewModel: viewModel
+                viewModel: viewModel 
+               
+
             };
         })(carrierdeliveryViewModel);
 
