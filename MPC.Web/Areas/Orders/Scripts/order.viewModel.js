@@ -1021,8 +1021,7 @@ define("order/order.viewModel",
                                 }
                             },
                             error: function (response) {
-                                //isLoadingStores(false);
-                                toastr.error("Failed to Load Company Products . Error: " + response);
+                                toastr.error("Failed to Load Cost Centres. Error: " + response);
                             }
                         });
                     },
