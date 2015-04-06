@@ -590,7 +590,20 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    openInkDialog = function() {
+                    openInkDialog = function () {
+                        if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+
+                            var count = 0;
+                            //_.each(availableInkPlateSides, function(item) {
+                            //    if (item.) {
+                                    
+                            //    }
+                            //});
+                            // _.each(data.CostCentres, function (item) {
+                            // var costCentre = new model.costCentre.Create(item);
+                            //    costCentres.push(costCentre);
+                            //});
+                        }
                         view.showInksDialog();
                     },
                     // #endregion

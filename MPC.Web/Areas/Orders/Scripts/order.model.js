@@ -1693,6 +1693,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             width: specifiedWidth
         };
     },
+
+    // Section Ink Coverage
+    // ReSharper disable once InconsistentNaming
+    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        return {
+            id: specifiedId,
+            sectionId: specifiedSectionId,
+            inkOrder: specifiedInkOrder,
+            inkId: specifiedInkId,
+            coverageGroupId: specifiedCoverageGroupId,
+            side: specifiedSide,
+        };
+    },
     
     // Ink Plate Side Entity
 // ReSharper disable InconsistentNaming
@@ -1822,6 +1835,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return estimate;
     };
+
+    
     // #region __________________  COST CENTRE   ______________________
 
     // ReSharper disable once InconsistentNaming
@@ -1991,6 +2006,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
     };
 
+    // Section Ink Coverage Factory
+    SectionInkCoverage.Create = function (source) {
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+    };
+
     // Address Factory
     Address.Create = function (source) {
         return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
@@ -2107,6 +2127,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Paper Size Constructor
         PaperSize: PaperSize,
         // Ink Plate Side Constructor
-        InkPlateSide: InkPlateSide
+        InkPlateSide: InkPlateSide,
+        //Section Ink Coverage
+        SectionInkCoverage: SectionInkCoverage
     };
 });
