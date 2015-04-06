@@ -1797,6 +1797,375 @@ end
 GO
 
 
+/* Execution Date: 03/04/2015 */
+
+GO
+/****** Object:  StoredProcedure [dbo].[usp_DeleteContactCompanyByID]    Script Date: 4/3/2015 7:34:25 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:		Naveed
+-- Create date: 18-7-2013
+-- Description:	Delete a company
+-- =============================================
+ALTER PROCEDURE [dbo].[usp_DeleteContactCompanyByID]
+	@CompanyID int
+AS
+	BEGIN
+		--declare @CompanyID bigint = 32874
+declare @IsCustomer int
+declare @EstimateID bigint = 0
+declare @itemID bigint = 0
+declare @RetailCompanyID bigint = 0
+
+delete from CompanyDomain where companyid = @CompanyID
+
+delete from CmsOffer where companyid = @CompanyID
+
+delete from MediaLibrary where companyid = @CompanyID
+
+
+delete cb from CompanyBanner cb
+inner join CompanyBannerSet cbs on cbs.CompanySetId = cb.CompanySetId
+where cbs.CompanyId = @CompanyID
+
+delete from CompanyBannerSet where companyid = @CompanyID
+
+delete from DiscountVoucher where companyid = @CompanyID
+
+delete from CmsPage where companyid = @CompanyID
+
+delete from RaveReview where companyid = @CompanyID
+
+delete from PaymentGateway where companyid = @CompanyID
+
+delete from CmsSkinPageWidget where companyid = @CompanyID
+
+delete from CompanyCostCentre where companyid = @CompanyID
+
+delete from CompanyCMYKColor where companyid = @CompanyID
+
+delete from Campaign where companyid = @CompanyID
+
+delete sv from ScopeVariable sv
+inner join FieldVariable fv on fv.VariableId = sv.VariableId
+where fv.Companyid = @CompanyID
+
+delete sfd from SmartFormDetail sfd  inner join
+ smartform sf on sf.SmartFormId = sfd.SmartFormId
+ where sf.companyid = @CompanyID
+
+
+delete from SmartForm where companyid = @CompanyID
+
+
+
+delete from FieldVariable where Companyid = @CompanyID
+-- delete template fonts
+DELETE tf
+				FROM TemplateFont tf
+				where tf.CustomerID = @CompanyID
+delete nls
+from NewsLetterSubscriber nls
+inner join CompanyContact c on c.ContactID = nls.ContactID
+where c.CompanyId = @CompanyID
+
+--deletinng the tbl_Inquiry Attachments
+				delete  IA
+				from InquiryAttachment IA
+				inner join Inquiry I on IA.InquiryID = I.InquiryID
+				inner join Company CC on CC.CompanyId = I.ContactCompanyID
+				where CC.CompanyId = @CompanyID
+
+--deletinng the tbl_Inquiry_Items
+				delete  II
+				from InquiryItem II
+				inner join dbo.Inquiry I on II.InquiryID = I.InquiryID
+				inner join Company CC on CC.CompanyID = I.ContactCompanyId
+				where CC.CompanyID = @CompanyID
+
+--deletinng the Inquiries
+				delete  I
+				from dbo.Inquiry I
+				inner join CompanyContact CC on CC.ContactId = I.ContactId
+				where CC.CompanyId = @CompanyID
+
+delete from CompanyContact where companyid = @CompanyID
+
+delete from Address where companyid = @CompanyID
+
+delete from CompanyTerritory where companyid = @CompanyID
+
+delete pci from productcategoryitem pci
+inner join productcategory pc on pc.ProductCategoryId = pci.CategoryId
+where pc.Companyid = @CompanyID
+
+delete pci from productcategoryitem pci
+inner join Items i on i.ItemId = pci.itemid
+where i.companyid = @CompanyID
+
+delete from productcategory where Companyid = @CompanyID
+
+-- delete companyitems
+
+declare @TCI table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    ItemID bigint
+)
+
+INSERT INTO @TCI (ItemID)
+		select  ItemID from items
+		where companyID = @CompanyID
+
+-- delete companyItems in loop
+ declare @TotalCompItems int
+ select @TotalCompItems = COUNT(*) from @TCI
+ 
+ declare @CurrItems int
+
+ set @CurrItems = 1
+
+		 WHILE (@CurrItems <= @TotalCompItems)
+		 BEGIN
+			 select @itemID = ItemID from @TCI where ID = @CurrItems
+			 Exec usp_DeleteProduct  @ItemID
+			 set @CurrItems = @CurrItems + 1
+		 END
+
+-- delete prepayments of order
+	delete  pp
+				from PrePayment pp
+				inner join Estimate E on E.EstimateID = pp.OrderID
+				inner join Company CC on CC.CompanyId = E.CompanyId
+				where CC.CompanyID = @CompanyID
+
+
+-- to delete ordered items and order
+--declare @TVP table(OrderID bigint)
+--declare @OP table(ItemID bigint)
+--declare @temp table(CompanyID bigint)
+declare @TVP table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    OrderID bigint
+)
+declare @OP table 
+( 
+    id INT IDENTITY NOT NULL PRIMARY KEY,
+    ItemID bigint
+)
+declare @temp table(
+	id INT IDENTITY NOT NULL PRIMARY KEY,
+	CompanyID bigint
+)
+
+select @IsCustomer = iscustomer from company where companyid = @CompanyID
+
+-- if corporate store
+if (@IsCustomer = 3)
+begin
+	INSERT INTO @TVP (OrderID)
+		select  EstimateID from estimate
+		where companyID = @CompanyID
+	
+	 declare @Totalrec int
+ select @Totalrec = COUNT(*) from @TVP
+ 
+ declare @currentrec int
+
+ set @currentrec = 1
+
+		 WHILE (@currentrec <=@Totalrec)
+		 BEGIN
+			 select @EstimateID = OrderID from @TVP
+			 where ID = @currentrec
+
+			 INSERT INTO @OP (ItemID)
+			 select ItemID from Items where estimateid = @EstimateID
+
+			-- loop for ordered items	
+				 declare @TotalItems int
+			 select @TotalItems = COUNT(*) from @OP
+ 
+			 declare @currentItemRec int
+			  set @currentItemRec = 1
+			  WHILE (@currentItemRec <= @TotalItems)
+				 BEGIN
+				  select @ItemID = ItemID from @OP
+						 where ID = @currentItemRec
+
+						Exec usp_DeleteProduct  @ItemID
+
+						set @currentItemRec = @currentItemRec + 1
+				 end
+				 	delete 
+				from PrePayment where orderid = @EstimateID
+
+			 delete from estimate where estimateid = @EstimateID
+		 SET @currentrec = @currentrec + 1
+		 end
+
+		
+end
+else if(@IsCustomer = 4) -- if retail
+begin
+   
+    INSERT INTO @TVP (OrderID)
+		select EstimateId from estimate e inner join
+		(select b.companyid from company a inner join company b on a.companyid = b.storeid where a.companyid = @CompanyID) customers on customers.companyid =  e.companyid
+
+		insert into @temp (CompanyID) 
+		select b.companyid from company a inner join company b on a.companyid = b.storeid where a.companyid = @CompanyID
+
+		declare @TotalrecR int
+		 select @TotalrecR = COUNT(*) from @TVP
+ 
+		 declare @currentrecR int
+
+		 set @currentrecR = 1
+		 -- order loop
+		WHILE (@currentrecR <=@TotalrecR)
+		 BEGIN
+			 select @EstimateID = OrderID from @TVP
+			 where ID = @currentrecR
+
+			  INSERT INTO @OP (ItemID)
+			 select ItemID from Items where estimateid = @EstimateID
+
+			-- loop for ordered items	
+				 declare @TotalItemsR int
+			 select @TotalItemsR = COUNT(*) from @OP
+ 
+			 declare @currentItemRecR int
+			 set @currentItemRecR = 1
+			 -- loop to delete items
+			  WHILE (@currentItemRecR <=@TotalItemsR)
+				 BEGIN
+				   select @ItemID = ItemID from @OP
+						 where ID = @currentItemRecR
+					Exec usp_DeleteProduct  @ItemID
+					set @currentItemRecR = @currentItemRecR + 1
+				 end
+
+			 
+			-- delete prepayments of order
+			delete 
+				from PrePayment where orderid = @EstimateID
+
+			 delete from Estimate where EstimateId = @EstimateID
+	
+		 SET @currentrecR = @currentrecR + 1
+		 end
+
+		declare @TotalComp int
+			 select @TotalComp = COUNT(*) from @temp
+ 
+			 declare @currentComp int
+			 set @currentComp = 1
+			  WHILE (@currentComp <=@TotalComp)
+				 BEGIN
+				   select @RetailCompanyID = CompanyID from @temp where ID = @currentComp
+				    -- delete company 
+					
+						delete from CompanyDomain where companyid = @RetailCompanyID
+
+						delete from CmsOffer where companyid = @RetailCompanyID
+
+						delete from MediaLibrary where companyid = @RetailCompanyID
+
+
+						delete cb from CompanyBanner cb
+						inner join CompanyBannerSet cbs on cbs.CompanySetId = cb.CompanySetId
+						where cbs.CompanyId = @RetailCompanyID
+
+						delete from CompanyBannerSet where companyid = @RetailCompanyID
+
+						delete from DiscountVoucher where companyid = @RetailCompanyID
+
+						delete from CmsPage where companyid = @RetailCompanyID
+
+						delete from RaveReview where companyid = @RetailCompanyID
+
+						delete from PaymentGateway where companyid = @RetailCompanyID
+
+						delete from CmsSkinPageWidget where companyid = @RetailCompanyID
+
+						delete from CompanyCostCentre where companyid = @RetailCompanyID
+
+						delete from CompanyCMYKColor where companyid = @RetailCompanyID
+
+						delete from Campaign where companyid = @RetailCompanyID
+
+
+						delete sfd from SmartFormDetail sfd  inner join
+						 smartform sf on sf.SmartFormId = sfd.SmartFormId
+
+						delete from SmartForm where companyid = @RetailCompanyID
+
+						delete from FieldVariable where Companyid = @CompanyID
+						-- delete template fonts
+						DELETE tf
+										FROM TemplateFont tf
+										where tf.CustomerID = @RetailCompanyID
+						delete nls
+						from NewsLetterSubscriber nls
+						inner join CompanyContact c on c.ContactID = nls.ContactID
+						where c.CompanyId = @RetailCompanyID
+
+						--deletinng the tbl_Inquiry Attachments
+										delete  IA
+										from InquiryAttachment IA
+										inner join Inquiry I on IA.InquiryID = I.InquiryID
+										inner join Company CC on CC.CompanyId = I.ContactCompanyID
+										where CC.CompanyId = @RetailCompanyID
+
+						--deletinng the tbl_Inquiry_Items
+										delete  II
+										from InquiryItem II
+										inner join dbo.Inquiry I on II.InquiryID = I.InquiryID
+										inner join Company CC on CC.CompanyID = I.ContactCompanyId
+										where CC.CompanyID = @RetailCompanyID
+
+						--deletinng the Inquiries
+										delete  I
+										from dbo.Inquiry I
+										inner join CompanyContact CC on CC.ContactId = I.ContactId
+										where CC.CompanyId = @RetailCompanyID
+
+						delete from CompanyContact where companyid = @RetailCompanyID
+
+						delete from Address where companyid = @RetailCompanyID
+
+						delete from CompanyTerritory where companyid = @RetailCompanyID
+
+						delete pci from productcategoryitem pci
+						inner join productcategory pc on pc.ProductCategoryId = pci.CategoryId
+						where pc.Companyid = @RetailCompanyID
+
+						delete pci from productcategoryitem pci
+						inner join Items i on i.ItemId = pci.itemid
+						where i.companyid = @RetailCompanyID
+
+						delete from productcategory where Companyid = @RetailCompanyID
+
+					delete from Company where CompanyId = @RetailCompanyID
+					set @currentComp = @currentComp + 1
+				 end
+
+
+end
+
+delete from company where companyid = @CompanyID
+
+	END
+
+
+
 
 
 

@@ -100,6 +100,18 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get Print Plan for section screen
+                    amplify.request.define('getPTVCalculation', 'ajax', {
+                        url: ist.siteUrl + '/Api/PtvCalculation',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+		   // Define request to get Best Press list for section screen with run wizard button
+                    amplify.request.define('getBestPress', 'ajax', {
+                        url: ist.siteUrl + '/Api/BestPress',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -212,11 +224,30 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+                 // get PTV Calculation
+            getPTVCalculation = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getPTVCalculation',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
                  // get Stock items
             getPTV = function (params, callbacks) {
                 initialize();
                 return amplify.request({
                     resourceId: 'getPTV',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            getBestPress = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBestPress',
                     success: callbacks.success,
                     error: callbacks.error,
                     data: params
@@ -246,7 +277,9 @@ define("order/order.dataservice", function () {
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
-            getPTV: getPTV
+            getPTV: getPTV,
+            getBestPress: getBestPress,
+            getPTVCalculation: getPTVCalculation
         };
     })();
 

@@ -17,15 +17,6 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static CompanyBanner CreateFrom(this DomainModels.CompanyBanner source)
         {
-            byte[] bytes = null;
-            if (!string.IsNullOrEmpty(source.ImageURL))
-            {
-                string imagePath = HttpContext.Current.Server.MapPath("~/" + source.ImageURL);
-                if (File.Exists(imagePath))
-                {
-                    bytes = File.ReadAllBytes(imagePath);
-                }
-            }
             return new CompanyBanner
             {
                 CompanyBannerId = source.CompanyBannerId,
@@ -35,8 +26,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ImageURL = source.ImageURL,
                 ButtonURL = source.ButtonURL,
                 ItemURL = source.ItemURL,
-                PageId = source.PageId,
-                Image = bytes,
+                PageId = source.PageId
             };
         }
 

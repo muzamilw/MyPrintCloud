@@ -665,6 +665,12 @@
 #AddOnHeading {
   font-weight: bold;
 }
+#SectionDetailImage {
+  text-align: center;
+}
+#SectionDetailButtons {
+  float: right;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }
@@ -673,4 +679,3 @@
   margin-bottom: 30px;
   height: 63px;
 }
-/*# sourceMappingURL=MainSite.css.map */
