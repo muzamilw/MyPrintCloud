@@ -126,7 +126,7 @@ function fu04_1GetItem(DT)
              if (item.SmartFormId != null) {
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
-                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
+                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
                        function (DT) {
                            $(".QuickTxt").css("visibility", "visible");
                            pcl41(DT);
