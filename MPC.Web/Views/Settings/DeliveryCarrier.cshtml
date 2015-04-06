@@ -82,12 +82,19 @@
         </div>
     </div>
 </div>
-@Html.Partial("Widgets/_AddEditDeliveryCarriers")
+@Html.Partial("_AddEditDeliveryCarriers")
 @section Scripts {
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
-            });
+
+
+            function showAddPanel()
+            {
+                $("#myAddEditDelvCarrierModal").show();
+            }
+         });
      </script>
 }

@@ -646,6 +646,11 @@ namespace MPC.Repository.BaseRepository
         public DbSet<InkPlateSide> InkPlateSides { get; set; }
 
         /// <summary>
+        /// Section Ink Coverage DbSet
+        /// </summary>
+        public DbSet<SectionInkCoverage> SectionInkCoverages { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming

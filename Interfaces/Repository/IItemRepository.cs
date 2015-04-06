@@ -158,5 +158,7 @@ namespace MPC.Interfaces.Repository
         Item GetItemByItemID(long itemId);
 
         void DeleteItemBySP(long ItemID);
+
+        long getParentTemplateID(long itemId);
     }
 }
