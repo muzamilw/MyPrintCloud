@@ -2208,9 +2208,7 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) &&
-                                request.CustomerTypes.Contains(s.IsCustomer) &&
-                              s.OrganisationId == OrganisationId &&
+                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
                          (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
 
                 int rowCount = DbSet.Count(query);
@@ -2461,7 +2459,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
 
                             }
-                           // List<long> OldCatIds = new List<long>();
+                            // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             // product categories
                             List<ProductCategory> prodCats = Sets.ExportRetailStore2;
@@ -2481,36 +2479,32 @@ namespace MPC.Repository.Repositories
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
-                                   
-                                            //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                       if (comp.Items != null && comp.Items.Count > 0)
-                                       {
-                                                foreach (var itm in comp.Items)
+
+                                    //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    if (comp.Items != null && comp.Items.Count > 0)
+                                    {
+                                        foreach (var itm in comp.Items)
+                                        {
+                                            if (itm.ProductCategoryItems != null)
+                                            {
+                                                List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
+
+                                                if (pcis != null && pcis.Count > 0)
                                                 {
-                                                    if (itm.ProductCategoryItems != null)
+                                                    foreach (var pc in pcis)
                                                     {
-                                                        List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-
-                                                        if (pcis != null && pcis.Count > 0)
-                                                        {
-                                                            foreach (var pc in pcis)
-                                                            {
-                                                                pc.CategoryId = cat.ProductCategoryId;
-                                                            }
-                                                        }
+                                                        pc.CategoryId = cat.ProductCategoryId;
                                                     }
-
-
-
                                                 }
-                                                db.SaveChanges();
+                                            }
+
+
+
                                         }
-
-
-
-                                }
-
+                                        db.SaveChanges();
                                     }
+
+
 
                                 }
 
@@ -2644,7 +2638,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
 
                             }
-                           // List<long> OldCatIds = new List<long>();
+                            // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             // product categories
                             List<ProductCategory> prodCats = Sets.ExportRetailStore2WOP;
@@ -2968,7 +2962,7 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                       
+
 
                             //  import items
                             List<Item> items = Sets.ExportStore3WOP;
@@ -2989,8 +2983,8 @@ namespace MPC.Repository.Repositories
                             }
 
                             //// product categories
-                     
-                           // List<long> OldCatIds = new List<long>();
+
+                            // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             List<ProductCategory> prodCats = Sets.ExportStore2WOP;
                             if (prodCats != null && prodCats.Count > 0)
