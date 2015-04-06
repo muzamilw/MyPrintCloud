@@ -431,4 +431,11 @@ namespace MPC.Models.Common
         inSheets = 1,
         inMetters = 2
     }
+    public enum PrintingTypeEnum
+    {
+        SheetFed = 1,
+        WebFed = 2,
+        Flexo = 3,
+        Continuous = 4
+    }
 }

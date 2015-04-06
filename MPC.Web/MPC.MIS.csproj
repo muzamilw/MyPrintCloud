@@ -336,6 +336,7 @@
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
@@ -665,6 +666,7 @@
     <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
+    <Compile Include="Areas\Api\Models\SectionInkCoverage.cs" />
     <Compile Include="Areas\Api\Models\ShippingInformation.cs" />
     <Compile Include="Areas\Api\Models\SkinForTheme.cs" />
     <Compile Include="Areas\Api\Models\SmartForm.cs" />

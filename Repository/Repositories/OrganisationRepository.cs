@@ -157,7 +157,7 @@ namespace MPC.Repository.Repositories
                     end = DateTime.Now;
                     timelog += "organisation update " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
-                    // save paper sizes
+                    //// save paper sizes
                     if (Sets.ExportOrganisationSet1.PaperSizes != null && Sets.ExportOrganisationSet1.PaperSizes.Count > 0)
                     {
                         foreach (var size in Sets.ExportOrganisationSet1.PaperSizes)
@@ -167,7 +167,7 @@ namespace MPC.Repository.Repositories
                             Osize.PaperSizeId = 0;
                             size.OrganisationId = OrganisationID;
                             db.PaperSizes.Add(size);
-                            
+
 
                         }
                         db.SaveChanges();
@@ -226,7 +226,7 @@ namespace MPC.Repository.Repositories
 
                             }
 
-                            
+
                             // save cost centre resources
                             if (cost.CostcentreResources != null && cost.CostcentreResources.Count > 0)
                             {
@@ -241,9 +241,9 @@ namespace MPC.Repository.Repositories
                                 }
 
                             }
-                         
 
-                           
+
+
                             db.SaveChanges();
 
                         }
@@ -300,22 +300,23 @@ namespace MPC.Repository.Repositories
                     {
                         foreach (var matrix in Sets.ExportOrganisationSet1.CostCentreMatrix)
                         {
-                            long MID = matrix.MatrixId;
+                            int MID = matrix.MatrixId;
                             CostCentreMatrix Objmatrix = new CostCentreMatrix();
                             Objmatrix = matrix;
                             Objmatrix.MatrixId = 0;
                             Objmatrix.OrganisationId = (int)OrganisationID;
-                            Objmatrix.Description = Convert.ToString(MID);
+                            if (MID > 0)
+                                Objmatrix.RowsCount = MID;
                             db.CostCentreMatrices.Add(Objmatrix);
 
-                           
-                           // NewIDMatrixIds.Add(Objmatrix.MatrixId,MID);
+
+                            // NewIDMatrixIds.Add(Objmatrix.MatrixId,MID);
 
                         }
 
                         db.SaveChanges();
 
-                        
+
                     }
 
                     List<CostCentreMatrix> Lstmatrix = db.CostCentreMatrices.Where(c => c.OrganisationId == OrganisationID).ToList();
@@ -325,10 +326,10 @@ namespace MPC.Repository.Repositories
                         foreach (var matrix in Lstmatrix)
                         {
 
-                            List<CostCentreMatrixDetail> matrixDetail = Sets.ExportOrganisationSet1.CostCentreMatrixDetail.Where(c => c.MatrixId == Convert.ToInt32(matrix.Description)).ToList();
-                            if(matrixDetail != null && matrixDetail.Count > 0)
+                            List<CostCentreMatrixDetail> matrixDetail = Sets.ExportOrganisationSet1.CostCentreMatrixDetail.Where(c => c.MatrixId == matrix.RowsCount).ToList();
+                            if (matrixDetail != null && matrixDetail.Count > 0)
                             {
-                                foreach(var MD in matrixDetail)
+                                foreach (var MD in matrixDetail)
                                 {
                                     CostCentreMatrixDetail CCMD = new CostCentreMatrixDetail();
                                     CCMD = MD;
@@ -365,9 +366,9 @@ namespace MPC.Repository.Repositories
 
 
                     //    }
-                       
 
-                       
+
+
 
                     //}
                     end = DateTime.Now;
@@ -386,14 +387,15 @@ namespace MPC.Repository.Repositories
 
                             SC.CategoryId = 0;
                             SC.OrganisationId = OrganisationID;
-                            SC.Description = Convert.ToString(gg);
+                            if (gg > 0)
+                                SC.Description = Convert.ToString(gg);
                             //if(SC.StockItems != null)
                             //{
                             //    SC.StockItems.ToList().ForEach(s => s.OrganisationId = OrganisationID);
                             //}
                             db.StockCategories.Add(SC);
-                            
-                            
+
+
                             if (cat.StockSubCategories != null && cat.StockSubCategories.Count > 0)
                             {
                                 foreach (var subCat in cat.StockSubCategories)
@@ -403,14 +405,15 @@ namespace MPC.Repository.Repositories
                                     SSC = subCat;
                                     SSC.SubCategoryId = 0;
                                     SSC.CategoryId = SC.CategoryId;
-                                    SSC.Description = Convert.ToString(ggf);
+                                    if (ggf > 0)
+                                        SSC.Description = Convert.ToString(ggf);
                                     db.StockSubCategories.Add(subCat);
 
-                                   
+
 
                                 }
                             }
-                           
+
                         }
                         db.SaveChanges();
 
@@ -425,7 +428,7 @@ namespace MPC.Repository.Repositories
                     //List<long> OldStockCatIds = new List<long>();
                     //// stock items
 
-                    
+
                     List<StockCategory> STOCKCat = db.StockCategories.Where(d => d.OrganisationId == OrganisationID).ToList();
 
                     if (STOCKCat != null && STOCKCat.Count > 0)
@@ -455,7 +458,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                             
+
                             }
                             else
                             {
@@ -483,29 +486,29 @@ namespace MPC.Repository.Repositories
                     }
 
                     
-                    //if (Sets.ExportOrganisationSet4.StockItem != null && Sets.ExportOrganisationSet4.StockItem.Count > 0)
-                    //{
-                    //    foreach (var Sitems in Sets.ExportOrganisationSet4.StockItem)
-                    //    {
+                    ////if (Sets.ExportOrganisationSet4.StockItem != null && Sets.ExportOrganisationSet4.StockItem.Count > 0)
+                    ////{
+                    ////    foreach (var Sitems in Sets.ExportOrganisationSet4.StockItem)
+                    ////    {
 
                             
-                    //        StockItem SI = new StockItem();
-                    //        SI = Sitems;
+                    ////        StockItem SI = new StockItem();
+                    ////        SI = Sitems;
 
-                    //        SI.StockItemId = 0;
+                    ////        SI.StockItemId = 0;
 
-                    //        SI.OrganisationId = OrganisationID;
-                    //        db.StockItems.Add(SI);
+                    ////        SI.OrganisationId = OrganisationID;
+                    ////        db.StockItems.Add(SI);
 
 
 
-                    //    }
-                    //    db.SaveChanges();
-                    //}
+                    ////    }
+                    ////    db.SaveChanges();
+                    ////}
 
-                    end = DateTime.Now;
-                    timelog += "stock item insert " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
-                    st = DateTime.Now;
+                    //end = DateTime.Now;
+                    //timelog += "stock item insert " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    //st = DateTime.Now;
 
                     // import reports
                     if (Sets.ExportOrganisationSet2.Reports != null && Sets.ExportOrganisationSet2.Reports.Count > 0)
@@ -525,7 +528,7 @@ namespace MPC.Repository.Repositories
                     end = DateTime.Now;
                     timelog += "reports insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
-                    
+
                     // import report notes
                     if (Sets.ExportOrganisationSet2.ReportNote != null && Sets.ExportOrganisationSet2.ReportNote.Count > 0)
                     {
@@ -539,7 +542,7 @@ namespace MPC.Repository.Repositories
                         }
                         db.SaveChanges();
                     }
-                
+
                     // import prefixes
                     if (Sets.ExportOrganisationSet2.Prefixes != null && Sets.ExportOrganisationSet2.Prefixes.Count > 0)
                     {
@@ -557,7 +560,7 @@ namespace MPC.Repository.Repositories
                     end = DateTime.Now;
                     timelog += "prefix insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
-                    
+
                     // import lookup methods
                     if (Sets.ExportOrganisationSet3.LookupMethods != null && Sets.ExportOrganisationSet3.LookupMethods.Count > 0)
                     {
@@ -576,7 +579,7 @@ namespace MPC.Repository.Repositories
                     end = DateTime.Now;
                     timelog += "looku method insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
-                    
+
                     // import phrase library
                     if (Sets.ExportOrganisationSet3.PhraseField != null && Sets.ExportOrganisationSet3.PhraseField.Count > 0)
                     {
@@ -609,7 +612,7 @@ namespace MPC.Repository.Repositories
                     end = DateTime.Now;
                     timelog += "phrase field insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
-                    
+
                     // import section flags
                     if (Sets.ExportOrganisationSet3.SectionFlags != null && Sets.ExportOrganisationSet3.SectionFlags.Count > 0)
                     {
@@ -1006,7 +1009,7 @@ namespace MPC.Repository.Repositories
                              if (Directory.Exists(Sourcelanguagefiles))
                                  Copy(Sourcelanguagefiles, DestinationLanguageFilePath);
 
-                            
+
 
                              //if (Directory.Exists(Sourcelanguagefiles))
                              //{
@@ -1058,10 +1061,10 @@ namespace MPC.Repository.Repositories
                              //    }
 
                              //}
-                          
 
-                             
-                             
+
+
+
 
                              // MIS Logo
                              string MISlogoPathOld = string.Empty;
@@ -1266,7 +1269,7 @@ namespace MPC.Repository.Repositories
                              }
 
                          }
-                        // copy report banners
+                         // copy report banners
 
                          List<ReportNote> notes = db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
                          if (notes != null && notes.Count > 0)

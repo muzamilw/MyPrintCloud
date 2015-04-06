@@ -376,6 +376,11 @@ namespace MPC.Implementation.MISServices
         {
             return itemsectionRepository.GetBestPressResponse(currentSection);
         }
+
+        public ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request)
+        {
+            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.AllSectionInks);
+        }
         #endregion
 
 
