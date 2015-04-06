@@ -92,9 +92,11 @@ namespace MPC.Repository.Repositories
                 db.Configuration.ProxyCreationEnabled = false;
                // List<StockCategory> stockcategories = new List<StockCategory>();
 
-                Mapper.CreateMap<StockCategory, StockCategory>();
+                Mapper.CreateMap<StockCategory, StockCategory>()
+                .ForMember(x => x.StockItems, opt => opt.Ignore());
 
                 Mapper.CreateMap<StockSubCategory, StockSubCategory>()
+               .ForMember(x => x.StockItems, opt => opt.Ignore())
               .ForMember(x => x.StockCategory, opt => opt.Ignore());
 
                 Mapper.CreateMap<StockItem, StockItem>()
@@ -109,7 +111,7 @@ namespace MPC.Repository.Repositories
            .ForMember(x => x.StockItem, opt => opt.Ignore());
 
 
-                List<StockCategory> StockCat = db.StockCategories.Include("StockItems").Include("StockSubCategories.StockItems.StockCostAndPrices").Where(s => s.OrganisationId == OrganisationID).ToList();
+                List<StockCategory> StockCat = db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
 
 
                 List<StockCategory> oOutputStockItems = new List<StockCategory>();

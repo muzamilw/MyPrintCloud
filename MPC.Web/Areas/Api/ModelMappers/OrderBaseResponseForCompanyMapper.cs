@@ -21,7 +21,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyAddresses = source.CompanyAddresses != null ? source.CompanyAddresses.Select(cc => cc.CreateFromForOrder()) : 
                 new List<AddressDropDown>(),
                 CompanyContacts = source.CompanyContacts != null ? source.CompanyContacts.Select(cc => cc.CreateFromDropDownForOrder()) : 
-                new List<CompanyContactDropDownForOrder>()
+                new List<CompanyContactDropDownForOrder>(),
+                TaxRate=source.TaxRate
             };
         }
         

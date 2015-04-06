@@ -374,64 +374,46 @@ namespace MPC.Repository.Repositories
                     timelog += "CostCentre Matrix insert " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
 
+                    Dictionary<long, long> StockCatIds = new Dictionary<long, long>();
                     // Stock Categories
-                    if (Sets.ExportOrganisationSet1.StockCategory != null && Sets.ExportOrganisationSet1.StockCategory.Count > 0)
+                    if (Sets.ExportOrganisationSet2.StockCategory != null && Sets.ExportOrganisationSet2.StockCategory.Count > 0)
                     {
-                        foreach (var cat in Sets.ExportOrganisationSet1.StockCategory)
+                        foreach (var cat in Sets.ExportOrganisationSet2.StockCategory)
                         {
+                            long gg = cat.CategoryId;
                             StockCategory SC = new StockCategory();
                             SC = cat;
 
                             SC.CategoryId = 0;
                             SC.OrganisationId = OrganisationID;
+                            SC.Description = Convert.ToString(gg);
+                            //if(SC.StockItems != null)
+                            //{
+                            //    SC.StockItems.ToList().ForEach(s => s.OrganisationId = OrganisationID);
+                            //}
                             db.StockCategories.Add(SC);
                             
-                            if(cat.StockItems != null && cat.StockItems.Count > 0)
-                            {
-                                foreach (var SI in cat.StockItems)
-                                {
-                                    StockItem oSI = new StockItem();
-                                    oSI = SI;
-
-                                    oSI.StockItemId = 0;
-
-                                    oSI.OrganisationId = OrganisationID;
-                                    SC.StockItems.Add(SI);
-
-
-                                }
-                            }
+                            
                             if (cat.StockSubCategories != null && cat.StockSubCategories.Count > 0)
                             {
                                 foreach (var subCat in cat.StockSubCategories)
                                 {
+                                    long ggf = subCat.SubCategoryId;
                                     StockSubCategory SSC = new StockSubCategory();
                                     SSC = subCat;
                                     SSC.SubCategoryId = 0;
-                                    SSC.CategoryId = cat.CategoryId;
-                                    SC.StockSubCategories.Add(subCat);
+                                    SSC.CategoryId = SC.CategoryId;
+                                    SSC.Description = Convert.ToString(ggf);
+                                    db.StockSubCategories.Add(subCat);
 
-                                    if (subCat.StockItems != null && subCat.StockItems.Count > 0)
-                                    {
-                                        foreach (var SI in subCat.StockItems)
-                                        {
-                                            StockItem oSI = new StockItem();
-                                            oSI = SI;
-
-                                            oSI.StockItemId = 0;
-
-                                            oSI.OrganisationId = OrganisationID;
-                                            SSC.StockItems.Add(SI);
-
-
-                                        }
-                                    }
-                                    // cat.StockSubCategories.Add(SSC);
+                                   
 
                                 }
                             }
+                           
                         }
                         db.SaveChanges();
+
 
 
                     }
@@ -442,27 +424,88 @@ namespace MPC.Repository.Repositories
 
                     //List<long> OldStockCatIds = new List<long>();
                     //// stock items
+
+                    
+                    List<StockCategory> STOCKCat = db.StockCategories.Where(d => d.OrganisationId == OrganisationID).ToList();
+
+                    if (STOCKCat != null && STOCKCat.Count > 0)
+                    {
+                        foreach (var osc in STOCKCat)
+                        {
+                            if (osc.StockSubCategories != null && osc.StockSubCategories.Count > 0)
+                            {
+                                foreach (var sts in osc.StockSubCategories)
+                                {
+                                    List<StockItem> stocks = Sets.ExportOrganisationSet4.StockItem.Where(c => c.CategoryId == Convert.ToInt64(osc.Description) && c.SubCategoryId == Convert.ToInt64(sts.Description)).ToList();
+                                    if (stocks != null && stocks.Count > 0)
+                                    {
+                                        foreach (var s in stocks)
+                                        {
+                                            StockItem objSI = new StockItem();
+                                            objSI = s;
+
+                                            objSI.StockItemId = 0;
+                                            objSI.CategoryId = osc.CategoryId;
+                                            objSI.SubCategoryId = sts.SubCategoryId;
+                                            objSI.OrganisationId = OrganisationID;
+
+                                            db.StockItems.Add(objSI);
+
+                                        }
+                                    }
+
+                                }
+                             
+                            }
+                            else
+                            {
+                                List<StockItem> stocks = Sets.ExportOrganisationSet4.StockItem.Where(c => c.CategoryId == Convert.ToInt64(osc.Description)).ToList();
+                                if (stocks != null && stocks.Count > 0)
+                                {
+                                    foreach (var s in stocks)
+                                    {
+                                        StockItem objSI = new StockItem();
+                                        objSI = s;
+
+                                        objSI.StockItemId = 0;
+                                        objSI.CategoryId = osc.CategoryId;
+                                        objSI.SubCategoryId = null;
+                                        objSI.OrganisationId = OrganisationID;
+
+                                        db.StockItems.Add(objSI);
+
+                                    }
+                                }
+                            }
+                        }
+                        db.SaveChanges();
+
+                    }
+
+                    
                     //if (Sets.ExportOrganisationSet4.StockItem != null && Sets.ExportOrganisationSet4.StockItem.Count > 0)
                     //{
                     //    foreach (var Sitems in Sets.ExportOrganisationSet4.StockItem)
                     //    {
+
+                            
                     //        StockItem SI = new StockItem();
                     //        SI = Sitems;
-                            
+
                     //        SI.StockItemId = 0;
 
                     //        SI.OrganisationId = OrganisationID;
                     //        db.StockItems.Add(SI);
 
-                          
+
 
                     //    }
                     //    db.SaveChanges();
                     //}
 
-                    //end = DateTime.Now;
-                    //timelog += "stock item insert " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
-                    //st = DateTime.Now;
+                    end = DateTime.Now;
+                    timelog += "stock item insert " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    st = DateTime.Now;
 
                     // import reports
                     if (Sets.ExportOrganisationSet2.Reports != null && Sets.ExportOrganisationSet2.Reports.Count > 0)

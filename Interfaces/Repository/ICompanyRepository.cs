@@ -74,5 +74,6 @@ namespace MPC.Interfaces.Repository
         void DeleteStoryBySP(long StoreID);
         IEnumerable<Company> GetAllRetailAndCorporateStores();
         CompanyResponse GetCompanyByIdForCrm(long companyId);
+        double? GetTaxRateByStoreId(long storeId);
     }
 }
