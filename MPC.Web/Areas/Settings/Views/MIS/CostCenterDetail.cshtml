@@ -1244,7 +1244,8 @@
 </div>
 <script id="costCenterVariableTree" type="text/html">
     <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
-        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems"><i class="fa fa-bars"></i></div>
+      
+        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems,event: { contextmenu:{'Option 1':$root.AddnewChildItem.bind() }"><i class="fa fa-bars"></i></div>
         <div class="dd-handle">
             <span data-bind="text: Text"></span>
         </div>

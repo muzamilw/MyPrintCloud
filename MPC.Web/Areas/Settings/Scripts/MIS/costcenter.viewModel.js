@@ -38,6 +38,12 @@ define("costcenter/costcenter.viewModel",
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
                 //{ Id: 1, Text: 'Cost Centers' },
+                QuestionVariableType = ko.observableArray([
+                                                { Id: 1, Text: 'General' },
+                                                { Id: 2, Text: 'Multiple Options' },
+                                                { Id: 3, Text: 'Yes/No' }
+                ]),
+
                     variablesTreePrent = ko.observableArray([
                                                 { Id: 2, Text: 'Variables' },
                                                 { Id: 3, Text: 'Resources' },
@@ -87,27 +93,27 @@ define("costcenter/costcenter.viewModel",
                             }
                             return;
                         }
-                        if (id == 1) {                            
+                        if (id == 1) {
                             dataservice.GetTreeListById({
-                                    id: id,
-                                }, {
-                                    success: function (data) {
-                                        //CostCenterVariables
-                                        costcenterVariableNodes.removeAll();
-                                        ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
-                                        costcenterVariableNodes.valueHasMutated();
+                                id: id,
+                            }, {
+                                success: function (data) {
+                                    //CostCenterVariables
+                                    costcenterVariableNodes.removeAll();
+                                    ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
+                                    costcenterVariableNodes.valueHasMutated();
 
-                                        _.each(costcenterVariableNodes(), function (ccType) {
-                                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
-                                            ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
-                                        });
-                                        
-                                    },
-                                    error: function () {
-                                        toastr.error("Failed to load variables tree data.");
-                                    }
-                                });
-                                                        
+                                    _.each(costcenterVariableNodes(), function (ccType) {
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
+                                        ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
+                                    });
+
+                                },
+                                error: function () {
+                                    toastr.error("Failed to load variables tree data.");
+                                }
+                            });
+
                         }
                         if (id == 2) {
                             dataservice.GetTreeListById({
@@ -129,7 +135,7 @@ define("costcenter/costcenter.viewModel",
                                     toastr.error("Failed to load variables tree data.");
                                 }
                             });
-                            
+
                         }
                         if (id == 3) {
                             dataservice.GetTreeListById({
@@ -151,7 +157,7 @@ define("costcenter/costcenter.viewModel",
                                     toastr.error("Failed to load variables tree data.");
                                 }
                             });
-                            
+
                         }
                         if (id == 4) {
                             dataservice.GetTreeListById({
@@ -252,7 +258,7 @@ define("costcenter/costcenter.viewModel",
                             }
                         });
 
-                        
+
                     },
                     getVariablesByType = function (dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
@@ -275,7 +281,9 @@ define("costcenter/costcenter.viewModel",
                             }
                         });
                     },
-                    
+                    saveQuestionVariable = function (oQuestion) {
+                        var t = oQuestion;
+                    }
                     // Returns the item being dragged
                     dragged = function (source, event) {
                         if (event != undefined) {
@@ -299,7 +307,25 @@ define("costcenter/costcenter.viewModel",
                     addVariableToInputControl = function (variable) {
                         if (variable != null && variable != undefined) {
                             questionData = variable.split(",");
-                            SelectedQuestionVariable(model.QuestionVariableMapper(questionData));
+                            if (questionData[2] == "2") {
+                                dataservice.getCostCentreAnswerList({
+                                    QuestionId: questionData[0],
+                                }, {
+                                    success: function (data) {
+                                        if (data != null) {
+                                            SelectedQuestionVariable(model.QuestionVariableMapper(questionData, data));
+                                        }
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Failed to Load . Error: " + response);
+                                    }
+
+                                });
+                            } else {
+                                SelectedQuestionVariable(model.QuestionVariableMapper(questionData));
+                            }
+
+
                         } else {
                             SelectedQuestionVariable(model.QuestionVariableMapper());
                         }
@@ -392,247 +418,258 @@ define("costcenter/costcenter.viewModel",
                         }
                         return flag;
                     },
-                    //Save Cost Center
-                    saveCostCenter = function (callback) {
-                        errorList.removeAll();
-                        if (doBeforeSave()) {
+                    AddnewChildItem = function (Item) {
+                        if (Item.Id == 4) {
 
-                            if (selectedCostCenter().costCentreId() > 0) {
-                                saveEdittedCostCenter(callback);
-                            } else {
-                                saveNewCostCenter(callback);
-                            }
                         }
-                    },
-                    //Save NEW Cost Center
-                    saveNewCostCenter = function (callback) {
-                        dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
-                            success: function (data) {
-                                selectedCostCenter().costCentreId(data.CostCentreId);
-                                costCentersList.splice(0, 0, selectedCostCenter());
-                                selectedCostCenter().reset();
-                                getCostCenters();
-                                toastr.success("Successfully saved.");
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to save." + response);
-                            }
-                        });
-                    },
-                    //Save EDIT Cost Center
-                    saveEdittedCostCenter = function (callback) {
-                        dataservice.saveCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
-                            success: function (data) {
-                                if (callback && typeof callback === "function") {
-                                    callback();
-                                }
-                                selectedCostCenter().reset();
-                                getCostCenters();
-                                toastr.success("Successfully saved.");
-                            },
-                            error: function (exceptionMessage, exceptionType) {
 
-                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
-
-                                    toastr.error(exceptionMessage);
-
-                                } else {
-
-                                    toastr.error("Failed to save.");
-
-                                }
-
-                            }
-                        });
-                    },
-                    createCostCenter = function () {
-                        errorList.removeAll();
-                        var cc = new model.CostCenter();
-                        setDataForNewCostCenter(cc);
-                        selectedCostCenter(cc);
-                        getCostCentersBaseData();
-                       // getVariablesTree();
-                        showCostCenterDetail();
-                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
-                    },
-                    createDeliveryCostCenter = function () {
-                        errorList.removeAll();
-                        var cc = new model.CostCenter();
-                        cc.setupCost('0');
-                        cc.minimumCost('0');
-                        cc.type('11');
-                        selectedCostCenter(cc);
-                        getCostCentersBaseData();
-                        // getVariablesTree();
-                        showCostCenterDetail();
-                        sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
-                    },
-                    setDataForNewCostCenter = function (newcostcenter) {
-                        newcostcenter.costPerUnitQuantity('0');
-                        newcostcenter.unitQuantity('0');
-                        newcostcenter.name('New Cost Center');
-                        newcostcenter.pricePerUnitQuantity('0');
-                        newcostcenter.setupCost('0');
-                        newcostcenter.setupSpoilage('0');
-                        newcostcenter.setupTime('0');
-                        newcostcenter.minimumCost('0');
-                        newcostcenter.timePerUnitQuantity('0');
-                        newcostcenter.runningSpoilage('0');
-                        newcostcenter.priority('0');
-                        newcostcenter.isDirectCost('1');
-                        newcostcenter.isPrintOnJobCard('1');
-                        newcostcenter.isDisabled('0');
-                        newcostcenter.isScheduleable('1');
-                        newcostcenter.sequence('1');
-                        // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
-                        newcostcenter.costDefaultValue('0');
-                        newcostcenter.priceDefaultValue('0');
-                        newcostcenter.quantitySourceType('1');
-                        newcostcenter.calculationMethodType('2');
-                    },
-                    createWorkInstruction = function () {
-                        var wi = new model.NewCostCenterInstruction();
-                        selectedInstruction(wi);
-                        selectedCostCenter().costCenterInstructions.splice(0, 0, wi);
-                    },
-                    deleteWorkInstruction = function (instruction) {
-                        instruction.workInstructionChoices.removeAll();
-                        selectedCostCenter().costCenterInstructions.remove(instruction);
-                    },
-                    createWorkInstructionChoice = function () {
-                        var wic = new model.NewInstructionChoice();
-                        selectedChoice(wic);
-                        selectedInstruction().workInstructionChoices.splice(0, 0, wic);
-                    },
-                    deleteWorkInstructionChoice = function (choice) {
-                        selectedInstruction().workInstructionChoices.remove(choice);
-                    },
-                    //On Edit Click Of Cost Center
-                    onEditItem = function (oCostCenter) {
-                        errorList.removeAll();
-                        getCostCentersBaseData(oCostCenter);
-                        //getVariablesTree();
-                       
-                    },
-                    getCostCenterById = function (oCostCenter) {
-                        dataservice.getCostCentreById({
-                            id: oCostCenter.costCenterId(),
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    selectedCostCenter(model.costCenterClientMapper(data));
-                                    selectedCostCenter().reset();
-                                    showCostCenterDetail();
-                                }
-                            },
-                            error: function (response) {
-                                toastr.error("Failed to load Detail . Error: ");
-                            }
-                        });
                     }
-                    openEditDialog = function () {
-                        view.showCostCenterDialog();
-                    },
-                    closeEditDialog = function () {
-                        if (selectedCostCenter() != undefined) {
-                            if (selectedCostCenter().costCenterId() > 0) {
-                                isEditorVisible(false);
-                                view.hideCostCenterDialog();
-                            } else {
-                                isEditorVisible(false);
-                                view.hideCostCenterDialog();
-                                costCentersList.remove(selectedCostCenter());
-                            }
-                            editorViewModel.revertItem();
+                //Save Cost Center
+                saveCostCenter = function (callback) {
+                    errorList.removeAll();
+                    if (doBeforeSave()) {
+
+                        if (selectedCostCenter().costCentreId() > 0) {
+                            saveEdittedCostCenter(callback);
+                        } else {
+                            saveNewCostCenter(callback);
                         }
-                    },
-                    // close CostCenter Editor
-                    closeCostCenterDetail = function () {
-                        isEditorVisible(false);
-                    },
-                    // Show CostCenter Editor
-                    showCostCenterDetail = function () {
-                        isEditorVisible(true);
-                    },
-                    //Get variables Tree
-                    getVariablesTree = function (nodeid) {
-                        dataservice.getVariablesTree({
-                            id: nodeid,
-                        }, {
-                            success: function (data) {
-                                //CostCenterVariables
-                                costcenterVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
-                                costcenterVariableNodes.valueHasMutated();
-                                //Variable Variables
-                                variableVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(variableVariableNodes(), data.VariableVariables);
-                                variableVariableNodes.valueHasMutated();
-                                //Resource Variables
-                                resourceVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(resourceVariableNodes(), data.ResourceVariables);
-                                resourceVariableNodes.valueHasMutated();
-                                //Questions Variables
-                                questionVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
-                                questionVariableNodes.valueHasMutated();
-                                //Matrix Variables
-                                matrixVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(matrixVariableNodes(), data.MatricesVariables);
-                                matrixVariableNodes.valueHasMutated();
-                                //Lookup Variables
-                                lookupVariableNodes.removeAll();
-                                ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
-                                lookupVariableNodes.valueHasMutated();
-                            },
-                            error: function () {
-                                toastr.error("Failed to load variables tree data.");
+                    }
+                },
+                //Save NEW Cost Center
+                saveNewCostCenter = function (callback) {
+                    dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                        success: function (data) {
+                            selectedCostCenter().costCentreId(data.CostCentreId);
+                            costCentersList.splice(0, 0, selectedCostCenter());
+                            selectedCostCenter().reset();
+                            getCostCenters();
+                            toastr.success("Successfully saved.");
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to save." + response);
+                        }
+                    });
+                },
+                //Save EDIT Cost Center
+                saveEdittedCostCenter = function (callback) {
+                    dataservice.saveCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
+                        success: function (data) {
+                            if (callback && typeof callback === "function") {
+                                callback();
                             }
-                        });
-                    };
-                    // Get Base
+                            selectedCostCenter().reset();
+                            getCostCenters();
+                            toastr.success("Successfully saved.");
+                        },
+                        error: function (exceptionMessage, exceptionType) {
+
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                toastr.error(exceptionMessage);
+
+                            } else {
+
+                                toastr.error("Failed to save.");
+
+                            }
+
+                        }
+                    });
+                },
+                createCostCenter = function () {
+                    errorList.removeAll();
+                    var cc = new model.CostCenter();
+                    setDataForNewCostCenter(cc);
+                    selectedCostCenter(cc);
+                    getCostCentersBaseData();
+                    // getVariablesTree();
+                    showCostCenterDetail();
+                    sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                },
+                createDeliveryCostCenter = function () {
+                    errorList.removeAll();
+                    var cc = new model.CostCenter();
+                    cc.setupCost('0');
+                    cc.minimumCost('0');
+                    cc.type('11');
+                    selectedCostCenter(cc);
+                    getCostCentersBaseData();
+                    // getVariablesTree();
+                    showCostCenterDetail();
+                    sharedNavigationVM.initialize(selectedCostCenter, function (saveCallback) { saveCostCenter(saveCallback); });
+                },
+                setDataForNewCostCenter = function (newcostcenter) {
+                    newcostcenter.costPerUnitQuantity('0');
+                    newcostcenter.unitQuantity('0');
+                    newcostcenter.name('New Cost Center');
+                    newcostcenter.pricePerUnitQuantity('0');
+                    newcostcenter.setupCost('0');
+                    newcostcenter.setupSpoilage('0');
+                    newcostcenter.setupTime('0');
+                    newcostcenter.minimumCost('0');
+                    newcostcenter.timePerUnitQuantity('0');
+                    newcostcenter.runningSpoilage('0');
+                    newcostcenter.priority('0');
+                    newcostcenter.isDirectCost('1');
+                    newcostcenter.isPrintOnJobCard('1');
+                    newcostcenter.isDisabled('0');
+                    newcostcenter.isScheduleable('1');
+                    newcostcenter.sequence('1');
+                    // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
+                    newcostcenter.costDefaultValue('0');
+                    newcostcenter.priceDefaultValue('0');
+                    newcostcenter.quantitySourceType('1');
+                    newcostcenter.calculationMethodType('2');
+                },
+                createWorkInstruction = function () {
+                    var wi = new model.NewCostCenterInstruction();
+                    selectedInstruction(wi);
+                    selectedCostCenter().costCenterInstructions.splice(0, 0, wi);
+                },
+                deleteWorkInstruction = function (instruction) {
+                    instruction.workInstructionChoices.removeAll();
+                    selectedCostCenter().costCenterInstructions.remove(instruction);
+                },
+                createWorkInstructionChoice = function () {
+                    var wic = new model.NewInstructionChoice();
+                    selectedChoice(wic);
+                    selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                },
+                deleteWorkInstructionChoice = function (choice) {
+                    selectedInstruction().workInstructionChoices.remove(choice);
+                },
+                //On Edit Click Of Cost Center
+                onEditItem = function (oCostCenter) {
+                    errorList.removeAll();
+                    getCostCentersBaseData(oCostCenter);
+                    //getVariablesTree();
+
+                },
+                getCostCenterById = function (oCostCenter) {
+                    dataservice.getCostCentreById({
+                        id: oCostCenter.costCenterId(),
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                selectedCostCenter(model.costCenterClientMapper(data));
+                                selectedCostCenter().reset();
+                                showCostCenterDetail();
+                            }
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to load Detail . Error: ");
+                        }
+                    });
+                }
+                openEditDialog = function () {
+                    view.showCostCenterDialog();
+                },
+                closeEditDialog = function () {
+                    if (selectedCostCenter() != undefined) {
+                        if (selectedCostCenter().costCenterId() > 0) {
+                            isEditorVisible(false);
+                            view.hideCostCenterDialog();
+                        } else {
+                            isEditorVisible(false);
+                            view.hideCostCenterDialog();
+                            costCentersList.remove(selectedCostCenter());
+                        }
+                        editorViewModel.revertItem();
+                    }
+                },
+                // close CostCenter Editor
+                closeCostCenterDetail = function () {
+                    isEditorVisible(false);
+                },
+                // Show CostCenter Editor
+                showCostCenterDetail = function () {
+                    isEditorVisible(true);
+                },
+            AddAnswerofQuestionVariable = function () {
+                SelectedQuestionVariable().AnswerList.push(model.MCQsAnswer());
+
+
+            },
+                //Get variables Tree
+                getVariablesTree = function (nodeid) {
+                    dataservice.getVariablesTree({
+                        id: nodeid,
+                    }, {
+                        success: function (data) {
+                            //CostCenterVariables
+                            costcenterVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
+                            costcenterVariableNodes.valueHasMutated();
+                            //Variable Variables
+                            variableVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(variableVariableNodes(), data.VariableVariables);
+                            variableVariableNodes.valueHasMutated();
+                            //Resource Variables
+                            resourceVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(resourceVariableNodes(), data.ResourceVariables);
+                            resourceVariableNodes.valueHasMutated();
+                            //Questions Variables
+                            questionVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
+                            questionVariableNodes.valueHasMutated();
+                            //Matrix Variables
+                            matrixVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(matrixVariableNodes(), data.MatricesVariables);
+                            matrixVariableNodes.valueHasMutated();
+                            //Lookup Variables
+                            lookupVariableNodes.removeAll();
+                            ko.utils.arrayPushAll(lookupVariableNodes(), data.LookupVariables);
+                            lookupVariableNodes.valueHasMutated();
+                        },
+                        error: function () {
+                            toastr.error("Failed to load variables tree data.");
+                        }
+                    });
+                };
+                // Get Base
                 getCostCentersBaseData = function (oCostCenter) {
-                        dataservice.getBaseData({
-                            success: function (data) {
-                                //costCenter Calculation Types
-                                costCenterTypes.removeAll();
-                                ko.utils.arrayPushAll(costCenterTypes(), data.CalculationTypes);
-                                costCenterTypes.valueHasMutated();
-                                //Cost Center Categories
-                                costCenterCategories.removeAll();
-                                ko.utils.arrayPushAll(costCenterCategories(), data.CostCenterCategories);
-                                costCenterCategories.valueHasMutated();
-                                //Nominal Codes
-                                nominalCodes.removeAll();
-                                ko.utils.arrayPushAll(nominalCodes(), data.NominalCodes);
-                                nominalCodes.valueHasMutated();
-                                //Markups
-                                markups.removeAll();
-                                ko.utils.arrayPushAll(markups(), data.Markups);
-                                markups.valueHasMutated();
-                                //Variables
-                                costCenterVariables.removeAll();
-                                ko.utils.arrayPushAll(costCenterVariables(), data.CostCentreVariables);
-                                costCenterVariables.valueHasMutated();
-                                //
-                                //Cost Center Resources
-                                costCenterResources.removeAll();
-                                ko.utils.arrayPushAll(costCenterResources(), data.CostCenterResources);
-                                costCenterResources.valueHasMutated();
-                                //Delivery Carriers
-                                deliveryCarriers.removeAll();
-                                ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
-                                deliveryCarriers.valueHasMutated();
-                                if (oCostCenter != undefined) {
-                                    getCostCenterById(oCostCenter);
-                                }
-                                
-                            },
-                            error: function () {
-                                toastr.error("Failed to base data.");
+                    dataservice.getBaseData({
+                        success: function (data) {
+                            //costCenter Calculation Types
+                            costCenterTypes.removeAll();
+                            ko.utils.arrayPushAll(costCenterTypes(), data.CalculationTypes);
+                            costCenterTypes.valueHasMutated();
+                            //Cost Center Categories
+                            costCenterCategories.removeAll();
+                            ko.utils.arrayPushAll(costCenterCategories(), data.CostCenterCategories);
+                            costCenterCategories.valueHasMutated();
+                            //Nominal Codes
+                            nominalCodes.removeAll();
+                            ko.utils.arrayPushAll(nominalCodes(), data.NominalCodes);
+                            nominalCodes.valueHasMutated();
+                            //Markups
+                            markups.removeAll();
+                            ko.utils.arrayPushAll(markups(), data.Markups);
+                            markups.valueHasMutated();
+                            //Variables
+                            costCenterVariables.removeAll();
+                            ko.utils.arrayPushAll(costCenterVariables(), data.CostCentreVariables);
+                            costCenterVariables.valueHasMutated();
+                            //
+                            //Cost Center Resources
+                            costCenterResources.removeAll();
+                            ko.utils.arrayPushAll(costCenterResources(), data.CostCenterResources);
+                            costCenterResources.valueHasMutated();
+                            //Delivery Carriers
+                            deliveryCarriers.removeAll();
+                            ko.utils.arrayPushAll(deliveryCarriers(), data.DeliveryCarriers);
+                            deliveryCarriers.valueHasMutated();
+                            if (oCostCenter != undefined) {
+                                getCostCenterById(oCostCenter);
                             }
-                        });
-                    },
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to base data.");
+                        }
+                    });
+                },
                     updateSelectedResources = function () {
                         _.each(selectedCostCenter().costCenterResource(), function (resource) {
                             var selectedResource;
@@ -645,7 +682,7 @@ define("costcenter/costcenter.viewModel",
                     iconClick = function (iconid, event) {
                         var icoId = event.currentTarget.id;
                         var icoVal;
-                        if (icoId == 'icoAdd') { icoVal = "+"; }                        
+                        if (icoId == 'icoAdd') { icoVal = "+"; }
                         else if (icoId == 'icoSub') { icoVal = "-"; }
                         else if (icoId == 'icoMul') { icoVal = "*"; }
                         else if (icoId == 'icoDiv') { icoVal = "/"; }
@@ -655,7 +692,7 @@ define("costcenter/costcenter.viewModel",
                         else if (icoId == 'icoPer') { icoVal = "%"; }
                         else if (icoId == 'icoBrace1') { icoVal = "("; }
                         else if (icoId == 'icoBrace2') { icoVal = ")"; }
-                            
+
                         if (selectedVariableString() === 'txtEstimatePlantCost') {
                             document.getElementById('txtEstimatePlantCost').value += icoVal;
                             selectedCostCenter().strCostPlantUnParsed(selectedCostCenter().strCostPlantUnParsed() + icoVal);
@@ -689,16 +726,16 @@ define("costcenter/costcenter.viewModel",
                             selectedCostCenter().strTimeUnParsed(selectedCostCenter().strTimeUnParsed() + icoVal);
                         }
                     },
-                    // #region Observables
-                    // Initialize the view model
-                    initialize = function(specifiedView) {
+                // #region Observables
+                // Initialize the view model
+                    initialize = function (specifiedView) {
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
                         getCostCenters();
-                       // getCostCentersBaseData();
+                        // getCostCentersBaseData();
                     };
-                    
+
                 return {
                     // Observables
                     costCentersList: costCentersList,
@@ -753,8 +790,12 @@ define("costcenter/costcenter.viewModel",
                     selectedVariableString: selectedVariableString,
                     iconClick: iconClick,
                     questionVariableNodes: questionVariableNodes,
-                    createDeliveryCostCenter: createDeliveryCostCenter
-                    SelectedQuestionVariable: SelectedQuestionVariable
+                    createDeliveryCostCenter: createDeliveryCostCenter,
+                    SelectedQuestionVariable: SelectedQuestionVariable,
+                    AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
+                    AddnewChildItem: AddnewChildItem,
+                    QuestionVariableType: QuestionVariableType,
+                    saveQuestionVariable: saveQuestionVariable
                 };
             })()
         };
