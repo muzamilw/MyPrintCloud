@@ -47,5 +47,15 @@ namespace MPC.Models.ResponseModels
         /// Chart Of Accounts
         /// </summary>
         public IEnumerable<ChartOfAccount> ChartOfAccounts { get; set; }
+
+        /// <summary>
+        /// Paper Sizes
+        /// </summary>
+        public IEnumerable<PaperSize> PaperSizes { get; set; }
+
+        /// <summary>
+        /// Ink Plate Sides
+        /// </summary>
+        public IEnumerable<InkPlateSide> InkPlateSides { get; set; }
     }
 }
