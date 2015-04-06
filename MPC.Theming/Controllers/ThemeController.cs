@@ -39,7 +39,8 @@ namespace MPC.Theming.Controllers
                             SkinId = rdr[0],
                             Name = rdr[1],
                             Type = rdr[3],
-                            FullZipPath = rdr[4]
+                            FullZipPath = rdr[4],
+                            Thumbnail = rdr[2]
                         });
                     }
 

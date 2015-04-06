@@ -794,7 +794,17 @@
                                                 </div>
                                                 <div class="col-lg-5">
                                                     <!-- ko if: $root.themes().length > 0 -->
-                                                    <select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>
+                                                    @*<select class="form-control" data-bind="options: $root.themes,optionsCaption:'Select Theme', optionsText: 'Name', optionsValue: 'SkinId',value:$root.selectedTheme"></select>*@
+                                                    <div id="ops_theme_dropdown">
+                                                        <div id="ops_theme_list">
+                                                            <a id="ops_theme_select" data-bind="text: $root.selectedThemeName" href="#"></a>
+                                                            <ul style="display: none;">
+                                                                <!-- ko template: { name: 'themeListItemTemplate', foreach: $root.themes } -->
+                                                                <!-- /ko -->
+                                                            </ul>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
                                                     <!-- /ko -->
                                                 </div>
                                                 <div class="col-lg-3">
@@ -2374,7 +2384,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
             </tr>
         </script>
         <script id="itemProductCategoriesTemplate" type="text/html">
-            <li class="dd-item dd-item-list"  data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
+            <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}, attr: {id: productCategoryId}">
                 <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div>
                 <div class="dd-handle col-sm-12">
                     <span data-bind="text: categoryName" class="col-sm-10"></span>
@@ -2646,4 +2656,14 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 </div>
             </div>
     </tr>
+</script>
+
+@* Theme List Item Template *@
+<script id="themeListItemTemplate" type="text/html">
+    <li>
+        <a href="#" data-bind="click: $root.selectTheme">
+            <span class="ops_theme_name" data-bind="text: Name"></span>
+        </a>
+        <img class="themePreview" src="" data-bind="attr:{ src: Thumbnail }">
+    </li>
 </script>

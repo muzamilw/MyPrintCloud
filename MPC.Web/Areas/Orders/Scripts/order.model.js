@@ -746,6 +746,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             similarSections = ko.observable(specifiedSimilarSections || 0),
             // Section Cost Centres
             sectionCostCentres = ko.observableArray([]),
+            // Section Ink Coverage List
+            sectionInkCoverageList = ko.observableArray([]),
             // Select Stock Item
             selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
@@ -869,6 +871,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             side2PlateQty: side2PlateQty,
             isPlateSupplied: isPlateSupplied,
             isDoubleSided: isDoubleSided,
+            sectionInkCoverageList:sectionInkCoverageList,
             isWorknTurn: isWorknTurn,
             doubleWorknTurn: doubleWorknTurn,
             printViewLayoutPortrait: printViewLayoutPortrait,
@@ -1723,7 +1726,87 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             width: specifiedWidth
         };
     },
+
+    //// Section Ink Coverage
+    //// ReSharper disable once InconsistentNaming
+    //SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+    //    return {
+    //        id: specifiedId,
+    //        sectionId: specifiedSectionId,
+    //        inkOrder: specifiedInkOrder,
+    //        inkId: specifiedInkId,
+    //        coverageGroupId: specifiedCoverageGroupId,
+    //        side: specifiedSide,
+    //    };
+    //},
     
+   // Section Ink Coverage
+    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+        var // Unique key
+             id = ko.observable(specifiedId),
+             // section Id
+              sectionId = ko.observable(specifiedSectionId),
+              // ink Order
+              inkOrder = ko.observable(specifiedInkOrder),
+              //Ink Id
+              inkId = ko.observable(specifiedInkId),
+              // Coverage Group Id
+             coverageGroupId = ko.observable(specifiedCoverageGroupId),
+             //Side
+             side = ko.observable(specifiedSide),
+            
+               // Errors
+            errors = ko.validation.group({
+               
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+            }),
+              dirtyFlag = new ko.dirtyFlag({
+                  id: id,
+                  sectionId: sectionId,
+                  inkOrder: inkOrder,
+                  inkId: inkId,
+                  coverageGroupId: coverageGroupId,
+                  side: side
+              }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    Id: id(),
+                    SectionId: sectionId(),
+                    InkOrder: inkOrder(),
+                    InkId: inkId(),
+                    CoverageGroupId: coverageGroupId(),
+                    Side: side(),
+                };
+            };
+
+        return {
+            id: id,
+            sectionId: sectionId,
+            inkOrder: inkOrder,
+            inkId: inkId,
+            coverageGroupId: coverageGroupId,
+            side: side,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
     // Ink Plate Side Entity
 // ReSharper disable InconsistentNaming
     InkPlateSide = function (specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
@@ -1852,6 +1935,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return estimate;
     };
+
+    
     // #region __________________  COST CENTRE   ______________________
 
     // ReSharper disable once InconsistentNaming
@@ -2021,6 +2106,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
     };
 
+    // Section Ink Coverage Factory
+    SectionInkCoverage.Create = function (source) {
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+    };
+
     // Address Factory
     Address.Create = function (source) {
         return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
@@ -2137,6 +2227,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Paper Size Constructor
         PaperSize: PaperSize,
         // Ink Plate Side Constructor
-        InkPlateSide: InkPlateSide
+        InkPlateSide: InkPlateSide,
+        //Section Ink Coverage
+        SectionInkCoverage: SectionInkCoverage
     };
 });

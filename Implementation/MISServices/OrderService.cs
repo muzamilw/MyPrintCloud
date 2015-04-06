@@ -37,7 +37,10 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRepository itemRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
         private readonly IItemSectionRepository itemsectionRepository;
+        private readonly IStockItemRepository stockItemRepository;
         private readonly ICompanyRepository companyRepository;
+        private readonly IInkCoverageGroupRepository inkCoverageGroupRepository;
+       
 
         #endregion
         #region Constructor
@@ -48,8 +51,8 @@ namespace MPC.Implementation.MISServices
         public OrderService(IEstimateRepository estimateRepository, ISectionFlagRepository sectionFlagRepository, ICompanyContactRepository companyContactRepository,
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
-            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository,
-            IInkPlateSideRepository inkPlateSideRepository, ICompanyRepository companyRepository)
+            IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
+            ICompanyRepository companyRepository)
         {
             if (estimateRepository == null)
             {
@@ -114,6 +117,8 @@ namespace MPC.Implementation.MISServices
             this.chartOfAccountRepository = chartOfAccountRepository;
             this.paperSizeRepository = paperSizeRepository;
             this.inkPlateSideRepository = inkPlateSideRepository;
+            this.stockItemRepository = stockItemRepository;
+            this.inkCoverageGroupRepository = inkCoverageGroupRepository;
             this.itemRepository = itemRepository;
             this.templateService = templateService;
             this.itemsectionRepository = itemsectionRepository;
@@ -170,7 +175,9 @@ namespace MPC.Implementation.MISServices
                        StockCategories = stockCategoryRepository.GetAll(),
                        ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        PaperSizes = paperSizeRepository.GetAll(),
-                       InkPlateSides = inkPlateSideRepository.GetAll()
+                       InkPlateSides = inkPlateSideRepository.GetAll(),
+                       Inks = stockItemRepository.GetStockItemOfCategoryInk(),
+                       InkCoverageGroups = inkCoverageGroupRepository.GetAll()
                    };
         }
 
