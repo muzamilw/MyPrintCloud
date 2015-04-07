@@ -7,13 +7,13 @@
 
         </div>
         <div class="white-container-lightgrey-border textAlignLeft rounded_corners">
-            <div class="cont_us_pad">
+            <div class="cont_us_pad col-xs-12 col-md-12 col-lg-12">
                 @if (ViewBag.DefaultAddress != null)
                 {
 
-                    <table width="100%" cellpadding="5" cellspacing="0">
-                        <tr>
-                            <td valign="top">
+                    @*<table width="100%" cellpadding="5" cellspacing="0">
+                        <tr>*@
+                            <div class="col-lg-5 col-md-5 col-sm-12">
                                 @if (ViewBag.DefaultAddress.Tel != null || ViewBag.DefaultAddress.Fax != null)
                                 {
                                     <div id="ContactImage" class="contact_item_image float_left">
@@ -62,8 +62,11 @@
                                 <label id="lblCountry">@ViewBag.DefaultAddress.Country</label><br />
                                 <label id="lblZipCode">@ViewBag.DefaultAddress.ZipCode</label>
                             </div>
-                        </td>
-                        <td valign="top" align="right">
+                                <div class="dashboard_vertical_item_separator">
+                                    &nbsp;
+                                </div>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-12">
                             @if (ViewBag.MapImage == null)
                             {
                                 <div id="gMapContainer" class="rounded_corners cntgMapContactUs">
@@ -78,10 +81,16 @@
                             }
                            
                            
-                        </td>
-                    </tr>
-                </table>
+                        </div>
+    <div class="clearBoth">
+
+    </div>
+                    @*</tr>
+                </table>*@
                 }
+            </div>
+            <div class="clearBoth">
+
             </div>
         </div>
 

@@ -1180,6 +1180,47 @@ namespace MPC.Repository.Repositories
 
         }
 
+        public void EmailsToCorpUser(long orderID, long contactID, StoreMode ModeOfStore, long loggedinTerritoryId, Organisation serverSettings, long StoreId)
+        {
+            try
+            {
+                int admin = Convert.ToInt32(Roles.Adminstrator);
+                int Manager = Convert.ToInt32(Roles.Manager);
+                CampaignEmailParams obj = new CampaignEmailParams();
+                List<CompanyContact> listOfApprovers = new List<CompanyContact>();
+              
+                    long ContactCompnyID = (from c in db.CompanyContacts
+                                           where c.ContactId == contactID
+                                           select c.CompanyId).FirstOrDefault();
+
+                    listOfApprovers = (from c in db.CompanyContacts
+                                       join cc in db.Companies on ContactCompnyID equals cc.CompanyId
+                                       where (c.ContactRoleId == admin || (c.ContactRoleId == Manager && c.TerritoryId == loggedinTerritoryId)) && (cc.IsCustomer == (int)CustomerTypes.Corporate) && c.CompanyId == ContactCompnyID
+                                       select c).ToList();
+                    if (listOfApprovers.Count() > 0)
+                    {
+                        Campaign CorporateOrderForApprovalCampaign = GetCampaignRecordByEmailEvent((int)Events.CorporateOrderForApproval, serverSettings.OrganisationId, StoreId);
+
+                        foreach (CompanyContact corpRec in listOfApprovers)
+                        {
+                            obj.ApprovarID = (int)corpRec.ContactId;
+                            obj.ContactId = contactID;
+                            obj.EstimateId = orderID;
+                            obj.SalesManagerContactID = corpRec.ContactId;
+                            obj.StoreId = StoreId;
+                            obj.AddressId = ContactCompnyID;
+                            obj.CompanyId = ContactCompnyID;
+                            obj.OrganisationId = serverSettings.OrganisationId;
+                            emailBodyGenerator(CorporateOrderForApprovalCampaign, serverSettings, obj, corpRec, ModeOfStore,"","", "", "", "", corpRec.Email);
+                        }
+                    }
+                
+            }
+            catch (Exception e)
+            {
+               
+            }
+        }
 
     }
 }

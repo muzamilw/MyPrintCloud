@@ -12,6 +12,7 @@ using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using System.Net;
 using System.IO;
+using WebSupergoo.ABCpdf8;
 namespace MPC.Webstore.Controllers
 {
     public class OrderConfirmationController : Controller
@@ -41,60 +42,8 @@ namespace MPC.Webstore.Controllers
         // GET: OrderConfirmation
         public ActionResult Index(string OrderId)
         {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-           
-            long OrderID = Convert.ToInt64(OrderId);
-            if (OrderID > 0)
-            {
-                ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
-                if (shopCart != null)
-                {
-                    long CID = _myClaimHelper.loginContactID();
-                    CompanyContact oContact = _myCompanyService.GetContactByID(CID);
-                    ViewBag.LoginUser = oContact;
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        
-
-                        ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, oContact.AddressId);
-                    }
-                    else
-                    {
-                        ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, 0);
-
-                    }
-
-                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
-                    {
-                        ViewBag.IsShowPrices = true;
-                        //do nothing because pricing are already visible.
-                    }
-                    else
-                    {
-                        ViewBag.IsShowPrices = false;
-                        //  cntRightPricing1.Visible = false;
-                    }
-
-                    ViewBag.Currency = StoreBaseResopnse.Currency;
-                    ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
-                    StoreBaseResopnse = null;
-                    return View("PartialViews/OrderConfirmation", shopCart);
-                }
-                else
-                {
-                    Response.Redirect("/");
-                    return null;
-                }
-            }
-            else
-            {
-                Response.Redirect("/");
-                return null;
-            }
-
+            ShoppingCart shopCart = LoadOrderDetail(OrderId);
+            return View("PartialViews/OrderConfirmation", shopCart);
 
         }
 
@@ -110,39 +59,47 @@ namespace MPC.Webstore.Controllers
         [HttpPost]
         public ActionResult Index(string buttonType, string OrderId)
         {
+            ShoppingCart shopCart = null;
             if (buttonType == "1")
             {
-                PlaceOrder(1, Convert.ToInt64(OrderId));
+                shopCart = PlaceOrder(1, Convert.ToInt64(OrderId));
             }
-            else 
+            else
             {
                 if (_myClaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _myClaimHelper.loginContactRoleID() == (int)Roles.Manager)
                 {
-                    PlaceOrder(3, Convert.ToInt64(OrderId));
+                    shopCart = PlaceOrder(3, Convert.ToInt64(OrderId));
                 }
                 else
                 {
-                    PlaceOrder(2, Convert.ToInt64(OrderId));
+                    shopCart = PlaceOrder(2, Convert.ToInt64(OrderId));
                 }
             }
-            
-            
-            return null;
+            if (shopCart != null)
+            {
+                return View("PartialViews/OrderConfirmation", shopCart);
+            }
+            else
+            {
+                return null;
+            }
+
         }
 
-        private void PlaceOrder(int modOverride, long OrderId)
+        private ShoppingCart PlaceOrder(int modOverride, long OrderId)
         {
+            ShoppingCart shopCart = null;
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse baseResponse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            
+
 
             bool result = false;
 
             PaymentGateway oPaymentGateWay = _ItemService.GetPaymentGatewayRecord(UserCookieManager.WBStoreId);
 
             CompanyContact user = _myCompanyService.GetContactByID(_myClaimHelper.loginContactID()); //LoginUser;
-          
+
             CampaignEmailParams cep = new CampaignEmailParams();
             //    PageManager pageMgr = new PageManager();
             string HTMLOfShopReceipt = null;
@@ -155,7 +112,7 @@ namespace MPC.Webstore.Controllers
             Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
             if (user != null)
             {
-               
+
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                 {
                     cep.StoreId = UserCookieManager.WBStoreId;
@@ -168,15 +125,15 @@ namespace MPC.Webstore.Controllers
                             result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
 
-                            string AttachmentPath = "";//emailmgr.OrderConfirmationPDF(OrderId, 0, 0);
+                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
                             SystemUser EmailOFSM = _userManagerService.GetSalesManagerDataByID(baseResponse.Company.SalesAndOrderManagerId1.Value);
-                           // HTMLOfShopReceipt = GetReceiptPage(OrderId);
+                            // HTMLOfShopReceipt = GetReceiptPage(OrderId);
                             _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
                             _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, 0, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
                             UserCookieManager.WEBOrderId = 0;
-                            
+
                             // For demo mode as enter the pre payment with the known parameters
                             PrePayment tblPrePayment = new PrePayment()
                             {
@@ -193,20 +150,12 @@ namespace MPC.Webstore.Controllers
                         catch (Exception ex)
                         {
                             throw ex;
-                            //MessgeToDisply.Visible = true;
-                            //MessgeToDisply.Style.Add("border", "1px solid red");
-                            //MessgeToDisply.Style.Add("font-size", "20px");
-                            //MessgeToDisply.Style.Add("font-weight", "bold");
-                            //MessgeToDisply.Style.Add("text-align", "left");
-                            //MessgeToDisply.Style.Add("color", "red");
-                            //MessgeToDisply.Style.Add("padding", "20px");
-                            //ltrlMessge.Text = "Error occurred while processing order.";
-                            //////LogError(ex);
+                            return null;
                         }
                         if (result)
                         {
-                            Response.Redirect("/Receipt/" + OrderId);
-
+                            Response.Redirect("/Receipt/" + OrderId.ToString());
+                            return null;
                         }
                     }
                     else // online payments enabled
@@ -214,61 +163,56 @@ namespace MPC.Webstore.Controllers
 
                         if (oPaymentGateWay == null)
                         {
-                            //MessgeToDisply.Visible = true;
-                            //MessgeToDisply.Style.Add("border", "1px solid red");
-                            //MessgeToDisply.Style.Add("font-size", "20px");
-                            //MessgeToDisply.Style.Add("font-weight", "bold");
-                            //MessgeToDisply.Style.Add("text-align", "left");
-                            //MessgeToDisply.Style.Add("color", "red");
-                            //MessgeToDisply.Style.Add("padding", "20px");
-                            //ltrlMessge.Text = "Payment Gatway is not set. Please contact your admin.";
+                            shopCart = LoadOrderDetail(OrderId.ToString());
+                            ViewBag.Message = "Payment Gateway is not set.";
+                            return shopCart;
                         }
                         else
                         {
-                          
-                                switch (oPaymentGateWay.PaymentMethodId)
-                                {
-                                    case 1: //PayPal
-                                        {
-                                            Response.Redirect("SignupPaypal/" + OrderId);
-                                            break;
-                                        }
 
-                                    case 2:
-                                        {
-                                            Response.Redirect("payments/paymentAuthorizeNet/" + OrderId);
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            Response.Redirect("payments/ANZSubmit/" + OrderId);
-                                            break;
-                                        }
-                                    case 4:
-                                        {
-                                            Response.Redirect("paymentAuthorizeNet/" + OrderId);
-                                            break;
-                                        }
-                                    case 5:
-                                        {
-                                            Response.Redirect("payments/stGeorgeSubmit/" + OrderId);
-                                            break;
-                                        }
-                                    case 6:
-                                        {
-                                            Response.Redirect("payments/NabSubmit/" + OrderId);
-                                            break;
-                                        }
-                                    case 7:
-                                        {
-                                            Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
-                                            break;
-
-                                        }
-                                    default:
+                            switch (oPaymentGateWay.PaymentMethodId)
+                            {
+                                case 1: //PayPal
+                                    {
+                                        Response.Redirect("SignupPaypal/" + OrderId);
                                         break;
-                                }
-                           
+                                    }
+
+                                case 2:
+                                    {
+                                        Response.Redirect("payments/paymentAuthorizeNet/" + OrderId);
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        Response.Redirect("payments/ANZSubmit/" + OrderId);
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        Response.Redirect("paymentAuthorizeNet/" + OrderId);
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        Response.Redirect("payments/stGeorgeSubmit/" + OrderId);
+                                        break;
+                                    }
+                                case 6:
+                                    {
+                                        Response.Redirect("payments/NabSubmit/" + OrderId);
+                                        break;
+                                    }
+                                case 7:
+                                    {
+                                        Response.Redirect("payments/PayJunctionSubmit/" + OrderId);
+                                        break;
+
+                                    }
+                                default:
+                                    break;
+                            }
+                            return null;
                         }
                     }
                 }
@@ -287,28 +231,20 @@ namespace MPC.Webstore.Controllers
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = "";//emailmgr.OrderConfirmationPDF(OrderId, 0, SessionParameters.CustomerContact.ContactID);
+                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
-                            //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
-                           // emailmgr.SendEmailToSalesManager((int)EmailEvents.NewOrderToSalesManager, SessionParameters.ContactID, SessionParameters.CustomerID, 0, OrderId, SessionParameters.CompanySite, 0, ManagerID, StoreMode.Corp);
-                           UserCookieManager.WEBOrderId = 0;
+                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            _campaignService.SendEmailToSalesManager((int)Events.NewOrderToSalesManager, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID(), OrderId, UserCookieManager.WEBOrganisationID, (int)ManagerID, StoreMode.Retail, UserCookieManager.WBStoreId, EmailOFSM);
+                            UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {
-                            //MessgeToDisply.Visible = true;
-                            //MessgeToDisply.Style.Add("border", "1px solid red");
-                            //MessgeToDisply.Style.Add("font-size", "20px");
-                            //MessgeToDisply.Style.Add("font-weight", "bold");
-                            //MessgeToDisply.Style.Add("text-align", "left");
-                            //MessgeToDisply.Style.Add("color", "red");
-                            //MessgeToDisply.Style.Add("padding", "20px");
-                            //ltrlMessge.Text = "Error occurred while processing order.";
-                            //LogError(ex);
+
                         }
 
                         Response.Redirect("/Receipt/" + OrderId);
-
+                        return null;
 
                     }
                     else if (((user.IsPayByPersonalCreditCard ?? false) == false) || (modOverride == 2)) //user.IsPayByPersonalCreditCard ?? false) == false || CanShowPrices == false -- this condition is changed) Corporate user that can't pay and he is not an approver
@@ -320,43 +256,30 @@ namespace MPC.Webstore.Controllers
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
                             cep.CorporateManagerID = ManagerID;
-                            string AttachmentPath = "";//emailmgr.OrderConfirmationPDF(OrderId, 0, SessionParameters.CustomerContact.ContactID);
+                            string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
                             List<string> AttachmentList = new List<string>();
                             AttachmentList.Add(AttachmentPath);
-                            //_myCampaignService.emailBodyGenerator(OnlineOrderCampaign, baseResponseOrganisation.Organisation, cep, user, StoreMode.Corp, "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
-                            //emailmgr.EmailsToCorpUser(OrderId, SessionParameters.ContactID, StoreMode.Corp, Convert.ToInt32(SessionParameters.CustomerContact.TerritoryID));
+                            _myCampaignService.emailBodyGenerator(OnlineOrderCampaign, cep, user, (StoreMode)UserCookieManager.WEBStoreMode, Convert.ToInt32(baseResponse.Organisation.OrganisationId), "", HTMLOfShopReceipt, "", EmailOFSM.Email, "", "", AttachmentList);
+                            _campaignService.EmailsToCorpUser(OrderId, _myClaimHelper.loginContactID(), StoreMode.Corp, _myClaimHelper.loginContactTerritoryID(), baseResponse.Organisation, UserCookieManager.WBStoreId);
                             UserCookieManager.WEBOrderId = 0;
                         }
                         catch (Exception ex)
                         {
-                            //MessgeToDisply.Visible = true;
-                            //MessgeToDisply.Style.Add("border", "1px solid red");
-                            //MessgeToDisply.Style.Add("font-size", "20px");
-                            //MessgeToDisply.Style.Add("font-weight", "bold");
-                            //MessgeToDisply.Style.Add("text-align", "left");
-                            //MessgeToDisply.Style.Add("color", "red");
-                            //MessgeToDisply.Style.Add("padding", "20px");
-                            //ltrlMessge.Text = "Error occurred while processing order.";
-                            //LogError(ex);
+
                         }
 
                         Response.Redirect("/Receipt/" + OrderId);
-
+                        return null;
 
                     }
                     else
                     {
-                       
+
                         if (oPaymentGateWay == null)
                         {
-                            //MessgeToDisply.Visible = true;
-                            //MessgeToDisply.Style.Add("border", "1px solid red");
-                            //MessgeToDisply.Style.Add("font-size", "20px");
-                            //MessgeToDisply.Style.Add("font-weight", "bold");
-                            //MessgeToDisply.Style.Add("text-align", "left");
-                            //MessgeToDisply.Style.Add("color", "red");
-                            //MessgeToDisply.Style.Add("padding", "20px");
-                            //ltrlMessge.Text = "Payment Gatway is not set. Please contact your admin.";
+                            shopCart = LoadOrderDetail(OrderId.ToString());
+                            ViewBag.Message = "Payment Gateway is not set.";
+                            return shopCart;
                         }
                         else
                         {
@@ -392,7 +315,7 @@ namespace MPC.Webstore.Controllers
                                 case 6:
                                     {
                                         Response.Redirect("/NabSubmit/" + OrderId);
-                                        
+
                                         break;
                                     }
                                 case 7:
@@ -404,7 +327,7 @@ namespace MPC.Webstore.Controllers
                                 default:
                                     break;
                             }
-
+                            return null;
                         }
                     }
                 }
@@ -412,70 +335,109 @@ namespace MPC.Webstore.Controllers
             else
             {
                 Response.Redirect("/");
+                return null;
             }
+            return shopCart;
         }
 
-        public string GetReceiptPage(long OrderId)
+
+        public string OrderConfirmationPDF(long OrderId, long StoreId)
         {
             try
             {
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
-                WebClient myClient = new WebClient();
-                Stream response = myClient.OpenRead(URl);
-                StreamReader streamreader = new StreamReader(response);
-                string pageHtml = streamreader.ReadToEnd();
-                return pageHtml;
-            }
-            catch (Exception ex)
-            {
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId;
 
-                // LoggingManager.LogBLLException(e);
+                string FileName = OrderId + "_OrderReceipt.pdf";
+                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);
+                string AttachmentPath = "/mpc_content/EmailAttachments/" + FileName;
+                using (Doc theDoc = new Doc())
+                {
+                    //theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    theDoc.FontSize = 22;
+                    int objid = theDoc.AddImageUrl(URl);
+
+
+                    while (true)
+                    {
+                        theDoc.FrameRect();
+                        if (!theDoc.Chainable(objid))
+                            break;
+                        theDoc.Page = theDoc.AddPage();
+                        objid = theDoc.AddImageToChain(objid);
+                    }
+                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/");
+                    if (!Directory.Exists(physicalFolderPath))
+                        Directory.CreateDirectory(physicalFolderPath);
+                    theDoc.Save(FilePath);
+                    theDoc.Clear();
+                }
+                if (System.IO.File.Exists(FilePath))
+                    return AttachmentPath;
+                else
+                    return null;
+            }
+            catch (Exception e)
+            {
+                //   LoggingManager.LogBLLException(e);
                 return null;
             }
         }
-        //public string OrderConfirmationPDF(int OrderId)
-        //{
-        //    try
-        //    {
-        //        string URl = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority + "/Receipt?OrderId=" + OrderId;
-        //        // string html = GetShopReceiptPage(OrderId, BrokerID, CorpID);
-        //        ////Stream stream = GenerateStreamFromString(html)
+
+        private ShoppingCart LoadOrderDetail(string OrderId)
+        {
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+
+            long OrderID = Convert.ToInt64(OrderId);
+            if (OrderID > 0)
+            {
+                ShoppingCart shopCart = _OrderService.GetShopCartOrderAndDetails(OrderID, OrderStatus.ShoppingCart);
+                if (shopCart != null)
+                {
+                    long CID = _myClaimHelper.loginContactID();
+                    CompanyContact oContact = _myCompanyService.GetContactByID(CID);
+                    ViewBag.LoginUser = oContact;
+                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                    {
 
 
+                        ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, oContact.AddressId);
+                    }
+                    else
+                    {
+                        ViewData["OrderAddresses"] = _myCompanyService.GetContactCompanyAddressesList(shopCart.BillingAddressID, shopCart.ShippingAddressID, 0);
 
-        //        string FileName = OrderId + "_OrderReceipt.pdf";
-        //        string FilePath = HttpContext.Current.Server.MapPath("~/mpc_content/Assets/" + FileName);
-        //        string AttachmentPath = "/mpc_content/Assets/" + FileName;
-        //        using (Doc theDoc = new Doc())
-        //        {
-        //            theDoc.HtmlOptions.Engine = EngineType.Gecko;
-        //            //  theDoc.FontSize = 22;
-        //            int objid = theDoc.AddImageUrl(URl);
+                    }
 
+                    if (StoreBaseResopnse.Company.ShowPrices ?? true)
+                    {
+                        ViewBag.IsShowPrices = true;
+                        //do nothing because pricing are already visible.
+                    }
+                    else
+                    {
+                        ViewBag.IsShowPrices = false;
+                        //  cntRightPricing1.Visible = false;
+                    }
 
-        //            while (true)
-        //            {
-        //                theDoc.FrameRect();
-        //                if (!theDoc.Chainable(objid))
-        //                    break;
-        //                theDoc.Page = theDoc.AddPage();
-        //                objid = theDoc.AddImageToChain(objid);
-        //            }
-
-
-        //            theDoc.Save(FilePath);
-        //            theDoc.Clear();
-        //        }
-        //        if (File.Exists(FilePath))
-        //            return AttachmentPath;
-        //        else
-        //            return null;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        LoggingManager.LogBLLException(e);
-        //        return null;
-        //    }
-        //}
+                    ViewBag.Currency = StoreBaseResopnse.Currency;
+                    ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+                    StoreBaseResopnse = null;
+                    return shopCart;
+                }
+                else
+                {
+                    Response.Redirect("/");
+                    return null;
+                }
+            }
+            else
+            {
+                Response.Redirect("/");
+                return null;
+            }
+        }
     }
 }

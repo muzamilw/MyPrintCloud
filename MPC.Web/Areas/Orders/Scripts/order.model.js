@@ -810,6 +810,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 similarSections: similarSections,
                 qty1: qty1,
                 qty2: qty2,
+                includeGutter: includeGutter(),
+                isPaperSupplied: isPaperSupplied(),
                 qty3: qty3
             }),
             // Has Changes
@@ -837,11 +839,26 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     SectionSizeWidth: sectionSizeWidth(),
                     ItemSizeHeight: itemSizeHeight(),
                     ItemSizeWidth: itemSizeWidth(),
+                    IsDoubleSided: isDoubleSided(),
+                    IsWorknTurn: isWorknTurn(),
                     PrintViewLayoutPortrait: printViewLayoutPortrait(),
-                    PrintViewLayoutLandScape: printViewLayoutLandscape(),
+                    PrintViewLayoutLandscape: printViewLayoutLandscape(),
+                    PlateInkId: plateInkId(),
+                    SimilarSections: similarSections(),
+                    IncludeGutter: includeGutter(),
+                    IsPaperSupplied: isPaperSupplied(),
+                    BaseCharge1: baseCharge1(),
+                    BaseCharge2: baseCharge2(),
+                    BaseCharge3: baseCharge3(),
+                    Qty1Profit: qty1Profit(),
+                    Qty2Profit: qty2Profit(),
+                    Qty3Profit: qty3Profit(),
                     Qty1: qty1(),
                     Qty2: qty2(),
-                    Qty3: qty3()
+                    Qty3: qty3(),
+                    SectionCostcentres: sectionCostCentres.map(function (scc) {
+                        return scc.convertToServerData();
+                    })
                 };
             };
 
@@ -902,6 +919,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Section Cost Centre Entity
+    // ReSharper disable InconsistentNaming
     SectionCostCentre = function (specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
         specifiedIsOptionalExtra, specifiedIsPurchaseOrderRaised, specifiedStatus, specifiedQty1Charge, specifiedQty2Charge, specifiedQty3Charge,
         specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
@@ -986,7 +1004,25 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Convert To Server Data
             convertToServerData = function () {
                 return {
-                    ItemSectionId: id()
+                    ItemSectionId: itemSectionId(),
+                    SectionCostcentreId: id(),
+                    Name: name(),
+                    CostCentreId: costCentreId(),
+                    Qty1: qty1(),
+                    Qty2: qty2(),
+                    Qty3: qty3(),
+                    Qty1Charge: qty1Charge(),
+                    Qty2Charge: qty2Charge(),
+                    Qty3Charge: qty3Charge(),
+                    Qty1NetTotal: qty1NetTotal(),
+                    Qty2NetTotal: qty2NetTotal(),
+                    Qty3NetTotal: qty3NetTotal(),
+                    Qty1MarkUpId: qty1MarkUpId(),
+                    Qty2MarkUpId: qty2MarkUpId(),
+                    Qty3MarkUpId: qty3MarkUpId(),
+                    Qty1MarkUpValue: qty1MarkUpValue(),
+                    Qty2MarkUpValue: qty2MarkUpValue(),
+                    Qty3MarkUpValue: qty3MarkUpValue()
                 };
             };
 
@@ -1734,22 +1770,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             width: specifiedWidth
         };
     },
-
-    //// Section Ink Coverage
-    //// ReSharper disable once InconsistentNaming
-    //SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
-    //    return {
-    //        id: specifiedId,
-    //        sectionId: specifiedSectionId,
-    //        inkOrder: specifiedInkOrder,
-    //        inkId: specifiedInkId,
-    //        coverageGroupId: specifiedCoverageGroupId,
-    //        side: specifiedSide,
-    //    };
-    //},
     
    // Section Ink Coverage
     SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+// ReSharper restore InconsistentNaming
         var // Unique key
              id = ko.observable(specifiedId),
              // section Id
@@ -1770,8 +1794,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Is Valid
             isValid = ko.computed(function () {
                 return errors().length === 0;
+// ReSharper disable InconsistentNaming
             }),
               dirtyFlag = new ko.dirtyFlag({
+// ReSharper restore InconsistentNaming
                   id: id,
                   sectionId: sectionId,
                   inkOrder: inkOrder,
@@ -1795,7 +1821,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     InkOrder: inkOrder(),
                     InkId: inkId(),
                     CoverageGroupId: coverageGroupId(),
-                    Side: side(),
+                    Side: side()
                 };
             };
 
