@@ -19914,6 +19914,9 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
+       .checkoutNoteslbl {
+    padding-left:15px;
+    }
     ul.LogBar {
         /* font-weight: bold; */
         float: left;
@@ -23471,14 +23474,17 @@ a.btn-watch span:after {
 }
 
 .checkoutNoteslbl {
-    font-size: 14px;
-    color: black;
+  
     text-shadow: none;
-    margin-top: 29px;
+    margin-top: 15px;
     text-align: left;
     float: left;
     width: 203px;
     font-weight: normal;
+      font-size: 14px;
+  color: #66615b;
+  text-shadow: none;
+  font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
 }
 
 #cphBonham_BonhamsMenu_bonhamsControl {
