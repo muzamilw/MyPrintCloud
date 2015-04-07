@@ -648,7 +648,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
 function ShippingBillingDetails(Type, panelHtml) {
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
 
       var bws = getBrowserHeight();
 
