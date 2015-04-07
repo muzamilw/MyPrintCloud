@@ -66,7 +66,7 @@
             pricePerUnitQuantity = ko.observable(),
             timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
-            timeNoOfPasses = ko.observable(),
+            timeNoOfPasses = ko.observable(1),
             timeSourceType = ko.observable(),
             timeVariableId = ko.observable(),
             timeQuestionString = ko.observable(),
@@ -706,7 +706,7 @@
         result.PricePerUnitQuantity = source.pricePerUnitQuantity();
         result.TimePerUnitQuantity = source.timePerUnitQuantity();
         result.TimeRunSpeed = source.timeRunSpeed();
-        result.TimeNoOfPasses = source.timeNoOfPasses();
+        result.TimeNoOfPasses = 1;// source.timeNoOfPasses();
         result.TimeVariableId = source.timeVariableId();
         result.TimeQuestionString = source.timeQuestionString();
         result.TimeQuestionDefaultValue = source.timeQuestionDefaultValue();

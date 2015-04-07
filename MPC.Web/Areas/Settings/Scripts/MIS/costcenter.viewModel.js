@@ -34,6 +34,7 @@ define("costcenter/costcenter.viewModel",
                     selectedcc = ko.observable(),
                     fixedvarIndex = ko.observable(1),
                     selectedVariableString = ko.observable(),
+                    CurrencySymbol = ko.observable(),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
@@ -46,7 +47,7 @@ define("costcenter/costcenter.viewModel",
 
                     variablesTreePrent = ko.observableArray([
                                                 { Id: 2, Text: 'Variables' },
-                                                { Id: 3, Text: 'Resources' },
+                                                //{ Id: 3, Text: 'Resources' },
                                                 { Id: 4, Text: 'Questions' },
                                                 { Id: 5, Text: 'Matrices' },
                                                 { Id: 6, Text: 'Lookup' },
@@ -85,7 +86,7 @@ define("costcenter/costcenter.viewModel",
 
                     getVariableTreeChildListItems = function (dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
-                        if ($(event.target).closest('li').children('ol').length > 0) {
+                        if ($(event.target).closest('li').children('ol').children('li').length > 0) {
                             if ($(event.target).closest('li').children('ol').is(':hidden')) {
                                 $(event.target).closest('li').children('ol').show();
                             } else {
@@ -166,12 +167,18 @@ define("costcenter/costcenter.viewModel",
                                 success: function (data) {
                                     //Questions Variables
                                     questionVariableNodes.removeAll();
+                                    //_.each(data.QuestionVariables, function (item) {
+                                    //    var questionItem = model.QuestionVariableMapper(item);
+                                    //    questionVariableNodes.push(questionItem);
+                                     
+                                    //});
                                     ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
                                     questionVariableNodes.valueHasMutated();
                                     _.each(questionVariableNodes(), function (question) {
-                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged,click: function() { $root.addVariableToInputControl(&quot;' + question.Id + "," + question.QuestionString + "," + question.Type + "," + question.DefaultAnswer + '&quot;)}">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
+                                        $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span class="AddEditQuestion" id =' + question.Id + ' style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged,click: function() { $root.addVariableToInputControl(&quot;' + question.Id + "," + question.QuestionString + "," + question.Type + "," + question.DefaultAnswer + '&quot;)}">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
                                         ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
                                     });
+                                    view.showAddEditQuestionMenu();
                                 },
                                 error: function () {
                                     toastr.error("Failed to load variables tree data.");
@@ -304,7 +311,10 @@ define("costcenter/costcenter.viewModel",
                     selectVariableString = function (varstring, e) {
                         selectedVariableString(e.currentTarget.id);
                     },
-                    addVariableToInputControl = function (variable) {
+                    addVariableToInputControl = function (variable, event) {
+                        if (event != undefined) {
+                         var id =  $('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id')
+                        }
                         if (variable != null && variable != undefined) {
                             questionData = variable.split(",");
                             if (questionData[2] == "2") {
@@ -564,6 +574,7 @@ define("costcenter/costcenter.viewModel",
                 }
                 openEditDialog = function () {
                     view.showCostCenterDialog();
+                    
                 },
                 closeEditDialog = function () {
                     if (selectedCostCenter() != undefined) {
@@ -585,6 +596,7 @@ define("costcenter/costcenter.viewModel",
                 // Show CostCenter Editor
                 showCostCenterDetail = function () {
                     isEditorVisible(true);
+                    
                 },
             AddAnswerofQuestionVariable = function () {
                 SelectedQuestionVariable().AnswerList.push(model.MCQsAnswer());
@@ -663,6 +675,7 @@ define("costcenter/costcenter.viewModel",
                             if (oCostCenter != undefined) {
                                 getCostCenterById(oCostCenter);
                             }
+                            CurrencySymbol(data.CurrencySymbol);
 
                         },
                         error: function () {
@@ -733,6 +746,7 @@ define("costcenter/costcenter.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         pager(pagination.Pagination({ PageSize: 10 }, costCentersList, getCostCenters));
                         getCostCenters();
+                       
                         // getCostCentersBaseData();
                     };
 
@@ -795,7 +809,8 @@ define("costcenter/costcenter.viewModel",
                     AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
                     AddnewChildItem: AddnewChildItem,
                     QuestionVariableType: QuestionVariableType,
-                    saveQuestionVariable: saveQuestionVariable
+                    saveQuestionVariable: saveQuestionVariable,
+                    CurrencySymbol: CurrencySymbol
                 };
             })()
         };
