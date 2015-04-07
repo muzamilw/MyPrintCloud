@@ -2435,7 +2435,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2636,7 +2636,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2828,7 +2828,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -3033,7 +3033,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
