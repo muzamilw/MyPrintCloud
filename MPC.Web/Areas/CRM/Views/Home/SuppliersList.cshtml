@@ -1,87 +1,132 @@
 ﻿@{
-    ViewBag.Title = "Suppliers";
+    ViewBag.Title = "Supplier";
+}
+@section leftmenue {
 }
 <div class="row" id="crmSuppliers">
-    <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
-
+    <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12" id="topArea">
+            <div class="col-lg-12" data-bind="visible: !$root.isEditorVisible()">
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li class="active"><span>Supplier</span></li>
+                </ol>
+                <h1>Supplier</h1>
+
+            </div>
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li class="active"><span>Suppliers</span></li>
+                    <li><a href="/CRM/SuppliersList">CRM</a></li>
+                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
+                    <li class="active"><span>Supplier</span></li>
+                    <!-- /ko -->
+                    <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() != 2-->
+                    <li class="active"><span>Customers</span></li>
+                    <!-- /ko -->
+
                 </ol>
-                <div class="clearfix">
-                    <h1 class="pull-left">Suppliers</h1>
-                </div>
-                <div class="pull-right top-page-ui">
-                    <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Supplier
-                    </a>
-                </div>
-                <div id="addStore">
-                    &nbsp;
-                </div>
-                <!-- ko template: { name: 'filterTemplate' } -->
+                <!--ko if: $root.selectedStore() != undefined -->
+                <h1 data-bind="text: $root.selectedStore().name()"></h1>
                 <!-- /ko -->
+
+
             </div>
+
         </div>
         <div class="row">
-            <div class="col-lg-12">
-                <div class="main-box no-header clearfix">
-                    <div class="main-box-body clearfix">
-                        <div class="table-responsive">
-                            <table class="table user-list">
-                                <thead>
-                                    <tr>
-                                        @*<th><span>Company</span></th>
-                                            <th><span>Created</span></th>
-                                            <th class="text-center"><span>Status</span></th>
-                                            <th><span>Email</span></th>
-                                            <th>&nbsp;</th>*@
 
-                                        <th class="col-lg-1"></th>
-                                        <th class="col-lg-3"><span>Company</span></th>
-                                        <th class="col-lg-2"><span>Created</span></th>
-                                        @*<th class="col-lg-2"><span>Status</span></th>*@
-                                        <th class="col-lg-2"><span>Email</span></th>
-                                        @*<th class="col-lg-2">&nbsp;</th>*@
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- ko template: { name: $root.templateToUseSupplier , foreach: $root.suppliers } -->
+            <div class="col-lg-12">
+                <div class="main-box-body main-box clearfix">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                                    <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                       <a href="~/CRM/Home/Calendar">Calendar</a>
+                                     </li>
+                                     <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
+                                     <a href="~/CRM/Home/Contacts">Contacts</a>
+                                     </li>
+                                     <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
+                                     <a href="~/CRM/Home/Index">Companies</a>
+                                       </li>
+                                      <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
+                                     <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
+                                      </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-Supplier">
+                                <div class="row" data-bind="visible: !$root.isEditorVisible()">
+                                    <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
-                                </tbody>
-                            </table>
+                                    <div class="col-lg-12">
+                                        <div class="main-box no-header clearfix">
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table user-list">
+                                                        <thead>
+                                                            <tr>
+                                                                @*<th><span>Company</span></th>
+                                        <th><span>Created</span></th>
+                                        <th class="text-center"><span>Status</span></th>
+                                        <th><span>Email</span></th>
+                                        <th>&nbsp;</th>*@
+
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-2"><span>Created</span></th>
+                                                                @*<th class="col-lg-2"><span>Status</span></th>*@
+                                                                <th class="col-lg-2"><span>Email</span></th>
+                                                                @*<th class="col-lg-2">&nbsp;</th>*@
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko template: { name: $root.templateToUseSupplier , foreach: $root.suppliers } -->
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="pagerDiv" class="pull-right">
+                                            <!-- ko with: supplierpager -->
+                                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @{
+                                        Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div id="pagerDiv" class="pull-right">
-                    <!-- ko with: supplierpager -->
-                    @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                    <!-- /ko -->
                 </div>
             </div>
         </div>
     </div>
-    <script id="actionsTemplate" type="text/html">
-        <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
-            <span class="fa-stack">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-            </span>
-        </a>
-    </script>
-    <script id="itemSupplierTemplate" type="text/html">
-        <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedSupplier}">
-            <td>
-                <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
-            </td>
-            <td>
-                <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                <span class="user-subhead" data-bind="text:defaultContact"></span>
-            </td>
-            <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>
-            @*<td>
+</div>
+
+<script id="actionsTemplate" type="text/html">
+    <a class="table-link" data-bind="click : $root.onEditItem" style="float: right">
+        <span class="fa-stack">
+            <i class="fa fa-square fa-stack-2x"></i>
+            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+        </span>
+    </a>
+</script>
+<script id="itemSupplierTemplate" type="text/html">
+    <tr data-bind="click: $root.selectStore, css: { selectedRow: $data === $root.selectedSupplier}">
+        <td>
+            <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+        </td>
+        <td>
+            <a href="#" class="user-link" data-bind="text: name,click : $root.onEditItem"></a>
+            <span class="user-subhead" data-bind="text:defaultContact"></span>
+        </td>
+        <td data-bind="dateString: createdDate, datePattern: 'DD/MM/YYYY'"></td>
+        @*<td>
                 <!-- ko if: status() == 1 -->
                 <span class="label label-success">Active</span>
                 <!-- /ko -->
@@ -89,40 +134,42 @@
                 <span class="label label-danger">In-Active</span>
                 <!-- /ko -->
             </td>*@
-            <td>
-                <a href="#">
-                    <p data-bind="text:defaultContactEmail"></p>
+        <td>
+            <a href="#">
+                <p data-bind="text:defaultContactEmail"></p>
+            </a>
+        </td>
+        @*<td style="width: 20%;">
+                <a class="table-link" data-bind="click: $root.onEditItem">
+                    <span class="fa-stack">
+                        <i class="fa fa-square fa-stack-2x"></i>
+                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                    </span>
                 </a>
-            </td>
-            @*<td style="width: 20%;">
-                    <a class="table-link" data-bind="click: $root.onEditItem">
-                        <span class="fa-stack">
-                            <i class="fa fa-square fa-stack-2x"></i>
-                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </td>*@
-        </tr>
-    </script>
-    @* Filter Template *@
-    <script id="filterTemplate" type="text/html">
-        <div class="filter-body" id="filter">
-            <form data-bind="submit:$root.getSuppliers">
-                <div class="filter-block pull-right">
-                    <div class="form-group pull-left">
-                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
-                        <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
-                    </div>
+            </td>*@
+    </tr>
+</script>
+@* Filter Template *@
+<script id="filterTemplate" type="text/html">
+    <div class="filter-body" id="filter">
+        <form data-bind="submit:$root.getSuppliers">
+            <div class="filter-block pull-right">
+                <div class="form-group pull-left">
+                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchSupplierFilter">
+                    <i class="fa fa-search search-icon" data-bind="click:$root.getSuppliers"></i>
                 </div>
-            </form>
-            <div class="clearfix">
+                <div class="pull-left">
+                    <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Supplier
+                    </a>
+                </div>
             </div>
+        </form>
+        <div class="clearfix">
         </div>
-    </script>
-    @{
-        Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
-    }
-</div>
+    </div>
+</script>
+
 @section Scripts{
 
     <script>
