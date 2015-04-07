@@ -154,13 +154,19 @@
         <table id="CurPssCont" class="normalTextStyle tblRestPass">
             <tr>
                 <td>
-                    <label id="errorMesg" style="display:none;font-size: 13px;color: red;"></label>
-                    <label id="candNewError" style="display:none;font-size: 13px;color: red;"></label>
+                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword textAlignRight">
+                        &nbsp;   
+                    </div>
+                    <div class="float_left_simple cnttxtBox marginLeftfotTextbox textAlignLeft">
+                        <label id="errorMesg" style="display:none;font-size: 13px;color: red;"></label>
+                        <label id="candNewError" style="display:none;font-size: 13px;color: red;"></label>
+                    </div>
+                  
                 </td>
             </tr>
             <tr>
                 <td>
-                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
+                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword textAlignRight">
                         <label id="ltrlPss">Current password:</label>
                     </div>
                     <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
@@ -169,14 +175,14 @@
                     </div>
                 </td>
             </tr>
-            <tr>
+            @*<tr>
                 <td>
                     <h3 class="headingsAvenior">New password Details</h3>
                 </td>
-            </tr>
+            </tr>*@
             <tr>
                 <td align="right">
-                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
+                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword textAlignRight">
                         <label id="ltrlnewpass">New Password:</label>
                     </div>
                     <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
@@ -190,7 +196,7 @@
             </tr>
             <tr>
                 <td align="right" class="H4B">
-                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword">
+                    <div class="float_left_simple smallfonAvenior MarginTopResetPassword textAlignRight">
                         <label id="ltrlconfirmpass">Confirm Password:</label>
                     </div>
                     <div class="float_left_simple cnttxtBox marginLeftfotTextbox">
@@ -371,7 +377,7 @@
                 
                 if (Result == false) {
                     $("#errorMesg").css("display", "block");
-                    $("#errorMesg").text("Current Password Does Not Match.");
+                    $("#errorMesg").text("Please enter valid current password.");
                     IsValid = false;
                     $("#txtCurPass").css("border", "1px solid #b33c12");
                 }
