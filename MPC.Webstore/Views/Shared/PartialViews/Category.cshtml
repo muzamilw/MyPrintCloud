@@ -117,14 +117,14 @@
                                                 }
                                                 else if (item.ProductType == (int)ProductType.PrintProduct)
                                                 {
-                                                    //if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
-                                                    //{
-                                                    //    //
-                                                    //    RedirectURL = "#";
-                                                    //    SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ");";
-                                                    //}
-                                                    //else 
-                                                    //{
+                                                    if (item.isTemplateDesignMode == (int)TemplateMode.DoNotLoadDesigner)
+                                                    {
+                                                        //
+                                                        RedirectURL = "#";
+                                                        SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ");";
+                                                    }
+                                                    else 
+                                                    {
                                                     if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                                                         {
                                                             isUploadImage = true;
@@ -136,7 +136,7 @@
 
                                                             RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                         }
-                                                   // }
+                                                    }
                                                    
 
                                                 }
@@ -379,6 +379,10 @@
 </div>
 <script>
     function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId){
-        alert(ItemId + ":" +TemplateId + ":" + ContactId);
+        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + ItemId + "/" + TemplateId + "/" +ContactId,
+                      function (DT) {
+                          alert(DT);
+                      });
+        //alert(ItemId + ":" +TemplateId + ":" + ContactId);
     }
 </script>
