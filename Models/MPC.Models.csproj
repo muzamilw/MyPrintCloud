@@ -114,6 +114,7 @@
     <Compile Include="Common\CostCentreOrderByColumn.cs" />
     <Compile Include="Common\CostCentreQuestion.cs" />
     <Compile Include="Common\CostCentreResults.cs" />
+    <Compile Include="Common\ActiveModuleMenuItem.cs" />
     <Compile Include="Common\CustomerByColumn.cs" />
     <Compile Include="Common\DesignerDamImageWrapper.cs" />
     <Compile Include="Common\CostCentreResource.cs" />
