@@ -57,5 +57,13 @@ namespace MPC.Models.ResponseModels
         /// Ink Plate Sides
         /// </summary>
         public IEnumerable<InkPlateSide> InkPlateSides { get; set; }
+        /// <summary>
+        /// Inks
+        /// </summary>
+        public IEnumerable<StockItem> Inks { get; set; }
+        /// <summary>
+        /// Ink Coverage Groups
+        /// </summary>
+        public IEnumerable<InkCoverageGroup> InkCoverageGroups { get; set; }
     }
 }

@@ -214,6 +214,29 @@ define("stores/stores.view",
                         category: category
                     });
                 },
+                // Wire Up Theme List Click event 
+                wireupThemeListClick = function () {
+                    $(document).ready(function () {
+                        var themeListOpen = false;
+                        
+                        $("#ops_theme_dropdown #ops_theme_list #ops_theme_select").click(function () {
+                            if (themeListOpen == true) {
+                                $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                                themeListOpen = false;
+                            } else {
+
+                                $("#ops_theme_dropdown #ops_theme_list ul").show();
+                                themeListOpen = true;
+                            }
+                            return false;
+                        });
+
+                    });
+                },
+                // Close Theme List
+                closeThemeList = function() {
+                    $("#ops_theme_dropdown #ops_theme_list ul").hide();
+                },
             // Initialize
             initialize = function () {
                 if (!bindingRoot) {
@@ -261,7 +284,9 @@ define("stores/stores.view",
                 gotoElement: gotoElement,
                 viewModel: viewModel,
                 initializeLabelPopovers: initializeLabelPopovers,
-                productCategorySelectedEvent: productCategorySelectedEvent
+                productCategorySelectedEvent: productCategorySelectedEvent,
+                wireupThemeListClick: wireupThemeListClick,
+                closeThemeList: closeThemeList
             };
         })(storesViewModel);
 

@@ -420,4 +420,22 @@ namespace MPC.Models.Common
         Guilotine = 6,
         MeterPerHour = 8
     }
+    public enum WeightUnits
+    {
+        lbs = 1,
+        GSM = 2,
+        KG = 3
+    }
+    public enum WebSpoilageTypes
+    {
+        inSheets = 1,
+        inMetters = 2
+    }
+    public enum PrintingTypeEnum
+    {
+        SheetFed = 1,
+        WebFed = 2,
+        Flexo = 3,
+        Continuous = 4
+    }
 }

@@ -33,7 +33,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StockCategories = source.StockCategories != null ? source.StockCategories.Select(s => s.CreateFromDropDown()).ToList() : null,
                 ChartOfAccounts = source.ChartOfAccounts != null ? source.ChartOfAccounts.Select(s => s.CreateFrom()).ToList() : new List<ChartOfAccount>(),
                 PaperSizes = source.PaperSizes != null ? source.PaperSizes.Select(s => s.CreateFromDropDown()).ToList() : new List<PaperSizeDropDown>(),
-                InkPlateSides = source.InkPlateSides != null ? source.InkPlateSides.Select(s => s.CreateFromDropDown()).ToList() : new List<InkPlateSide>()
+                InkPlateSides = source.InkPlateSides != null ? source.InkPlateSides.Select(s => s.CreateFromDropDown()).ToList() : new List<InkPlateSide>(),
+                Inks = source.Inks != null ? source.Inks.Select(x=>x.CreateFromDropDown()).ToList(): new List<StockItemForDropDown>(),
+                InkCoverageGroup = source.InkCoverageGroups != null ? source.InkCoverageGroups.Select(x => x.CreateFrom()).ToList() : new List<InkCoverageGroup>()
             };
         }
 

@@ -309,12 +309,13 @@ namespace MPC.Repository.Repositories
                 shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
                 shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
                 shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
-                shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
+               // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
                 Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
                 if (DeliveryItemOfOrder != null)
                 {
                     shopCart.DeliveryTaxValue = DeliveryItemOfOrder.Qty1Tax1Value ?? 0;
+                    shopCart.DeliveryCost = DeliveryItemOfOrder.Qty1NetTotal ?? 0;
                 }
 
             }
@@ -1061,8 +1062,8 @@ namespace MPC.Repository.Repositories
                         userOrder.DeliveryCostTaxValue = shopCart.DeliveryTaxValue;
                     }
 
-                    userOrder.BillingAdress = db.Addesses.Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
-                    userOrder.ShippingAddress = db.Addesses.Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
+                    userOrder.BillingAdress = db.Addesses.Include("State").Include("Country").Where(i => i.AddressId == Order.BillingAddressId).FirstOrDefault();
+                    userOrder.ShippingAddress = db.Addesses.Include("State").Include("Country").Where(i => i.AddressId == Order.AddressId).FirstOrDefault();
                     if (Order.DeliveryCostCenterId != null)
                     {
                         userOrder.DeliveryMethod = db.CostCentres.Where(c => c.CostCentreId == Order.DeliveryCostCenterId).Select(n => n.Name).FirstOrDefault();

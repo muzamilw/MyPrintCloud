@@ -342,7 +342,7 @@ namespace MPC.Webstore.Controllers
             // if store is not corp then related items
             if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
             {
-                LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
+               // LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
 
             }
             #endregion
