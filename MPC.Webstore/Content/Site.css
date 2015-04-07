@@ -583,10 +583,11 @@ ul.nav li.selectedLava a {
 }
 
 .address_label_area1 {
-    width: 100px;
-    float: left;
-    text-align: right;
-    padding: 6px 5px 5px 5px;
+  width: 115px;
+  float: left;
+  text-align: right;
+  padding: 7px 5px 5px 5px;
+  font-size: 12PX;
 }
 
 .address_contol_area1 {
@@ -613,10 +614,11 @@ ul.nav li.selectedLava a {
 }
 
 .address_label_area2 {
-    width: 115px;
-    float: left;
-    text-align: right;
-    padding: 10px 11px 5px 30px;
+    width: 125px;
+  float: left;
+  text-align: right;
+  padding: 9px 11px 5px 30px;
+  font-size: 12px;
 }
 
 .address_contol_area2 {
@@ -23904,4 +23906,14 @@ gridfontStyle {
     text-align: left;
     color: red;
     padding: 20px;
+}
+
+.territory_row_paddingNew
+{
+ padding: 19px 0px 0px;
+
+}
+.BreadCrumbMenu h1 {
+  font-size: 20px !important;
+  color: #5BB7AC;
 }
