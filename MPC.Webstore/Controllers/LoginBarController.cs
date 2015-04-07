@@ -20,7 +20,7 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreclaimHelper;
 
         private readonly IItemService _itemService;
-        
+
         #endregion
 
         #region Constructor
@@ -44,12 +44,12 @@ namespace MPC.Webstore.Controllers
         }
 
         #endregion
-      
-       
+
+
         // GET: LoginBar
         public ActionResult Index()
         {
-            
+
             if (_webstoreclaimHelper.isUserLoggedIn())
             {
                 ViewBag.isUserLoggedIn = true;
@@ -67,20 +67,20 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult LogOut()
         {
-            UserCookieManager.WEBContactFirstName = "";
-            UserCookieManager.WEBContactLastName = "";
-            UserCookieManager.ContactCanEditProfile = false;
-            UserCookieManager.ShowPriceOnWebstore = true;
+            System.Web.HttpContext.Current.Response.Cookies["ShowPrice"].Expires = DateTime.Now.AddDays(-1);
+            System.Web.HttpContext.Current.Response.Cookies["CanEditProfile"].Expires = DateTime.Now.AddDays(-1);
+            System.Web.HttpContext.Current.Response.Cookies["WEBLastName"].Expires = DateTime.Now.AddDays(-1);
+            System.Web.HttpContext.Current.Response.Cookies["WEBFirstName"].Expires = DateTime.Now.AddDays(-1);
+            System.Web.HttpContext.Current.Response.Cookies["WEBOrderId"].Expires = DateTime.Now.AddDays(-1);
             UserCookieManager.isRegisterClaims = 2;
-            UserCookieManager.WEBOrderId = 0;
-        
+
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
             {
                 Response.Redirect("/Login");
             }
             else
             {
-                 Response.Redirect("/");
+                Response.Redirect("/");
 
             }
             //Response.Redirect("/"); 

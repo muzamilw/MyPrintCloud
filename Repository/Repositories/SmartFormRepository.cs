@@ -399,6 +399,7 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.Scope = 0;
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
+                            objScopeVariable.FieldVariable = obj.FieldVariable;
                             result.Add(objScopeVariable);
                         }
                     }
@@ -422,7 +423,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
-
+                                    objScopeVariable.FieldVariable = obj.FieldVariable;
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -441,7 +442,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contactId;
                                     objScopeVariable.Scope = scope;
-                                   
+                                    objScopeVariable.FieldVariable = obj.FieldVariable;
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -468,7 +469,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = obj.FieldVariable.CompanyId.Value;
                                     objScopeVariable.Scope = scope;
-
+                                    objScopeVariable.FieldVariable = obj.FieldVariable;
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -490,7 +491,7 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Value = obj.FieldVariable.DefaultValue;
                                     objScopeVariable.Id = contact.TerritoryId.Value;
                                     objScopeVariable.Scope = scope;
-
+                                    objScopeVariable.FieldVariable = obj.FieldVariable;
                                     result.Add(objScopeVariable);
                                 }
                             }
@@ -498,6 +499,169 @@ namespace MPC.Repository.Repositories
                     }
                 }
             }
+            return result;
+        }
+        public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
+        {
+            List<ScopeVariable> result = new List<ScopeVariable>();
+            var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+            List<MPC.Models.DomainModels.TemplateVariable> lstTemplateVariables = new List<Models.DomainModels.TemplateVariable>();
+            List<FieldVariable> lstVariables = new List<FieldVariable>();
+            lstTemplateVariables = db.TemplateVariables.Where(g => g.TemplateId == templateID).ToList();
+            foreach(var item in lstTemplateVariables)
+            {
+                var fieldVariable = db.FieldVariables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
+                if(fieldVariable != null)
+                {
+                    lstVariables.Add(fieldVariable);
+                }
+            }
+            foreach(var obj in lstVariables)
+            {
+
+
+                if (obj.IsSystem.HasValue && obj.IsSystem.Value == true)
+                {
+
+                    var fieldValue = "";
+                    if (contact != null)
+                    {
+                        switch (obj.RefTableName)
+                        {
+                            case "tbl_Listing":
+                                break;
+                            case "tbl_ListingImage":
+                                break;
+                            case "tbl_ListingAgent":
+                                break;
+                            case "tbl_ListingOFID":
+                                break;
+                            case "tbl_ListingVendor":
+                                break;
+                            case "tbl_ListingLink":
+                                break;
+                            case "tbl_ListingFloorPlan":
+                                break;
+                            case "tbl_ListingConjunctionAgent":
+                                break;
+                            case "CompanyContact":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contactId);
+                                break;
+                            case "Company":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.CompanyId);
+                                break;
+                            case "Address":
+                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.AddressId);
+                                break;
+                            default:
+                                break;
+                        }
+                        ScopeVariable objScopeVariable = new ScopeVariable();
+                        objScopeVariable.Scope = 0;
+                        objScopeVariable.VariableId = obj.VariableId;
+                        objScopeVariable.Value = fieldValue;
+                        objScopeVariable.FieldVariable = obj; 
+                        result.Add(objScopeVariable);
+                    }
+                }
+                else
+                {
+                    if (obj != null && obj.Scope.HasValue)
+                    {
+                        int scope = obj.Scope.Value;
+                        if (scope == (int)FieldVariableScopeType.Address)
+                        {
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.AddressId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                result.Add(scopeObj);
+                            }
+                            else
+                            {
+                                ScopeVariable objScopeVariable = new ScopeVariable();
+                                objScopeVariable.Scope = 0;
+                                objScopeVariable.VariableId = obj.VariableId;
+                                objScopeVariable.Value = obj.DefaultValue;
+                                objScopeVariable.Id = contact.AddressId;
+                                objScopeVariable.Scope = scope;
+                                objScopeVariable.FieldVariable = obj;
+                                result.Add(objScopeVariable);
+                            }
+                        }
+                        else if (scope == (int)FieldVariableScopeType.Contact)
+                        {
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contactId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                result.Add(scopeObj);
+                            }
+                            else
+                            {
+                                ScopeVariable objScopeVariable = new ScopeVariable();
+                                objScopeVariable.Scope = 0;
+                                objScopeVariable.VariableId = obj.VariableId;
+                                objScopeVariable.Value = obj.DefaultValue;
+                                objScopeVariable.Id = contactId;
+                                objScopeVariable.Scope = scope;
+                                objScopeVariable.FieldVariable = obj;
+                                result.Add(objScopeVariable);
+                            }
+                        }
+                        else if (scope == (int)FieldVariableScopeType.RealEstate)
+                        {
+                            // realestate logic 
+                        }
+                        else if (scope == (int)FieldVariableScopeType.RealEstateImages)
+                        {
+                            // realestate logic 
+                        }
+                        else if (scope == (int)FieldVariableScopeType.Store)
+                        {
+                            var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == obj.CompanyId).SingleOrDefault();
+                            if (scopeObj != null)
+                            {
+                                result.Add(scopeObj);
+
+                            }
+                            else
+                            {
+                                ScopeVariable objScopeVariable = new ScopeVariable();
+                                objScopeVariable.Scope = 0;
+                                objScopeVariable.VariableId = obj.VariableId;
+                                objScopeVariable.Value = obj.DefaultValue;
+                                objScopeVariable.Id = obj.CompanyId.Value;
+                                objScopeVariable.Scope = scope;
+                                objScopeVariable.FieldVariable = obj;
+                                result.Add(objScopeVariable);
+                            }
+                        }
+                        else if (scope == (int)FieldVariableScopeType.Territory)
+                        {
+                            // var contact = db.CompanyContacts.Where(g => g.ContactId == contactId).SingleOrDefault();
+                            if (contact != null)
+                            {
+                                var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
+                                if (scopeObj != null)
+                                {
+                                    result.Add(scopeObj);
+                                }
+                            }
+                            else
+                            {
+                                ScopeVariable objScopeVariable = new ScopeVariable();
+                                objScopeVariable.Scope = 0;
+                                objScopeVariable.VariableId = obj.VariableId;
+                                objScopeVariable.Value = obj.DefaultValue;
+                                objScopeVariable.Id = contact.TerritoryId.Value;
+                                objScopeVariable.Scope = scope;
+                                objScopeVariable.FieldVariable = obj;
+                                result.Add(objScopeVariable);
+                            }
+                        }
+                    }
+                }
+            }
+
             return result;
         }
         /// <summary>
@@ -549,12 +713,21 @@ namespace MPC.Repository.Repositories
             return oResult;
         }
 
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts) {
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails,List<SmartFormUserList> contacts,long templateId) {
             bool hasContactVariables = false;
             Dictionary<long, List<ScopeVariable>> UserScopeVariables = new Dictionary<long, List<ScopeVariable>>();
             foreach(var contact in contacts)
             {
                 List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contact.ContactId);
+                foreach (var item in allTemplateVariables)
+                {
+                    var sVariable = variables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
+                    if (sVariable == null)
+                    {
+                        variables.Add(sVariable);
+                    }
+                }
                 UserScopeVariables.Add(contact.ContactId, variables);
             }
             return UserScopeVariables;

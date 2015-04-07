@@ -89,6 +89,8 @@ namespace MPC.MIS
             bundles.Add(new StyleBundle("~/Content/dropzonescss").Include(
                      "~/Scripts/dropzone/css/basic.css",
                      "~/Scripts/dropzone/css/dropzone.css"));
+
+            BundleTable.EnableOptimizations = true;
         }
     }
 }

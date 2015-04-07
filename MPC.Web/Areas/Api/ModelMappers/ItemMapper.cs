@@ -501,7 +501,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 NominalCodeId = source.NominalCodeId,
                 ProductCategories = source.ProductCategoryItems != null ? source.ProductCategoryItems.Select(pci => pci.ProductCategory.CategoryName) :
                 new List<string>(),
-                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFrom()) :
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFromForOrder()) :
                 new List<ItemSection>(),
                 Qty1MarkUpId1 = source.Qty1MarkUpId1,
                 Qty2MarkUpId2 = source.Qty2MarkUpId2,

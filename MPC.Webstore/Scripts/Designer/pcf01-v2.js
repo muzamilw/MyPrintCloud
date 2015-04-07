@@ -210,7 +210,8 @@ function c0(cCanvas, TOC) {
         scaleY: dfZ1l,    // to add an object on current zoom level
         maxWidth: TOC.MaxWidth,
         maxHeight: TOC.MaxHeight,
-        textAlign: hAlign
+        textAlign: hAlign,
+        selectable: objectsSelectable
     });
     TOL.ObjectID = TOC.ObjectID;
     if (textStyles != []) {
@@ -438,6 +439,7 @@ function c8(cCanvas, CO) {
     COL.AutoShrinkText = CO.AutoShrinkText;
     COL.IsHidden = CO.IsHidden;
     COL.IsEditable = CO.IsEditable;
+    COL.selectable = objectsSelectable;
     if (CO.IsPositionLocked == true) {
         COL.lockMovementX = true;
         COL.lockMovementY = true;
@@ -481,6 +483,7 @@ function c9(cCanvas, RO) {
     ROL.IsHidden = RO.IsHidden;
     ROL.IsEditable = RO.IsEditable;
     ROL.setOpacity(RO.Opacity);
+    ROL.selectable = objectsSelectable;
     if (RO.IsPositionLocked == true) {
         ROL.lockMovementX = true;
         ROL.lockMovementY = true;
@@ -525,6 +528,7 @@ function d1SvgOl(cCanvas, IO) {
         loadedObject.IsTextEditable = IO.IsTextEditable;
         loadedObject.AutoShrinkText = IO.AutoShrinkText;
         loadedObject.setOpacity(IO.Opacity);
+        loadedObject.selectable = objectsSelectable;
         if (IO.IsPositionLocked == true) {
             loadedObject.lockMovementX = true;
             loadedObject.lockMovementY = true;
@@ -639,6 +643,7 @@ function d1(cCanvas, IO, isCenter) {
         IOL.IsTextEditable = IO.IsTextEditable;
         IOL.AutoShrinkText = IO.AutoShrinkText;
         IOL.ImageClippedInfo = IO.ClippedInfo;
+        IOL.selectable = objectsSelectable;
         IOL.setOpacity(IO.Opacity);
         if (IO.IsPositionLocked == true) {
             IOL.lockMovementX = true;
@@ -832,6 +837,28 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll();
             }
             c7(pageID);
+            if (!objectsSelectable)
+            {
+                var height = 0,width = 0;
+                if (IT.Height != null && IT.Height != 0) {
+                    height = (IT.Height * dfZ1l);
+                } else {
+                    height= (Template.PDFTemplateHeight * dfZ1l);
+                }
+                if (IT.Width != null && IT.Width != 0) {
+                    width = (IT.Width * dfZ1l);
+                } else {
+                    width = (Template.PDFTemplateWidth * dfZ1l);
+                }
+                if (height > width) {
+                    var leftline = i4_opacque([0, 0, 0, height  ], -980, '#EBECED', height * 2);
+                } else {
+                    var leftline = i4_opacque([0, 0, 0, height  ], -980, '#EBECED', width * 2);
+                }
+                canvas.add(leftline);
+                $(".layoutsPanel ,.layersPanel,.uploads,.backgrounds,.btnAdd,.layout,.search").css("visibility", "hidden");
+                $(".QuickTxt").click();
+            }
             canvas.calcOffset();
         }
     });
@@ -2055,6 +2082,15 @@ function i4(coords, ObjectID, color, cutMargin) {
     var line = new fabric.Line(coords,
         {
             fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.2, border: 'none'
+        });
+
+    line.ObjectID = ObjectID;
+    return line;
+}
+function i4_opacque(coords, ObjectID, color, cutMargin) {
+    var line = new fabric.Line(coords,
+        {
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.0, border: 'none'
         });
 
     line.ObjectID = ObjectID;
@@ -3443,6 +3479,7 @@ function k31(cCanvas, IO) {
         IOL.scaleY = (IOL.maxHeight / IOL.height) * dfZ1l;
         IOL.setAngle(IO.RotationAngle);
         IOL.setOpacity(IO.Opacity);
+        IOL.selectable = objectsSelectable;
         if (IsCalledFrom == 1 || IsCalledFrom == 2) {
             IOL.lockMovementX = false;
             IOL.lockMovementY = false;

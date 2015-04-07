@@ -13,6 +13,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = ko.observable(cusStatusClass),
             storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
             // Errors
             errors = ko.validation.group({
             }),
@@ -41,6 +43,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass: statusClass,
             email: email,
+            defaultContact: defaultContact,
+            defaultContactEmail:defaultContactEmail,
             storeImageFileBinary: storeImageFileBinary,
             isValid: isValid,
             errors: errors,
@@ -70,6 +74,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.Email,
             source.StoreImagePath
         );
+        customer.defaultContact(source.DefaultContactName);
+        customer.defaultContactEmail(source.DefaultContactEmail);
         return customer;
     };
     // #endregion
@@ -86,6 +92,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            url = ko.observable(specifiedUrl),
            isCustomer = ko.observable(specifiedIsCustomer),
            storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
+            defaultContact = ko.observable(undefined),
+            defaultContactEmail = ko.observable(undefined),
            type = ko.observable(),
             email = ko.observable(specifiedEmail),
            createdDate = ko.observable(specifiedCreatedDate),
@@ -140,6 +148,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isCustomer: isCustomer,
             storeImageFileBinary: storeImageFileBinary,
             email: email,
+            defaultContact: defaultContact,
+            defaultContactEmail: defaultContactEmail,
             createdDate: createdDate,
             isValid: isValid,
             errors: errors,
@@ -175,6 +185,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
            source.Email,
            source.CreatedDate != null ? moment(source.CreatedDate).format('YYYY/MM/DD') : ''
        );
+        crmSupplierListViewModel.defaultContact(source.DefaultContactName);
+        crmSupplierListViewModel.defaultContactEmail(source.DefaultContactEmail);
 
         //if (source.IsCustomer == 0) {
         //    store.type("Supplier");
@@ -497,7 +509,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             homeCountry = ko.observable(specifiedHomeCountry),
             secretQuestion = ko.observable(specifiedSecretQuestion),
             secretAnswer = ko.observable(specifiedSecretAnswer),
-            password = ko.observable(specifiedPassword).extend({ required: true }),
+            password = ko.observable(specifiedPassword).extend({ required: { params: true, message: 'This field is required with minimum 6 characters!' }, minLength: 6 }),
             uRL = ko.observable(specifiedURL),
             isEmailSubscription = ko.observable(specifiedIsEmailSubscription),
             isNewsLetterSubscription = ko.observable(specifiedIsNewsLetterSubscription),

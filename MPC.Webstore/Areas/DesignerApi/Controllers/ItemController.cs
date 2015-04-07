@@ -34,7 +34,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         public HttpResponseMessage GetItem(long parameter1,long parameter2)
         {
             var item = itemService.GetItemByIdDesigner(parameter1);
-
+            long parentTemplateID = itemService.getParentTemplateID(parameter1);
             string[] images = smartFormService.GetContactImageAndCompanyLogo(parameter2);
             var result = new
             {
@@ -46,10 +46,11 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 drawBleedArea = item.drawBleedArea,
                 printCropMarks = item.printCropMarks,
                 isMultipagePDF = item.isMultipagePDF,
-                IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 0,
+                IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 1,
                 userImage = images[1],
                 companyImage = images[0],
-                ScaleFactor = item.Scalar
+                ScaleFactor = item.Scalar,
+                ParentTemplateId = parentTemplateID
             };
 
             var formatter = new JsonMediaTypeFormatter();

@@ -362,6 +362,16 @@ define("stores/stores.viewModel",
                         isThemeNameSet(true);
                     }
                 }),
+                selectedThemeName = ko.computed(function() {
+                    var theme = _.find(themes(), function (item) {
+                        return item.SkinId == selectedTheme();
+                    });
+                    if (theme) {
+                        return theme.Name;
+                    }
+
+                    return "";
+                }),
                 //On Edit Click Of Store
                 onEditItem = function (item) {
                     resetObservableArrays();
@@ -506,6 +516,13 @@ define("stores/stores.viewModel",
                             confirmation.show();
                         }
                     }
+                },
+                // Select Theme
+                selectTheme = function(data) {
+                    if (data && data.SkinId !== selectedTheme()) {
+                        selectedTheme(data.SkinId);
+                        view.closeThemeList();
+                    }                        
                 },
                 //Get Theme Detail By Full Zip Path
                 getgetThemeDetailByFullZipPath = function (themeId, path) {
@@ -3121,12 +3138,12 @@ define("stores/stores.viewModel",
                 return;
             }
             dataservice.getProductCategoryChilds({
-                id: id,
+                id: id
             }, {
                 success: function (data) {
                     if (data.ProductCategories != null) {
                         _.each(data.ProductCategories, function (productCategory) {
-                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + productCategory.CategoryName + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
+                            $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectChildProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + productCategory.ProductCategoryId + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10">' + productCategory.CategoryName + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>');
                             ko.applyBindings(view.viewModel, $("#" + productCategory.ProductCategoryId)[0]);
                             var category = {
                                 productCategoryId: productCategory.ProductCategoryId,
@@ -3316,6 +3333,14 @@ define("stores/stores.viewModel",
             isSavingNewProductCategory(false);
         },
         onArchiveCategory = function () {
+            confirmation.messageText("Do you want to delete category?");
+            confirmation.afterProceed(deleteCategory);
+            confirmation.afterCancel(function () {
+            });
+            confirmation.show();
+            return;
+        },
+        deleteCategory = function () {
             dataservice.deleteProductCategoryById({
                 ProductCategoryId: selectedProductCategory().productCategoryId()
             }, {
@@ -3411,7 +3436,7 @@ define("stores/stores.viewModel",
                                     $("#" + selectedProductCategoryForEditting().productCategoryId()).remove();
                                 }
                                 //$("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems" ><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
-                                $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
+                                $("#" + selectedProductCategoryForEditting().parentCategoryId()).append('<ol class="dd-list"> <li class="dd-item dd-item-list" data-bind="click: $root.selectProductCategory, css: { selectedRow: $data === $root.selectedProductCategory}" id =' + selectedProductCategoryForEditting().productCategoryId() + '> <div class="dd-handle-list" data-bind="click: $root.getCategoryChildListItems"><i class="fa fa-bars"></i></div><div class="dd-handle col-sm-12"><span class="col-sm-10">' + selectedProductCategoryForEditting().categoryName() + '</span><div class="nested-links col-sm-2"><a data-bind="click: $root.onEditChildProductCategory" class="nested-link" title="Edit Category"><i class="fa fa-pencil"></i></a></div></div></li></ol>'); //data-bind="click: $root.getCategoryChildListItems"
                                 //if (!flagAlreadyExist) {
                                 ko.applyBindings(view.viewModel, $("#" + selectedProductCategoryForEditting().productCategoryId())[0]);
                                 //}
@@ -4077,11 +4102,13 @@ define("stores/stores.viewModel",
                     storeHasChanges.reset();
                     isLoadingStores(false);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 },
                 error: function (response) {
                     isLoadingStores(false);
                     toastr.error("Failed to Load Stores . Error: " + response, "", ist.toastrOptions);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 }
             });
         },
@@ -4256,11 +4283,13 @@ define("stores/stores.viewModel",
                     isLoadingStores(false);
                     isBaseDataLoded(true);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 },
                 error: function (response) {
                     isLoadingStores(false);
                     toastr.error("Failed to Load Stores . Error: " + response, "Please ReOpen Store", ist.toastrOptions);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 }
             });
         },
@@ -6303,7 +6332,9 @@ define("stores/stores.viewModel",
                     priceFlags: priceFlags,
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
-                    onDeletePermanent: onDeletePermanent
+                    onDeletePermanent: onDeletePermanent,
+                    selectTheme: selectTheme,
+                    selectedThemeName: selectedThemeName
                 };
                 //#endregion
             })()

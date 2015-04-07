@@ -636,6 +636,21 @@ namespace MPC.Repository.BaseRepository
         public DbSet<PurchaseDetail> PurchaseDetails { get; set; }
 
         /// <summary>
+        /// Job Preference DbSet
+        /// </summary>
+        public DbSet<JobPreference> JobPreferences { get; set; }
+
+        /// <summary>
+        /// Ink Plate Side DbSet
+        /// </summary>
+        public DbSet<InkPlateSide> InkPlateSides { get; set; }
+
+        /// <summary>
+        /// Section Ink Coverage DbSet
+        /// </summary>
+        public DbSet<SectionInkCoverage> SectionInkCoverages { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
@@ -779,15 +794,16 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteProduct", itemidParameter);
         }
 
+
 // ReSharper disable InconsistentNaming
-        public int usp_DeleteContactCompanyByID(int? selectedID)
+        public int usp_DeleteContactCompanyByID(int? companyId)
 // ReSharper restore InconsistentNaming
         {
-            var selectedIdParameter = selectedID.HasValue ?
-                new ObjectParameter("SelectedID", selectedID) :
-                new ObjectParameter("SelectedID", typeof(int));
+            var companyIdParameter = companyId.HasValue ?
+                new ObjectParameter("CompanyID", companyId) :
+                new ObjectParameter("CompanyID", typeof(int));
 
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", selectedIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteContactCompanyByID", companyIdParameter);
         }
 
         /// <summary>

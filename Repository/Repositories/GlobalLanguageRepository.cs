@@ -51,7 +51,7 @@ namespace MPC.Repository.Repositories
         {
             string code = GetLanguageCodeById(OrganisationId);
 
-            string FilePath = "/mpc_content/Resources/" + OrganisationId + "/" + code + "/LanguageResource.resx";
+            string FilePath = "~/mpc_content/Resources/" + OrganisationId + "/" + code + "/LanguageResource.resx";
             
             XmlDocument loResource = new XmlDocument();
 

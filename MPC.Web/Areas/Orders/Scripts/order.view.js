@@ -105,6 +105,14 @@ define("order/order.view",
                         });
                     });
                 },
+                // Show Sheet Plan Image the dialog
+                showSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
+                // Show Sheet Plan Image the dialog
+                hideSheetPlanImageDialog = function () {
+                    $("#sheetPlanModal").modal("show");
+                },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
                 showProductFromRetailStoreModal = function () {
@@ -122,7 +130,16 @@ define("order/order.view",
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
                 },
-                
+
+                // Show Inks Dialog
+                showInksDialog = function () {
+                    $("#inkDialogModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Inks Dialog
+                hideInksDialog = function () {
+                    $("#inkDialogModel").modal("hide");
+                },
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -161,8 +178,12 @@ define("order/order.view",
                 hideOrderPrePaymentModal: hideOrderPrePaymentModal,
                 setOrderState: setOrderState,
                 orderstate: orderstate,
+                showSheetPlanImageDialog: showSheetPlanImageDialog,
+                hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
-                hideInventoryItemDialog: hideInventoryItemDialog
+                hideInventoryItemDialog: hideInventoryItemDialog,
+                showInksDialog: showInksDialog,
+                hideInksDialog: hideInksDialog
             };
         })(orderViewModel);
 

@@ -103,10 +103,6 @@ define("crm/crm.supplier.model", ["ko", "underscore", "underscore-ko"], function
            source.Email,
            source.CreatedDate != null ?moment(source.CreatedDate).format('YYYY/MM/DD'): ''
        );
-
-        //if (source.IsCustomer == 0) {
-        //    store.type("Supplier");
-        //}
         if (source.IsCustomer == 1) {
             crmSupplierListViewModel.type("Retail Customer");
         }

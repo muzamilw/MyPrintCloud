@@ -191,12 +191,16 @@ namespace MPC.Webstore.Common
 
         public static string specialCharactersEncoder(string value)
         {
-            value = value.Replace("/", "-");
-            value = value.Replace(" ", "-");
-            value = value.Replace(";", "-");
-            value = value.Replace("&#34;", "");
-            value = value.Replace("&", "");
-            value = value.Replace("+", "");
+            if(!string.IsNullOrEmpty(value))
+            {
+                value = value.Replace("/", "-");
+                value = value.Replace(" ", "-");
+                value = value.Replace(";", "-");
+                value = value.Replace("&#34;", "");
+                value = value.Replace("&", "");
+                value = value.Replace("+", "");
+            }
+            
             return value;
         }
         public static string BuildCategoryUrl(string pageName, string CategoryName, string CategoryId)

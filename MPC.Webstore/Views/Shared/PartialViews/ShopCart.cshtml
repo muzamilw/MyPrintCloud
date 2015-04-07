@@ -5,7 +5,7 @@
 @using MPC.Webstore.ViewModels;
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";;
+    Layout = "~/Views/Shared/_Layout.cshtml"; ;
     string EstimateDispatchTime = string.Empty;
     double _priceTotal = 0;
     double _vatTotal = 0;
@@ -48,7 +48,7 @@
             {
                 <div class="get_in_touch_box rounded_corners">
                     <div class="textAlignCenter">
-                        
+
                         <label class="lbl_Cart">@Html.Raw(Html.GetKeyValueFromResourceFile("lblMsg", UserCookieManager.WBStoreId))</label>
 
                     </div>
@@ -174,7 +174,7 @@
                                                 }
 
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
-                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery"  >
+                                                <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
                                                 <br>
                                             </td>
@@ -209,42 +209,45 @@
                                             </td>
                                         </tr>
 
-                                         subtotal = _priceTotal.ToString();
-                                            
+                                            subtotal = _priceTotal.ToString();
+
 
                                      }
 
                                     }
                                     @{
-                                       
-                                       _vatTotal = Convert.ToDouble(_vatTotal) + Model.DeliveryTaxValue;
-                                       GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal);
-                                       subtotal = Utils.FormatDecimalValueToTwoDecimal(subtotal.ToString(), ViewBag.Currency);
-                                       VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
+
+                                     _vatTotal = Convert.ToDouble(_vatTotal) + Convert.ToDouble(Model.DeliveryTaxValue);
+                                     GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal) + Model.DeliveryCost;
+                                     subtotal = Utils.FormatDecimalValueToTwoDecimal(subtotal.ToString(), ViewBag.Currency);
+                                     VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
                                     }
-                                   
+
                                 </tbody>
                             </table>
 
                             <br />
                             <div class="cnttotalPayables">
-
+@if (ViewBag.IsShowPrices)
+{
                                 <div class="cntsubHeadings">
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId))</label>
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Delivery:</label>
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">@Model.TaxLabel</label>
                                     <label id="lbl_SubTotal" class=" LightGrayLabels displayClear">Total:</label>
 
-                                   
-                                </div>
-                                <div class="cnttotals" id="cntRightPricing1">
 
-                                    <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
-
-                                    <label class="Fsize14 colorBlack displayClear">@Model.DeliveryCost</label>
-                                    <label  class="Fsize14 colorBlack displayClear">@VatTotal</label>
-                                    <label  class="Fsize14 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                 </div>
+                               
+                                    <div class="cnttotals" id="cntRightPricing1">
+
+                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>
+
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                        <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
+                                    </div>
+                                }
                                 <div class="clearBoth">
                                 </div>
                             </div>
@@ -263,9 +266,9 @@
                             </div>
                             <div class="clearBoth">
                             </div>
-                          
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" /><br />
-                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping();"class="btn_brown  rounded_corners5" style="float: right;" >@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
+
+                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="ShowLoader();" /><br />
+                            <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;
                             </div>
@@ -299,28 +302,28 @@
 
     </div>
     <div class="clearBoth">
-        
+
     </div>
     @*matching set*@
-    
+
     @{
         if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
         {
-           
+
             // call matching set partial view to show matching sets
             MatchingSetViewModel MSViewModel = new MatchingSetViewModel();
-            
+
             MSViewModel = ViewData["MSViewModel"] as MatchingSetViewModel;
-            if(MSViewModel != null)
+            if (MSViewModel != null)
             {
                 @Html.Partial("PartialViews/MatchingSet", MSViewModel);
             }
-          
-            
+
+
             // call related items to show lists of related items
             RelatedItemViewModel RIViewModel = new RelatedItemViewModel();
             RIViewModel = ViewData["RIViewModel"] as RelatedItemViewModel;
-            if(RIViewModel != null)
+            if (RIViewModel != null)
             {
                 @Html.Partial("PartialViews/RelatedItems", RIViewModel);
             }
@@ -330,9 +333,9 @@
             }
         }
 
-}
+    }
     <div class="clearBoth">
-       
+
     </div>
 </div>
 </div>
@@ -342,13 +345,13 @@
     <div id="MainContent_Div1" onclick="return closePopUpClick()" class="exit_popup exitPopupProofs" style="display: none;">
     </div>
     <label id="lbl_EmailSendProofs" class="boldTxt">
-       @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSendProofs", UserCookieManager.WBStoreId))
+        @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSendProofs", UserCookieManager.WBStoreId))
     </label>
     <br />
     <br />
     <table class="normalTextStyle" width="400px" cellpadding="2">
         <tr>
-            <td align="right" >
+            <td align="right">
                 <label id="lbl_Email1AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email1AddressSendProofs", UserCookieManager.WBStoreId))</label>
             </td>
             <td class="tdtextbox">
@@ -357,7 +360,7 @@
             </td>
         </tr>
         <tr>
-            <td align="right" class="H4B" >
+            <td align="right" class="H4B">
                 <label id="lbl_Email2AddressSendProofs">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Email2AddressSendProofs", UserCookieManager.WBStoreId))</label>
             </td>
             <td class="tdtextbox">
@@ -378,7 +381,7 @@
             </td>
         </tr>
     </table>
-    <p  class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage" runat="server">
+    <p class="proofSuccess" style="display: none;" id="lbl_EmailSentProofMessage" runat="server">
         @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_EmailSentProofMessage", UserCookieManager.WBStoreId))
     </p>
 </div>
@@ -416,9 +419,9 @@
         }
         function CanCheckOut(sender) {
             if (Page_ClientValidate()) {
-               
+
                 var numOfRec = @ViewBag.NumberOfRecords;
-              
+
                 if (parseInt(numOfRec) > 0) {
                     $("hfIsCallFrom").val("CheckOut");
                     return true;
@@ -484,14 +487,14 @@
             }
             else
             {
-              
+
                 window.location.href = "/ProductOptions" + "/" + CategoryID + "/" + ItemID + "/Modify/" + TempID;
             }
             return false;
         }
         function ContinueShopping()
         {
-    
+
             window.location.href = "/";
         }
         function ApplyVoucherCode(OrderID,DiscountVoucher)
@@ -509,7 +512,7 @@
             //$("hfIsCallFrom").val("Delete");
             //var html = $("div.RemoveProductDiv").html();
             //alert(html);
-          
+
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("RemoveProduct");
             ConfirmDeleteItemPopUP(ItemID,OrderID);
@@ -517,14 +520,14 @@
         }
         function CopyProduct(ItemID)
         {
-           
+
             $("#hfItemID").val(ItemID);
             $("#hfIsCallFrom").val("CopyProduct");
-            
+
             //"/EditDesign/''/" + EditType + "/" + ItemID + "/" + TempID;
             ShowLoader();
 
-            
+
         }
     </script>
 }

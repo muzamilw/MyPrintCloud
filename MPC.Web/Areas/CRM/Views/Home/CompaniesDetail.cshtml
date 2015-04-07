@@ -6,7 +6,7 @@
 <div class="row" data-bind="visible: $root.isEditorVisible" style="display: none">
     <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12">
+            @*<div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li><a href="/CRM/SuppliersList">CRM</a></li>
@@ -23,7 +23,7 @@
                 <!-- /ko -->
 
 
-            </div>
+            </div>*@
         </div>
         <div class="row" id="user-profile">
             <div class="col-lg-12 col-md-8 col-sm-8" style="padding-bottom: 10px;">
@@ -59,7 +59,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
-                        <ul class="nav nav-tabs">
+                        <ul id="crmTabsId" class="nav nav-tabs">
                             <li class="active" id="generalInfoTabForCrm"><a href="#tab-newsfeedForCrm" data-toggle="tab">General Info</a></li>
                             <li><a href="#tab-territoryForCrm" data-toggle="tab" data-bind="click: $root.userAndAddressesTabSelected">User & Addresses</a></li>
                             <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().companyId() != undefined-->
@@ -191,7 +191,7 @@
                                             <div class="main-box-body clearfix">
                                                 <div class="profile-status">
                                                 </div>
-                                                <img style="min-height: 150px; width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
+                                                <img style="width: 150px;" data-bind="attr: { src: storeImageFileBinary }" />
                                                 <div class="pull-right">
                                                     <div class="fileUpload btn btn-primary">
                                                         <span>....</span>
@@ -228,8 +228,7 @@
                                                 <label for="datepickerDate" class="control-label text-right tooltip-float">Account Opened</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <input type="text" class="form-control" id="datepickerDate" data-bind="datetimepicker: accountOpenDate, format: 'DD MMM YYYY'">
-                                                <span class="help-block text-right"></span>
+                                                <label class="control-label" data-bind="dateString: accountOpenDate, datePattern: 'DD/MM/YYYY HH:mm'"></label>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -252,11 +251,10 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="txtGSTRegNo" class="control-label text-right tooltip-float">GST Reg. No.</label>
+                                                <label for="txtGSTRegNo" class="control-label text-right tooltip-float">Tax Reg. No.</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="txtGSTRegNo" placeholder="Enter GST Registration Number" data-bind="value: avatRegNumber">
-                                                <span class="help-block text-right">GST registration number</span>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -266,11 +264,10 @@
                                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                     </a>
                                                 </div>
-                                                <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">GST Ref. No.</label>
+                                                <label for="txtGSTRefNo" class="control-label text-right  tooltip-float">Tax Ref. No.</label>
                                             </div>
                                             <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="txtGSTRefNo" placeholder="Enter GST Reference Number" data-bind="value: avatRegReference">
-                                                <span class="help-block text-right">GST reference number</span>
                                             </div>
                                         </div>
                                     </div>

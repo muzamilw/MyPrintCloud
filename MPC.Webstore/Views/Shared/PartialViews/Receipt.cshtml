@@ -1,21 +1,21 @@
 ﻿@model MPC.Models.Common.OrderDetail
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
-           @{
-               double _vatTotal = 0;
-               double _itemTotal = 0;
-               double DeliveryTaxValue = 0;
-               string ImageSource = string.Empty;
-                var ThumnbString = "Thumb.png";
-               DateTime EstimatedDispatchDatee = Model.DeliveryDate ?? DateTime.Now;
-               var EstimatedDispatchDate = EstimatedDispatchDatee.ToString("MMMM dd, yyyy");
-               DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
-               var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
+@{
+    double _vatTotal = 0;
+    double _itemTotal = 0;
+    double DeliveryTaxValue = 0;
+    string ImageSource = string.Empty;
+    var ThumnbString = "Thumb.png";
+    DateTime EstimatedDispatchDatee = Model.DeliveryDate ?? DateTime.Now;
+    var EstimatedDispatchDate = EstimatedDispatchDatee.ToString("MMMM dd, yyyy");
+    DateTime OrderDateTime = Model.OrderDate ?? DateTime.Now;
+    var OrderDate = OrderDateTime.ToString("MMMM dd, yyyy");
 }
 <div id="page" class="container content_area" style="margin: auto; border: 0px solid orange; margin-top: 20px;">
 
     <div class="row left_right_padding">
-        <ul  class="bonhamsOption navM cursor_pointer" style="display:none;">
+        <ul class="bonhamsOption navM cursor_pointer" style="display:none;">
             <li id="lbl_SelectReceipt">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_SelectReceipt", UserCookieManager.WBStoreId))
             </li>
@@ -39,7 +39,7 @@
                 </div>
                 <div style="float: right; padding: 10px; padding-top: 14px; text-decoration: underline;">
                     <a id="lbl_PrintReceipt" href="#" onclick="PrintReceipt();">
-                       @Html.Raw(Html.GetKeyValueFromResourceFile("lblPrintReceipt", UserCookieManager.WBStoreId))
+                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblPrintReceipt", UserCookieManager.WBStoreId))
                     </a>
                 </div>
                 <div class="clearBoth">
@@ -54,33 +54,38 @@
             <div style="width: 100%; display: none; text-align: center; font-size: 16px; font-weight: bold; color: #C72965;">
                 <label id="lbl_DelivaryConformationMessage">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDelivaryConformationMessage", UserCookieManager.WBStoreId))</label>
             </div>
-            <div class="col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
-                &nbsp;
-                <img id="ImagePinkcard" style="display: none;" class="pink_company_logo floatright" />
-                <label id="lbl_PoweredBy" style="color: #C72965; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-weight: bold; font-style: normal; font-weight: bold; display: none; font-size: 13px; line-height: 16px; float: right; margin-top: 25px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.WBStoreId))</label>
-            </div>
-            <div id="trWhiteLabel" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="@Html.GetAppBasePath()@ViewBag.Organisation.WebsiteLogo" /><br />
-                <label id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.Organisation.OrganisationName</label><br />
-                <label id="lblAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.Organisation.Address1</label>
-                <label id="lblAddLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.Organisation.Address2</label><br />
-                <label id="lblTown" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.Organisation.City</label>
-                <label id="lblState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.OrganisationStateName</label>
-                <label id="lblZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.Organisation.ZipCode</label>
-                <label id="lblCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.OrganisationCountryName</label><br />
-                <div id="ImagePhne" class="TelLogoCs float_left_simple">
+            @if (ViewBag.oStoreDefaultAddress != null)
+            {
+                <div class="col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
+                    &nbsp;
+                    <img id="ImagePinkcard" style="display: none;" class="pink_company_logo floatright" />
+                    <label id="lbl_PoweredBy" style="color: #C72965; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-weight: bold; font-style: normal; font-weight: bold; display: none; font-size: 13px; line-height: 16px; float: right; margin-top: 25px;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlPoweredBy", UserCookieManager.WBStoreId))</label>
                 </div>
-                <label id="lblTel" style="color: black; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold; font-style: normal; font-weight: bold; font-size: 18px; line-height: 16px; float: left; margin-top: 6px; margin-left: 10px;">@ViewBag.Organisation.Tel</label>
-            </div>
-            <div class=" col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
-                &nbsp;
-            </div>
-            <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                <label id="lbl_VATRegisterationNumber" style="font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblVATRegisterationNumber", UserCookieManager.WBStoreId))</label>
-                <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;" >@ViewBag.Organisation.VATRegNumber</label>
-            </div>
-            <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
-            </div>
+                <div id="trWhiteLabel" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
+                    <img id="Companyimg" class="IframeCompanyLogoCs_AddSelectCS" src="/@ViewBag.Company.Image" /><br />
+                    <label id="ltrlCompanyName" style="font-size: 18px; font-weight: bold;">@ViewBag.Company.Name</label><br />
+                    <label id="lblAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address1</label>
+                    <label id="lblAddLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</label><br />
+                    <label id="lblTown" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</label>
+                    <label id="lblState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.State</label>
+                    <label id="lblZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</label><br />
+                    <label id="lblCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</label><br />
+      
+                    <div id="ImagePhne" class="TelLogoCs float_left_simple">
+                    </div>
+                    <label id="lblTel" style="color: black; font-family: 'Open Sans Condensed', sans-serif; font-weight: bold; font-style: normal; font-weight: bold; font-size: 18px; line-height: 16px; float: left; margin-top: 6px; margin-left: 10px;">@ViewBag.oStoreDefaultAddress.Tel</label>
+                </div>
+                <div class=" col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
+                    &nbsp;
+                </div>
+                <div id="trVatNumb" style="height: 30px; clear:both;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
+                    <label id="lbl_VATRegisterationNumber" style="font-weight: bold;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId))</label>
+                    <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;">@ViewBag.Company.VATRegNumber</label>
+                </div>
+                <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
+                </div>
+            }
+       
             <div class="col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
                 <div style="" class="shopReceiptOrderDetails">
                     <span id="lbl_OrderDate" class="spnOrderHeadings">@Html.Raw(Html.GetKeyValueFromResourceFile("spnorderdate", UserCookieManager.WBStoreId)) </span>
@@ -122,33 +127,67 @@
                 <span id="lbl_ReceiptbillTo" style="" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnbilledto", UserCookieManager.WBStoreId))</span><br />
                 <label id="lblCustName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                 <label id="lblBAddressLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address1</label><br />
-                <label id="lblAddressLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label><br />
+                @if (!string.IsNullOrEmpty(Model.BillingAdress.Address2))
+                {
+                    <div><label id="lblAddressLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Address2</label></div>
+                }
+
                 <label id="lblBcity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.City</label>
-                <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State</label>
+                @if (Model.BillingAdress.State != null)
+                {
+                    <label id="lblBState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.State.StateName</label>
+                }
+                @if (Model.BillingAdress.Country != null)
+                {
+                    <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country.CountryName</label>
+                }
+                <br />
                 <label id="lblBZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.PostCode</label><br />
 
-                <label id="lblBCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.BillingAdress.Country</label><br />
-                <span>
-                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
-                </span>
-                <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
+                @if (!string.IsNullOrEmpty(Model.BillingAdress.Tel1))
+                {
+                    <span>
+                        <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
+                    </span>
+                    <label id="lblBTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px;">@Model.BillingAdress.Tel1</label>
+                }
+
             </div>
             <div class="col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt" style="line-height: 30px;">
                 <span id="lbl_ShippedTo" class="shopReceiptBillToHeading">@Html.Raw(Html.GetKeyValueFromResourceFile("spnshippedto", UserCookieManager.WBStoreId))</span><br />
                 <label id="lblSCusName" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.CustomerName</label><br />
                 <label id="lblSAddLine1" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address1</label><br />
-                <label id="lblSAddreLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label><br />
+                @if (!string.IsNullOrEmpty(Model.ShippingAddress.Address2))
+                {
+                    <div><label id="lblSAddreLine2" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Address2</label></div>
+                }
+
                 <label id="lblSCity" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.City</label>
-                <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State</label>
+                @if (Model.ShippingAddress.State != null)
+                {
+                    <label id="lblSState" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.State.StateName</label>
+                }
+                @if (Model.ShippingAddress.Country != null)
+                {
+                    <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country.CountryName</label>
+                }
+                <br />
+
+
+
                 <label id="lblSZipCode" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.PostCode</label><br />
-                <label id="lblSCountry" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Country</label><br />
-                <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
-                <label id="lblSTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
+
+                @if (!string.IsNullOrEmpty(Model.ShippingAddress.Tel1))
+                {
+                    <label id="lbl_Tel">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_Tel", UserCookieManager.WBStoreId))</label>
+                    <label id="lblSTel" style="color: #A8A8A8; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px;">@Model.ShippingAddress.Tel1</label>
+                }
+
             </div>
             <div class="clearBoth">
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt  spclcntHeight">
-                <span id="lbl_SpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; margin-left: 22px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", UserCookieManager.WBStoreId))</span><br />
+                <span id="lbl_SpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: bold; font-size: 12px; margin-left: 0px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spnspeacilinstruction", UserCookieManager.WBStoreId))</span><br />
                 <label id="lblSpecialInstructions" style="color: #333333; font-family: Trebuchet MS, Arial, Helvetica, sans-serif; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.SpecialInstNotes</label>
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptbillingShippingcnt">
@@ -165,7 +204,7 @@
                 <span id="lbl_itemsOrdered">@Html.Raw(Html.GetKeyValueFromResourceFile("lblitemsOrdered", UserCookieManager.WBStoreId))</span>
             </div>
             <div style="padding-bottom: 20px;" class="col-md-12 col-lg-12 col-xs-12">
-             
+
 
 
 
@@ -182,55 +221,55 @@
                             _itemTotal = _itemTotal + item.Qty1BaseCharge1 ?? 0;
                             //DeliveryTaxValue += DeliveryTaxValue + item.
                             <tr class="gridViewWithoutHeaderRowStyle" align="top">
-                                <td align="center" style="width:32%;">
+                                <td align="left" style="width:34%;" valign="top">
                                     @if (item.Attatchment != null)
                                     {
                                         if (!string.IsNullOrWhiteSpace(item.Attatchment.FileName))
                                         {
-                                             string ext = System.IO.Path.GetExtension(item.Attatchment.FileName);
-                                             if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
-                                             {
-                                                 string completeImgPath = Html.GetAppBasePath() + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
-                                                 ImageSource = completeImgPath;
-                                             }
-                                             else
-                                             {
-                                                 string FolderPathOfAttachment = item.Attatchment.FolderPath;
-                                                 if (FolderPathOfAttachment.Contains("Production") == true)
-                                                 {
-                                                     FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
-                                                 }
-                                                
+                                            string ext = System.IO.Path.GetExtension(item.Attatchment.FileName);
+                                            if (ext == ".xlsx" || ext == ".xls" || ext == ".csv")
+                                            {
+                                                string completeImgPath = Html.GetAppBasePath() + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                ImageSource = completeImgPath;
+                                            }
+                                            else
+                                            {
+                                                string FolderPathOfAttachment = item.Attatchment.FolderPath;
+                                                if (FolderPathOfAttachment.Contains("Production") == true)
+                                                {
+                                                    FolderPathOfAttachment = FolderPathOfAttachment.Replace("Production", "Attachments");
+                                                }
 
-                                                
-                                                 ImageSource = Html.GetAppBasePath() + FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;
-                                                
-                                                 
-                                             }
+
+
+                                                ImageSource = Html.GetAppBasePath() + FolderPathOfAttachment + "/" + item.Attatchment.FileName + ThumnbString;
+
+
+                                            }
                                         }
                                         else
                                         {
                                             if (item.ProductType == (int)ProductType.NonPrintProduct)
                                             {
-                                                string completeImgPath = ""; 
+                                                string completeImgPath = "";
                                                 if (!string.IsNullOrEmpty(item.Attatchment.FolderPath) && !string.IsNullOrEmpty(item.Attatchment.FileName))
                                                 {
-                                                    completeImgPath = "/"  + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
+                                                    completeImgPath = "/" + item.Attatchment.FolderPath + item.Attatchment.FileName + ThumnbString;
                                                 }
                                                 else
                                                 {
                                                     completeImgPath = item.ThumbnailPath;
                                                 }
-                                               
+
                                                 ImageSource = completeImgPath;
                                             }
-                                               
+
                                         }
                                     }
-                 
+
                                     <img src="@ImageSource" style="width: 40%;">
                                 </td>
-                                <td style="width:43%;">
+                                <td style="width:35%;">
                                     <div>
                                         <span style="font-weight: bold;">
                                             Quantity :
@@ -238,7 +277,7 @@
                                         </span>
                                         <br>
                                         <br>
-                                        <span  style="font-size:12px;font-weight:bold;">@item.ProductName  </span><br>
+                                        <span style="font-size:12px;font-weight:bold;">@item.ProductName  </span><br>
                                         <div class="">
                                             <span style="font-size:12px;">Stock: @item.PaperType</span>
                                         </div>
@@ -250,11 +289,11 @@
                                     </div>
 
                                 </td>
-                                <td align="left">
-                                     @if (ViewBag.IsShowPrices)
-                                     {
-                                         <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(),ViewBag.Currency)</span>
-                                     }
+                                <td align="left" valign="top">
+                                    @if (ViewBag.IsShowPrices)
+                                    {
+                                        <span id="MainContent_grdViewShopCart_lblItemPrice_0">@Utils.FormatDecimalValueToTwoDecimal(item.Qty1BaseCharge1.ToString(), ViewBag.Currency)</span>
+                                    }
                                 </td>
                             </tr>
                         }
@@ -264,78 +303,80 @@
             </div>
             <div class="clearBoth">
             </div>
-            <div id="PnalTotalBox" class="col-md-12 col-lg-12 col-xs-12" style="color: #333333; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; padding: 10px; background-color: #f3f3f3; border: 1px solid #f4f4f4;">
-                <table border="0" cellpadding="3" cellspacing="0" width="100%">
-                    <tr>
-                        <td class="srFirstTd"></td>
-                        <td class="srScdTd"></td>
-                        <td class="srThirdTd" align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="lbl_SubTotal">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</span>
-                        </td>
-                        <td class="srForthtd">
-                           
-                                <label id="lblSubTotal" >@Utils.FormatDecimalValueToTwoDecimal(_itemTotal.ToString(), ViewBag.Currency)</label>
-                    
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td align="left"></td>
-                        <td align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <span id="lbl_Delivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
-                        </td>
-                        <td>
-                            @if (Model.DeliveryCost > 0)
-                            {
-                                <label id="lblDeliveryCostCenter" >@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</label>
-                            }
-                            else
-                            {
-                                <label id="lblDeliveryCostCenter">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</label>
-                            }
-                        </td>
-                    </tr>
-                    <tr id="rowVat">
-                        <td></td>
-                        <td align="left"></td>
-                        <td align="left" style="font-weight: normal; font-size: 14px; color: #333333; line-height: 2; font-family: Trebuchet MS, Arial, Helvetica, sans-serif;">
-                            <label id="lblTaxLabelTotal">@ViewBag.TaxLabel:</label>
-                        </td>
-                        <td width="20%">
-                            @if (Model.DeliveryCost > 0)
-                            {
-                                double total = _vatTotal + Model.DeliveryCostTaxValue;
-                                 <label id="lblVatTotal" >@Utils.FormatDecimalValueToTwoDecimal(total.ToString(), ViewBag.Currency)</label>
-                            }
-                            else
-                            {
-                              
-                                <label id="lblVatTotal">@Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency)</label>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td align="left">
-                            <span id="lbl_Total" style="font-weight: bold; color: Black; font-size: 17px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spngrandtotal", UserCookieManager.WBStoreId))</span>
-                        </td>
-                        <td>
-                            @if (Model.DeliveryCost > 0)
-                            {
-                                double grossTotal = _itemTotal + (Model.DeliveryCostTaxValue + _vatTotal) + Model.DeliveryCost;
-                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</label>
-                            }
-                            else
-                            {
-                                double grossTotal = _itemTotal + _vatTotal;
-                                <label style="font-weight: bold; font-size: 17px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</label>
-                            }
-                            
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            @if (ViewBag.IsShowPrices)
+            {
+                <div id="PnalTotalBox" class="col-md-12 col-lg-12 col-xs-12" style="color: #333333; font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; padding: 10px; background-color: #f3f3f3; border: 1px solid #f4f4f4;">
+                    <table border="0" cellpadding="3" cellspacing="0" width="100%">
+                        <tr>
+                            <td class="srFirstTd"></td>
+                            <td class="srScdTd"></td>
+                            <td class="srThirdTd" align="left" >
+                                <span id="lbl_SubTotal" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlsubtotal", UserCookieManager.WBStoreId)):</span>
+                            </td>
+                            <td class="srForthtd">
+
+                                <span id="lblSubTotal" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(_itemTotal.ToString(), ViewBag.Currency)</span>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="left"></td>
+                            <td align="left">
+                                <span id="lbl_Delivery" style="font-weight: bold; font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
+                            </td>
+                            <td>
+                                @if (Model.DeliveryCost > 0)
+                                {
+                                    <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(Model.DeliveryCost.ToString(), ViewBag.Currency)</span>
+                                }
+                                else
+                                {
+                                    <span id="lblDeliveryCostCenter" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency)</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr id="rowVat">
+                            <td></td>
+                            <td align="left"></td>
+                            <td align="left">
+                                <label id="lblTaxLabelTotal" style="font-weight: bold; font-size: 13px; color: Black;">@ViewBag.TaxLabel:</label>
+                            </td>
+                            <td width="20%">
+                                @if (Model.DeliveryCost > 0)
+                                {
+                                    double total = _vatTotal + Model.DeliveryCostTaxValue;
+                                    <span id="lblVatTotal" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(total.ToString(), ViewBag.Currency)</span>
+                                }
+                                else
+                                {
+
+                                    <span id="lblVatTotal" style="font-weight: bold; font-size: 14px; color: Black;">@Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency)</span>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td align="left">
+                                <span id="lbl_Total" style="font-weight: bold; color: Black; font-size: 13px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spngrandtotal", UserCookieManager.WBStoreId))</span>
+                            </td>
+                            <td>
+                                @if (Model.DeliveryCost > 0)
+                                {
+                                    double grossTotal = _itemTotal + (Model.DeliveryCostTaxValue + _vatTotal) + Model.DeliveryCost;
+                                    <span style="font-weight: bold; font-size: 14px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</span>
+                                }
+                                else
+                                {
+                                    double grossTotal = _itemTotal + _vatTotal;
+                                    <span style="font-weight: bold; font-size: 14px; color: Black;" id="lblGrandTotal">@Utils.FormatDecimalValueToTwoDecimal(grossTotal.ToString(), ViewBag.Currency)</span>
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>}
             <div class="clearBoth">
             </div>
         </div>
