@@ -1939,6 +1939,7 @@
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />

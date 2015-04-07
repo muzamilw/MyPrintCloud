@@ -924,22 +924,19 @@
     }
     function BillingSameAsDeliveryScriptCheckBox() {
 
-        // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
-        //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+        
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-            //  alert("c");
-            //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
+            
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-            // $("#ltrlShipTo").html(BillShippTO);
+            
             SetNewControlValues();
 
             $('#isSameBillingAddress').val("True");
             $('#divBilling').css('display', 'none');
         }
         else {
-            //
-            // $("#MainContent_chkBoxDeliverySameAsBilling").removeattr("checked");
+           
             $('#isSameBillingAddress').val("False");
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
@@ -947,6 +944,8 @@
             var ShipTO = 'Ship to:';
             $('#BillTOShippTO').css('display', 'block');
             $('#BillTOShippTOContainer').css('display', 'block');
+
+            //set labels
             $("#ltrlShipTo").html(ShipTO + "");
             $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
             $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
@@ -954,45 +953,13 @@
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
             $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-            //                //Set Selected Value to add new Mode
+         
+   
+            $('#divBilling').css('display', 'block');
+            
 
-            if (ddlBilling.val() != "") {
-                //ddlBilling.val("0");
-
-                //txtBillingName.val("");
-                //txtAddressLine1.val("");
-                //txtAddressLine2.val("");
-                //txtCity.val("");
-                //txtState.val("");
-                //txtZipPostCode.val("");
-                //txtCountry.val("");
-                //txtContactNumber.val("");
-                //reset hidden fields as well
-                //$("#" + "txthdnBillingAddressID").val("0");
-                // $("#" + "txthdnBillingDefaultAddress").val("false");
-                // $("#" + "txthdnBillingDefaultShippingAddress").val("false");
-
-                $('#divBilling').css('display', 'block');
-            } else {
-                $('#divBilling').css('display', 'block');
-            }
-
-            $('#ddlBilling option').each(function () {
-                if (ddlDelivery.val() != "") {
-
-                    if ($(this).val() == $("#ddlDelivery").val()) {
-                        $(this).css('display', 'none');
-
-                    }
-                    else{
-                        $(this).css('display', 'block');
-                    }
-                }
-
-            });
-            $('#ddlBilling option:eq(2)').attr('selected', 'selected');
-            //   $('#divBilling').val(5);
-            //   OnChangeBillingAddress();
+            HideAddressInBillingDropDown();
+            
         }
 
 
@@ -1323,17 +1290,6 @@
             }
         }
 
-        //if (event.keyCode == undefined) {
-        //} else {
-        //    if (event.keyCode == 13) { //if this is enter key
-        //        event.preventDefault();
-        //        isValid = false;
-        //        $("#hfPageIsValid").val(0);
-        //    } else {
-        //        $("#hfPageIsValid").val(1);
-        //    }
-        //}
-
         return isValid;
     }
 
@@ -1341,9 +1297,8 @@
     {
 
         var addressId = $('#ddlDelivery').val();
-        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
-        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-
+        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses)));
+        
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1404,7 +1359,7 @@
 
             }
         }
-        //   $('#BtnPost').click();
+        HideAddressInBillingDropDown();
     }
     function OnChangeBillingAddress()
     {
@@ -1551,6 +1506,24 @@
             $("#lblShipTostate").html($("#ddShippingState option:selected").text());
         });
     });
+
+    function HideAddressInBillingDropDown(){
+        $('#ddlBilling option').each(function () {
+            if ($("#ddlDelivery").val() != "") {
+
+                if ($(this).val() == $("#ddlDelivery").val()) {
+                    $(this).css('display', 'none');
+
+                }
+                else{
+                    $(this).css('display', 'block');
+                }
+            }
+
+        });
+        $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+        OnChangeBillingAddress();
+    }
 </script>
 
 }
