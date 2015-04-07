@@ -2421,17 +2421,27 @@ namespace MPC.Repository.Repositories
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
-                            //db.Configuration.LazyLoadingEnabled = false;
-                            //db.Configuration.ProxyCreationEnabled = false;
-                            //if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
-                            //{
-                            //    foreach (var ccc in comp.CompanyCostCentres)
-                            //    {
-                            //        long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                            db.Configuration.LazyLoadingEnabled = false;
+                            db.Configuration.ProxyCreationEnabled = false;
+                            if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                            {
+                                foreach (var ccc in comp.CompanyCostCentres)
+                                {
+                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
-                            //        ccc.CostCentreId = id;
-                            //    }
-                            //}
+                                    if (id > 0)
+                                    {
+                                        ccc.CostCentreId = id;
+                                    }
+                                    else
+                                    {
+                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        ccc.CostCentreId = id;
+
+                                    }
+                                  
+                                }
+                            }
 
                             //comp.CmsPages.ToList().ForEach(c => c.)
                             db.Companies.Add(comp);
@@ -2613,6 +2623,28 @@ namespace MPC.Repository.Repositories
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
+
+                            if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                            {
+                                foreach (var ccc in comp.CompanyCostCentres)
+                                {
+                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+
+                                    if (id > 0)
+                                    {
+                                        ccc.CostCentreId = id;
+                                    }
+                                    else
+                                    {
+                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        ccc.CostCentreId = id;
+
+                                    }
+
+                                }
+                            }
+
+
                             //comp.CmsPages.ToList().ForEach(c => c.)
                             db.Companies.Add(comp);
                             db.SaveChanges();
@@ -2783,6 +2815,27 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+                            if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                            {
+                                foreach (var ccc in comp.CompanyCostCentres)
+                                {
+                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+
+                                    if (id > 0)
+                                    {
+                                        ccc.CostCentreId = id;
+                                    }
+                                    else
+                                    {
+                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        ccc.CostCentreId = id;
+
+                                    }
+
+                                }
+                            }
+
 
                             db.Companies.Add(comp);
                             db.SaveChanges();
@@ -2966,6 +3019,28 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+
+                            if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                            {
+                                foreach (var ccc in comp.CompanyCostCentres)
+                                {
+                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+
+                                    if (id > 0)
+                                    {
+                                        ccc.CostCentreId = id;
+                                    }
+                                    else
+                                    {
+                                        long oid = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        ccc.CostCentreId = id;
+
+                                    }
+
+                                }
+                            }
+
 
                             db.Companies.Add(comp);
                             db.SaveChanges();
