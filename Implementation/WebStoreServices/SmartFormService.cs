@@ -85,9 +85,9 @@ namespace MPC.Implementation.WebStoreServices
             return _smartFormRepository.GetTemplateScopeVariables(templateID, contactId);
         }
 
-        public bool AutoResolveTemplateVariables(long templateID, long contactId)
+        public bool AutoResolveTemplateVariables(long itemID, long contactId)
         {
-            return _smartFormRepository.AutoResolveTemplateVariables(templateID, contactId);
+            return _smartFormRepository.AutoResolveTemplateVariables(itemID, contactId);
         }
         #endregion
     }

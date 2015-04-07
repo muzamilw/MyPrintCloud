@@ -17,7 +17,9 @@
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
 }
-
+<link href="~/Content/Designer/DSv2.css" rel="stylesheet" />
+<link href="~/Content/Designer/p103.css" rel="stylesheet" />
+<script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
 <div class="container content_area">
 
     <div class="left_right_padding row">
@@ -121,7 +123,7 @@
                                                     {
                                                         //
                                                         RedirectURL = "#";
-                                                        SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ");";
+                                                        SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'"+item.ProductName+"');";
                                                     }
                                                     else 
                                                     {
@@ -377,12 +379,142 @@
     <input type="hidden" id="hfPrintCropMarks" />
     <input type="hidden" id="hfSvcRespone" />
 </div>
+<div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
+    <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()">
+        Close
+    </div>
+    <div class="previewerTitle">
+        <span class="lightGray">Preview :</span> <span class="productTitle"></span>
+    </div>
+    <div class="sliderLine">
+    </div>
+    <div id="PreviewerDesigner" class="ui-corner-all">
+        <div id="sliderFrame">
+        </div>
+        <div class="sliderLine sliderLineBtm">
+        </div>
+        <div id="previewProofingDesigner">
+            <div class="divTxtProofingDesigner">
+                <div class="ConfirmPopupProofDesigner">
+                    <label class="lblChkSpellings" runat="server" id="lblConfirmSpellings" style="vertical-align:super">
+                        Confirm spelling and details
+                    </label>
+                    <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
+                           type="checkbox" />
+                    <label for="chkCheckSpelling" style="display: inline; height:35px">
+                    </label>
+                </div>
+         
+            </div>
+            <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
+                Next
+            </button>
+        </div>
+    </div>
+</div>
 <script>
-    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId){
-        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + ItemId + "/" + TemplateId + "/" +ContactId,
+    var tID = 0;
+    var itemId = 0;
+    function SkipDesignerGenerateProof(ItemId, TemplateId, ContactId,productName){
+        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+        $.getJSON("/designerapi/Template/AutoGenerateTemplate/" + @UserCookieManager.WEBOrderId + "/" + @UserCookieManager.WEBStoreMode + "/" + @UserCookieManager.TemporaryCompanyId + "/" + @ViewBag.organisationId + "/" + @ViewBag.CompanyID + "/" + ContactId + "/" + ItemId,
                       function (DT) {
-                          alert(DT);
+                          parts = DT.split("_");
+                          //templateid = part[1]
+                          // itemID = part[0];
+                          //orderid = part[2];
+                          //temporaryCustomerId = part[3];
+                          itemId= parts[0];
+                          var storeMode =  @UserCookieManager.WEBStoreMode;
+                          if(storeMode == 4)
+                          {
+                              createCookie("TemporaryCompanyId",parts[3]);
+                          }
+                          createCookie("WEBOrderId",parts[2]);
+                          k0(parts[1],productName);
+                          $(".productTitle").html(productName);
+
+
                       });
-        //alert(ItemId + ":" +TemplateId + ":" + ContactId);
     }
+    function createCookie(name, value, days) {
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            var expires = "; expires=" + date.toGMTString();
+        }
+        else var expires = "";
+        document.cookie = name + "=" + value + expires + "; path=/";
+    }
+    function k0(tsID,productName) {
+        tID= tsID;
+        organisationId = @ViewBag.organisationId;
+        if ($(window).width() > 1200 ) {
+            $('#PreviewerContainerDesigner').css("width", "1200px");
+            $('#PreviewerDesigner').css("width", "1176px");
+            $('#sliderFrame').css("width", "1140px");
+            $('#sliderDesigner').css("width", "942px");
+            $('.sliderLine').css("width", "1144px");
+            $('#previewProofingDesigner').css("width", "1160px");
+            $('.divTxtProofingDesigner').css("margin-left", "208px");
+        }
+        $("#sliderFrame").html('<div id="sliderDesigner">  </div> <div id="thumbs"></div> <div style="clear:both;height:0;"></div>');
+        $('#PreviewerContainerDesigner').css("left", (($(window).width() - $('#PreviewerContainerDesigner').width()) / 2) + "px");
+        $('#PreviewerContainerDesigner').css("height", (($(window).height() - 28)) + "px");
+        $('#PreviewerDesigner').css("height", (($(window).height() - 131)) + "px");
+            $('#sliderFrame').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#sliderDesigner').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+            $('#thumbs').css("height", $('#PreviewerDesigner').height() - 50 - 40 + "px");
+
+        $.getJSON("/designerapi/templatepage/GetTemplatePages/" + tID,
+            function (DT) {
+                var stPath = "/MPC_Content/Designer/Organisation" + organisationId + "/Templates/" + tID;
+                $.each(DT, function (i, IT) {
+
+                    $("#sliderDesigner").append('<img src="' + stPath + '/p' + IT.PageNo + '.png?r=2"  alt="' + IT.PageName + '" />');
+                    $("#thumbs").append(' <div id="thumbPage' + IT.ProductPageID + '" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + '.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + '</p></div><div style="clear:both;"></div></div>');
+
+                });
+                $.each(DT, function (i, IT) {
+                    $("#sliderDesigner").append('<img class="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2"  alt="' + IT.PageName + '" />');
+                    $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
+                });
+                $("#PreviewerContainerDesigner").css("display","block");
+            });
+
+
+    }
+    function e6() {
+     //   HideLoader();
+     //   $("#PreviewerContainerDesigner").css("display","none");
+    }
+
+    $("#btnNextProofing").click(function (event) {
+        if ($("#chkCheckSpelling").is(':checked')) {
+            var designerName = $('.productTitle').html();
+
+            while (designerName.indexOf('/') != -1)
+                designerName = designerName.replace("/", "__");
+            while (designerName.indexOf('&') != -1)
+                designerName = designerName.replace("&", "__");
+
+            while (designerName.indexOf(' ') != -1)
+                designerName = designerName.replace(" ", "-");
+            while (designerName.indexOf(';') != -1)
+                designerName = designerName.replace(";", "-");
+            while (designerName.indexOf('&#34;') != -1)
+                designerName = designerName.replace("&#34;", "-");
+            while (designerName.indexOf('+') != -1)
+                designerName = designerName.replace("+", "-");
+
+
+            $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
+              function (DT) {
+                  window.location.href = DT;// + "&CategoryId=" + CategoryId + "&ProductName=" + document.getElementById('txtDesignName').value + emailParameters;
+              });
+        } else {
+            alert("Please Confirm spellings and details!");
+            return false;
+        }
+    });
 </script>

@@ -1050,9 +1050,28 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-        public bool AutoResolveTemplateVariables(long templateID, long contactId)
+        public bool AutoResolveTemplateVariables(long itemID, long contactId)
         {
             bool result = false;
+           
+            long templateID = 0;
+            List<ScopeVariable> lstVariables = GetUserTemplateVariables(itemID, contactId);
+            var item = db.Items.Where(g=>g.ItemId == itemID).SingleOrDefault();
+            if(item != null)
+            {
+                if(item.TemplateId.HasValue)
+                    templateID = item.TemplateId.Value;
+            }
+            List<TemplateObject> lstTemplateObjects = db.TemplateObjects.Where(g => g.ProductId == templateID).ToList();
+            foreach(var obj in lstTemplateObjects)
+            {
+                foreach(var variable in lstVariables)
+                {
+                    obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
+                }
+            }
+            db.SaveChanges();
+            result = true;
             return result;
         }
         #endregion

@@ -29,6 +29,6 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
         List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
-        bool AutoResolveTemplateVariables(long templateID, long contactId);
+        bool AutoResolveTemplateVariables(long itemID, long contactId);
     }
 }

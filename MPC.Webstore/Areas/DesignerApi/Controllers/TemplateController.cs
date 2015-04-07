@@ -150,10 +150,10 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
 
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        //itemID,templateID,contactID
-        public HttpResponseMessage AutoGenerateTemplate(long parameter1, long parameter2, long parameter3)
+        //long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID
+        public HttpResponseMessage AutoGenerateTemplate(long parameter1, int parameter2, long parameter3,long parameter4, long parameter5, long parameter6, long parameter7)
         {
-            var result = "generating";// itemService.SaveDesignAttachments(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
+            var result = itemService.ProcessCorpOrderSkipDesignerMode(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7); //"generating";// itemService.SaveDesignAttachments(parameter1, parameter2, parameter3, parameter4, parameter5, parameter6);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;
             json.Formatting = Newtonsoft.Json.Formatting.Indented;

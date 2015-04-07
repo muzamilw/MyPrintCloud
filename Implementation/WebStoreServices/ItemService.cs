@@ -37,6 +37,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IInquiryAttachmentRepository _inquiryAttachmentRepository;
         private readonly IOrderService _orderService;
         private readonly ICompanyService _myCompanyService;
+        private readonly ISmartFormService _smartFormService;
         #region Constructor
 
         /// <summary>
@@ -46,7 +47,7 @@ namespace MPC.Implementation.WebStoreServices
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
             , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository,
-            IOrderService orderService,ICompanyService companyService)
+            IOrderService orderService,ICompanyService companyService,ISmartFormService smartformService)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -63,6 +64,7 @@ namespace MPC.Implementation.WebStoreServices
             this._inquiryAttachmentRepository = inquiryAttachmentRepository;
             this._orderService = orderService;
             this._myCompanyService = companyService;
+            this._smartFormService = smartformService;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -1023,9 +1025,9 @@ namespace MPC.Implementation.WebStoreServices
                 }
             }
             //resolve template variables 
-
+            _smartFormService.AutoResolveTemplateVariables(ItemID, ContactID);
             _templateService.processTemplatePDF(TemplateID,OrganisationId, printCropMarks,printWaterMark,false,isMultiplageProduct);
-            return ItemID + "_" + TemplateID + "_" + OrderID + "_" + TemporaryCompanyId;
+            return ItemID + "_" + TemplateID + "_" + WEBOrderId + "_" + TemporaryCompanyId;
             //update temporary customer id (for case of retail) and order id 
         }
    
