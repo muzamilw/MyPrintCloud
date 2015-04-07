@@ -186,11 +186,12 @@ namespace MPC.Repository.Repositories
                         {
                             long CID = cost.CostCentreId;
                             ImportIDs.CostCentreIDs.Add(cost.CostCentreId);
+                            int oldCostId = (int)cost.CostCentreId;
                             CostCentre cc = new CostCentre();
 
                             cc = cost;
                             cc.CostCentreId = 0;
-                            cc.Priority = cost.Priority;
+                            cc.CCIDOption3 = oldCostId;
                             cc.OrganisationId = OrganisationID;
                             db.CostCentres.Add(cc);
                             // save cost centre instructions
@@ -691,9 +692,18 @@ namespace MPC.Repository.Repositories
                          {
                              foreach(var ccc in comp.CompanyCostCentres)
                              {
-                                 long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                 long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                 if (id > 0)
+                                 {
 
-                                 ccc.CostCentreId = id;
+                                     ccc.CostCentreId = id;
+                                 }
+                                 else
+                                 {
+                                     id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID ).Select(c => c.CostCentreId).FirstOrDefault();
+                                     ccc.CostCentreId = id;
+                                 }
+                                 
                              }
                          }
 
