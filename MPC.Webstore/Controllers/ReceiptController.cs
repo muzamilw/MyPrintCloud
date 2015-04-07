@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
+using MPC.Webstore.Models;
 
 namespace MPC.Webstore.Controllers
 {
@@ -29,16 +30,14 @@ namespace MPC.Webstore.Controllers
             }
             this._myCompanyService = myCompanyService;
             this._OrderService = OrderService;
-         }
+        }
         // GET: Receipt
         public ActionResult Index(string OrderId)
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
 
-            //MyCompanyDomainBaseResponse baseResponseOrganisation = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromOrganisation();
-            //MyCompanyDomainBaseResponse baseResponseCompany = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCompany();
-            //MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
+
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
 
 
@@ -63,28 +62,37 @@ namespace MPC.Webstore.Controllers
             }
 
             ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
-           OrderDetail order =  _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
 
-           ViewBag.Organisation = StoreBaseResopnse.Organisation;
-            if (StoreBaseResopnse.Organisation.Country != null)
+            ViewBag.Company = StoreBaseResopnse.Company;
+           
+            AddressViewModel oStoreDefaultAddress = null;
+
+            if (StoreBaseResopnse.Company.isWhiteLabel == false)
             {
-                ViewBag.OrganisationCountryName = StoreBaseResopnse.Organisation.Country.CountryName;
+                oStoreDefaultAddress = null;
             }
-            else
+            else 
             {
-                ViewBag.OrganisationCountryName = "";
+                if (StoreBaseResopnse.StoreDetaultAddress != null)
+                {
+                    oStoreDefaultAddress = new AddressViewModel();
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                    {
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                    }
+                }
             }
-            if (StoreBaseResopnse.Organisation.State != null)
-            {
-                ViewBag.OrganisationStateName = StoreBaseResopnse.Organisation.State.StateName;
-            }
-            else
-            {
-                ViewBag.OrganisationStateName = "";
-            }
+            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
             return View("PartialViews/Receipt", order);
         }
-
-        
     }
 }

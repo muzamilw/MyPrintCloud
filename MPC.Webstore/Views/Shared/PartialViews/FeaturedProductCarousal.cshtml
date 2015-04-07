@@ -4,6 +4,7 @@
     var loopcount = 0;
     var productsCount = ViewBag.ProductsCount;
     var featuredList = Model as List<MPC.Models.DomainModels.Item>;
+    var ProductDescription = "";
 }
 <div class="recent-posts blocky">
     <div class="container">
@@ -69,11 +70,26 @@
                                                     <!-- heading and paragraph -->
                                                     <h4>
                                                         <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 1].ProductName</label>
+                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 1].ProductName</label>
                                                         </a>
                                                     </h4>
                                                     <p id="descOfFPro">
-                                                        <label class="topcat_desc displayNone_TLS5">@featuredList[i + 1].WebDescription</label>
+                                                        @{
+                                                            ProductDescription = featuredList[i + 1].WebDescription;
+                                                            if (!string.IsNullOrEmpty(ProductDescription))
+                                                            {
+                                                                if (ProductDescription.Length > 250)
+                                                                {
+                                                                    ProductDescription = ProductDescription.Substring(0, 250);
+                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL + ">more...</a>";
+                                                                }
+                                                                else
+                                                                {
+                                                                    ProductDescription = ProductDescription;
+                                                                }
+                                                            }
+                                                        }
+                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
                                                     </p>
                                                 </div>
                                             </div>
@@ -115,11 +131,26 @@
                                                         <!-- heading and paragraph -->
                                                         <h4>
                                                             <a href="#" id="headingOfFeaturedPro">
-                                                                <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
+                                                                <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 2].ProductName</label>
                                                             </a>
                                                         </h4>
                                                         <p id="descOfFPro">
-                                                            <label class="topcat_desc displayNone_TLS5">@featuredList[i + 2].WebDescription</label>
+                                                            @{
+                                                            ProductDescription = featuredList[i + 2].WebDescription;
+                                                            if (!string.IsNullOrEmpty(ProductDescription))
+                                                            {
+                                                                if (ProductDescription.Length > 250)
+                                                                {
+                                                                    ProductDescription = ProductDescription.Substring(0, 250);
+                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
+                                                                }
+                                                                else
+                                                                {
+                                                                    ProductDescription = ProductDescription;
+                                                                }
+                                                            }
+                                                            }
+                                                            <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -163,11 +194,26 @@
                                                     <!-- heading and paragraph -->
                                                     <h4>
                                                         <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 3].ProductName</label>
+                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 3].ProductName</label>
                                                         </a>
                                                     </h4>
                                                     <p id="descOfFPro">
-                                                        <label class="topcat_desc displayNone_TLS5">@featuredList[i + 3].WebDescription</label>
+                                                        @{
+                                                            ProductDescription = featuredList[i + 3].WebDescription;
+                                                            if (!string.IsNullOrEmpty(ProductDescription))
+                                                            {
+                                                                if (ProductDescription.Length > 250)
+                                                                {
+                                                                    ProductDescription = ProductDescription.Substring(0, 250);
+                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
+                                                                }
+                                                                else
+                                                                {
+                                                                    ProductDescription = ProductDescription;
+                                                                }
+                                                            }
+                                                        }
+                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
                                                     </p>
                                                 </div>
                                             </div>
@@ -210,11 +256,26 @@
                                                     <!-- heading and paragraph -->
                                                     <h4>
                                                         <a href="#" id="headingOfFeaturedPro">
-                                                            <label class="product_detail_image_heading_S5 s5TxtStyle themeFontColor Top_Cat_Display">@featuredList[i + 4].ProductName</label>
+                                                            <label class="product_detail_image_heading_S5  themeFontColor Top_Cat_Display">@featuredList[i + 4].ProductName</label>
                                                         </a>
                                                     </h4>
                                                     <p id="descOfFPro">
-                                                        <label class="topcat_desc displayNone_TLS5">@featuredList[i + 4].WebDescription</label>
+                                                        @{
+                                                            ProductDescription = featuredList[i + 4].WebDescription;
+                                                            if (!string.IsNullOrEmpty(ProductDescription))
+                                                            {
+                                                                if (ProductDescription.Length > 250)
+                                                                {
+                                                                    ProductDescription = ProductDescription.Substring(0, 250);
+                                                                    ProductDescription = ProductDescription + "<a class=morelink href=" + RedirectURL+">more...</a>";
+                                                                }
+                                                                else
+                                                                {
+                                                                    ProductDescription = ProductDescription;
+                                                                }
+                                                            }
+                                                        }
+                                                        <label class="topcat_desc displayNone_TLS5">@ProductDescription</label>
                                                     </p>
                                                 </div>
                                             </div>
