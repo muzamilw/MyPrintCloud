@@ -87,7 +87,7 @@
             //Is Disabled
             isDisabled = ko.observable(specifiedIsDisabled),
             //Paper Type ID
-            paperTypeId = ko.observable(specifiedPaperTypeId),
+            paperTypeId = ko.observable((specifiedPaperTypeId == undefined || specifiedPaperTypeId === null) ? 1 : specifiedPaperTypeId),
             //Item Size Selected Unit Id
             itemSizeSelectedUnitId = ko.observable(specifiedItemSizeSelectedUnitId),
             //perQtyQty
@@ -217,7 +217,7 @@
                 StockItemId: itemId(),
                 ItemName: itemName(),
                 ItemCode: itemCode(),
-                Region:region,
+                Region: region,
                 SupplierId: supplierId(),
                 CategoryId: categoryId(),
                 SubCategoryId: subCategoryId(),
@@ -318,9 +318,9 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
              //To Date 
-            toDate = ko.observable(specifiedToDate === null ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
+            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //From Date
-            fromDate = ko.observable(specifiedFromDate === null ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
+            fromDate = ko.observable((specifiedFromDate === null || specifiedFromDate == undefined) ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
                 //Cost Or Price Identifier
             costOrPriceIdentifier = ko.observable(specifiedCostOrPriceIdentifier),
             // Formatted From Date

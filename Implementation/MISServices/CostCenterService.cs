@@ -111,15 +111,9 @@ namespace MPC.Implementation.MISServices
 
         public CostCenterBaseResponse GetBaseData()
         {
-            return new CostCenterBaseResponse
-            {
-                CostCenterCategories = _costcentreTypeRepository.GetAll(),
-                CostCenterResources = _systemUserRepository.GetAll(),
-                NominalCodes = _chartOfAccountRepository.GetAll(),
-                Markups = _markupRepository.GetAll(),
-                CostCentreVariables = _costCentreVariableRepository.returnLoadVariableList(),
-                DeliveryCarriers = _deliveryCarrierRepository.GetAll()
-            };
+            return _costCenterRepository.GetBaseData();
+            
+           
         }
 
         public void SaveCostCentre(CostCentre costcenter, long OrganisationId, string OrganisationName, bool isNew)

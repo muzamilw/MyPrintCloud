@@ -130,7 +130,16 @@ define("order/order.view",
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
                 },
-                
+
+                // Show Inks Dialog
+                showInksDialog = function () {
+                    $("#inkDialogModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Inks Dialog
+                hideInksDialog = function () {
+                    $("#inkDialogModel").modal("hide");
+                },
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -172,7 +181,9 @@ define("order/order.view",
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
-                hideInventoryItemDialog: hideInventoryItemDialog
+                hideInventoryItemDialog: hideInventoryItemDialog,
+                showInksDialog: showInksDialog,
+                hideInksDialog: hideInksDialog
             };
         })(orderViewModel);
 
