@@ -942,10 +942,13 @@ namespace MPC.Repository.Repositories
 
                 Mapper.CreateMap<CmsSkinPageWidget, CmsSkinPageWidget>()
                   .ForMember(x => x.Company, opt => opt.Ignore())
-                  .ForMember(x => x.CmsSkinPageWidgetParams, opt => opt.Ignore())
                   .ForMember(x => x.Organisation, opt => opt.Ignore())
                   .ForMember(x => x.Widget, opt => opt.Ignore())
                   .ForMember(x => x.CmsPage, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<CmsSkinPageWidgetParam, CmsSkinPageWidgetParam>()
+                 .ForMember(x => x.CmsSkinPageWidget, opt => opt.Ignore());
 
                 Mapper.CreateMap<CompanyCostCentre, CompanyCostCentre>()
                   .ForMember(x => x.Company, opt => opt.Ignore())
@@ -974,7 +977,7 @@ namespace MPC.Repository.Repositories
 
                 //Include("CmsSkinPageWidgets")
 
-                List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
+                List<CmsSkinPageWidget> widgets = db.PageWidgets.Include("CmsSkinPageWidgetParams").Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
 
                 if (widgets != null && widgets.Count > 0)
                 {
@@ -1559,10 +1562,12 @@ namespace MPC.Repository.Repositories
 
                 Mapper.CreateMap<CmsSkinPageWidget, CmsSkinPageWidget>()
                   .ForMember(x => x.Company, opt => opt.Ignore())
-                  .ForMember(x => x.CmsSkinPageWidgetParams, opt => opt.Ignore())
                   .ForMember(x => x.Organisation, opt => opt.Ignore())
                   .ForMember(x => x.Widget, opt => opt.Ignore())
                   .ForMember(x => x.CmsPage, opt => opt.Ignore());
+
+                Mapper.CreateMap<CmsSkinPageWidgetParam, CmsSkinPageWidgetParam>()
+                    .ForMember(x => x.CmsSkinPageWidget, opt => opt.Ignore());
 
                 Mapper.CreateMap<CompanyCostCentre, CompanyCostCentre>()
                   .ForMember(x => x.Company, opt => opt.Ignore())
@@ -1591,7 +1596,7 @@ namespace MPC.Repository.Repositories
 
                 //Include("CmsSkinPageWidgets")
 
-                List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
+                List<CmsSkinPageWidget> widgets = db.PageWidgets.Include("CmsSkinPageWidgetParams").Where(c => c.CompanyId == CompanyId && c.PageId != null).ToList();
                 List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
                 if (widgets != null && widgets.Count > 0)
                 {
@@ -2392,7 +2397,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                                
                             }
 
 
@@ -2415,6 +2420,18 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+                            //db.Configuration.LazyLoadingEnabled = false;
+                            //db.Configuration.ProxyCreationEnabled = false;
+                            //if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                            //{
+                            //    foreach (var ccc in comp.CompanyCostCentres)
+                            //    {
+                            //        long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+
+                            //        ccc.CostCentreId = id;
+                            //    }
+                            //}
 
                             //comp.CmsPages.ToList().ForEach(c => c.)
                             db.Companies.Add(comp);
@@ -2572,7 +2589,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                                
                             }
 
 
@@ -2747,7 +2764,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                               
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
@@ -2930,7 +2947,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                              
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)

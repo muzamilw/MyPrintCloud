@@ -423,10 +423,11 @@ define("inventory/inventory.viewModel",
                                         selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
                                     }
                                     isInventoryEditorVisible(false);
+                                    sharedNavigationVM.reset();
                                     if (callback && typeof callback === "function") {
                                         callback();
                                     }
-                                    toastr.success("Successfully save.");
+                                    toastr.success("Saved Successfully.");
                                 },
                                 error: function (exceptionMessage, exceptionType) {
 
@@ -470,6 +471,7 @@ define("inventory/inventory.viewModel",
                             confirmation.afterCancel(function () {
                                 isInventoryEditorVisible(false);
                                 selectedInventory().reset();
+                                sharedNavigationVM.reset();
                             });
                             confirmation.show();
                             return;
