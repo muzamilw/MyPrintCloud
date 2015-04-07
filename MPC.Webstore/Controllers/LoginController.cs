@@ -213,7 +213,8 @@ namespace MPC.Webstore.Controllers
                         if (Orderid > 0)
                         {
                             UserCookieManager.TemporaryCompanyId = 0;
-                            Response.Redirect("/ShopCart/" + Orderid);
+                           // return RedirectToAction("ShopCart", new { optionalOrderId = Orderid });
+                           Response.Redirect("/ShopCart/" + Orderid);
                         }
                     }
 
@@ -224,8 +225,9 @@ namespace MPC.Webstore.Controllers
                     }
                     else
                     {
-                        Response.Redirect("/");
-
+                     //Response.Redirect("/");
+                        ControllerContext.HttpContext.Response.Redirect("/");
+                      // return RedirectToAction("Index", "Home");
                     }
                     return null;
                 }

@@ -6,7 +6,7 @@
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
-    var grid = new WebGrid(source: ViewBag.Address, canPage: true, rowsPerPage: 13);
+    var grid = new WebGrid(source: ViewBag.Address, canPage: true,canSort:false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
     
@@ -18,6 +18,16 @@
             <span id="MainContent_lblPageTitle" class="sign_in_heading">Billing &amp; Shipping Addresses</span>
 
         </div>
+        <div class="dashBoardRetrunLink">
+        <div class="BreadCrumbMenu left_align">
+            <h1>
+                <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                    Back to my dashboard
+                </a>
+            </h1>
+            <div class="clearBoth"></div>
+        </div>
+         </div>
         <div class="clearBoth">
         </div>
         <div class="paddingTop15px">
@@ -26,7 +36,7 @@
                 <div class="float_left">
                     @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New Address" runat="server"
                     ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
-                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" />
+                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" onclick="ResetTextboxes()" />
                 </div>
                 <div class="new_caption">
                     @*<asp:Literal ID="ltrlnewShippingAddress" runat="server" Text="New Shipping Address"></asp:Literal>*@
@@ -69,20 +79,7 @@
                 </table>
             </div>
             <div class="white_background rounded_corners textAlignLeft">
-                <div class="normalTextStyle territory_row_padding_header">
-                    <div class="address_title_corp_div checked_design ">
-                        @*<asp:Literal ID="ltrladdressstitle" runat="server" Text="Address Title"></asp:Literal>*@
-                        <label id="ltrladdressstitle">Address Title</label>
-                    </div>
-                    <div class="address_detil_corp_div checked_design" id="divaddressdeatails">
-                        @*<asp:Literal ID="ltrladdressdeatails" runat="server" Text="Address Details"></asp:Literal>*@
-                        <label id="ltrladdressstitle">Address Details</label>
-                    </div>
-                    <div class="main_contact_corp_div checked_design" id="divmaincontent">
-                        @*<asp:Literal ID="ltrlmaincontent" runat="server" Text="Main Contact"></asp:Literal>*@
-                        <label id="ltrlmaincontent">Main Contact</label>
-                    </div>
-                </div>
+                
                 <div class="border_bottom_line">
                     
                 </div>
@@ -120,47 +117,49 @@
 
 
                 <asp:asyncpostbacktrigger controlid="btnSaveShippingAddress" eventname="Click" />*@
-                <div class="territory_row_padding">
+                <div class="territory_row_paddingNew">
                     <div id="divContainer" class="cursor_pointer">
                         @grid.Table(
     htmlAttributes: new { id = "BillingShippingGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
-    headerStyle: "normalTextStyle territory_row_padding_header",
-             rowStyle: "territory_row_padding GridLineHeight",
-             alternatingRowStyle: "territory_row_padding GridLineHeight",
+             headerStyle: "WebGridheader",
+                      rowStyle: "gridViewRowStyleForWebGrid",
+                      alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column(format:@<p onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop PaddingTopForWebGrid2Columns">@item.AddressName</p>,style: "address_title_corp_div gridfontStyle PaddingTopForWebGrid2Columns"),
-    grid.Column(format:@<p style="min-width: 50px; min-height:40px;" class="PaddingTop PaddingTopForWebGrid2Columns" onclick="ShowBillingShippingDetails(@item.AddressId)">@item.Address1</p>,style:"address_detil_corp_div gridfontStyle PaddingTopForWebGrid2Columns"),
-    grid.Column(format:@<p onclick="ShowBillingShippingDetails(@item.AddressId)" class="PaddingTop paddingTopForWebGrid3rdColumn">
-    @if (item.IsDefaultAddress == null)
-    {
-<p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)" >No</p>
+    grid.Column("Address Title",format:@<p>@item.AddressName</p>),
+    grid.Column("Address Details",format:@<p>@item.Address1</p>),
+    grid.Column("Main Contact",format:@<p>
 
+                            @if (item.IsDefaultAddress == null)
+                            {
+                            <p>No</p>
+
+                            }
+                            else
+                            {
+                                if (item.IsDefaultAddress == true)
+                                {
+                                    <p>Yes</p>
+                                }
+                                else
+                                {
+                                    <p>Yes</p>
+                                }
+                            }
+                            </p>),
+grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowBillingShippingDetails(@item.addressid)" />
+            </text>)
     }
-    else
-    {
-        if (item.IsDefaultAddress == true)
-        {
-            <p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)">Yes</p>
-        }
-        else
-        {
-            <p class="PaddingTop" onclick="ShowBillingShippingDetails(@item.AddressId)">Yes</p>
-        }
-    }
-</p>,style: "main_contact_corp_div gridfontStyle paddingTopForWebGrid3rdColumn"),
-                        
-    }
-    
-    )
-                         
+
+         )
+
                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
-                         {
-                        <div id="footerr"  class="pagination pagination-small pagination-right">
-                            @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
-                        </div>
+                        {
+                            <div id="footerr" class="pagination pagination-small pagination-right">
+                                @WebGridExt.PagerList(grid, mode: WebGridPagerModes.All)
+                            </div>
                         }
                     </div>
                 </div>
@@ -445,7 +444,7 @@
             success: function (response) {
                 var PHtml = $("#UpdateModelPopUp").html();
 
-                ShippingBillingDetails("", PHtml);
+                ShippingBillingDetails("Update Address", PHtml);
                 $("#txtAddressName").val(response.Address.AddressName);
                 $("#txtFAO").val(response.Address.FAO);
                 $('#txtAddress1').val(response.Address.Address1);
@@ -544,7 +543,7 @@
     function ResetTextboxes() {
         UpdateStatus = false;
         var PHtml = $("#UpdateModelPopUp").html();
-        ShippingBillingDetails("", PHtml);
+        ShippingBillingDetails("Add New Address", PHtml);
 
         $("#txtAddressName").val('');
         $("#txtFAO").val('');
