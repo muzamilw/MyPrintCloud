@@ -130,6 +130,14 @@ define("order/order.view",
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
                 },
+                //Show Estimate Run Wizard Modal
+                showEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('show');
+                },
+                //Hide Estimate Run Wizard Modal
+                hideEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('hide');
+                },
                 
                 //#endregion
                 // Initialize Label Popovers
@@ -172,7 +180,9 @@ define("order/order.view",
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
-                hideInventoryItemDialog: hideInventoryItemDialog
+                hideInventoryItemDialog: hideInventoryItemDialog,
+                showEstimateRunWizard: showEstimateRunWizard,
+                hideEstimateRunWizard: hideEstimateRunWizard,
             };
         })(orderViewModel);
 

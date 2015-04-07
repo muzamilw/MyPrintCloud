@@ -365,7 +365,7 @@ define("order/order.viewModel",
                     openSectionDetail = function () {
                         isSectionDetailVisible(true);
                         view.initializeLabelPopovers();
-                        
+
                         // Subscribe Section Changes
                         subscribeSectionChanges();
                     },
@@ -486,8 +486,8 @@ define("order/order.viewModel",
                         }, stockCategory.paper, false);
                     },
                     // Get Paper Size by id
-                    getPaperSizeById = function(id) {
-                        return paperSizes.find(function(paperSize) {
+                    getPaperSizeById = function (id) {
+                        return paperSizes.find(function (paperSize) {
                             return paperSize.id === id;
                         });
                     },
@@ -502,11 +502,11 @@ define("order/order.viewModel",
 
                         // Get Base Data
                         getBaseData();
-                        
-                        
+
+
                     },
                     // Subscribe Section Changes for Ptv Calculation
-                    subscribeSectionChanges = function() {
+                    subscribeSectionChanges = function () {
                         // Subscribe change events for ptv calculation
                         selectedSection().isDoubleSided.subscribe(function (value) {
                             if (value !== selectedSection().isDoubleSided()) {
@@ -569,7 +569,7 @@ define("order/order.viewModel",
 
                             getPtvCalculation();
                         });
-                        
+
                         // On Select Item Size
                         selectedSection().itemSizeId.subscribe(function (value) {
                             if (value !== selectedSection().itemSizeId()) {
@@ -1438,6 +1438,7 @@ define("order/order.viewModel",
                         showSide1Image(false);
                     },
                     getBestPress = function () {
+                        showEstimateRunWizard();
                         isLoadingOrders(true);
                         dataservice.getBestPress(selectedSection().convertToServerData, {
                             success: function (data) {
@@ -1454,9 +1455,17 @@ define("order/order.viewModel",
                         });
                     },
                     // Template Chooser For Delivery Schedule
-                     templateToUseDeliverySchedule = function (deliverySchedule) {
-                         return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
-                     };
+                    templateToUseDeliverySchedule = function (deliverySchedule) {
+                        return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
+                    },
+                    //Show Estimate Run Wizard
+                    showEstimateRunWizard = function () {
+                        view.showEstimateRunWizard();
+                    },
+                    //Hide Estimate Run Wizard
+                    hideEstimateRunWizard = function () {
+                        view.hideEstimateRunWizard();
+                    };
                 //#endregion
                 //#endregion
 

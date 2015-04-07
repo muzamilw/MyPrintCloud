@@ -1935,6 +1935,7 @@
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
