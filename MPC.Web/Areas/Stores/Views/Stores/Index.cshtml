@@ -51,7 +51,6 @@
                                         <th class="col-lg-2"></th>
                                         <th class="col-lg-4"><span>All Stores</span></th>
                                         <th class="col-lg-4"><span>Type</span></th>
-                                        <th class="col-lg-2"><span>Status</span></th>
 
                                         @*<th class="col-lg-1">&nbsp;</th>*@
                                     </tr>
@@ -103,16 +102,6 @@
                 </td>
 
                 <td data-bind="text: type"></td>
-
-                <td>
-                    <!-- ko if: status() == 1 -->
-                    <span class="label label-success">Active</span>
-                    <!-- /ko -->
-                    <!-- ko if: status() != 1 -->
-                    <span class="label label-danger">In-Active</span>
-                    <!-- /ko -->
-                </td>
-
                 @*<td id="actionColumn">
                         <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                         <!-- /ko -->

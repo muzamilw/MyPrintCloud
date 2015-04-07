@@ -2111,8 +2111,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAddonCostCentres.splice(0, 0, itemAddonCostCentre);
             },
             // Remove ItemAddon Cost Centre
-            removeItemAddonCostCentre = function (itemAddonCostCentre) {
-                itemAddonCostCentres.remove(itemAddonCostCentre);
+            removeItemAddonCostCentre = function () {
+                itemAddonCostCentres.remove(activeItemAddonCostCentre());
             },
             // Select Stock Item
             selectStock = function (stockItem) {

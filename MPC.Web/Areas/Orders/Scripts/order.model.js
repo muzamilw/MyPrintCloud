@@ -855,6 +855,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     Qty3: qty3(),
                     SectionCostcentres: sectionCostCentres.map(function (scc) {
                         return scc.convertToServerData();
+                    }),
+                    SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
+                        return sic.convertToServerData();
                     })
                 };
             };
