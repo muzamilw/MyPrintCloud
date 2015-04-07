@@ -716,6 +716,15 @@
 #stockDialog #stockDialogMainContainer {
   width: 838px;
 }
+#orderBinding {
+  /*#tabsHeader {
+        border: 1px solid silver;
+        box-shadow: 1px 1px 1px silver;
+    }*/
+}
+#orderBinding .selectedBestPressFromWizard {
+  background: yellow !important;
+}
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;
   font-size: 15px;
