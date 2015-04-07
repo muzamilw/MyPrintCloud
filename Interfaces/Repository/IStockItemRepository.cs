@@ -26,7 +26,7 @@ namespace MPC.Interfaces.Repository
         InventorySearchResponse GetStockItemsForProduct(StockItemRequestModel request);
 
         List<StockItem> GetStockItemsByOrganisationID(long OrganisationID);
-       
-        
+
+        List<StockItem> GetStockItemOfCategoryInk();
     }
 }

@@ -112,6 +112,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to update system cost centers for current section screen with wizard finish button
+                    amplify.request.define('getUpdatedSystemCostCenters', 'ajax', {
+                        url: ist.siteUrl + '/Api/ItemSection',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -253,6 +259,15 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            getUpdatedSystemCostCenters = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getUpdatedSystemCostCenters',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -279,7 +294,8 @@ define("order/order.dataservice", function () {
             deleteOrder: deleteOrder,
             getPTV: getPTV,
             getBestPress: getBestPress,
-            getPTVCalculation: getPTVCalculation
+            getPTVCalculation: getPTVCalculation,
+            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters
         };
     })();
 

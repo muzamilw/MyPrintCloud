@@ -123,6 +123,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IPurchaseRepository, PurchaseRepository>();
             unityContainer.RegisterType<ICostCentreAnswerRepository, CostCentreAnswerRepository>();
             unityContainer.RegisterType<IInkPlateSideRepository, InkPlateSideRepository>();
+            unityContainer.RegisterType<IInkCoverageGroupRepository, InkCoverageGroupRepository>();
         }
     }
 }

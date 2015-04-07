@@ -98,6 +98,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IncludeGutter = source.IncludeGutter,
                 SimilarSections = source.SimilarSections,
                 PlateInkId = source.PlateInkId,
+                PrintViewLayoutLandScape = source.PrintViewLayoutLandScape,
+                PrintViewLayoutPortrait = source.PrintViewLayoutPortrait,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
                 new List<SectionCostcentre>()
             };

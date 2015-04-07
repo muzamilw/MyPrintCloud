@@ -755,6 +755,26 @@ namespace MPC.Repository.Repositories
 
             return oResponse;
         }
+
+        public CostCenterBaseResponse GetBaseData()
+        {
+            db.Configuration.LazyLoadingEnabled = false;
+            var types = db.CostCentreTypes.Where(c => c.OrganisationId == this.OrganisationId).ToList();
+            var resources = db.SystemUsers.Where(u => u.OrganizationId == this.OrganisationId).ToList();
+            var nominalCodes = db.ChartOfAccounts.Where(u => u.SystemSiteId == this.OrganisationId).ToList();
+            var ccVariables = db.CostCentreVariables.Where(c => c.SystemSiteId == this.OrganisationId).ToList();
+            var carriers = db.DeliveryCarriers.ToList();
+            var markups = db.Markups.Where(m => m.OrganisationId == this.OrganisationId).ToList();
+            return new CostCenterBaseResponse
+            {
+                CostCenterCategories = types,
+                CostCenterResources = resources,
+                NominalCodes = nominalCodes,
+                Markups = markups,
+                CostCentreVariables = ccVariables,
+                DeliveryCarriers = carriers
+            };
+        }
 		#endregion
 
 		#region "CostCentre Template"

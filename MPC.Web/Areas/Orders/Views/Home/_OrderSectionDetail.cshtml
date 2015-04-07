@@ -244,7 +244,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                             <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: plateInkId" style="width:250%;"></select>
                                         </div>
                                         <div style="float:right;display:inline;">
-                                            <a data-toggle="modal" href="#myModal" class="btn btn-primary pull-right">
+                                            <a class="btn btn-primary pull-right" data-bind="click: $root.openInkDialog">
                                                 <i class="fa fa-lg"></i>&nbsp;....
                                             </a>
                                         </div>
@@ -296,9 +296,10 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                                 <a href="#myModal" class="btn btn-primary">
                                                     <i class="fa fa-lg"></i>&nbsp;Add Stock
                                                 </a>
-                                                <a href="#myModal" class="btn btn-primary" data-bind="click:$root.getBestPress">
-                                                    <i class="fa fa-lg"></i>&nbsp;Run Wizard
-                                                </a>
+                                                <a href="#" class="btn btn-primary" data-bind="click:$root.getSectionSystemCostCenters">
+                                                    @*<a href="#myModal" class="btn btn-primary" data-bind="click:$root.getBestPress"> Temporarily binding changed to test function which will be triggered after the wizard finish*@
+                                                <i class="fa fa-lg"></i>&nbsp;Run Wizard
+                                            </a>
                                             </div>
                                         </div>
                                     </div>
@@ -380,6 +381,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
             </div>
         </div>
     </div>
+@Html.Partial("~/Areas/Orders/Views/Home/_InksDialogs.cshtml")
 
     @* Section Cost Center Item Template *@
 

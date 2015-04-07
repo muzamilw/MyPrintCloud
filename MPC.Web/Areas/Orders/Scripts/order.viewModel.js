@@ -33,6 +33,10 @@ define("order/order.viewModel",
                     pipelineSources = ko.observableArray([]),
                     // Payment Methods
                     paymentMethods = ko.observableArray([]),
+                    //Inks
+                    inks = ko.observableArray([]),
+                    // Ink Coverage Group
+                    inkCoverageGroup = ko.observableArray([]),
                     // paper sizes Methods
                     paperSizes = ko.observableArray([]),
                     // Ink Plate Sides Methods
@@ -183,6 +187,7 @@ define("order/order.viewModel",
 
                     // Selected Section
                     selectedSection = ko.observable(),
+                    sectionInkCoverage = ko.observableArray([]),
                     // Available Ink Plate Sides
                     availableInkPlateSides = ko.computed(function () {
                         if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
@@ -732,7 +737,88 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    // #endregion
+                    openInkDialog = function () {
+                        if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+                            var count = 0;
+                                _.each(availableInkPlateSides(), function(item) {
+                                    if (item.id == selectedSection().plateInkId()) {
+                                        updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                    }
+                                });
+                        }
+                        view.showInksDialog();
+                    },
+                    updateSectionInkCoverageLists = function(side1Count, side2Count) {
+                        if (getSide1Count() != side1Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide1Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side1Count - getSide1Count(), 1);
+                            }
+                            //If List is greater then dropDown (Plate Ink)
+                            else if (getSide1Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide1Count() - side1Count, 1);
+                            }
+                        }
+                        if (getSide2Count() != side2Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide2Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
+                            }
+                            //If List is greater then dropDown (Plate Ink)
+                            else if (getSide2Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
+                            }
+                        }
+                    },
+                    getSide1Count = function () {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function(item) {
+                            if (item.side == 1) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    getSide2Count = function() {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                            if (item.side == 2) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    addNewFieldsInSectionInkCoverageList = function(addNewCount, side) {
+                        var counter = 0;
+                        while (counter < addNewCount) {
+                            var item = new model.SectionInkCoverage();
+                            item.side = side;
+                            selectedSection().sectionInkCoverageList.splice(0, 0, item);
+                            counter ++;
+                        }
+                    },
+                    removeFieldsInSectionInkCoverageList = function(removeItemCount, side) {
+                        var counter = removeItemCount;
+                        while (counter != 0) {
+                            _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                                    if (item.side == side && counter != 0) {
+                                        selectedSection().sectionInkCoverageList.remove(item);
+                                        counter --;
+                                    }
+                            }); 
+                            //selectedSection().sectionInkCoverageList.remove(selectedSection().sectionInkCoverageList()[0]);
+                            //counter--;
+                        }
+                        //_.each(selectedSection().sectionInkCoverageList(), function (item) {
+                          
+                        //        if (item.side == side && counter != 0) {
+                        //            selectedSection().sectionInkCoverageList.remove(item);
+                        //            counter --;
+                        //        }
+                        //}); 
+                    },
+
+                // #endregion
                     // #region ServiceCalls
                     // Get Base Data
                     getBaseData = function () {
@@ -754,6 +840,16 @@ define("order/order.viewModel",
                                 if (data.PaymentMethods) {
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
                                     paymentMethods.valueHasMutated();
+                                }
+                                inks.removeAll();
+                                if (data.Inks) {
+                                    ko.utils.arrayPushAll(inks(), data.Inks);
+                                    inks.valueHasMutated();
+                                }
+                                inkCoverageGroup.removeAll();
+                                if (data.InkCoverageGroup) {
+                                    ko.utils.arrayPushAll(inkCoverageGroup(), data.InkCoverageGroup);
+                                    inkCoverageGroup.valueHasMutated();
                                 }
                                 markups.removeAll();
                                 if (data.Markups) {
@@ -1354,18 +1450,18 @@ define("order/order.viewModel",
                             orientation: 1,
                             reversRows: 0,
                             revrseCols: 0,
-                            isDoubleSided: false,
-                            isWorknTurn: false,
+                            isDoubleSided: selectedSection().isDoubleSided(),
+                            isWorknTurn: selectedSection().isWorknTurn(),
                             isWorknTumble: false,
                             applyPress: false,
-                            itemHeight: 300,
-                            itemWidth: 400,
-                            printHeight: 300,
-                            printWidth: 400,
+                            itemHeight: selectedSection().itemSizeHeight(),
+                            itemWidth: selectedSection().itemSizeWidth(),
+                            printHeight: selectedSection().sectionSizeHeight(),
+                            printWidth: selectedSection().sectionSizeWidth(),
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 0,
+                            printGutter: selectedSection().includeGutter() ? 1 : 0,
                             horizentalGutter: 0,
                             verticalGutter: 0
                         }, {
@@ -1439,7 +1535,7 @@ define("order/order.viewModel",
                     },
                     getBestPress = function () {
                         isLoadingOrders(true);
-                        dataservice.getBestPress(selectedSection().convertToServerData, {
+                        dataservice.getBestPress(selectedSection().convertToServerData(), {
                             success: function (data) {
                                 if (data != null) {
 
@@ -1450,6 +1546,26 @@ define("order/order.viewModel",
                             error: function (response) {
                                 isLoadingOrders(false);
                                 toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
+                            }
+                        });
+                    },
+                    getSectionSystemCostCenters = function () {
+                        isLoadingOrders(true);
+                        dataservice.getUpdatedSystemCostCenters({
+                            CurrentSection: selectedSection().convertToServerData(),
+                            PressId: selectedSection().pressId,
+                            AllSectionInks: sectionInkCoverage()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+
+
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load System Cost Centers." + response);
                             }
                         });
                     },
@@ -1530,6 +1646,8 @@ define("order/order.viewModel",
                     side1Image: side1Image,
                     side2Image: side2Image,
                     showSide1Image: showSide1Image,
+                    inks: inks,
+                    inkCoverageGroup: inkCoverageGroup,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -1582,6 +1700,7 @@ define("order/order.viewModel",
                     side1ButtonClick: side1ButtonClick,
                     side2ButtonClick: side2ButtonClick,
                     getPtvCalculation: getPtvCalculation,
+                    openInkDialog: openInkDialog,
                     //#endregion
                     //#region Delivery Schedule
                     selectDeliverySchedule: selectDeliverySchedule,
@@ -1595,7 +1714,8 @@ define("order/order.viewModel",
                     //#region Section Detail
                     availableInkPlateSides: availableInkPlateSides,
                     paperSizes: paperSizes,
-                    openStockItemDialog: openStockItemDialog
+                    openStockItemDialog: openStockItemDialog,
+                    getSectionSystemCostCenters: getSectionSystemCostCenters
                     //#endregion
                 };
             })()

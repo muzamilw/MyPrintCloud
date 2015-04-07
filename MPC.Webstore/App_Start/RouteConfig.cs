@@ -318,7 +318,11 @@ namespace MPC.Webstore
               "NabSubmit/{OrderID}",
               new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
            );
-              
+              routes.MapRoute(
+            "ReceiptPlain",
+            "ReceiptPlain/{OrderId}/{StoreId}",
+            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional }
+         );
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

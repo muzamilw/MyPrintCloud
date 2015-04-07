@@ -1619,8 +1619,8 @@ define("crm/crm.viewModel",
                         selectedStore().isCustomer(2);
                         createNewTerritoryForProspectOrCustomerStore();
                     }
-                    $('.nav-tabs li:first-child a').tab('show');
-                    $('.nav-tabs li:eq(0) a').tab('show');
+                    $('#crmTabsId li:first-child a').tab('show');
+                    $('#crmTabsId li:eq(0) a').tab('show');
                     isEditorVisible(true);
                 },
                 //function to create new default territory for Prospect Or customer screen
