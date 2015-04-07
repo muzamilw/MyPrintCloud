@@ -66,7 +66,7 @@
             pricePerUnitQuantity = ko.observable(),
             timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
-            timeNoOfPasses = ko.observable(),
+            timeNoOfPasses = ko.observable(1),
             timeSourceType = ko.observable(),
             timeVariableId = ko.observable(),
             timeQuestionString = ko.observable(),
@@ -706,7 +706,7 @@
         result.PricePerUnitQuantity = source.pricePerUnitQuantity();
         result.TimePerUnitQuantity = source.timePerUnitQuantity();
         result.TimeRunSpeed = source.timeRunSpeed();
-        result.TimeNoOfPasses = source.timeNoOfPasses();
+        result.TimeNoOfPasses = 1;// source.timeNoOfPasses();
         result.TimeVariableId = source.timeVariableId();
         result.TimeQuestionString = source.timeQuestionString();
         result.TimeQuestionDefaultValue = source.timeQuestionDefaultValue();
@@ -747,21 +747,80 @@
         });
         return result;
     };
-    
+  
+    var MCQsAnswer = function (source) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            QuestionId = ko.observable(source.QuestionId),
+            AnswerString = ko.observable(source.AnswerString)
+            
 
-   var QuestionVariableMapper = function (source) {
+        } else {
+            Id = ko.observable(),
+            QuestionId = ko.observable(),
+            AnswerString = ko.observable()
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           Id: Id,
+           QuestionId: QuestionId,
+           AnswerString: AnswerString
+           
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            QuestionId: QuestionId,
+            AnswerString:AnswerString,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
+
+
+   var QuestionVariableMapper = function (source, Data) {
         var self
         if (source != undefined) {
             Id = ko.observable(source[0]),
             QuestionString = ko.observable(source[1]),
             Type = ko.observable(source[2]),
-            Answer= ko.observable(source[3])
+            Answer = ko.observable(source[3]),
+            AnswerList = ko.observableArray([])
+            if (Data != undefined) {
+                AnswerList.removeAll();
+                _.each(Data, function (item) {
+                    AnswerList.push(MCQsAnswer(item));
+                });
+               
+            }
            
         } else {
             Id = ko.observable(),
             QuestionString = ko.observable(),
             Type = ko.observable(),
-             Answer = ko.observable()
+            Answer = ko.observable(),
+            AnswerList = ko.observableArray([])
         }
 
         errors = ko.validation.group({
@@ -774,7 +833,8 @@
            Id: Id,
            QuestionString: QuestionString,
            Type: Type,
-           Answer: Answer
+           Answer: Answer,
+           AnswerList: AnswerList
        }),
         // Has Changes
        hasChanges = ko.computed(function () {
@@ -789,7 +849,8 @@
             Id: Id,
             QuestionString: QuestionString,
             Type: Type,
-            Answer:Answer,
+            Answer: Answer,
+            AnswerList:AnswerList,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -807,6 +868,7 @@
         costCenterListView: costCenterListView,
         NewCostCenterInstruction: NewCostCenterInstruction,
         NewInstructionChoice: NewInstructionChoice,
-        QuestionVariableMapper: QuestionVariableMapper
+        QuestionVariableMapper: QuestionVariableMapper,
+        MCQsAnswer: MCQsAnswer
     };
 });

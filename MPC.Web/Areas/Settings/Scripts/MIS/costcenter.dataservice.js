@@ -32,7 +32,7 @@ define("costcenter/costcenter.dataservice", function () {
                         type: 'POST'
                     });
                     amplify.request.define('saveQuestionVariable', 'ajax', {
-                        url: ist.siteUrl + '/Api/CostCenter',
+                        url: ist.siteUrl + '/Api/CostCenterTree',
                         dataType: 'json',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
@@ -44,9 +44,14 @@ define("costcenter/costcenter.dataservice", function () {
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
-                    // Define request to get CostCenter
                     amplify.request.define('getCostCentreById', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenter',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get CostCenter
+                    amplify.request.define('getCostCentreAnswerList', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -84,64 +89,84 @@ define("costcenter/costcenter.dataservice", function () {
                     data: params
                 });
             };
-            // Get Cost Centers List
-            getCostCentersList = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getCostCentersList',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-            // Get Cost Centers by Id 
-            getCostCentreById = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'getCostCentreById',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-            deleteCostCenter = function (params, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'deleteCostCenter',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: params
-                });
-            },
-            // Save New paper Sheet
-            saveNewCostCenter = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'saveNewCostCenter',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            },
-            // Save Cost Center
-            saveCostCenter = function (param, callbacks) {
-                initialize();
-                return amplify.request({
-                    resourceId: 'saveCostCenter',
-                    success: callbacks.success,
-                    error: callbacks.error,
-                    data: param
-                });
-            };
+        getCostCentreAnswerList = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentreAnswerList',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        };
+        // Get Cost Centers List
+        getCostCentersList = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersList',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        // Get Cost Centers by Id 
+        getCostCentreById = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentreById',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        deleteCostCenter = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteCostCenter',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        // Save New paper Sheet
+        saveNewCostCenter = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveNewCostCenter',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        saveQuestionVariable = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveQuestionVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        },
+        // Save Cost Center
+        saveCostCenter = function (param, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'saveCostCenter',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: param
+            });
+        };
 
         return {
-            getCostCentersList:getCostCentersList,
+            getCostCentersList: getCostCentersList,
             getCostCentreById: getCostCentreById,
             deleteCostCenter: deleteCostCenter,
-            saveNewCostCenter:saveNewCostCenter,
+            saveNewCostCenter: saveNewCostCenter,
             saveCostCenter: saveCostCenter,
             getBaseData: getBaseData,
-            GetTreeListById: GetTreeListById
+            GetTreeListById: GetTreeListById,
+            getCostCentreAnswerList: getCostCentreAnswerList,
+            saveQuestionVariable: saveQuestionVariable
         };
     })();
 
