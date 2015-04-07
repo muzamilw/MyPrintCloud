@@ -3107,7 +3107,7 @@ namespace MPC.Repository.Repositories
             oSectionUniqueInks = oSectionAllInks;
 
             //InkPercentage = ObjectContext.tbl_ink_coverage_groups.Where(c => c.CoverageGroupID == section.CoverageGroupID).FirstOrDefault() != null ? (double)ObjectContext.tbl_ink_coverage_groups.Where(c => c.CoverageGroupID == section.CoverageGroupID).FirstOrDefault().Percentage : 0;
-            CostCentre oInksCostcentreDTO = db.CostCentres.Where(c => c.Type == 1 && c.SystemTypeId == (int)SystemCostCenterTypes.Ink && c.OrganisationId == this.OrganisationId).FirstOrDefault();
+            CostCentre oInksCostcentreDTO = db.CostCentres.Where(c => c.Type == (int)CostCenterTypes.SystemCostCentres && c.SystemTypeId == (int)SystemCostCenterTypes.Ink && c.OrganisationId == this.OrganisationId).FirstOrDefault();
             Machine Press = db.Machines.Where(m => m.MachineId == oItemSection.PressId).FirstOrDefault();
             dblMinCharge = Press != null ? Convert.ToDouble(Press.InkChargeForUniqueColors) : 0;
             // dblMinCharge = oItemSection.Press.InkChargeForUniqueColors;

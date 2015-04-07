@@ -807,7 +807,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
                 plateInkId: plateInkId,
-                similarSections: similarSections
+                similarSections: similarSections,
+                qty1: qty1,
+                qty2: qty2,
+                qty3: qty3
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -833,7 +836,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     SectionSizeHeight: sectionSizeHeight(),
                     SectionSizeWidth: sectionSizeWidth(),
                     ItemSizeHeight: itemSizeHeight(),
-                    ItemSizeWidth: itemSizeWidth()
+                    ItemSizeWidth: itemSizeWidth(),
+                    PrintViewLayoutPortrait: printViewLayoutPortrait(),
+                    PrintViewLayoutLandScape: printViewLayoutLandscape(),
+                    Qty1: qty1(),
+                    Qty2: qty2(),
+                    Qty3: qty3()
                 };
             };
 

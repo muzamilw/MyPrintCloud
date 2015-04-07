@@ -1554,7 +1554,7 @@ define("order/order.viewModel",
                         dataservice.getUpdatedSystemCostCenters({
                             CurrentSection: selectedSection().convertToServerData(),
                             PressId: selectedSection().pressId,
-                            AllSectionInks: sectionInkCoverage()
+                            AllSectionInks: selectedSection().sectionInkCoverageList()
                         }, {
                             success: function (data) {
                                 if (data != null) {
