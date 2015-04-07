@@ -583,10 +583,11 @@ ul.nav li.selectedLava a {
 }
 
 .address_label_area1 {
-    width: 100px;
-    float: left;
-    text-align: right;
-    padding: 6px 5px 5px 5px;
+  width: 115px;
+  float: left;
+  text-align: right;
+  padding: 7px 5px 5px 5px;
+  font-size: 12PX;
 }
 
 .address_contol_area1 {
@@ -613,10 +614,11 @@ ul.nav li.selectedLava a {
 }
 
 .address_label_area2 {
-    width: 115px;
-    float: left;
-    text-align: right;
-    padding: 10px 11px 5px 30px;
+    width: 125px;
+  float: left;
+  text-align: right;
+  padding: 9px 11px 5px 30px;
+  font-size: 12px;
 }
 
 .address_contol_area2 {
@@ -12759,7 +12761,7 @@ ul.LogBar li a {
         }
 
     .grossTotaldiv {
-        width: 220px;
+        width: 100%;
         font-size: 20px;
         font-weight: bold;
         margin-top: 15px;
@@ -13573,7 +13575,7 @@ ul.LogBar li a {
     .StocksDelivryContainer {
         float: left;
         padding-right: 0px !important;
-        width: 290px !important;
+        width: 290px !important;padding-left:0px;
     }
 
     .extra_item {
@@ -14365,7 +14367,7 @@ ul.LogBar li a {
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right: 0px;
         margin-top: 0px !important;
     }
 
@@ -14722,7 +14724,7 @@ ul.LogBar li a {
         height: 34px;
         border: 0px;
         color: white;
-        margin-right: 10px;
+        margin-right: 0px;
         margin-top: 0px !important;
     }
 
@@ -15342,7 +15344,7 @@ ul.LogBar li a {
     }*/
 
     .hyPrivacyP {
-        margin-left: 12px !important;
+        margin-left: 2px !important;
         color: white;
     }
 
@@ -16208,7 +16210,7 @@ ul.LogBar li a {
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right: 0px;
         margin-top: 0px !important;
     }
 
@@ -16290,7 +16292,7 @@ ul.LogBar li a {
     }
 
     .rptContainers {
-        width: 475px !important;
+        width: 465px !important;
         float: left;
         min-height: 145px;
     }
@@ -16325,7 +16327,7 @@ ul.LogBar li a {
     }
 
     .divStk {
-        width: 644px !important;
+        width: 631px !important;
         vertical-align: top;
         float: left;
         /* padding: 10px; */
@@ -17248,7 +17250,7 @@ ul.LogBar li a {
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right: 0px;
         margin-top: 0px;
     }
 
@@ -18647,7 +18649,7 @@ ul.LogBar li a {
         height: 34px;
         border: 0px;
         color: White;
-        margin-right: 10px;
+        margin-right: 0px;
         margin-top: 0px;
     }
 
@@ -20339,6 +20341,7 @@ ul.LogBar li a {
         float: left;
         width: 700px !important;
         margin-right: 20px;
+        padding-left:0px;
     }
 
 
@@ -23904,4 +23907,14 @@ gridfontStyle {
     text-align: left;
     color: red;
     padding: 20px;
+}
+
+.territory_row_paddingNew
+{
+ padding: 19px 0px 0px;
+
+}
+.BreadCrumbMenu h1 {
+  font-size: 20px !important;
+  color: #5BB7AC;
 }
