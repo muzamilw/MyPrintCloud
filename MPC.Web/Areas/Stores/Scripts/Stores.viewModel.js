@@ -3333,6 +3333,14 @@ define("stores/stores.viewModel",
             isSavingNewProductCategory(false);
         },
         onArchiveCategory = function () {
+            confirmation.messageText("Do you want to delete category?");
+            confirmation.afterProceed(deleteCategory);
+            confirmation.afterCancel(function () {
+            });
+            confirmation.show();
+            return;
+        },
+        deleteCategory = function () {
             dataservice.deleteProductCategoryById({
                 ProductCategoryId: selectedProductCategory().productCategoryId()
             }, {
