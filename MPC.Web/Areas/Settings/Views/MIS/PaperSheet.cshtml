@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div id="pagerDiv">
+                <div id="pagerDiv" class="pull-right">
 
                     <!-- ko with: pager -->
                     @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
@@ -93,21 +93,15 @@
     </script>
     @* Filter Template *@
     <script id="filterTemplate" type="text/html">
-        <div class="filter-body" id="filter">
-            <div class=" filter-block pull-left">
-                <div class="pull-left spanfilterlbl">
-                    Search &nbsp;
+        <div class="filter-body" id="filter" style="margin-bottom:16px">
+            <form data-bind="submit:$root.getPaperSheets">
+                <div class=" filter-block pull-right">
+                    <div class="form-group pull-right">
+                        <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
                 </div>
-                <div class="form-group pull-left">
-                    <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-
-                <div class="pull-right">
-                    <button type="submit" class="btn btn-primary" data-bind="click:$root.getPaperSheets">Search</button>
-                    <button type="reset" class="btn btn-default" data-bind="click:$root.resetFilterSection">Reset</button>
-                </div>
-            </div>
+            </form>
             <div class="clearfix">
             </div>
         </div>
