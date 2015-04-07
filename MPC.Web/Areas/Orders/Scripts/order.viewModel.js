@@ -33,6 +33,10 @@ define("order/order.viewModel",
                     pipelineSources = ko.observableArray([]),
                     // Payment Methods
                     paymentMethods = ko.observableArray([]),
+                    //Inks
+                    inks = ko.observableArray([]),
+                    // Ink Coverage Group
+                    inkCoverageGroup = ko.observableArray([]),
                     // paper sizes Methods
                     paperSizes = ko.observableArray([]),
                     // Ink Plate Sides Methods
@@ -41,6 +45,12 @@ define("order/order.viewModel",
                     selectedCompanyTaxRate = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
+                    // Best PressL ist
+                    bestPressList = ko.observableArray([]),
+                    // User Cost Center List For Run Wizard
+                    userCostCenters = ko.observableArray([]),
+                    // Selected Cost Center List For Run Wizard
+                    selectedCostCenters = ko.observableArray([]),
                     // Stock Category 
                     stockCategory = {
                         paper: 1,
@@ -128,6 +138,9 @@ define("order/order.viewModel",
                     selectedMarkup3 = ko.observable(0),
                     // Selected Category Id
                     selectedCategoryId = ko.observable(),
+                    //selected Best Press From Wizard
+                    selectedBestPressFromWizard = ko.observable(),
+
                     // Inventory SearchFilter
                     inventorySearchFilter = ko.observable(),
                     costCentrefilterText = ko.observable(),
@@ -183,6 +196,7 @@ define("order/order.viewModel",
 
                     // Selected Section
                     selectedSection = ko.observable(),
+                    sectionInkCoverage = ko.observableArray([]),
                     // Available Ink Plate Sides
                     availableInkPlateSides = ko.computed(function () {
                         if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
@@ -732,7 +746,88 @@ define("order/order.viewModel",
                             }
                         });
                     },
-                    // #endregion
+                    openInkDialog = function () {
+                        if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+                            var count = 0;
+                            _.each(availableInkPlateSides(), function (item) {
+                                if (item.id == selectedSection().plateInkId()) {
+                                    updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                }
+                            });
+                        }
+                        view.showInksDialog();
+                    },
+                    updateSectionInkCoverageLists = function (side1Count, side2Count) {
+                        if (getSide1Count() != side1Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide1Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side1Count - getSide1Count(), 1);
+                            }
+                                //If List is greater then dropDown (Plate Ink)
+                            else if (getSide1Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide1Count() - side1Count, 1);
+                            }
+                        }
+                        if (getSide2Count() != side2Count) {
+                            //If List is less then dropDown (Plate Ink)
+                            if (getSide2Count() < side1Count) {
+                                addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
+                            }
+                                //If List is greater then dropDown (Plate Ink)
+                            else if (getSide2Count() > side1Count) {
+                                removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
+                            }
+                        }
+                    },
+                    getSide1Count = function () {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                            if (item.side == 1) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    getSide2Count = function () {
+                        var count = 0;
+                        _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                            if (item.side == 2) {
+                                count += 1;
+                            }
+                        });
+                        return count;
+                    },
+                    addNewFieldsInSectionInkCoverageList = function (addNewCount, side) {
+                        var counter = 0;
+                        while (counter < addNewCount) {
+                            var item = new model.SectionInkCoverage();
+                            item.side = side;
+                            selectedSection().sectionInkCoverageList.splice(0, 0, item);
+                            counter++;
+                        }
+                    },
+                    removeFieldsInSectionInkCoverageList = function (removeItemCount, side) {
+                        var counter = removeItemCount;
+                        while (counter != 0) {
+                            _.each(selectedSection().sectionInkCoverageList(), function (item) {
+                                if (item.side == side && counter != 0) {
+                                    selectedSection().sectionInkCoverageList.remove(item);
+                                    counter--;
+                                }
+                            });
+                            //selectedSection().sectionInkCoverageList.remove(selectedSection().sectionInkCoverageList()[0]);
+                            //counter--;
+                        }
+                        //_.each(selectedSection().sectionInkCoverageList(), function (item) {
+
+                        //        if (item.side == side && counter != 0) {
+                        //            selectedSection().sectionInkCoverageList.remove(item);
+                        //            counter --;
+                        //        }
+                        //}); 
+                    },
+
+                // #endregion
                     // #region ServiceCalls
                     // Get Base Data
                     getBaseData = function () {
@@ -754,6 +849,16 @@ define("order/order.viewModel",
                                 if (data.PaymentMethods) {
                                     ko.utils.arrayPushAll(paymentMethods(), data.PaymentMethods);
                                     paymentMethods.valueHasMutated();
+                                }
+                                inks.removeAll();
+                                if (data.Inks) {
+                                    ko.utils.arrayPushAll(inks(), data.Inks);
+                                    inks.valueHasMutated();
+                                }
+                                inkCoverageGroup.removeAll();
+                                if (data.InkCoverageGroup) {
+                                    ko.utils.arrayPushAll(inkCoverageGroup(), data.InkCoverageGroup);
+                                    inkCoverageGroup.valueHasMutated();
                                 }
                                 markups.removeAll();
                                 if (data.Markups) {
@@ -1440,11 +1545,14 @@ define("order/order.viewModel",
                     getBestPress = function () {
                         showEstimateRunWizard();
                         isLoadingOrders(true);
-                        dataservice.getBestPress(selectedSection().convertToServerData, {
+                        bestPressList.removeAll();
+                        userCostCenters.removeAll();
+                        selectedBestPressFromWizard(undefined);
+                        dataservice.getBestPress(selectedSection().convertToServerData(), {
                             success: function (data) {
                                 if (data != null) {
-
-
+                                    mapBestPressList(data.PressList);
+                                    mapUserCostCentersList(data.UserCostCenters);
                                 }
                                 isLoadingOrders(false);
                             },
@@ -1454,18 +1562,79 @@ define("order/order.viewModel",
                             }
                         });
                     },
+
+                    // Map Best Press List
+                    mapBestPressList = function (data) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(BestPress.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(bestPressList(), list);
+                        bestPressList.valueHasMutated();
+
+                        var bestPress = _.find(bestPressList(), function (item) {
+                            return item.isSelected === true;
+                        });
+                        if (bestPress) {
+                            selectedBestPressFromWizard(bestPress);
+                        } else {
+                            if (bestPressList().length > 0) {
+                                selectedBestPressFromWizard(bestPressList()[0]);
+                            }
+                        }
+                    },
+                     // Map User Cost Centers
+                    mapUserCostCentersList = function (data) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(UserCostCenter.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(userCostCenters(), list);
+                        userCostCenters.valueHasMutated();
+                    },
+
+                    getSectionSystemCostCenters = function () {
+                        isLoadingOrders(true);
+                        dataservice.getUpdatedSystemCostCenters({
+                            CurrentSection: selectedSection().convertToServerData(),
+                            PressId: selectedSection().pressId,
+                            AllSectionInks: sectionInkCoverage()
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+
+
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Error: Failed to Load System Cost Centers." + response);
+                            }
+                        });
+                    },
                     // Template Chooser For Delivery Schedule
                     templateToUseDeliverySchedule = function (deliverySchedule) {
                         return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
                     },
-                    //Show Estimate Run Wizard
-                    showEstimateRunWizard = function () {
-                        view.showEstimateRunWizard();
+                    selectBestPressFromWizard = function (bestPress) {
+                        selectedBestPressFromWizard(bestPress);
                     },
-                    //Hide Estimate Run Wizard
-                    hideEstimateRunWizard = function () {
-                        view.hideEstimateRunWizard();
-                    };
+                    clickOnWizardOk = function () {
+                        hideEstimateRunWizard();
+                    },
+                //Show Estimate Run Wizard
+                showEstimateRunWizard = function () {
+                    view.showEstimateRunWizard();
+                },
+                //Hide Estimate Run Wizard
+                hideEstimateRunWizard = function () {
+                    view.hideEstimateRunWizard();
+                };
                 //#endregion
                 //#endregion
 
@@ -1539,6 +1708,8 @@ define("order/order.viewModel",
                     side1Image: side1Image,
                     side2Image: side2Image,
                     showSide1Image: showSide1Image,
+                    inks: inks,
+                    inkCoverageGroup: inkCoverageGroup,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
@@ -1591,6 +1762,7 @@ define("order/order.viewModel",
                     side1ButtonClick: side1ButtonClick,
                     side2ButtonClick: side2ButtonClick,
                     getPtvCalculation: getPtvCalculation,
+                    openInkDialog: openInkDialog,
                     //#endregion
                     //#region Delivery Schedule
                     selectDeliverySchedule: selectDeliverySchedule,
@@ -1604,7 +1776,16 @@ define("order/order.viewModel",
                     //#region Section Detail
                     availableInkPlateSides: availableInkPlateSides,
                     paperSizes: paperSizes,
-                    openStockItemDialog: openStockItemDialog
+                    openStockItemDialog: openStockItemDialog,
+                    getSectionSystemCostCenters: getSectionSystemCostCenters,
+                    //#endregion
+
+                    //#region Best Press
+                    bestPressList: bestPressList,
+                    userCostCenters: userCostCenters,
+                    selectBestPressFromWizard: selectBestPressFromWizard,
+                    selectedBestPressFromWizard: selectedBestPressFromWizard,
+                    clickOnWizardOk: clickOnWizardOk
                     //#endregion
                 };
             })()

@@ -336,6 +336,7 @@
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
@@ -427,6 +428,7 @@
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SmartFormDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
@@ -664,6 +666,7 @@
     <Compile Include="Areas\Api\Models\SectionCostCentreResource.cs" />
     <Compile Include="Areas\Api\Models\SectionFlag.cs" />
     <Compile Include="Areas\Api\Models\SectionForPhraseLibrary.cs" />
+    <Compile Include="Areas\Api\Models\SectionInkCoverage.cs" />
     <Compile Include="Areas\Api\Models\ShippingInformation.cs" />
     <Compile Include="Areas\Api\Models\SkinForTheme.cs" />
     <Compile Include="Areas\Api\Models\SmartForm.cs" />
@@ -672,6 +675,7 @@
     <Compile Include="Areas\Api\Models\SmartFormResponse.cs" />
     <Compile Include="Areas\Api\Models\State.cs" />
     <Compile Include="Areas\Api\Models\StateDropDown.cs" />
+    <Compile Include="Areas\Api\Models\StockItemForDropDown.cs" />
     <Compile Include="Areas\Api\Models\StockItemResponse.cs" />
     <Compile Include="Areas\Api\Models\StoresListDropDown.cs" />
     <Compile Include="Areas\Api\Models\SupplierBaseResponse.cs" />
@@ -1936,6 +1940,7 @@
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

@@ -62,7 +62,10 @@ namespace MPC.Repository.Repositories
         /// <returns></returns>
         public ItemSection CalculatePressCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, int PressReRunMode = (int)PressReRunModes.NotReRun, int PressReRunQuantityIndex = 1, double OverrideValue = 0, bool isBestPress = false)
         {
-
+            if (oItemSection.SectionCostcentres == null)
+            {
+                oItemSection.SectionCostcentres = new List<SectionCostcentre>();
+            }
             oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             bool functionReturnValue = false;
@@ -602,14 +605,14 @@ namespace MPC.Repository.Repositories
                         double dblCostph = 0;
                         double dblPriceph = 0;
                         //Getting Press lookup Information
-                        
+
                         MachinePerHourLookup oModelPerHourLookUp = db.MachinePerHourLookups.Where(p => p.MethodId == oModelLookUpMethod.MethodId).FirstOrDefault();
                         //Model.LookupMethods.PerHourDTO oModelPerHourLookUp = oModelLookUpMethod.PerHour;
                         //Setting Print Charge
 
                         if (PressReRunMode == (int)PressReRunModes.CalculateValuesToShow)
                         {
-                            intPrintChgeph =  Convert.ToInt32(oModelPerHourLookUp.Speed);
+                            intPrintChgeph = Convert.ToInt32(oModelPerHourLookUp.Speed);
                             OverrideValue = Convert.ToInt32(oModelPerHourLookUp.Speed);
                             // return functionReturnValue;
                         }
@@ -708,9 +711,9 @@ namespace MPC.Repository.Repositories
                         double[] dblClickPrice = new double[15];
 
                         //Getting the Values for the LookUp
-                        
+
                         MachineClickChargeZone oModelClickChargeZone = db.MachineClickChargeZones.Where(z => z.MethodId == oModelLookUpMethod.MethodId).FirstOrDefault();
-                        double TimePerChargeableSheets = Convert.ToDouble(oModelClickChargeZone.TimePerHour?? 1) ;
+                        double TimePerChargeableSheets = Convert.ToDouble(oModelClickChargeZone.TimePerHour ?? 1);
 
                         //Setting the Range and Rate 
                         rngFrom[0] = Convert.ToInt32(oModelClickChargeZone.From1);
@@ -1366,6 +1369,10 @@ namespace MPC.Repository.Repositories
                 oItemSectionCostCenter.Qty2 = oItemSection.Qty2;
                 oItemSectionCostCenter.Qty3 = oItemSection.Qty3;
                 //handling costcentre resources
+                if (oItemSectionCostCenter.SectionCostCentreResources == null)
+                {
+                    oItemSectionCostCenter.SectionCostCentreResources = new List<SectionCostCentreResource>();
+                }
                 oItemSectionCostCenter.SectionCostCentreResources.ToList().ForEach(c => db.SectionCostCentreResources.Remove(c));
                 foreach (var orow in oItemSectionCostCenter.SectionCostCentreResources)
                 {
@@ -1374,6 +1381,10 @@ namespace MPC.Repository.Repositories
                 }
                 if (IsReRun == false)
                 {
+                    if (oItemSectionCostCenter.SectionCostCentreDetails == null)
+                    {
+                        oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+                    }
                     oItemSectionCostCenter.SectionCostCentreDetails.Add(oItemSectionCostCenterDetail);
                     oItemSection.SectionCostcentres.Add(oItemSectionCostCenter);
                 }
@@ -1653,7 +1664,7 @@ namespace MPC.Repository.Repositories
         public ItemSection CalculatePlateCost(ItemSection oItemSection, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
         {
 
-           // oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
+            // oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
 
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             bool IsSectionCostCentreFoundInReRun = false;
@@ -1891,7 +1902,7 @@ namespace MPC.Repository.Repositories
 
         public ItemSection CalculateWashUpCost(ItemSection objSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
         {
-           // objSection.SectionCostcentres.ToList().ForEach(c => objSection.SectionCostcentres.Remove(c));
+            // objSection.SectionCostcentres.ToList().ForEach(c => objSection.SectionCostcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             bool IsSectionCostCentreFoundInReRun = false;
             string sMinimumCost = null;
@@ -1964,7 +1975,7 @@ namespace MPC.Repository.Repositories
                 var markup = db.Markups.Where(m => m.MarkUpId == oWashupCostCentreDTO.DefaultVAId).FirstOrDefault();
                 if (markup != null)
                     ProfitMargin = (double)markup.MarkUpRate;
-                
+
                 oItemSectionCostCenter.Qty1MarkUpID = oWashupCostCentreDTO.DefaultVAId;
                 oItemSectionCostCenter.Qty1MarkUpValue = oItemSectionCostCenter.Qty1Charge * ProfitMargin / 100;
                 oItemSectionCostCenter.Qty1NetTotal = oItemSectionCostCenter.Qty1Charge + oItemSectionCostCenter.Qty1MarkUpValue;
@@ -2039,7 +2050,7 @@ namespace MPC.Repository.Repositories
                         }
                     }
                 }
-               
+
 
                 if (sMinimumCost != string.Empty)
                 {
@@ -2112,7 +2123,7 @@ namespace MPC.Repository.Repositories
 
         public ItemSection CalculateReelMakeReadyCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
         {
-           // oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
+            // oItemSection.SectionCostcentres.ToList().ForEach(c => oItemSection.SectionCostcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             string sMinimumCost = null;
             double ReelMakeReadyCost = 0;
@@ -2571,10 +2582,10 @@ namespace MPC.Repository.Repositories
                 ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Cm, lengthunit.Mm);
             else if (oPaperDTO.RollStandards == (int)lengthunit.Inch)
                 ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, lengthunit.Inch, lengthunit.Mm);
-            else 
+            else
                 ReelWidth = (double)oPaperDTO.RollWidth;
 
-           // ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, roleStandard , MPC.Models.Common.LengthUnit.Mm);
+            // ReelWidth = ConvertLength((double)oPaperDTO.RollWidth, roleStandard , MPC.Models.Common.LengthUnit.Mm);
             //roll length is always going into meters
             ReelLength = (double)oPaperDTO.RollLength;
 
@@ -3032,6 +3043,7 @@ namespace MPC.Repository.Repositories
         public ItemSection CalculateInkCost(ItemSection oItemSection, int CurrentCostCentreIndex, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false, List<SectionInkCoverage> oSectionAllInks = null)
         {
             //oItemSection.tbl_section_costcentres.ToList().ForEach(c => oItemSection.tbl_section_costcentres.Remove(c));
+            oItemSection.Qty1 = 1000;// Hard Coded for testing. this is to remove after testing
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             string sMinimumCost = null;
             double intPrintArea = 0;
@@ -3069,8 +3081,8 @@ namespace MPC.Repository.Repositories
             int NoofSheetsQty1 = 0;
             int NoofSheetsQty2 = 0;
             int NoofSheetsQty3 = 0;
-            int NoofInks = 0;
-            if (oSectionAllInks.Count > 0)
+            int NoofInks = 4; //Its value is 0, but hardcoded 4 for testing should be reverted after testing.
+            if (oSectionAllInks != null && oSectionAllInks.Count > 0)
                 NoofInks = oSectionAllInks.Count;
 
             var pressSpoilage = db.MachineSpoilages.Where(s => s.MachineId == PressID && s.NoOfColors == NoofInks).FirstOrDefault();
@@ -3390,7 +3402,7 @@ namespace MPC.Repository.Repositories
 
         public ItemSection CalculatePaperCost(ItemSection oItemSection, int PressID, bool IsReRun = false, bool IsWorkInstructionsLocked = false)
         {
-           // oItemSection.tbl_section_costcentres.ToList().ForEach(c => oItemSection.tbl_section_costcentres.Remove(c));
+            // oItemSection.tbl_section_costcentres.ToList().ForEach(c => oItemSection.tbl_section_costcentres.Remove(c));
             JobPreference oJobCardOptionsDTO = this.GetJobPreferences(1);
             string sMinimumCost = null;
             double UnitPrice = 0;
@@ -3959,10 +3971,61 @@ namespace MPC.Repository.Repositories
         public BestPressResponse GetBestPressResponse(ItemSection section)
         {
             return new BestPressResponse
-            { 
+            {
                 PressList = GetBestPresses(section),
                 UserCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList()
             };
+        }
+
+        public ItemSection GetUpdatedSectionWithSystemCostCenters(ItemSection currentSection, int PressId, List<SectionInkCoverage> AllInks)
+        {
+            if (currentSection.SectionCostcentres != null)
+                currentSection.SectionCostcentres.ToList().ForEach(a => currentSection.SectionCostcentres.Remove(a));
+            ItemSection updatedSection = currentSection;
+            updatedSection = CalculateInkCost(updatedSection, 1, PressId, false, false, AllInks); //Ink Cost Center
+            if (updatedSection.PrintingType != null && updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)//paper costcentre
+            {
+                updatedSection = CalculatePaperCostWebPress(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            else
+            {
+                if (updatedSection.PrintViewLayout == null || updatedSection.PrintViewLayout == 0)
+                    updatedSection.PrintViewLayout = 0;
+                else
+                    updatedSection.PrintViewLayout = 1;
+                updatedSection = CalculatePaperCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.IsPlateUsed != null && updatedSection.IsPlateUsed != false)//Plates
+            {
+                if (updatedSection.IsPlateSupplied == null)
+                    updatedSection.IsPlateSupplied = false;
+                updatedSection = CalculatePlateCost(updatedSection, false, false);
+            }
+            if (updatedSection.IsMakeReadyUsed != false)//Make Readies
+            {
+                if (updatedSection.IsDoubleSided == true)
+                    updatedSection.MakeReadyQty = updatedSection.Side1Inks + updatedSection.Side2Inks;
+                else
+                    updatedSection.MakeReadyQty = updatedSection.Side1Inks; // is to set later
+                updatedSection = CalculateMakeReadyCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.IsWashup != null && updatedSection.IsWashup != false)//Washups
+            {
+                updatedSection.WashupQty = updatedSection.WashupQty ?? 0;
+                updatedSection = CalculateWashUpCost(updatedSection, (int)updatedSection.PressId, false, false);
+            }
+            if (updatedSection.PrintingType != (int)PrintingTypeEnum.SheetFed)
+            {
+                //CalculatePressCostWebPress
+                //CalculateGuillotineCostWebPress
+            }
+            else
+            {
+                updatedSection = CalculatePressCost(updatedSection, (int)updatedSection.PressId, false, false, 1, 1, 0);
+            }
+
+            return updatedSection;
+
         }
         #endregion
 
@@ -4707,6 +4770,6 @@ namespace MPC.Repository.Repositories
         }
         #endregion
 
-        
+
     }
 }

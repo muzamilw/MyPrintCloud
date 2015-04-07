@@ -164,31 +164,25 @@
             transition: all .2s ease-in-out;
         }
 
-        .LCLB
-        {
-            .PDTC_TL
-            {
+        .LCLB {
+            .PDTC_TL {
                 min-height: 100px !important;
             }
 
-            .FI_TL
-            {
+            .FI_TL {
                 max-height: 145px !important;
             }
         }
 
-        .Top_Cat_Body
-        {
-            .productText
-            {
+        .Top_Cat_Body {
+            .productText {
                 height: 12px;
                 line-height: 12px;
                 overflow: hidden;
             }
         }
 
-        .LCLB:hover .productIcons
-        {
+        .LCLB:hover .productIcons {
             display: block;
         }
     }
@@ -328,25 +322,112 @@
         }
     }
 
-    #tab-products
-    {
-        .dd-item 
-        {
+    #tab-products {
+        .dd-item {
             height: auto;
             overflow: hidden;
             clear: both;
         }
 
-        .dd-handle-list
-        {
+        .dd-handle-list {
             height: 90%;
             overflow: hidden;
         }
 
-        .dd-handle
-        {
+        .dd-handle {
             height: auto;
         }
+    }
+
+    #ops_theme_dropdown {
+        z-index: 1000000000000000;
+        float: left;
+    }
+
+    #ops_theme_dropdown #logo {
+        position: relative;
+        float: left;
+        margin: 0 20px;
+    }
+
+    #ops_theme_dropdown #logo:hover {
+        opacity: .75;
+    }
+
+    #ops_theme_dropdown #ops_theme_list {
+        float: left;
+        position: relative;
+    }
+
+    #ops_theme_dropdown #ops_theme_list #ops_theme_select {
+        display: inline-block;
+        padding: 10px 15px;
+        width: 230px;
+        background: #222;
+        margin: 8px 0;
+        color: #CCCCCC;
+        position: relative;
+    }
+
+    #ops_theme_dropdown #ops_theme_list #ops_theme_select:after {
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 11px;
+        height: 3px;
+        width: 15px;
+        border-width: 2px 0;
+        border-style: solid;
+        border-color: #CCCCCC;
+        box-shadow: 0 3px 0 #222, 0 5px 0 #ddd;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul {
+        position: absolute;
+        display: none;
+        width: 230px;
+        top: 42px;
+        z-index: 1000000000000000;
+        padding: 0;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li {
+        border-top: 1px solid #2a2a2a;
+        display: block;
+        background: #222;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li a {
+        display: block;
+        padding: 10px 15px;
+        color: #3498db;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li a .themeType {
+        display: inline;
+        float: left;
+        text-transform: uppercase;
+        font-size: 10px;
+        background: #0076BF;
+        padding: 3px 5px;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li .themePreview {
+        position: absolute;
+        top: 0;
+        left: 227px;
+        border: 5px solid #171717;
+        display: none;
+        background: #171717;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li:hover a {
+        background: #171717;
+    }
+
+    #ops_theme_dropdown #ops_theme_list ul li:hover .themePreview {
+        display: block;
+        z-index: 1000000000000000;
     }
 }
 

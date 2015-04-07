@@ -151,6 +151,7 @@ var smartFormData = null;
 var userVariableData = null;
 var smartFormClicked = true;
 var productDimensionUpdated = false;
+var objectsSelectable = true;
 function buildParams() {
   
 	printCropMarks = locVars[locVars.length - 3];

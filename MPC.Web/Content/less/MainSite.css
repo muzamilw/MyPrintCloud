@@ -566,6 +566,84 @@
 #storesBinding #tab-products .dd-handle {
   height: auto;
 }
+#storesBinding #ops_theme_dropdown {
+  z-index: 1000000000000000;
+  float: left;
+}
+#storesBinding #ops_theme_dropdown #logo {
+  position: relative;
+  float: left;
+  margin: 0 20px;
+}
+#storesBinding #ops_theme_dropdown #logo:hover {
+  opacity: .75;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list {
+  float: left;
+  position: relative;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list #ops_theme_select {
+  display: inline-block;
+  padding: 10px 15px;
+  width: 230px;
+  background: #222;
+  margin: 8px 0;
+  color: #CCCCCC;
+  position: relative;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list #ops_theme_select:after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 11px;
+  height: 3px;
+  width: 15px;
+  border-width: 2px 0;
+  border-style: solid;
+  border-color: #CCCCCC;
+  box-shadow: 0 3px 0 #222, 0 5px 0 #ddd;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul {
+  position: absolute;
+  display: none;
+  width: 230px;
+  top: 42px;
+  z-index: 1000000000000000;
+  padding: 0;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li {
+  border-top: 1px solid #2a2a2a;
+  display: block;
+  background: #222;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li a {
+  display: block;
+  padding: 10px 15px;
+  color: #3498db;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li a .themeType {
+  display: inline;
+  float: left;
+  text-transform: uppercase;
+  font-size: 10px;
+  background: #0076BF;
+  padding: 3px 5px;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li .themePreview {
+  position: absolute;
+  top: 0;
+  left: 227px;
+  border: 5px solid #171717;
+  display: none;
+  background: #171717;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li:hover a {
+  background: #171717;
+}
+#storesBinding #ops_theme_dropdown #ops_theme_list ul li:hover .themePreview {
+  display: block;
+  z-index: 1000000000000000;
+}
 .store-user-link {
   display: block;
   font-size: 1.25em;
@@ -636,6 +714,15 @@
 }
 #stockDialog #stockDialogMainContainer {
   width: 838px;
+}
+#orderBinding {
+  /*#tabsHeader {
+        border: 1px solid silver;
+        box-shadow: 1px 1px 1px silver;
+    }*/
+}
+#orderBinding .selectedBestPressFromWizard {
+  background: yellow !important;
 }
 #orderBinding #tab-EstimateHeader #orderType {
   font-weight: bold;

@@ -138,7 +138,16 @@ define("order/order.view",
                 hideEstimateRunWizard = function () {
                     $("#estimateRunWizard").modal('hide');
                 },
-                
+
+                // Show Inks Dialog
+                showInksDialog = function () {
+                    $("#inkDialogModel").modal("show");
+                    initializeLabelPopovers();
+                },
+                // Hide Inks Dialog
+                hideInksDialog = function () {
+                    $("#inkDialogModel").modal("hide");
+                },
                 //#endregion
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -183,6 +192,8 @@ define("order/order.view",
                 hideInventoryItemDialog: hideInventoryItemDialog,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,
+                showInksDialog: showInksDialog,
+                hideInksDialog: hideInksDialog
             };
         })(orderViewModel);
 
