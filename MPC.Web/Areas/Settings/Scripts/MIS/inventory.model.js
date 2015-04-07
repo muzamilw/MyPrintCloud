@@ -318,7 +318,7 @@
             //Pack Cost Price
             packCostPrice = ko.observable(specifiedPackCostPrice),
              //To Date 
-            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
+            toDate = ko.observable((specifiedToDate === null || specifiedToDate === undefined) ? moment().add('days', 1).toDate() : moment(specifiedToDate, ist.utcFormat).toDate()).extend({ required: true }),
             //From Date
             fromDate = ko.observable((specifiedFromDate === null || specifiedFromDate == undefined) ? moment().toDate() : moment(specifiedFromDate, ist.utcFormat).toDate()).extend({ required: true }),
                 //Cost Or Price Identifier
