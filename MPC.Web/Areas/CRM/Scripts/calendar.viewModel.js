@@ -188,15 +188,15 @@ define("calendar/calendar.viewModel",
                 //Set IS Customer Type
                 getIsCustomerType = function () {
                     if (selectedActivity().isCustomerType() === "1") {
-                        return 1;
+                        return [1];
                     }
                     else if (selectedActivity().isCustomerType() === "2") {
-                        return 2;
+                        return [2];
                     }
                     else if (selectedActivity().isCustomerType() === "0") {
-                        return 0;
+                        return[0];
                     }
-                    return 1;
+                    return [1];
                 },
                 //Hide
                 hideCompanyDialog = function () {
@@ -205,7 +205,7 @@ define("calendar/calendar.viewModel",
                 //Get Companies
                 getCompanies = function () {
                     dataservice.getCompanyByCustomerType({
-                        IsCustomerType: getIsCustomerType(),
+                        CustomerTypes: getIsCustomerType(),
                         SearchString: companySearchFilter(),
                         PageSize: pager().pageSize(),
                         PageNo: pager().currentPage(),

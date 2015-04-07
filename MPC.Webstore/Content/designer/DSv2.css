@@ -1047,7 +1047,7 @@ body.blockDocument #documentTitleAndMenu {
     top: 2px;
     float: right;
     margin-right: .8em;
-    font-size: 150%;
+    font-size: 140%;
     text-align: left;
     white-space: nowrap;
     line-height: 1em;
@@ -6897,4 +6897,8 @@ font-size: 13px;
   display: inline-block;
   float: left;
   width: 150px;
+}
+.mainMenuItem
+{
+    font-size:0px;
 }

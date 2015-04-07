@@ -93,13 +93,24 @@ namespace MPC.Repository.Repositories
                // List<StockCategory> stockcategories = new List<StockCategory>();
 
                 Mapper.CreateMap<StockCategory, StockCategory>()
-               .ForMember(x => x.StockItems, opt => opt.Ignore());
+                .ForMember(x => x.StockItems, opt => opt.Ignore());
 
                 Mapper.CreateMap<StockSubCategory, StockSubCategory>()
-              .ForMember(x => x.StockCategory, opt => opt.Ignore())
-               .ForMember(x => x.StockItems, opt => opt.Ignore());
-               
-             
+               .ForMember(x => x.StockItems, opt => opt.Ignore())
+              .ForMember(x => x.StockCategory, opt => opt.Ignore());
+
+                Mapper.CreateMap<StockItem, StockItem>()
+                    .ForMember(x => x.Company, opt => opt.Ignore())
+               .ForMember(x => x.ItemSections, opt => opt.Ignore())
+               .ForMember(x => x.SectionCostCentreDetails, opt => opt.Ignore())
+               .ForMember(x => x.StockCategory, opt => opt.Ignore())
+                .ForMember(x => x.StockSubCategory, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<StockCostAndPrice, StockCostAndPrice>()
+           .ForMember(x => x.StockItem, opt => opt.Ignore());
+
+
                 List<StockCategory> StockCat = db.StockCategories.Include("StockSubCategories").Where(s => s.OrganisationId == OrganisationID).ToList();
 
 

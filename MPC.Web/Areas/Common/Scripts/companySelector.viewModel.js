@@ -14,7 +14,7 @@ define("common/companySelector.viewModel",
                     // company Dialog Filter
                     companyDialogFilter = ko.observable(),
                     // company Dialog is Customer Filter
-                    companyDialogStoreTypeFilter = ko.observable(),
+                    companyDialogStoreTypeFilter = ko.observableArray([]),
                     // Is Opened from Order
                     isOpenedFromOrder = ko.observable(),
                     // Pagination For Press Dialog
@@ -90,7 +90,7 @@ define("common/companySelector.viewModel",
                             SearchString: companyDialogFilter(),
                             PageSize: companyDialogPager().pageSize(),
                             PageNo: companyDialogPager().currentPage(),
-                            IsCustomerType: companyDialogStoreTypeFilter(),
+                            CustomerTypes: companyDialogStoreTypeFilter(),
                             ForOrder: isOpenedFromOrder()
                         }, {
                             success: function (data) {

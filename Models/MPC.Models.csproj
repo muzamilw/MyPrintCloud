@@ -401,6 +401,7 @@
     <Compile Include="RequestModels\StockItemRequestModel.cs" />
     <Compile Include="RequestModels\StockCategoryRequestModel.cs" />
     <Compile Include="RequestModels\SupplierRequestModelForInventory.cs" />
+    <Compile Include="RequestModels\UpdateSectionCostCentersRequest.cs" />
     <Compile Include="ResponseModels\AddressResponse.cs" />
     <Compile Include="ResponseModels\BestPressResponse.cs" />
     <Compile Include="ResponseModels\CalendarBaseResponse.cs" />

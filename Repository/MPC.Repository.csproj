@@ -202,6 +202,7 @@
     <Compile Include="Repositories\CompanyCostCenterRepository.cs" />
     <Compile Include="Repositories\CostCentreAnswerRepository.cs" />
     <Compile Include="Repositories\GoodRecieveNoteRepository.cs" />
+    <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
     <Compile Include="Repositories\LookupMethodRepository.cs" />

@@ -541,6 +541,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new CompanyForCalender
             {
                 CompanyId = source.CompanyId,
+                StoreId = source.StoreId,
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,

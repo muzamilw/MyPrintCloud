@@ -53,9 +53,9 @@ namespace MPC.Implementation.WebStoreServices
         {
             return _smartFormRepository.GetScopeVariables(smartFormDetails,out hasContactVariables,contactId);
         }
-        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts)
+        public Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId)
         {
-            return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts);
+            return _smartFormRepository.GetUserScopeVariables(smartFormDetails, contacts, templateId);
         }
         public string SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj)
         {
@@ -79,6 +79,10 @@ namespace MPC.Implementation.WebStoreServices
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
         {
             return _smartFormRepository.GetUserTemplateVariables(itemId, contactID);
+        }
+        public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
+        {
+            return _smartFormRepository.GetTemplateScopeVariables(templateID, contactId);
         }
         #endregion
     }
