@@ -36,7 +36,7 @@
                 <div class="float_left">
                     @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New Address" runat="server"
                     ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
-                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" />
+                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" onclick="ResetTextboxes()" />
                 </div>
                 <div class="new_caption">
                     @*<asp:Literal ID="ltrlnewShippingAddress" runat="server" Text="New Shipping Address"></asp:Literal>*@
@@ -444,7 +444,7 @@ grid.Column("View", format:@<text><button id="view" value="View" style="height: 
             success: function (response) {
                 var PHtml = $("#UpdateModelPopUp").html();
 
-                ShippingBillingDetails("", PHtml);
+                ShippingBillingDetails("Update Address", PHtml);
                 $("#txtAddressName").val(response.Address.AddressName);
                 $("#txtFAO").val(response.Address.FAO);
                 $('#txtAddress1').val(response.Address.Address1);
@@ -543,7 +543,7 @@ grid.Column("View", format:@<text><button id="view" value="View" style="height: 
     function ResetTextboxes() {
         UpdateStatus = false;
         var PHtml = $("#UpdateModelPopUp").html();
-        ShippingBillingDetails("", PHtml);
+        ShippingBillingDetails("Add New Address", PHtml);
 
         $("#txtAddressName").val('');
         $("#txtFAO").val('');
