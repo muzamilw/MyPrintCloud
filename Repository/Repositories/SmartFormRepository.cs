@@ -1050,6 +1050,11 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
+        public bool AutoResolveTemplateVariables(long templateID, long contactId)
+        {
+            bool result = false;
+            return result;
+        }
         #endregion
     }
 }
