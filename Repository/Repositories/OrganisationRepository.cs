@@ -190,7 +190,7 @@ namespace MPC.Repository.Repositories
 
                             cc = cost;
                             cc.CostCentreId = 0;
-
+                            cc.Priority = cost.Priority;
                             cc.OrganisationId = OrganisationID;
                             db.CostCentres.Add(cc);
                             // save cost centre instructions
@@ -684,6 +684,18 @@ namespace MPC.Repository.Repositories
                              comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                              comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+                         db.Configuration.LazyLoadingEnabled = false;
+                         db.Configuration.ProxyCreationEnabled = false;
+                         if(comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                         {
+                             foreach(var ccc in comp.CompanyCostCentres)
+                             {
+                                 long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.Priority == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+
+                                 ccc.CostCentreId = id;
+                             }
+                         }
 
                          db.Companies.Add(comp);
                          db.SaveChanges();
