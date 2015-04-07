@@ -46,7 +46,7 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 drawBleedArea = item.drawBleedArea,
                 printCropMarks = item.printCropMarks,
                 isMultipagePDF = item.isMultipagePDF,
-                IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 0,
+                IsTemplateDesignMode = item.IsTemplateDesignMode.HasValue ?  item.IsTemplateDesignMode.Value: 1,
                 userImage = images[1],
                 companyImage = images[0],
                 ScaleFactor = item.Scalar,
