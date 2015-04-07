@@ -7239,10 +7239,13 @@ div.wrapper {
     line-height: 1.7;
 }
 
-.allproducts_col_cat li {
+.allproducts_col_cat_ul li {
     padding-bottom: 5px;
+      font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
 }
-
+.allproducts_col_cat_ul li a {
+   color:#E83e48;
+}
 .SubCatLink {
     font-weight: normal;
     color: #5a2e2d;
