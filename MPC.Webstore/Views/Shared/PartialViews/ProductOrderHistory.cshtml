@@ -27,7 +27,14 @@
             <label class="sign_in_heading" id="HistryBtn">Order History</label>
         </div>
         <div class="dashBoardRetrunLink">
-         
+            <div class="BreadCrumbMenu left_align">
+                <h1>
+                    <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                        Back to my dashboard
+                    </a>
+                </h1>
+                <div class="clearBoth"></div>
+            </div>
         </div>
         <div class="clearBoth">
         </div>
@@ -545,7 +552,9 @@
                     // if ((response.billingAddress.State) != null) {
                   
                     if (response.BillingState != '')
-                    { ("#BillingAddressState").text(response.BillingState);}
+                    { 
+                        $("#BillingAddressState").text(response.BillingState);
+                    }
                     //}
                    // if (response.billingAddress.Country!= null)
                     //{

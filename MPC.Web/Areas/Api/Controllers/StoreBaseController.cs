@@ -65,6 +65,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 }
 
             }
+
             return new CompanyBaseResponse
                    {
                        CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(x => x.CreateFrom()) : new List<CompanyTerritory>(),

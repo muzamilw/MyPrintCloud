@@ -186,11 +186,12 @@ namespace MPC.Repository.Repositories
                         {
                             long CID = cost.CostCentreId;
                             ImportIDs.CostCentreIDs.Add(cost.CostCentreId);
+                            int oldCostId = (int)cost.CostCentreId;
                             CostCentre cc = new CostCentre();
 
                             cc = cost;
                             cc.CostCentreId = 0;
-
+                            cc.CCIDOption3 = oldCostId;
                             cc.OrganisationId = OrganisationID;
                             db.CostCentres.Add(cc);
                             // save cost centre instructions
@@ -665,7 +666,7 @@ namespace MPC.Repository.Repositories
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                          
                          }
 
                          if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
@@ -684,6 +685,27 @@ namespace MPC.Repository.Repositories
                              comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                              comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+
+                         db.Configuration.LazyLoadingEnabled = false;
+                         db.Configuration.ProxyCreationEnabled = false;
+                         if(comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
+                         {
+                             foreach(var ccc in comp.CompanyCostCentres)
+                             {
+                                 long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                 if (id > 0)
+                                 {
+
+                                     ccc.CostCentreId = id;
+                                 }
+                                 else
+                                 {
+                                     id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID ).Select(c => c.CostCentreId).FirstOrDefault();
+                                     ccc.CostCentreId = id;
+                                 }
+                                 
+                             }
+                         }
 
                          db.Companies.Add(comp);
                          db.SaveChanges();
