@@ -856,16 +856,13 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     Qty1: qty1(),
                     Qty2: qty2(),
                     Qty3: qty3(),
-<<<<<<< HEAD
-                    SectionCostcentres: sectionCostCentres.map(function (scc) {
+                   SectionCostcentres: sectionCostCentres.map(function (scc) {
                         return scc.convertToServerData();
-=======
-                    SectionCostcentres: sectionCostCentres.map(function (scc) {
-                        return scc.convertToServerData();
+
                     }),
                     SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                         return sic.convertToServerData();
->>>>>>> 3857262b556dbe885df4d0861d4748c3eb655cd0
+
                     })
                 };
             };
