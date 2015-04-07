@@ -665,7 +665,7 @@ namespace MPC.Repository.Repositories
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                              comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                             comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsSkinPageWidgetParams = null);
+                          
                          }
 
                          if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
