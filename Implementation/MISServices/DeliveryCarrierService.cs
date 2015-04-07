@@ -18,23 +18,23 @@ namespace MPC.Implementation.MISServices
             this._deliveryCarrierRepository = deliveryCarrierRepository;
         }
 
-        public DeliveryCarrier Add(DeliveryCarrier adddeliverycarriers)
+        public bool Add(DeliveryCarrier adddeliverycarriers)
         {
-            _deliveryCarrierRepository.Add(adddeliverycarriers);
+            _deliveryCarrierRepository.AddDeliveryCarrier(adddeliverycarriers);
             _deliveryCarrierRepository.SaveChanges();
 
-            return adddeliverycarriers;
+            return true;
         }
 
-        public DeliveryCarrier Update(DeliveryCarrier upddeliverycarriers)
+        public bool Update(DeliveryCarrier upddeliverycarriers)
         {
             _deliveryCarrierRepository.Update(upddeliverycarriers);
             _deliveryCarrierRepository.SaveChanges();
 
-            return upddeliverycarriers;
+            return true;
         }
 
-        public IEnumerable<DeliveryCarrier> GetAllDeliveryCarrier()
+        public IEnumerable<DeliveryCarrier> GetAll()
         {
 
             IEnumerable<DeliveryCarrier> objenumrable;

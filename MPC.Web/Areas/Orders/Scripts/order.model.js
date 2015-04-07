@@ -409,6 +409,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal = ko.observable(specifiedQty2GrossTotal || 0),
             qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
             tax1 = ko.observable(specifiedTax1 || undefined),
+            taxRateIsDisabled = ko.observable(false),
            
             // Errors
             errors = ko.validation.group({
@@ -602,6 +603,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2GrossTotal: qty2GrossTotal,
             qty3GrossTotal: qty3GrossTotal,
             tax1: tax1,
+            taxRateIsDisabled: taxRateIsDisabled,
             itemStockOptions: itemStockOptions,
             itemPriceMatrices: itemPriceMatrices,
             errors: errors,
@@ -657,11 +659,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Guillotine Id
             guillotineId = ko.observable(specifiedGuillotineId || undefined),
             // Qty1
-            qty1 = ko.observable(specifiedQty1 || undefined),
+            qty1 = ko.observable(specifiedQty1 || 0),
             // Qty2
-            qty2 = ko.observable(specifiedQty2 || undefined),
+            qty2 = ko.observable(specifiedQty2 || 0),
             // Qty3
-            qty3 = ko.observable(specifiedQty3 || undefined),
+            qty3 = ko.observable(specifiedQty3 || 0),
             // Qty1 Profit
             qty1Profit = ko.observable(specifiedQty1Profit || 0),
             // Qty2Profit Width
@@ -719,18 +721,33 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         isDoubleSided(true);
                         isWorknTurn(true);
                     }
+
+                    doubleOrWorknTurn(value);
                 }
             }),
             // PrintViewLayoutPortrait
-            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || undefined),
+            printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
             // PrintViewLayoutLandscape
-            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || undefined),
+            printViewLayoutLandscape = ko.observable(specifiedPrintViewLayoutLandscape || 0),
+            // Number Up
+            numberUp = ko.computed(function() {
+                if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
+                    return printViewLayoutPortrait();
+                }
+                else if (printViewLayoutPortrait() <= printViewLayoutLandscape()) {
+                    return printViewLayoutLandscape();
+                }
+
+                return 0;
+            }),
             // Plate Ink Id
             plateInkId = ko.observable(specifiedPlateInkId || undefined),
             // SimilarSections
-            similarSections = ko.observable(specifiedSimilarSections || undefined),
+            similarSections = ko.observable(specifiedSimilarSections || 0),
             // Section Cost Centres
             sectionCostCentres = ko.observableArray([]),
+            // Section Ink Coverage List
+            sectionInkCoverageList = ko.observableArray([]),
             // Select Stock Item
             selectStock = function (stockItem) {
                 if (!stockItem || stockItemId() === stockItem.id) {
@@ -748,6 +765,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
                 pressId(press.id);
                 pressName(press.name);
+            },
+            // Swap Section Height and Width
+            swapSectionHeightWidth = function() {
+                var sectionHeight = sectionSizeHeight();
+                sectionSizeHeight(sectionSizeWidth());
+                sectionSizeWidth(sectionHeight);
+            },
+            // Swap Item Size Height and Width
+            swapItemHeightWidth = function () {
+                var itemHeight = itemSizeHeight();
+                itemSizeHeight(itemSizeWidth());
+                itemSizeWidth(itemHeight);
             },
             // Errors
             errors = ko.validation.group({
@@ -778,7 +807,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
                 plateInkId: plateInkId,
-                similarSections: similarSections
+                similarSections: similarSections,
+                includeGutter: includeGutter(),
+                isPaperSupplied: isPaperSupplied()
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -804,7 +835,30 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     SectionSizeHeight: sectionSizeHeight(),
                     SectionSizeWidth: sectionSizeWidth(),
                     ItemSizeHeight: itemSizeHeight(),
-                    ItemSizeWidth: itemSizeWidth()
+                    ItemSizeWidth: itemSizeWidth(),
+                    IsDoubleSided: isDoubleSided(),
+                    IsWorknTurn: isWorknTurn(),
+                    PrintViewLayoutPortrait: printViewLayoutPortrait(),
+                    PrintViewLayoutLandscape: printViewLayoutLandscape(),
+                    PlateInkId: plateInkId(),
+                    SimilarSections: similarSections(),
+                    IncludeGutter: includeGutter(),
+                    IsPaperSupplied: isPaperSupplied(),
+                    BaseCharge1: baseCharge1(),
+                    BaseCharge2: baseCharge2(),
+                    BaseCharge3: baseCharge3(),
+                    Qty1Profit: qty1Profit(),
+                    Qty2Profit: qty2Profit(),
+                    Qty3Profit: qty3Profit(),
+                    Qty1: qty1(),
+                    Qty2: qty2(),
+                    Qty3: qty3(),
+                    SectionCostcentres: sectionCostCentres.map(function (scc) {
+                        return scc.convertToServerData();
+                    }),
+                    SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
+                        return sic.convertToServerData();
+                    })
                 };
             };
 
@@ -842,15 +896,19 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             side2PlateQty: side2PlateQty,
             isPlateSupplied: isPlateSupplied,
             isDoubleSided: isDoubleSided,
+            sectionInkCoverageList:sectionInkCoverageList,
             isWorknTurn: isWorknTurn,
             doubleWorknTurn: doubleWorknTurn,
             printViewLayoutPortrait: printViewLayoutPortrait,
             printViewLayoutLandscape: printViewLayoutLandscape,
+            numberUp: numberUp,
             plateInkId: plateInkId,
             similarSections: similarSections,
             sectionCostCentres: sectionCostCentres,
             selectStock: selectStock,
             selectPress: selectPress,
+            swapSectionHeightWidth: swapSectionHeightWidth,
+            swapItemHeightWidth: swapItemHeightWidth,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
@@ -861,6 +919,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     },
 
     // Section Cost Centre Entity
+    // ReSharper disable InconsistentNaming
     SectionCostCentre = function (specifiedId, specifiedName, specifiedCostCentreId, specifiedCostCentreType, specifiedOrder, specifiedIsDirectCost,
         specifiedIsOptionalExtra, specifiedIsPurchaseOrderRaised, specifiedStatus, specifiedQty1Charge, specifiedQty2Charge, specifiedQty3Charge,
         specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
@@ -945,7 +1004,25 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Convert To Server Data
             convertToServerData = function () {
                 return {
-                    ItemSectionId: id()
+                    ItemSectionId: itemSectionId(),
+                    SectionCostcentreId: id(),
+                    Name: name(),
+                    CostCentreId: costCentreId(),
+                    Qty1: qty1(),
+                    Qty2: qty2(),
+                    Qty3: qty3(),
+                    Qty1Charge: qty1Charge(),
+                    Qty2Charge: qty2Charge(),
+                    Qty3Charge: qty3Charge(),
+                    Qty1NetTotal: qty1NetTotal(),
+                    Qty2NetTotal: qty2NetTotal(),
+                    Qty3NetTotal: qty3NetTotal(),
+                    Qty1MarkUpId: qty1MarkUpId(),
+                    Qty2MarkUpId: qty2MarkUpId(),
+                    Qty3MarkUpId: qty3MarkUpId(),
+                    Qty1MarkUpValue: qty1MarkUpValue(),
+                    Qty2MarkUpValue: qty2MarkUpValue(),
+                    Qty3MarkUpValue: qty3MarkUpValue()
                 };
             };
 
@@ -1694,6 +1771,76 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
     },
     
+   // Section Ink Coverage
+    SectionInkCoverage = function (specifiedId, specifiedSectionId, specifiedInkOrder, specifiedInkId, specifiedCoverageGroupId, specifiedSide) {
+// ReSharper restore InconsistentNaming
+        var // Unique key
+             id = ko.observable(specifiedId),
+             // section Id
+              sectionId = ko.observable(specifiedSectionId),
+              // ink Order
+              inkOrder = ko.observable(specifiedInkOrder),
+              //Ink Id
+              inkId = ko.observable(specifiedInkId),
+              // Coverage Group Id
+             coverageGroupId = ko.observable(specifiedCoverageGroupId),
+             //Side
+             side = ko.observable(specifiedSide),
+            
+               // Errors
+            errors = ko.validation.group({
+               
+            }),
+            // Is Valid
+            isValid = ko.computed(function () {
+                return errors().length === 0;
+// ReSharper disable InconsistentNaming
+            }),
+              dirtyFlag = new ko.dirtyFlag({
+// ReSharper restore InconsistentNaming
+                  id: id,
+                  sectionId: sectionId,
+                  inkOrder: inkOrder,
+                  inkId: inkId,
+                  coverageGroupId: coverageGroupId,
+                  side: side
+              }),
+            // Has Changes
+            hasChanges = ko.computed(function () {
+                return dirtyFlag.isDirty();
+            }),
+            // Reset
+            reset = function () {
+                dirtyFlag.reset();
+            },
+            // Convert To Server Data
+            convertToServerData = function () {
+                return {
+                    Id: id(),
+                    SectionId: sectionId(),
+                    InkOrder: inkOrder(),
+                    InkId: inkId(),
+                    CoverageGroupId: coverageGroupId(),
+                    Side: side()
+                };
+            };
+
+        return {
+            id: id,
+            sectionId: sectionId,
+            inkOrder: inkOrder,
+            inkId: inkId,
+            coverageGroupId: coverageGroupId,
+            side: side,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+            convertToServerData: convertToServerData
+        };
+    },
+
     // Ink Plate Side Entity
 // ReSharper disable InconsistentNaming
     InkPlateSide = function (specifiedId, specifiedName, specifiedIsDoubleSided, specifiedPlateInkSide1, specifiedPlateInkSide2) {
@@ -1712,7 +1859,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var sectionCostCentre = new SectionCostCentre(source.SectionCostcentreId, source.Name, source.CostCentreId, source.CostCenterType, source.Order,
             source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
-            source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.costCentreName,
+            source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
             source.ItemSectionId);
 
         // Map Section Cost Centre Details if Any
@@ -1822,6 +1969,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return estimate;
     };
+
+    
     // #region __________________  COST CENTRE   ______________________
 
     // ReSharper disable once InconsistentNaming
@@ -1991,6 +2140,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return new SectionFlag(source.SectionFlagId, source.FlagName, source.FlagColor);
     };
 
+    // Section Ink Coverage Factory
+    SectionInkCoverage.Create = function (source) {
+        return new SectionInkCoverage(source.Id, source.SectionId, source.InkOrder, source.InkId, source.CoverageGroupId, source.Side);
+    };
+
     // Address Factory
     Address.Create = function (source) {
         return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
@@ -2065,7 +2219,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     
     // Ink Plate Side Factory
     InkPlateSide.Create = function (source) {
-        return new InkPlateSide(source.InkPlateId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
+        return new InkPlateSide(source.PlateInkId, source.InkTitle, source.IsDoubleSided, source.PlateInkSide1, source.PlateInkSide2);
     };
 
 
@@ -2107,6 +2261,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Paper Size Constructor
         PaperSize: PaperSize,
         // Ink Plate Side Constructor
-        InkPlateSide: InkPlateSide
+        InkPlateSide: InkPlateSide,
+        //Section Ink Coverage
+        SectionInkCoverage: SectionInkCoverage
     };
 });

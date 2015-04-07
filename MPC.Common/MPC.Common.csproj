@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Externaldlls\ABCGecko.dll" />
     <Content Include="Externaldlls\ABCpdf.dll" />
     <Content Include="Externaldlls\Ionic.Zip.dll" />
   </ItemGroup>

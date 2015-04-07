@@ -16,5 +16,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Addresses
         /// </summary>
         public IEnumerable<AddressDropDown> CompanyAddresses { get; set; }
+
+        /// <summary>
+        /// Tax Rate
+        /// </summary>
+
+        public double? TaxRate { get; set; }
     }
 }

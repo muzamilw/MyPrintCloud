@@ -126,59 +126,14 @@
                                 &nbsp;
                             </div>
                             <br />
-                            <br />
-
                             <div class="clearBoth mainHeadingAveniorCheckout">
                                 <label ID="Label1" >Choose Delivery Option</label>
                             </div>
                             <div>
-                                <div class="clearBoth smallCheckoutAvenior float_left_simple">
-                                    <label ID="Literal3"  ></label>
-                                </div>
                                 <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="Label3"  class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Choose Delivery</label>
 
-                                    @*<select id="ddlDeliveyCostCenter" class="checkoutDropDown">
-
-                    @{
-                              MPC.Models.DomainModels.Item record = ViewBag.Item;
-
-                              if (Model.DeliveryCostCenters != null && Model.DeliveryCostCenters.Count > 0)
-                              {
-                                  foreach (var costcenter in Model.DeliveryCostCenters as List<MPC.Models.DomainModels.CostCentre>)
-                                  {
-                                      //  if(country.co)
-                                      if (record != null)
-                                      {
-                                          if (@costcenter.Name == record.ProductName)
-                                          {
-                                              <option value="@costcenter.CostCentreId" selected>@costcenter.Name</option>
-                                          }
-                                          else
-                                          {
-                                              <option value="-1" selected>Select a delivery option</option>
-                                              <option value="@costcenter.CostCentreId">@costcenter.Name</option>
-                                          }
-                                      }
-                                      else
-                                      {
-                                          <option value="-1" selected>Select a delivery option</option>
-                                          <option value="@costcenter.CostCentreId">@costcenter.Name</option>
-                                      }
-
-
-                                  }
-                              }
-                              else
-                              {
-                                  <option value="-1" selected>Select a delivery option</option>
-                              }
-
-
-                      }
-
-
-                      </select>*@
+                              
                                 @Html.DropDownListFor(model => model.SelectedCostCentre, (IEnumerable<SelectListItem>)@Model.DDDeliveryCostCenters, " -- Select a delivery option -- ", new { @class = "checkoutDropDown col-md-8 col-lg-7 col-xs-12", @id = "ddlDeliveyCostCenter" }) 
 
                                    
@@ -189,10 +144,7 @@
                                 <div id="pickUpaddressContainer"  class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                                     <label ID="Label5"  class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Pickup Address</label>
                                     @Html.TextBoxFor(model => model.PickUpAddress, new { id = "txtPickUpAddressDetail", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12", onblur = "ChangeNotesTxt();", style = "height:80px;", TextMode = "MultiLine", disabled = "true" })
-                                   @* <input type="text" inputmode="MultiLine" id="txtPickUpAddressDetail" style="height:80px;" class="AveniorTxtBoxCheckout" value="@Model.PickUpAddress" disabled>*@
-                                    @*<asp:TextBox TextMode="MultiLine" ID="txtPickUpAddressDetail"  Height="80px"
-                    CssClass="AveniorTxtBoxCheckout" Columns="10" Enabled="false" />*@
-
+                                 
                                 </div>
 
                             </div>
@@ -531,18 +483,17 @@
                                                                 <td width="30%">
                                                                     &nbsp;
                                                                 </td>
-                                                                <td width="20%" align="left" class="LightGrayLabels" id="tdSubtotal" >
-                                                                    <span id="spnsubtotal">Sub Total:</span>
+                                                                <td width="20%" align="left" class="fontSyleBold Fsize15" id="tdSubtotal">
+                                                                    <span id="spnsubtotal" style="margin-right: 13px;">Sub Total:</span>
                                                                 </td>
                                                                 @{
                                                                 string price = Convert.ToString(_priceTotal);
-                                                                string Sub = Utils.FormatDecimalValueToTwoDecimal(price, ViewBag.Currency);
-                                                                SubTotal = Convert.ToDouble(Sub);
+                                                                SubTotal = Convert.ToDouble(price);
                                                                 }
 
                                                                 <td align="right" width="20%">
-                                                                    <label id="lblSubTotal" class="Fsize15 colorBlack"
-                                                                           style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), @ViewBag.Currency)</label>
+                                                                    <label id="lblSubTotal" class="CartFonts colorBlack Fsize15"
+                                                                           style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(@SubTotal.ToString(), Model.Currency)</label>
                                                                     </td>
                                                                 </tr>
                                                                 @if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
@@ -572,40 +523,33 @@
                                                                     <td width="30%">
                                                                         &nbsp;
                                                                     </td>
-                                                                    <td width="20%" align="left" class=" LightGrayLabels" id="tddelivery" >
-                                                                        <span id="spndelivery" >@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId))</span>
+                                                                    <td width="20%" align="left" class=" fontSyleBold Fsize15" id="tddelivery">
+                                                                        <span id="spndelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId))</span>
                                                                     </td>
                                                                     @if (deliveryCost > 0)
                                                                     {
-                                                                        string dc = Convert.ToString(deliveryCost);
-
-                                                                        string delivery = Utils.FormatDecimalValueToTwoDecimal(dc, ViewBag.Currency);
-                                                                        deliveryTotal = Convert.ToDouble(delivery);
+                                                                        deliveryTotal = Convert.ToDouble(deliveryCost);
                                                                     }
                                                                     else
                                                                     {
-                                                                        string delivery = Utils.FormatDecimalValueToTwoDecimal("0", ViewBag.Currency);
-
-                                                                        deliveryTotal = Convert.ToDouble(delivery);
+                                                                       
+                                                                        deliveryTotal = Convert.ToDouble(0);
                                                                     }
                                                                     <td align="right" width="20%">
-                                                                        <label ID="lblDeliveryCostCenter" Text="0"  class="LightGrayLabels"
-                                                                               Style="margin-right: 13px;">@deliveryTotal</label>
+                                                                        <label id="lblDeliveryCostCenter" class="CartFonts colorBlack Fsize15" style="margin-right: 13px;">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(deliveryTotal), Model.Currency)</label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr id="rowVat" >
                                                                         <td width="30%" align="left"></td>
                                                                         <td width="30%"></td>
-                                                                        <td width="20%" align="left" class="LightGrayLabels">
+                                                                        <td width="20%" align="left" class="fontSyleBold Fsize15">
                                                                             <label id="lblTaxLabel">@Model.TaxLabel</label>
                                                                         </td>
                                                                         <td align="right" width="20%">
                                                                             @if (deliveryCostTaxVal > 0)
                                                                             {
-                                                                                string dct = Convert.ToString(deliveryCostTaxVal);
-
-                                                                                string dTax = Utils.FormatDecimalValueToTwoDecimal(dct, Model.Currency);
-                                                                                deliveryTax = dTax;
+                                                                                double TotalTax = deliveryCostTaxVal + VatTotal;
+                                                                                deliveryTax = Utils.FormatDecimalValueToTwoDecimal(TotalTax.ToString(), Model.Currency); ;
                                                                             }
                                                                             else
                                                                             {
@@ -614,7 +558,7 @@
                                                                                 string dTax = Utils.FormatDecimalValueToTwoDecimal(vat, Model.Currency);
                                                                                 deliveryTax = dTax;
                                                                             }
-                                                                            <label id="lblVatTotal" class="LightGrayLabels" style="margin-right: 13px;">@deliveryTax</label>
+                                                                            <label id="lblVatTotal" class="CartFonts colorBlack Fsize15" style="margin-right: 13px;">@deliveryTax</label>
                                                                         </td>
                                                                     </tr>
                                                                     <tr>
@@ -980,22 +924,19 @@
     }
     function BillingSameAsDeliveryScriptCheckBox() {
 
-        // var ShipTO = 'Resources.MyResource.ltrlShipTo %>';
-        //  var BillShippTO = 'Resources.MyResource.lnkBillShipto %>';
+        
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-            //  alert("c");
-            //   $("#MainContent_chkBoxDeliverySameAsBilling").attr("checked", "checked");
+            
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-            // $("#ltrlShipTo").html(BillShippTO);
+            
             SetNewControlValues();
 
             $('#isSameBillingAddress').val("True");
             $('#divBilling').css('display', 'none');
         }
         else {
-            //
-            // $("#MainContent_chkBoxDeliverySameAsBilling").removeattr("checked");
+           
             $('#isSameBillingAddress').val("False");
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
@@ -1003,6 +944,8 @@
             var ShipTO = 'Ship to:';
             $('#BillTOShippTO').css('display', 'block');
             $('#BillTOShippTOContainer').css('display', 'block');
+
+            //set labels
             $("#ltrlShipTo").html(ShipTO + "");
             $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
             $("#lbladdLine2BilSip").html($("#txtAddressLine2").val());
@@ -1010,45 +953,13 @@
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
             $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-            //                //Set Selected Value to add new Mode
+         
+   
+            $('#divBilling').css('display', 'block');
+            
 
-            if (ddlBilling.val() != "") {
-                //ddlBilling.val("0");
-
-                //txtBillingName.val("");
-                //txtAddressLine1.val("");
-                //txtAddressLine2.val("");
-                //txtCity.val("");
-                //txtState.val("");
-                //txtZipPostCode.val("");
-                //txtCountry.val("");
-                //txtContactNumber.val("");
-                //reset hidden fields as well
-                //$("#" + "txthdnBillingAddressID").val("0");
-                // $("#" + "txthdnBillingDefaultAddress").val("false");
-                // $("#" + "txthdnBillingDefaultShippingAddress").val("false");
-
-                $('#divBilling').css('display', 'block');
-            } else {
-                $('#divBilling').css('display', 'block');
-            }
-
-            $('#ddlBilling option').each(function () {
-                if (ddlDelivery.val() != "") {
-
-                    if ($(this).val() == $("#ddlDelivery").val()) {
-                        $(this).css('display', 'none');
-
-                    }
-                    else{
-                        $(this).css('display', 'block');
-                    }
-                }
-
-            });
-            $('#ddlBilling option:eq(2)').attr('selected', 'selected');
-            //   $('#divBilling').val(5);
-            //   OnChangeBillingAddress();
+            HideAddressInBillingDropDown();
+            
         }
 
 
@@ -1379,17 +1290,6 @@
             }
         }
 
-        //if (event.keyCode == undefined) {
-        //} else {
-        //    if (event.keyCode == 13) { //if this is enter key
-        //        event.preventDefault();
-        //        isValid = false;
-        //        $("#hfPageIsValid").val(0);
-        //    } else {
-        //        $("#hfPageIsValid").val(1);
-        //    }
-        //}
-
         return isValid;
     }
 
@@ -1397,9 +1297,8 @@
     {
 
         var addressId = $('#ddlDelivery').val();
-        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses))) ;
-        // $.parseJSON($('#JsonAddressContainer').val());console.log(jsonData);
-
+        var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses)));
+        
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1460,7 +1359,7 @@
 
             }
         }
-        //   $('#BtnPost').click();
+        HideAddressInBillingDropDown();
     }
     function OnChangeBillingAddress()
     {
@@ -1607,6 +1506,24 @@
             $("#lblShipTostate").html($("#ddShippingState option:selected").text());
         });
     });
+
+    function HideAddressInBillingDropDown(){
+        $('#ddlBilling option').each(function () {
+            if ($("#ddlDelivery").val() != "") {
+
+                if ($(this).val() == $("#ddlDelivery").val()) {
+                    $(this).css('display', 'none');
+
+                }
+                else{
+                    $(this).css('display', 'block');
+                }
+            }
+
+        });
+        $('#ddlBilling option:eq(2)').attr('selected', 'selected');
+        OnChangeBillingAddress();
+    }
 </script>
 
 }

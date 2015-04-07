@@ -1,35 +1,28 @@
 ﻿@{
     ViewBag.Title = "Delivery Carrier";
 }
-<div class="row">
+<div class="row" id="carrierdeliveryBinding">
     <div class="col-lg-12">
         <div class="row">
             <div class="col-lg-12">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
                     <li class="active">Delivery Cost Centers</li>
-                    
                 </ol>
                 <h1>Delivery Carriers</h1>
             </div>
         </div>
-
-
         <div class="col-lg-12">
             <div class="pull-right">
-                <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
+                <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createNewDelivery">
                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Delivery Carrier
                 </button>
             </div>
         </div>
-
         <div>
             &nbsp;
         </div>
-
         <div class="row" id="user-profile">
-
-
             <div class="col-lg-12 form-horizontal ">
                 <div class="main-box no-header clearfix">
                     <div class="main-box-body clearfix">
@@ -40,26 +33,12 @@
                                         <th><a href="#"><span>Name</span></a></th>
                                         <th><a href="#"><span>URL</span></a></th>
                                         <th><a href="#"><span>API Key</span></a></th>
-                                        <th>Flag</th>
+                                        <th>STATUS</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <a data-toggle="modal" href="#myAddEditDelvCarrierModal" class="table-link">FedEx</a>
-                                        </td>
-                                        <td>
-                                            http://www.google.com.pk
-                                        </td>
-                                        <td>
-                                            46353535345
-                                        </td>
-                                        <td>
-                                            <span class="label label-success" data-bind="style: { background: flagColor }" style="background: red;"><i class="fa fa-flag"></i></span>
-                                        </td>
-                                       
-                                    </tr>
-                                    
+                                    <!-- ko template: { name: 'listDeliveryCarrierTemplate' , foreach: $root.deliverycarrierlist } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
@@ -68,13 +47,36 @@
             </div>
         </div>
     </div>
+    <script id="listDeliveryCarrierTemplate" type="text/html">
+        <tr>
+            <td>
+                <a href="#" data-bind="text:CarrierName"></a>
+            </td>
+            <td data-bind="text:Url"></td>
+            <td data-bind="text:ApiKey"></td>
+            <td>
+                <!-- ko if: isEnable == true -->
+                <span class="label label-success">Active</span>
+                <!-- /ko -->
+                <!-- ko if: isEnable == false -->
+                <span class="label label-danger">In-Active</span>
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
 </div>
-@Html.Partial("_AddEditDeliveryCarriers")
+
+@Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
+
 @section Scripts {
+     
     <script type="text/javascript">
-        $(document).ready(function () {
+        require(["deliverycarrier/deliverycarrier.view"]);
+        $(document).ready(function ()
+        {
             $('#lisettings').addClass('active');
             $('#limissettings').addClass('active');
-            });
-     </script>
+
+        });
+    </script>
 }
