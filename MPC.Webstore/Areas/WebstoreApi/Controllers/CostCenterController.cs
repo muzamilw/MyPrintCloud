@@ -254,35 +254,35 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              obj.DeliveryCostCharges=order.DeliveryCost;
              obj.billingAddress= BillingAddress;
              obj.shippingAddress=ShippingAddress;
-             if (BillingAddress.Country != null)
+             if (BillingAddress.CountryId!= null && BillingAddress.CountryId >0)
              {
-                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.Country.CountryId);
+                 obj.BillingCountry = _companyService.GetCountryNameById(BillingAddress.CountryId??0);
              }
              else
              {
                  obj.BillingCountry = string.Empty;
              }
-             if (BillingAddress.State != null)
+             if (BillingAddress.StateId != null && BillingAddress.StateId>0)
              {
-                 obj.BillingState = _companyService.GetStateNameById(BillingAddress.State.StateId);
+                 obj.BillingState = _companyService.GetStateNameById(BillingAddress.StateId??0);
              }
              else
              {
                  obj.BillingState = string.Empty;
              }
 
-             if (ShippingAddress.Country != null)
+             if (ShippingAddress.CountryId != null && ShippingAddress.CountryId>0)
              {
-                 obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.Country.CountryId);
+                 obj.ShippingCountry = _companyService.GetCountryNameById(ShippingAddress.CountryId??0);
              }
              else
              {
                  obj.ShippingCountry = string.Empty;
              }
 
-             if (ShippingAddress.State != null)
+             if (ShippingAddress.StateId != null && ShippingAddress.StateId>0)
              {
-                 obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.State.StateId);
+                 obj.ShippingState = _companyService.GetStateNameById(ShippingAddress.StateId??0);
              }
              else
              {

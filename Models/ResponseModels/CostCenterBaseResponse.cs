@@ -12,5 +12,6 @@ namespace MPC.Models.ResponseModels
         public IEnumerable<CostCentreType> CostCenterCategories { get; set; }
         public IEnumerable<CostCentreVariable> CostCentreVariables { get; set; }
         public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
+        public string CurrencySymbol { get; set; }
     }
 }

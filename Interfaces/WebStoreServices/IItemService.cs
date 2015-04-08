@@ -180,6 +180,8 @@ namespace MPC.Interfaces.WebStoreServices
         List<ProductCategory> GetStoreParentCategories(long CompanyId, long OrganisationId);
 
         long getParentTemplateID(long itemId);
+
+        string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID);
        
     }
 }

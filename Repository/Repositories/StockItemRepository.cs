@@ -52,6 +52,7 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
+        
         /// <summary>
         /// Get All StockI tem 
         /// </summary>
