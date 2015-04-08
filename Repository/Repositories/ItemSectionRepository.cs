@@ -1379,6 +1379,10 @@ namespace MPC.Repository.Repositories
                         oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
                     }
                     oItemSectionCostCenter.SectionCostCentreDetails.Add(oItemSectionCostCenterDetail);
+                    if (oItemSection.SectionCostcentres == null)
+                    {
+                        oItemSection.SectionCostcentres = new List<SectionCostcentre>();
+                    }
                     oItemSection.SectionCostcentres.Add(oItemSectionCostCenter);
                 }
             }
