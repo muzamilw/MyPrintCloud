@@ -55,12 +55,12 @@
     var deliverycarrierClientMapper = function (source)
     {
         var odeliverycarrier = new deliverycarrier();
-        odeliverycarrier.carrierId = ko.observable(source.CarrierId),
-        odeliverycarrier.carrierName = ko.observable(source.CarrierName),
-        odeliverycarrier.url = ko.observable(source.Url),
-        odeliverycarrier.apiKey = ko.observable(source.ApiKey),
-        odeliverycarrier.apiPassword = ko.observable(source.ApiPassword),
-        odeliverycarrier.isenable = ko.observable(source.isEnable)
+        odeliverycarrier.carrierId(source.CarrierId),
+        odeliverycarrier.carrierName(source.CarrierName),
+        odeliverycarrier.url(source.Url),
+        odeliverycarrier.apiKey(source.ApiKey),
+        odeliverycarrier.apiPassword(source.ApiPassword),
+        odeliverycarrier.isenable(source.isEnable)
         
         return odeliverycarrier;
 

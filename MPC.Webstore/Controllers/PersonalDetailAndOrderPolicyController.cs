@@ -31,14 +31,14 @@ namespace MPC.Webstore.Controllers
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
             MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-
+          
             CompanyContact Contact = _myCompanyService.GetContactByID(_webstoreAuthorizationChecker.loginContactID());      
 
             Estimate LastOrder = _OrderService.GetLastOrderByContactId(_webstoreAuthorizationChecker.loginContactID());
             Company CorpCompany = _myCompanyService.GetCompanyByCompanyID(_webstoreAuthorizationChecker.loginContactCompanyID());
 
             CompanyTerritory CompTerritory = _myCompanyService.GetCcompanyByTerritoryID(_webstoreAuthorizationChecker.loginContactCompanyID());
-
+            ViewBag.CurrencySymbol = StoreBaseResopnse.Currency;
             ViewBag.CorpCompany = CorpCompany;
             ViewBag.CompTerritory = CompTerritory;
             ViewBag.Order = LastOrder;

@@ -228,8 +228,6 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
-                        var code = !data.code() ? "ORDER CODE" : data.code();
-                        orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
@@ -1049,6 +1047,8 @@ define("order/order.viewModel",
                                     }
                                 }
                                 isLoadingOrders(false);
+                                var code = !selectedOrder().orderCode() ? "ORDER CODE" : selectedOrder().orderCode();
+                                orderCodeHeader(code);
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
