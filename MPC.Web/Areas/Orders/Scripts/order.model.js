@@ -931,7 +931,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedIsOptionalExtra, specifiedIsPurchaseOrderRaised, specifiedStatus, specifiedQty1Charge, specifiedQty2Charge, specifiedQty3Charge,
         specifiedQty1MarkUpID, specifiedQty2MarkUpID, specifiedQty3MarkUpID, specifiedQty1MarkUpValue, specifiedQty2MarkUpValue, specifiedQty3MarkUpValue,
         specifiedQty1NetTotal, specifiedQty2NetTotal, specifiedQty3NetTotal, specifiedQty1, specifiedQty2, specifiedQty3, specifiedCostCentreName,
-        specifiedItemSectionId) {
+        specifiedItemSectionId, specifiedQty1WorkInstructions, specifiedQty2WorkInstructions, specifiedQty3WorkInstructions,
+        specifiedQty1EstimatedStockCost, specifiedQty2EstimatedStockCost, specifiedQty3EstimatedStockCost) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
@@ -985,10 +986,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty3NetTotal = ko.observable(specifiedQty3NetTotal || undefined),
             // Item Section Id
             itemSectionId = ko.observable(specifiedItemSectionId || undefined),
+            //Qty 1 Work Instructions
+            qty1WorkInstructions = ko.observable(specifiedQty1WorkInstructions || undefined),
+            //Qty 2 Work Instructions
+            qty2WorkInstructions = ko.observable(specifiedQty2WorkInstructions || undefined),
+            //Qty 3 Wor kInstructions
+            qty3WorkInstructions = ko.observable(specifiedQty3WorkInstructions || undefined),
+            //Qty 1 Estimated Stock Cost
+            qty1EstimatedStockCost = ko.observable(specifiedQty1EstimatedStockCost || undefined),
+            //Qty 2 Estimated Stock Cost
+            qty2EstimatedStockCost = ko.observable(specifiedQty2EstimatedStockCost || undefined),
+            //Qty 3 Estimated Stock Cost
+            qty3EstimatedStockCost = ko.observable(specifiedQty3EstimatedStockCost || undefined),
             // Section Cost Centre Details
             sectionCostCentreDetails = ko.observableArray([]),
             // Section Cost Centre Resources
             sectionCostCentreResources = ko.observableArray([]),
+            
             // Errors
             errors = ko.validation.group({
             }),
@@ -1060,6 +1074,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             qty2NetTotal: qty2NetTotal,
             qty3NetTotal: qty3NetTotal,
             itemSectionId: itemSectionId,
+            qty1WorkInstructions: qty1WorkInstructions,
+            qty2WorkInstructions: qty2WorkInstructions,
+            qty3WorkInstructions: qty3WorkInstructions,
+            qty1EstimatedStockCost: qty1EstimatedStockCost,
+            qty2EstimatedStockCost: qty2EstimatedStockCost,
+            qty3EstimatedStockCost: qty3EstimatedStockCost,
             sectionCostCentreDetails: sectionCostCentreDetails,
             sectionCostCentreResources: sectionCostCentreResources,
             errors: errors,
@@ -1868,7 +1888,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.IsDirectCost, source.IsOptionalExtra, source.IsPurchaseOrderRaised, source.Status, source.Qty1Charge, source.Qty2Charge, source.Qty3Charge,
             source.Qty1MarkUpID, source.Qty2MarkUpID, source.Qty3MarkUpID, source.Qty1MarkUpValue, source.Qty2MarkUpValue, source.Qty3MarkUpValue,
             source.Qty1NetTotal, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1, source.Qty2, source.Qty3, source.CostCentreName,
-            source.ItemSectionId);
+            source.ItemSectionId, source.Qty1WorkInstructions, source.Qty2WorkInstructions, source.Qty3WorkInstructions,
+            source.Qty1EstimatedStockCost, source.Qty2EstimatedStockCost, source.Qty3EstimatedStockCost);
 
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
