@@ -1549,16 +1549,37 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    doBeforeRunningWizard = function () {
+                        var flag = true;
+                        if (selectedSection().sectionInkCoverageList().length == 0) {
+                            errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
+                            flag = false;
+                        }
+                        if (selectedSection().numberUp() <= 0) {
+                            errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
+                            flag = false;
+                        }
+                        if (selectedSection().stockItemName() == null) {
+                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
+                            flag = false;
+                        } 
+                        return flag;
+                    },
                     getSectionSystemCostCenters = function () {
+                        if (!doBeforeRunningWizard()) {
+                            selectedSection().errors.showAllMessages();
+                            return;
+                        }
                         isLoadingOrders(true);
+                        var currSec = selectedSection().convertToServerData();
                         dataservice.getUpdatedSystemCostCenters({
-                            CurrentSection: selectedSection().convertToServerData(),
-                            PressId: selectedSection().pressId,
-                            AllSectionInks: selectedSection().sectionInkCoverageList()
+                            CurrentSection: currSec,
+                            PressId: currSec.pressId,
+                            AllSectionInks: currSec.SectionInkCoverages
                         }, {
                             success: function (data) {
                                 if (data != null) {
-
+                                    selectedSection(model.ItemSection.Create(data));
 
                                 }
                                 isLoadingOrders(false);
@@ -1715,7 +1736,8 @@ define("order/order.viewModel",
                     availableInkPlateSides: availableInkPlateSides,
                     paperSizes: paperSizes,
                     openStockItemDialog: openStockItemDialog,
-                    getSectionSystemCostCenters: getSectionSystemCostCenters
+                    getSectionSystemCostCenters: getSectionSystemCostCenters,
+                    doBeforeRunningWizard: doBeforeRunningWizard
                     //#endregion
                 };
             })()

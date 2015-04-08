@@ -782,7 +782,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 name: name,
                 pressId: pressId,
-                stockItemId: stockItemId
+                stockItemId: stockItemId,
+                plateInkId: plateInkId,
+                numberUp: numberUp,
+                stockItemName: stockItemName
             }),
             // Is Valid
             isValid = ko.computed(function () {
