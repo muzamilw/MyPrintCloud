@@ -1946,6 +1946,7 @@
     <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
 
+  
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
 
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
