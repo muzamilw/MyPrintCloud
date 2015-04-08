@@ -1,0 +1,55 @@
+﻿<div class="modal fade" id="contactSelectorDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Contact List</h4>
+            </div>
+
+            <div class="col-lg-12">
+                <div class="col-lg-12 clearfix">
+                    <header class="main-box-header clearfix">
+                        @*<!-- ko template: { name: 'companySelectorFilterTemplate' } -->
+                            <!-- /ko -->*@
+                    </header>
+                    <div class="main-box-body clearfix">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th><a href="#"><span>Name</span></a></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*<!-- ko template: { name: 'companySelectorItemTemplate' , foreach: companies } -->
+                                        <!-- /ko -->*@
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <footer class="main-box-header pull-right">
+                        <div id="pagerDiv">
+                            <!-- ko with: pager -->
+                            @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                            <!-- /ko -->
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="companySelectorItemTemplate" type="text/html">
+    <tr data-bind="click: $root.onSelectCompany">
+        <td data-bind="text:name"></td>
+        <td data-bind="text:url"></td>
+        <td data-bind="text:creationDate"></td>
+    </tr>
+</script>
+

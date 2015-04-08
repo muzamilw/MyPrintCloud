@@ -175,8 +175,16 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public IEnumerable<Activity> GetActivities(ActivityRequestModel request)
         {
-            return activityRepository.GetActivitiesByUserId(request.StartDateTime, request.EndDateTime);
+            return activityRepository.GetActivitiesByUserId(request.UserId, request.StartDateTime, request.EndDateTime);
 
+        }
+
+        /// <summary>
+        /// Get Company Contact By search string and Customer Type
+        /// </summary>
+        public CompanyContactResponse GetCompanyContacts(CompanyContactForCalendarRequestModel request)
+        {
+            return companyContactRepository.GetContactsBySearchNameAndType(request);
         }
 
         #endregion

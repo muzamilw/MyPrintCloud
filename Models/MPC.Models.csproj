@@ -372,6 +372,7 @@
     </Compile>
     <Compile Include="RequestModels\ActivityRequestModel.cs" />
     <Compile Include="RequestModels\AddressRequestModel.cs" />
+    <Compile Include="RequestModels\CompanyContactForCalendarRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
     <Compile Include="RequestModels\DeleteCompanyRequest.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />

@@ -12,7 +12,7 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-       
+
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email, long OID);
@@ -38,14 +38,14 @@ namespace MPC.Interfaces.Repository
         string GetContactMobile(long CID);
 
         bool canContactPlaceOrder(long contactID, out bool hasWebAccess);
-         /// <summary>
+        /// <summary>
         /// Gets the count of users register against a company by its id
         /// </summary>
         /// <param name="CompanyId"></param>
         /// <returns></returns>
         int GetContactCountByCompanyId(long CompanyId);
 
-         /// <summary>
+        /// <summary>
         /// Gets the contact orders count by Status
         /// </summary>
         /// <param name="contactId"></param>
@@ -63,19 +63,19 @@ namespace MPC.Interfaces.Repository
 
         CompanyContact GetCorporateAdmin(long contactCompanyId);
 
-    
+
 
 
         /// <param name="statusId"></param>
         /// <returns></returns>
         int GetAllPendingOrders(long CompanyId, OrderStatus statusId);
-         /// <summary>
+        /// <summary>
         /// Get all orders count placed against a company
         /// </summary>
         /// <param name="CCID"></param>
         /// <returns></returns>
         int GetAllOrdersCount(long CompanyId);
-         /// <summary>
+        /// <summary>
         /// Gets login user orders count which are placed and not archieved
         /// </summary>
         /// <param name="CID"></param>
@@ -113,5 +113,10 @@ namespace MPC.Interfaces.Repository
         bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId);
 
         CompanyContact GetContactByEmailID(string Email);
+
+        /// <summary>
+        /// Get Company Contact By search string and Customer Type
+        /// </summary>
+        CompanyContactResponse GetContactsBySearchNameAndType(CompanyContactForCalendarRequestModel request);
     }
 }
