@@ -1542,56 +1542,65 @@ define("order/order.viewModel",
                     side2ButtonClick = function () {
                         showSide1Image(false);
                     },
-                    getBestPress = function () {
-                        showEstimateRunWizard();
-                        isLoadingOrders(true);
-                        bestPressList.removeAll();
-                        userCostCenters.removeAll();
-                        selectedBestPressFromWizard(undefined);
-                        dataservice.getBestPress(selectedSection().convertToServerData(), {
-                            success: function (data) {
-                                if (data != null) {
-                                    mapBestPressList(data.PressList);
-                                    mapUserCostCentersList(data.UserCostCenters);
-                                }
-                                isLoadingOrders(false);
-                            },
-                            error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
+
+                    runWizard = function () {
+                        errorList.removeAll();
+                        if (!doBeforeRunningWizard()) {
+                            selectedSection().errors.showAllMessages();
+                            return;
+                        }
+                        getBestPress();
+                    },
+                getBestPress = function () {
+                    showEstimateRunWizard();
+                    isLoadingOrders(true);
+                    bestPressList.removeAll();
+                    userCostCenters.removeAll();
+                    selectedBestPressFromWizard(undefined);
+                    dataservice.getBestPress(selectedSection().convertToServerData(), {
+                        success: function (data) {
+                            if (data != null) {
+                                mapBestPressList(data.PressList);
+                                mapUserCostCentersList(data.UserCostCenters);
                             }
-                        });
-                    },
-                    doBeforeRunningWizard = function () {
-                        var flag = true;
-                        if (selectedSection().sectionInkCoverageList().length == 0) {
-                            errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
-                            flag = false;
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
                         }
-                        if (selectedSection().numberUp() <= 0) {
-                            errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
-                            flag = false;
-                        }
-                        if (selectedSection().stockItemName() == null) {
-                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
-                            flag = false;
-                        } 
-                        return flag;
-                    },
+                    });
+                },
+                doBeforeRunningWizard = function () {
+                    var flag = true;
+                    if (selectedSection().sectionInkCoverageList().length == 0) {
+                        errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
+                        flag = false;
+                    }
+                    if (selectedSection().numberUp() <= 0) {
+                        errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
+                        flag = false;
+                    }
+                    if (selectedSection().stockItemName() == null) {
+                        errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
+                        flag = false;
+                    }
+                    return flag;
+                },
 
-                    // Map Best Press List
-                    mapBestPressList = function (data) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(BestPress.Create(item));
-                        });
+                // Map Best Press List
+                mapBestPressList = function (data) {
+                    var list = [];
+                    _.each(data, function (item) {
+                        list.push(BestPress.Create(item));
+                    });
 
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(bestPressList(), list);
-                        bestPressList.valueHasMutated();
-
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(bestPressList(), list);
+                    bestPressList.valueHasMutated();
+                    if (selectedSection().pressId() !== undefined) {
                         var bestPress = _.find(bestPressList(), function (item) {
-                            return item.isSelected === true;
+                            return item.id() === selectedSection().pressId();
                         });
                         if (bestPress) {
                             selectedBestPressFromWizard(bestPress);
@@ -1600,62 +1609,64 @@ define("order/order.viewModel",
                                 selectedBestPressFromWizard(bestPressList()[0]);
                             }
                         }
-                    },
-                     // Map User Cost Centers
-                    mapUserCostCentersList = function (data) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(UserCostCenter.Create(item));
-                        });
-
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(userCostCenters(), list);
-                        userCostCenters.valueHasMutated();
-                    },
-
-                    getSectionSystemCostCenters = function () {
-                        if (!doBeforeRunningWizard()) {
-                            selectedSection().errors.showAllMessages();
-                            return;
+                    } else {
+                        if (bestPressList().length > 0) {
+                            selectedBestPressFromWizard(bestPressList()[0]);
                         }
-                        isLoadingOrders(true);
-                        var currSec = selectedSection().convertToServerData();
-                        dataservice.getUpdatedSystemCostCenters({
-                            CurrentSection: currSec,
-                            PressId: currSec.pressId,
-                            AllSectionInks: currSec.SectionInkCoverages
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    selectedSection(model.ItemSection.Create(data));
+                    }
 
-                                }
-                                isLoadingOrders(false);
-                            },
-                            error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load System Cost Centers." + response);
-                            }
-                        });
-                    },
-                    // Template Chooser For Delivery Schedule
-                    templateToUseDeliverySchedule = function (deliverySchedule) {
-                        return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
-                    },
-                    selectBestPressFromWizard = function (bestPress) {
-                        selectedBestPressFromWizard(bestPress);
-                    },
-                    clickOnWizardOk = function () {
-                        hideEstimateRunWizard();
-                    },
-                //Show Estimate Run Wizard
-                showEstimateRunWizard = function () {
-                    view.showEstimateRunWizard();
                 },
+                // Map User Cost Centers
+                mapUserCostCentersList = function (data) {
+                    var list = [];
+                    _.each(data, function (item) {
+                        list.push(UserCostCenter.Create(item));
+                    });
+
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(userCostCenters(), list);
+                    userCostCenters.valueHasMutated();
+                },
+
+                getSectionSystemCostCenters = function () {
+                    isLoadingOrders(true);
+                    var currSec = selectedSection().convertToServerData();
+                    dataservice.getUpdatedSystemCostCenters({
+                        CurrentSection: currSec,
+                        PressId: selectedBestPressFromWizard().id,
+                        AllSectionInks: currSec.SectionInkCoverages
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                selectedSection(model.ItemSection.Create(data));
+                                hideEstimateRunWizard();
+                            }
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Load System Cost Centers." + response);
+                        }
+                    });
+                },
+                // Template Chooser For Delivery Schedule
+                templateToUseDeliverySchedule = function (deliverySchedule) {
+                    return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
+                },
+                selectBestPressFromWizard = function (bestPress) {
+                    selectedBestPressFromWizard(bestPress);
+                },
+                clickOnWizardOk = function () {
+                    getSectionSystemCostCenters();
+                },
+                //Show Estimate Run Wizard
+            showEstimateRunWizard = function () {
+                view.showEstimateRunWizard();
+            },
                 //Hide Estimate Run Wizard
-                hideEstimateRunWizard = function () {
-                    view.hideEstimateRunWizard();
-                };
+            hideEstimateRunWizard = function () {
+                view.hideEstimateRunWizard();
+            };
                 //#endregion
                 //#endregion
 
@@ -1799,12 +1810,13 @@ define("order/order.viewModel",
                     paperSizes: paperSizes,
                     openStockItemDialog: openStockItemDialog,
                     getSectionSystemCostCenters: getSectionSystemCostCenters,
-                    doBeforeRunningWizard: doBeforeRunningWizard,                    
+                    doBeforeRunningWizard: doBeforeRunningWizard,
                     bestPressList: bestPressList,
                     userCostCenters: userCostCenters,
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
-                    clickOnWizardOk: clickOnWizardOk
+                    clickOnWizardOk: clickOnWizardOk,
+                    runWizard: runWizard
                     //#endregion
                 };
             })()

@@ -4,6 +4,28 @@
             <div class="col-lg-12">
             </div>
         </div>
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="clearfix">
+                        <div class="pull-left validationSummaryContainer">
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            @* ReSharper disable UnknownCssClass *@
+                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
+                                @* ReSharper restore UnknownCssClass *@
+                                <div id="validationSummaryPopoverBody">
+                                    <ul data-bind="foreach: $root.errorList">
+                                        <li>
+                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" id="user-profile" data-bind="with: $root.selectedSection">
 
             <div class="col-lg-12">
@@ -80,7 +102,7 @@
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="col-xs-4">
-                                        <input type="text" style="width:75%;margin-right:5px;" data-bind="value: stockItemName, enable: false" class="form-control OpenStockPopup-Class" id="txtStock">
+                                        <input type="text" style="width:75%;margin-right:5px;" data-bind="value: stockItemName, enable: false, validationOnElement: stockItemName" class="form-control OpenStockPopup-Class" id="txtStock">
                                         <a data-bind="click: $root.openStockItemDialog" href="#" class="btn btn-primary pull-right">
                                             <i class="fa fa-lg"></i>&nbsp;....
                                         </a>
@@ -198,7 +220,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                 </div>
                                 <div class="col-lg-8">
                                     <div class="col-xs-2">
-                                        <input type="text" class="form-control" data-bind="value: numberUp" id="numberUpTextBox" />
+                                        <input type="text" class="form-control" data-bind="value: numberUp, validationOnElement: numberUp" id="numberUpTextBox" />
                                     </div>
 
                                     <div class="col-xs-2">
@@ -241,7 +263,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                 <div class="col-lg-8">
                                     <div class="col-xs-4">
                                         <div class="col-xs-4" style="float:left;display:inline;padding-left:0;">
-                                            <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: plateInkId" style="width:250%;"></select>
+                                            <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: plateInkId, validationOnElement: plateInkId" style="width:250%;"></select>
                                         </div>
                                         <div style="float:right;display:inline;">
                                             <a class="btn btn-primary pull-right" data-bind="click: $root.openInkDialog">
@@ -296,7 +318,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                                 <a href="#myModal" class="btn btn-primary">
                                                     <i class="fa fa-lg"></i>&nbsp;Add Stock
                                                 </a>
-                                                <a href="#" class="btn btn-primary" data-bind="click:$root.getBestPress">
+                                                <a href="#" class="btn btn-primary" data-bind="click:$root.runWizard">
                                                     @*<a href="#myModal" class="btn btn-primary" data-bind="click:$root.getBestPress"> Temporarily binding changed to test function which will be triggered after the wizard finish*@
                                                     <i class="fa fa-lg"></i>&nbsp;Run Wizard
                                                 </a>
