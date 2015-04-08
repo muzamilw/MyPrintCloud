@@ -14,7 +14,7 @@ namespace MPC.MIS.Areas.Api.Models
         public IEnumerable<DeliveryCarrier> DeliveryCarriers { get; set; }
         public string CurrencySymbol { get; set; }
 
-        public string CurrencySymbol { get; set; }
+        
 
     }
 }
