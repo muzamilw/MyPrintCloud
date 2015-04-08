@@ -1053,7 +1053,7 @@
                                         </div>*@
                                     <div class="tab-pane clearfix fade" id="tab-LabourCalculation">
                                         <div class="col-lg-12 form-horizontal">
-                                            <h3 class="group-header">Create formula string to work out Cost Center Charge</h3>
+                                            <h3 class="group-header">Create Formula String to work out Cost Center Charge</h3>
                                             <div class="col-lg-7">
                                                 @*Estimated Cost*@
                                                 @*<div class="form-group">
@@ -1120,7 +1120,7 @@
                                                             <!-- ko template: { name: 'OperatorButtonsTemplate' } -->
                                                             <!-- /ko -->
 
-                                                            <span class="help-block text-right" style="margin-top: 27px;" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'"> Click an operator symbol to insert in formula string on cursor position.</span>
+                                                            <span class="help-block text-right" style="margin-top: 27px;" data-bind="visible: $root.selectedVariableString() === 'txtQuotedLabourCost'"> Click an operator symbol to insert in Formula String on cursor position.</span>
                                                         </div>
                                                        
                                                     </div>
@@ -1408,7 +1408,7 @@
 </script>
 
 <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
-    <li><a tabindex="-1" href="#">Add</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.addQuestionVariable">Add</a></li>
     <li><a tabindex="-1" data-bind="click:$root.addVariableToInputControl">Edit</a></li>
     <li><a tabindex="-1" href="#">Delete</a></li>
     <li class="divider"></li>

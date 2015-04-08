@@ -1438,6 +1438,7 @@
 
     $(function () {
         $('#ddShippingCountry').change(function () {
+
             var ShippingCountryId = $('#ddShippingCountry').val();
             var jsonData = (@Html.Raw(Json.Encode(Model.ShippingStates)));
             console.log(jsonData);
@@ -1520,6 +1521,27 @@
         });
         $('#ddlBilling option:eq(2)').attr('selected', 'selected');
         OnChangeBillingAddress();
+    }
+
+    function ShowAllStates()
+    {
+        var jsonData = (@Html.Raw(Json.Encode(Model.BillingStates))) ;
+        if(jsonData != null)
+        {
+            var billingddp = $('#ddBillingState');
+            billingddp.empty();
+            for(var i = 0; i <jsonData.length;i++)
+            {
+                var cAdrres = jsonData[i];
+                
+                    billingddp.append(
+                           $('<option/>', {
+                               value: cAdrres.StateId,
+                               html: cAdrres.StateName
+                           })
+                       );
+                }
+        }
     }
 </script>
 
