@@ -5488,7 +5488,7 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public string ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
+        public bool ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
         {
 
             string timelog = "";
@@ -5663,11 +5663,11 @@ namespace MPC.Implementation.MISServices
                     ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
                     end = DateTime.Now;
                     timelog += "import 3rd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
-                    return timelog;
+                    return true;
                 }
                 else
                 {
-                    return "";
+                    return false;
                 }
             }
             catch (Exception ex)
