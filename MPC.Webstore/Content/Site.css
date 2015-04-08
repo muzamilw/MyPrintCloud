@@ -12769,7 +12769,7 @@ ul.LogBar li a {
         font-weight: bold;
         margin-top: 15px;
         margin-bottom: 20px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         padding-right: 5px;
     }
 
@@ -20067,7 +20067,7 @@ ul.LogBar li a {
         font-weight: bold;
         margin-top: 15px;
         margin-bottom: 20px;
-        border: 1px solid black;
+        /*border: 1px solid black;*/
         padding-top: 5px;
         padding-left: 5px;
     }
@@ -20906,14 +20906,14 @@ ul.LogBar li a {
         /*margin-bottom: 15px;*/
         font-family: sans-serif !important;
         margin-top: 10px;
-        /*margin-bottom: 20px;*/
+        /*margin-bottom: 20px;*/text-decoration:none;
     }
 
     .BreadCrumbMenuItem {
         color: #042F42;
         float: left;
         font-size: 14px !important;
-        font-family: sans-serif !important;
+        font-family: sans-serif !important;text-decoration:none;
     }
 
     .full_img_ThumbnailPath {
@@ -23717,7 +23717,7 @@ a:hover.btn-watch {
 
 .ScrollBarOnOrderHistory {
     height: 601px;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 .profile-box-header {

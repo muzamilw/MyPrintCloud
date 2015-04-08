@@ -1346,7 +1346,7 @@
     }
 
     function openDailog() {
-
+        ShowLoader();
         var files = $("#imageUploader").get(0).files;
         var sideOFImage = $("#uploadedImageSide").val();
         if (sideOFImage == 0) {
@@ -1404,6 +1404,7 @@
                 error: function(xhr, ajaxOptions, thrownError) {
                     //alert("Error while invoking the Web API");
                     alert(thrownError);
+                    HideLoader();
                 }
             });
         }
