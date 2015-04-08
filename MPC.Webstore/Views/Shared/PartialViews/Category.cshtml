@@ -17,7 +17,7 @@
 {
     <div id="divbg" style="background:url(@Model.ImagePath)  no-repeat center center" class="categorydivBG">&nbsp;</div>
 }
-<link href="~/Content/Designer/DSv2.css" rel="stylesheet" />
+<link href="~/Content/Designer/CategoryPageStyles.css" rel="stylesheet" />
 <link href="~/Content/Designer/p103.css" rel="stylesheet" />
 <script src="~/Scripts/Designer/p101.js" type="text/javascript"></script>
 <div class="container content_area">
@@ -123,7 +123,7 @@
                                                     {
                                                         //
                                                         RedirectURL = "#";
-                                                        SkipDesignerPopUp = "SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'"+item.ProductName+"');";
+                                                        SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'" + item.ProductName + "');";
                                                     }
                                                     else 
                                                     {
@@ -379,8 +379,20 @@
     <input type="hidden" id="hfPrintCropMarks" />
     <input type="hidden" id="hfSvcRespone" />
 </div>
+<section id="MainLoader" class="dialogContainer dialogProof" style=" display: none; ">
+    <div class="maskItems on"></div>
+    <div class="dialog" style="top: 261.5px; height: 184px;">
+        <h2>Preparing your Design…</h2>
+        <div class="content">
+            <div class="exporting">
+                <div class="progress"><span class="progressValue" style="width: 100%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
+                <p id="paraLoaderMsg">Please wait while we generate proof of your design...</p>
+            </div>
+        </div>
+    </div>
+</section>
 <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
-    <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()">
+    <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" style="  line-height: 15px;display:none;">
         Close
     </div>
     <div class="previewerTitle">
@@ -401,7 +413,7 @@
                     </label>
                     <input id="chkCheckSpelling" name="chkCheckSpelling" runat="server" class="regular-checkbox-new"
                            type="checkbox" />
-                    <label for="chkCheckSpelling" style="display: inline; height:35px">
+                    <label for="chkCheckSpelling" style="display: inline; height:35px" id="lblCheckSpelling">
                     </label>
                 </div>
          
@@ -480,15 +492,18 @@
                     $("#thumbs").append(' <div id="overlayLayer' + IT.ProductPageID + '" style="visibility:hidden;" class="thumb"><div class="frame"><img src="' + stPath + '/p' + IT.PageNo + 'overlay.png?r=2" class="thumbNailFrame" /></div><div class="thumb-content"><p>' + IT.PageName + ' - Overlay Layer</p></div><div style="clear:both;"></div></div>');
                 });
                 $("#PreviewerContainerDesigner").css("display","block");
+                StopDesignerLoader();
             });
 
 
     }
     function e6() {
-     //   HideLoader();
-     //   $("#PreviewerContainerDesigner").css("display","none");
+        HideLoader();StopDesignerLoader();
+        $("#PreviewerContainerDesigner").css("display","none");
     }
-
+    $("#lblCheckSpelling").click(function (event) {
+        $("#lblCheckSpelling").toggleClass("ckeckboxChecked");
+    });
     $("#btnNextProofing").click(function (event) {
         if ($("#chkCheckSpelling").is(':checked')) {
             var designerName = $('.productTitle').html();
@@ -506,7 +521,7 @@
                 designerName = designerName.replace("&#34;", "-");
             while (designerName.indexOf('+') != -1)
                 designerName = designerName.replace("+", "-");
-
+            StartDesignerLoader("Please wait while we add this item to your cart...");
 
             $.getJSON("/designerapi/Template/SaveDesignAttachments/" + tID + "/" + itemId + "/" +  @ViewBag.CompanyID + "/" + designerName + "/designer/" + @ViewBag.organisationId,
               function (DT) {
@@ -517,4 +532,36 @@
             return false;
         }
     });
+    function StartDesignerLoader(msg) {
+        loaderLoading = true;
+        var3 = 1;
+        if (msg == null || msg == "") {
+            msg = "Please wait while we generate proof of your design...";
+        }
+        $("#paraLoaderMsg").text(msg);
+        $("#MainLoader").css("display", "block");
+        $(".progressValue").css("width", "1%");
+        $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
+        var2 = setInterval((function () {
+            var3 += 1;
+            if (var3 <= 95) {
+                $(".progressValue").css("width", var3 + "%");
+            }
+
+        }), 25);
+    }
+    function StopDesignerLoader() {
+        var3 = 99;
+        loaderLoading = false;
+        $(".progressValue").css("width", 100 + "%");
+        $(".progressValue").one('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend',
+        function (e) {
+            if (!loaderLoading) {
+                $("#MainLoader").css("display", "none");
+                clearInterval(var2);
+            }
+        });
+
+
+    }
 </script>
