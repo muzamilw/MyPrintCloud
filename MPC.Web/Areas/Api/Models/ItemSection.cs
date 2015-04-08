@@ -46,6 +46,8 @@ namespace MPC.MIS.Areas.Api.Models
         public int? PrintViewLayoutPortrait { get; set; }
         public int? SimilarSections { get; set; }
         public int? PlateInkId { get; set; }
+        public int Side1Inks { get; set; }
+        public int Side2Inks { get; set; }
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
     }
 }
