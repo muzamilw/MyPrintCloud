@@ -752,6 +752,8 @@ define("order/order.viewModel",
                             _.each(availableInkPlateSides(), function (item) {
                                 if (item.id == selectedSection().plateInkId()) {
                                     updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                    selectedSection().side1Inks(item.plateInkSide1);
+                                    selectedSection().side2Inks(item.plateInkSide2);
                                 }
                             });
                         }
