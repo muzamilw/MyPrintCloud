@@ -341,7 +341,8 @@
 
     #ops_theme_dropdown {
         z-index: 1000000000000000;
-        float: left;
+        float: left;        
+        width: 240px;
     }
 
     #ops_theme_dropdown #logo {
@@ -357,16 +358,11 @@
     #ops_theme_dropdown #ops_theme_list {
         float: left;
         position: relative;
+        width: 230px;
     }
 
-    #ops_theme_dropdown #ops_theme_list #ops_theme_select {
-        display: inline-block;
-        padding: 10px 15px;
-        width: 230px;
-        background: #222;
-        margin: 8px 0;
-        color: #CCCCCC;
-        position: relative;
+    #ops_theme_dropdown #ops_theme_list #ops_theme_select{
+        color: black;
     }
 
     #ops_theme_dropdown #ops_theme_list #ops_theme_select:after {
@@ -385,22 +381,26 @@
     #ops_theme_dropdown #ops_theme_list ul {
         position: absolute;
         display: none;
-        width: 230px;
-        top: 42px;
+        width: 238px;
+        top: 27px;
+        left: -12px;
         z-index: 1000000000000000;
         padding: 0;
+        background: white;
+        border: 1px solid #e7ebee;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
     }
 
     #ops_theme_dropdown #ops_theme_list ul li {
-        border-top: 1px solid #2a2a2a;
         display: block;
-        background: #222;
     }
 
     #ops_theme_dropdown #ops_theme_list ul li a {
         display: block;
-        padding: 10px 15px;
-        color: #3498db;
+        padding: 0 10px 1px;
+        color: black;
     }
 
     #ops_theme_dropdown #ops_theme_list ul li a .themeType {
@@ -422,7 +422,8 @@
     }
 
     #ops_theme_dropdown #ops_theme_list ul li:hover a {
-        background: #171717;
+        background: #3498db;
+        color: white;
     }
 
     #ops_theme_dropdown #ops_theme_list ul li:hover .themePreview {
