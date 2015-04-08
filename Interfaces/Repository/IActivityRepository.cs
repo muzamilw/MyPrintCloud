@@ -12,6 +12,6 @@ namespace MPC.Interfaces.Repository
         /// <summary>
         ///Get Activities By Sytem User Id
         /// </summary>
-        IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime);
+        IEnumerable<Activity> GetActivitiesByUserId(Guid userId,DateTime? startDateTime, DateTime? endDateTime);
     }
 }

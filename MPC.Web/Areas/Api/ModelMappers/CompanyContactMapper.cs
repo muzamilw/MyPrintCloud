@@ -217,7 +217,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        OrganisationId = source.OrganisationId,
                        RoleName = source.CompanyContactRole != null ? source.CompanyContactRole.ContactRoleName : string.Empty,
                        FileName = fileName,
-                  
+
                    };
         }
 
@@ -283,7 +283,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 RowCount = response.RowCount
             };
         }
-        
+
 
         /// <summary>
         /// Base Data Mapper
@@ -297,6 +297,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Addresses = result.Addresses != null ? result.Addresses.Select(address => address.CreateFrom()) : null,
                 CompanyTerritories = result.CompanyTerritories != null ? result.CompanyTerritories.Select(territory => territory.CreateFrom()) : null,
                 StateDropDowns = result.States != null ? result.States.Select(state => state.CreateFromDropDown()) : null,
+            };
+        }
+
+        public static CompanyContactResponseForCalendar CreateFromForCalendar(this MPC.Models.ResponseModels.CompanyContactResponse response)
+        {
+            return new CompanyContactResponseForCalendar
+            {
+                CompanyContacts = response.CompanyContacts.Select(contact => contact.CreateFromContactForCalendar()),
+                RowCount = response.RowCount
+            };
+        }
+        public static CompanyContactForCalendar CreateFromContactForCalendar(this DomainModels.CompanyContact source)
+        {
+            return new CompanyContactForCalendar
+            {
+                ContactId = source.ContactId,
+                Name = source.FirstName,
+                CompanyName = source.Company != null ? source.Company.Name : string.Empty
             };
         }
     }

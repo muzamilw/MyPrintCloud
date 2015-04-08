@@ -923,6 +923,7 @@ namespace MPC.Implementation.MISServices
                 ItemStockOption targetItemStockOption = itemStockOptionRepository.Create();
                 itemStockOptionRepository.Add(targetItemStockOption);
                 targetItemStockOption.ItemId = target.ItemId;
+                targetItemStockOption.CompanyId = target.CompanyId;
                 target.ItemStockOptions.Add(targetItemStockOption);
                 itemStockOption.Clone(targetItemStockOption);
 
