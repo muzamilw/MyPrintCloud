@@ -23,12 +23,12 @@
 
                 showAddEditQuestionMenu = function () {
                     $(".AddEditQuestion").contextMenu({
-                        menuSelector: "#contextMenu",
-                        menuSelected: function (invokedOn, selectedMenu) {
-                            var msg = "You selected the menu item '" + selectedMenu.text() +
-                                "' on the value '" + invokedOn.text() + "'";
-                            alert(msg);
-                        }
+                        menuSelector: "#contextMenu"
+                        //menuSelected: function (invokedOn, selectedMenu) {
+                        //    var msg = "You selected the menu item '" + selectedMenu.text() +
+                        //        "' on the value '" + invokedOn.text() + "'";
+                        //    alert(msg);
+                        //}
                     });
                 },
                 //// Hide Activity the dialog
