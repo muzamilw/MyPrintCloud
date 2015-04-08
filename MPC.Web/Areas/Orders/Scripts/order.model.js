@@ -782,7 +782,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             errors = ko.validation.group({
                 name: name,
                 pressId: pressId,
-                stockItemId: stockItemId
+                stockItemId: stockItemId,
+                plateInkId: plateInkId,
+                numberUp: numberUp,
+                stockItemName: stockItemName
             }),
             // Is Valid
             isValid = ko.computed(function () {
@@ -808,8 +811,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 printViewLayoutLandscape: printViewLayoutLandscape,
                 plateInkId: plateInkId,
                 similarSections: similarSections,
+                qty1: qty1,
+                qty2: qty2,
                 includeGutter: includeGutter(),
-                isPaperSupplied: isPaperSupplied()
+                isPaperSupplied: isPaperSupplied(),
+                qty3: qty3
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -853,11 +859,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     Qty1: qty1(),
                     Qty2: qty2(),
                     Qty3: qty3(),
-                    SectionCostcentres: sectionCostCentres.map(function (scc) {
+                   SectionCostcentres: sectionCostCentres.map(function (scc) {
                         return scc.convertToServerData();
                     }),
                     SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
                         return sic.convertToServerData();
+                        
                     })
                 };
             };
