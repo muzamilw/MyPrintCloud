@@ -31,7 +31,6 @@
     string BCountryName = string.Empty;
 
 
-    //ViewBag.shippingAddress = Model.ShippingAddresses;
 }
 
 <div class="container content_area">
@@ -87,9 +86,7 @@
                                 <label ID="ltrlcontacttelnum"  class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12 ">Contact Tel Number</label>
 
                                 @Html.TextBoxFor(model => model.ContactTel, new { id = "txtInstContactTelNumber", @class = "AveniorTxtBoxCheckout  col-md-8 col-lg-7 col-xs-12", onblur = "ChangeTelNumber();" })
-                                @*<input id="txtInstContactTelNumber" name="txtInstContactTelNumber" type="text" class="AveniorTxtBoxCheckout col-md-2 col-lg-2 col-xs-12 "
-                                       onblur="ChangeTelNumber();" value="@Model.ContactTel" />*@
-
+                              
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -98,9 +95,7 @@
                                 <label id="ltrlnotes" class="col-md-3 col-lg-3 col-xs-12 checkoutNoteslbl">Notes</label>
 
                                 @Html.TextBoxFor(model => model.Notes, new { id = "txtInstNotes", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12", onblur = "ChangeNotesTxt();" })
-                                @*<input type="text" inputmode="MultiLine" id="txtInstNotes" name="txtInstNotes" style="height:80px;" class="AveniorTxtBoxCheckout" onblur="ChangeNotesTxt();" />*@
-                                @*<asp:TextBox TextMode="MultiLine" ID="txtInstNotes"  Height="80px"
-                CssClass="AveniorTxtBoxCheckout" Columns="10" onblur="ChangeNotesTxt();" />*@
+                              
                             </div>
                             <div class="clearBoth">
                             </div>
@@ -259,8 +254,7 @@
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onclick="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address" >
                             <label id="lblCheckBox">Bill items to the above shipping address</label>
-                            @*<asp:CheckBox ID="chkBoxDeliverySameAsBilling" Text="Bill items to the above shipping address" 
-            Checked="true" onclick="BillingSameAsDeliveryScriptCheckBox();" OnCheckedChanged="chkBoxDeliverySameAsBilling_CheckedChanged" AutoPostBack="true" />*@
+                          
                         </div>
                         <div class="clear">
                         </div>
@@ -413,11 +407,7 @@
                                                         {
                                                             <th align="right" scope="col">Price</th>
                                                         }
-                                                        @*else
-                                                            {
-                                                                <th align="right" style="color:rgb(61, 61, 61) !important;" scope="col">Price</th>
-                                                            }*@
-
+                                                   
                                                     </tr>
 
                                             @if (Model.ProductItems != null && Model.ProductItems.Count > 0)
@@ -672,9 +662,7 @@
                                     <div class="float_right marginLeft">
                                         @if (Model.shopcart.CartItemsList != null && Model.shopcart.CartItemsList.Count > 0)
                                         {
-                                            @*<asp:Button ID="btnConfirmOrder" CssClass="start_creating_btn_SApp rounded_corners5" UseSubmitBehavior="true"
-                                                 OnClick="btnConfirmOrder_Click" Enabled="true" Text="Continue"
-                                                ClientIDMode="Static" OnClientClick="return ValidateCheckout();" />*@
+                                           
                                             <input type="submit" class="start_creating_btn_SApp rounded_corners5" onclick="return ValidateCheckout();" value="Continue" />
                                             
                                         }
@@ -703,7 +691,7 @@
                                 </div>
                             }
 
-                            @if (Model.HasAdminMessage == true)
+                            @*@if (Model.HasAdminMessage == true)
                             {
                                 <div class="super_admin_message" id="divAdminMessage"  visible="false">
                                     <label ID="ltrlorderwillbed">Order will be delivered after</label>
@@ -712,7 +700,7 @@
 
                                     <label ID="ltrlapprovethisorder" > approves this order.</label>
                                 </div>
-                            }
+                            }*@
 
                             <div class="clearBoth">
                                 &nbsp;
@@ -841,11 +829,20 @@
             $('#innerContainerShippTo').css('display', 'block');
             $("#ltrlShipTo").html("Ship to:");
         }
-      
+
         if ($("#hfPageIsValid").val() == "0") {
             ValidateCheckout();
         }
+        if(@Model.SelectedDeliveryCostCentreId > 0){
 
+            $('#ddlDeliveyCostCenter option').each(function () {
+                var deliverySelectedId = @Model.SelectedDeliveryCostCentreId;
+                if ($(this).val() == deliverySelectedId){
+                    $(this).attr('selected', 'selected');
+                }
+            });
+
+        }
     });
 
     function keydown(e) {
@@ -924,19 +921,19 @@
     }
     function BillingSameAsDeliveryScriptCheckBox() {
 
-        
+
         if ($("#chkBoxDeliverySameAsBilling")[0].checked == true) {
-            
+
             $('#BillTOShippTO').css('display', 'none');
             $('#BillTOShippTOContainer').css('display', 'none');
-            
+
             SetNewControlValues();
 
             $('#isSameBillingAddress').val("True");
             $('#divBilling').css('display', 'none');
         }
         else {
-           
+
             $('#isSameBillingAddress').val("False");
             if ($("#hfIsDefaultBilling").val() != "1") {
                 EnableTextBoxes();
@@ -953,13 +950,13 @@
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
             $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-         
-   
+
+
             $('#divBilling').css('display', 'block');
-            
+
 
             HideAddressInBillingDropDown();
-            
+
         }
 
 
@@ -971,7 +968,7 @@
         BillingSameAsDeliveryScriptCheckBox();
     }
 
-    
+
     function ChangeAddresLinne1() {
         var val = $('#txtAddressLine1').val();
         $('#lblAddLine1BilSip').html(val);
@@ -1259,7 +1256,7 @@
             if (isContainBlanksInShipping == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
-               
+
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1279,7 +1276,7 @@
             } else if (isContainBlanksInShipping == 1) {
                 $("#hfPageIsValid").val(0);
                 isValid = false;
-               
+
                 $('html, body').animate({
                     scrollTop: $("#maincntCheckout").offset().top
                 }, 500);
@@ -1298,7 +1295,7 @@
 
         var addressId = $('#ddlDelivery').val();
         var jsonData = (@Html.Raw(Json.Encode(Model.ShippingAddresses)));
-        
+
         if(jsonData != null)
         {
             for(var i = 0; i <jsonData.length;i++)
@@ -1492,18 +1489,18 @@
             $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
         });
     });
-   
+
 
     $(function () {
         $('#ddBillingState').change(function () {
-           
+
             $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
         });
     });
 
     $(function () {
         $('#ddShippingState').change(function () {
-           
+
             $("#lblShipTostate").html($("#ddShippingState option:selected").text());
         });
     });

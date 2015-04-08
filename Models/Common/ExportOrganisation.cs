@@ -10,6 +10,7 @@ namespace MPC.Models.Common
     {
         public Organisation Organisation { get; set; }
 
+        public List<Company> SuppliersList { get; set; }
         public List<PaperSize> PaperSizes { get; set; }
 
         public List<CostCentre> CostCentre { get; set; }
@@ -111,6 +112,8 @@ namespace MPC.Models.Common
 
 
         public Company RetailCompany { get; set; }
+
+
 
         public List<CompanyDomain> RetailCompanyDomain { get; set; }
 
