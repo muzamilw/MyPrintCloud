@@ -14,10 +14,10 @@
                 {
                     $("#myAddEditDelvCarrierModalDialog").modal("show");
                 },
-                hideDeliveryCarrierDialog = function()
-                {
-                    $("#myAddEditDelvCarrierModalDialog").modal("hide");
-                }
+                //hideDeliveryCarrierDialog = function()
+                //{
+                //    $("#myAddEditDelvCarrierModalDialog").modal("hide");
+                //}
                 
                 // Initialize
                 initialize = function () {
@@ -31,7 +31,7 @@
                 bindingRoot: bindingRoot,
                 viewModel: viewModel, 
                 showDeliveryCarrierDialog: showDeliveryCarrierDialog,
-                hideDeliveryCarrierDialog: hideDeliveryCarrierDialog
+                //hideDeliveryCarrierDialog: hideDeliveryCarrierDialog
 
             };
         })(carrierdeliveryViewModel);

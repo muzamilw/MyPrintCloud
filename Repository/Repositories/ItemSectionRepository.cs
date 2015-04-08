@@ -1379,6 +1379,10 @@ namespace MPC.Repository.Repositories
                         oItemSectionCostCenter.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
                     }
                     oItemSectionCostCenter.SectionCostCentreDetails.Add(oItemSectionCostCenterDetail);
+                    if (oItemSection.SectionCostcentres == null)
+                    {
+                        oItemSection.SectionCostcentres = new List<SectionCostcentre>();
+                    }
                     oItemSection.SectionCostcentres.Add(oItemSectionCostCenter);
                 }
             }
@@ -4640,6 +4644,7 @@ namespace MPC.Repository.Repositories
                 if (presscc != null)
                 {
                     bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = presscc.Qty1NetTotal ?? 0, Qty1RunTime = presscc.Qty1EstimatedTime, Qty2Cost = presscc.Qty2NetTotal ?? 0, Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = presscc.Qty3NetTotal ?? 0, Qty3RunTime = presscc.Qty3EstimatedTime });
+                    updateSection.SectionCostcentres.ToList().ForEach(a => updateSection.SectionCostcentres.Remove(a));
                 }
             }
             return bestpress.OrderBy(p => p.Qty1Cost).ToList();
@@ -4648,10 +4653,11 @@ namespace MPC.Repository.Repositories
 
         public BestPressResponse GetBestPressResponse(ItemSection section)
         {
+            var uCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList();
             return new BestPressResponse
             {
                 PressList = GetBestPresses(section),
-                UserCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList()
+                UserCostCenters = uCostCenters
             };
         }
 
