@@ -64,7 +64,7 @@
                     <td>
                         @if (Model.CreditLimit.HasValue && Model.CreditLimit.Value > 0)
                         {
-                            <label id="lblOrderLimit">@Model.CreditLimit</label>
+                            <label id="lblOrderLimit">@ViewBag.CurrencySymbol+''+@Model.CreditLimit</label>
                         }
                         else
                         {

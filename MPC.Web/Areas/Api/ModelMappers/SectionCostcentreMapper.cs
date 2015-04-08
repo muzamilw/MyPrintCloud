@@ -41,6 +41,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty3MarkUpID = source.Qty3MarkUpID,
                 Qty3MarkUpValue = source.Qty3MarkUpValue,
                 ItemSectionId = source.ItemSectionId,
+                Qty1WorkInstructions = source.Qty1WorkInstructions,
+                Qty2WorkInstructions = source.Qty2WorkInstructions,
+                Qty3WorkInstructions = source.Qty3WorkInstructions,
+                Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
+                Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
+                Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
                 SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()) :
                 new List<SectionCostCentreDetail>(),
                 SectionCostCentreResources = source.SectionCostCentreResources != null ? source.SectionCostCentreResources.Select(s => s.CreateFrom()) :
