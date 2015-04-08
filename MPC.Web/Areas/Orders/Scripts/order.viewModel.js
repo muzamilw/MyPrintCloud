@@ -228,8 +228,6 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
-                        var code = !data.code() ? "ORDER CODE" : data.code();
-                        orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
@@ -310,6 +308,8 @@ define("order/order.viewModel",
 
                         // calculateSectionChargeTotal();
                         openItemDetail();
+                        var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
+                        editSection(section);
                     },
                     // Open Item Detail
                     openItemDetail = function () {
@@ -377,7 +377,7 @@ define("order/order.viewModel",
                     },
                     // Open Section Detail
                     openSectionDetail = function () {
-                        isSectionDetailVisible(true);
+                    //    isSectionDetailVisible(true);
                         view.initializeLabelPopovers();
 
                         // Subscribe Section Changes
@@ -752,6 +752,8 @@ define("order/order.viewModel",
                             _.each(availableInkPlateSides(), function (item) {
                                 if (item.id == selectedSection().plateInkId()) {
                                     updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                    selectedSection().side1Inks(item.plateInkSide1);
+                                    selectedSection().side2Inks(item.plateInkSide2);
                                 }
                             });
                         }
@@ -770,11 +772,11 @@ define("order/order.viewModel",
                         }
                         if (getSide2Count() != side2Count) {
                             //If List is less then dropDown (Plate Ink)
-                            if (getSide2Count() < side1Count) {
+                            if (getSide2Count() < side2Count) {
                                 addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
                             }
                                 //If List is greater then dropDown (Plate Ink)
-                            else if (getSide2Count() > side1Count) {
+                            else if (getSide2Count() > side2Count) {
                                 removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
                             }
                         }
@@ -826,6 +828,53 @@ define("order/order.viewModel",
                         //        }
                         //}); 
                     },
+                    selectedSectionCostCenter = ko.observable(),
+                    selectedQty = ko.observable(),
+                    //Section Cost Center Dialog
+                    openSectionCostCenterDialog = function (costCenter, qty) {
+                        selectedSectionCostCenter(costCenter);
+                        selectedQty(qty);
+                        view.showSectionCostCenterDialogModel();
+                    },
+                    updateSectionCostCenterDialog = ko.computed(function() {
+                        
+                        if (selectedSectionCostCenter() != undefined && selectedQty() != undefined
+                            //&& selectedSectionCostCenter().qty1MarkUpId() != undefined
+                           // && selectedSectionCostCenter().qty2MarkUpId() != undefined && selectedSectionCostCenter().qty3MarkUpId() != undefined
+                            ) {
+                            var markupValue = 0;
+                            if (selectedQty() == 1) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty1NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 2) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty2NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 3) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty3NetTotal(total);
+                                    }
+                                });
+                            }
+                        }
+                    }),
 
                 // #endregion
                     // #region ServiceCalls
@@ -1047,6 +1096,8 @@ define("order/order.viewModel",
                                     }
                                 }
                                 isLoadingOrders(false);
+                                var code = !selectedOrder().orderCode() ? "ORDER CODE" : selectedOrder().orderCode();
+                                orderCodeHeader(code);
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1742,6 +1793,9 @@ define("order/order.viewModel",
                     showSide1Image: showSide1Image,
                     inks: inks,
                     inkCoverageGroup: inkCoverageGroup,
+                    openSectionCostCenterDialog: openSectionCostCenterDialog,
+                    selectedSectionCostCenter: selectedSectionCostCenter,
+                    selectedQty: selectedQty,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
