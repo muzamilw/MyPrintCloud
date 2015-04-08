@@ -348,8 +348,9 @@ namespace MPC.Webstore.Controllers
                             }
 
                             AddressSelectModel.BillingAddress = billingAddress;
-                            AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                            AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
+                            RebindBillingStatesDD(AddressSelectModel, billingAddress);
+                            //AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
+                            //AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
                             AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
 
                             //Shipping Address
@@ -381,8 +382,9 @@ namespace MPC.Webstore.Controllers
                             {
 
                                 AddressSelectModel.ShippingAddress = shippingAddress;
-                                AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                                AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                RebindShippingStatesDD(AddressSelectModel, shippingAddress);
                                 AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
                             }
 
