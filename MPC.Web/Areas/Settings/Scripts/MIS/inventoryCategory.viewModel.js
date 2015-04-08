@@ -53,13 +53,22 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     //To Show/Hide Edit Section
                     isStockCategoryEditorVisible = ko.observable(false),
                     //Delete Stock Category
-                    deleteStockCategory = function (stockCategory) {
+                    onDeleteStockCategory = function () {
+                        confirmation.messageText("Do you want to delete Stock Category?");
+                        confirmation.afterProceed(deleteStockCategory);
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    deleteStockCategory = function () {
                         dataservice.deleteStockCategory({
-                            StockCategoryId: stockCategory.categoryId(),
+                            StockCategoryId: selectedStockCategory().categoryId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    stockCategories.remove(stockCategory);
+                                    stockCategories.remove(selectedStockCategory());
                                     toastr.success(" Deleted Successfully !");
                                 }
                             },
@@ -265,7 +274,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     createNewStockCategory: createNewStockCategory,
                     onEditItem: onEditItem,
                     isStockCategoryEditorVisible: isStockCategoryEditorVisible,
-                    deleteStockCategory: deleteStockCategory,
+                    onDeleteStockCategory: onDeleteStockCategory,
                     getStockCategories: getStockCategories,
                     doBeforeSave: doBeforeSave,
                     saveStockCategory: saveStockCategory,
