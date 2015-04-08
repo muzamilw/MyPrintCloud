@@ -396,6 +396,7 @@ namespace MPC.Repository.Repositories
                             List<CostCentreMatrixDetail> matrixDetail = Sets.ExportOrganisationSet1.CostCentreMatrixDetail.Where(c => c.MatrixId == matrix.RowsCount).ToList();
                             if (matrixDetail != null && matrixDetail.Count > 0)
                             {
+
                                 foreach (var MD in matrixDetail)
                                 {
                                     CostCentreMatrixDetail CCMD = new CostCentreMatrixDetail();
