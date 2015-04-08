@@ -442,10 +442,9 @@
 
                                                             _priceTotal += Convert.ToDouble(lblPrice);
 
-                                                            lblPrice = Utils.FormatDecimalValueToTwoDecimal(lblPrice, ViewBag.Currency);
-
+                                                            
                                                                 }
-                                                                <span id="lblItemPrice" class="Fsize14">@lblPrice</span>
+                                                                <span id="lblItemPrice" class="Fsize14">@Utils.FormatDecimalValueToTwoDecimal(lblPrice, Model.Currency)</span>
                                                             </td>
                                                         }
 
