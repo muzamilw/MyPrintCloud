@@ -2242,7 +2242,7 @@ namespace MPC.Repository.Repositories
                         string SCName = ConfigurationManager.AppSettings["CorporateStoreName"];
                         string SCNameWOP = ConfigurationManager.AppSettings["CorporateStoreNameWOP"];
 
-
+                        List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
 
                         if (StoreName == SName)
                         {
@@ -2265,6 +2265,7 @@ namespace MPC.Repository.Repositories
                             {
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                                comp.CmsPages.ToList().ForEach(x => x.OrganisationId = OrganisationID);
                             }
                             if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             {
@@ -2301,7 +2302,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ccc in comp.CompanyCostCentres)
                                 {
-                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
                                     if (id > 0)
                                     {
@@ -2309,7 +2310,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2324,42 +2325,13 @@ namespace MPC.Repository.Repositories
 
 
                             // add companydomain
-                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            string DomainName = SubDomain + "/store/" + objExpRetail.RetailCompany.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oRetailCID;
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            //List<CmsPage> cmsPages = Sets.ExportRetailStore4;
-                            //if (cmsPages != null && cmsPages.Count > 0)
-                            //{
-                            //    foreach (var Page in cmsPages)
-                            //    {
-
-                            //        Page.PageCategory = null;
-                            //        Page.CompanyId = oRetailCID;
-                            //        Page.OrganisationId = OrganisationID;
-                            //        db.CmsPages.Add(Page);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
-                            //  import items
-                            List<Item> items = Sets.ExportRetailStore3;
-                            if (items != null && items.Count > 0)
-                            {
-                                foreach (var item in items)
-                                {
-
-                                    item.OrganisationId = OrganisationID;
-                                    item.CompanyId = oRetailCID;
-                                    db.Items.Add(item);
-
-                                }
-
-                                db.SaveChanges();
-
-                            }
                             // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             // product categories
@@ -2374,36 +2346,36 @@ namespace MPC.Repository.Repositories
                                     //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
 
                                     //cat.ParentCategoryId = null;
-                                    OldCatIds = cat.ProductCategoryId;
+                                    cat.Sides = (int)cat.ProductCategoryId;
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oRetailCID;
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
 
-                                    //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    if (comp.Items != null && comp.Items.Count > 0)
-                                    {
-                                        foreach (var itm in comp.Items)
-                                        {
-                                            if (itm.ProductCategoryItems != null)
-                                            {
-                                                List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
+                                    ////  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //if (comp.Items != null && comp.Items.Count > 0)
+                                    //{
+                                    //    foreach (var itm in comp.Items)
+                                    //    {
+                                    //        if (itm.ProductCategoryItems != null)
+                                    //        {
+                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
 
-                                                if (pcis != null && pcis.Count > 0)
-                                                {
-                                                    foreach (var pc in pcis)
-                                                    {
-                                                        pc.CategoryId = cat.ProductCategoryId;
-                                                    }
-                                                }
-                                            }
+                                    //            if (pcis != null && pcis.Count > 0)
+                                    //            {
+                                    //                foreach (var pc in pcis)
+                                    //                {
+                                    //                    pc.CategoryId = cat.ProductCategoryId;
+                                    //                }
+                                    //            }
+                                    //        }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
 
 
 
@@ -2433,6 +2405,126 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
                             }
+                            //  import items
+                            List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+
+                            List<Item> items = Sets.ExportRetailStore3;
+                            if (items != null && items.Count > 0)
+                            {
+                                foreach (var item in items)
+                                {
+                                   
+                                    item.OrganisationId = OrganisationID;
+                                    item.CompanyId = oRetailCID;
+                                    item.SmartFormId = null;
+                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                    {
+                                        foreach (var itm in item.ItemSections)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    itm.StockItemID1 = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    itm.StockItemID1 = SID;
+
+
+                                                }
+                                            }
+                                            itm.PressId = null;
+
+                                        }
+                                    }
+                                    if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                                    {
+                                        foreach (var iso in item.ItemStockOptions)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    iso.StockId = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    iso.StockId = SID;
+
+
+                                                }
+                                            }
+                                            if (iso.ItemAddonCostCentres != null && iso.ItemAddonCostCentres.Count > 0)
+                                            {
+                                                foreach (var itmAdd in iso.ItemAddonCostCentres)
+                                                {
+                                                    if (CostCentres != null && CostCentres.Count > 0)
+                                                    {
+
+                                                        long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == itmAdd.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        if (id > 0)
+                                                        {
+
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+                                                        else
+                                                        {
+                                                            id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ProductCategoryItems)
+                                        {
+                                            if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                                            {
+                                                long PID = comp.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    pci.CategoryId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = PID;
+
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ItemRelatedItems)
+                                        {
+                                            pci.RelatedItemId = item.ItemId;
+                                        }
+                                    }
+
+                                    db.Items.Add(item);
+
+                                }
+
+                                db.SaveChanges();
+
+                            }
+                          
                             //
 
 
@@ -2447,7 +2539,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
                         }
-                        else if (StoreName == SNameWOP)
+                        else if (StoreName == SNameWOP) // done
                         {
                             Company comp = new Company();
                             comp = objExpRetailWOP.RetailCompany;
@@ -2467,6 +2559,7 @@ namespace MPC.Repository.Repositories
                             {
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                                comp.CmsPages.ToList().ForEach(x => x.OrganisationId = OrganisationID);
                             }
                             if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             {
@@ -2502,7 +2595,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ccc in comp.CompanyCostCentres)
                                 {
-                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
                                     if (id > 0)
                                     {
@@ -2510,7 +2603,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2525,42 +2618,13 @@ namespace MPC.Repository.Repositories
                             oRetailCIDWOP = comp.CompanyId;
 
                             // add companydomain
-                            string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
+                            string DomainName = SubDomain + "/store/" + objExpRetailWOP.RetailCompany.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();
                             domain.Domain = DomainName;
                             domain.CompanyId = oRetailCIDWOP;
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            //List<CmsPage> cmsPages = Sets.ExportRetailStore4WOP;
-                            //if (cmsPages != null && cmsPages.Count > 0)
-                            //{
-                            //    foreach (var Page in cmsPages)
-                            //    {
-
-                            //        Page.PageCategory = null;
-                            //        Page.CompanyId = oRetailCIDWOP;
-                            //        Page.OrganisationId = OrganisationID;
-                            //        db.CmsPages.Add(Page);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
-                            //  import items
-                            List<Item> items = Sets.ExportRetailStore3WOP;
-                            if (items != null && items.Count > 0)
-                            {
-                                foreach (var item in items)
-                                {
-
-                                    item.OrganisationId = OrganisationID;
-                                    item.CompanyId = oRetailCIDWOP;
-                                    db.Items.Add(item);
-
-                                }
-
-                                db.SaveChanges();
-
-                            }
                             // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             // product categories
@@ -2575,36 +2639,36 @@ namespace MPC.Repository.Repositories
                                     //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
 
                                     //cat.ParentCategoryId = null;
-                                    OldCatIds = cat.ProductCategoryId;
+                                    cat.Sides = (int)cat.ProductCategoryId;
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oRetailCIDWOP;
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
                                     //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    if (comp.Items != null && comp.Items.Count > 0)
-                                    {
-                                        foreach (var itm in comp.Items)
-                                        {
-                                            if (itm.ProductCategoryItems != null)
-                                            {
-                                                List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-                                                if (pcis != null && pcis.Count > 0)
-                                                {
-                                                    if (pcis != null && pcis.Count > 0)
-                                                    {
-                                                        foreach (var pc in pcis)
-                                                        {
-                                                            pc.CategoryId = cat.ProductCategoryId;
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                    //if (comp.Items != null && comp.Items.Count > 0)
+                                    //{
+                                    //    foreach (var itm in comp.Items)
+                                    //    {
+                                    //        if (itm.ProductCategoryItems != null)
+                                    //        {
+                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
+                                    //            if (pcis != null && pcis.Count > 0)
+                                    //            {
+                                    //                if (pcis != null && pcis.Count > 0)
+                                    //                {
+                                    //                    foreach (var pc in pcis)
+                                    //                    {
+                                    //                        pc.CategoryId = cat.ProductCategoryId;
+                                    //                    }
+                                    //                }
+                                    //            }
+                                    //        }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
 
 
                                 }
@@ -2632,6 +2696,126 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
                             }
+                            //  import items
+                            List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+
+                            List<Item> items = Sets.ExportRetailStore3WOP;
+                            if (items != null && items.Count > 0)
+                            {
+                                foreach (var item in items)
+                                {
+
+                                    item.OrganisationId = OrganisationID;
+                                    item.CompanyId = oRetailCIDWOP;
+                                    item.SmartFormId = null;
+                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                    {
+                                        foreach (var itm in item.ItemSections)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    itm.StockItemID1 = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    itm.StockItemID1 = SID;
+
+
+                                                }
+                                            }
+                                            itm.PressId = null;
+
+                                        }
+                                    }
+                                    if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                                    {
+                                        foreach (var iso in item.ItemStockOptions)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    iso.StockId = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    iso.StockId = SID;
+
+
+                                                }
+                                            }
+                                            if (iso.ItemAddonCostCentres != null && iso.ItemAddonCostCentres.Count > 0)
+                                            {
+                                                foreach (var itmAdd in iso.ItemAddonCostCentres)
+                                                {
+                                                    if (CostCentres != null && CostCentres.Count > 0)
+                                                    {
+
+                                                        long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == itmAdd.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        if (id > 0)
+                                                        {
+
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+                                                        else
+                                                        {
+                                                            id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ProductCategoryItems)
+                                        {
+                                            if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                                            {
+                                                long PID = comp.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    pci.CategoryId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = PID;
+
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ItemRelatedItems)
+                                        {
+                                            pci.RelatedItemId = item.ItemId;
+                                        }
+                                    }
+
+                                    db.Items.Add(item);
+
+                                }
+
+                                db.SaveChanges();
+
+                            }
+                           
                             //
 
 
@@ -2646,7 +2830,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
                             }
                         }
-                        else if (StoreName == SCName)
+                        else if (StoreName == SCName) // done
                         {
                             Company comp = new Company();
                             comp = objExpCorporate.Company;
@@ -2664,6 +2848,7 @@ namespace MPC.Repository.Repositories
                             {
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
+                                comp.CmsPages.ToList().ForEach(x => x.OrganisationId = OrganisationID);
                             }
                             if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
                             {
@@ -2694,7 +2879,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ccc in comp.CompanyCostCentres)
                                 {
-                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
                                     if (id > 0)
                                     {
@@ -2702,7 +2887,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2724,49 +2909,6 @@ namespace MPC.Repository.Repositories
                             db.CompanyDomains.Add(domain);
                             db.SaveChanges();
 
-                            //List<CmsPage> cmsPages = Sets.ExportStore4;
-                            //if (cmsPages != null && cmsPages.Count > 0)
-                            //{
-                            //    foreach (var Page in cmsPages)
-                            //    {
-                            //        Page.OrganisationId = OrganisationID;
-                            //        Page.PageCategory = null;
-                            //        Page.CompanyId = oCID;
-                            //        db.CmsPages.Add(Page);
-                            //    }
-                            //    db.SaveChanges();
-                            //}
-                            //  import items
-                            List<Item> items = Sets.ExportStore3;
-                            if (items != null && items.Count > 0)
-                            {
-                                foreach (var item in items)
-                                {
-
-                                    item.OrganisationId = OrganisationID;
-                                    item.CompanyId = oCID;
-                                    item.SmartFormId = null;
-                                    db.Items.Add(item);
-
-                                }
-
-                                db.SaveChanges();
-
-                            }
-
-                            //// product categories
-                            //List<ProductCategory> prodCats = Sets.ExportStore2;
-                            //if (prodCats != null && prodCats.Count > 0)
-                            //{
-                            //    foreach (var cat in prodCats)
-                            //    {
-                            //        cat.OrganisationId = OrganisationID;
-                            //        cat.CompanyId = oCID;
-                            //        db.ProductCategories.Add(cat);
-
-                            //    }
-                            //    db.SaveChanges();
-                            //}
 
                             //List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
@@ -2782,35 +2924,35 @@ namespace MPC.Repository.Repositories
                                     //    cat.Description2 = cat.ParentCategoryId.ToString(); // 11859
 
                                     //cat.ParentCategoryId = null;
-                                    OldCatIds = cat.ProductCategoryId;
+                                    cat.Sides = (int)cat.ProductCategoryId;
 
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oCID;
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
                                     //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    if (comp.Items != null && comp.Items.Count > 0)
-                                    {
-                                        foreach (var itm in comp.Items)
-                                        {
-                                            if (itm.ProductCategoryItems != null)
-                                            {
-                                                List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
+                                    //if (comp.Items != null && comp.Items.Count > 0)
+                                    //{
+                                    //    foreach (var itm in comp.Items)
+                                    //    {
+                                    //        if (itm.ProductCategoryItems != null)
+                                    //        {
+                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
 
-                                                if (pcis != null && pcis.Count > 0)
-                                                {
-                                                    foreach (var pc in pcis)
-                                                    {
-                                                        pc.CategoryId = cat.ProductCategoryId;
-                                                    }
-                                                }
-                                            }
+                                    //            if (pcis != null && pcis.Count > 0)
+                                    //            {
+                                    //                foreach (var pc in pcis)
+                                    //                {
+                                    //                    pc.CategoryId = cat.ProductCategoryId;
+                                    //                }
+                                    //            }
+                                    //        }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
 
                                 }
 
@@ -2837,6 +2979,142 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
                             }
+
+
+                            //  import items
+                            List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+
+                            List<Item> items = Sets.ExportStore3;
+                            if (items != null && items.Count > 0)
+                            {
+                                foreach (var item in items)
+                                {
+
+                                    item.OrganisationId = OrganisationID;
+                                    item.CompanyId = oCID;
+                                    item.SmartFormId = null;
+                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                    {
+                                        foreach (var itm in item.ItemSections)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    itm.StockItemID1 = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    itm.StockItemID1 = SID;
+
+
+                                                }
+                                            }
+                                            itm.PressId = null;
+
+                                        }
+                                    }
+                                    if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                                    {
+                                        foreach (var iso in item.ItemStockOptions)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    iso.StockId = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    iso.StockId = SID;
+
+
+                                                }
+                                            }
+                                            if (iso.ItemAddonCostCentres != null && iso.ItemAddonCostCentres.Count > 0)
+                                            {
+                                                foreach (var itmAdd in iso.ItemAddonCostCentres)
+                                                {
+                                                    if (CostCentres != null && CostCentres.Count > 0)
+                                                    {
+
+                                                        long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == itmAdd.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        if (id > 0)
+                                                        {
+
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+                                                        else
+                                                        {
+                                                            id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ProductCategoryItems)
+                                        {
+                                            if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                                            {
+                                                long PID = comp.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    pci.CategoryId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = PID;
+
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ItemRelatedItems)
+                                        {
+                                            pci.RelatedItemId = item.ItemId;
+                                        }
+                                    }
+                                    db.Items.Add(item);
+
+                                }
+
+                                db.SaveChanges();
+
+                            }
+
+                            //// product categories
+                            //List<ProductCategory> prodCats = Sets.ExportStore2;
+                            //if (prodCats != null && prodCats.Count > 0)
+                            //{
+                            //    foreach (var cat in prodCats)
+                            //    {
+                            //        cat.OrganisationId = OrganisationID;
+                            //        cat.CompanyId = oCID;
+                            //        db.ProductCategories.Add(cat);
+
+                            //    }
+                            //    db.SaveChanges();
+                            //}
+
+                          
                             //
                             if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
                             {
@@ -2850,7 +3128,7 @@ namespace MPC.Repository.Repositories
                             }
 
                         }
-                        else if (StoreName == SCNameWOP)
+                        else if (StoreName == SCNameWOP) // done
                         {
                             Company comp = new Company();
                             comp = objExpCorporateWOP.Company;
@@ -2867,6 +3145,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsPages.ToList().ForEach(x => x.PageCategory = null);
                                 comp.CmsPages.ToList().ForEach(x => x.Company = null);
                                 comp.CmsPages.ToList().ForEach(x => x.CmsPageTags = null);
+                                comp.CmsPages.ToList().ForEach(x => x.OrganisationId = OrganisationID);
 
                             }
                             if (comp.CmsSkinPageWidgets != null && comp.CmsSkinPageWidgets.Count > 0)
@@ -2899,7 +3178,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ccc in comp.CompanyCostCentres)
                                 {
-                                    long id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                    long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
                                     if (id > 0)
                                     {
@@ -2907,7 +3186,7 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        id = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                        id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
                                         ccc.CostCentreId = id;
 
                                     }
@@ -2929,27 +3208,6 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
 
 
-
-                            //  import items
-                            List<Item> items = Sets.ExportStore3WOP;
-                            if (items != null && items.Count > 0)
-                            {
-                                foreach (var item in items)
-                                {
-
-                                    item.OrganisationId = OrganisationID;
-                                    item.CompanyId = oCIDWOP;
-                                    item.SmartFormId = null;
-                                    db.Items.Add(item);
-
-                                }
-
-                                db.SaveChanges();
-
-                            }
-
-                            //// product categories
-
                             // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             List<ProductCategory> prodCats = Sets.ExportStore2WOP;
@@ -2965,37 +3223,37 @@ namespace MPC.Repository.Repositories
                                     //cat.ParentCategoryId = null;
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oCIDWOP;
-                                    OldCatIds = cat.ProductCategoryId;
+                                    cat.Sides = (int)cat.ProductCategoryId;
 
 
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
-                                    //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                    if (comp.Items != null && comp.Items.Count > 0)
-                                    {
-                                        foreach (var itm in comp.Items)
-                                        {
-                                            if (itm.ProductCategoryItems != null)
-                                            {
-                                                List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-                                                if (pcis != null && pcis.Count > 0)
-                                                {
-                                                    if (pcis != null && pcis.Count > 0)
-                                                    {
-                                                        foreach (var pc in pcis)
-                                                        {
-                                                            pc.CategoryId = cat.ProductCategoryId;
-                                                        }
-                                                    }
-                                                }
-                                            }
+                                    ////  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
+                                    //if (comp.Items != null && comp.Items.Count > 0)
+                                    //{
+                                    //    foreach (var itm in comp.Items)
+                                    //    {
+                                    //        if (itm.ProductCategoryItems != null)
+                                    //        {
+                                    //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
+                                    //            if (pcis != null && pcis.Count > 0)
+                                    //            {
+                                    //                if (pcis != null && pcis.Count > 0)
+                                    //                {
+                                    //                    foreach (var pc in pcis)
+                                    //                    {
+                                    //                        pc.CategoryId = cat.ProductCategoryId;
+                                    //                    }
+                                    //                }
+                                    //            }
+                                    //        }
 
 
 
-                                        }
-                                        db.SaveChanges();
-                                    }
+                                    //    }
+                                    //    db.SaveChanges();
+                                    //}
 
 
                                 }
@@ -3024,6 +3282,129 @@ namespace MPC.Repository.Repositories
                                     }
                                 }
                             }
+
+
+                            List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+                            //  import items
+                            List<Item> items = Sets.ExportStore3WOP;
+                            if (items != null && items.Count > 0)
+                            {
+                                foreach (var item in items)
+                                {
+
+                                    item.OrganisationId = OrganisationID;
+                                    item.CompanyId = oCIDWOP;
+                                    item.SmartFormId = null;
+                                    if (item.ItemSections != null && item.ItemSections.Count > 0)
+                                    {
+                                        foreach (var itm in item.ItemSections)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == itm.StockItemID1).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    itm.StockItemID1 = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    itm.StockItemID1 = SID;
+
+
+                                                }
+                                            }
+                                            itm.PressId = null;
+
+                                        }
+                                    }
+                                    if (item.ItemStockOptions != null && item.ItemStockOptions.Count > 0)
+                                    {
+                                        foreach (var iso in item.ItemStockOptions)
+                                        {
+                                            if (stockitems != null && stockitems.Count > 0)
+                                            {
+                                                long SID = stockitems.Where(c => c.RollStandards == iso.StockId).Select(s => s.StockItemId).FirstOrDefault();
+                                                if (SID > 0)
+                                                {
+                                                    iso.StockId = SID;
+                                                }
+                                                else
+                                                {
+                                                    SID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    iso.StockId = SID;
+
+
+                                                }
+                                            }
+                                            if (iso.ItemAddonCostCentres != null && iso.ItemAddonCostCentres.Count > 0)
+                                            {
+                                                foreach (var itmAdd in iso.ItemAddonCostCentres)
+                                                {
+                                                    if (CostCentres != null && CostCentres.Count > 0)
+                                                    {
+
+                                                        long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == itmAdd.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
+                                                        if (id > 0)
+                                                        {
+
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+                                                        else
+                                                        {
+                                                            id = CostCentres.Where(c => c.OrganisationId == OrganisationID).Select(c => c.CostCentreId).FirstOrDefault();
+                                                            itmAdd.CostCentreId = id;
+                                                        }
+
+
+                                                    }
+                                                }
+
+
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ProductCategoryItems != null && item.ProductCategoryItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ProductCategoryItems)
+                                        {
+                                            if (comp.ProductCategories != null && comp.ProductCategories.Count > 0)
+                                            {
+                                                long PID = comp.ProductCategories.Where(c => c.Sides == pci.CategoryId).Select(x => x.ProductCategoryId).FirstOrDefault();
+                                                if (PID > 0)
+                                                {
+                                                    pci.CategoryId = PID;
+                                                }
+                                                else
+                                                {
+                                                    PID = stockitems.Select(s => s.StockItemId).FirstOrDefault();
+                                                    pci.CategoryId = PID;
+
+
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    if (item.ItemRelatedItems != null && item.ItemRelatedItems.Count > 0)
+                                    {
+                                        foreach (var pci in item.ItemRelatedItems)
+                                        {
+                                            pci.RelatedItemId = item.ItemId;
+                                        }
+                                    }
+                                    db.Items.Add(item);
+
+                                }
+
+                                db.SaveChanges();
+
+                            }
+
+                            //// product categories
+
+                          
                             if (objExpCorporateWOP.TemplateColorStyle != null && objExpCorporateWOP.TemplateColorStyle.Count > 0)
                             {
                                 foreach (var color in objExpCorporateWOP.TemplateColorStyle)
