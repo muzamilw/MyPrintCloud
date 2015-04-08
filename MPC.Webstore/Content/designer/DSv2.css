@@ -1047,7 +1047,7 @@ body.blockDocument #documentTitleAndMenu {
     top: 2px;
     float: right;
     margin-right: .8em;
-    font-size: 150%;
+    font-size: 140%;
     text-align: left;
     white-space: nowrap;
     line-height: 1em;
@@ -3660,21 +3660,7 @@ if it's not present, don't show loader */
     background: red !important;
 }
 
-#PreviewerContainerDesigner {
-    width: 1000px;
-    height: 500px;
-    z-Index: 100001;
-    display: none;
-    background-color: #FFFFFF;
-    padding-top: 25px;
-    text-align: center;
-    font-family: 'Lato';
-    position: fixed;
-    padding: 5px;
-    color: White;
-    top: 9px;
-    padding-left: 0px;
-}
+
 
 .propertyPanel {
     -webkit-animation: appearingElement 0.1s;
@@ -3751,187 +3737,22 @@ if it's not present, don't show loader */
     height: 20px;
 }
 
-.PreviewerContainerDesignerClose {
-    line-height: 2.1;
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    text-shadow: 0 -1px 1px rbga(0,0,0,.4);
-    font-weight: normal;
-    cursor: pointer;
-    padding: 15px;
-    display: inline-block;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    -khtml-border-radius: 4px;
-    padding-left: 15px;
-    font-size: 18px;
-    -webkit-box-shadow: 0 8px 6px -6px #666;
-    -moz-box-shadow: 0 8px 6px -6px #666;
-    box-shadow: 0 8px 6px -6px #666;
-    background: #aaa;
-    float: right;
-    margin-top: -17px !important;
-    margin-right: 6px;
-    cursor: pointer;
-}
 
-    .PreviewerContainerDesignerClose:hover {
-        background: #74B846;
-    }
-
-.previewerTitle {
-    font-size: 18px;
-    text-align: left;
-    margin-left: 32px;
-    margin-top: 27px;
-    padding-top: 4px;
-    color: Black;
-    moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
-    color: #666666;
-    padding-bottom: 5px;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
 
 .lightGray {
     color: #ccc;
 }
 
-.sliderLine {
-    background-color: #666666;
-    height: 1px;
-    width: 948px;
-    margin-left: 32px;
-}
 
-.sliderLineBtm {
-    margin-left: 21px !important;
-    display:inline-block;
-}
 
-#previewProofingDesigner {
-    width: 964px;
-    height: 55px;
-    margin: auto;
-    background-color: White;
-    margin-top: 4px;
-    moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
-}
 
-.divTxtProofingDesigner {
-    width: 812px;
-    height: 42px;
-    font-size: 14px;
-    margin-left: 10px;
-    display: inline-block;
-    float: left;
-    padding-top: 7px;
-    text-align: left;
-    padding-left: 5px;
-    color: #666666;
-    font-size: 16px;
-}
 
-.ConfirmPopupProofDesigner {
-    float: right;
-    margin-top: 8px;
-    margin-right: 10px;
-}
-
-.lblChkSpellings {
-    vertical-align: super;
-    font-size: 19px;
-    display:inline;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
-.regular-checkbox-new {
-    display: none;
-    outline: none !important;
-    -webkit-transition: background-color;
-    -moz-transition: background-color;
-    -o-transition: background-color;
-    -ms-transition: background-color;
-    transition: background-color;
-}
-
-    .regular-checkbox-new + label {
-        display: inline-block !important;
-        padding: 6px 0 6px 45px;
-        line-height: 25px;
-        background-image: url('assets-v2/checkbox_sprite.png');
-        background-image: none,url('assets-v2/checkbox_sprite.svg');
-        background-position: -108px 0;
-        background-repeat: no-repeat;
-        -webkit-background-size: 143px 143px;
-        -moz-background-size: 143px 143px;
-        background-size: 143px 143px;
-        overflow: visible;
-        outline: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        cursor: pointer;
-        cursor: hand;
-        color: #66615b;
-        outline: none !important;
-        height: 25px;
-    }
-
-        .regular-checkbox-new:hover + label, .regular-checkbox-new + label:hover, .regular-checkbox-new:hover + label:hover {
-            background-position: -72px -36px;
-            color: #403d39;
-        }
-
-    .regular-checkbox-new:checked + label {
-        background-position: -36px -72px;
-        color: #403d39;
-    }
-
-        .regular-checkbox-new:checked:hover + label, .regular-checkbox-new:checked + label:hover, .regular-checkbox-new:checked:hover + label:hover {
-            background-position: 0 -108px;
-            color: #403d39;
-        }
 
 .clssInputProofing {
     width: 209px;
     margin-left: 10px;
     margin-right: 20px;
 }
-
-.btnBlueProofing {
-    border: 0px !important;
-    background: #8FC041;
-    color: #fff;
-    display: inline-block;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    -khtml-border-radius: 4px;
-    font-size: 18px;
-    -webkit-box-shadow: 0 8px 6px -6px #666;
-    -moz-box-shadow: 0 8px 6px -6px #666;
-    box-shadow: 0 8px 6px -6px #666;
-    margin-top: 13px !important;
-    float: right;
-    margin-right: 10px;
-    width: 108px;
-    font-family: 'Lato';
-    height: 36px;
-}
-
-    .btnBlueProofing:hover {
-        background: #74B846;
-    }
-
 
 /* previwer end*/
 
@@ -6590,11 +6411,7 @@ margin: auto !important;
      line-height: 15px !important;
 padding-top: 7px !important;
  }
- .previewfontStyles 
- {
-     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-font-size: 18px;
- }
+
  .divVarList
 {
     height: 280px;
@@ -6897,4 +6714,8 @@ font-size: 13px;
   display: inline-block;
   float: left;
   width: 150px;
+}
+.mainMenuItem
+{
+    font-size:0px;
 }

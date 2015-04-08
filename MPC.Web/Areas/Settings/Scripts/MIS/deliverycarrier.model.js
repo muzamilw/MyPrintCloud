@@ -1,14 +1,14 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    var deliverycarrier = function (carrierId, carrierName, carrierUrl, apikey, apipassword, isenable) {
+    var deliverycarrier = function () {
 
         var
             self,
-            carrierId = ko.observable(carrierId),
-            carrierName = ko.observable(carrierName),
-            url = ko.observable(carrierUrl),
-            apiKey = ko.observable(apikey),
-            apiPassword = ko.observable(apipassword),
-            isenable = ko.observable(isenable)
+            carrierId = ko.observable().extend({ required: true }),
+            carrierName = ko.observable(),
+            url = ko.observable(),
+            apiKey = ko.observable(),
+            apiPassword = ko.observable(),
+            isenable = ko.observable()
             
             errors = ko.validation.group({
                 carrierId: carrierId,

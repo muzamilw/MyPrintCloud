@@ -43,7 +43,8 @@ namespace MPC.Models.Common
     public enum CostCenterTypes
     {
         SystemCostCentres = 1,
-        Delivery = 11
+        Delivery = 11,
+        WebOrder = 29
     }
     public enum HashAlgos
     {
@@ -419,5 +420,23 @@ namespace MPC.Models.Common
         ClickChargeZone = 5,
         Guilotine = 6,
         MeterPerHour = 8
+    }
+    public enum WeightUnits
+    {
+        lbs = 1,
+        GSM = 2,
+        KG = 3
+    }
+    public enum WebSpoilageTypes
+    {
+        inSheets = 1,
+        inMetters = 2
+    }
+    public enum PrintingTypeEnum
+    {
+        SheetFed = 1,
+        WebFed = 2,
+        Flexo = 3,
+        Continuous = 4
     }
 }

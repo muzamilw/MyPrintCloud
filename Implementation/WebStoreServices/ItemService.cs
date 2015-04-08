@@ -35,6 +35,9 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IPaymentGatewayRepository _paymentRepository;
         private readonly IInquiryRepository _inquiryRepository;
         private readonly IInquiryAttachmentRepository _inquiryAttachmentRepository;
+        private readonly IOrderService _orderService;
+        private readonly ICompanyService _myCompanyService;
+        private readonly ISmartFormService _smartFormService;
         #region Constructor
 
         /// <summary>
@@ -43,7 +46,8 @@ namespace MPC.Implementation.WebStoreServices
         public ItemService(IItemRepository ItemRepository, IItemStockOptionRepository StockOptions, ISectionFlagRepository SectionFlagRepository, ICompanyRepository CompanyRepository
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
-            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository)
+            , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository,
+            IOrderService orderService,ICompanyService companyService,ISmartFormService smartformService)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -58,6 +62,9 @@ namespace MPC.Implementation.WebStoreServices
             this._paymentRepository = paymentRepository;
             this._inquiryRepository = inquiryRepository;
             this._inquiryAttachmentRepository = inquiryAttachmentRepository;
+            this._orderService = orderService;
+            this._myCompanyService = companyService;
+            this._smartFormService = smartformService;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -916,6 +923,113 @@ namespace MPC.Implementation.WebStoreServices
             }
 
         }
+        public long getParentTemplateID(long itemId)
+        {
+           return _ItemRepository.getParentTemplateID(itemId);
+        }
+        // called from category page to generate template and order if skip designer mode is selected
+        public string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID)
+        {
+            long ItemID = 0;
+            long TemplateID = 0;
+            long OrderID = 0;
+            bool printCropMarks = true;
+            bool printWaterMark = true;
+            bool isMultiplageProduct = false;
+            if (WEBOrderId == 0)
+            {
+                
+                long TemporaryRetailCompanyId = 0;
+                if (WEBStoreMode == (int)StoreMode.Retail)
+                {
+                    TemporaryRetailCompanyId = TemporaryCompanyId;
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, StoreMode.Retail, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
 
+                }
+                else
+                {
+
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, (StoreMode)WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                }
+
+                // create new order
+
+
+                Item item = CloneItem(itemID, 0, OrderID, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    if(item.printCropMarks.HasValue)
+                        printCropMarks = item.printCropMarks.Value;
+                    if (item.drawWaterMarkTxt.HasValue)
+                        printWaterMark = item.drawWaterMarkTxt.Value;
+                    if (item.isMultipagePDF.HasValue)
+                        isMultiplageProduct = item.isMultipagePDF.Value;
+                }
+
+            }
+            else
+            {
+                if (TemporaryCompanyId == 0 && WEBStoreMode == (int)StoreMode.Retail && ContactID == 0)
+                {
+                    long TemporaryRetailCompanyId = TemporaryCompanyId;
+
+                    // create new order
+
+                    OrderID = _orderService.ProcessPublicUserOrder(string.Empty, OrganisationId, (StoreMode)WEBStoreMode, CompanyID, ContactID, ref TemporaryRetailCompanyId);
+                    if (OrderID > 0)
+                    {
+                        WEBOrderId = OrderID;
+                    }
+                    if (TemporaryRetailCompanyId != 0)
+                    {
+                        TemporaryCompanyId = TemporaryRetailCompanyId;
+                        ContactID = _myCompanyService.GetContactIdByCompanyId(TemporaryRetailCompanyId);
+                    }
+                    CompanyID = TemporaryRetailCompanyId;
+                }
+                else if (TemporaryCompanyId > 0 && WEBStoreMode == (int)StoreMode.Retail)
+                {
+                    CompanyID = TemporaryCompanyId;
+                    ContactID = _myCompanyService.GetContactIdByCompanyId(CompanyID);
+                }
+                Item item = CloneItem(itemID, 0, WEBOrderId, CompanyID, 0, 0, null, false, false, ContactID, OrganisationId);
+
+                if (item != null)
+                {
+                    ItemID = item.ItemId;
+                    TemplateID = item.TemplateId ?? 0;
+                    if (item.printCropMarks.HasValue)
+                        printCropMarks = item.printCropMarks.Value;
+                    if (item.drawWaterMarkTxt.HasValue)
+                        printWaterMark = item.drawWaterMarkTxt.Value;
+                    if (item.isMultipagePDF.HasValue)
+                        isMultiplageProduct = item.isMultipagePDF.Value;
+                  
+                }
+            }
+            //resolve template variables 
+            _smartFormService.AutoResolveTemplateVariables(ItemID, ContactID);
+            _templateService.processTemplatePDF(TemplateID,OrganisationId, printCropMarks,printWaterMark,false,isMultiplageProduct);
+            return ItemID + "_" + TemplateID + "_" + WEBOrderId + "_" + TemporaryCompanyId;
+            //update temporary customer id (for case of retail) and order id 
+        }
+   
     }
 }

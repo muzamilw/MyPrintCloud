@@ -27,9 +27,11 @@ namespace MPC.Interfaces.Repository
         SmartFormResponse GetSmartForms(SmartFormRequestModel request);
 
         List<ScopeVariable> GetScopeVariables(List<SmartFormDetail> smartFormDetails, out bool hasContactVariables, long contactId);
-        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts);
+        Dictionary<long, List<ScopeVariable>> GetUserScopeVariables(List<SmartFormDetail> smartFormDetails, List<SmartFormUserList> contacts, long templateId);
         bool SaveUserProfilesData(Dictionary<long, List<ScopeVariable>> obj);
         string[] GetContactImageAndCompanyLogo(long contactID);
         List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID);
+        List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId);
+        bool AutoResolveTemplateVariables(long itemID, long contactId);
     }
 }

@@ -77,20 +77,19 @@ namespace MPC.Webstore.Controllers
             {
                 //Get the Category from QueryString
                 string url = "";
-              //  string id = RouteData.Values["id"].ToString();
-                //if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
-                //{
-                //    string id = RouteData.Values["id"].ToString();
-                //    categoryID = Convert.ToInt64(id);
+                string id = RouteData.Values["id"].ToString();
+                if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
+                {
+                    categoryID = Convert.ToInt64(id);
 
-                //    if (categoryID > 0)
-                //    {
+                    if (categoryID > 0)
+                    {
 
-                //        List<ProductCategory> _productCatList = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
-                //        this.BuildBreadCrumbMenu(categoryID, _productCatList);
+                        List<ProductCategory> _productCatList = _myCompanyService.GetAllCategories(UserCookieManager.WBStoreId);
+                        this.BuildBreadCrumbMenu(categoryID, _productCatList);
 
-                //    }
-                //}
+                    }
+                }
             }           
             catch(Exception ex)
             {

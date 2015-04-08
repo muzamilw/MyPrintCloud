@@ -25,6 +25,7 @@ using MPC.Models.DomainModels;
 using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
 using System.Web.Security;
+using WebSupergoo.ABCpdf8;
 
 
 
@@ -39,6 +40,8 @@ namespace MPC.Webstore.Controllers
         private readonly IWebstoreClaimsHelperService _webstoreAuthorizationChecker;
 
         private ICostCentreService _CostCentreService;
+
+        private readonly IOrderService _OrderService;
 
         #endregion
         [Dependency]
@@ -56,7 +59,8 @@ namespace MPC.Webstore.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService)
+        public HomeController(ICompanyService myCompanyService, IWebstoreClaimsHelperService webstoreAuthorizationChecker, ICostCentreService CostCentreService
+            , IOrderService OrderService)
         {
             if (myCompanyService == null)
             {
@@ -70,9 +74,14 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("CostCentreService");
             }
+            if (OrderService == null)
+            {
+                throw new ArgumentNullException("OrderService");
+            }
             this._CostCentreService = CostCentreService;
             this._myCompanyService = myCompanyService;
             this._webstoreAuthorizationChecker = webstoreAuthorizationChecker;
+            this._OrderService = OrderService;
 
         }
 
@@ -175,16 +184,54 @@ namespace MPC.Webstore.Controllers
 
         public ActionResult Compile()
         {
-            _CostCentreService.SaveCostCentre(335, 1, "Test");
-
+           // _CostCentreService.SaveCostCentre(335, 1, "Test");
+           
             return Content("Cost Centre compiled");
         }
 
         public ActionResult About(string mode)
         {
+            try
+            {
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=46783";
+
+                string FileName = "_OrderReceipt.pdf";
+                string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/" + FileName);
+                string AttachmentPath = "/mpc_content/Downloads/" + FileName;
+                using (Doc theDoc = new Doc())
+                {
+                      //theDoc.HtmlOptions.Engine = EngineType.Gecko;
+                    theDoc.FontSize = 22;
+                    int objid = theDoc.AddImageUrl(URl);
+
+
+                    while (true)
+                    {
+                        theDoc.FrameRect();
+                        if (!theDoc.Chainable(objid))
+                            break;
+                        theDoc.Page = theDoc.AddPage();
+                        objid = theDoc.AddImageToChain(objid);
+                    }
+                    string physicalFolderPath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/Downloads/");
+                    if (!Directory.Exists(physicalFolderPath))
+                        Directory.CreateDirectory(physicalFolderPath);
+                    theDoc.Save(FilePath);
+                    theDoc.Clear();
+                }
+                // if (System.IO.File.Exists(FilePath))
+                //return AttachmentPath;
+                //   else
+                // return null;
+            }
+            catch (Exception e)
+            {
+                //   LoggingManager.LogBLLException(e);
+                // return null;
+            }
             //if (mode == "compile")
             //{
-            _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
+         //   _CostCentreService.SaveCostCentre(Convert.ToInt32(mode), 1, "Test");
 
                 return Content("Cost Centre compiled");
             //}
@@ -448,6 +495,70 @@ namespace MPC.Webstore.Controllers
             }
         }
 
+        public ActionResult ReceiptPlain(string OrderId, string StoreId)
+        {
+            
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[Convert.ToInt32(StoreId)];
+
+
+
+            if (StoreBaseResopnse.Company.ShowPrices ?? true)
+            {
+                ViewBag.IsShowPrices = true;
+                //do nothing because pricing are already visible.
+            }
+            else
+            {
+                ViewBag.IsShowPrices = false;
+                //  cntRightPricing1.Visible = false;
+            }
+            if (!string.IsNullOrEmpty(StoreBaseResopnse.Currency))
+            {
+                ViewBag.Currency = StoreBaseResopnse.Currency;
+            }
+            else
+            {
+                ViewBag.Currency = "";
+            }
+
+            ViewBag.TaxLabel = StoreBaseResopnse.Company.TaxLabel;
+            OrderDetail order = _OrderService.GetOrderReceipt(Convert.ToInt64(OrderId));
+
+            ViewBag.Company = StoreBaseResopnse.Company;
+
+            AddressViewModel oStoreDefaultAddress = null;
+
+            if (StoreBaseResopnse.Company.isWhiteLabel == false)
+            {
+                oStoreDefaultAddress = null;
+            }
+            else
+            {
+                if (StoreBaseResopnse.StoreDetaultAddress != null)
+                {
+                    oStoreDefaultAddress = new AddressViewModel();
+                    oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
+                    oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
+
+                    oStoreDefaultAddress.City = StoreBaseResopnse.StoreDetaultAddress.City;
+                    oStoreDefaultAddress.State = _myCompanyService.GetStateNameById(StoreBaseResopnse.StoreDetaultAddress.StateId ?? 0);
+                    oStoreDefaultAddress.Country = _myCompanyService.GetCountryNameById(StoreBaseResopnse.StoreDetaultAddress.CountryId ?? 0);
+                    oStoreDefaultAddress.ZipCode = StoreBaseResopnse.StoreDetaultAddress.PostCode;
+
+                    if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Tel1))
+                    {
+                        oStoreDefaultAddress.Tel = StoreBaseResopnse.StoreDetaultAddress.Tel1;
+                    }
+                }
+            }
+            ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+            ViewBag.StoreId = StoreId;
+            return View(order);
+        }
 
     }
 

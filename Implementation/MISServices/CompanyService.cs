@@ -3537,6 +3537,7 @@ namespace MPC.Implementation.MISServices
             // cost centre choices 
             ObjExportOrg.CostCenterChoice = CostCenterChoice;
 
+            ObjExportOrg.SuppliersList = companyRepository.GetSupplierByOrganisationid(OrganisationID);
 
             string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             // export json file
@@ -3556,6 +3557,8 @@ namespace MPC.Implementation.MISServices
 
         public void ExportOrganisationRoutine2(long OrganisationID, ExportSets sets)
         {
+
+
             List<StockCategory> StockCategories = new List<StockCategory>();
             List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
 
@@ -4027,6 +4030,25 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                    if (ObjExportOrg.SuppliersList != null && ObjExportOrg.SuppliersList.Count > 0)
+                    {
+                        foreach (var supList in ObjExportOrg.SuppliersList)
+                        {
+                            if (supList != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + supList.Image);
+                                DPath = "/Assets/" + OrganisationID + "/" + supList.CompanyId;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Company Logo for Store";
+
+                                }
+                            }
+
+                           
+                        }
+                    }
                     // export cost centre images
                     if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
                     {
@@ -5466,10 +5488,17 @@ namespace MPC.Implementation.MISServices
 
         #region ImportOrganisation
 
-        public bool ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
+        public string ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore)
         {
+
+            string timelog = "";
+            DateTime st = DateTime.Now;
+            DateTime end = DateTime.Now;
+
             try
             {
+
+                timelog = "Process start " + DateTime.Now.ToLongTimeString();
                 ExportSets exportSets = new ExportSets();
                 ExportOrganisation objExpOrg = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpCorp = new Models.Common.ExportOrganisation();
@@ -5481,6 +5510,9 @@ namespace MPC.Implementation.MISServices
                 {
                     //string zipToUnpack = "C1P3SML.zip";
                     //string unpackDirectory = "Extracted Files";
+                    timelog += "Extract Start " + DateTime.Now.ToLongTimeString() + Environment.NewLine;
+                    st = DateTime.Now;
+
                     using (ZipFile zip1 = ZipFile.Read(ZipPath))
                     {
                         // here, we extract every entry
@@ -5489,6 +5521,9 @@ namespace MPC.Implementation.MISServices
                             e.Extract(extractPath, ExtractExistingFileAction.OverwriteSilently);
                         }
                     }
+                    end = DateTime.Now;
+                    timelog += "Extract complete " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(end).TotalSeconds.ToString() + Environment.NewLine;
+
                     // deserialize organisation json file
                     string JsonFilePath = System.Web.Hosting.HostingEnvironment.MapPath("/MPC_Content/Artworks/ImportOrganisation/OrganisationJson1.txt");
                     if (File.Exists(JsonFilePath))
@@ -5604,16 +5639,35 @@ namespace MPC.Implementation.MISServices
 
                     //    json = string.Empty;
                     //}
-                    organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets,SubDomain);
+                  
+                    end = DateTime.Now;
+                    timelog += "Deserialization complete " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    st = DateTime.Now;
+
+                    timelog = organisationRepository.InsertOrganisation(OrganisationId, objExpCorp, objExpRetail, isCorpStore, exportSets, SubDomain, timelog);
+
+                  
                     string StoreName = ConfigurationManager.AppSettings["RetailStoreName"];
+                    end = DateTime.Now;
+                    timelog += "import org " + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    st = DateTime.Now;
+
                     ImportStore(OrganisationId, StoreName,SubDomain);
+                    end = DateTime.Now;
+                    timelog += "import 2nd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+
+
                     string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+
+                    st = DateTime.Now;
                     ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
-                    return true;
+                    end = DateTime.Now;
+                    timelog += "import 3rd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    return timelog;
                 }
                 else
                 {
-                    return false;
+                    return "";
                 }
             }
             catch (Exception ex)

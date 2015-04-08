@@ -4291,8 +4291,39 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        /// <summary>
+        /// added by saqib to get template id of parent item , used to get template variable mapping 
+        /// </summary>
+        /// <param name="itemId"></param>
+        /// <returns></returns>
+        public long getParentTemplateID(long itemId)
+        {
+            long parentTemplateId = 0;
+            long OrganisationID = 0;
+            try
+            {
+                
+                var item = db.Items.Where(g => g.ItemId == itemId).SingleOrDefault();
+                if (item != null)
+                {
+                    if (item.OrganisationId.HasValue)
+                    {
+                        OrganisationID = item.OrganisationId.Value;
+                    }
+                    if (item.RefItemId.HasValue && item.RefItemId.Value != 0)
+                    {
+                        var refItem = db.Items.Where(g => g.ItemId == item.RefItemId).SingleOrDefault();
+                        if(refItem.TemplateId.HasValue)
+                            parentTemplateId = refItem.TemplateId.Value;
+                    }
+                }
+            } catch(Exception ex)
+            {
+                throw new MPCException(ex.ToString(), OrganisationID);
+            }
+            return parentTemplateId;
+        }
 
-   
         #endregion
     }
 }

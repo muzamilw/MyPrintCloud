@@ -20,9 +20,17 @@
                      $("#CostCentreQuestionModal").modal("show");
                   //   initializeLabelPopovers();
                  },
-                //showCostCenterDialog = function () {
-                //    $("#CostCenterDialog").modal("show");
-                //},
+
+                showAddEditQuestionMenu = function () {
+                    $(".AddEditQuestion").contextMenu({
+                        menuSelector: "#contextMenu"
+                        //menuSelected: function (invokedOn, selectedMenu) {
+                        //    var msg = "You selected the menu item '" + selectedMenu.text() +
+                        //        "' on the value '" + invokedOn.text() + "'";
+                        //    alert(msg);
+                        //}
+                    });
+                },
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -38,7 +46,8 @@
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 productCategorySelectedEvent: productCategorySelectedEvent,
-                showCostCentreQuestionDialog: showCostCentreQuestionDialog
+                showCostCentreQuestionDialog: showCostCentreQuestionDialog,
+                showAddEditQuestionMenu: showAddEditQuestionMenu
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

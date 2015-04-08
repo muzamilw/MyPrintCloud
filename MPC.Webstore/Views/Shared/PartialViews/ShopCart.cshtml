@@ -119,7 +119,7 @@
                                                  }
                                                  else
                                                  {
-                                                     completeImgPath = prod.ThumbnailPath;
+                                                     completeImgPath = "/" + prod.ThumbnailPath;
                                                  }
                                                  pdfLinkBtn = completeImgPath;
                                                  imgToShowURL = completeImgPath;
@@ -217,8 +217,8 @@
                                     }
                                     @{
 
-                                     _vatTotal = Convert.ToDouble(_vatTotal) + Model.DeliveryTaxValue;
-                                     GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal);
+                                     _vatTotal = Convert.ToDouble(_vatTotal) + Convert.ToDouble(Model.DeliveryTaxValue);
+                                     GrossTotal = Convert.ToDouble(subtotal) + Convert.ToDouble(_vatTotal) + Model.DeliveryCost;
                                      subtotal = Utils.FormatDecimalValueToTwoDecimal(subtotal.ToString(), ViewBag.Currency);
                                      VatTotal = Utils.FormatDecimalValueToTwoDecimal(_vatTotal.ToString(), ViewBag.Currency);
                                     }
@@ -241,11 +241,11 @@
                                
                                     <div class="cnttotals" id="cntRightPricing1">
 
-                                        <label id="lblSubTotal" class="Fsize14 colorBlack displayClear">@subtotal</label>
+                                        <label id="lblSubTotal" class="Fsize13 colorBlack displayClear">@subtotal</label>
 
-                                        <label class="Fsize14 colorBlack displayClear">@Model.DeliveryCost</label>
-                                        <label class="Fsize14 colorBlack displayClear">@VatTotal</label>
-                                        <label class="Fsize14 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(Convert.ToString(Model.DeliveryCost), ViewBag.Currency)</label>
+                                        <label class="Fsize13 colorBlack displayClear">@VatTotal</label>
+                                        <label class="Fsize13 colorBlack displayClear">@Utils.FormatDecimalValueToTwoDecimal(GrossTotal.ToString(), ViewBag.Currency)</label>
                                     </div>
                                 }
                                 <div class="clearBoth">
@@ -267,7 +267,7 @@
                             <div class="clearBoth">
                             </div>
 
-                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" /><br />
+                            <input type="submit" id="btnCheckout" value="CHECKOUT" class="start_creating_btn_checkout float_right  rounded_corners5" onclick="ShowLoader();" /><br />
                             <button id="btn_ContinueShopping" type="button" onclick="ContinueShopping();" class="btn_brown  rounded_corners5" style="float: right;">@Html.Raw(Html.GetKeyValueFromResourceFile("btnContinueShopping1", UserCookieManager.WBStoreId))</button>
                             <div class="clearBoth">
                                 &nbsp;

@@ -395,6 +395,11 @@ namespace MPC.Implementation.MISServices
                     stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
                 }
             }
+
+            // Load Stock Category
+            stockItemRepository.LoadProperty(stockItem, () => stockItem.StockCategory);
+            stockItemRepository.LoadProperty(stockItem, () => stockItem.StockSubCategory);
+
             return stockItem;
         }
 

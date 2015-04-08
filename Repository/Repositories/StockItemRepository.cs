@@ -52,6 +52,7 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
+        
         /// <summary>
         /// Get All StockI tem 
         /// </summary>
@@ -182,7 +183,13 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-       
+
+        public List<StockItem> GetStockItemOfCategoryInk()
+        {
+            var stockItems = db.StockItems.Where(x => x.StockCategory.CategoryId == 2 && x.OrganisationId == OrganisationId).ToList();
+            return stockItems;
+        }
+
         #endregion
     }
 }

@@ -115,9 +115,13 @@ function fu04_1GetItem(DT)
              h = h.toFixed(3);
              h = h - 10;
              w = w - 10;
-             w = w * result.ScaleFactor;
-             h = h * result.ScaleFactor;
-            
+             if (result.ScaleFactor != null && result.ScaleFactor != 0) {
+                 w = w * result.ScaleFactor;
+                 h = h * result.ScaleFactor;
+             }
+             if (result.IsTemplateDesignMode == 3) {
+                 objectsSelectable = false;
+             }
              //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
              $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
              productDimensionUpdated = true;
@@ -126,7 +130,7 @@ function fu04_1GetItem(DT)
              if (item.SmartFormId != null) {
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
-                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId,
+                     $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
                        function (DT) {
                            $(".QuickTxt").css("visibility", "visible");
                            pcl41(DT);

@@ -64,7 +64,9 @@ namespace MPC.Webstore.Controllers
           //  MyCompanyDomainBaseResponse baseResponseCurrency = _myCompanyService.GetStoreFromCache(UserCookieManager.StoreId).CreateFromCurrency();
             includeVAT = StoreBaseResopnse.Company.isIncludeVAT ?? false;
             TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
-
+            ViewBag.organisationId = StoreBaseResopnse.Organisation.OrganisationId;
+            //long ContactID = _myClaimHelper.loginContactID();
+            ViewBag.CompanyID = _myClaimHelper.loginContactCompanyID();
             long CategoryID = Convert.ToInt64(id);
             ProductCategory Category = _myCompanyService.GetCategoryById(CategoryID);
 

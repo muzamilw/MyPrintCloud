@@ -362,6 +362,16 @@ define("stores/stores.viewModel",
                         isThemeNameSet(true);
                     }
                 }),
+                selectedThemeName = ko.computed(function() {
+                    var theme = _.find(themes(), function (item) {
+                        return item.SkinId == selectedTheme();
+                    });
+                    if (theme) {
+                        return theme.Name;
+                    }
+
+                    return "";
+                }),
                 //On Edit Click Of Store
                 onEditItem = function (item) {
                     resetObservableArrays();
@@ -506,6 +516,13 @@ define("stores/stores.viewModel",
                             confirmation.show();
                         }
                     }
+                },
+                // Select Theme
+                selectTheme = function(data) {
+                    if (data && data.SkinId !== selectedTheme()) {
+                        selectedTheme(data.SkinId);
+                        view.closeThemeList();
+                    }                        
                 },
                 //Get Theme Detail By Full Zip Path
                 getgetThemeDetailByFullZipPath = function (themeId, path) {
@@ -3316,6 +3333,14 @@ define("stores/stores.viewModel",
             isSavingNewProductCategory(false);
         },
         onArchiveCategory = function () {
+            confirmation.messageText("Do you want to delete category?");
+            confirmation.afterProceed(deleteCategory);
+            confirmation.afterCancel(function () {
+            });
+            confirmation.show();
+            return;
+        },
+        deleteCategory = function () {
             dataservice.deleteProductCategoryById({
                 ProductCategoryId: selectedProductCategory().productCategoryId()
             }, {
@@ -4077,11 +4102,13 @@ define("stores/stores.viewModel",
                     storeHasChanges.reset();
                     isLoadingStores(false);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 },
                 error: function (response) {
                     isLoadingStores(false);
                     toastr.error("Failed to Load Stores . Error: " + response, "", ist.toastrOptions);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 }
             });
         },
@@ -4256,11 +4283,13 @@ define("stores/stores.viewModel",
                     isLoadingStores(false);
                     isBaseDataLoded(true);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 },
                 error: function (response) {
                     isLoadingStores(false);
                     toastr.error("Failed to Load Stores . Error: " + response, "Please ReOpen Store", ist.toastrOptions);
                     view.initializeLabelPopovers();
+                    view.wireupThemeListClick();
                 }
             });
         },
@@ -6303,7 +6332,9 @@ define("stores/stores.viewModel",
                     priceFlags: priceFlags,
                     onCreatePublicStore: onCreatePublicStore,
                     onCreatePrivateStore: onCreatePrivateStore,
-                    onDeletePermanent: onDeletePermanent
+                    onDeletePermanent: onDeletePermanent,
+                    selectTheme: selectTheme,
+                    selectedThemeName: selectedThemeName
                 };
                 //#endregion
             })()

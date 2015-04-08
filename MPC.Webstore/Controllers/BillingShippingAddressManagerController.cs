@@ -29,6 +29,7 @@ namespace MPC.Webstore.Controllers
                 AddressList = FilterAddresses();
                 ViewBag.Address = AddressList;
                 ViewBag.TotalAddresses = AddressList.Count;
+               
             }
             else
             {
