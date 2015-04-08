@@ -130,6 +130,14 @@ define("order/order.view",
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
                 },
+                //Show Estimate Run Wizard Modal
+                showEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('show');
+                },
+                //Hide Estimate Run Wizard Modal
+                hideEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('hide');
+                },
 
                 // Show Inks Dialog
                 showInksDialog = function () {
@@ -182,6 +190,8 @@ define("order/order.view",
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
+                showEstimateRunWizard: showEstimateRunWizard,
+                hideEstimateRunWizard: hideEstimateRunWizard,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

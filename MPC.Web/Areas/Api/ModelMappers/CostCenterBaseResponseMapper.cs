@@ -12,10 +12,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         public static CostCenterBaseResponse CreateFrom(this MPC.Models.ResponseModels.CostCenterBaseResponse source)
         {
             List<CostCenterCalculationTypes> calType = new List<CostCenterCalculationTypes>();
-            calType.Add(new CostCenterCalculationTypes{TypeId = 1, TypeName = "Fixed"});
-            calType.Add(new CostCenterCalculationTypes { TypeId = 3, TypeName = "Per Quantity" });
-            calType.Add(new CostCenterCalculationTypes { TypeId = 4, TypeName = "Formula Base" });
-            calType.Add(new CostCenterCalculationTypes { TypeId = 2, TypeName = "Per Hour" });
+            //calType.Add(new CostCenterCalculationTypes{TypeId = 1, TypeName = "Fixed"});
+            calType.Add(new CostCenterCalculationTypes { TypeId = 3, TypeName = "Per Quantity Cost" });
+            calType.Add(new CostCenterCalculationTypes { TypeId = 4, TypeName = "Formula String Cost" });
+            calType.Add(new CostCenterCalculationTypes { TypeId = 2, TypeName = "Per Hour Cost" });
             return new CostCenterBaseResponse
             {
                 CostCenterResources = source.CostCenterResources != null? source.CostCenterResources.Select(s => s.CreateFrom()): new List<SystemUserDropDown>(),
@@ -24,7 +24,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCenterCategories = source.CostCenterCategories != null ? source.CostCenterCategories.Select(c => c.CreateFrom()) : new List<CostCentreType>(),
                 CostCentreVariables = source.CostCentreVariables != null? source.CostCentreVariables.Select(c => c.CreateFrom()): new List<CostCentreVariable>(),
                 CalculationTypes = calType,
-                DeliveryCarriers= source.DeliveryCarriers.Select(s=>s.CreateFrom())
+                DeliveryCarriers= source.DeliveryCarriers.Select(s=>s.CreateFrom()),
+                CurrencySymbol = source.CurrencySymbol == null ? null : source.CurrencySymbol
                 
             };
 

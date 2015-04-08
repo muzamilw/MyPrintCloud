@@ -75,5 +75,7 @@ namespace MPC.Interfaces.Repository
         IEnumerable<Company> GetAllRetailAndCorporateStores();
         CompanyResponse GetCompanyByIdForCrm(long companyId);
         double? GetTaxRateByStoreId(long storeId);
+
+        List<Company> GetSupplierByOrganisationid(long OID);
     }
 }
