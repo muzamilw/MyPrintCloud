@@ -11,5 +11,6 @@ namespace MPC.Interfaces.MISServices
     {
         bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer);
         IEnumerable<CostCentreAnswer> GetByQuestionId(int QuestionId);
+        bool DeleteQuestionById(int QuestionId);
     }
 }

@@ -24,6 +24,10 @@ namespace MPC.Implementation.MISServices
             this.CostCentreQuestion = CostCentreQuestion;
 
         }
+        public bool DeleteQuestionById(int QuestionId)
+        {
+            return CostCentreQuestion.DeleteQuestionById(QuestionId);
+        }
         public IEnumerable<CostCentreAnswer> GetByQuestionId(int QuestionId)
         {
             return _CostCentreAnswer.GetByQuestionId(QuestionId);

@@ -32,7 +32,19 @@ namespace MPC.Repository.Repositories
                 return db.CostCentreQuestions;
             }
         }
-
+        public bool DeleteQuestionById(int QuestionId)
+        {
+            CostCentreQuestion oQuestion= db.CostCentreQuestions.Where(g=>g.Id==QuestionId).SingleOrDefault();
+            db.CostCentreQuestions.Remove(oQuestion);
+            if (db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer)
         {
             CostCentreQuestion oQuestion = db.CostCentreQuestions.Where(g => g.Id == question.Id).SingleOrDefault();

@@ -56,6 +56,16 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g=>g.CreateFrom()));
         }
 
+
+        public bool Delete(CostCentreQuestionDeleteRequest Req)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+
+            return _ICostCentreQuestion.DeleteQuestionById(Req.QuestionId);
+        }
         public IEnumerable<CostCentreAnswer> Get(int QuestionId)
         {
             if (!ModelState.IsValid)

@@ -23,7 +23,7 @@
                     </div>
                     <div class="col-lg-6">
 
-                        <input type="text" class="form-control" data-bind="value:QuestionString">
+                        <input type="text" class="form-control" data-bind="value:QuestionString()">
                     </div>
                 </div>
                 <div class="form-group">
@@ -52,7 +52,7 @@
                         <label for="Answer" class="control-label text-right tooltip-float">Default Answer</label>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="form-control" data-bind="value:Answer">
+                        <input type="text" class="form-control" data-bind="value:DefaultAnswer()">
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@
 
                                         </thead>
                                         <tbody>
-                                            <!-- ko template: { name: 'itemAnswerListTemplate' , foreach: AnswerList } -->
+                                            <!-- ko template: { name: 'itemAnswerListTemplate' , foreach: QuestionVariableMCQsAnswer } -->
                                             <!-- /ko -->
                                         </tbody>
                                     </table>
@@ -118,7 +118,7 @@
     <script id="itemAnswerListTemplate" type="text/html">
         <tr>
             <td style="width:80%">
-                <input class="form-control" data-bind="value: AnswerString" />
+                <input class="form-control" data-bind="value: AnswerString()" />
             </td>
             <td>
                 <a href="#" class="table-link danger"  title="delete">

@@ -797,8 +797,142 @@
         return self;
 
     }
+    var QuestionVariable = function (source, sourceMCQsAnswer) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            QuestionString = ko.observable(source.QuestionString),
+            Type = ko.observable(source.Type),
+            DefaultAnswer = ko.observable(source.DefaultAnswer),
+            CompanyId = ko.observable(source.CompanyId),
+            SystemSiteId = ko.observable(source.SystemSiteId),
+            VariableString = ko.observable(source.VariableString),
+            QuestionVariableMCQsAnswer = ko.observableArray([])
+            if (sourceMCQsAnswer != null) {
+                _.each(sourcePTV, function (item) {
+                    QuestionVariableMCQsAnswer.push(MCQsAnswer(item));
+                });
+
+            }
 
 
+        } else {
+            Id = ko.observable(),
+            QuestionString = ko.observable(),
+            Type = ko.observable(),
+            DefaultAnswer = ko.observable(),
+            CompanyId = ko.observable(),
+            SystemSiteId = ko.observable(),
+            VariableString = ko.observable()
+            QuestionVariableMCQsAnswer = ko.observableArray([])
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+           
+
+        };
+        return self;
+
+    }
+    var MCQsAnswerServerMapper = function (source) {
+        var MCQsAnswer= {}
+        MCQsAnswer.Id = source.Id();
+        MCQsAnswer.QuestionId = source.QuestionId();
+        MCQsAnswer.AnswerString = source.AnswerString();
+       
+        return MCQsAnswer;
+
+    }
+    var QuestionVariableServerMapper = function (source) {
+        var QuestionVariable = {};
+        if (source != undefined) {
+            QuestionVariable.Id = source.Id();
+            QuestionVariable.QuestionString = source.QuestionString();
+            QuestionVariable.Type = source.Type();
+            QuestionVariable.DefaultAnswer = source.DefaultAnswer();
+            QuestionVariable.CompanyId = source.CompanyId();
+            QuestionVariable.SystemSiteId = source.SystemSiteId();
+            QuestionVariable.VariableString = source.VariableString();
+         }
+        var QuestionVariableMCQs = [];
+        if (source.QuestionVariableMCQsAnswer != undefined) {
+            _.each(source.QuestionVariableMCQsAnswer, function (item) {
+                var MCQsAnswer = MCQsAnswerServerMapper(item);
+                QuestionVariableMCQs.push(MCQsAnswer);
+            });
+
+
+        }
+        return {
+            Question: QuestionVariable,
+            Answer: QuestionVariableMCQs
+        }
+      
+
+    }
+    var QuestionVariableClientMapper = function (source) {
+        var oQuestionVariable = new QuestionVariable();
+        if (source != undefined) {
+            oQuestionVariable.Id(source.Id);
+            oQuestionVariable.QuestionString(source.QuestionString);
+            oQuestionVariable.Type(source.Type);
+            oQuestionVariable.DefaultAnswer(source.DefaultAnswer);
+            oQuestionVariable.CompanyId(source.CompanyId);
+            oQuestionVariable.SystemSiteId(source.SystemSiteId);
+            oQuestionVariable.VariableString(source.VariableString);
+        }
+        //var QuestionVariableMCQs = [];
+        //if (source.QuestionVariableMCQsAnswer != undefined) {
+        //    _.each(source.QuestionVariableMCQsAnswer, function (item) {
+        //        var MCQsAnswer = MCQsAnswerServerMapper(item);
+        //        QuestionVariableMCQs.push(MCQsAnswer);
+        //    });
+
+
+        //}
+        return oQuestionVariable;
+
+
+    }
     var QuestionVariableMapper = function (source, Data) {
         var self
         if (source != undefined) {
@@ -885,6 +1019,8 @@
         NewCostCenterInstruction: NewCostCenterInstruction,
         NewInstructionChoice: NewInstructionChoice,
         QuestionVariableMapper: QuestionVariableMapper,
-        MCQsAnswer: MCQsAnswer
+        MCQsAnswer: MCQsAnswer,
+        QuestionVariable: QuestionVariable,
+        QuestionVariableServerMapper: QuestionVariableServerMapper
     };
 });

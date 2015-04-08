@@ -67,6 +67,11 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    amplify.request.define('deleteQuestionVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
 
                     isInitialized = true;
                 }
@@ -98,6 +103,17 @@ define("costcenter/costcenter.dataservice", function () {
                 data: params
             });
         };
+        deleteQuestionVariable = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteQuestionVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+
+        
         // Get Cost Centers List
         getCostCentersList = function (params, callbacks) {
             initialize();
@@ -166,7 +182,8 @@ define("costcenter/costcenter.dataservice", function () {
             getBaseData: getBaseData,
             GetTreeListById: GetTreeListById,
             getCostCentreAnswerList: getCostCentreAnswerList,
-            saveQuestionVariable: saveQuestionVariable
+            saveQuestionVariable: saveQuestionVariable,
+            deleteQuestionVariable: deleteQuestionVariable
         };
     })();
 

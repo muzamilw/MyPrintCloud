@@ -35,6 +35,7 @@ define("costcenter/costcenter.viewModel",
                     fixedvarIndex = ko.observable(1),
                     selectedVariableString = ko.observable(),
                     CurrencySymbol = ko.observable(),
+                    showQuestionVariableChildList = ko.observable(0),
                     // Cost Center Categories
                     costCenterCategories = ko.observableArray([]),
                     workInstructions = ko.observableArray([]),
@@ -47,7 +48,6 @@ define("costcenter/costcenter.viewModel",
 
                     variablesTreePrent = ko.observableArray([
                                                 { Id: 2, Text: 'Variables' },
-                                                //{ Id: 3, Text: 'Resources' },
                                                 { Id: 4, Text: 'Questions' },
                                                 { Id: 5, Text: 'Matrices' },
                                                 { Id: 6, Text: 'Lookup' },
@@ -84,6 +84,42 @@ define("costcenter/costcenter.viewModel",
                                                 { Id: 29, Text: 'STANDARD_OVERNIGHT' }
                     ]),
 
+                    getVariableTreeChildItems = function (Selecteddata) {
+                        if (Selecteddata.Id == 4) {
+                            if (questionVariableNodes().length > 0) {
+                                if (showQuestionVariableChildList()==1) {
+                                    showQuestionVariableChildList(0);
+                                } else {
+                                    showQuestionVariableChildList(1);
+                                }
+
+                            } else {
+                                dataservice.GetTreeListById({
+                                    id: Selecteddata.Id,
+                                }, {
+                                    success: function (data) {
+                                        questionVariableNodes.removeAll();
+                                        _.each(data.QuestionVariables, function (item) {
+                                            var ques = model.QuestionVariable(item);
+                                            questionVariableNodes.push(ques);
+                                        });
+
+                                        //ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
+                                        //questionVariableNodes.valueHasMutated();
+                                    
+                                        showQuestionVariableChildList(1);
+                                        view.showAddEditQuestionMenu();
+
+                                    },
+                                    error: function () {
+                                        toastr.error("Failed to load variables tree data.");
+                                    }
+                                });
+                            }
+
+                        }
+
+                    },
                     getVariableTreeChildListItems = function (dataRecieved, event) {
                         var id = $(event.target).closest('li')[0].id;
                         if ($(event.target).closest('li').children('ol').children('li').length > 0) {
@@ -166,12 +202,8 @@ define("costcenter/costcenter.viewModel",
                             }, {
                                 success: function (data) {
                                     //Questions Variables
+                                    $("#4").children('ol').remove();
                                     questionVariableNodes.removeAll();
-                                    //_.each(data.QuestionVariables, function (item) {
-                                    //    var questionItem = model.QuestionVariableMapper(item);
-                                    //    questionVariableNodes.push(questionItem);
-
-                                    //});
                                     ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
                                     questionVariableNodes.valueHasMutated();
                                     _.each(questionVariableNodes(), function (question) {
@@ -289,15 +321,26 @@ define("costcenter/costcenter.viewModel",
                         });
                     },
                     saveQuestionVariable = function (oQuestion) {
+                        dataservice.saveQuestionVariable(model.QuestionVariableServerMapper(oQuestion),
+                            {
+                                success: function (data) {
+                                    toastr.success("Successfully Saved.");
+                                    view.hideCostCentreQuestionDialog();
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Save Question" + response);
+                                }
+                            });
+                       
                         var t = oQuestion;
                     }
-                // Returns the item being dragged
+                // Returns the item being dragged source.$data.VariableString
                 dragged = function (source, event) {
                     if (event != undefined) {
                         return {
                             row: source.$parent,
                             widget: source.$data,
-                            html: event.currentTarget.children[0].value
+                            html: source.$data.VariableString.replace(/&quot;/g, '"') // event.currentTarget.children[0].value
                         };
                     }
                     return {};
@@ -310,17 +353,61 @@ define("costcenter/costcenter.viewModel",
                 },
                 selectVariableString = function (varstring, e) {
                     selectedVariableString(e.currentTarget.id);
-                    var result = variable.questionVariableNodes.filter(function (item) { return item.Id === 56 });
+                    var result = questionVariableNodes.filter(function (item) { return item.Id === 56 });
                 },
                addQuestionVariable = function () {
-                   SelectedQuestionVariable();
+                   SelectedQuestionVariable(model.QuestionVariableMapper());
                    view.showCostCentreQuestionDialog();
                }
+                DeleteQuestionVariable = function (variable, event) {
+                    if (event != undefined) {
+                        var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
+                        //questionVariableNodes = questionVariableNodes.filter(function (item) { return item.Id !== Id });
+                        confirmation.messageText("Do you want to Detele this Item?");
+                        confirmation.afterProceed(function () {
+                            dataservice.deleteQuestionVariable({
+                                QuestionId: Id
+                            },
+                            {
+                                success: function (data) {
+                                    dataservice.GetTreeListById({
+                                        id: 4,
+                                    }, {
+                                        success: function (data) {
+                                            //Questions Variables
+                                            questionVariableNodes.removeAll();
+                                            ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
+                                            questionVariableNodes.valueHasMutated();
+                                            _.each(questionVariableNodes(), function (question) {
+                                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span class="AddEditQuestion" id =' + question.Id + ' style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged,click: function() { $root.addVariableToInputControl(&quot;' + question.Id + "," + question.QuestionString + "," + question.Type + "," + question.DefaultAnswer + '&quot;)}">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
+                                                ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
+                                            });
+                                            view.showAddEditQuestionMenu();
+                                        },
+                                        error: function () {
+                                            toastr.error("Failed to load variables tree data.");
+                                        }
+                                    });
+
+                                },
+                                error: function (response) {
+                                    toastr.error("Failed to Delete Question" + response);
+                                }
+                            });
+                        });
+                        confirmation.afterCancel(function () {
+                            //navigateToUrl(element);
+                        });
+                        confirmation.show();
+
+                    }
+
+                },
                 addVariableToInputControl = function (variable, event) {
                     if (event != undefined) {
                         var Id = $('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id')
-                       
-                        var questionData = variable.questionVariableNodes.filter(function (item) { return item.Id === parseInt(Id) });
+
+                        var questionData = questionVariableNodes.filter(function (item) { return item.Id === parseInt(Id) });
                         if (questionData.type == "2") {
                             dataservice.getCostCentreAnswerList({
                                 QuestionId: questionData.Id,
@@ -364,6 +451,54 @@ define("costcenter/costcenter.viewModel",
                     }
                     view.showCostCentreQuestionDialog();
                 },
+                    OnEditQuestionVariable = function (oQuestion) {
+                        if (oQuestion.Id == undefined || oQuestion.Id==null) {
+                            var Id = $('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id')
+
+                            var questionData = questionVariableNodes.filter(function (item) { return item.Id === parseInt(Id) });
+                            if (questionData.type == "2") {
+                                dataservice.getCostCentreAnswerList({
+                                    QuestionId: questionData.Id,
+                                }, {
+                                    success: function (data) {
+                                        if (data != null) {
+                                            SelectedQuestionVariable(model.QuestionVariableMapper(questionData, data));
+                                        }
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Failed to Load . Error: " + response);
+                                    }
+
+                                });
+                            } else {
+                                SelectedQuestionVariable(model.QuestionVariableMapper(questionData));
+                            }
+                        } else if (oQuestion != null && oQuestion != undefined) {
+                           
+                            if (oQuestion.type == "2") {
+                                dataservice.getCostCentreAnswerList({
+                                    QuestionId: oQuestion.Id,
+                                }, {
+                                    success: function (data) {
+                                        if (data != null) {
+                                            SelectedQuestionVariable(model.QuestionVariable(oQuestion, data));
+                                        }
+                                    },
+                                    error: function (response) {
+                                        toastr.error("Failed to Load . Error: " + response);
+                                    }
+
+                                });
+                            } else {
+                                SelectedQuestionVariable(model.QuestionVariable(oQuestion));
+                            }
+
+
+                        } else {
+                            SelectedQuestionVariable(model.QuestionVariableMapper());
+                        }
+                        view.showCostCentreQuestionDialog();
+                    },
                 // #region Busy Indicators
                 isLoadingCostCenter = ko.observable(false),
 
@@ -834,7 +969,11 @@ define("costcenter/costcenter.viewModel",
                     QuestionVariableType: QuestionVariableType,
                     saveQuestionVariable: saveQuestionVariable,
                     CurrencySymbol: CurrencySymbol,
-                    addQuestionVariable: addQuestionVariable
+                    addQuestionVariable: addQuestionVariable,
+                    DeleteQuestionVariable: DeleteQuestionVariable,
+                    getVariableTreeChildItems: getVariableTreeChildItems,
+                    showQuestionVariableChildList: showQuestionVariableChildList,
+                    OnEditQuestionVariable: OnEditQuestionVariable
                 };
             })()
         };

@@ -1299,17 +1299,21 @@
     </div>
 </div>
 <script id="costCenterVariableTree" type="text/html">
-    <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
+    <li class="dd-item dd-item-list">
 
-        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
+        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle togglelink">
             <span data-bind="text: Text"></span>
         </div>
-        @*<ol>
+        
+        <ol data-bind="with:Id===4, visible:$root.showQuestionVariableChildList">
             <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
             <!-- /ko -->
-        </ol>*@
+        </ol>
+       
+       
     </li>
+    
 </script>
 <script id="WorkInstructionTemplate" type="text/html">
     <tr>
@@ -1398,8 +1402,9 @@
                 <i class="fa fa-bars"> </i>
             </div>
             <div class="dd-handle">
-                <span data-bind="text:questionstring"></span>
-                @*<span class="AddEditQuestion" style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="text:questionstring,drag: $root.dragged,click: function() { $root.addVariableToInputControl()}"><input type="hidden" id="str" data-bind="value:variablestring" /></span>*@
+                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.dragged, click: $root.OnEditQuestionVariable, attr: {id: Id}">
+                    @*<input type="hidden" id="str" data-bind="value:VariableString" />*@
+                </span>
                 <div class="nested-links">
                 </div>
             </div>
@@ -1409,17 +1414,15 @@
 
 <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
     <li><a tabindex="-1" data-bind="click:$root.addQuestionVariable">Add</a></li>
-    <li><a tabindex="-1" data-bind="click:$root.addVariableToInputControl">Edit</a></li>
-    <li><a tabindex="-1" href="#">Delete</a></li>
-    <li class="divider"></li>
-    <li><a tabindex="-1" href="#">Separated link</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.OnEditQuestionVariable">Edit</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.DeleteQuestionVariable">Delete</a></li>
+   
 </ul>
 <script src="http://mpc/Scripts/jquery.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         (function ($, window) {
-
             $.fn.contextMenu = function (settings) {
 
                 return this.each(function () {
@@ -1435,8 +1438,8 @@
                             .show()
                             .css({
                                 position: "absolute",
-                                left: getLeftLocation(e),
-                                top: getTopLocation(e)
+                                left: getLeftLocation(e)-50,
+                                top: getTopLocation(e)+5
                             })
                             .off('click')
                             .on('click', function (e) {
