@@ -46,7 +46,7 @@
                 <div class="col-lg-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
                             @* ReSharper disable UnknownCssClass *@
                             <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
                                 @* ReSharper restore UnknownCssClass *@
@@ -98,7 +98,6 @@
     </div>
 </div>
 @Html.Partial("_OrderItemDetail")
-@Html.Partial("_OrderSectionDetail")
 @Html.Partial("Company/_SelectCompany")
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
 @Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
