@@ -1057,6 +1057,7 @@ namespace MPC.Repository.Repositories
             long templateID = 0;
             List<ScopeVariable> lstVariables = GetUserTemplateVariables(itemID, contactId);
             var item = db.Items.Where(g=>g.ItemId == itemID).SingleOrDefault();
+            string[] logos = GetContactImageAndCompanyLogo(contactId);
             if(item != null)
             {
                 if(item.TemplateId.HasValue)
@@ -1069,7 +1070,22 @@ namespace MPC.Repository.Repositories
                 {
                     obj.ContentString = obj.ContentString.Replace(variable.FieldVariable.VariableTag, variable.Value);
                 }
+                if (obj.ObjectType == 8)
+                {
+                    if (logos[0] != "")
+                    {
+                        obj.ContentString = logos[0];
+                    }
+                }
+                else if (obj.ObjectType == 12)
+                {
+                    if (logos[1] != "")
+                    {
+                        obj.ContentString = logos[1];
+                    }
+                }
             }
+
             db.SaveChanges();
             result = true;
             return result;
