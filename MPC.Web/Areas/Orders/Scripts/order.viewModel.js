@@ -308,6 +308,8 @@ define("order/order.viewModel",
 
                         // calculateSectionChargeTotal();
                         openItemDetail();
+                        var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
+                        editSection(section);
                     },
                     // Open Item Detail
                     openItemDetail = function () {
@@ -375,7 +377,7 @@ define("order/order.viewModel",
                     },
                     // Open Section Detail
                     openSectionDetail = function () {
-                        isSectionDetailVisible(true);
+                    //    isSectionDetailVisible(true);
                         view.initializeLabelPopovers();
 
                         // Subscribe Section Changes
