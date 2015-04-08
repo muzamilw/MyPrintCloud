@@ -12,6 +12,7 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     // Active
                     deliverycarrierlist = ko.observableArray([]);
                 errorList = ko.observableArray([]),
+                deliveryselectedItemDetail = ko.observable(),
                 // #region Busy Indicators
                 isLoadingdeliverycarrier = ko.observable(false),
                 createNewDelivery = function()
@@ -30,7 +31,7 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
                     getBase();
-                    
+
 
                 },
                 //Get DeliveryCarrier
@@ -53,8 +54,7 @@ define("deliverycarrier/deliverycarrier.viewModel",
                         }
                     });
                 },
-                onsaveDeliveryCarrier = function(deliverycarrier)
-                {
+                onsaveDeliveryCarrier = function (deliverycarrier) {
                     saveDeliveryCarrier(deliverycarrier);
                 },
                 saveDeliveryCarrier = function (deliverycarrier) {
@@ -76,17 +76,25 @@ define("deliverycarrier/deliverycarrier.viewModel",
 
                         }
                     });
-                };
+                },
+               openEditDialog = function (item) {
+                   if (item != null) {
+                       deliveryselectedItemDetail(model.deliverycarrierClientMapper(item));
+                       openDialog();
+                       //view.showDeliveryCarrierDialog();
+                   }
+               };
                     
                 // #endregion Service Calls
                 return {
                     // Observables
                     deliverycarrierlist: deliverycarrierlist,
-                    onsaveDeliveryCarrier:onsaveDeliveryCarrier,
+                    deliveryselectedItemDetail:deliveryselectedItemDetail,
+                    onsaveDeliveryCarrier: onsaveDeliveryCarrier,
+                    openEditDialog:openEditDialog,
                     errorList: errorList,
                     // Utility Methods
                     initialize: initialize,
-                    createNewDelivery: createNewDelivery,
                     openDialog: openDialog
                     
                 };

@@ -1,14 +1,14 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    var deliverycarrier = function () {
+    var deliverycarrier = function (carrierId, carrierName, carrierUrl, apikey, apipassword, isenable) {
 
         var
             self,
-            carrierId = ko.observable().extend({ required: true }),
-            carrierName = ko.observable(),
-            url = ko.observable(),
-            apiKey = ko.observable(),
-            apiPassword = ko.observable(),
-            isenable = ko.observable()
+            carrierId = ko.observable(carrierId),
+            carrierName = ko.observable(carrierName),
+            url = ko.observable(carrierUrl),
+            apiKey = ko.observable(apikey),
+            apiPassword = ko.observable(apipassword),
+            isenable = ko.observable(isenable)
             
             errors = ko.validation.group({
                 carrierId: carrierId,
@@ -55,12 +55,12 @@
     var deliverycarrierClientMapper = function (source)
     {
         var odeliverycarrier = new deliverycarrier();
-        odeliverycarrier.carrierId = ko.observable(source.CarrierId),
-        odeliverycarrier.carrierName = ko.observable(source.CarrierName),
-        odeliverycarrier.url = ko.observable(source.Url),
-        odeliverycarrier.apiKey = ko.observable(source.ApiKey),
-        odeliverycarrier.apiPassword = ko.observable(source.ApiPassword),
-        odeliverycarrier.isenable = ko.observable(source.isEnable)
+        odeliverycarrier.carrierId(source.CarrierId),
+        odeliverycarrier.carrierName(source.CarrierName),
+        odeliverycarrier.url(source.Url),
+        odeliverycarrier.apiKey(source.ApiKey),
+        odeliverycarrier.apiPassword(source.ApiPassword),
+        odeliverycarrier.isenable(source.isEnable)
         
         return odeliverycarrier;
 

@@ -50,7 +50,7 @@
     <script id="listDeliveryCarrierTemplate" type="text/html">
         <tr>
             <td>
-                <a href="#" data-bind="text:CarrierName"></a>
+                <a href="#" data-bind="text:CarrierName,click:$root.openEditDialog"></a>
             </td>
             <td data-bind="text:Url"></td>
             <td data-bind="text:ApiKey"></td>
