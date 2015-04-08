@@ -113,6 +113,14 @@ define("order/order.view",
                 hideSheetPlanImageDialog = function () {
                     $("#sheetPlanModal").modal("show");
                 },
+                // Show section Cost Center Dialog Model
+                showSectionCostCenterDialogModel = function () {
+                    $("#sectionCostCenterDialogModel").modal("show");
+                },
+                // hide section Cost Center Dialog Model
+                hideSectionCostCenterDialogModel = function () {
+                    $("#sectionCostCenterDialogModel").modal("show");
+                },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
                 showProductFromRetailStoreModal = function () {
@@ -192,6 +200,8 @@ define("order/order.view",
                 hideInventoryItemDialog: hideInventoryItemDialog,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,
+                showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
+                hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };

@@ -25,13 +25,14 @@ namespace MPC.Implementation.MISServices
         private readonly IMarkupRepository _markupRepository;
         private readonly ICostCentreVariableRepository _costCentreVariableRepository;
         private readonly IDeliveryCarrierRepository _deliveryCarrierRepository;
+        private readonly IOrganisationRepository _organisationRepository;
 
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository)
         {
             if (costCenterRepository == null)
             {
@@ -61,6 +62,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("deliveryCarrierRepository");
             }
+            if (organisationRepository == null)
+            {
+                throw new ArgumentNullException("organisationRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
@@ -68,6 +73,7 @@ namespace MPC.Implementation.MISServices
             this._markupRepository = markupRepository;
             this._costCentreVariableRepository = costCentreVariableRepository;
             this._deliveryCarrierRepository = deliveryCarrierRepository;
+            this._organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -81,16 +87,20 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Add(CostCentre costcenter)
         {
-           // _costCenterRepository.Add(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", true);
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+            // _costCenterRepository.Add(costcenter);
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
             costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", false);            
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);            
             return costcenter;
         }
         public bool Delete(long costcenterId)
