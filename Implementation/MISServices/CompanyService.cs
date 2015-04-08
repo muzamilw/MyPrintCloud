@@ -5657,10 +5657,8 @@ namespace MPC.Implementation.MISServices
                     timelog += "import 2nd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
 
 
-                    string StoreNameCorporate = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
 
                     st = DateTime.Now;
-                    ImportStore(OrganisationId, StoreNameCorporate,SubDomain);
                     end = DateTime.Now;
                     timelog += "import 3rd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     return true;
