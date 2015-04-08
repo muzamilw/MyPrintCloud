@@ -300,6 +300,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -448,6 +449,8 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
@@ -1939,8 +1942,15 @@
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SheetPlanImage.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
+
+  
+    <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
+
+    <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

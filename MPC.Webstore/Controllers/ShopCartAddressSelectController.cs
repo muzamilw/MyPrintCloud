@@ -254,8 +254,9 @@ namespace MPC.Webstore.Controllers
                             }
 
                             AddressSelectModel.BillingAddress = billingAddress;
-                            AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                            AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
+                            //AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
+                            //AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
+                            RebindBillingStatesDD(AddressSelectModel, billingAddress);
                             AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
 
                             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
@@ -276,7 +277,6 @@ namespace MPC.Webstore.Controllers
                                 {
                                     AddressSelectModel.IsUserRole = false;
                                 }
-
                             }
                             else
                             {
@@ -310,19 +310,15 @@ namespace MPC.Webstore.Controllers
 
                             if (shippingAddress != null)
                             {
-
                                 AddressSelectModel.ShippingAddress = shippingAddress;
-                                AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                                AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                RebindShippingStatesDD(AddressSelectModel, shippingAddress);
                                 AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-
                             }
-
                         }
-
                         else
                         {
-
 
                             long ContactShippingID = 0;
                             Address billingAddress = null;
@@ -352,8 +348,9 @@ namespace MPC.Webstore.Controllers
                             }
 
                             AddressSelectModel.BillingAddress = billingAddress;
-                            AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                            AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
+                            RebindBillingStatesDD(AddressSelectModel, billingAddress);
+                            //AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
+                            //AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
                             AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
 
                             //Shipping Address
@@ -385,10 +382,10 @@ namespace MPC.Webstore.Controllers
                             {
 
                                 AddressSelectModel.ShippingAddress = shippingAddress;
-                                AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                                AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                RebindShippingStatesDD(AddressSelectModel, shippingAddress);
                                 AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
-
                             }
 
                             if (billingAddress != null && shippingAddress != null && billingAddress.AddressId == shippingAddress.AddressId)
@@ -396,14 +393,10 @@ namespace MPC.Webstore.Controllers
 
                                 AddressSelectModel.chkBoxDeliverySameAsBilling = "True";
                             }
-
-
                         }
 
                     }
                 }
-
-
 
                 if (baseresponseComp.Company != null)
                 {
@@ -482,6 +475,7 @@ namespace MPC.Webstore.Controllers
             {
                 itemsList = shopCart.CartItemsList;
                 model.shopcart.CartItemsList = itemsList;
+                model.SelectedDeliveryCostCentreId = shopCart.DeliveryCostCenterID;
                 if (itemsList != null && itemsList.Count > 0)
                 {
                     BindGriViewWithProductItemList(itemsList, model);
@@ -805,10 +799,7 @@ namespace MPC.Webstore.Controllers
             if (isPageValid)
             {
 
-
                 Double ServiceTaxRate = GetTAXRateFromService(AddLine1, city, PostCode, model);
-
-
 
                 bool result = false;
 
@@ -1689,6 +1680,50 @@ namespace MPC.Webstore.Controllers
         {
             var result = _IOrderService.GetStates();
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        private void RebindBillingStatesDD(ShopCartAddressSelectViewModel Model, Address BillingAddress)
+        {
+            if (BillingAddress.CountryId != null && BillingAddress.CountryId > 0)
+            {
+                List<State> BillingStates = _myCompanyService.GetCountryStates(BillingAddress.CountryId ?? 0);
+                List<State> newState = new List<State>();
+
+                foreach (var state in BillingStates)
+                {
+                    State objState = new State();
+                    objState.StateId = state.StateId;
+                    objState.CountryId = state.CountryId;
+                    objState.StateName = (state.StateName == null || state.StateName == "") ? "N/A" : state.StateName;
+                    objState.StateCode = (state.StateCode == null || state.StateCode == "") ? "N/A" : state.StateCode;
+                    newState.Add(objState);
+                }
+                
+                Model.DDBillingStates = new SelectList(newState, "StateId", "StateName");
+            }
+            Model.SelectedBillingCountry = BillingAddress.CountryId ?? 0;
+            Model.SelectedBillingState = BillingAddress.StateId ?? 0;
+        }
+        private void RebindShippingStatesDD(ShopCartAddressSelectViewModel Model, Address ShippingAddress)
+        {
+            if (ShippingAddress.CountryId != null && ShippingAddress.CountryId > 0)
+            {
+                List<State> BillingStates = _myCompanyService.GetCountryStates(ShippingAddress.CountryId ?? 0);
+                List<State> newState = new List<State>();
+
+                foreach (var state in BillingStates)
+                {
+                    State objState = new State();
+                    objState.StateId = state.StateId;
+                    objState.CountryId = state.CountryId;
+                    objState.StateName = (state.StateName == null || state.StateName == "") ? "N/A" : state.StateName;
+                    objState.StateCode = (state.StateCode == null || state.StateCode == "") ? "N/A" : state.StateCode;
+                    newState.Add(objState);
+                }
+                
+                Model.DDShippingStates = new SelectList(newState, "StateId", "StateName");
+            }
+            Model.SelectedDeliveryCountry = ShippingAddress.CountryId ?? 0;
+            Model.SelectedDeliveryState = ShippingAddress.StateId ?? 0;
         }
     }
 }

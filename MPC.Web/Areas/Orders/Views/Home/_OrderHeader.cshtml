@@ -3,17 +3,17 @@
 <div>
     <div class="col-lg-12 form-horizontal">
         <h3 class="group-header">Order Detail</h3>
+        <center><div class="slider" style="margin-bottom:60px; width:600px"></div></center> 
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     @* ReSharper disable UnknownCssClass *@
-
                     <label class="control-label tooltip-float">Customer</label>
-
+                    
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" class="form-control OpenStockPopup-Class1" id="txtCompany" data-bind="value: companyName, enable: false" style="width:80%;" />
+                        <label class="control-label" id="txtCompany" style="font-size: 18px;"  data-bind="text: companyName"></label>
                         <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
                             <i class="fa fa-lg"></i>&nbsp;....
                         </a>
@@ -51,34 +51,31 @@
             <div id="popoveraddress" style="display:none;">
                 <div class="form-group">
                     <div class="col-lg-4 text-right">
-                        <label class="control-label tooltip-float">Address 1</label>
+                        <label class="control-label tooltip-float">&nbsp;</label>
                     </div>
                     <div class="col-lg-6" data-bind="with: $root.selectedAddress">
                         <div>
                             <label id="address1" data-bind="text: address1" class="form-control" style="border:none"></label>
-                            @*<input type="text" class="form-control" id="address1" data-bind="value: address1, enable: false" />*@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
-                        <label class="control-label tooltip-float">Tel</label>
+                        <label class="control-label tooltip-float">&nbsp;</label>
                     </div>
                     <div class="col-lg-6" data-bind="with: $root.selectedAddress">
                         <div>
                             <label id="telephone" data-bind="text: telephone1" class="form-control" style="border:none"></label>
-                            @*<input type="text" data-bind="value: telephone1, enable: false" class="form-control" id="telephone">*@
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" style="margin-top: -20px;">
                     <div class="col-lg-4 text-right">
-                        <label class="control-label tooltip-float">Email</label>
+                        <label class="control-label tooltip-float">&nbsp;</label>
                     </div>
                     <div class="col-lg-6" data-bind="with: $root.selectedCompanyContact">
                         <div>
                             <label id="email" data-bind="text: email" class="form-control" style="border:none"></label>
-
                         </div>
                     </div>
                 </div>
@@ -90,7 +87,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <input type="text" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
+                        <input type="text" style="height: 60px;font-size: 20px; font-weight: bold;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
                     </div>
                 </div>
             </div>
@@ -99,23 +96,34 @@
             <div class="form-group">
                 <div class="col-lg-7 text-right">
                     <div class="col-lg-7">
-                        <label class="control-label text-right tooltip-float">Order Source</label>
+                        <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
                     </div>
                     <div class="col-lg-5 text-left">
-                        <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
+                        <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
                     </div>
                 </div>
                 <div class="col-lg-5">
                     <div class="col-lg-8 text-left">
                         <div>
-                            <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
-
+                           
                         </div>
                     </div>
                 </div>
 
             </div>
             
+           
+            <div class="form-group">
+                <div class="col-lg-4 text-right">
+                    <label class="control-label text-right tooltip-float">Order Flag</label>
+                </div>
+
+                <div class="col-lg-6">
+                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
+                    <span class="help-block text-right"></span>
+                </div>
+
+            </div>
             <div class="form-group">
                 <div class="col-lg-7 text-right">
                     <div class="col-lg-7">
@@ -128,11 +136,12 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-5">
-                    <div class="col-lg-2">
-                        <label class="control-label">P/O</label>
+                <br />
+                <div class="col-lg-7 text-right" style="margin-top:-20px">
+                    <div class="col-lg-7">
+                        <label class="control-label text-right tooltip-float">Purchase Order No.</label>
                     </div>
-                    <div class="col-lg-6 text-left">
+                    <div class="col-lg-5 text-left">
                         <ul style="list-style: none; border:none" class="form-control">
                             <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
                             </li>
@@ -141,20 +150,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="form-group">
-                <div class="col-lg-4 text-right">
-                    <label class="control-label text-right tooltip-float">Order Flag</label>
-                </div>
-
-                <div class="col-lg-6">
-                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
-                    <span class="help-block text-right"></span>
-                </div>
-
-            </div>
-
-            <div class="form-group">
+           
+            <div class="form-group" style="margin-top:-20px">
                 <div class="col-lg-4 text-right">
 
                     <label class="control-label text-right tooltip-float">Order Date</label>
@@ -165,7 +162,7 @@
                 </div>
             </div>
             
-            <div class="form-group">
+            <div class="form-group" style="margin-top:-17px">
                 <div class="col-lg-4 text-right">
 
                     <label class="control-label text-right tooltip-float">First Shipping Date</label>
@@ -235,6 +232,64 @@
                                 <li><a href="#" data-bind="click: $root.onAddCostCenter">Cost Center</a></li>
                                 <li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>
                             </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 form-horizontal">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <div class="col-lg-2">
+                    &nbsp;
+                </div>
+                <div class="col-lg-9">
+                    <div style="background-color:gainsboro; border-radius:3px">
+                        <header class="main-box-header clearfix">
+                            <div style="float:left;"><span style="font-size:24px">Shipping Charges for this Order</span></div>
+                        </header>
+                        <div class="main-box-body clearfix">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><a href="#"><span>Title 1</span></a></th>
+                                            <th><span>Title 2</span></th>
+                                            <th style="width: 83px;">&nbsp;</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="#" ><span>Test1</span></a>
+                                            </td>
+                                            <td>
+                                                <span >Test 2</span>
+                                            </td>
+                                           
+                                            <td class="text-right">
+                                                <a  class="table-link" data-bind="click: $root.editItem">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
+                                                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
+                                                    <span class="fa-stack">
+                                                        <i class="fa fa-square fa-stack-2x"></i>
+                                                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                </a>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class=" btn-group" style="float:left;margin-top:10px">
+                            <button type="button" class="btn btn-primary">Add Shipping Charges</button>
                         </div>
                     </div>
                 </div>

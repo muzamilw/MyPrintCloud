@@ -1,55 +1,52 @@
 ﻿<div class="row" data-bind="visible: isOrderDetailsVisible() && !isItemDetailVisible()" style="display: none">
     <div class="row">
         <div class="col-lg-12 PaddingZero">
-                <div class="col-lg-12 PaddingZero">
-                    <div class="col-lg-3">
-                        <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
-                            <button type="button" class="btn btn-primary">Download Artwork</button>
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Print Order</a></li>
-                                <li><a href="#">Print Invoice</a></li>
-                            </ul>
-                        </div>
+            <div class="col-lg-12 PaddingZero">
+                <div class="col-lg-3">
+                    <div class="btn-group" style="float:left;margin-bottom: 3px; margin-left:14px">
+                        <button type="button" class="btn btn-primary">Download Artwork</button>
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            <span class="caret"></span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Print Order</a></li>
+                            <li><a href="#">Print Invoice</a></li>
+                        </ul>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="slider" ></div>
-                    </div>
-                    <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
-                        <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
-                        <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
-                        <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
-                    </div>
-                    </div>
+                </div>
+                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
+                    <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
+                </div>
+            </div>
 
 
-                <div class="col-lg-12 PaddingZero PaddingStatuses">
-                    <div class="col-xs-7">
+            <div class="col-lg-12 PaddingZero PaddingStatuses">
+                <div class="col-xs-7">
 
-                       <!-- here -->
-                       
-                    </div>
-                    <div class="col-xs-3">
-
-
-                    </div>
-                    <div class="col-xs-2">
-
-
-
-                    </div>
+                    <!-- here -->
 
                 </div>
+                <div class="col-xs-3">
+
+
+                </div>
+                <div class="col-xs-2">
+
+
+
+                </div>
+
+            </div>
         </div>
         <div class="col-lg-12">
             <div class="row" data-bind="with: selectedOrder">
                 <div class="col-lg-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
+                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Invalid data: Click here to see details.</a>
                             @* ReSharper disable UnknownCssClass *@
                             <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
                                 @* ReSharper restore UnknownCssClass *@
@@ -101,6 +98,7 @@
     </div>
 </div>
 @Html.Partial("_OrderItemDetail")
-@Html.Partial("_OrderSectionDetail")
 @Html.Partial("Company/_SelectCompany")
 @Html.Partial("~/Areas/Orders/Views/Home/_AddEditPrePayment.cshtml")
+@Html.Partial("~/Areas/Orders/Views/Home/_EstimationRunWizard.cshtml")
+

@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Activity Detail</h4>
+                <h4 class="modal-title">To Do Activity</h4>
             </div>
 
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
@@ -13,37 +13,25 @@
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Owner" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label for="owner" class="control-label text-right tooltip-float">Owner</label>
+                            <label for="owner" class="control-label text-right tooltip-float">To be actioned by</label>
                         </div>
                         <div class="col-lg-7">
                             <select class="form-control" id="owner" data-bind="options: $root.systemUsers, optionsText: 'UserName', optionsValue: 'SystemUserId',value:systemUserId"></select>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Subject" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Activity" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
-                            <label for="subject" class="control-label text-right tooltip-float">Subject</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="txtItemUrl" data-bind="value:subject,validationTooltip:subject">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Activity" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="activity" class="control-label text-right tooltip-float">Activity</label>
+                            <label for="activity" class="control-label text-right tooltip-float">Activity Type </label>
                         </div>
                         <div class="col-lg-7">
                             <select class="form-control" id="activity" data-bind="options: $root.activityTypes, optionsText: 'ActivityName', optionsValue: 'ActivityTypeId',value:activityTypeId"></select>
@@ -52,91 +40,90 @@
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Activity For" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label class="control-label text-right tooltip-float">Activity For</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="col-lg-4">
-                                <div class="radio">
-                                    <input type="radio" name="activityFor" value="1" id="customer" data-bind="checked: isCustomerType" />
-                                    <label for="customer">Customer</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="radio">
-                                    <input type="radio" name="activityFor" value="2" id="supplier" data-bind="checked: isCustomerType" />
-                                    <label for="supplier">Supplier</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="radio">
-                                    <input type="radio" name="activityFor" value="0" id="prospect" data-bind="checked: isCustomerType" />
-                                    <label for="prospect">Prospect</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="customer" class="control-label text-right tooltip-float">Customer</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="customer" disabled data-bind="value:companyName">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Contact" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="contact" class="control-label text-right tooltip-float">Contact</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <select class="form-control" id="contact" data-bind="options: $root.companyContacts, optionsText: 'Name', optionsValue: 'ContactId',value:contactId"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Product Type" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="product" class="control-label text-right tooltip-float">Product Type</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <select class="form-control" id="product" data-bind="options: $root.pipeLineProducts, optionsText: 'Description', optionsValue: 'ProductId',value:productTypeId"></select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Activity For" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                    <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Description" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Activity For" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
                             </div>
                             <label for="description" class="control-label text-right tooltip-float">Description</label>
                         </div>
                         <div class="col-lg-7">
-                            <textarea class="form-control" id="description" rows="4" data-bind="value:activityNotes"></textarea>
+                            <textarea class="form-control" id="description" rows="4" data-bind="value:activityNotes,validationTooltip:activityNotes"></textarea>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="col-lg-5 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Start Date Time" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="startDateTime" class="control-label text-right tooltip-float">Start Date Time</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control" id="startDateTime" data-bind="datetimepicker:startDateTime">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-5 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter End Date Time" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label for="endDateTime" class="control-label text-right tooltip-float">End Date Time</label>
+                        </div>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control" id="endDateTime" data-bind="datetimepicker:endDateTime">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-5 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
+
+                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float">Link Activity to Contact</label>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linkToContact" data-bind="checked:isCustomerActivity">
+                                <label class="onoffswitch-label" for="linkToContact">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <form data-bind="submit: $root.getContactList">
+                                <div class="filter-block pull-right" style="margin-top: 0px !important">
+                                    <div class="form-group pull-left">
+                                        <input type="text" class="form-control" placeholder="Search..." data-bind="value:$root.searchContactFilter">
+                                        <i class="fa fa-search search-icon"></i>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+
                 </div>
                 <div class="col-lg-5">
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Flag" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Flag" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
@@ -152,76 +139,69 @@
                     <div class="form-group">
                         <div class="col-lg-5 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Start Date Time" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="startDateTime" class="control-label text-right tooltip-float">Start Date Time</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="startDateTime" data-bind="datetimepicker:startDateTime">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter End Date Time" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="endDateTime" class="control-label text-right tooltip-float">End Date Time</label>
-                        </div>
-                        <div class="col-lg-7">
-                            <input type="text" class="form-control" id="endDateTime" data-bind="datetimepicker:endDateTime">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
                                     @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
                                 </a>
                             </div>
                             <label class="control-label text-right tooltip-float"></label>
-                        </div>
-                        <div class="col-lg-7">
-                            <div class="checkbox-nice">
-                                <input type="checkbox" id="linkToContact" data-bind="checked:isCustomerActivity" />
-                                <label for="linkToContact">Link to Contact</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-left">
-                            <div class="col-lg-2">
-                                <div class="btn btn-primary pull-left" data-bind="click:$root.showCompanyDialog">
-                                    ...
-                                </div>
-                            </div>
+
                         </div>
                         <div class="col-lg-7">
                             <div class="checkbox-nice">
                                 <input type="checkbox" id="privateToContact" data-bind="checked:isPrivate" />
-                                <label for="privateToContact">Private Contact</label>
+                                <label for="privateToContact">Mark as Private </label>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-lg-5 text-right">
-                            <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Source" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
-                            </div>
-                            <label for="product" class="control-label text-right tooltip-float">Source</label>
+
+                </div>
+            </div>
+
+            <div class="col-lg-12 form-horizontal">
+                <h3>Intel reporting</h3>
+                <div class="form-group">
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Product Type" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
                         </div>
-                        <div class="col-lg-7">
-                            <select class="form-control" id="product" data-bind="options: $root.pipeLineSources, optionsText: 'Description', optionsValue: 'SourceId',value:sourceId"></select>
+                        <label for="product" class="control-label text-right tooltip-float">Inquiry for</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <select class="form-control" id="product" data-bind="options: $root.pipeLineProducts, optionsText: 'Description', optionsValue: 'ProductId',value:productTypeId"></select>
+                    </div>
+                    <div class="col-lg-5 text-left">
+                        <div class="col-lg-2">
+                            <div class="btn btn-primary pull-left">
+                                ...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-lg-3 text-right">
+                        <div class="bs-example-tooltips tooltip-float-width">
+                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Select Source" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+                                <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                            </a>
+                        </div>
+                        <label for="product" class="control-label text-right tooltip-float">Source</label>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <select class="form-control" id="product" data-bind="options: $root.pipeLineSources, optionsText: 'Description', optionsValue: 'SourceId',value:sourceId"></select>
+                    </div>
+                    <div class="col-lg-5 text-left">
+                        <div class="col-lg-2">
+                            <div class="btn btn-primary pull-left">
+                                ...
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="modal-footer">
                 <hr />
                 <button type="button" class="btn btn-default pull-left" data-bind="click:$root.onDeleteActivity,visible:id()!==undefined">Remove</button>

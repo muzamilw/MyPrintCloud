@@ -11,7 +11,7 @@
         id = ko.observable(specifiedActivityId),
         systemUserId = ko.observable(specifiedSystemUserId),
         //Subject
-        subject = ko.observable(specifiedActivityRef).extend({ required: true }),
+        subject = ko.observable(specifiedActivityRef)
         activityTypeId = ko.observable(specifiedActivityTypeId),
         contactCompanyId = ko.observable(specifiedContactCompanyId),
         contactId = ko.observable(specifiedContactId),
@@ -25,14 +25,14 @@
         isCustomerActivity = ko.observable(specifiedIsCustomerActivity),
         isPrivate = ko.observable(specifiedIsPrivate),
         companyName = ko.observable(specifiedCompanyName),
-        activityNotes = ko.observable(specifiedActivityNotes),
+        activityNotes = ko.observable(specifiedActivityNotes).extend({ required: true }),
         isCustomerType = ko.observable((specifiedIsCustomerType === null || specifiedIsCustomerType === undefined) ? "1" : specifiedIsCustomerType.toString()),
          isInvalidPeriod = ko.computed(function () {
              return endDateTime() < startDateTime();
          }),
         // Errors
         errors = ko.validation.group({
-            subject: subject
+            activityNotes: activityNotes
         }),
         // Is Valid 
         isValid = ko.computed(function () {

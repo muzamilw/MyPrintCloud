@@ -113,6 +113,14 @@ define("order/order.view",
                 hideSheetPlanImageDialog = function () {
                     $("#sheetPlanModal").modal("show");
                 },
+                // Show section Cost Center Dialog Model
+                showSectionCostCenterDialogModel = function () {
+                    $("#sectionCostCenterDialogModel").modal("show");
+                },
+                // hide section Cost Center Dialog Model
+                hideSectionCostCenterDialogModel = function () {
+                    $("#sectionCostCenterDialogModel").modal("show");
+                },
                 //#region Product From Retail Store Dialog
                 //Show Product From Retail Store Modal
                 showProductFromRetailStoreModal = function () {
@@ -129,6 +137,14 @@ define("order/order.view",
                 //Hide Order Pre Payment Modal
                 hideOrderPrePaymentModal = function () {
                     $("#orderPrePaymentModal").modal('hide');
+                },
+                //Show Estimate Run Wizard Modal
+                showEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('show');
+                },
+                //Hide Estimate Run Wizard Modal
+                hideEstimateRunWizard = function () {
+                    $("#estimateRunWizard").modal('hide');
                 },
 
                 // Show Inks Dialog
@@ -182,6 +198,10 @@ define("order/order.view",
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
                 showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
+                showEstimateRunWizard: showEstimateRunWizard,
+                hideEstimateRunWizard: hideEstimateRunWizard,
+                showSectionCostCenterDialogModel: showSectionCostCenterDialogModel,
+                hideSectionCostCenterDialogModel: hideSectionCostCenterDialogModel,
                 showInksDialog: showInksDialog,
                 hideInksDialog: hideInksDialog
             };
