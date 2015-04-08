@@ -12638,7 +12638,10 @@ ul.LogBar li a {
 
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-    .smallContctUsAvenior {
+     #trVatNumb {
+    clear:both;
+    }
+                            .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -14387,7 +14390,10 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-    .smallContctUsAvenior {
+     #trVatNumb {
+    clear:both;
+    }
+                            .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -15623,7 +15629,10 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-    .smallContctUsAvenior {
+     #trVatNumb {
+    clear:both;
+    }
+                            .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -19919,8 +19928,11 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
-       .checkoutNoteslbl {
-    padding-left:15px;
+     #trVatNumb {
+    clear:none;
+    }
+        .checkoutNoteslbl {
+    padding-left:15px !important;
     }
     ul.LogBar {
         /* font-weight: bold; */
@@ -23199,12 +23211,13 @@ a.btn-watch span:after {
     background-color: White;
     padding: 10px;
     text-align: left;
-    padding-left: 0px;
+    padding-left: 0px !important;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
     -khtml-border-radius: 10px;
     border-radius: 10px;
     border: 1px solid #f3f3f3;
+    padding-right: 0px !important;
 }
 
 

@@ -3537,6 +3537,7 @@ namespace MPC.Implementation.MISServices
             // cost centre choices 
             ObjExportOrg.CostCenterChoice = CostCenterChoice;
 
+            ObjExportOrg.SuppliersList = companyRepository.GetSupplierByOrganisationid(OrganisationID);
 
             string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             // export json file
@@ -3556,6 +3557,8 @@ namespace MPC.Implementation.MISServices
 
         public void ExportOrganisationRoutine2(long OrganisationID, ExportSets sets)
         {
+
+
             List<StockCategory> StockCategories = new List<StockCategory>();
             List<StockSubCategory> StockSubCategories = new List<StockSubCategory>();
 
@@ -4027,6 +4030,25 @@ namespace MPC.Implementation.MISServices
                         }
                     }
 
+                    if (ObjExportOrg.SuppliersList != null && ObjExportOrg.SuppliersList.Count > 0)
+                    {
+                        foreach (var supList in ObjExportOrg.SuppliersList)
+                        {
+                            if (supList != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + supList.Image);
+                                DPath = "/Assets/" + OrganisationID + "/" + supList.CompanyId;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Company Logo for Store";
+
+                                }
+                            }
+
+                           
+                        }
+                    }
                     // export cost centre images
                     if (ObjExportOrg.CostCentre != null && ObjExportOrg.CostCentre.Count > 0)
                     {

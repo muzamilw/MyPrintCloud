@@ -43,7 +43,8 @@ namespace MPC.Models.Common
     public enum CostCenterTypes
     {
         SystemCostCentres = 1,
-        Delivery = 11
+        Delivery = 11,
+        WebOrder = 29
     }
     public enum HashAlgos
     {

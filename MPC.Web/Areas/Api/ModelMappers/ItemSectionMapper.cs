@@ -32,7 +32,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSizeHeight = source.ItemSizeHeight,
                 ItemSizeWidth = source.ItemSizeWidth,
                 IsItemSizeCustom = source.IsItemSizeCustom,
-                IsSectionSizeCustom = source.IsSectionSizeCustom
+                IsSectionSizeCustom = source.IsSectionSizeCustom,
+                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null
             };
         }
 
