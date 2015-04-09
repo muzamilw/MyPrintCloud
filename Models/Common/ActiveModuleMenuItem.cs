@@ -17,19 +17,28 @@ namespace MPC.Models.Common
         Calendar = 0,
 
         /// <summary>
+        /// Calendar
+        /// </summary>
+        ToDoList = 1,
+        /// <summary>
         /// Contacts
         /// </summary>
-        Contacts = 1,
+        Contacts = 2,
 
         /// <summary>
         /// Prospect/Customer
         /// </summary>
-        Companies = 2,
+        Companies = 3,
 
         /// <summary>
         /// Supplier
         /// </summary>
-        Supplier = 3
+        Supplier = 4,
+
+        /// <summary>
+        /// Supplier
+        /// </summary>
+        MySharedDocs = 5
 
     }
 }

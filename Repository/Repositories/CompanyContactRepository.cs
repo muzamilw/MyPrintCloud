@@ -35,7 +35,7 @@ namespace MPC.Repository.Repositories
         {
             get
             {
-                
+
                 return db.CompanyContacts;
             }
         }
@@ -54,6 +54,35 @@ namespace MPC.Repository.Repositories
         public IEnumerable<CompanyContact> GetContactsByCompanyId(long companyId)
         {
             return DbSet.Where(cc => cc.CompanyId == companyId).ToList();
+        }
+
+        /// <summary>
+        /// Get Company Contact By search string and Customer Type
+        /// </summary>
+        public CompanyContactResponse GetContactsBySearchNameAndType(CompanyContactForCalendarRequestModel request)
+        {
+
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchFilter);
+            Expression<Func<CompanyContact, bool>> query =
+                s =>
+                    (isStringSpecified && (s.FirstName.Contains(request.SearchFilter) || (s.LastName.Contains(request.SearchFilter)) &&
+                    s.OrganisationId == OrganisationId && s.Company.IsCustomer == request.CustomerType));
+
+            int rowCount = DbSet.Count(query);
+            IEnumerable<CompanyContact> companies =
+                DbSet.Where(query)
+                    .OrderBy(x => x.FirstName)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+
+            return new CompanyContactResponse
+            {
+                RowCount = rowCount,
+                CompanyContacts = companies
+            };
         }
         ///// <summary>
         ///// Get Compnay Contacts
@@ -99,11 +128,11 @@ namespace MPC.Repository.Repositories
 
                 return qury.ToList().Where(contct => HashingManager.VerifyHashSha1(password, contct.Password) == true).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
-          
+
         }
         public CompanyContact GetContactByFirstName(string FName)
         {
@@ -120,14 +149,14 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
         public CompanyContact GetContactById(int contactId)
         {
             return (from c in db.CompanyContacts.Include("CompanyTerritory")
                     where c.ContactId == contactId
                     select c).FirstOrDefault();
-          
+
         }
         public CompanyContact GetContactByEmail(string Email, long OID)
         {
@@ -144,7 +173,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
 
         }
         public string GetContactMobile(long CID)
@@ -157,7 +186,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
 
         }
         public string GeneratePasswordHash(string plainText)
@@ -170,7 +199,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
         }
 
         //public bool VerifyHashSha1(string plainText, string compareWithSalt)
@@ -238,7 +267,7 @@ namespace MPC.Repository.Repositories
         //    {
         //        throw ex;
         //    }
-           
+
         //}
         //private static int InitializeHashSize(string hashAlgorithm)
         //{
@@ -274,7 +303,7 @@ namespace MPC.Repository.Repositories
         //    {
         //        throw ex;
         //    }
-            
+
         //}
         //private static string ComputeHash(string plainText,
         //                            string hashAlgorithm,
@@ -355,7 +384,7 @@ namespace MPC.Repository.Repositories
         //    {
         //        throw ex;
         //    }
-            
+
         //}
 
         //private static HashAlgorithm CreateHashAlgoFactory(string hashAlgorithm)
@@ -392,7 +421,7 @@ namespace MPC.Repository.Repositories
         //    {
         //        throw ex;
         //    }
-            
+
         //}
 
         //private static string ComputeHashSHA1(string plainText)
@@ -418,7 +447,7 @@ namespace MPC.Repository.Repositories
         //    {
         //        throw ex;
         //    }
-          
+
         //}
         public long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID)
         {
@@ -533,7 +562,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-        
+
         }
 
         public Markup GetZeroMarkup()
@@ -546,7 +575,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
         private Address PopulateAddressObject(int dummyAddreID, int customerID, bool isDefaulAddress, bool isDefaultShippingAddress)
@@ -570,7 +599,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-          
+
         }
 
         private CompanyContact PopulateContactsObject(int customerID, int addressID, bool isDefaultContact)
@@ -589,7 +618,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-         
+
         }
 
         public CompanyContact GetContactByID(Int64 ContactID)
@@ -603,7 +632,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
         public CompanyTerritory GetCcompanyByTerritoryID(Int64 CompanyId)
         {
@@ -616,7 +645,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-            
+
 
         }
 
@@ -719,7 +748,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-           
+
         }
 
 
@@ -733,8 +762,8 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-    
-            
+
+
         }
 
         public Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
@@ -749,7 +778,7 @@ namespace MPC.Repository.Repositories
                 s =>
                     (isSearchFilterSpecified && (s.Email.Contains(request.SearchFilter)) ||
                      (s.quickCompanyName.Contains(request.SearchFilter)) ||
-                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true &&((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId )|| !isTerritoryFilterSpecified) ;//&& s.OrganisationId == OrganisationId
+                     !isSearchFilterSpecified) && s.CompanyId == request.CompanyId && s.isArchived != true && ((isTerritoryFilterSpecified && s.TerritoryId == request.TerritoryId) || !isTerritoryFilterSpecified);//&& s.OrganisationId == OrganisationId
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch
@@ -770,7 +799,7 @@ namespace MPC.Repository.Repositories
                 CompanyContacts = companyContacts
             };
         }
-        public CompanyContactResponse GetCompanyContactsForCrm (CompanyContactRequestModel request)
+        public CompanyContactResponse GetCompanyContactsForCrm(CompanyContactRequestModel request)
         {
             int fromRow = (request.PageNo - 1) * request.PageSize;
             int toRow = request.PageSize;
@@ -782,7 +811,7 @@ namespace MPC.Repository.Repositories
                     (contact.MiddleName.Contains(request.SearchFilter)) ||
                     (contact.LastName.Contains(request.SearchFilter)) ||
                     (contact.quickCompanyName.Contains(request.SearchFilter))) &&
-                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) && 
+                    (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
                     (contact.isArchived == false || contact.isArchived == null);
 
             int rowCount = DbSet.Count(query);
@@ -833,7 +862,7 @@ namespace MPC.Repository.Repositories
                              && Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
                        select Contacts;
 
-           return qury.ToList().Where(contct => HashingManager.VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
+            return qury.ToList().Where(contct => HashingManager.VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
 
         }
 
@@ -1156,7 +1185,7 @@ namespace MPC.Repository.Repositories
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
                 throw ex;
@@ -1213,7 +1242,7 @@ namespace MPC.Repository.Repositories
             catch (Exception ex)
             {
                 throw ex;
-            
+
             }
             return Result;
         }
@@ -1224,7 +1253,7 @@ namespace MPC.Repository.Repositories
             {
                 return db.CompanyContacts.Where(c => c.ContactId == ContactID).Select(s => s.Password).FirstOrDefault();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -1234,14 +1263,14 @@ namespace MPC.Repository.Repositories
             bool result = false;
             try
             {
-                    CompanyContact tblContact = db.CompanyContacts.Where(c => c.ContactId == ContactID).FirstOrDefault();
+                CompanyContact tblContact = db.CompanyContacts.Where(c => c.ContactId == ContactID).FirstOrDefault();
 
-                    if (tblContact != null)
-                    {
-                        tblContact.Password =  HashingManager.ComputeHashSHA1(Password);
-                        result = db.SaveChanges() > 0 ? true : false;
-                    }
-                
+                if (tblContact != null)
+                {
+                    tblContact.Password = HashingManager.ComputeHashSHA1(Password);
+                    result = db.SaveChanges() > 0 ? true : false;
+                }
+
 
             }
             catch (Exception ex)
@@ -1250,9 +1279,9 @@ namespace MPC.Repository.Repositories
             }
             return result;
         }
-        public  CompanyContact GetContactByEmailID(string Email)
+        public CompanyContact GetContactByEmailID(string Email)
         {
-          return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
+            return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
         }
         public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
         {

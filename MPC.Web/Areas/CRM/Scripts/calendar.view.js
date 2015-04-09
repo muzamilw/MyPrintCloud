@@ -29,6 +29,14 @@ define("calendar/calendar.view",
                 hideCompanyDialog = function () {
                     $("#companyDialog").modal("hide");
                 },
+                  // Show Contact dialog
+                showContactSelectorDialog = function () {
+                    $("#contactSelectorDialog").modal("show");
+                },
+                // Hide Contact dialog
+                hideContactSelectorDialog = function () {
+                    $("#contactSelectorDialog").modal("hide");
+                },
                 
                 // Initialize
                 initialize = function () {
@@ -44,6 +52,9 @@ define("calendar/calendar.view",
                 hideCalendarActivityDialog: hideCalendarActivityDialog,
                 showCompanyDialog: showCompanyDialog,
                 hideCompanyDialog: hideCompanyDialog,
+                showContactSelectorDialog: showContactSelectorDialog,
+                hideContactSelectorDialog:hideContactSelectorDialog
+
             };
         })(calendarViewModel);
 

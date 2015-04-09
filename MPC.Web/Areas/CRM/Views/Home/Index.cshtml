@@ -45,6 +45,9 @@
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
                                 <a href="~/CRM/Home/Calendar">Calendar</a>
                             </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                                @Html.ActionLink("To Do Lists", "Contacts", "Home")
+                            </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 <a href="~/CRM/Home/Contacts">Contacts</a>
                             </li>
@@ -53,6 +56,9 @@
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
                                 <a href="~/CRM/Home/SuppliersList">Supplier</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
+                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
                             </li>
                         </ul>
                         <div class="tab-content">

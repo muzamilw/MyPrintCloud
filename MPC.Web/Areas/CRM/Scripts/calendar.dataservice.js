@@ -36,6 +36,12 @@ define("calendar/calendar.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Get Company Contact By Name and Type
+                    amplify.request.define('getCompanyContactByName', 'ajax', {
+                        url: ist.siteUrl + '/Api/CompanyContactForCalendar',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
 
                     // Define request to Get Company By Customer Type
                     amplify.request.define('getCompanyByCustomerType', 'ajax', {
@@ -107,7 +113,7 @@ define("calendar/calendar.dataservice", function () {
                     data: params
                 });
             },
-            
+
              //Get Activity Detail By Id
             getActivityDetailById = function (params, callbacks) {
                 initialize();
@@ -128,7 +134,17 @@ define("calendar/calendar.dataservice", function () {
                     data: params
                 });
             },
-            
+             //get Company Contact By Name and Customer Type
+            getCompanyContactByName = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getCompanyContactByName',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+
            // CalendarBase
         // Save Activity
         saveActivityDropOrResize = function (param, callbacks) {
@@ -160,6 +176,7 @@ define("calendar/calendar.dataservice", function () {
             getActivityDetailById: getActivityDetailById,
             saveActivityDropOrResize: saveActivityDropOrResize,
             getCompanyContactByCompanyId: getCompanyContactByCompanyId,
+            getCompanyContactByName: getCompanyContactByName
         };
     })();
 

@@ -9,5 +9,7 @@ namespace MPC.Models.RequestModels
     {
         public DateTime? StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
+        public Guid UserId { get; set; }
+
     }
 }
