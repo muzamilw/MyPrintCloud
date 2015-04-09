@@ -13,8 +13,11 @@ namespace MPC.Models.Common
         public List<Company> SuppliersList { get; set; }
         public List<PaperSize> PaperSizes { get; set; }
 
+
+
         public List<CostCentre> CostCentre { get; set; }
 
+        public List<CostCentreType> CostCentreType { get; set; }
         public List<CostCenterChoice> CostCenterChoice { get; set; }
 
         public List<CostCentreQuestion> CostCentreQuestion { get; set; }

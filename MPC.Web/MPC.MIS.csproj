@@ -1947,7 +1947,6 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
-    <Content Include="Areas\Settings\Views\MIS\test.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
