@@ -66,22 +66,22 @@ namespace MPC.MIS.Controllers
              */
             
             ValidationInfo validationInfo = null;
-            //using (var client = new HttpClient())
-            //{
-            //    client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
-            //    client.DefaultRequestHeaders.Accept.Clear();
-            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["MPCLoginAPIPath"]);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            //    string url = "login?token=" + token;
-            //    string responsestr = "";
-            //    var response = client.GetAsync(url);
-            //    if (response.Result.IsSuccessStatusCode)
-            //    {
-            //        responsestr = response.Result.Content.ReadAsStringAsync().Result;
-            //        validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
-            //    }
+                string url = "login?token=" + token;
+                string responsestr = "";
+                var response = client.GetAsync(url);
+                if (response.Result.IsSuccessStatusCode)
+                {
+                    responsestr = response.Result.Content.ReadAsStringAsync().Result;
+                    validationInfo = JsonConvert.DeserializeObject<ValidationInfo>(responsestr);
+                }
 
-            //}
+            }
 
             //For Development environment Set these values and comment code above starting from using...
 
