@@ -8,5 +8,6 @@ namespace MPC.MIS.Areas.Api.Models
     public class CostCentreQuestionDeleteRequest
     {
         public int QuestionId { get; set; }
+        public int MCQsQuestionAnswerId { get; set; }
     }
 }

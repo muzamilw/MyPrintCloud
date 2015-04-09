@@ -47,6 +47,7 @@
             </div>
         </div>
     </div>
+
     <script id="listDeliveryCarrierTemplate" type="text/html">
         <tr>
             <td>
@@ -64,9 +65,9 @@
             </td>
         </tr>
     </script>
-</div>
+    @Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
 
-@Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
+</div>
 
 @section Scripts {
      
