@@ -5812,6 +5812,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                string status = string.Empty;
                 ExportSets exportSets = new ExportSets();
                 ExportOrganisation objExpCorp = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
@@ -6000,8 +6001,8 @@ namespace MPC.Implementation.MISServices
 
                     //    json = string.Empty;
                     //}
-
-                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets,SubDomain);
+                    status += "deserializationDone";
+                    status += companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets, SubDomain, status);
 
                     return true;
                 }
