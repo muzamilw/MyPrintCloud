@@ -945,11 +945,11 @@ body:not(.compactHeader) #editorLogo {
     }
 
 #editorLogoImage {
-    position: absolute;
-    left: 8px;
-    top: 23px;
-    width: 60px;
-    height: 26px;
+  position: absolute;
+  left: 12px;
+  top: 23px;
+  width: 51px;
+  height: 26px;
     /*background-image: 
     background-repeat: no-repeat;*/
     color: rgba(63,70,82, .5);
@@ -2969,7 +2969,7 @@ div.fontSelector {
     font-size: 14px;
     text-align: left;
     border-radius: 8px;
-    top: 0;
+    top: 0;  overflow-x: hidden;
     left: 0;
 }
 
@@ -3186,6 +3186,7 @@ div.fontSelector {
     margin-left: 2px;
     text-align: left;
     margin-left: 7px;
+    cursor:pointer;
 }
 
 .btnClrPallet {
@@ -4252,8 +4253,15 @@ h2 + .gallery {
 .uploadButtonAndMessage.hidden {
     display: none;
 }
-
-.uploadButtonAndMessage > p {
+.uploadBkLbl{
+      color: #959595;
+    font-size: 85%;
+    margin-bottom: 1.5em;
+    text-align: center;
+      text-align: left;
+  margin-top: 10px;
+}
+.uploadButtonAndMessage > p  {
     color: #959595;
     font-size: 85%;
     margin-bottom: 1.5em;
@@ -4738,7 +4746,7 @@ h2 + .gallery {
     width: 235px !important;
     display: none;
     top: 10px;
-    left: 445px;
+     left: 79px;
 }
 
 .closePanelButton {
@@ -5025,6 +5033,7 @@ margin-left:1px;
 }
 #BtnBulletedLstTxt {
     margin-left:5px;
+    visibility:hidden;
 }
 #BtnItalicTxt {
     /*vertical-align: middle;
@@ -6028,8 +6037,9 @@ right: -65px;
 .RemoveButton {
     border: 1px solid transparent;
     margin-bottom: 30px !important;
-    background-color: rgb(255, 6, 16) !important;
+    background-color: black !important;
     padding-left:3px;
+    color:white !important;
 }
 
 .HelpButton {
@@ -6748,4 +6758,14 @@ font-size: 13px;
 .divTxtAlignmentControls button:hover{
     background-color:rgb(39, 44, 51);
     border-radius: 5px;
+}
+.cropToolCaption {
+  position: absolute;
+  top: -18px;
+  left: 56px;
+  font-size: 9px;
+}
+.btnQRCode {
+      line-height: 15px !important;
+  padding-top: 10px;
 }
