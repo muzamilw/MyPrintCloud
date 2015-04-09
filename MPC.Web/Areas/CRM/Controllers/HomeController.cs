@@ -43,10 +43,14 @@ namespace MPC.MIS.Areas.CRM.Controllers
         {
             return View();
         }
-
-
         public ActionResult ContactCompanyDetail()
         {
+            return View();
+        }
+
+        public ActionResult ToDoList()
+        {
+            ViewBag.ActiveTab = ActiveModuleMenuItem.ToDoList;
             return View();
         }
 

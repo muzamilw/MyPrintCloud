@@ -17,5 +17,7 @@ namespace MPC.Interfaces.Repository
 
         List<CostCentreQuestion> GetCostCentreQuestionsByOID(long OrganisationID, out List<CostCentreAnswer> CostAnswers);
         bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer);
+        CostCentreQuestion Add(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer);
+        bool DeleteQuestionById(int QuestionId);
     }
 }

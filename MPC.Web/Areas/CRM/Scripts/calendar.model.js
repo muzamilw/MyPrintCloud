@@ -11,7 +11,7 @@
         id = ko.observable(specifiedActivityId),
         systemUserId = ko.observable(specifiedSystemUserId),
         //Subject
-        subject = ko.observable(specifiedActivityRef)
+        subject = ko.observable(specifiedActivityRef),
         activityTypeId = ko.observable(specifiedActivityTypeId),
         contactCompanyId = ko.observable(specifiedContactCompanyId),
         contactId = ko.observable(specifiedContactId),
@@ -116,12 +116,49 @@
         };
         return self;
     };
-    //Stock Cost And Price Item For Client Factory
+    //Company Item For Client Factory
     Company.Create = function (source) {
         return new Company(source.CompanyId, source.Name, source.URL, source.CreationDate);
+    };
+    CompanyContact = function (specifiedContactId, specifiedName, specifiedCompanyName) {
+        var self,
+            id = ko.observable(specifiedContactId),
+            name = ko.observable(specifiedName),
+            companyName = ko.observable(specifiedCompanyName);
+        self = {
+            id: id,
+            name: name,
+            companyName: companyName
+        };
+        return self;
+    };
+    //Company Contact Item For Client Factory
+    CompanyContact.Create = function (source) {
+        return new CompanyContact(source.ContactId, source.Name, source.CompanyName);
+    };
+
+    ActivityList = function (specifiedActivityId, specifiedActivityNotes, specifiedActivityStartTime, specifiedActivityEndTime) {
+        var self,
+            id = ko.observable(specifiedActivityId),
+            activityNotes = ko.observable(specifiedActivityNotes),
+            startDateTime = ko.observable(specifiedActivityStartTime !== undefined ? moment(specifiedActivityStartTime).format(ist.dateTimePattern) : undefined),
+            endDateTime = ko.observable(specifiedActivityEndTime !== undefined ? moment(specifiedActivityEndTime).format(ist.dateTimePattern) : undefined);
+        self = {
+            id: id,
+            activityNotes: activityNotes,
+            startDateTime: startDateTime,
+            endDateTime: endDateTime,
+        };
+        return self;
+    };
+    // Activity List Item For Client Factory
+    ActivityList.Create = function (source) {
+        return new ActivityList(source.ActivityId, source.ActivityRef, source.ActivityStartTime, source.ActivityEndTime);
     };
     return {
         Activity: Activity,
         Company: Company,
+        CompanyContact: CompanyContact,
+        ActivityList: ActivityList
     };
 });

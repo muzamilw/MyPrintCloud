@@ -107,9 +107,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-               
+                
 
-                return db.PaperSizes.Where(o => o.OrganisationId == OrganisationId).ToList();
+                return db.PaperSizes.Where(o => o.OrganisationId == OrganisationID).ToList();
             }
             catch(Exception ex)
             {

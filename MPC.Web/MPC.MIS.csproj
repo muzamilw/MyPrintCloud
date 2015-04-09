@@ -456,7 +456,9 @@
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
@@ -715,7 +717,9 @@
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EstimateController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -794,7 +798,9 @@
     <Content Include="Areas\Common\Scripts\pagination.js" />
     <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
@@ -1948,6 +1954,7 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
