@@ -957,7 +957,10 @@ namespace MPC.Repository.Repositories
                          }
 
                          if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                         {
                              comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                             comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                         }
                          if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                              comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                          if (comp.Addresses != null && comp.Addresses.Count > 0)
@@ -998,16 +1001,23 @@ namespace MPC.Repository.Repositories
                          db.SaveChanges();
                          oCID = comp.CompanyId;
 
+                         if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                         {
+                             comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                            
+                         }
                          end = DateTime.Now;
                          timelog += "company add" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now;
-                         
+
+                      
                          // add companydomain
                          string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
                          CompanyDomain domain = new CompanyDomain();
                          domain.Domain = DomainName;
                          domain.CompanyId = oCID;
                          db.CompanyDomains.Add(domain);
+
                          db.SaveChanges();
 
                          end = DateTime.Now;
