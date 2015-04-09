@@ -10,27 +10,8 @@
         //]]>
     </script>
 
-    <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/datepicker.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/layout.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/elements.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/magnific-popup.css">
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/compiled/calendar.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/morris.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/daterangepicker.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/jquery-jvectormap-1.2.2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/wizard.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/bootstrap-wizard.css">
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/select2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-    <link type="text/css" href="~/Content/CSS/jquery-Slider.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
+    @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
+    @Styles.Render("~/Bundle/AppLess")
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
     <link href="~/Content/CSS/custom.css" rel="stylesheet" />
@@ -576,43 +557,15 @@
         })($);
 
     </script>
-
-
-
+    
     @Scripts.Render("~/Bundle/BaseLibs")
-    @*@Scripts.Render("~/bundles/dropzonescripts")*@
-    <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
-    <script src="~/Content/themes/Centaurus/js/bootstrap.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nanoscroller.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/demo.js"></script>
-    <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.slimscroll.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/raphael-min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/morris.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/daterangepicker.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-world-merc-en.js"></script>
-    <script src="~/Content/themes/Centaurus/js/gdp-data.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.pie.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.stack.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.resize.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.time.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.threshold.js"></script>
-    <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquerySlider.js"></script>
+    @Scripts.Render("~/Bundle/CentaurusLibs")
     <script>
         $(document).ready(function () {
-
-         //   $("#header-logo").hide();
             $("#make-small-nav").click(function () {
                 $("#header-logo").toggle();
                 $("#menu-logo").toggle();
             });
-
         });
     </script>
 
