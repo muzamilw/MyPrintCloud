@@ -85,7 +85,7 @@ namespace MPC.MIS.Controllers
 
             //For Development environment Set these values and comment code above starting from using...
 
-<<<<<<< HEAD
+
             validationInfo = new ValidationInfo();
             validationInfo.CustomerID = "1";
             validationInfo.userId = "xyz";
@@ -94,17 +94,7 @@ namespace MPC.MIS.Controllers
             validationInfo.Email = "naveedmnz@hotmail.com";
             validationInfo.IsTrial = true;
             validationInfo.TrialCount = 9;
-=======
-            //validationInfo = new ValidationInfo();
-            //validationInfo.CustomerID = "43";
-            //validationInfo.userId = "xyz";
-            //validationInfo.FullName = "Naveed Zahid";
-            //validationInfo.Plan = "light";
-            //validationInfo.Email = "naveedmnz@hotmail.com";
-            //validationInfo.IsTrial = true;
-            //validationInfo.TrialCount = 9;
->>>>>>> a3d5cbe007c9727af81c679e2dcbbd9714a44cef
-            
+
 
 
             long organisationId = 0; //Request.QueryString["OrganisationId"];
