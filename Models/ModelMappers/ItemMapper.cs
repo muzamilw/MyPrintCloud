@@ -461,6 +461,12 @@ namespace MPC.Models.ModelMappers
 
             source.UpdateTo(targetLine);
 
+            // Set Company Id
+            if (targetLine != null)
+            {
+                targetLine.CompanyId = target.CompanyId;
+            }
+
             // Update Item Addon Cost Centres
             // Initialize addon cost centres
             InitializeItemAddonCostCentres(source);

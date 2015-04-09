@@ -41,9 +41,9 @@ namespace MPC.Repository.Repositories
         /// <summary>
         ///Get Activities By Duration
         /// </summary>
-        public IEnumerable<Activity> GetActivitiesByUserId(DateTime? startDateTime, DateTime? endDateTime)
-        {   
-            return DbSet.Where(a => a.SystemUserId == LoggedInUserId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
+        public IEnumerable<Activity> GetActivitiesByUserId(Guid userId, DateTime? startDateTime, DateTime? endDateTime)
+        {
+            return DbSet.Where(a => a.SystemUserId == userId && a.ActivityStartTime >= startDateTime && a.ActivityEndTime < endDateTime).ToList();
         }
         #endregion
     }

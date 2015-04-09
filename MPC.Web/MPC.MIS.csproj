@@ -300,6 +300,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
+    <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -448,6 +449,8 @@
     <Compile Include="Areas\Api\Models\CompanyContactDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDownForOrder.cs" />
     <Compile Include="Areas\Api\Models\CompanyContactDropDown.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactForCalendar.cs" />
+    <Compile Include="Areas\Api\Models\CompanyContactResponseForCalendar.cs" />
     <Compile Include="Areas\Api\Models\CostCenterFixedVariable.cs" />
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
@@ -713,7 +716,9 @@
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EstimateController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -1944,6 +1949,7 @@
     <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
