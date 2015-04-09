@@ -60,8 +60,10 @@
 
                                 <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Enter Start Date Time" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
 
-                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                </a>
+                                        <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-content="Choose Activity For" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                            <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                        </a>
                             </div>
                             <label for="startDateTime" class="control-label text-right tooltip-float">Start Date Time</label>
                         </div>
@@ -114,9 +116,34 @@
                                     </div>
                                 </div>
                             </form>
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="linkToContact" data-bind="checked:isCustomerActivity">
+                                <label class="onoffswitch-label" for="linkToContact">
+                                    <div class="onoffswitch-inner"></div>
+                                    <div class="onoffswitch-switch"></div>
+                                </label>
+                            </div>
                         </div>
+                        <div class="col-lg-4">
+                            <form data-bind="submit: $root.getContactList">
+                                <div class="filter-block pull-right" style="margin-top: 0px !important">
+
+                                <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Sort Order in Category" data-original-title="" title="">
+
+                                    @*<span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>*@
+                                    </div>
+                                </a>
+                            </div>
+                            <label class="control-label text-right tooltip-float"></label>
+                                </div>
+
+                        <div class="col-lg-6">
+                            <label class="control-label" data-bind="text:companyName">
+                            </label>
+                        </div>
+
                     </div>
-                    
+
 
                 </div>
                 <div class="col-lg-5">
@@ -210,7 +237,7 @@
             </div>
         </div>
     </div>
-
+    @Html.Partial("~/Areas/CRM/Views/Home/_ContactSelector.cshtml")
 </div>
 
 

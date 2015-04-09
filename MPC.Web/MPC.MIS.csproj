@@ -797,7 +797,9 @@
     <Content Include="Areas\Common\Scripts\pagination.js" />
     <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
@@ -1951,6 +1953,7 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
