@@ -1050,7 +1050,7 @@ body.blockDocument #documentTitleAndMenu {
     font-size: 140%;
     text-align: left;
     white-space: nowrap;
-    line-height: 1em;
+    line-height: 1em;  margin-top: 17px;
 }
 
     #documentTitle input {
@@ -4921,7 +4921,7 @@ h2 + .gallery {
     margin-right: 58px;
     border: 0px solid transparent;
     position: relative;
-    background-color: rgb(255, 6, 16) !important;
+    background-color: rgb(255, 6, 16) ;
     padding-left:3px;
     width: 48px;
     height: 48px;
@@ -4930,8 +4930,16 @@ h2 + .gallery {
     margin-top: -11px;
     margin-bottom:-7px;
     margin-left: 24px;
+      border-color: grey;
+  border-width: 2px;
 }
-
+.closeBtnMenus
+{
+      right: -5px;
+  z-index: 10000;
+  position: absolute;
+  top: -4px;
+}
 #BtnRotateRight {
     cursor: pointer;
     height: 22px;
@@ -5594,8 +5602,12 @@ margin-left:1px;
     display: inline-block !important;
     margin-right: 2% !important;
     font-size: 12px !important;
-}
 
+}
+.btntxtBoxes {
+          line-height: 12px !important;
+  padding-top: 12px;
+}
 /*#mainLeftMenu li, #mainLeftMenu a {
     width: 70px;
     display: block;
@@ -6380,8 +6392,11 @@ label
 }
 .dimentionsContainer
 {
-    color: #7f7c7c;
-    margin-top: 15px;text-align: right;margin-right: 1.2em;width:297px;
+  color: #7f7c7c;
+  margin-top: 15px;
+  text-align: center;
+  margin-right: 1.2em;
+  width: 100%;
     /*display: none;*/
 }.dimentionsBC
 {
@@ -6619,10 +6634,15 @@ font-size: 13px;
 .tabsList li a {
     text-indent:0 !important;
     border-radius: 10px !important;
-
+    position:relative !important;
+    text-align:center !important;
 }
 .tabsList li  {
-    width:87px !important;   border-radius: 10px !important;
+     width: 94px !important;
+  border-radius: 6px !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 13px;
 }
 
 .ColorPalletCorp {
@@ -6718,4 +6738,14 @@ font-size: 13px;
 .mainMenuItem
 {
     font-size:0px;
+}
+
+#FrontBackOptionPanal div button:hover
+{
+      color: #222;
+      background-color: #ffdd0c;
+}
+.divTxtAlignmentControls button:hover{
+    background-color:rgb(39, 44, 51);
+    border-radius: 5px;
 }

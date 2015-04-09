@@ -137,13 +137,16 @@
 
                                     <ul class=" textControls">
                                         <li class="ThemeColor">
-                                            <textarea name="txtareaAddTxt" id="txtareaAddTxt" placeholder="Add text to template" class="qTextInput" maxlength="500" style="height: 190px;"></textarea>
+                                            <textarea name="txtareaAddTxt" id="txtareaAddTxt" placeholder="Add text to Canvas" class="qTextInput" maxlength="500" style="height: 190px;"></textarea>
 
                                         </li>
                                         <li>
-                                            <a class=" SampleBtn btntxt" id="btnAddheading">Add heading</a>
-                                            <a class=" SampleBtn btntxt" id="btnAddSubtitle">Add as subtitle</a>
-                                            <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnAddheading">
+                                                Add heading
+                                                <br /> (20 pts.)
+                                            </a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnAddSubtitle">Add as subtitle<br /> (16 pts.)</a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnaddbody">Add as body <br /> (10 pts.)</a>
                                             </li>
                                         <li>
                                             <a class=" SampleBtn btntxt" id="" style="display:none !important;">CRM</a>
@@ -271,7 +274,7 @@
                                                     <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
                                                         <button class="btnBackGlImgs bkbtnIphone">Images</button>
                                                         Back to Images
-                                                        <input type="text" placeholder="Search 1,000,000 images…" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
+                                                        <input type="text" placeholder="Search image bank" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
                                                         <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobImgContainer" id="divGlobImgContainer"></ul>
                                                     </div>
                                                 </section>
@@ -514,7 +517,7 @@
                                     <input type="text" name="InputImgDescription" id="InputImgDescription" class="qTextInput" placeholder="Image Description" maxlength="500" />
                                 </div>
                                 <div class="pnlImgBank">
-                                    <div class="ImgLbl" style="">Image </div>
+                                    <div class="ImgLbl" style="">Image Thumbnail</div>
                                     <img id="ImgDAMDetail" src="" />
                                 </div>
 
@@ -524,7 +527,7 @@
                                 </div>
                                 <div class="divImageTypes">
 
-                                    <div class="ImgLbl" style="">Image Type</div>
+                                    <div class="ImgLbl" style="">Image Category</div>
                                     <div class="radioBtnRow">
                                         <input id="radioImagePicture" type="radio" name="imageTypes" checked="checked" value="Picture" />
                                         <label for="radioImagePicture" id="Label2">
@@ -1030,7 +1033,9 @@
             <canvas id="canvas">
                 Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
             </canvas>
-
+            <div class="dimentionsContainer">
+                <span class="dimentionsBC"></span>
+            </div>
         </section>
     </section>
 
@@ -1072,9 +1077,7 @@
             <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
                 <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
             </h1>
-            <div class="dimentionsContainer">
-                <span class="dimentionsBC"></span>
-            </div>
+            
 
         </section>
 
@@ -1083,12 +1086,12 @@
 </section>
 <section id="MainLoader" class="dialogContainer dialogProof">
     <div class="mask on"></div>
-    <div class="dialog" style="top: 93.5px; height: 184px;">
-        <h2>Preparing your Template…</h2>
+    <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
+        <h2 id="loaderTitleMsg">Loadinng design onto the canvas.</h2>
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
+                <p id="paraLoaderMsg" style="display:none;">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
             </div>
         </div>
     </div>

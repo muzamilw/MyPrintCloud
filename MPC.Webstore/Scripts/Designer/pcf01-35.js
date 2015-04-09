@@ -27,7 +27,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas, please wait....");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -83,7 +83,7 @@ function d1SvgToCCC(src, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas, please wait....");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -136,7 +136,7 @@ function d1ToCanvasCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas, please wait....");
         svcCall4_img(n, tID, imgtype);
   
     } else {
@@ -533,6 +533,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
         }
+        $(".BtnChngeClr").css("background-color", ColorHex);
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -598,7 +599,9 @@ function f9() {
         ISG1 = true;
         //  $("#BtnGuidesBC").find('span').text(" Hide Bleed and Trim lines");
     }
-    d5(SP);
+   // $("#loaderTitleMsg").text('Refreshing Canvas');
+    StartLoader('Refreshing Canvas');
+    d5(SP,true);
 }
 function fu11() {
     QuickTxtName = $("#txtQName").val();
@@ -1251,7 +1254,8 @@ function g2_1(e) {
             $(".CaseModeSlider").slider("option", "value", '1');
             //val=100
         }
-
+        var clr =  D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
         $("#textPropertyPanel").css("display", "block");
         $("#objPropertyPanel").css("display", "none");
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
@@ -1387,12 +1391,15 @@ function g2_1(e) {
     else if (D1AO && D1AO.type === 'image') {
         g2_22(1);
     } else if (D1AO && D1AO.type === 'rect') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     } else if (D1AO && D1AO.type === 'ellipse') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
 
     } else if (D1AO && (D1AO.type === 'path-group' || D1AO.type === 'path')) {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     }
 
     k4();
@@ -1960,6 +1967,12 @@ function l2_temp() {
     });
 
 }
+
+$('input, textarea, select').focus(function () {
+    IsInputSelected = true;
+}).blur(function () {
+    IsInputSelected = false;
+});
 function l3(e) {
     if (e.keyCode == ctrlKey) D1CD = true;
     if (e.keyCode == D1SK) D1SD = true;
@@ -2649,6 +2662,7 @@ function pcL29(fontSize, isBold, ContentString) {
     uiTextObject.setCoords();
     TO.push(D1NTO);
     lAObj = D1NTO.ObjectID;
+    canvas.setActiveObject(uiTextObject);
 }
 var listToPass = [];
 function save_rrs_se_se(obj) {
@@ -2842,7 +2856,7 @@ function pcL29_pcRestore(type) {
 
 }
 function pcl42() {
-    StartLoader("Processing template variables.");
+    StartLoader("Applying Smart form variables to Canvas.");
     if (pcl42_Validate()) {
         c2_v2(); c2_v2();// update template objects 
         if ($("#optionRadioOtherProfile").is(':checked')) {
