@@ -2,15 +2,35 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-bind="click:$root.closeContactDialog" aria-hidden="true">&times;</button>
                 <h4 class="modal-title">Contact List</h4>
             </div>
 
             <div class="col-lg-12">
                 <div class="col-lg-12 clearfix">
                     <header class="main-box-header clearfix">
-                        @*<!-- ko template: { name: 'companySelectorFilterTemplate' } -->
-                            <!-- /ko -->*@
+                        <div class="form-group">
+                            <div class="col-lg-7">
+                                <div class="col-lg-4">
+                                    <div class="radio">
+                                        <input type="radio" value="1" id="customer" data-bind="checked: $root.isCustomerType" />
+                                        <label for="customer">Customer</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="radio">
+                                        <input type="radio" value="2" id="supplier" data-bind="checked: $root.isCustomerType" />
+                                        <label for="supplier">Supplier</label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="radio">
+                                        <input type="radio" value="0" id="prospect" data-bind="checked: $root.isCustomerType" />
+                                        <label for="prospect">Prospect</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </header>
                     <div class="main-box-body clearfix">
                         <div class="table-responsive">
@@ -21,12 +41,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @*<!-- ko template: { name: 'companySelectorItemTemplate' , foreach: companies } -->
-                                        <!-- /ko -->*@
+                                    <!-- ko template: { name: 'companyContactItemTemplate' , foreach: $root.companyContacts } -->
+                                    <!-- /ko -->
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                     <footer class="main-box-header pull-right">
                         <div id="pagerDiv">
@@ -39,17 +58,16 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-primary" data-bind="click:$root.closeContactDialog">OK</button>
             </div>
         </div>
     </div>
+    <script id="companyContactItemTemplate" type="text/html">
+        <tr data-bind="click: $root.onSelectContact">
+            <td data-bind="text:name"></td>
+        </tr>
+    </script>
 </div>
 
-<script id="companySelectorItemTemplate" type="text/html">
-    <tr data-bind="click: $root.onSelectCompany">
-        <td data-bind="text:name"></td>
-        <td data-bind="text:url"></td>
-        <td data-bind="text:creationDate"></td>
-    </tr>
-</script>
+
 

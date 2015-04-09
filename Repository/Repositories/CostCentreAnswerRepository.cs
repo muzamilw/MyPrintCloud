@@ -31,5 +31,19 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(g => g.QuestionId == QuestionId).ToList();
         }
 
+        public bool DeleteMCQsQuestionAnswerById(int MCQsQuestionAnswerId)
+        {
+            CostCentreAnswer MCQsQuestionAnswer = db.CostCentreAnswers.Where(g => g.Id == MCQsQuestionAnswerId).SingleOrDefault();
+            db.CostCentreAnswers.Remove(MCQsQuestionAnswer);
+            if (db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

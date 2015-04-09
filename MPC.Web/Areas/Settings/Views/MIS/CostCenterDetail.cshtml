@@ -1191,6 +1191,27 @@
 
                                                     <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.getQuestionsVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+                                                                <div class="dd-handle togglelink">
+                                                                    <span >Questions</span>
+                                                                </div>
+                                                                <ol data-bind="visible:$root.showQuestionVariableChildList">
+                                                                    <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
+                                                                    <!-- /ko -->
+                                                                </ol>
+                                                            </li>
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.getMatricesVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+                                                                <div class="dd-handle togglelink">
+                                                                    <span>Matrices</span>
+                                                                </div>
+                                                                <ol data-bind="visible:$root.showMatricesVariableChildList">
+                                                                    <!-- ko template: { name: 'MatricesVariableTemplate' , foreach: $root.matrixVariableNodes } -->
+                                                                    <!-- /ko -->
+                                                                </ol>
+                                                            </li>
+
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
                                                         </ol>
@@ -1265,7 +1286,7 @@
                                             <div class="table-bordered col-md-9 form-horizontal">
                                                 <div class="filter-block pull-right">
                                                     <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createWorkInstruction">
-                                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Instruction
+                                                        Add Instruction
                                                     </a>
                                                 </div>
                                                 <div class="clearfix">
@@ -1302,14 +1323,13 @@
     <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
 
         <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems"><i class="fa fa-bars"></i></div>
-        <div class="dd-handle">
+        <div class="dd-handle togglelink">
             <span data-bind="text: Text"></span>
         </div>
-        @*<ol>
-            <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
-            <!-- /ko -->
-        </ol>*@
+
+
     </li>
+    
 </script>
 <script id="WorkInstructionTemplate" type="text/html">
     <tr>
@@ -1344,7 +1364,7 @@
             </span>
         </a>
         <a href="#" class="btn btn-primary pull-right" data-bind="click: $root.createWorkInstructionChoice">
-            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Choice
+            Add Choice
         </a>
     </div>
 
@@ -1394,12 +1414,10 @@
 <script id="QuestionVariableTemplate" type="text/html">
     <ol class="dd-list">
         <li class="dd-item dd-item-list" >
-            <div class="dd-handle-list">
-                <i class="fa fa-bars"> </i>
-            </div>
+            <div class="dd-handle-list"> <i class="fa fa-bars"> </i> </div>
             <div class="dd-handle">
-                <span data-bind="text:questionstring"></span>
-                @*<span class="AddEditQuestion" style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="text:questionstring,drag: $root.dragged,click: function() { $root.addVariableToInputControl()}"><input type="hidden" id="str" data-bind="value:variablestring" /></span>*@
+                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: Id}">
+                </span>
                 <div class="nested-links">
                 </div>
             </div>
@@ -1407,19 +1425,32 @@
     </ol>
 </script>
 
+<script id="MatricesVariableTemplate" type="text/html">
+    <ol class="dd-list">
+        <li class="dd-item dd-item-list">
+            <div class="dd-handle-list">
+                <i class="fa fa-bars"> </i>
+            </div>
+            <div class="dd-handle">
+                @*<span class="AddEditMatrices" data-bind="text:Name,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: MatrixId}">
+                </span>*@
+                <div class="nested-links">
+                </div>
+            </div>
+        </li>
+    </ol>
+</script>
 <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
     <li><a tabindex="-1" data-bind="click:$root.addQuestionVariable">Add</a></li>
-    <li><a tabindex="-1" data-bind="click:$root.addVariableToInputControl">Edit</a></li>
-    <li><a tabindex="-1" href="#">Delete</a></li>
-    <li class="divider"></li>
-    <li><a tabindex="-1" href="#">Separated link</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.OnEditQuestionVariable">Edit</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.DeleteQuestionVariable">Delete</a></li>
+   
 </ul>
 <script src="http://mpc/Scripts/jquery.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         (function ($, window) {
-
             $.fn.contextMenu = function (settings) {
 
                 return this.each(function () {
@@ -1435,8 +1466,8 @@
                             .show()
                             .css({
                                 position: "absolute",
-                                left: getLeftLocation(e),
-                                top: getTopLocation(e)
+                                left: getLeftLocation(e)-50,
+                                top: getTopLocation(e)+5
                             })
                             .off('click')
                             .on('click', function (e) {
