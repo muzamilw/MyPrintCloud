@@ -4,28 +4,6 @@
             <div class="col-lg-12">
             </div>
         </div>
-        <div class="col-lg-12">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="clearfix">
-                        <div class="pull-left validationSummaryContainer">
-                            <a class="validationSummaryLink" data-bind="visible: $root.errorList().length > 0, bootstrapPopover: { html: true, title: 'Please fix following errors', elementNode: 'validationSummaryPopup', popoverId: 'validationSummaryPopoverBody' }" style="display: none">Validation Errors</a>
-                            @* ReSharper disable UnknownCssClass *@
-                            <div class="well well-small validationSummaryModal" id="validationSummaryPopup" style="display: none">
-                                @* ReSharper restore UnknownCssClass *@
-                                <div id="validationSummaryPopoverBody">
-                                    <ul data-bind="foreach: $root.errorList">
-                                        <li>
-                                            <a data-bind="click: $root.gotoElement.bind($data.element)"><span data-bind="text: name"></span></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row" id="user-profile" data-bind="with: $root.selectedSection">
 
             <div class="col-lg-12">

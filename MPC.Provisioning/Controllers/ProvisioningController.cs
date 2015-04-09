@@ -178,8 +178,8 @@ namespace MPC.Provisioning.Controllers
                             {
                                 StreamReader reader = new StreamReader(stream);
                                 string text = reader.ReadToEnd();
-                                //if (text != "true")
-                                //    throw new Exception("Failed to import store");
+                                if (text != "true")
+                                    throw new Exception("Failed to import store");
 
                                
                             }
