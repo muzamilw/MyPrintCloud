@@ -40,6 +40,9 @@
                 <section class="layer  resultLayoutsScroller ">
                     <div class="innerDesigner">
                         <div class="searchGroup hasContent templateListULSG">
+                            <ul class="textControls">
+                                <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor" id="a1" style="font-size: 159%;">Select Design</a></li>
+                            </ul>
                             <div class="gallery infoPanelGallery templateGallery templateListUL">
                             </div>
 
@@ -96,7 +99,7 @@
                                     <a class=" SampleBtn btntxt btnAShapes" id=" ">Add Shapes</a>
                                 </li>
                                 <li>
-                                    <a class=" SampleBtn btntxt " id=" ">Add QR Code</a>
+                                    <a class=" SampleBtn btntxt btnQRCode " id=" ">Add QR Code <br /> (Coming soon)</a>
                                 </li>
                                 @*<li style="width: 109px; left: 0px; top: 0px;" class="AddBLr1c2">
                 <a title="Add text" class="btnAtext">
@@ -133,17 +136,20 @@
 
                                 <div class="inlineFolderGroup searchGroup hasContent" style="border-bottom: none;">
                                     <button class="btnBackFromTxt bkbtnIphone">Add</button>
-                                    Back to Add
+                                    Back to Add Menu
 
                                     <ul class=" textControls">
                                         <li class="ThemeColor">
-                                            <textarea name="txtareaAddTxt" id="txtareaAddTxt" placeholder="Add text to template" class="qTextInput" maxlength="500" style="height: 190px;"></textarea>
+                                            <textarea name="txtareaAddTxt" id="txtareaAddTxt" placeholder="Add text to Canvas" class="qTextInput" maxlength="500" style="height: 190px;"></textarea>
 
                                         </li>
                                         <li>
-                                            <a class=" SampleBtn btntxt" id="btnAddheading">Add heading</a>
-                                            <a class=" SampleBtn btntxt" id="btnAddSubtitle">Add as subtitle</a>
-                                            <a class=" SampleBtn btntxt" id="btnaddbody">Add as body</a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnAddheading">
+                                                Add heading
+                                                <br /> (20 pts.)
+                                            </a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnAddSubtitle">Add as subtitle<br /> (16 pts.)</a>
+                                            <a class=" SampleBtn btntxt btntxtBoxes" id="btnaddbody">Add as body <br /> (10 pts.)</a>
                                             </li>
                                         <li>
                                             <a class=" SampleBtn btntxt" id="" style="display:none !important;">CRM</a>
@@ -223,7 +229,7 @@
                                     <div class="innerDesigner">
                                         <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
                                             <div class="ulImagesSecTop">
-                                                <button class="btnBackFromImgs bkbtnIphone">Add</button>Back to Add
+                                                <button class="btnBackFromImgs bkbtnIphone">Add</button>Back to Add Menu
                                                 <ul class="textControls ulImagesSecTop" style="height: 129px;">
                                                     <li class="userImgControls">
                                                         <a class=" SampleBtn btntxt btnFreeImgs" id=" ">Free Images</a>
@@ -271,7 +277,7 @@
                                                     <div class="inlineFolderGroup searchGroup hasContent" style="border-top: none; padding-top: 0px;">
                                                         <button class="btnBackGlImgs bkbtnIphone">Images</button>
                                                         Back to Images
-                                                        <input type="text" placeholder="Search 1,000,000 images…" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
+                                                        <input type="text" placeholder="Search image bank" autocomplete="off" id="inputSearchTImg" class="searchBtn" />
                                                         <ul class="gallery infoPanelGallery photoGallery listDamImages divGlobImgContainer" id="divGlobImgContainer"></ul>
                                                     </div>
                                                 </section>
@@ -329,7 +335,7 @@
                                     <div class="innerDesigner">
                                         <div class="inlineFolderGroup searchGroup hasContent browseCategories ImgsBrowserCategories " style="overflow: visible; border-bottom: none;">
                                             <div class="ulImagesSecTop">
-                                                <button class="btnBackFromShapes bkbtnIphone">Add</button>Back to Add
+                                                <button class="btnBackFromShapes bkbtnIphone">Add</button>Back to Add Menu
                                                 <ul class="textControls ulImagesSecTop" style="height: 129px;">
                                                     <li>
                                                         <a class=" SampleBtn btntxt CustomRectangleObj" id="">Rectangle</a>
@@ -378,6 +384,7 @@
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="uploadBackgroundMn">Upload<br /> Background</a>
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
                                 </li>
+                                <p class="uploadBkLbl">Recommended 300 dpi CMYK JPeg or PDF files.</p>
                                 @*<li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
                                     <a title="Free Backgrounds" class="freeBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -457,7 +464,7 @@
                                                     <li class="colorOption" style="background-color: #04B14B"><a href="#" onclick="f2(75,0,100,0,'#04B14B','Green');">#04B14B</a></li>
                                                     <li class="colorOption" style="background-color: #034EA2"><a href="#" onclick='f2(100,82,0,2,"#034EA2","Reflex Blue");'>#034EA2</a></li>
                                                     <li class="colorOption" style="background-color: #EE2B76"><a onclick='f2(0,92,18,0,"#EE2B76","Pink 213");'>#EE2B76</a></li>
-                                                    <li class="picker" style="display: inline-block;"><a id="AddBkColorRetailNew">Add a color</a></li>
+                                                    <li class="picker" style="display: inline-block;"><a id="AddBkColorRetailNew" >Add a color</a></li>
                                                 </menu>
                                             </div>
                                         </div>
@@ -514,7 +521,7 @@
                                     <input type="text" name="InputImgDescription" id="InputImgDescription" class="qTextInput" placeholder="Image Description" maxlength="500" />
                                 </div>
                                 <div class="pnlImgBank">
-                                    <div class="ImgLbl" style="">Image </div>
+                                    <div class="ImgLbl" style="">Image Thumbnail</div>
                                     <img id="ImgDAMDetail" src="" />
                                 </div>
 
@@ -524,7 +531,7 @@
                                 </div>
                                 <div class="divImageTypes">
 
-                                    <div class="ImgLbl" style="">Image Type</div>
+                                    <div class="ImgLbl" style="">Image Category</div>
                                     <div class="radioBtnRow">
                                         <input id="radioImagePicture" type="radio" name="imageTypes" checked="checked" value="Picture" />
                                         <label for="radioImagePicture" id="Label2">
@@ -691,7 +698,7 @@
                                     <div class="DivBlockWithNoHeight vertLine"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox"> Make Overlay Layer</p>  </div>
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox"> Make Object appear on Overlay Layer</p>  </div>
                                         <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayImg" checked="">
                                             <label class="onoffswitch-label" for="chkboxOverlayImg">
@@ -701,7 +708,7 @@
                                         </div>
                                     </div>
                                     <div class="propertyPanelControlDiv adminControl">
-                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Do not Print this Object On PDF </p></div>
                                         <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintImage" checked="">
                                             <label class="onoffswitch-label" for="BtnPrintImage" id="lblBtnPrintImage">
@@ -874,7 +881,7 @@
                                 </div>
                                 <div class="DivBlockWithNoHeight vertLine"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                    <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Overlay Layer </p> </div>
+                                    <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Object appear on Overlay Layer </p> </div>
                                     <div class="onoffswitch" >
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="chkboxOverlayTxt" checked="">
                                         <label class="onoffswitch-label" for="chkboxOverlayTxt">
@@ -884,7 +891,7 @@
                                     </div>
                                 </div>
                                 <div class="propertyPanelControlDiv adminControl">
-                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Print Object On PDF </p></div>
+                                    <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Do not Print this Object On PDF </p></div>
                                     <div class="onoffswitch">
                                         <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="BtnPrintObj" checked="">
                                         <label class="onoffswitch-label" for="BtnPrintObj">
@@ -1030,12 +1037,14 @@
             <canvas id="canvas">
                 Your browser does not support the canvas.Please upgrade to latest browser supporting HTML5.
             </canvas>
-
+            <div class="dimentionsContainer">
+                <span class="dimentionsBC"></span>
+            </div>
         </section>
     </section>
 
     <section id="editorControls">
-        <a id="editorLogo" href="#" class=""><span id="editorLogoImage">Proof</span></a>
+        <a id="editorLogo" href="#" class="" title="Click to save"><span id="editorLogoImage">Next</span></a>
 
         <div id="documentTitleAndMenu" class="">
             <menu id="mainTopMenu" class="documentMenu">
@@ -1048,7 +1057,7 @@
                 </li>
 
                 <li id="documentMenuCopy" class="mainMenuItem">
-                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy"></button>
+                    <button class="buttonDesigner" id="btnMenuCopy" title="Copy Selected Objects"></button>
                 </li>
                 <li id="documentMenuPaste" class="mainMenuItem">
                     <button class="buttonDesigner" id="btnMenuPaste" title="Paste"></button>
@@ -1072,9 +1081,7 @@
             <h1 id="documentTitle" spellcheck="false" title="Click to rename your design">
                 <input type="text" value="Untitled design" style="width: 300px;" id="txtTemplateTitle" />
             </h1>
-            <div class="dimentionsContainer">
-                <span class="dimentionsBC"></span>
-            </div>
+            
 
         </section>
 
@@ -1083,12 +1090,12 @@
 </section>
 <section id="MainLoader" class="dialogContainer dialogProof">
     <div class="mask on"></div>
-    <div class="dialog" style="top: 93.5px; height: 184px;">
-        <h2>Preparing your Template…</h2>
+    <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
+        <h2 id="loaderTitleMsg">Loadinng design onto the canvas.</h2>
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
+                <p id="paraLoaderMsg" style="display:none;">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
             </div>
         </div>
     </div>
@@ -1225,14 +1232,14 @@
         </div>
         <div class="DivTitleLbl">
             <label class="lblGroupProperties titletxt">
-                Group Properties
-            </label>
-        </div>
-        <div class="AlignObjsDiv">
-            <label class="largeText panelTextPropertyRow  ">
                 Align Objects
             </label>
         </div>
+        @*<div class="AlignObjsDiv">
+            <label class="largeText panelTextPropertyRow  ">
+                Align Objects
+            </label>
+        </div>*@
         <div>
             <button id="BtnAlignObjLeft"></button>
             <button id="BtnAlignObjCenter"></button>
@@ -1269,8 +1276,9 @@
                 <menu class="crop CroptoolBar underneath" style="transform: translate3d(-3px, -47px, 0px);">
                     <li class="enabled confirmationToolbarOk"><a class="cropButton">Ok</a></li>
                     <li class="enabled confirmationToolbarCancel"><a onclick="pcl20_newCropCls();">Cancel</a></li>
+                    
                 </menu>
-
+                <span class="cropToolCaption">Pan and scale image to crop insight image frame.</span>
                 <img class="cropimage" alt="" src="" cropwidth="200" cropheight="200" />
 
                 <div class="overlayHoverboxContainer"></div>
@@ -1289,11 +1297,11 @@
     <div id="PreviewerContainerDesigner" class="ui-corner-all propertyPanel">
         <a class="PreviewerDownloadImg" onclick="k9_im()" target="_blank">Download Image </a>
         <a class="PreviewerDownloadPDF" onclick="k9()" target="_blank">Download PDF </a>
-        <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()">
+        <div class="PreviewerContainerDesignerClose buttonDesigner previewfontStyles" onclick="e6()" title="Back to designer">
             Close
         </div>
         <div class="previewerTitle">
-            <span class="lightGray">Preview :</span>
+            <span class="lightGray">Approval for</span>
         </div>
         <div class="sliderLine">
         </div>
@@ -1322,7 +1330,7 @@
                     </div>
                 </div>
                 <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                    NEXT
+                    Progress to options
                 </button>
             </div>
         </div>
