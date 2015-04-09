@@ -1191,6 +1191,27 @@
 
                                                     <div style="padding-right: 5px;width:auto;padding-bottom:10px;max-height:700px;overflow-y:scroll;" id="nestable2">
                                                         <ol class="dd-list">
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.getQuestionsVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+                                                                <div class="dd-handle togglelink">
+                                                                    <span >Questions</span>
+                                                                </div>
+                                                                <ol data-bind="visible:$root.showQuestionVariableChildList">
+                                                                    <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
+                                                                    <!-- /ko -->
+                                                                </ol>
+                                                            </li>
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.getMatricesVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+                                                                <div class="dd-handle togglelink">
+                                                                    <span>Matrices</span>
+                                                                </div>
+                                                                <ol data-bind="visible:$root.showMatricesVariableChildList">
+                                                                    <!-- ko template: { name: 'MatricesVariableTemplate' , foreach: $root.matrixVariableNodes } -->
+                                                                    <!-- /ko -->
+                                                                </ol>
+                                                            </li>
+
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->
                                                             <!-- /ko -->
                                                         </ol>
@@ -1299,19 +1320,14 @@
     </div>
 </div>
 <script id="costCenterVariableTree" type="text/html">
-    <li class="dd-item dd-item-list">
+    <li class="dd-item dd-item-list" data-bind="attr: {id: Id}">
 
-        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildItems"><i class="fa fa-bars"></i></div>
+        <div class="dd-handle-list" data-bind="click: $root.getVariableTreeChildListItems"><i class="fa fa-bars"></i></div>
         <div class="dd-handle togglelink">
             <span data-bind="text: Text"></span>
         </div>
-        
-        <ol data-bind="with:Id===4, visible:$root.showQuestionVariableChildList">
-            <!-- ko template: { name: 'QuestionVariableTemplate' , foreach: $root.questionVariableNodes } -->
-            <!-- /ko -->
-        </ol>
-       
-       
+
+
     </li>
     
 </script>
@@ -1398,12 +1414,9 @@
 <script id="QuestionVariableTemplate" type="text/html">
     <ol class="dd-list">
         <li class="dd-item dd-item-list" >
-            <div class="dd-handle-list">
-                <i class="fa fa-bars"> </i>
-            </div>
+            <div class="dd-handle-list"> <i class="fa fa-bars"> </i> </div>
             <div class="dd-handle">
-                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.dragged, click: $root.OnEditQuestionVariable, attr: {id: Id}">
-                    @*<input type="hidden" id="str" data-bind="value:VariableString" />*@
+                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: Id}">
                 </span>
                 <div class="nested-links">
                 </div>
@@ -1412,6 +1425,21 @@
     </ol>
 </script>
 
+<script id="MatricesVariableTemplate" type="text/html">
+    <ol class="dd-list">
+        <li class="dd-item dd-item-list">
+            <div class="dd-handle-list">
+                <i class="fa fa-bars"> </i>
+            </div>
+            <div class="dd-handle">
+                @*<span class="AddEditMatrices" data-bind="text:Name,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: MatrixId}">
+                </span>*@
+                <div class="nested-links">
+                </div>
+            </div>
+        </li>
+    </ol>
+</script>
 <ul id="contextMenu" class="dropdown-menu" role="menu" style="display:none">
     <li><a tabindex="-1" data-bind="click:$root.addQuestionVariable">Add</a></li>
     <li><a tabindex="-1" data-bind="click:$root.OnEditQuestionVariable">Edit</a></li>

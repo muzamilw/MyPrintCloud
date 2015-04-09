@@ -452,6 +452,7 @@
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />

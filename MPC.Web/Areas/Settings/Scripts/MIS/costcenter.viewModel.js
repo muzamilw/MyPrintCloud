@@ -36,6 +36,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             selectedVariableString = ko.observable(),
             CurrencySymbol = ko.observable(),
             showQuestionVariableChildList = ko.observable(0),
+            showMatricesVariableChildList = ko.observable(0),
             // Cost Center Categories
             costCenterCategories = ko.observableArray([]),
             workInstructions = ko.observableArray([]),
@@ -48,8 +49,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             variablesTreePrent = ko.observableArray([
             { Id: 2, Text: 'Variables' },
-            { Id: 4, Text: 'Questions' },
-            { Id: 5, Text: 'Matrices' },
+            //{ Id: 4, Text: 'Questions' },
+            //{ Id: 5, Text: 'Matrices' },
             { Id: 6, Text: 'Lookup' },
             { Id: 7, Text: 'Stock Items' }
             ]),
@@ -84,8 +85,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 29, Text: 'STANDARD_OVERNIGHT' }
             ]),
 
-            getVariableTreeChildItems = function (Selecteddata) {
-                if (Selecteddata.Id == 4) {
+            getQuestionsVariableTreeChildItems = function (Selecteddata) {
+                //if (Selecteddata.Id == 4) {
                     if (questionVariableNodes().length > 0) {
                         if (showQuestionVariableChildList() == 1) {
                             showQuestionVariableChildList(0);
@@ -95,7 +96,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
                     } else {
                         dataservice.GetTreeListById({
-                            id: Selecteddata.Id,
+                            id: 4,
                         }, {
                             success: function (data) {
                                 questionVariableNodes.removeAll();
@@ -113,9 +114,40 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         });
                     }
 
-                }
+                //}
 
             },
+            getMatricesVariableTreeChildItems = function (Selecteddata) {
+                if (matrixVariableNodes().length > 0) {
+                    if (showMatricesVariableChildList() == 1) {
+                        showMatricesVariableChildList(0);
+                    } else {
+                        showMatricesVariableChildList(1);
+                    }
+
+                } else {
+                    dataservice.GetTreeListById({
+                        id: 5,
+                    }, {
+                        success: function (data) {
+                            matrixVariableNodes.removeAll();
+                            _.each(data.MatricesVariables, function (item) {
+                                matrixVariableNodes.push(model.matrixVariable(item));
+                            });
+                            showMatricesVariableChildList(1);
+                            view.showAddEditQuestionMenu();
+
+                        },
+                        error: function () {
+                            toastr.error("Failed to load matrix variables tree data.");
+                        }
+                    });
+                }
+
+                //}
+
+            },
+
             getVariableTreeChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').children('li').length > 0) {
@@ -125,28 +157,6 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         $(event.target).closest('li').children('ol').hide();
                     }
                     return;
-                }
-                if (id == 1) {
-                    dataservice.GetTreeListById({
-                        id: id,
-                    }, {
-                        success: function (data) {
-                            //CostCenterVariables
-                            costcenterVariableNodes.removeAll();
-                            ko.utils.arrayPushAll(costcenterVariableNodes(), data.CostCenterVariables);
-                            costcenterVariableNodes.valueHasMutated();
-
-                            _.each(costcenterVariableNodes(), function (ccType) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list"  id =' + ccType.TypeId + '> <div class="dd-handle-list" data-bind="click: $root.getCostcenterByCatId"><i class="fa fa-bars"></i></div><div class="dd-handle"><span >' + ccType.TypeName + '</span><div class="nested-links"></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + ccType.TypeId)[0]);
-                            });
-
-                        },
-                        error: function () {
-                            toastr.error("Failed to load variables tree data.");
-                        }
-                    });
-
                 }
                 if (id == 2) {
                     dataservice.GetTreeListById({
@@ -191,27 +201,6 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         }
                     });
 
-                }
-                if (id == 4) {
-                    dataservice.GetTreeListById({
-                        id: id,
-                    }, {
-                        success: function (data) {
-                            //Questions Variables
-                            $("#4").children('ol').remove();
-                            questionVariableNodes.removeAll();
-                            ko.utils.arrayPushAll(questionVariableNodes(), data.QuestionVariables);
-                            questionVariableNodes.valueHasMutated();
-                            _.each(questionVariableNodes(), function (question) {
-                                $("#" + id).append('<ol class="dd-list"> <li class="dd-item dd-item-list" id =' + question.Id + '> <div class="dd-handle-list"><i class="fa fa-bars"></i></div><div class="dd-handle"><span class="AddEditQuestion" id =' + question.Id + ' style="cursor: move;z-index: 1000" title="Drag variable to create string" data-bind="drag: $root.dragged,click: function() { $root.addVariableToInputControl(&quot;' + question.Id + "," + question.QuestionString + "," + question.Type + "," + question.DefaultAnswer + '&quot;)}">' + question.QuestionString + '<input type="hidden" id="str" value="' + question.VariableString + '" /></span><div class="nested-links" ></div></div></li></ol>');
-                                ko.applyBindings(view.viewModel, $("#" + question.Id)[0]);
-                            });
-                            view.showAddEditQuestionMenu();
-                        },
-                        error: function () {
-                            toastr.error("Failed to load variables tree data.");
-                        }
-                    });
                 }
                 if (id == 5) {
                     dataservice.GetTreeListById({
@@ -359,12 +348,22 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             }
             // Returns the item being dragged source.$data.VariableString
-            dragged = function (source, event) {
+            draggedQuestion = function (source, event) {
                 if (event != undefined) {
                     return {
                         row: source.$parent,
                         widget: source.$data,
                         html: source.$data.VariableString().replace(/&quot;/g, '"') // event.currentTarget.children[0].value
+                    };
+                }
+                return {};
+            },
+            dragged = function (source, event) {
+                if (event != undefined) {
+                    return {
+                        row: source.$parent,
+                        widget: source.$data,
+                        html: event.currentTarget.children[0].value
                     };
                 }
                 return {};
@@ -1012,12 +1011,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 CurrencySymbol: CurrencySymbol,
                 addQuestionVariable: addQuestionVariable,
                 DeleteQuestionVariable: DeleteQuestionVariable,
-                getVariableTreeChildItems: getVariableTreeChildItems,
+                getQuestionsVariableTreeChildItems: getQuestionsVariableTreeChildItems,
                 showQuestionVariableChildList: showQuestionVariableChildList,
                 OnEditQuestionVariable: OnEditQuestionVariable,
                 OnDeleteAnswerStringofQuestionVariable: OnDeleteAnswerStringofQuestionVariable,
                 saveNewQuestionVariable: saveNewQuestionVariable,
-                saveEditedQuestionVariable: saveEditedQuestionVariable
+                saveEditedQuestionVariable: saveEditedQuestionVariable,
+                draggedQuestion: draggedQuestion,
+                getMatricesVariableTreeChildItems: getMatricesVariableTreeChildItems,
+                showMatricesVariableChildList: showMatricesVariableChildList
             };
         })()
     };
