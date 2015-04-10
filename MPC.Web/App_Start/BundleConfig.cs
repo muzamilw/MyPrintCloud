@@ -89,7 +89,8 @@ namespace MPC.MIS
                 .Include("~/Content/CSS/toastr.css")
                 .Include("~/Content/colorpicker.css")
                 .Include("~/Content/CSS/spectrum.css")
-                .Include("~/RichTextEditor/skins/moono/editor.css"));
+                .Include("~/RichTextEditor/skins/moono/editor.css")
+                .Include("~/Content/CSS/custom.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                 "~/Content/themes/base/jquery.ui.core.css",
