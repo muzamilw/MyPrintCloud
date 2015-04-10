@@ -87,7 +87,7 @@ namespace MPC.MIS
             ChangeMvcConfiguration();
             AreaRegistration.RegisterAllAreas();
 
-            BundleTable.EnableOptimizations = true;//!HttpContext.Current.IsDebuggingEnabled;
+            BundleTable.EnableOptimizations = !HttpContext.Current.IsDebuggingEnabled;
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
