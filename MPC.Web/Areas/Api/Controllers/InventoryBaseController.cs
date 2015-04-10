@@ -41,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Inventory Base Data
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public InventoryBaseResponse Get()
         {
             if (!ModelState.IsValid)

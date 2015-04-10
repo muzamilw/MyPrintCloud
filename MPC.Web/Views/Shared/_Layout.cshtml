@@ -11,7 +11,17 @@
     </script>
 
     @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
-    @Styles.Render("~/Bundle/AppLess")
+    
+    @* If Debuggin is Enabled then pick css *@
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+        <link href="~/Content/less/MainSite.css" rel="stylesheet" />
+    }
+    else
+    {
+        @Styles.Render("~/Bundle/AppLess")
+    }
+    
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
     <link type="image/x-icon" href="favicon.png" rel="shortcut icon" />

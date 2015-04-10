@@ -17,6 +17,7 @@ using MPC.Models.LoggerModels;
 using MPC.WebBase.UnityConfiguration;
 using UnityDependencyResolver = MPC.WebBase.UnityConfiguration.UnityDependencyResolver;
 using System.Web;
+using MPC.WebBase.WebApi;
 
 
 namespace MPC.MIS
@@ -87,7 +88,7 @@ namespace MPC.MIS
             ChangeMvcConfiguration();
             AreaRegistration.RegisterAllAreas();
 
-            BundleTable.EnableOptimizations = true;//!HttpContext.Current.IsDebuggingEnabled;
+            BundleTable.EnableOptimizations = !HttpContext.Current.IsDebuggingEnabled;
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

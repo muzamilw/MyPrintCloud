@@ -8,89 +8,97 @@ define("crm/contacts.viewModel",
         ist.contacts = {
             viewModel: (function () {
                 var //View
-                view,
-                // Search filter 
-                searchFilter = ko.observable(),
-                // Customers array for list view
-                companyContactsForListView = ko.observableArray(),
-                // address list
-                bussinessAddresses = ko.observableArray(),
-                 // address list
-                shippingAddresses = ko.observableArray(),
-                // company Territories array for list view
-                contactCompanyTerritoriesFilter = ko.observableArray(),
-                // Roles list
-                roles = ko.observableArray(),
-                // Registration questions
-                registrationQuestions = ko.observableArray(),
-                // Pager for pagging
-                pager = ko.observable(),
-                // Sort On
-                sortOn = ko.observable(1),
-                // selected Bussiness Address
-                selectedBussinessAddressId = ko.observable(),
-                 // selected Shipping Address
-                selectedShippingAddressId = ko.observable(),
-                 // Sort In Ascending
-                sortIsAsc = ko.observable(true),
-                selectedBussinessAddress = ko.observable(),
-                selectedShippingAddress = ko.observable(),
-                //Addresses to be used in store users shipping and billing address
-                allCompanyAddressesList = ko.observableArray([]),
-                // Selected Company
-                selectedCompanyContact = ko.observable(),
-                // Selected Role Id
-                contactRoleId = ko.observable(true),
-                // list of state
-                states = ko.observableArray(),
-                // Gets customers for list view
-                getCompanyContacts = function() {
-                    dataservice.getContactsForListView({
-                        SearchFilter: searchFilter(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    },
-                    {
-                        success: function (data) {
-                            if (data != null) {
-                                companyContactsForListView.removeAll();
-                                pager().totalCount(data.RowCount);
-                                _.each(data.CompanyContacts, function (customer) {
-                                    var contactModel = new model.CompanyContact.Create(customer);
-                                    companyContactsForListView.push(contactModel);
-                                });
-                            }
+                    view,
+                    // Search filter 
+                    searchFilter = ko.observable(),
+                    // Customers array for list view
+                    companyContactsForListView = ko.observableArray(),
+                    // address list
+                    bussinessAddresses = ko.observableArray(),
+                    // address list
+                    shippingAddresses = ko.observableArray(),
+                    // company Territories array for list view
+                    contactCompanyTerritoriesFilter = ko.observableArray(),
+                    // Roles list
+                    roles = ko.observableArray(),
+                    // Registration questions
+                    registrationQuestions = ko.observableArray(),
+                    // Pager for pagging
+                    pager = ko.observable(),
+                    // Sort On
+                    sortOn = ko.observable(1),
+                    // selected Bussiness Address
+                    selectedBussinessAddressId = ko.observable(),
+                    // selected Shipping Address
+                    selectedShippingAddressId = ko.observable(),
+                    // Sort In Ascending
+                    sortIsAsc = ko.observable(true),
+                    selectedBussinessAddress = ko.observable(),
+                    selectedShippingAddress = ko.observable(),
+                    //Addresses to be used in store users shipping and billing address
+                    allCompanyAddressesList = ko.observableArray([]),
+                    // Selected Company
+                    selectedCompanyContact = ko.observable(),
+                    // Selected Role Id
+                    contactRoleId = ko.observable(true),
+                    // list of state
+                    states = ko.observableArray(),
+                    // Gets customers for list view
+                    getCompanyContacts = function () {
+                        dataservice.getContactsForListView({
+                            SearchFilter: searchFilter(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
                         },
-                        error: function() {
-                            toastr.error("Error: Failed To load Customers!");
-                        }
-                    });
+                        {
+                            success: function (data) {
+                                if (data != null) {
+                                    companyContactsForListView.removeAll();
+                                    pager().totalCount(data.RowCount);
+                                    _.each(data.CompanyContacts, function (customer) {
+                                        var contactModel = new model.CompanyContact.Create(customer);
+                                        companyContactsForListView.push(contactModel);
+                                    });
+                                }
+                            },
+                            error: function () {
+                                toastr.error("Error: Failed To load Customers!");
+                            }
+                        });
+                    },
+                    afterSaveForCalendarActivity = null,
+                addContact = function (afterSaveCallback, companyId) {
+                    afterSaveForCalendarActivity = afterSaveCallback;
+                    selectedCompanyContact(model.CompanyContact());
+                    selectedCompanyContact().companyId(companyId);
+                    getContactDetail(selectedCompanyContact());
+                    view.showCompanyContactDetailDialog();
                 },
                 // Search button handler
-                searchButtonHandler = function () {
+                searchButtonHandler = function (callback) {
                     getCompanyContacts();
                 },
                 // Reset button handler
-                resetButtonHandler=function() {
+                resetButtonHandler = function () {
                     searchFilter(null);
                     getCompanyContacts();
                 },
                 // Delete Contact button Handler 
-                deleteContactbuttonHandler = function(contact) {
+                deleteContactbuttonHandler = function (contact) {
                     // Ask for confirmation
-                    confirmation.afterProceed(function() {
+                    confirmation.afterProceed(function () {
                         dataservice.deleteContact({
                             CompanyContactId: contact.contactId(),
                         },
                         {
                             success: function () {
                                 companyContactsForListView.remove(contact);
-                                pager().totalCount( pager().totalCount()-1);
+                                pager().totalCount(pager().totalCount() - 1);
                                 toastr.success("Contact successfuly deleted!");
                             },
-                            error: function() {
+                            error: function () {
                                 toastr.error("Error: Failed To delete Contact!");
                             }
                         });
@@ -180,7 +188,7 @@ define("crm/contacts.viewModel",
 
                     });
                     confirmation.show();
-                    
+
                 },
                 getContactDetail = function (contact) {
                     dataservice.getContactsDetail({ companyId: contact.companyId() },
@@ -224,7 +232,7 @@ define("crm/contacts.viewModel",
                                     selectedCompanyContact(contact);
                                 }
                             },
-                            error: function() {
+                            error: function () {
                                 toastr.error("Error: Failed To load Base data!");
                             }
                         });
@@ -312,18 +320,25 @@ define("crm/contacts.viewModel",
                     });
                 },
                 // Contact save buttoin handler
-                 onSaveCompanyContact = function() {
+                 onSaveCompanyContact = function () {
                      if (doBeforeSaveCompanyContact()) {
                          dataservice.saveCompanyContact(
                              selectedCompanyContact().convertToServerData(),
                              {
-                                 success: function(data) {
+                                 success: function (data) {
                                      if (data) {
                                          toastr.success("Saved Successfully");
-                                         onCloseCompanyContact();
+                                         selectedCompanyContact().contactId(data.ContactId);
+                                         if (afterSaveForCalendarActivity && typeof afterSaveForCalendarActivity === "function") {
+                                             afterSaveForCalendarActivity(selectedCompanyContact());
+                                             view.hideCompanyContactDialog();
+                                         } else {
+                                             onCloseCompanyContact();
+                                         }
+
                                      }
                                  },
-                                 error: function(response) {
+                                 error: function (response) {
                                      toastr.error("Error: Failed To Save Contact " + response);
                                      onCloseCompanyContact();
                                  }
@@ -351,6 +366,12 @@ define("crm/contacts.viewModel",
                     return flag;
                 },
                 //Initialize
+               initializeForCalendar = function (specifiedView) {
+                   view = specifiedView;
+                   ko.applyBindings(view.viewModel, view.contactProfileBindingRoot);
+                   getBaseData();
+               },
+                //Initialize
                initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
@@ -361,8 +382,8 @@ define("crm/contacts.viewModel",
                 return {
                     initialize: initialize,
                     onSaveCompanyContact: onSaveCompanyContact,
-                    onCloseCompanyContact:onCloseCompanyContact,
-                    pager:pager,
+                    onCloseCompanyContact: onCloseCompanyContact,
+                    pager: pager,
                     searchFilter: searchFilter,
                     companyContactsForListView: companyContactsForListView,
                     searchButtonHandler: searchButtonHandler,
@@ -384,7 +405,9 @@ define("crm/contacts.viewModel",
                     states: states,
                     UserProfileImageFileLoadedCallback: UserProfileImageFileLoadedCallback,
                     allCompanyAddressesList: allCompanyAddressesList,
-                    onDeleteCompanyContact: onDeleteCompanyContact
+                    onDeleteCompanyContact: onDeleteCompanyContact,
+                    addContact: addContact,
+                    initializeForCalendar: initializeForCalendar
                 };
             })()
         };
