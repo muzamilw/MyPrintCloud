@@ -10,6 +10,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name = ko.observable(custName),
             creationdate = ko.observable(custCraetionDate),
             status = ko.observable(custStatus),
+            customerTYpe = ko.observable(undefined),
             statusClass = ko.observable(cusStatusClass),
             storeImageFileBinary = ko.observable(cusStoreImageFileBinary),
             email = ko.observable(custEmail),
@@ -43,6 +44,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             status: status,
             statusClass: statusClass,
             email: email,
+            customerTYpe:customerTYpe,
             defaultContact: defaultContact,
             defaultContactEmail:defaultContactEmail,
             storeImageFileBinary: storeImageFileBinary,
@@ -65,6 +67,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             statusClass = 'label label-default';
         if (source.Status == "Pending")
             statusClass = 'label label-warning';
+        var customerType=null;
         var customer = new customerViewListModel(
             source.CompnayId,
             source.CustomerName,
@@ -76,6 +79,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         );
         customer.defaultContact(source.DefaultContactName);
         customer.defaultContactEmail(source.DefaultContactEmail);
+        customer.customerTYpe(source.CustomerType);
         return customer;
     };
     // #endregion
