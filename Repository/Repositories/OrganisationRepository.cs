@@ -826,6 +826,7 @@ namespace MPC.Repository.Repositories
                             Mac = machine;
                             Mac.MachineId = 0;
                             Mac.OrganisationId = (int)OrganisationID;
+                            Mac.LockedBy = oldMID;
                             if(stockItems != null)
                             {
                                 long paperID = stockItems.Where(s => s.RollStandards == machine.DefaultPaperId).Select(c => c.StockItemId).FirstOrDefault();
@@ -1096,6 +1097,7 @@ namespace MPC.Repository.Repositories
                          //  import items
                          List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
                          {
@@ -1124,7 +1126,22 @@ namespace MPC.Repository.Repositories
 
                                              }
                                          }
-                                         itm.PressId = null;
+                                         if (machines != null && machines.Count > 0)
+                                         {
+                                             long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             if (MID > 0)
+                                             {
+                                                 itm.PressId = (int)MID;
+                                             }
+                                             else
+                                             {
+                                                 MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                 itm.PressId = (int)MID;
+
+
+                                             }
+                                         }
+                                         
                                          
                                      }
                                  }
@@ -2199,11 +2216,23 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.ThumbnailPath);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if(SplitMain != null)
                                 {
-                                    ItemID = SplitMain[1];
+                                    if (SplitMain[1] != string.Empty)
+                                    {
+                                        ItemID = SplitMain[1];
 
+                                    }
+                                    int i = 0;
+                                    // string s = "108";
+                                    bool result = int.TryParse(ItemID, out i);
+                                    if (!result)
+                                    {
+                                        ItemID = SplitMain[0];
+                                    }
                                 }
+                                
+
                                 OldThumbnailPath = Path.GetFileName(item.ThumbnailPath);
                                 NewThumbnailPath = OldThumbnailPath.Replace(ItemID + "_", item.ItemId + "_");
 
@@ -2249,10 +2278,20 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.ImagePath);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain != null)
                                 {
-                                    ItemID = SplitMain[1];
+                                    if (SplitMain[1] != string.Empty)
+                                    {
+                                        ItemID = SplitMain[1];
 
+                                    }
+                                    int i = 0;
+                                    // string s = "108";
+                                    bool result = int.TryParse(ItemID, out i);
+                                    if (!result)
+                                    {
+                                        ItemID = SplitMain[0];
+                                    }
                                 }
 
                                 OldImagePath = Path.GetFileName(item.ImagePath);
