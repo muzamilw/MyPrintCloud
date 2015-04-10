@@ -4130,7 +4130,17 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
 
+                            if (ObjExportCorp.Company.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportCorp.Company.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
                             // export media
 
                             if (ObjExportCorp.Company.MediaLibraries != null)
@@ -4434,7 +4444,17 @@ namespace MPC.Implementation.MISServices
 
                                 }
                             }
+                            if (ObjExportRetail.RetailCompany.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetail.RetailCompany.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
 
                             // export media
 
@@ -4771,7 +4791,17 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
 
+                            if (ObjExportCorpWOP.Company.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportCorpWOP.Company.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + CompanyIDWOP;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
                             // export media
 
                             if (ObjExportCorpWOP.Company.MediaLibraries != null)
@@ -5078,7 +5108,17 @@ namespace MPC.Implementation.MISServices
 
                                     }
                                 }
+                                if (ObjExportCorpWOP.Company.StoreBackgroundImage != null)
+                                {
+                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetailWOP.RetailCompany.StoreBackgroundImage);
+                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyIDWOP;
+                                    if (File.Exists(FilePath))
+                                    {
+                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                        r.Comment = "Background image for Store";
 
+                                    }
+                                }
 
                                 // export media
 

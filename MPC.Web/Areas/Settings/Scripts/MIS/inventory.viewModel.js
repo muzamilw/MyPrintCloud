@@ -262,8 +262,7 @@ define("inventory/inventory.viewModel",
                             });
                         }
                     }, this),
-
-                     //On select Supplier
+                    //On select Supplier
                     selectedSupplier = ko.computed(function () {
                         if (supplierVm.selectedSupplier() !== undefined) {
                             selectedInventory().supplierId(supplierVm.selectedSupplier().supplierId());

@@ -418,6 +418,7 @@ namespace MPC.Implementation.MISServices
         {
             company.CreationDate = DateTime.Now;
             company.OrganisationId = companyRepository.OrganisationId;
+            company.IsCustomer = (short) CustomerTypes.Suppliers;
 
             if (company.Addresses != null)
             {
