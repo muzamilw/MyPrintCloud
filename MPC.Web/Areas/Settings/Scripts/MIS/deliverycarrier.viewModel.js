@@ -10,41 +10,52 @@ define("deliverycarrier/deliverycarrier.viewModel",
                 var // the view 
                     view,
                     // Active
-                    deliverycarrierlist = ko.observableArray([]);
-                errorList = ko.observableArray([]),
-                deliveryselectedItemDetail = ko.observable(),
-                // #region Busy Indicators
-                isLoadingdeliverycarrier = ko.observable(false),
-                createNewDelivery = function()
+                    deliverycarrierlist = ko.observableArray([]),
+                    errorList = ko.observableArray([]),
+                    ////pagervariables
+                    //pager = ko.obervable(),
+                    //sortOn = ko.observable(1),
+                    //sortOnAsc = ko.observable(true),
+                    // #region Busy Indicators
+                    editorViewModel = new ist.ViewModel(model.DeliveryCarrier),
+                    //Selected Paper Sheet
+                    selectedCarrier = editorViewModel.itemForEditing,
+                    isLoadingdeliverycarrier = ko.observable(false),
+
+                createNewDeliveryDialog = function ()
                 {
+                    var deliverycarrier = new model.DeliveryCarrier();
+                    editorViewModel.selectItem(deliverycarrier);
                     openDialog();
                 },
-                openDialog = function()
+                openDialog = function ()
                 {
                     view.showDeliveryCarrierDialog();
-                }
-               
+                },
                 // #endregion Busy Indicators
                 // #region Observables
                 // Initialize the view model
-                initialize = function (specifiedView) {
+                initialize = function (specifiedView)
+                {
                     view = specifiedView;
                     ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //pager(pagination.Pagination({ PageSize: 10 }, deliverycarrierlist, getPaperSheets));
                     getBase();
-
-
                 },
                 //Get DeliveryCarrier
                 getBase = function (callBack) {
                     isLoadingdeliverycarrier(true);
                     dataservice.getDeliveryCarrierDetail({
-                        success: function (data) {
-                            // getPrefixByOrganisationId();
-                            if (data != null) {
-
+                        success: function (data)
+                        {
+                            if (data != null)
+                            {
                                 deliverycarrierlist.removeAll();
-                                ko.utils.arrayPushAll(deliverycarrierlist(), data);
-                                deliverycarrierlist.valueHasMutated();// Use When you Push All Data at One Time
+                                _.each(data, function (item)
+                                {
+                                    var module = model.deliverycarrierClientMapper(item);
+                                    deliverycarrierlist.push(module);
+                                });
                             }
 
                             isLoadingdeliverycarrier(false);
@@ -54,45 +65,51 @@ define("deliverycarrier/deliverycarrier.viewModel",
                         }
                     });
                 },
-                onsaveDeliveryCarrier = function (deliverycarrier) {
-                    saveDeliveryCarrier(deliverycarrier);
+               
+                openEditDialog = function (item)
+                {
+                    if (item != null)
+                    {
+                        editorViewModel.selectItem(item);
+                        openDialog();
+                    }
                 },
-                saveDeliveryCarrier = function (deliverycarrier) {
-                    dataservice.saveDeliveryCarrier(model.deliverycarrier(deliverycarrier), {
-                        success: function (data) {
+                onsaveDeliveryCarrier = function (item)
+                {
+                   saveDeliveryCarrier(item);
+                },
+                saveDeliveryCarrier = function (item) {
+                    dataservice.saveDeliveryCarrier(model.deliverycarrierServermapper(item), {
+                        success: function (data)
+                        {
+                            getBase();
                             toastr.success("Successfully save.");
                         },
-                        error: function (exceptionMessage, exceptionType) {
-
-                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
-
+                        error: function (exceptionMessage, exceptionType)
+                        {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException)
+                            {
                                 toastr.error(exceptionMessage);
-
-                            } else {
-
+                            }
+                            else
+                            {
                                 toastr.error("Failed to save.");
-
                             }
 
                         }
                     });
-                },
-               openEditDialog = function (item) {
-                   if (item != null) {
-                       deliveryselectedItemDetail(model.deliverycarrierClientMapper(item));
-                       openDialog();
-                       //view.showDeliveryCarrierDialog();
-                   }
-               };
+                };
+                
                     
                 // #endregion Service Calls
                 return {
                     // Observables
                     deliverycarrierlist: deliverycarrierlist,
-                    deliveryselectedItemDetail:deliveryselectedItemDetail,
-                    onsaveDeliveryCarrier: onsaveDeliveryCarrier,
+                    selectedCarrier: selectedCarrier,
+                    createNewDeliveryDialog: createNewDeliveryDialog,
                     openEditDialog:openEditDialog,
                     errorList: errorList,
+                    onsaveDeliveryCarrier: onsaveDeliveryCarrier,
                     // Utility Methods
                     initialize: initialize,
                     openDialog: openDialog

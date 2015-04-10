@@ -14,7 +14,7 @@
         </div>
         <div class="col-lg-12">
             <div class="pull-right">
-                <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createNewDelivery">
+                <button id="open-wizard" class="btn btn-primary pull-right" data-bind="click:$root.createNewDeliveryDialog">
                     <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Delivery Carrier
                 </button>
             </div>
@@ -50,23 +50,24 @@
     <script id="listDeliveryCarrierTemplate" type="text/html">
         <tr>
             <td>
-                <a href="#" data-bind="text:CarrierName,click:$root.openEditDialog"></a>
+                <a style="cursor:pointer;" data-bind="text:carrierName,click:$root.openEditDialog"></a>
             </td>
-            <td data-bind="text:Url"></td>
-            <td data-bind="text:ApiKey"></td>
+            <td data-bind="text:url"></td>
+            <td data-bind="text:apiKey"></td>
             <td>
-                <!-- ko if: isEnable == true -->
+                <!-- ko if: isenable() == true -->
                 <span class="label label-success">Active</span>
                 <!-- /ko -->
-                <!-- ko if: isEnable == false -->
-                <span class="label label-danger">In-Active</span>
+                <!-- ko if: isenable() == false -->
+                <span class="label label-danger">In Active</span>
                 <!-- /ko -->
             </td>
         </tr>
     </script>
+    @Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
 </div>
 
-@Html.Partial("~/Areas/Settings/Views/Home/_AddEditDeliveryCarriers.cshtml")
+
 
 @section Scripts {
      

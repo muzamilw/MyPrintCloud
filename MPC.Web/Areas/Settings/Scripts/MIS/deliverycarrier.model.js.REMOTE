@@ -1,9 +1,9 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
-    var DeliveryCarrier = function () {
+    var deliverycarrier = function () {
 
         var
             self,
-            carrierId = ko.observable(),
+            carrierId = ko.observable().extend({ required: true }),
             carrierName = ko.observable(),
             url = ko.observable(),
             apiKey = ko.observable(),
@@ -52,59 +52,35 @@
         return self;
     };
 
-    DeliveryCarrier.CreateFromClientModel = function (source) {
-        var odeliverycarrier = new DeliveryCarrier();
-        odeliverycarrier.carrierId(source.carrierId);
-        odeliverycarrier.carrierName(source.carrierName);
-        odeliverycarrier.url(source.url);
-        odeliverycarrier.apiKey(source.apiKey);
-        odeliverycarrier.apiPassword(source.apiPassword);
-        odeliverycarrier.isenable(source.isenable);
-
-        return odeliverycarrier;
-    };
-
-    var deliverycarrierServertoClientMapper = function (source) {
-        return DeliveryCarrier.Create(source);
-    };
-
-    DeliveryCarrier.Create = function (source) {
-        return new DeliveryCarrier(source.CarrierId, source.CarrierName, source.Url, source.ApiKey, source.ApiPassword, source.isEnable);
-    };
-
     var deliverycarrierClientMapper = function (source)
     {
-        var odeliverycarrier = new DeliveryCarrier();
-        odeliverycarrier.carrierId(source.CarrierId);
-        odeliverycarrier.carrierName(source.CarrierName);
-        odeliverycarrier.url(source.Url);
-        odeliverycarrier.apiKey(source.ApiKey);
-        odeliverycarrier.apiPassword(source.ApiPassword);
-        odeliverycarrier.isenable(source.isEnable);
+        var odeliverycarrier = new deliverycarrier();
+        odeliverycarrier.carrierId = ko.observable(source.CarrierId),
+        odeliverycarrier.carrierName = ko.observable(source.CarrierName),
+        odeliverycarrier.url = ko.observable(source.Url),
+        odeliverycarrier.apiKey = ko.observable(source.ApiKey),
+        odeliverycarrier.apiPassword = ko.observable(source.ApiPassword),
+        odeliverycarrier.isenable = ko.observable(source.isEnable)
         
         return odeliverycarrier;
 
     };
-    
-    var deliverycarrierServermapper = function (source)
+    var deliverycarrierServerMapper = function (source)
     {
         var result = {};
-        result.CarrierId = source.carrierId();
-        result.CarrierName = source.carrierName();
-        result.Url = source.url();
-        result.ApiKey = source.apiKey();
-        result.ApiPassword = source.apiPassword();
-        result.isEnable = source.isenable();
+        result.CarrierId = source.carrierId(),
+        result.CarrierName = source.carrierName(),
+        result.Url = source.url(),
+        result.ApiKey = source.apiKey(),
+        result.ApiPassword = source.apiPassword(),
+        result.isEnable = source.isenable()
         
         return result;
     };
 
     return {
-        DeliveryCarrier: DeliveryCarrier,
+        deliverycarrier: deliverycarrier,
         deliverycarrierClientMapper: deliverycarrierClientMapper,
-        deliverycarrierServermapper: deliverycarrierServermapper,
-        deliverycarrierServertoClientMapper: deliverycarrierServertoClientMapper
-        
-
+        deliverycarrierServerMapper: deliverycarrierServerMapper
     };
 });

@@ -40,12 +40,27 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
         public bool Post(DeliveryCarrier deliveryc)
         {
+            bool result = true; 
 
             if (deliveryc == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return _deliveryCarrierService.Add(deliveryc.CreateFrom());
+
+            if(deliveryc.CarrierId > 0 )
+            { 
+                result = _deliveryCarrierService.Update(deliveryc.CreateFrom());
+            }
+            else
+            {
+                if(deliveryc.isEnable == null)
+                {
+                    deliveryc.isEnable = false;
+                }
+                result = _deliveryCarrierService.Add(deliveryc.CreateFrom());
+            }
+
+            return result;
         
         }
 
