@@ -31,6 +31,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Addresses and Territories Of "Company Contact's company"
         /// </summary>
         [ApiAuthorize(AccessRights = new[] {SecurityAccessRight.CanViewContact})]
+        [CompressFilterAttribute]
         public CrmContactResponse Get([FromUri] CompanyContactRequestModel request)
         {
             var response = companyContactService.SearchAddressesAndTerritories(request);

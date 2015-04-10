@@ -35,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
+        [CompressFilterAttribute]
         public CrmBaseResponse Get()
         {
             if (!ModelState.IsValid)

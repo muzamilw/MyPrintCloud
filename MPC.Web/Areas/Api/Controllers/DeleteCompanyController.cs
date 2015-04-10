@@ -33,6 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
         [ApiException]
+        [CompressFilterAttribute]
         public void Delete(DeleteCompanyRequest model)
         {
             if (model.CompanyId == 0 || !ModelState.IsValid)

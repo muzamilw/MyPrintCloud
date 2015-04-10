@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public ItemSearchResponse Get([FromUri]int companyId)
         {
             IEnumerable<Item> items = itemService.GetItemsByCompanyId(companyId);

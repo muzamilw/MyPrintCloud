@@ -7,6 +7,7 @@ using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using System.Linq;
 using System.Collections.Generic;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -44,6 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [CompressFilter]
         public CostCentreQuestion Put(CostCentreQuestionRequestModel QuestionRequest)
         {
             if (!ModelState.IsValid)
@@ -54,6 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _ICostCentreQuestion.Add(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g => g.CreateFrom())).CreateFrom();
         }
 
+        [CompressFilterAttribute]
         public bool Post(CostCentreQuestionRequestModel QuestionRequest)
         {
             if (!ModelState.IsValid)
@@ -64,7 +67,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g=>g.CreateFrom()));
         }
 
-
+        [CompressFilterAttribute]
         public bool Delete(CostCentreQuestionDeleteRequest Req)
         {
             if (!ModelState.IsValid)
@@ -81,6 +84,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
            
         }
+        [CompressFilterAttribute]
         public IEnumerable<CostCentreAnswer> Get(int QuestionId)
         {
             if (!ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return _ICostCentreQuestion.GetByQuestionId(QuestionId).Select(g=>g.CreateFrom());
         }
+        [CompressFilterAttribute]
         public Models.CostCenterVariablesResponseModel GetListById(int Id)
         {
             if (!ModelState.IsValid)

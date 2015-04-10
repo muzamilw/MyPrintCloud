@@ -36,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public SupplierForInventory Post(Company company)
         {
             if (company == null || !ModelState.IsValid)

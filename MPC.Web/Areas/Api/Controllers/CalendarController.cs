@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Companies By Is Customer Type
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public IEnumerable<ActivityListView> Get([FromUri]ActivityRequestModel request)
         {
             return calendarService.GetActivities(request).Select(act => act.CreateFromListView());
@@ -53,6 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public int Post(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)
@@ -67,6 +69,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public void Delete(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)

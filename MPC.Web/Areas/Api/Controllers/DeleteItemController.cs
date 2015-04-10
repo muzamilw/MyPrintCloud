@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public void Delete(ItemDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.ItemId <= 0)
