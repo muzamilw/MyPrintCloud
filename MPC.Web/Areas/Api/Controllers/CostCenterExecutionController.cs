@@ -38,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public double GetCostCenterResult([FromUri] CostCenterExecutionRequest request)
         {
             double dblResult = 0;
@@ -48,6 +49,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return dblResult;
         }
+        [CompressFilterAttribute]
         public CostCenterExecutionResponse GetCostCenterPrompts([FromUri] CostCenterExecutionRequest request, bool isPromptMode)
         {
             CostCenterExecutionResponse response = null;

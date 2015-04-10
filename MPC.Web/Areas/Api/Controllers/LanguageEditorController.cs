@@ -41,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
         public List<LanguageEditor> Get([FromUri]int organisationId, long lanuageId)
         {
             return myOrganizationService.ReadResourceFileByLanguageId(organisationId, lanuageId).Select(le => le.CreateFrom()).ToList();

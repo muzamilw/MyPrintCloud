@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -34,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [CompressFilter]
         public Models.PaymentGatewayResponse Get([FromUri] PaymentGatewayRequestModel request)
         {
             var result = companyService.SearchPaymentGateways(request);

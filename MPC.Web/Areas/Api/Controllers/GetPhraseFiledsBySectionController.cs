@@ -40,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Phrase Fields By Section Id
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct, SecurityAccessRight.CanViewSecurity })]
+        [CompressFilterAttribute]
         public IEnumerable<PhraseField> Get([FromUri]long sectionId)
         {
             return phraseLibraryService.GetPhraseFiledsBySectionId(sectionId).Select(pf => pf.CreateFrom());

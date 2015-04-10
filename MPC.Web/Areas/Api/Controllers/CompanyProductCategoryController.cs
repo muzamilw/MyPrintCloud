@@ -44,6 +44,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Product Categories for Company
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct  })]
+        [CompressFilterAttribute]
         public IEnumerable<ProductCategoryDropDown> Get(int id)
         {
             if (!ModelState.IsValid)
