@@ -117,16 +117,18 @@
         </div>
 
     </div>
+  
 </div>
 <!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
-<!-- /ko -->
 
+<!-- /ko -->
 @section Scripts{
 
 
     <script>
-        require(["toDoList/toDoList.view", "common/companySelector.view"]);
+        require(["toDoList/toDoList.view", "common/companySelector.view", "crm/contacts.view"]);
     </script>
 }
 
