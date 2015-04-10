@@ -81,10 +81,11 @@ namespace MPC.Repository.Repositories
                         .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
-
+                int rowCount =
+                    DbSet.Count(x => x.CompanyId == request.CompanyId && x.isUserDefined == request.IsUserDefined);
                 return new SecondaryPageResponse
                 {
-                    RowCount = CmsPages.Count(),
+                    RowCount = rowCount,
                     CmsPages = CmsPages
                 };
             }
