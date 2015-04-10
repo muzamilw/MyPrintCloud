@@ -583,11 +583,11 @@ ul.nav li.selectedLava a {
 }
 
 .address_label_area1 {
-  width: 115px;
-  float: left;
-  text-align: right;
-  padding: 7px 5px 5px 5px;
-  font-size: 12PX;
+    width: 115px;
+    float: left;
+    text-align: right;
+    padding: 7px 5px 5px 5px;
+    font-size: 12PX;
 }
 
 .address_contol_area1 {
@@ -615,10 +615,10 @@ ul.nav li.selectedLava a {
 
 .address_label_area2 {
     width: 125px;
-  float: left;
-  text-align: right;
-  padding: 9px 11px 5px 30px;
-  font-size: 12px;
+    float: left;
+    text-align: right;
+    padding: 9px 11px 5px 30px;
+    font-size: 12px;
 }
 
 .address_contol_area2 {
@@ -2281,9 +2281,9 @@ span.radioBtnPaperTypeClass input {
 
 .tickImge {
     background-image: url('sprite.png');
-    background-position: -124px 0px;
+    background-position: -124px 4px;
     width: 19px;
-    height: 20px;
+    height: 24px;
     border: none;
     float: left;
     margin-right: 5px;
@@ -2618,7 +2618,7 @@ width: 520px*/
 
 .heading_small_orange /* h4*/ {
     color: rgb(255, 252, 245);
-    cursor: pointer;
+    
     display: inline;
     font-family: 'Avenir Next LT W01 Bold', Helvetica, Arial, sans-serif;
     font-size: 11px !important;
@@ -2712,13 +2712,13 @@ width: 520px*/
 
 
 .forgetPassLink {
-    font-size: 13px;
+    font-size: 12px;
     color: rgb(102,102,102);
     font-style: normal;
     font-weight: normal;
     color: #0066D3;
-    /*
-	color: #0066D3;*/
+   margin-left: 10px;
+  line-height: 3;
 }
 
 
@@ -2747,8 +2747,8 @@ width: 520px*/
 }
 
 
-.gridViewCheckoutHeaderStyle th:first-child {
-    padding-left: 5px !important;
+.gridViewCheckoutHeaderStyle th {
+    padding-left: 10px !important;
     /*padding: 10px;*/
 }
 
@@ -3803,7 +3803,7 @@ width: 520px*/
     border: 1px solid #a8a8a8;
     cursor: pointer;
     margin-right: 10px;
-    margin-left: 64px;
+    margin-left: 1px;
 }
 
 .btnForgetPassword {
@@ -7241,13 +7241,15 @@ div.wrapper {
     line-height: 1.7;
 }
 
-.allproducts_col_cat_ul li {
-    padding-bottom: 5px;
-      font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
-}
-.allproducts_col_cat_ul li a {
-   color:#E83e48;
-}
+    .allproducts_col_cat_ul li {
+        padding-bottom: 5px;
+        font-family: AvenirNextLTW01-Regular, Helvetica, Arial, sans-serif;
+    }
+
+        .allproducts_col_cat_ul li a {
+            color: #E83e48;
+        }
+
 .SubCatLink {
     font-weight: normal;
     color: #5a2e2d;
@@ -10056,7 +10058,7 @@ a.PinkRegBack:active {
 }
 
 .CreditCardCS {
-    margin-top: 0px !important;
+    margin-top: 20px !important;
     background: url('sprite.png') -3px -75px;
     background-repeat: no-repeat;
     height: 35px !important;
@@ -11212,9 +11214,9 @@ border-bottom: 3px solid #cacaca;*/
 }
 
 .liUserInfo {
-    font-size: 12px;
-    margin-right: 10px;
-    margin-top: 3px;
+    font-size: 14px;
+    margin-right:0px;
+    margin-top: 1px;
 }
 
 
@@ -11773,7 +11775,7 @@ ul.LogBar li a {
     /*border: 5px solid gray;*/
     text-align: left;
 }
- 
+
 .gMapContactUs {
     overflow: hidden;
     position: relative;
@@ -12638,10 +12640,32 @@ ul.LogBar li a {
 
 
 @media (min-width:320px) { /* smartphones, iPhone, portrait 480x320 phones */
-     #trVatNumb {
-    clear:both;
+    .cartli {
+        display: block;
     }
-                            .smallContctUsAvenior {
+
+    .classicLoginCart {
+        float: right !important;
+        /*background: url('sprite.png') -608px -610px;
+    background-repeat: no-repeat;*/
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -230px;
+        display: none;
+    }
+
+    #trVatNumb {
+        clear: both;
+    }
+
+    .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -12656,7 +12680,7 @@ ul.LogBar li a {
         float: left;
         list-style: none;
         margin-top: 0px;
-        width: 370px;
+        width: 100%;
     }
 
     .tooltipCheckoutAvenior {
@@ -12682,7 +12706,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 140px;
+        width: 145px;
         height: 40px;
     }
 
@@ -12795,7 +12819,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -160px;
+        margin-left: -125px;
     }
 
     .firstDyContainer {
@@ -12930,6 +12954,7 @@ ul.LogBar li a {
         padding-left: 0px;
         margin-bottom: 12px;
         text-align: center;
+        margin-top: 15px;
     }
 
     .btn_upload_files_TS {
@@ -13534,7 +13559,7 @@ ul.LogBar li a {
     }
 
     .liMarginRight {
-        margin-right: 8px !important;
+        margin-right: 0px !important;
     }
 
     #menu-my-account {
@@ -13578,7 +13603,8 @@ ul.LogBar li a {
     .StocksDelivryContainer {
         float: left;
         padding-right: 0px !important;
-        width: 290px !important;padding-left:0px;
+        width: 290px !important;
+        padding-left: 0px;
     }
 
     .extra_item {
@@ -14192,7 +14218,7 @@ ul.LogBar li a {
     .divwidthset {
         /*margin-left: 408px;*/
         float: right;
-        width: 10em !important;
+        width: 8em !important;
         margin-right: 0px !important;
     }
 
@@ -14208,22 +14234,23 @@ ul.LogBar li a {
         width: 100% !important;
         height: 80px !important;
         margin-top: 12px !important;
-        margin-right: 3px !important;
+        margin-right: 3px !important;clear:right;
     }
 
     .divDontHaveAccont {
         float: none;
         padding-top: 10px;
-        padding-bottom: 40px;
+        padding-bottom: 2px;
         padding-left: 5px !important;
         padding-right: 5px !important;
-        height: 195px;
+        height: inherit;
         background-color: #f3f3f3;
-        margin-right: 10px;
+        margin-right: 0px;
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
+        margin-bottom:5px;
     }
 
     .cntRegisterFN {
@@ -14390,10 +14417,32 @@ ul.LogBar li a {
 }
 
 @media (min-width:481px) { /* portrait e-readers (Nook/Kindle), smaller tablets @ 600 or @ 640 wide. */
-     #trVatNumb {
-    clear:both;
+    .cartli {
+        display: block;
     }
-                            .smallContctUsAvenior {
+
+    .classicLoginCart {
+        float: right !important;
+        /*background: url('sprite.png') -608px -610px;
+    background-repeat: no-repeat;*/
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -380px;
+        display: none;
+    }
+
+    #trVatNumb {
+        clear: both;
+    }
+
+    .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -14407,8 +14456,8 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         float: left;
         list-style: none;
-        margin-top: 0px;
-        width: 370px;
+        margin-top: 10px;
+        width: 440px;
     }
 
     .tooltipCheckoutAvenior {
@@ -14434,7 +14483,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 140px;
+        width: 145px;
         height: 40px;
     }
 
@@ -14497,7 +14546,7 @@ ul.LogBar li a {
         border-radius: 5px;
         padding-left: 5px;
         position: absolute !important;
-        margin-left: -300px;
+        margin-left: -260px;
     }
 
     #MainContent_AvailableSoonCont {
@@ -15508,7 +15557,7 @@ ul.LogBar li a {
     .divwidthset {
         /*margin-left: 408px;*/
         float: right;
-        width: 10em !important;
+        width: 8em !important;
         margin-right: 0px !important;
     }
 
@@ -15530,16 +15579,17 @@ ul.LogBar li a {
     .divDontHaveAccont {
         float: none;
         padding-top: 10px;
-        padding-bottom: 40px;
+        padding-bottom: 2px;
         padding-left: 5px !important;
         padding-right: 5px !important;
-        height: 195px;
+        height: inherit;
         background-color: #f3f3f3;
-        margin-right: 10px;
+        margin-right: 0px;
         -moz-border-radius: 5px;
         -webkit-border-radius: 5px;
         -khtml-border-radius: 5px;
         border-radius: 5px;
+        margin-bottom:10px;
     }
 
     .cntRegisterFN {
@@ -15629,10 +15679,32 @@ ul.LogBar li a {
 }
 
 @media (min-width:641px) { /* portrait tablets, portrait iPad, landscape e-readers, landscape 800x480 or 854x480 phones */
-     #trVatNumb {
-    clear:both;
+    .cartli {
+        display: none;
     }
-                            .smallContctUsAvenior {
+
+    .classicLoginCart {
+        float: right !important;
+        /*background: url('sprite.png') -608px -610px;
+    background-repeat: no-repeat;*/
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -365px;
+        display: block;
+    }
+
+    #trVatNumb {
+        clear: both;
+    }
+
+    .smallContctUsAvenior {
         text-align: left;
         margin-left: 5px;
     }
@@ -15646,7 +15718,7 @@ ul.LogBar li a {
         /* font-weight: bold;*/
         float: left;
         list-style: none;
-        margin-top: 0px;
+        margin-top: 10px;
         width: inherit;
     }
 
@@ -15673,7 +15745,7 @@ ul.LogBar li a {
     }
 
     .hyperlinkCart {
-        width: 140px;
+        width: 145px;
         height: 40px;
     }
 
@@ -17076,6 +17148,7 @@ ul.LogBar li a {
         height: 80px !important;
         margin-top: 12px !important;
         margin-right: 3px !important;
+        clear:right;
     }
 
     .divDontHaveAccont {
@@ -17490,7 +17563,7 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-        margin-left: -25px;
+        margin-left: -22px;
         width: 30% !important;
         float: left;
     }
@@ -18890,7 +18963,7 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-        margin-left: -25px;
+        margin-left: -22px;
         width: 30% !important;
         float: left;
     }
@@ -19928,12 +20001,33 @@ ul.LogBar li a {
 }
 
 @media (min-width:1025px) {
-     #trVatNumb {
-    clear:none;
+    .cartli {
+        display: none;
     }
-        .checkoutNoteslbl {
-    padding-left:15px !important;
+
+    .classicLoginCart {
+        float: right !important;
+        width: 0px;
+        height: 0px !important;
+        margin-top: 2px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -khtml-border-radius: 5px;
+        border-radius: 5px;
+        padding-left: 5px;
+        position: absolute !important;
+        margin-left: -750px;
+        display: block;
     }
+
+    #trVatNumb {
+        clear: none;
+    }
+
+    .checkoutNoteslbl {
+        padding-left: 15px !important;
+    }
+
     ul.LogBar {
         /* font-weight: bold; */
         float: left;
@@ -20353,7 +20447,7 @@ ul.LogBar li a {
         float: left;
         width: 700px !important;
         margin-right: 20px;
-        padding-left:0px;
+        padding-left: 0px;
     }
 
 
@@ -20622,7 +20716,7 @@ ul.LogBar li a {
 
     .BtnTemplateModifyContainer {
         padding-top: 9px;
-        margin-left: 30px !important;
+        margin-left: 20px !important;
     }
 
     .cart_grid_image_container {
@@ -20700,7 +20794,7 @@ ul.LogBar li a {
     }
 
     .cntsubHeadings {
-        margin-left: -25px;
+        margin-left: -22px;
         width: 30% !important;
         float: left;
     }
@@ -20906,14 +21000,15 @@ ul.LogBar li a {
         /*margin-bottom: 15px;*/
         font-family: sans-serif !important;
         margin-top: 10px;
-        /*margin-bottom: 20px;*/text-decoration:none;
+        /*margin-bottom: 20px;*/ text-decoration: none;
     }
 
     .BreadCrumbMenuItem {
         color: #042F42;
         float: left;
         font-size: 14px !important;
-        font-family: sans-serif !important;text-decoration:none;
+        font-family: sans-serif !important;
+        text-decoration: none;
     }
 
     .full_img_ThumbnailPath {
@@ -22633,9 +22728,10 @@ gridViewCheckoutRowStyle td {
 
 .carttxtcolorSize {
     margin-left: 5px;
-    color: #8b8c8c !important;
-    font-size: 13px;
+    color: black;
+    font-size: 14px;
     float: left;
+    text-decoration: none;
 }
 
 .cartcolorSize:hover {
@@ -22645,9 +22741,9 @@ gridViewCheckoutRowStyle td {
 
 .carttxtcolorSize:hover {
     margin-left: 5px;
-    color: #428bca !important;
-    font-size: 13px;
-    text-decoration: underline;
+    color: #E83e48 !important;
+    font-size: 14px;
+    text-decoration: none;
 }
 
 .piplineClr {
@@ -23493,17 +23589,16 @@ a.btn-watch span:after {
 }
 
 .checkoutNoteslbl {
-  
     text-shadow: none;
     margin-top: 15px;
     text-align: left;
     float: left;
     width: 203px;
     font-weight: normal;
-      font-size: 14px;
-  color: #66615b;
-  text-shadow: none;
-  font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: #66615b;
+    text-shadow: none;
+    font-family: 'AvenirNextLTW01-Regular', Helvetica, Arial, sans-serif;
 }
 
 #cphBonham_BonhamsMenu_bonhamsControl {
@@ -23922,12 +24017,11 @@ gridfontStyle {
     padding: 20px;
 }
 
-.territory_row_paddingNew
-{
- padding: 19px 0px 0px;
-
+.territory_row_paddingNew {
+    padding: 19px 0px 0px;
 }
+
 .BreadCrumbMenu h1 {
-  font-size: 20px !important;
-  color: #5BB7AC;
+    font-size: 20px !important;
+    color: #5BB7AC;
 }

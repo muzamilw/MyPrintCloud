@@ -27,7 +27,7 @@
             <label class="sign_in_heading" id="HistryBtn">Order History</label>
         </div>
         <div class="dashBoardRetrunLink">
-            <div class="BreadCrumbMenu left_align">
+            <div class=" left_align">
                 <h1>
                     <a href="/Dashboard" class="left_align" title="Back to my dashboard">
                         Back to my dashboard
@@ -486,6 +486,7 @@
         }
         function ReOrder(orderId)
         {
+            alert(orderId);
             var d={ OrderId: orderId }
             $.ajax({
                 type: "POST",
@@ -622,7 +623,7 @@
                     InnerHtml += '</table>';
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
-                    console.log(panelHtml);
+                    
                     ViewOrderPopUp("View Order", panelHtml);
                 }
 

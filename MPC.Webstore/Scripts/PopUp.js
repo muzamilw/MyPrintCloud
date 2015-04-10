@@ -860,3 +860,30 @@ function ConfirmPopUpForReject()
     document.getElementById("layer").style.display = "block";
     document.getElementById("innerLayer").style.display = "block";
 }
+
+function ShowReceiptLoader() {
+
+    var container = '<div class="md-modal md-effect-7 rounded_corners" id="modal-7"><div class="md-content rounded_corners"><div class="modal-body rounded_corners"><div style="text-align:center; margin-bottom:10px;"><img src="/Content/Images/loading.gif" /></div>Your order is being processed.<br/> Check your inbox for your order receipt.</div></div>';
+    var bws = getBrowserHeight();
+    var shadow = document.getElementById("innerLayer");
+    document.getElementById("layer").style.width = bws.width + "px";
+    document.getElementById("layer").style.height = bws.height + "px";
+
+    var left = parseInt((bws.width - 400) / 2);
+    var top = parseInt((bws.height - 50) / 2);
+
+    document.getElementById("innerLayer").innerHTML = container;
+
+    document.getElementById("innerLayer").style.top = top + "px";
+    document.getElementById("innerLayer").style.left = left + "px";
+
+    document.getElementById("innerLayer").style.width = "400px";
+    document.getElementById("innerLayer").style.height = "50px";
+
+    document.getElementById("innerLayer").style.position = "fixed";
+    document.getElementById("innerLayer").style.zIndex = "9999";
+    document.getElementById("innerLayer").style.borderRadius = "5px";
+   
+    document.getElementById("layer").style.display = "block";
+    document.getElementById("innerLayer").style.display = "block";
+}

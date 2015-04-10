@@ -74,9 +74,10 @@ namespace MPC.Webstore.Controllers
             }
             else 
             {
+                oStoreDefaultAddress = new AddressViewModel();
                 if (StoreBaseResopnse.StoreDetaultAddress != null)
                 {
-                    oStoreDefaultAddress = new AddressViewModel();
+                    
                     oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
                     oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
 

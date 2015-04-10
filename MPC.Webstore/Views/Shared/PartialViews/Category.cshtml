@@ -42,33 +42,33 @@
         </div>
         <div id="CategoryDisplay responsivePad15">
 
-            <div class="rounded_corners clearBoth">
+            <div class="rounded_corners clearBoth col-md-12 col-lg-12 col-xs-12">
                 @if (ViewData["ProductCategory"] != null)
                 {
 
                     <div id="pnlCatList" class="padd_bottom_30 ">
                         @foreach (var cat in ViewData["ProductCategory"] as List<MPC.Models.DomainModels.ProductCategory>)
                         {
-                            <div id="Maincontainer" class="CAT_Body rounded_corners">
-                                <div class="LCLB">
-                                    @{
-
-
-                                        <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
-                                            <div class="PDTC_CAT FI_CAT">
-                                                @{
-
-                                                    <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
-                                                }
-
-                                            </div>
-                                        </a>
-                                    }
-                                </div>
-                                <div class="product_detail_image_heading_CAT">
-                                    <label id="lblProductName">@cat.CategoryName</label>
-                                </div>
+                        <div id="Maincontainer" class="CAT_Body rounded_corners">
+                            <div class="LCLB">
                                 @{
+
+
+                                    <a id="hlCategory" href="/Category/@Html.ResolveString(@cat.CategoryName)/@cat.ProductCategoryId" onclick="ShowLoader();">
+                                        <div class="PDTC_CAT FI_CAT">
+                                            @{
+
+                                                <img id="imgThumbnail" class="CAT_ThumbnailPath" src='/@cat.ThumbnailPath' />
+                                            }
+
+                                        </div>
+                                    </a>
+                                }
+                            </div>
+                            <div class="product_detail_image_heading_CAT">
+                                <label id="lblProductName">@cat.CategoryName</label>
+                            </div>
+                            @{
                             CategoryDescription = cat.Description1;
                             if (!string.IsNullOrEmpty(CategoryDescription))
                             {
@@ -82,11 +82,11 @@
                                     CategoryDescription = CategoryDescription;
                                 }
                             }
-                                }
-                                <div class="topcat_desc_CAT">
-                                    <label id="lblDescription1">@Html.Raw(CategoryDescription)</label>
-                                </div>
+                            }
+                            <div class="topcat_desc_CAT">
+                                <label id="lblDescription1">@Html.Raw(CategoryDescription)</label>
                             </div>
+                        </div>
                         }
 
                         <div class="clearBoth">
@@ -99,7 +99,7 @@
                 @if (ViewData["Products"] != null)
                 {
                     <div id="pnlAllProductTopLevel" class="padd_bottom_30 floatleft clear">
-                        <div class="col-md-12 col-lg-12 col-xs-12">
+                        @*<div class="col-md-12 col-lg-12 col-xs-12">*@
                             <label id="lbl_ProductHeading" class="product_detail_sub_heading custom_color floatleft clear marginBtm10">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductHeader", UserCookieManager.WBStoreId))</label>
                             <div id="cntProductList">
                                 @foreach (var item in ViewData["Products"] as List<MPC.Models.DomainModels.GetCategoryProduct>)
@@ -125,9 +125,9 @@
                                                         RedirectURL = "#";
                                                         SkipDesignerPopUp = " StartDesignerLoader(); SkipDesignerGenerateProof(" + item.ItemId + ", " + item.TemplateId + ", " + ViewBag.ContactId + ",'" + item.ProductName + "');";
                                                     }
-                                                    else 
+                                                    else
                                                     {
-                                                    if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                                                        if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
                                                         {
                                                             isUploadImage = true;
                                                             RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
@@ -139,7 +139,7 @@
                                                             RedirectURL = "/Category/CloneItem/" + item.ItemId;
                                                         }
                                                     }
-                                                   
+
 
                                                 }
                                                 else if (item.ProductType == (int)ProductType.NonPrintProduct) // for non print product
@@ -359,10 +359,11 @@
                         <div class="clearBoth">
                             &nbsp;
                         </div>
-                       
-                    </div>
+
+                    @*</div>*@
                 }
             </div>
+
         </div>
     </div>
     <div class="clear marginBtm10">

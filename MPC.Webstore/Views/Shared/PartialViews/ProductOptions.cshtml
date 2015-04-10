@@ -80,7 +80,7 @@
                         <br />
                        @if (ViewData["CostCenters"] != null)
                        {
-                        <div class="marginLeft Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
+                        <div class="Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
                             <label id="lbl_RefiningOptions">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.WBStoreId))</label>
                         </div>
                        
@@ -131,7 +131,7 @@
             <label id="lbl_UploadArtWork" class="textAlignLeft float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadArtWork", UserCookieManager.WBStoreId))</label>
             @if (ViewData["Templates"] == null)
             {
-                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork</label>
                 <div class="FormatContainer">
                     <div id="lbl_PremittedFormat" class="float_left_simple Fsize12 lbFormat">
                         @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.WBStoreId))
@@ -146,7 +146,7 @@
             }
             else
             {
-                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Proof</label>
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Your approved design(s)</label>
             }
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
                      UplodArkworkContainer">
@@ -308,7 +308,7 @@
                 <div class="float_left_simple grossTotaldiv">
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId))</label>
                     
-                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:5px;">@ViewBag.VATLabel</label>
+                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
                     
                     <label id="lblGrossTotal" class="float_right"> 0.00</label>
                     <label class="float_right">@ViewBag.Currency</label>
@@ -366,7 +366,7 @@
                     &nbsp;
                 </div>
                 <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
-                            font-size: 13px; float: left; margin-top: 15px; margin-bottom: 10px;">
+                            font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
                     <label id="lbl_ShowPriceTable">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId))</label>
                 </div>
                 <div class="clearBoth">
@@ -516,6 +516,12 @@
                         PriceBackgroundCount++;
                     }
             </div>
+                <div>
+                    <label id="lblTaxLabel" class="Fsize10 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
         </div>
     </div>
     <div class=" ProductDetailGrayBoxLeftLP rounded_corners float_right ">
@@ -1312,7 +1318,9 @@
     }
 
     function LoadCostCentersByStockId(StockId) {
+       
         var noRefiningOpt = 1;
+        mandatoryRefiningOptIds = "";
         $(".CostCenterItems").each(function(i, val) {
             if (StockId == $(val).attr('data-StockId')) {
                 $(val).css("display", "block");
@@ -1321,9 +1329,10 @@
                     if(mandatoryRefiningOptIds == ""){
                         mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
                     }else{
-                        mandatoryRefiningOptIds = "," + $(val).children().next().children().attr('id');
+                        mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
                     }
                 }
+               
                 noRefiningOpt = 0;
             } else {
 
@@ -1334,9 +1343,9 @@
 
                 }
             }
-
+           
         });
-
+       
         if(noRefiningOpt == 1){
             $("#lbl_RefiningOptions").css("display", "none");
             mandatoryRefiningOptIds = "";

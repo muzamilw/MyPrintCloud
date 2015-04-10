@@ -51,12 +51,6 @@ namespace MPC.Webstore.Controllers
                 case BreadCrumbMode.CategoryBrowsing:
                     this.CategoryBrowsingMode();
                     break;
-
-                case  BreadCrumbMode.MyAccount:
-                    this.MyAccountWorkingMode();
-                    break;
-
-
             }
 
             
