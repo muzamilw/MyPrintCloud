@@ -678,10 +678,12 @@ namespace MPC.Repository.Repositories
                 bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
                 bool isTypeSpecified = request.CustomerType != null;
                 long type = request.CustomerType ?? 0;
+                int companyType = request.IsCustomer;
                 Expression<Func<Company, bool>> query =
                     s =>
                     ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
-                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == request.IsCustomer);
+                    (s.OrganisationId == OrganisationId && s.isArchived != true)
+                    && ((companyType != 2 && (s.IsCustomer == companyType)) || (companyType == 2 && (s.IsCustomer == 0 || s.IsCustomer == 1)));
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc

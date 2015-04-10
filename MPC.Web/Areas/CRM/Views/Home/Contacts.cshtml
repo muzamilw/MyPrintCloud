@@ -38,7 +38,7 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                              <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
-                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
+                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -62,7 +62,7 @@
                                                             <!-- ko  foreach: $root.companyContactsForListView  -->
                                                             <tr>
                                                                 <td>
-                                                                    <img data-bind="attr: { src: image }" alt="" />
+                                                                    <img data-bind="attr: { src: image()==='' ? 'abc/def':image() }" alt="" />
                                                                 </td>
                                                                 <td>
                                                                     <a class="user-link" href="#" data-bind="text: firstName, click: $root.editContactbuttonHandler "></a>
@@ -97,10 +97,10 @@
 </div>
 
 <script id="filterTemplate" type="text/html">
-    <div class="filter-body" id="filter">
+    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
         <form data-bind="submit: $root.searchButtonHandler">
             <div class="filter-block pull-right">
-                <div class="form-group pull-left">
+                <div class="form-group pull-left" style="margin-right: 2px;">
                     <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                     <i class="fa fa-search search-icon" data-bind="click: searchButtonHandler"></i>
                 </div>

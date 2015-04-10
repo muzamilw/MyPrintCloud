@@ -2,8 +2,8 @@
     Module with the view model for the To Do List.
 */
 define("toDoList/toDoList.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, pagination) {
+    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/pagination", "common/companySelector.viewModel", "crm/contacts.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, companySelector, contactVM) {
         var ist = window.ist || {};
         ist.toDoList = {
             viewModel: (function () {
@@ -16,8 +16,7 @@ define("toDoList/toDoList.viewModel",
                     selectedSystemUser = ko.observable(),
                     isCustomerType = ko.observable("1"),
                     selectedActivityForRemove = ko.observable(),
-                    selectedCompany = ko.observable(),
-                    companySearchFilter = ko.observable(),
+                      companySearchFilter = ko.observable(),
                     searchContactFilter = ko.observable(),
                     loggedInUserId = ko.observable(),
                     isBaseDataLoaded = ko.observable(false),
@@ -184,7 +183,7 @@ define("toDoList/toDoList.viewModel",
 
                         }
                     });
-                }
+                },
                 //Do Before Save Logic
                 dobeforesave = function () {
                     var flag = true;
@@ -280,15 +279,40 @@ define("toDoList/toDoList.viewModel",
                     var start = new Date(year, month, 1);
                     var end = new Date(year + (month == 12 ? 1 : 0), month + 1, 0);
                     getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
-                }
-                formatSelection = function (state) {
-                    return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                 },
-
-               formatResult = function (state) {
-                   return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
-               },
-               selected = ko.observable(),
+                    formatSelection = function (state) {
+                        return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
+                    },
+                    formatResult = function (state) {
+                        return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
+                    },
+                    selected = ko.observable(),
+                   selectedCompany = ko.observable(),
+                // Add Contact
+                addContact = function () {
+                    openCompanyDialog();
+                },
+                // Open Company Dialog
+                 openCompanyDialog = function () {
+                     companySelector.show(onSelectCompany, [0, 1, 2]);
+                 },
+                 onSaveContact = function (contact) {
+                     selectedActivity().companyName(contact.firstName() + " , " + selectedCompany().name);
+                     selectedActivity().contactId(contact.contactId());
+                 },
+                // On Select Company
+                onSelectCompany = function (company) {
+                    if (!company) {
+                        return;
+                    }
+                    //selectedActivity().contactCompanyId(company.id);
+                    selectedCompany(company);
+                    contactVM.addContact(onSaveContact, company.id);
+                },
+                //Hide
+                hideCompanyDialog = function () {
+                    view.hideCompanyDialog();
+                },
                 //Initialize
                 initialize = function (specifiedView) {
                     view = specifiedView;
@@ -296,7 +320,6 @@ define("toDoList/toDoList.viewModel",
                     getBase();
                     dateDisplay(montharray[month] + " " + year);
                     pager(pagination.Pagination({ PageSize: 10 }, companyContacts, getCompanyContactByName));
-
                 };
 
                 return {
@@ -330,8 +353,9 @@ define("toDoList/toDoList.viewModel",
                     onEditActivity: onEditActivity,
                     formatResult: formatResult,
                     addActivity: addActivity,
-                    formatSelection:formatSelection,
+                    formatSelection: formatSelection,
                     selected: selected,
+                    addContact: addContact
                 };
             })()
         };

@@ -2482,6 +2482,13 @@ function pcL20_new() {
                     var h = $("#canvas").offset().top + D1AO.top - D1AO.getHeight() / 2;
                     // l = l - 430 + 128;
                     // h -= 30;
+                    if (h < 0)
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, "+(h*-1) +"px, 0px)");
+                    } else
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, -47px, 0px)");
+                    }
                     $(".CropControls").css("left", (l) + "px");
                     $(".CropControls").css("top", (h) + "px");
                     image.cropbox({ width: D1AO.getWidth(), height: D1AO.getHeight(), showControls: 'auto', xml: D1AO.ImageClippedInfo })
@@ -2917,7 +2924,10 @@ function pcl42_UpdateTO() {
             $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
               //  if (obj.ObjectType == 3)  // replacing variables
                 //    {
-                if (obj.Value != null && obj.Value != "") {
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
@@ -2930,7 +2940,10 @@ function pcl42_UpdateTO() {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
-                if (obj.Value != null && obj.Value != "") {
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null) {
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
