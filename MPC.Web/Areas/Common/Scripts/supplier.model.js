@@ -119,8 +119,8 @@
                     CompanyLogoName: logoName() === undefined ? null : logoName(),
                     CompanyLogoSource: logoSource() === undefined ? null : logoSource(),
                     Addresses: addresses(),
-                    CompanyContacts: companyContacts(),
-                }
+                    CompanyContacts: companyContacts()
+                };
             },
             // Reset
             reset = function () {
