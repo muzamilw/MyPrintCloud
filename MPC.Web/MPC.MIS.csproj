@@ -302,6 +302,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -456,7 +457,9 @@
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />

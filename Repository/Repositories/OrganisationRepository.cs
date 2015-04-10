@@ -852,11 +852,15 @@ namespace MPC.Repository.Repositories
 
 
                             }
-                            long MethodID = lookups.Where(c => c.LockedBy == oldMID).Select(s => s.MethodId).FirstOrDefault();
-                            if (MethodID > 0)
-                                Mac.LookupMethodId =  MethodID;
-                            else
-                                Mac.LookupMethodId = lookups.Select(s => s.MethodId).FirstOrDefault();
+                            if(lookups != null && lookups.Count > 0)
+                            {
+                                long MethodID = lookups.Where(c => c.LockedBy == oldMID).Select(s => s.MethodId).FirstOrDefault();
+                                if (MethodID > 0)
+                                    Mac.LookupMethodId = MethodID;
+                                else
+                                    Mac.LookupMethodId = lookups.Select(s => s.MethodId).FirstOrDefault();
+                            }
+                           
                             db.Machines.Add(Mac);
 
                         }
