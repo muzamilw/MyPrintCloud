@@ -30,7 +30,14 @@ define("toDoList/toDoList.view",
                 hideContactSelectorDialog = function () {
                     $("#contactSelectorDialog").modal("hide");
                 },
-
+                  // Show Company dialog
+                showCompanyDialog = function () {
+                    $("#companyDialog").modal("show");
+                },
+                // Hide Company dialog
+                hideCompanyDialog = function () {
+                    $("#companyDialog").modal("hide");
+                },
                 // Initialize
                 initialize = function () {
                     if (!bindingRoot) {
@@ -44,7 +51,9 @@ define("toDoList/toDoList.view",
                 showCalendarActivityDialog: showCalendarActivityDialog,
                 hideCalendarActivityDialog: hideCalendarActivityDialog,
                 showContactSelectorDialog: showContactSelectorDialog,
-                hideContactSelectorDialog: hideContactSelectorDialog
+                hideContactSelectorDialog: hideContactSelectorDialog,
+                showCompanyDialog: showCompanyDialog,
+                hideCompanyDialog: hideCompanyDialog,
 
             };
         })(toDoListViewModel);
