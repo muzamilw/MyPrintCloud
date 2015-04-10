@@ -18,6 +18,24 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableString = GetVariableString(source)
             };
         }
+        public static CostCentreMatrixDetail CreateFrom(this MPC.Models.DomainModels.CostCentreMatrixDetail source)
+        {
+            return new CostCentreMatrixDetail
+            {
+                Id = source.Id,
+                MatrixId = source.MatrixId,
+                Value = source.Value
+            };
+        }
+        public static MPC.Models.DomainModels.CostCentreMatrixDetail CreateFrom(this CostCentreMatrixDetail source)
+        {
+            return new MPC.Models.DomainModels.CostCentreMatrixDetail
+            {
+                Id = source.Id,
+                MatrixId = source.MatrixId,
+                Value = source.Value
+            };
+        }
 
         public static MPC.Models.DomainModels.CostCentreMatrix CreateFrom(this CostCentreMatrix source)
         {

@@ -68,10 +68,11 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new ActivityListView
             {
                 ActivityId = source.ActivityId,
-                ActivityRef = source.ActivityRef,
+                ActivityRef = source.ActivityNotes,
                 ActivityEndTime = source.ActivityEndTime,
                 ActivityStartTime = source.ActivityStartTime,
                 FlagId = source.FlagId,
+
             };
         }
 

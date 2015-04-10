@@ -138,7 +138,7 @@ var croppedInstance = null;
       },
 
       updateOptions: function (xml) {
-          StartLoader();
+          StartLoader("Loading crop and panning tool.");
         var self = this;
         self.img_top = 0;
         self.img_left = 0;
