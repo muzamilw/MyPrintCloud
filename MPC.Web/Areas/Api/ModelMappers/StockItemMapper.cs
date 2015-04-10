@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using InventoryBaseResponse = MPC.MIS.Areas.Api.Models.InventoryBaseResponse;
 using DomainModels = MPC.Models.DomainModels;
 using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -66,6 +68,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// </summary>
         public static ApiModels.StockItemForListView CreateFrom(this DomainModels.StockItem source)
         {
+            StockCostAndPrice obj = null;
+            if(source.StockCostAndPrices != null )
+            {
+                obj= source.StockCostAndPrices.FirstOrDefault(item => item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now);
+            }
+               
             return new ApiModels.StockItemForListView
             {
                 StockItemId = source.StockItemId,
@@ -82,7 +90,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SupplierCompanyName = source.SupplierCompanyName,
                 Region = source.Region,
                 PackageQty = source.PackageQty,
-               
+                PackCostPrice = obj != null ? obj.PackCostPrice :-9999
             };
 
         }
