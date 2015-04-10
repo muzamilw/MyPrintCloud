@@ -51,7 +51,7 @@
                     <tr>
                         <td>
                             @*<asp:Literal ID="ltrlSearchrecords" runat="server" Text=" Search Address"></asp:Literal>*@
-                            <label id="ltrlSearchrecords">Search Address</label>
+                            <label id="ltrlSearchrecords">Water Marks</label>
 
                         </td>
                         @using(Html.BeginForm())
@@ -130,7 +130,7 @@
 
     grid.Column("Address Title",format:@<p>@item.AddressName</p>),
     grid.Column("Address Details",format:@<p>@item.Address1</p>),
-    grid.Column("Main Contact",format:@<p>
+    @*grid.Column("Main Contact",format:@<p>
 
                             @if (item.IsDefaultAddress == null)
                             {
@@ -150,10 +150,46 @@
                             }
                             </p>),
 grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ShowBillingShippingDetails(@item.addressid)" />
-            </text>)
+            </text>)*@
+grid.Column("Default Shipping",format:@<p>
+
+                                @if (item.IsDefaultShippingAddress == true)
+                                {
+                                <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+                                }
+                                else
+                                {
+                                    if (item.IsDefaultShippingAddress == null || item.IsDefaultShippingAddress==false)
+                                    {
+                                        <p></p>
+                                    }
+                                }
+
+                                </p>),
+
+       grid.Column("Default Billing",format:@<p>
+
+    @if (item.IsDefaultAddress == true)
+    {
+    <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+
+    } 
+    else
+    {
+        if (item.IsDefaultAddress == null || item.IsDefaultAddress == false)
+        {
+            <p></p>
+        }
+
     }
 
-         )
+    </p>),
+
+    grid.Column("Edit", format:@<text> <i class="fa fa-pencil" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
+                </text>,style:"WebGridPadding")
+    }
+
+)
 
                         @if (Convert.ToInt32(ViewBag.TotalAddresses) > 13)
                         {

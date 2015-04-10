@@ -945,11 +945,11 @@ body:not(.compactHeader) #editorLogo {
     }
 
 #editorLogoImage {
-    position: absolute;
-    left: 8px;
-    top: 23px;
-    width: 60px;
-    height: 26px;
+  position: absolute;
+  left: 12px;
+  top: 23px;
+  width: 51px;
+  height: 26px;
     /*background-image: 
     background-repeat: no-repeat;*/
     color: rgba(63,70,82, .5);
@@ -1050,7 +1050,7 @@ body.blockDocument #documentTitleAndMenu {
     font-size: 140%;
     text-align: left;
     white-space: nowrap;
-    line-height: 1em;
+    line-height: 1em;  margin-top: 17px;
 }
 
     #documentTitle input {
@@ -2969,7 +2969,7 @@ div.fontSelector {
     font-size: 14px;
     text-align: left;
     border-radius: 8px;
-    top: 0;
+    top: 0;  overflow-x: hidden;
     left: 0;
 }
 
@@ -3186,6 +3186,7 @@ div.fontSelector {
     margin-left: 2px;
     text-align: left;
     margin-left: 7px;
+    cursor:pointer;
 }
 
 .btnClrPallet {
@@ -4252,8 +4253,15 @@ h2 + .gallery {
 .uploadButtonAndMessage.hidden {
     display: none;
 }
-
-.uploadButtonAndMessage > p {
+.uploadBkLbl{
+      color: #959595;
+    font-size: 85%;
+    margin-bottom: 1.5em;
+    text-align: center;
+      text-align: left;
+  margin-top: 10px;
+}
+.uploadButtonAndMessage > p  {
     color: #959595;
     font-size: 85%;
     margin-bottom: 1.5em;
@@ -4609,7 +4617,7 @@ h2 + .gallery {
     width: 83px;
     overflow: hidden;
     height: 19px;
-    margin-top: 7px;
+    margin-top: 12px;
     cursor: pointer;
 }
 
@@ -4620,7 +4628,7 @@ h2 + .gallery {
     border: none;
     margin-left: 15px;
     margin-bottom: 0px;
-    margin-top: 2px;
+    margin-top: 6px;
     cursor: pointer;
     background: url('assets-v2/arrowMoveDown.png');
 }
@@ -4632,7 +4640,7 @@ h2 + .gallery {
     border: none;
     margin-left: 15px;
     margin-bottom: 0px;
-    margin-top: 2px;
+    margin-top: 6px;
     cursor: pointer;
     background: url('assets-v2//arrowMoveUp.png');
 }
@@ -4738,7 +4746,7 @@ h2 + .gallery {
     width: 235px !important;
     display: none;
     top: 10px;
-    left: 445px;
+     left: 79px;
 }
 
 .closePanelButton {
@@ -4921,7 +4929,7 @@ h2 + .gallery {
     margin-right: 58px;
     border: 0px solid transparent;
     position: relative;
-    background-color: rgb(255, 6, 16) !important;
+    background-color: rgb(255, 6, 16) ;
     padding-left:3px;
     width: 48px;
     height: 48px;
@@ -4930,8 +4938,16 @@ h2 + .gallery {
     margin-top: -11px;
     margin-bottom:-7px;
     margin-left: 24px;
+      border-color: grey;
+  border-width: 2px;
 }
-
+.closeBtnMenus
+{
+      right: -5px;
+  z-index: 10000;
+  position: absolute;
+  top: -4px;
+}
 #BtnRotateRight {
     cursor: pointer;
     height: 22px;
@@ -5017,6 +5033,7 @@ margin-left:1px;
 }
 #BtnBulletedLstTxt {
     margin-left:5px;
+    visibility:hidden;
 }
 #BtnItalicTxt {
     /*vertical-align: middle;
@@ -5594,8 +5611,12 @@ margin-left:1px;
     display: inline-block !important;
     margin-right: 2% !important;
     font-size: 12px !important;
-}
 
+}
+.btntxtBoxes {
+          line-height: 12px !important;
+  padding-top: 12px;
+}
 /*#mainLeftMenu li, #mainLeftMenu a {
     width: 70px;
     display: block;
@@ -6016,8 +6037,9 @@ right: -65px;
 .RemoveButton {
     border: 1px solid transparent;
     margin-bottom: 30px !important;
-    background-color: rgb(255, 6, 16) !important;
+    background-color: black !important;
     padding-left:3px;
+    color:white !important;
 }
 
 .HelpButton {
@@ -6380,8 +6402,11 @@ label
 }
 .dimentionsContainer
 {
-    color: #7f7c7c;
-    margin-top: 15px;text-align: right;margin-right: 1.2em;
+  color: #7f7c7c;
+  margin-top: 15px;
+  text-align: center;
+  margin-right: 1.2em;
+  width: 100%;
     /*display: none;*/
 }.dimentionsBC
 {
@@ -6619,10 +6644,15 @@ font-size: 13px;
 .tabsList li a {
     text-indent:0 !important;
     border-radius: 10px !important;
-
+    position:relative !important;
+    text-align:center !important;
 }
 .tabsList li  {
-    width:87px !important;   border-radius: 10px !important;
+     width: 94px !important;
+  border-radius: 6px !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 13px;
 }
 
 .ColorPalletCorp {
@@ -6718,4 +6748,24 @@ font-size: 13px;
 .mainMenuItem
 {
     font-size:0px;
+}
+
+#FrontBackOptionPanal div button:hover
+{
+      color: #222;
+      background-color: #ffdd0c;
+}
+.divTxtAlignmentControls button:hover{
+    background-color:rgb(39, 44, 51);
+    border-radius: 5px;
+}
+.cropToolCaption {
+  position: absolute;
+  top: -18px;
+  left: 56px;
+  font-size: 9px;
+}
+.btnQRCode {
+      line-height: 15px !important;
+  padding-top: 10px;
 }

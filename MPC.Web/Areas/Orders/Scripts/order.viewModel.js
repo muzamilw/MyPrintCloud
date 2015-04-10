@@ -228,8 +228,6 @@ define("order/order.viewModel",
                     },
                     // Edit Order
                     editOrder = function (data) {
-                        var code = !data.code() ? "ORDER CODE" : data.code();
-                        orderCodeHeader(code);
                         getOrderById(data.id(), openOrderEditor);
                     },
                     // Open Editor
@@ -310,6 +308,8 @@ define("order/order.viewModel",
 
                         // calculateSectionChargeTotal();
                         openItemDetail();
+                        var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
+                        editSection(section);
                     },
                     // Open Item Detail
                     openItemDetail = function () {
@@ -377,7 +377,7 @@ define("order/order.viewModel",
                     },
                     // Open Section Detail
                     openSectionDetail = function () {
-                        isSectionDetailVisible(true);
+                    //    isSectionDetailVisible(true);
                         view.initializeLabelPopovers();
 
                         // Subscribe Section Changes
@@ -510,12 +510,13 @@ define("order/order.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
                         categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                         costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
                         getBaseData();
+                        getOrders();
 
 
                     },
@@ -752,6 +753,8 @@ define("order/order.viewModel",
                             _.each(availableInkPlateSides(), function (item) {
                                 if (item.id == selectedSection().plateInkId()) {
                                     updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                    selectedSection().side1Inks(item.plateInkSide1);
+                                    selectedSection().side2Inks(item.plateInkSide2);
                                 }
                             });
                         }
@@ -770,11 +773,11 @@ define("order/order.viewModel",
                         }
                         if (getSide2Count() != side2Count) {
                             //If List is less then dropDown (Plate Ink)
-                            if (getSide2Count() < side1Count) {
+                            if (getSide2Count() < side2Count) {
                                 addNewFieldsInSectionInkCoverageList(side2Count - getSide2Count(), 2);
                             }
                                 //If List is greater then dropDown (Plate Ink)
-                            else if (getSide2Count() > side1Count) {
+                            else if (getSide2Count() > side2Count) {
                                 removeFieldsInSectionInkCoverageList(getSide2Count() - side2Count, 2);
                             }
                         }
@@ -826,6 +829,53 @@ define("order/order.viewModel",
                         //        }
                         //}); 
                     },
+                    selectedSectionCostCenter = ko.observable(),
+                    selectedQty = ko.observable(),
+                    //Section Cost Center Dialog
+                    openSectionCostCenterDialog = function (costCenter, qty) {
+                        selectedSectionCostCenter(costCenter);
+                        selectedQty(qty);
+                        view.showSectionCostCenterDialogModel();
+                    },
+                    updateSectionCostCenterDialog = ko.computed(function() {
+                        
+                        if (selectedSectionCostCenter() != undefined && selectedQty() != undefined
+                            //&& selectedSectionCostCenter().qty1MarkUpId() != undefined
+                           // && selectedSectionCostCenter().qty2MarkUpId() != undefined && selectedSectionCostCenter().qty3MarkUpId() != undefined
+                            ) {
+                            var markupValue = 0;
+                            if (selectedQty() == 1) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty1MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty1MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty1Charge()) + (selectedSectionCostCenter().qty1Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty1NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 2) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty2MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty2MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty2Charge()) + (selectedSectionCostCenter().qty2Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty2NetTotal(total);
+                                    }
+                                });
+                            }
+                            if (selectedQty() == 3) {
+                                    _.each(markups(), function (markup) {
+                                    if (markup.MarkUpId == selectedSectionCostCenter().qty3MarkUpId()) {
+                                        markupValue = markup.MarkUpRate;
+                                        selectedSectionCostCenter().qty3MarkUpValue(markupValue);
+                                        var total = parseFloat(selectedSectionCostCenter().qty3Charge()) + (selectedSectionCostCenter().qty3Charge() * (markupValue / 100));
+                                        selectedSectionCostCenter().qty3NetTotal(total);
+                                    }
+                                });
+                            }
+                        }
+                    }),
 
                 // #endregion
                     // #region ServiceCalls
@@ -994,9 +1044,13 @@ define("order/order.viewModel",
                     getOrdersOfCurrentScreen = function () {
                         getOrders(currentScreen());
                     },
+                    //Get Order Tab Changed Event
+                    getOrdersOnTabChange = function (currentTab) {
+                        pager().reset();
+                        getOrders(currentTab);
+                    },
                     // Get Orders
                     getOrders = function (currentTab) {
-
                         isLoadingOrders(true);
                         currentScreen(currentTab);
                         dataservice.getOrders({
@@ -1012,8 +1066,8 @@ define("order/order.viewModel",
                             success: function (data) {
                                 orders.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    pager().totalCount(data.TotalCount);
                                     mapOrders(data.Orders);
+                                    pager().totalCount(data.TotalCount);
                                 }
                                 isLoadingOrders(false);
                             },
@@ -1047,6 +1101,8 @@ define("order/order.viewModel",
                                     }
                                 }
                                 isLoadingOrders(false);
+                                var code = !selectedOrder().orderCode() ? "ORDER CODE" : selectedOrder().orderCode();
+                                orderCodeHeader(code);
                                 view.initializeLabelPopovers();
                             },
                             error: function (response) {
@@ -1117,12 +1173,12 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    costCentrePager().totalCount(data.RowCount);
                                     costCentres.removeAll();
                                     _.each(data.CostCentres, function (item) {
                                         var costCentre = new model.costCentre.Create(item);
                                         costCentres.push(costCentre);
                                     });
+                                    costCentrePager().totalCount(data.RowCount);
                                 }
                             },
                             error: function (response) {
@@ -1238,12 +1294,12 @@ define("order/order.viewModel",
                             PageNo: categoryPager().currentPage()
                         }, {
                             success: function (data) {
-                                categoryPager().totalCount(data.TotalCount);
                                 inventoryItems.removeAll();
                                 _.each(data.StockItems, function (item) {
                                     var inventory = new model.Inventory.Create(item);
                                     inventoryItems.push(inventory);
                                 });
+                                categoryPager().totalCount(data.TotalCount);
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -1542,56 +1598,65 @@ define("order/order.viewModel",
                     side2ButtonClick = function () {
                         showSide1Image(false);
                     },
-                    getBestPress = function () {
-                        showEstimateRunWizard();
-                        isLoadingOrders(true);
-                        bestPressList.removeAll();
-                        userCostCenters.removeAll();
-                        selectedBestPressFromWizard(undefined);
-                        dataservice.getBestPress(selectedSection().convertToServerData(), {
-                            success: function (data) {
-                                if (data != null) {
-                                    mapBestPressList(data.PressList);
-                                    mapUserCostCentersList(data.UserCostCenters);
-                                }
-                                isLoadingOrders(false);
-                            },
-                            error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
+
+                    runWizard = function () {
+                        errorList.removeAll();
+                        if (!doBeforeRunningWizard()) {
+                            selectedSection().errors.showAllMessages();
+                            return;
+                        }
+                        getBestPress();
+                    },
+                getBestPress = function () {
+                    showEstimateRunWizard();
+                    isLoadingOrders(true);
+                    bestPressList.removeAll();
+                    userCostCenters.removeAll();
+                    selectedBestPressFromWizard(undefined);
+                    dataservice.getBestPress(selectedSection().convertToServerData(), {
+                        success: function (data) {
+                            if (data != null) {
+                                mapBestPressList(data.PressList);
+                                mapUserCostCentersList(data.UserCostCenters);
                             }
-                        });
-                    },
-                    doBeforeRunningWizard = function () {
-                        var flag = true;
-                        if (selectedSection().sectionInkCoverageList().length == 0) {
-                            errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
-                            flag = false;
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Load Best Press List." + response, "", ist.toastrOptions);
                         }
-                        if (selectedSection().numberUp() <= 0) {
-                            errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
-                            flag = false;
-                        }
-                        if (selectedSection().stockItemName() == null) {
-                            errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
-                            flag = false;
-                        } 
-                        return flag;
-                    },
+                    });
+                },
+                doBeforeRunningWizard = function () {
+                    var flag = true;
+                    if (selectedSection().sectionInkCoverageList().length == 0) {
+                        errorList.push({ name: "Please select ink colors.", element: selectedSection().plateInkId.domElement });
+                        flag = false;
+                    }
+                    if (selectedSection().numberUp() <= 0) {
+                        errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
+                        flag = false;
+                    }
+                    if (selectedSection().stockItemName() == null) {
+                        errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
+                        flag = false;
+                    }
+                    return flag;
+                },
 
-                    // Map Best Press List
-                    mapBestPressList = function (data) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(BestPress.Create(item));
-                        });
+                // Map Best Press List
+                mapBestPressList = function (data) {
+                    var list = [];
+                    _.each(data, function (item) {
+                        list.push(BestPress.Create(item));
+                    });
 
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(bestPressList(), list);
-                        bestPressList.valueHasMutated();
-
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(bestPressList(), list);
+                    bestPressList.valueHasMutated();
+                    if (selectedSection().pressId() !== undefined) {
                         var bestPress = _.find(bestPressList(), function (item) {
-                            return item.isSelected === true;
+                            return item.id() === selectedSection().pressId();
                         });
                         if (bestPress) {
                             selectedBestPressFromWizard(bestPress);
@@ -1600,62 +1665,64 @@ define("order/order.viewModel",
                                 selectedBestPressFromWizard(bestPressList()[0]);
                             }
                         }
-                    },
-                     // Map User Cost Centers
-                    mapUserCostCentersList = function (data) {
-                        var list = [];
-                        _.each(data, function (item) {
-                            list.push(UserCostCenter.Create(item));
-                        });
-
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(userCostCenters(), list);
-                        userCostCenters.valueHasMutated();
-                    },
-
-                    getSectionSystemCostCenters = function () {
-                        if (!doBeforeRunningWizard()) {
-                            selectedSection().errors.showAllMessages();
-                            return;
+                    } else {
+                        if (bestPressList().length > 0) {
+                            selectedBestPressFromWizard(bestPressList()[0]);
                         }
-                        isLoadingOrders(true);
-                        var currSec = selectedSection().convertToServerData();
-                        dataservice.getUpdatedSystemCostCenters({
-                            CurrentSection: currSec,
-                            PressId: currSec.pressId,
-                            AllSectionInks: currSec.SectionInkCoverages
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    selectedSection(model.ItemSection.Create(data));
+                    }
 
-                                }
-                                isLoadingOrders(false);
-                            },
-                            error: function (response) {
-                                isLoadingOrders(false);
-                                toastr.error("Error: Failed to Load System Cost Centers." + response);
-                            }
-                        });
-                    },
-                    // Template Chooser For Delivery Schedule
-                    templateToUseDeliverySchedule = function (deliverySchedule) {
-                        return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
-                    },
-                    selectBestPressFromWizard = function (bestPress) {
-                        selectedBestPressFromWizard(bestPress);
-                    },
-                    clickOnWizardOk = function () {
-                        hideEstimateRunWizard();
-                    },
-                //Show Estimate Run Wizard
-                showEstimateRunWizard = function () {
-                    view.showEstimateRunWizard();
                 },
+                // Map User Cost Centers
+                mapUserCostCentersList = function (data) {
+                    var list = [];
+                    _.each(data, function (item) {
+                        list.push(UserCostCenter.Create(item));
+                    });
+
+                    // Push to Original Array
+                    ko.utils.arrayPushAll(userCostCenters(), list);
+                    userCostCenters.valueHasMutated();
+                },
+
+                getSectionSystemCostCenters = function () {
+                    isLoadingOrders(true);
+                    var currSec = selectedSection().convertToServerData();
+                    dataservice.getUpdatedSystemCostCenters({
+                        CurrentSection: currSec,
+                        PressId: selectedBestPressFromWizard().id,
+                        AllSectionInks: currSec.SectionInkCoverages
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                                selectedSection(model.ItemSection.Create(data));
+                                hideEstimateRunWizard();
+                            }
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Load System Cost Centers." + response);
+                        }
+                    });
+                },
+                // Template Chooser For Delivery Schedule
+                templateToUseDeliverySchedule = function (deliverySchedule) {
+                    return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
+                },
+                selectBestPressFromWizard = function (bestPress) {
+                    selectedBestPressFromWizard(bestPress);
+                },
+                clickOnWizardOk = function () {
+                    getSectionSystemCostCenters();
+                },
+                //Show Estimate Run Wizard
+            showEstimateRunWizard = function () {
+                view.showEstimateRunWizard();
+            },
                 //Hide Estimate Run Wizard
-                hideEstimateRunWizard = function () {
-                    view.hideEstimateRunWizard();
-                };
+            hideEstimateRunWizard = function () {
+                view.hideEstimateRunWizard();
+            };
                 //#endregion
                 //#endregion
 
@@ -1731,11 +1798,15 @@ define("order/order.viewModel",
                     showSide1Image: showSide1Image,
                     inks: inks,
                     inkCoverageGroup: inkCoverageGroup,
+                    openSectionCostCenterDialog: openSectionCostCenterDialog,
+                    selectedSectionCostCenter: selectedSectionCostCenter,
+                    selectedQty: selectedQty,
                     //#endregion Utility Methods
                     //#region Dialog Product Section
                     orderProductItems: orderProductItems,
                     getOrders: getOrders,
                     getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
+                    getOrdersOnTabChange: getOrdersOnTabChange,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
@@ -1799,12 +1870,13 @@ define("order/order.viewModel",
                     paperSizes: paperSizes,
                     openStockItemDialog: openStockItemDialog,
                     getSectionSystemCostCenters: getSectionSystemCostCenters,
-                    doBeforeRunningWizard: doBeforeRunningWizard,                    
+                    doBeforeRunningWizard: doBeforeRunningWizard,
                     bestPressList: bestPressList,
                     userCostCenters: userCostCenters,
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
-                    clickOnWizardOk: clickOnWizardOk
+                    clickOnWizardOk: clickOnWizardOk,
+                    runWizard: runWizard
                     //#endregion
                 };
             })()

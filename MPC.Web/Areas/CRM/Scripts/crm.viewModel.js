@@ -14,14 +14,14 @@ define("crm/crm.viewModel",
                     searchFilter = ko.observable(),
                     // Pager for Prospect pagging
                     prospectPager = ko.observable(),
-                    // Pager for Customer pagging
-                    customerPager = ko.observable(),
                     // Determines Company type
-                    companyType = ko.observable(0),
+                    companyType = ko.observable(2),
                     orderPager = ko.observable(),
                     purchaseOrderPager = ko.observable(),
                     goodsReceivedNotePager = ko.observable(),
                     invoicePager = ko.observable(),
+                    // Value holder of company DD
+                    companyDdSelector = ko.observable(),
                     // Sort On
                     sortOn = ko.observable(1),
                     // Sort In Ascending
@@ -147,21 +147,20 @@ define("crm/crm.viewModel",
 
                 //#region ___________ LIST VIEW ______________
                 // Gets customers for list view
-                getCustomers = function (isCutomer) {
-                    companyType(isCutomer);
+                getCustomers = function () {
                     customersForListView.removeAll();
                     dataservice.getCustomersForListView({
                         SearchString: searchFilter(),
-                        IsCustomer: isCutomer || 0,
-                        PageSize: isCutomer === 0 ? prospectPager().pageSize() : customerPager().pageSize(),
-                        PageNo: isCutomer === 0 ? prospectPager().currentPage() : customerPager().currentPage(),
+                        IsCustomer: companyType(),
+                        PageSize: prospectPager().pageSize(),
+                        PageNo:   prospectPager().currentPage() ,
                         SortBy: sortOn(),
                         IsAsc: sortIsAsc()
                     },
                     {
                         success: function (data) {
                             if (data != null) {
-                                isCutomer === undefined || isCutomer === 0 ? prospectPager().totalCount(data.RowCount) : customerPager().totalCount(data.RowCount);
+                               prospectPager().totalCount(data.RowCount) ;
                                 _.each(data.Customers, function (customer) {
                                     var customerModel = new model.customerViewListModel.Create(customer);
                                     customersForListView.push(customerModel);
@@ -183,12 +182,17 @@ define("crm/crm.viewModel",
                     searchFilter(null);
                     getCustomers();
                 },
-                //// Select Store
-                //selectStore = function(store) {
-                //    if (selectedStore() !== store) {
-                //        selectedStore(store);
-                //    }
-                //},
+                onChangeCompany = function () {
+                    var opp = companyDdSelector();
+                    if (opp == 'All')
+                        opp = 2;
+                    else if (opp == 'Prospects')
+                        opp = 0;
+                    else if (opp == 'Customer')
+                        opp = 1;
+                    companyType(opp);
+                    getCustomers();
+                },
                 //#endregion
 
                 // #region _________C O M P A N Y   T E R R I T O R Y ____________
@@ -1702,8 +1706,8 @@ define("crm/crm.viewModel",
                 //On Edit Click Of Store
                 onEditItem = function (item) {
                     openEditDialog(item);
-                    $('.nav-tabs li:first-child a').tab('show');
-                    $('.nav-tabs li:eq(0) a').tab('show');
+                    $('#crmTabsId li:first-child a').tab('show');
+                    $('#crmTabsId li:eq(0) a').tab('show');
                     sharedNavigationVm.initialize(selectedStore, function (saveCallback) { saveStore(saveCallback); });
                 },
 
@@ -2393,7 +2397,6 @@ define("crm/crm.viewModel",
                    ko.applyBindings(view.viewModel, view.bindingRoot);
                    if (isProspectOrCustomerScreen()) {
                        prospectPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
-                       customerPager(new pagination.Pagination({ PageSize: 5 }, customersForListView, getCustomers));
                        getCustomers();
                    }
                    else {
@@ -2425,7 +2428,6 @@ define("crm/crm.viewModel",
                     resetSupplierFilterSection: resetSupplierFilterSection,
                     //#endregion
                     prospectPager: prospectPager,
-                    customerPager: customerPager,
                     searchFilter: searchFilter,
                     isEditorVisible: isEditorVisible,
                     isProspectOrCustomerScreen: isProspectOrCustomerScreen,
@@ -2544,7 +2546,9 @@ define("crm/crm.viewModel",
                     goodRecievedNotesList: goodRecievedNotesList,
                     purchaseOrderPager: purchaseOrderPager,
                     goodRecievedNotesTabClickHandler: goodRecievedNotesTabClickHandler,
-                    goodsReceivedNotePager: goodsReceivedNotePager
+                    goodsReceivedNotePager: goodsReceivedNotePager,
+                    companyDdSelector: companyDdSelector,
+                    onChangeCompany: onChangeCompany
                 };
                 //#endregion
             })()

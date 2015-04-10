@@ -67,10 +67,35 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
-
+                    amplify.request.define('deleteQuestionVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+                    amplify.request.define('deleteAnswerVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
+                        dataType: 'json',
+                        type: 'DELETE'
+                    });
+                    amplify.request.define('saveNewQuestionVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCenterTree',
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'Put'
+                    });
                     isInitialized = true;
                 }
             },
+            saveNewQuestionVariable = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveNewQuestionVariable',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: JSON.stringify(param)
+                });
+            };
              // Get base data
             getBaseData = function (callbacks) {
                 initialize();
@@ -98,6 +123,25 @@ define("costcenter/costcenter.dataservice", function () {
                 data: params
             });
         };
+        deleteQuestionVariable = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteQuestionVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        deleteAnswerVariable = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'deleteAnswerVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
+        
         // Get Cost Centers List
         getCostCentersList = function (params, callbacks) {
             initialize();
@@ -166,7 +210,10 @@ define("costcenter/costcenter.dataservice", function () {
             getBaseData: getBaseData,
             GetTreeListById: GetTreeListById,
             getCostCentreAnswerList: getCostCentreAnswerList,
-            saveQuestionVariable: saveQuestionVariable
+            saveQuestionVariable: saveQuestionVariable,
+            deleteQuestionVariable: deleteQuestionVariable,
+            deleteAnswerVariable: deleteAnswerVariable,
+            saveNewQuestionVariable: saveNewQuestionVariable
         };
     })();
 

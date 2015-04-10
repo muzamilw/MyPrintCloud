@@ -2,9 +2,9 @@
     loaderLoading = true;
     var3 = 1;
     if (msg == null || msg == "") {
-        msg = "You can add different layouts to your design, you can also add images, text content,  background colour and image to your design.";
+        msg = "Loadinng design onto the canvas.";
     }
-    $("#paraLoaderMsg").text(msg);
+    $("#loaderTitleMsg").text(msg);
     $("#MainLoader").css("display", "block");
     $(".progressValue").css("width", "1%");
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
@@ -130,7 +130,7 @@ function b4(imgSrc) {
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
-        StartLoader("Deleting the image from your design, please wait....");
+        StartLoader("Deleting image from all pages and image library....");
         b8_svc(imageID, productID);
     }
 }
@@ -1464,7 +1464,8 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        } 
+        }
+
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1487,8 +1488,11 @@ function fu02() {
     canvas.observe('selection:cleared', function (e) {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable, #divVariableContainer  ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
-
-
+        if ($('#selectedTab').css('top') == "280px")
+        {
+            console.log("call");
+            $("#btnAdd").click();
+        }
     });
 }
 
@@ -1515,6 +1519,9 @@ function fu04_callBack(DT) {
     }
     
 }
+function p36_22() {
+    $("#DivColorPickerDraggable").css("display", "none");
+}
 function b3_lDimensions() {
     var w = Template.PDFTemplateWidth;
     var h = Template.PDFTemplateHeight;
@@ -1537,13 +1544,19 @@ function b3_lDimensions() {
 function fu05_svcCall(DT) {
     if (IsCalledFrom == 2 || IsCalledFrom == 4)
     {
-        var html = "<div id='tabs'><ul class='tabsList'><li><a href='#tabsActiveColors'>Active</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
-        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        var html = "<div class='closePanelButton closeBtnMenus' onclick='p36_22();'><br></div><div id='tabs' style='margin-top:22px;'><ul class='tabsList'><li><a href='#tabsActiveColors'>Available<br /> Colors</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled <br />Colors</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a title="Add new Color to pallet">Add a color</a></li>';
         $('.ColorOptionContainer').append(html);
         $.each(DT, function (i, IT) {
             fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
         });
         $("#tabs").tabs();
+        if(IsCalledFrom ==4)
+        {
+            $(".tabsList").css("display", "none");
+            $(".btnDeactiveColor").css("display", "none");
+            $("#BtnAdvanceColorPicker").css("display", "none");
+        }
     } else
     {
         $.each(DT, function (i, IT) {
@@ -1808,7 +1821,7 @@ function fu09_1(DT) {
 function fu10(ca, gtID) {
     $(".templateListUL .on").removeClass("on");
     $(ca).parent().addClass("on");
-    StartLoader("Downloading images and text objects for your design., please wait....");
+    StartLoader("Loading design onto the canvas...");
     TP = [];
     TO = [];
     isloadingNew = true;
@@ -2081,7 +2094,7 @@ function i2(cs) {
 function i4(coords, ObjectID, color, cutMargin) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.2, border: 'none'
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.85, border: 'none'
         });
 
     line.ObjectID = ObjectID;
@@ -2194,7 +2207,7 @@ function j9(e, url1, id) {
                         n = n.replace("%20", " ");
                     while (n.indexOf('./') != -1)
                         n = n.replace("./", "");
-                    StartLoader("Downloading image to your design, please wait....");
+                    StartLoader("Placing image on canvas, please wait....");
                     var imgtype = 2;
                     if (isBKpnl) {
                         imgtype = 4;
@@ -2966,7 +2979,7 @@ function k16(TempImgType, ImC, Caller) {
                 }
                 if (DT.objsBackground == "") {
                     if (oldHtml.indexOf("allImgsLoadedMessage") == -1) {
-                        $("." + strName).append("<p class='allImgsLoadedMessage'>No more images matches your search criteria. </p>");
+                        $("." + strName).append("<p class='allImgsLoadedMessage' style='margin-top:50px;  text-align: center; margin-bottom:50px;'>No image found. </p>");
                         $(".btn" + strName).css("display", "none");
                     } else {
                         if (TempImgType == 1) {
@@ -3544,7 +3557,7 @@ function k32(imID, Tid, eleID) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas, please wait....");
         svcCall4(n, tID, imgtype);
     } else {
         var bkImgURL = eleID.split("./Designer/Products/");;
@@ -3742,18 +3755,18 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     if (sObj) {
         cid = sObj.ObjectID;
     }
-    var btnHtml = ' <button class="btnMoveLayerUp" ></button><button class="btnMoveLayerDown" ></button>';
+    var btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up"></button><button class="btnMoveLayerDown" title="Move layer down"></button>';
     if (index1 == 0) {
-        btnHtml = '<button class="btnMoveLayerDown" ></button>';
+        btnHtml = '<button class="btnMoveLayerDown" title="Move layer down"></button>';
     } else if (index1 == -1) {
-        btnHtml = ' <button class="btnMoveLayerUp" ></button>';
+        btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up" ></button>';
     }
     btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
     } else {
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
 
     }
     return html;

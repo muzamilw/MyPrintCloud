@@ -35,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public PtvDTO Get([FromUri] MPC.Models.RequestModels.PTVRequestModel request)
         {
             if (request == null || !ModelState.IsValid)

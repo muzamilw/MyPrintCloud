@@ -983,6 +983,17 @@ namespace MPC.Repository.Repositories
 		}
 
 
+        public List<CostCentreType> GetCostCentreTypeByOrganisationID(long OID)
+        {
+            try
+            {
+                return db.CostCentreTypes.Where(c => c.OrganisationId == OID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 		
 		#endregion

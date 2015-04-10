@@ -134,7 +134,10 @@ namespace MPC.Repository.Repositories
             if (itemId != null && itemId > 0)
             {
                 StockItem SI = db.StockItems.Where(g => g.StockItemId == itemId).SingleOrDefault();
-                return SI.ItemName;
+                if (SI != null)
+                    return SI.ItemName;
+                else
+                    return string.Empty;
             }
             return "";
         }
@@ -491,14 +494,33 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                Mapper.CreateMap<LookupMethod, LookupMethod>()
-               .ForMember(x => x.MachineClickChargeLookups, opt => opt.Ignore())
-                 .ForMember(x => x.MachineClickChargeZones, opt => opt.Ignore())
-                 .ForMember(x => x.MachineGuillotineCalcs, opt => opt.Ignore())
-                 .ForMember(x => x.MachinePerHourLookups, opt => opt.Ignore())
-                 .ForMember(x => x.MachineSpeedWeightLookups, opt => opt.Ignore());
+                Mapper.CreateMap<LookupMethod, LookupMethod>();
 
-                List<LookupMethod> methods = db.LookupMethods.Where(o => o.OrganisationId == OID).ToList();
+
+                Mapper.CreateMap<MachineClickChargeLookup, MachineClickChargeLookup>()
+              .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+                Mapper.CreateMap<MachineClickChargeZone, MachineClickChargeZone>()
+            .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+                Mapper.CreateMap<MachineGuillotineCalc, MachineGuillotineCalc>()
+          .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+                Mapper.CreateMap<MachinePerHourLookup, MachinePerHourLookup>()
+         .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<MachineSpeedWeightLookup, MachineSpeedWeightLookup>()
+         .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+
+                Mapper.CreateMap<MachineMeterPerHourLookup, MachineMeterPerHourLookup>()
+         .ForMember(x => x.LookupMethod, opt => opt.Ignore());
+
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+
+                List<LookupMethod> methods = db.LookupMethods.Include("MachineClickChargeLookups").Include("MachineClickChargeZones").Include("MachineGuillotineCalcs").Include("MachinePerHourLookups").Include("MachineSpeedWeightLookups").Include("MachineMeterPerHourLookups").Where(o => o.OrganisationId == OID).ToList();
 
                 List<LookupMethod> oOutputLookup = new List<LookupMethod>();
 

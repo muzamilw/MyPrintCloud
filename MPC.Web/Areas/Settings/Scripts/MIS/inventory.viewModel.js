@@ -163,7 +163,6 @@ define("inventory/inventory.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                pager().totalCount(data.TotalCount);
                                 inventories.removeAll();
                                 var inventoryList = [];
                                 _.each(data.StockItems, function (item) {
@@ -173,6 +172,7 @@ define("inventory/inventory.viewModel",
                                 ko.utils.arrayPushAll(inventories(), inventoryList);
                                 inventories.valueHasMutated();
                                 isLoadingInventory(false);
+                                pager().totalCount(data.TotalCount);
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -262,8 +262,7 @@ define("inventory/inventory.viewModel",
                             });
                         }
                     }, this),
-
-                     //On select Supplier
+                    //On select Supplier
                     selectedSupplier = ko.computed(function () {
                         if (supplierVm.selectedSupplier() !== undefined) {
                             selectedInventory().supplierId(supplierVm.selectedSupplier().supplierId());

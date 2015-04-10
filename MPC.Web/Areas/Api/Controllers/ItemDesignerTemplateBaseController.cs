@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Item Designer Template Base Data
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct,  })]
+        [CompressFilterAttribute]
         public Models.ItemDesignerTemplateBaseResponse Get(int? id)
         {
             if (!ModelState.IsValid)

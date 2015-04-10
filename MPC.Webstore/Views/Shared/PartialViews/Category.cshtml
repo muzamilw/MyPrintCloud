@@ -380,14 +380,14 @@
     <input type="hidden" id="hfPrintCropMarks" />
     <input type="hidden" id="hfSvcRespone" />
 </div>
-<section id="MainLoader" class="dialogContainer dialogProof" style=" display: none; ">
-    <div class="maskItems on"></div>
-    <div class="dialog" style="top: 261.5px; height: 184px;">
-        <h2>Preparing your Design…</h2>
+<section id="MainLoader" class="dialogContainer dialogProof" style="display:none;">
+    <div class="mask on"></div>
+    <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
+        <h2 id="loaderTitleMsg">Generating artwork for your approval to order...</h2>
         <div class="content">
             <div class="exporting">
-                <div class="progress"><span class="progressValue" style="width: 100%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
-                <p id="paraLoaderMsg">Please wait while we generate proof of your design...</p>
+                <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
+                <p id="paraLoaderMsg" style="display:none;">You can add different layouts to your design, you can also add images, text content,  background Color and image to your design. </p>
             </div>
         </div>
     </div>
@@ -397,7 +397,7 @@
         Close
     </div>
     <div class="previewerTitle">
-        <span class="lightGray">Preview :</span> <span class="productTitle"></span>
+        <span class="lightGray">Approval for </span> <span class="productTitle"></span>
     </div>
     <div class="sliderLine">
     </div>
@@ -420,7 +420,7 @@
          
             </div>
             <button id="btnNextProofing" class="btnBlueProofing buttonDesigner previewfontStyles">
-                Next
+                Progress to options
             </button>
         </div>
     </div>

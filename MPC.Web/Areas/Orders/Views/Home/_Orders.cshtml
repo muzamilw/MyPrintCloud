@@ -2,7 +2,7 @@
     <div class="col-lg-12">
         <div class="pull-right">
             <button id="open-wizard" data-bind="click: createOrder" class="btn btn-primary pull-right">
-                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Order
+                Add Order
             </button>
         </div>
     </div>
@@ -18,13 +18,13 @@
             <div class="main-box-body main-box clearfix">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrders(0);}">All Orders</a></li>
-                        <li><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrders(4);}">Pending Orders</a></li>
-                        <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrders(5);}">Confirmed Starts</a></li>
-                        <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrders(6);}">In Production</a></li>
-                        <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrders(7);}">Ready For Shipping</a></li>
-                        <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrders(8);}">Invoiced</a></li>
-                        <li><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrders(9);}">Cancelled Orders</a></li>
+                        <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Orders</a></li>
+                        <li><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Pending Orders</a></li>
+                        <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Confirmed Starts</a></li>
+                        <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
+                        <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Ready For Shipping</a></li>
+                        <li><a href="#tab-Invoiced" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(8);}">Invoiced</a></li>
+                        <li><a href="#tab-CancelledOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(9);}">Cancelled Orders</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade in active" id="tab-All">

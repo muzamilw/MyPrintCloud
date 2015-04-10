@@ -46,6 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get Activity Detail By ID
         /// </summary>
+        [CompressFilterAttribute]
         public MPC.MIS.Areas.Api.Models.CostCentreResponseModel Get([FromUri]GetCostCentresRequest requestModel)
         {
             var v = companyCostCentreService.GetCompanyCostCentreByCompanyId(requestModel).CreateFrom();

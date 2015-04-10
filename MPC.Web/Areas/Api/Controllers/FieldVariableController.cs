@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Field variables
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public FieldVariableResponse Get([FromUri] FieldVariableRequestModel request)
         {
             return companyService.GetFieldVariables(request).CreateFrom();
@@ -47,6 +48,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [HttpPost]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public long Post(FieldVariable fieldVariable)
         {
             if (!ModelState.IsValid)

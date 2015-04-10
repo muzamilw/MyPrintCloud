@@ -2,15 +2,20 @@
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using Microsoft.VisualBasic;
+using MPC.Interfaces.Common;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
+using MPC.Interfaces.WebStoreServices;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using CalculationMethods = MPC.Models.Common.CostCentrCalculationMethods;
+using System.Linq;
 
 namespace MPC.Implementation.MISServices
 {
@@ -25,13 +30,14 @@ namespace MPC.Implementation.MISServices
         private readonly IMarkupRepository _markupRepository;
         private readonly ICostCentreVariableRepository _costCentreVariableRepository;
         private readonly IDeliveryCarrierRepository _deliveryCarrierRepository;
-
+        private readonly IOrganisationRepository _organisationRepository;
+        private readonly IItemRepository _itemRepository;
         #endregion
 
         #region Constructor
 
         public CostCenterService(ICostCentreRepository costCenterRepository, IChartOfAccountRepository chartOfAccountRepository, ISystemUserRepository systemUserRepository, ICostCenterTypeRepository costCenterTypeRepository,
-            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository)
+            IMarkupRepository markupRepository, ICostCentreVariableRepository costCentreVariableRepository, IDeliveryCarrierRepository deliveryCarrierRepository, IOrganisationRepository organisationRepository, IItemRepository itemRepository)
         {
             if (costCenterRepository == null)
             {
@@ -61,6 +67,14 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("deliveryCarrierRepository");
             }
+            if (organisationRepository == null)
+            {
+                throw new ArgumentNullException("organisationRepository");
+            }
+            if (itemRepository == null)
+            {
+                throw new ArgumentNullException("itemRepository");
+            }
             this._costCenterRepository = costCenterRepository;
             this._chartOfAccountRepository = chartOfAccountRepository;
             this._systemUserRepository = systemUserRepository;
@@ -68,6 +82,8 @@ namespace MPC.Implementation.MISServices
             this._markupRepository = markupRepository;
             this._costCentreVariableRepository = costCentreVariableRepository;
             this._deliveryCarrierRepository = deliveryCarrierRepository;
+            this._organisationRepository = organisationRepository;
+            this._itemRepository = itemRepository;
         }
 
         #endregion
@@ -81,16 +97,20 @@ namespace MPC.Implementation.MISServices
 
         public CostCentre Add(CostCentre costcenter)
         {
-           // _costCenterRepository.Add(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", true);
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
+            // _costCenterRepository.Add(costcenter);
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, true);
             return costcenter;
         }
 
         public CostCentre Update(CostCentre costcenter)
         {
+            Organisation org = _organisationRepository.GetOrganizatiobByID();
+            string sOrgName = org.OrganisationName.Replace(" ", "").Trim();
             costcenter.ThumbnailImageURL = SaveCostCenterImage(costcenter);
             _costCenterRepository.Update(costcenter);
-            SaveCostCentre(costcenter, _costCenterRepository.OrganisationId, "PinkCards", false);            
+            SaveCostCentre(costcenter, org.OrganisationId, sOrgName, false);            
             return costcenter;
         }
         public bool Delete(long costcenterId)
@@ -948,6 +968,181 @@ namespace MPC.Implementation.MISServices
         public CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id)
         {
             return _costCenterRepository.GetCostCenterVariablesTree(id);
+        }
+
+        public double GetCostCenterExecutionResult(CostCenterExecutionRequest request)
+        {
+            double dblResult = 0;
+
+            return dblResult;
+        }
+
+        public CostCenterExecutionResponse GetCostCenterPrompts(CostCenterExecutionRequest request)
+        {
+            object[] _CostCentreParamsArray = new object[12];
+            double actualPrice = 0;
+            if ((request.Action == "Update" && request.QuestionQueueItems != null) || request.Action != "Update")
+            {
+                AppDomain _AppDomain = null;
+
+                try
+                {
+
+                    Organisation org = _organisationRepository.GetOrganizatiobByID();
+                    string OrganizationName = org.OrganisationName.Replace(" ", "").Trim();
+                    AppDomainSetup _AppDomainSetup = new AppDomainSetup();
+
+
+                    object _oLocalObject;
+                    ICostCentreLoader _oRemoteObject;                    
+
+                    _AppDomainSetup.ApplicationBase = AppDomain.CurrentDomain.BaseDirectory;
+                    _AppDomainSetup.PrivateBinPath = Path.GetDirectoryName((new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).LocalPath);
+
+
+                    _AppDomain = AppDomain.CreateDomain("CostCentresDomain", null, _AppDomainSetup);
+
+                    List<CostCentreQueueItem> CostCentreQueue = new List<CostCentreQueueItem>();
+                    
+                    CostCentreLoaderFactory _CostCentreLaoderFactory = (CostCentreLoaderFactory)_AppDomain.CreateInstance("MPC.Interfaces", "MPC.Interfaces.WebStoreServices.CostCentreLoaderFactory").Unwrap();
+                    _CostCentreLaoderFactory.InitializeLifetimeService();
+
+                    if (request.Action == "New")
+                    {
+                        if (request.QuestionQueueItems != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = request.QuestionQueueItems;
+                        }
+                        else
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                            _CostCentreParamsArray[2] = new List<QuestionQueueItem>();
+                        }
+                    }
+
+                    if (request.Action == "addAnother")
+                    {
+
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = request.QuestionQueueItems;
+
+                    }
+
+                    if (request.Action == "Update")
+                    {
+                        if (request.QuestionQueueItems != null)
+                        {
+                            _CostCentreParamsArray[1] = CostCentreExecutionMode.ExecuteMode;
+                            _CostCentreParamsArray[2] = request.QuestionQueueItems;
+                        }
+                    }
+
+                    //_CostCentreParamsArray(0) = Common.g_GlobalData;
+                    //GlobalData
+
+                    //this mode will load the questionqueue
+
+                    //QuestionQueue / Execution Queue
+                    _CostCentreParamsArray[3] = CostCentreQueue;
+                    // check if cc has wk ins
+
+
+                    //CostCentreQueue
+                    _CostCentreParamsArray[4] = 1;
+
+                    _CostCentreParamsArray[5] = 1;
+                    //MultipleQuantities
+
+                    //CurrentQuantity
+                    _CostCentreParamsArray[6] = new List<StockQueueItem>();
+                    //StockQueue
+                    _CostCentreParamsArray[7] = new List<InputQueueItem>();
+                    //InputQueue
+
+                    if (request.Quantity <= 0)
+                    {
+                        // get first item section
+                        _CostCentreParamsArray[8] = _itemRepository.GetItemFirstSectionByItemId(request.ItemId);
+                    }
+                    else
+                    {
+                        // update quantity in item section and return
+                        _CostCentreParamsArray[8] = _itemRepository.UpdateItemFirstSectionByItemId(request.ItemId, request.Quantity);
+                        //first update item section quatity
+                        //persist queue
+                        // run multiple cost centre
+                        // after calculating cost centre 
+
+                    }
+
+
+                    _CostCentreParamsArray[9] = 1;
+
+
+                    CostCentre oCostCentre = _costCenterRepository.GetCostCentreByID(request.CostCenterId);
+
+
+
+                    CostCentreQueue.Add(new CostCentreQueueItem(oCostCentre.CostCentreId, oCostCentre.Name, 1, oCostCentre.CodeFileName, null, oCostCentre.SetupSpoilage, oCostCentre.RunningSpoilage));
+
+
+
+                    _oLocalObject = _CostCentreLaoderFactory.Create(HttpContext.Current.Server.MapPath("/") + "\\ccAssembly\\" + OrganizationName + "UserCostCentres.dll", "UserCostCentres." + oCostCentre.CodeFileName, null);
+                    _oRemoteObject = (ICostCentreLoader)_oLocalObject;
+
+                    CostCentreCostResult oResult = null;
+
+                    if (request.Action == "Modify")
+                    {
+                        _CostCentreParamsArray[1] = CostCentreExecutionMode.PromptMode;
+                        _CostCentreParamsArray[2] = request.QuestionQueueItems.Where(c => c.CostCentreID == oCostCentre.CostCentreId).ToList();
+                    }
+                    else
+                    {
+                        if (request.Action == "Update") // dummy condition
+                        {
+                           // return Request.CreateResponse(HttpStatusCode.OK, 131);
+                        }
+                        oResult = _oRemoteObject.returnCost(ref _CostCentreParamsArray);
+
+                    }
+
+                    if ((request.QuestionQueueItems != null && request.Action != "Modify" && request.Action != "addAnother" && oResult != null) || (request.QuestionQueueItems != null && request.Action == "Update"))
+                    {
+
+                        actualPrice = oResult.TotalCost;
+
+                        if (actualPrice < oCostCentre.MinimumCost && oCostCentre.MinimumCost != 0)
+                        {
+                            actualPrice = oCostCentre.MinimumCost ?? 0;
+                        }
+                    }
+                    else
+                    {
+
+                       // return Request.CreateResponse(HttpStatusCode.OK, _CostCentreParamsArray);
+                    }
+
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    AppDomain.Unload(_AppDomain);
+                }
+
+            }
+            
+            return new CostCenterExecutionResponse 
+            { 
+                CostCentreParamsArray = _CostCentreParamsArray ,
+                dblReturnCost = actualPrice
+            };
         }
 
         #endregion

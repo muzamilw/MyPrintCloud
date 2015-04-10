@@ -56,6 +56,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CustomerName = source.Name,
                 DefaultContactName = defaultContact,
                 DefaultContactEmail=email,
+                CustomerType= source.IsCustomer,
                 DateCreted = source.CreationDate,
                 Email = source.MarketingBriefRecipient,
                 Status = GetCustomerStatus(source.Status),

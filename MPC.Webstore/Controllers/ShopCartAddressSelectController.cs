@@ -348,8 +348,9 @@ namespace MPC.Webstore.Controllers
                             }
 
                             AddressSelectModel.BillingAddress = billingAddress;
-                            AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
-                            AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
+                            RebindBillingStatesDD(AddressSelectModel, billingAddress);
+                            //AddressSelectModel.SelectedBillingCountry = billingAddress.CountryId ?? 0;
+                            //AddressSelectModel.SelectedBillingState = billingAddress.StateId ?? 0;
                             AddressSelectModel.SelectedBillingAddress = billingAddress.AddressId;
 
                             //Shipping Address
@@ -381,8 +382,9 @@ namespace MPC.Webstore.Controllers
                             {
 
                                 AddressSelectModel.ShippingAddress = shippingAddress;
-                                AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
-                                AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryState = shippingAddress.StateId ?? 0;
+                                //AddressSelectModel.SelectedDeliveryCountry = shippingAddress.CountryId ?? 0;
+                                RebindShippingStatesDD(AddressSelectModel, shippingAddress);
                                 AddressSelectModel.SelectedDeliveryAddress = (int)shippingAddress.AddressId;
                             }
 
@@ -1399,7 +1401,7 @@ namespace MPC.Webstore.Controllers
             string RecipientProvinceCode = _myCompanyService.GetStateCodeById(model.SelectedDeliveryState).ToString().Trim();
             string RecipientPostcode = Request.Form["txtShipPostCode"];
             string CountryCode = _myCompanyService.GetCountryCodeById(model.SelectedDeliveryCountry).ToString().Trim();
-
+           
 
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {

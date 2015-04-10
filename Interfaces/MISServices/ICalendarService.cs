@@ -51,5 +51,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Activities
         /// </summary>
         IEnumerable<Activity> GetActivities(ActivityRequestModel request);
+
+        CompanyContactResponse GetCompanyContacts(CompanyContactForCalendarRequestModel request);
     }
 }

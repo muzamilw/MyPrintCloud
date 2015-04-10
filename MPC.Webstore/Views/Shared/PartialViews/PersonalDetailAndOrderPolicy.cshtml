@@ -4,6 +4,7 @@
 
 @{
     var Store = ViewData["Company"] as MPC.Models.DomainModels.Company;
+    string CurrencySymbol = ViewBag.CurrencySymbol;
 }
 <script src="~/Scripts/jquery-1.10.2.js"></script>
 
@@ -64,7 +65,7 @@
                     <td>
                         @if (Model.CreditLimit.HasValue && Model.CreditLimit.Value > 0)
                         {
-                            <label id="lblOrderLimit">@Model.CreditLimit</label>
+                            <label id="lblOrderLimit">@Utils.FormatDecimalValueToTwoDecimal(Model.CreditLimit.ToString(), CurrencySymbol)</label>
                         }
                         else
                         {

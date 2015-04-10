@@ -45,6 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public Estimate Get(int id)
         {
             if (id <= 0)
@@ -59,6 +60,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All Orders
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public GetOrdersResponse Get([FromUri] GetOrdersRequest request)
         {
             if (request == null || !ModelState.IsValid)
@@ -74,6 +76,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public Estimate Post(Estimate request)
         {
             if (request == null || !ModelState.IsValid)
@@ -89,6 +92,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public Boolean Delete(OrderDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.OrderId <= 0)

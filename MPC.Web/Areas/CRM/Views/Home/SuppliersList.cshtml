@@ -14,10 +14,10 @@
                 <h1>Supplier</h1>
 
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="/CRM/SuppliersList">CRM</a></li>
+                    <li><a href="~/CRM/Home/SuppliersList">Supplier</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
                     <li class="active"><span>Supplier</span></li>
                     <!-- /ko -->
@@ -27,7 +27,7 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name() == undefined ? 'Supplier Name' :  $root.selectedStore().name()"></h1>
                 <!-- /ko -->
 
 
@@ -40,18 +40,24 @@
                 <div class="main-box-body main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
-                                    <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
-                                       <a href="~/CRM/Home/Calendar">Calendar</a>
-                                     </li>
-                                     <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
-                                     <a href="~/CRM/Home/Contacts">Contacts</a>
-                                     </li>
-                                     <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
-                                     <a href="~/CRM/Home/Index">Companies</a>
-                                       </li>
-                                      <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
-                                     <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
-                                      </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Calendar) { <text>active</text> }">
+                                <a href="~/CRM/Home/Calendar">Calendar</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
+                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
+                                <a href="~/CRM/Home/Contacts">Contacts</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Companies) { <text>active</text> }">
+                                <a href="~/CRM/Home/Index">Companies</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Supplier) { <text>active</text> }">
+                                <a href="#tab-Supplier" data-toggle="tab">Supplier</a>
+                            </li>
+                            <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
+                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-Supplier">
@@ -66,10 +72,10 @@
                                                         <thead>
                                                             <tr>
                                                                 @*<th><span>Company</span></th>
-                                        <th><span>Created</span></th>
-                                        <th class="text-center"><span>Status</span></th>
-                                        <th><span>Email</span></th>
-                                        <th>&nbsp;</th>*@
+                                                                    <th><span>Created</span></th>
+                                                                    <th class="text-center"><span>Status</span></th>
+                                                                    <th><span>Email</span></th>
+                                                                    <th>&nbsp;</th>*@
 
                                                                 <th class="col-lg-1"></th>
                                                                 <th class="col-lg-3"><span>Company</span></th>
@@ -151,7 +157,7 @@
 </script>
 @* Filter Template *@
 <script id="filterTemplate" type="text/html">
-    <div class="filter-body" id="filter">
+    <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
         <form data-bind="submit:$root.getSuppliers">
             <div class="filter-block pull-right">
                 <div class="form-group pull-left">
@@ -160,7 +166,7 @@
                 </div>
                 <div class="pull-left">
                     <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Supplier
+                        Add Supplier
                     </a>
                 </div>
             </div>

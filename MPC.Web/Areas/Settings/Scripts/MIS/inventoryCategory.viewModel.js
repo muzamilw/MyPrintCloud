@@ -53,13 +53,22 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     //To Show/Hide Edit Section
                     isStockCategoryEditorVisible = ko.observable(false),
                     //Delete Stock Category
-                    deleteStockCategory = function (stockCategory) {
+                    onDeleteStockCategory = function () {
+                        confirmation.messageText("Do you want to delete Stock Category?");
+                        confirmation.afterProceed(deleteStockCategory);
+                        confirmation.afterCancel(function () {
+
+                        });
+                        confirmation.show();
+                        return;
+                    },
+                    deleteStockCategory = function () {
                         dataservice.deleteStockCategory({
-                            StockCategoryId: stockCategory.categoryId(),
+                            StockCategoryId: selectedStockCategory().categoryId(),
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    stockCategories.remove(stockCategory);
+                                    stockCategories.remove(selectedStockCategory());
                                     toastr.success(" Deleted Successfully !");
                                 }
                             },
@@ -81,11 +90,11 @@ define("inventoryCategory/inventoryCategory.viewModel",
                             success: function (data) {
                                 stockCategories.removeAll();
                                 if (data != null) {
-                                    pager().totalCount(data.RowCount);
                                     _.each(data.StockCategories, function (item) {
                                         var module = model.InventoryCategory.Create(item);
                                         stockCategories.push(module);
                                     });
+                                    pager().totalCount(data.RowCount);
                                 }
                                 isLoadingStockCategories(false);
                             },
@@ -265,7 +274,7 @@ define("inventoryCategory/inventoryCategory.viewModel",
                     createNewStockCategory: createNewStockCategory,
                     onEditItem: onEditItem,
                     isStockCategoryEditorVisible: isStockCategoryEditorVisible,
-                    deleteStockCategory: deleteStockCategory,
+                    onDeleteStockCategory: onDeleteStockCategory,
                     getStockCategories: getStockCategories,
                     doBeforeSave: doBeforeSave,
                     saveStockCategory: saveStockCategory,
