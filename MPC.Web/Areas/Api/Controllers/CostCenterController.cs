@@ -34,6 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
 
+        [CompressFilterAttribute]
         public CostCenterResponse GetCostCentersList([FromUri] CostCenterRequestModel request)
         {
             var result = _costCenterService.GetUserDefinedCostCenters(request);
@@ -43,11 +44,13 @@ namespace MPC.MIS.Areas.Api.Controllers
                 RowCount = result.RowCount
             };
         }
+        [CompressFilterAttribute]
         public CostCentre Get(int id)
         {
             return _costCenterService.GetCostCentreById(id).CreateFrom();
         }
         [ApiException]
+        [CompressFilterAttribute]
         public CostCentre Post(CostCentre costcenter)
         {
             if (ModelState.IsValid)

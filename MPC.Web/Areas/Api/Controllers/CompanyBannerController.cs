@@ -40,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public void Delete(CompanyBanner banner)
         {
             if (banner == null || !ModelState.IsValid)

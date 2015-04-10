@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Stock Items
         /// </summary>
         [ApiAuthorize]
+        [CompressFilterAttribute]
         public InventorySearchResponse Get([FromUri] StockItemRequestModel request)
         {
             if (request == null || !ModelState.IsValid)

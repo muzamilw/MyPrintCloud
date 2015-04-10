@@ -37,6 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Customers List 
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public CustomerResponse Get([FromUri] CompanyRequestModel request)
         {
             var customers = customerService.GetCustomers(request);
@@ -48,6 +49,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewContact })]
+        [CompressFilterAttribute]
         public CompanyResponse Get([FromUri]int companyId)
         {
             return companyService.GetCompanyByIdForCrm(companyId).CreateFromForCrm();

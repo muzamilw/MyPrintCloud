@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Activity Detail By ID
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public Activity Get([FromUri]int activityId)
         {
             return calendarService.ActivityDetail(activityId).CreateFrom();
@@ -49,6 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public void Post(Activity activity)
         {
             if (activity == null || !ModelState.IsValid)
