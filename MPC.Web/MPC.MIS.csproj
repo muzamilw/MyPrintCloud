@@ -301,6 +301,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -1945,12 +1946,8 @@
     <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
-
-  
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
-
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
-
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

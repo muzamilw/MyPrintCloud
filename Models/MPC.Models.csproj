@@ -374,6 +374,7 @@
     <Compile Include="RequestModels\AddressRequestModel.cs" />
     <Compile Include="RequestModels\CompanyContactForCalendarRequestModel.cs" />
     <Compile Include="RequestModels\CompanyProductSearchRequestModel.cs" />
+    <Compile Include="RequestModels\CostCenterExecutionRequest.cs" />
     <Compile Include="RequestModels\DeleteCompanyRequest.cs" />
     <Compile Include="RequestModels\CompanyRequestModel.cs" />
     <Compile Include="RequestModels\CompanyRequestModelForCalendar.cs" />
@@ -414,6 +415,7 @@
     <Compile Include="ResponseModels\CompanyTerritoryResponse.cs" />
     <Compile Include="ResponseModels\CompanyContactResponse.cs" />
     <Compile Include="ResponseModels\CostCenterBaseResponse.cs" />
+    <Compile Include="ResponseModels\CostCenterExecutionResponse.cs" />
     <Compile Include="ResponseModels\CostCenterVariablesResponseModel.cs" />
     <Compile Include="ResponseModels\CostCentreResponse.cs" />
     <Compile Include="ResponseModels\CrmBaseResponse.cs" />
