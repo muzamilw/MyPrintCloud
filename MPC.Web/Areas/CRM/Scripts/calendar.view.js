@@ -2,7 +2,7 @@
     View for the Calendar. Used to keep the viewmodel clear of UI related logic
 */
 define("calendar/calendar.view",
-    ["jquery", "calendar/calendar.viewModel"], function ($, calendarViewModel) {
+    ["jquery", "calendar/calendar.viewModel", "crm/contacts.viewModel"], function ($, calendarViewModel, contactsViewModel) {
 
         var ist = window.ist || {};
 
@@ -61,6 +61,10 @@ define("calendar/calendar.view",
         // Initialize the view model
         if (ist.calendar.view.bindingRoot) {
             calendarViewModel.initialize(ist.calendar.view);
+        }
+        // Initialize the view model
+        if (ist.contacts.view.contactProfileBindingRoot) {
+            contactsViewModel.initializeForCalendar(ist.contacts.view);
         }
         return ist.calendar.view;
     });

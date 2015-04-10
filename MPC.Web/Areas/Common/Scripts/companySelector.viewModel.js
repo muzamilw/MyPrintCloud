@@ -64,7 +64,6 @@ define("common/companySelector.viewModel",
                         if (afterSelect && typeof afterSelect === "function") {
                             afterSelect(company);
                         }
-
                         view.hideDialog();
                     },
                     // Initialize the view model
