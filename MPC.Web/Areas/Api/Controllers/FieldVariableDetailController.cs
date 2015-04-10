@@ -36,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Field Variable Detail By ID
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public FieldVariable Get([FromUri]long fieldVariableId)
         {
             return companyService.GetFieldVariableDetail(fieldVariableId).CreateFrom();

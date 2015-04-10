@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Calendar Base Data
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public CalendarBaseResponse Get()
         {
             return calendarService.GetBaseData().CreateFrom();
@@ -49,6 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public IEnumerable<CompanyContactDropDown> Get([FromUri]long companyId)
         {
             return

@@ -33,6 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Base Data for Orders
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public OrderBaseResponse Get()
         {
             return orderService.GetBaseData().CreateFrom();

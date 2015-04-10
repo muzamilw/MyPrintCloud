@@ -44,6 +44,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyTerritoryResponse Get([FromUri] CompanyTerritoryRequestModel request)
         {
             var result = companyService.SearchCompanyTerritories(request);
@@ -59,6 +60,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="companyTerritoryId"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public bool Get([FromUri] long companyTerritoryId)
         {
             var companyTerritory= companyTerritoryService.Get(companyTerritoryId);

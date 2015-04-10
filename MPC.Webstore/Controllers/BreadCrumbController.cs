@@ -71,16 +71,16 @@ namespace MPC.Webstore.Controllers
 
         private void CategoryBrowsingMode()
         {
-           
-          
+
+
             try
             {
                 //Get the Category from QueryString
                 string url = "";
-                string id = RouteData.Values["id"].ToString();
-                if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
-                {
-                    categoryID = Convert.ToInt64(id);
+               // string id = RouteData.Values["id"].ToString();
+               // if (RouteData.Values["id"].ToString() != null || RouteData.Values["id"].ToString() != "")
+               // {
+                categoryID = 15;   //Convert.ToInt64(id);
 
                     if (categoryID > 0)
                     {
@@ -89,9 +89,9 @@ namespace MPC.Webstore.Controllers
                         this.BuildBreadCrumbMenu(categoryID, _productCatList);
 
                     }
-                }
-            }           
-            catch(Exception ex)
+              //  }
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

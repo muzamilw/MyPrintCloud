@@ -35,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewSupplier })]
+        [CompressFilterAttribute]
         public CrmSupplierResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = crmSupplierService.GetAllCompaniesOfOrganisation(request);

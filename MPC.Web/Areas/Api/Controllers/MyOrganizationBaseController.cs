@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get My Organization Base Data
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
         public MyOrganizationBaseResponse Get()
         {
             if (!ModelState.IsValid)

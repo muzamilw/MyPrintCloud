@@ -34,6 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Addresses / Compnay Contacts
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyBaseResponse Get()
         {
             if (!ModelState.IsValid)

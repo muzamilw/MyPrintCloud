@@ -45,6 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get All ItemPriceMatrices For Item By Flag
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore, SecurityAccessRight.CanViewProduct  })]
+        [CompressFilterAttribute]
         public IEnumerable<ItemPriceMatrix> Get([FromUri] ItemPriceMatrixSearchRequest request)
         {
             if (request == null || !ModelState.IsValid)

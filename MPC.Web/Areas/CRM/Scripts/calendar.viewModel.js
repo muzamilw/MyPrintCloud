@@ -2,8 +2,8 @@
     Module with the view model for the Calendar.
 */
 define("calendar/calendar.viewModel",
-    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/companySelector.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, companySelector, pagination) {
+    ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/companySelector.viewModel", "common/pagination", "crm/contacts.viewModel"],
+    function ($, amplify, ko, dataservice, model, companySelector, pagination, contactVM) {
         var ist = window.ist || {};
         ist.calendar = {
             viewModel: (function () {
@@ -29,7 +29,7 @@ define("calendar/calendar.viewModel",
                     companies = ko.observableArray([]),
                     activityTypes = ko.observableArray([]),
                     items = ko.observableArray([]),
-                    activities = [];
+                    activities = [],
 
                 fullCalendar = {
                     // Defines a view model class you can use to populate a calendar
@@ -42,8 +42,7 @@ define("calendar/calendar.viewModel",
                         //this.droppable = configuration.droppable;
                         //this.dropAccept = configuration.dropAccept;
                     }
-                };
-
+                },
 
                 //Call on Drop or resize Activity
                 eventDropOrResize = function (calenderActivity) {
@@ -247,9 +246,9 @@ define("calendar/calendar.viewModel",
                                         id: item.ActivityId,
                                         title: item.ActivityRef,
                                         start: item.ActivityStartTime,
-                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor + " !important" : null,
                                         end: item.ActivityEndTime,
-                                        allDay: false
+                                        allDay: true
                                     });
                                 });
                             }
@@ -284,7 +283,7 @@ define("calendar/calendar.viewModel",
                                     items.push({
                                         id: activity.id(),
                                         title: activity.activityNotes(),
-                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
+                                        backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor + " !important" : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
                                         allDay: false
@@ -428,7 +427,7 @@ define("calendar/calendar.viewModel",
                     view.hideContactSelectorDialog();
                 },
 
-                 selectedCompanyId = ko.observable(),
+                 selectedCompany = ko.observable(),
                 // Add Contact
                 addContact = function () {
                     openCompanyDialog();
@@ -437,14 +436,17 @@ define("calendar/calendar.viewModel",
                  openCompanyDialog = function () {
                      companySelector.show(onSelectCompany, [0, 1, 2]);
                  },
+                 onSaveContact = function (contact) {
+                     selectedActivity().companyName(contact.firstName() + " , " + selectedCompany().name);
+                     selectedActivity().contactId(contact.contactId());
+                 },
                 // On Select Company
                 onSelectCompany = function (company) {
                     if (!company) {
                         return;
                     }
-                    selectedActivity().contactCompanyId(company.id);
-                    selectedCompanyId(company.id);
-                    hideCompanyDialog();
+                    selectedCompany(company);
+                    contactVM.addContact(onSaveContact, company.id);
                 },
                 //Hide
                 hideCompanyDialog = function () {
@@ -489,7 +491,8 @@ define("calendar/calendar.viewModel",
                     isCustomerType: isCustomerType,
                     onClickCustomerTypeRadio: onClickCustomerTypeRadio,
                     closeContactDialog: closeContactDialog,
-                    addContact:addContact
+                    addContact: addContact,
+                    eventDropOrResize: eventDropOrResize
                 };
             })()
         };

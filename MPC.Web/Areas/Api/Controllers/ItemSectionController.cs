@@ -30,6 +30,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public ItemSection GetUpdatedSection([FromUri] UpdateSectionCostCentersRequest request)
         {
             if (request == null || !ModelState.IsValid)

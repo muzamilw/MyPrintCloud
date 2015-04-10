@@ -1401,7 +1401,7 @@ namespace MPC.Webstore.Controllers
             string RecipientProvinceCode = _myCompanyService.GetStateCodeById(model.SelectedDeliveryState).ToString().Trim();
             string RecipientPostcode = Request.Form["txtShipPostCode"];
             string CountryCode = _myCompanyService.GetCountryCodeById(model.SelectedDeliveryCountry).ToString().Trim();
-
+           
 
             if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
             {

@@ -130,9 +130,7 @@
             </td>*@
         <td class="col-lg-3" data-bind="text: fullCategoryName"></td>
         <td class="col-lg-3">
-            <span data-bind="text: weight"></span> <span data-bind="text: weightUnitName"></span>
-            <br /><br />
-            <span data-bind="text:perQtyQty"> Sheets</span>
+            <span data-bind="text: packCostPrice()!=='' ?$root.currencySymbol()+' '+ packCostPrice():''"></span>
         </td>
         <td class="col-lg-2" id="actionColumn">
             @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->

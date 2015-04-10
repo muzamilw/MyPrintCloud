@@ -826,6 +826,7 @@ namespace MPC.Repository.Repositories
                             Mac = machine;
                             Mac.MachineId = 0;
                             Mac.OrganisationId = (int)OrganisationID;
+                            Mac.LockedBy = oldMID;
                             if(stockItems != null)
                             {
                                 long paperID = stockItems.Where(s => s.RollStandards == machine.DefaultPaperId).Select(c => c.StockItemId).FirstOrDefault();
@@ -1062,29 +1063,7 @@ namespace MPC.Repository.Repositories
 
 
 
-                                 ////  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
-                                 //if (comp.Items != null && comp.Items.Count > 0)
-                                 //{
-                                 //    foreach (var itm in comp.Items)
-                                 //    {
-                                 //        if (itm.ProductCategoryItems != null)
-                                 //        {
-                                 //            List<ProductCategoryItem> pcis = itm.ProductCategoryItems.Where(c => c.CategoryId == OldCatIds).ToList();
-                                 //            if (pcis != null && pcis.Count > 0)
-                                 //            {
-                                 //                foreach (var pc in pcis)
-                                 //                {
-                                 //                    pc.CategoryId = cat.ProductCategoryId;
-                                 //                }
-                                 //            }
-
-                                 //        }
-
-
-
-                                 //    }
-                                 //    db.SaveChanges();
-                                 //}
+                              
 
 
 
@@ -1103,8 +1082,8 @@ namespace MPC.Repository.Repositories
                                  {
 
 
-                                     //  string scat = item.Description2;
-                                     var pCat = db.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
+                                 
+                                     var pCat = comp.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
                                      if (pCat != null)
                                      {
                                          item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
@@ -1118,6 +1097,7 @@ namespace MPC.Repository.Repositories
                          //  import items
                          List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
+                         List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
                          {
@@ -1146,7 +1126,22 @@ namespace MPC.Repository.Repositories
 
                                              }
                                          }
-                                         itm.PressId = null;
+                                         if (machines != null && machines.Count > 0)
+                                         {
+                                             long MID = machines.Where(c => c.LockedBy == itm.PressId).Select(s => s.MachineId).FirstOrDefault();
+                                             if (MID > 0)
+                                             {
+                                                 itm.PressId = (int)MID;
+                                             }
+                                             else
+                                             {
+                                                 MID = machines.Select(s => s.MachineId).FirstOrDefault();
+                                                 itm.PressId = (int)MID;
+
+
+                                             }
+                                         }
+                                         
                                          
                                      }
                                  }
@@ -1391,7 +1386,7 @@ namespace MPC.Repository.Repositories
 
 
                                    //  string scat = item.Description2;
-                                     var pCat = db.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
+                                     var pCat = comp.ProductCategories.Where(g => g.ContentType.Contains(item.ParentCategoryId.Value.ToString())).FirstOrDefault();
                                      if (pCat != null)
                                      {
                                          item.ParentCategoryId = Convert.ToInt32(pCat.ProductCategoryId);
@@ -1888,11 +1883,47 @@ namespace MPC.Repository.Repositories
                                     File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
                             }
                         }
-                        ObjCompany.Image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
+                        ObjCompany.Image = "MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
 
                     }
 
-                    
+                    if (ObjCompany.StoreBackgroundImage != null)
+                    {
+                        CompanyPathOld = Path.GetFileName(ObjCompany.StoreBackgroundImage);
+
+                        CompanylogoPathNew = CompanyPathOld.Replace(ImportIDs.OldCompanyID + "_", oCID + "_");
+
+                        string DestinationCompanyBackgroundFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew);
+                        DestinationsPath.Add(DestinationCompanyBackgroundFilePath);
+                        string DestinationCompanyBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
+                        string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.OldCompanyID + "/" + CompanyPathOld);
+                        if (!System.IO.Directory.Exists(DestinationCompanyBackgroundDirectory))
+                        {
+                            Directory.CreateDirectory(DestinationCompanyBackgroundDirectory);
+                            if (Directory.Exists(DestinationCompanyBackgroundDirectory))
+                            {
+                                if (File.Exists(CompanyLogoSourcePath))
+                                {
+                                    if (!File.Exists(DestinationCompanyBackgroundFilePath))
+                                        File.Copy(CompanyLogoSourcePath, DestinationCompanyBackgroundFilePath);
+                                }
+
+
+                            }
+
+
+                        }
+                        else
+                        {
+                            if (File.Exists(CompanyLogoSourcePath))
+                            {
+                                if (!File.Exists(DestinationCompanyBackgroundFilePath))
+                                    File.Copy(CompanyLogoSourcePath, DestinationCompanyBackgroundFilePath);
+                            }
+                        }
+                        ObjCompany.StoreBackgroundImage = "MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
+
+                    }
 
                     if (ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)
                     {
@@ -2185,11 +2216,23 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.ThumbnailPath);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if(SplitMain != null)
                                 {
-                                    ItemID = SplitMain[1];
+                                    if (SplitMain[1] != string.Empty)
+                                    {
+                                        ItemID = SplitMain[1];
 
+                                    }
+                                    int i = 0;
+                                    // string s = "108";
+                                    bool result = int.TryParse(ItemID, out i);
+                                    if (!result)
+                                    {
+                                        ItemID = SplitMain[0];
+                                    }
                                 }
+                                
+
                                 OldThumbnailPath = Path.GetFileName(item.ThumbnailPath);
                                 NewThumbnailPath = OldThumbnailPath.Replace(ItemID + "_", item.ItemId + "_");
 
@@ -2235,10 +2278,20 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.ImagePath);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain != null)
                                 {
-                                    ItemID = SplitMain[1];
+                                    if (SplitMain[1] != string.Empty)
+                                    {
+                                        ItemID = SplitMain[1];
 
+                                    }
+                                    int i = 0;
+                                    // string s = "108";
+                                    bool result = int.TryParse(ItemID, out i);
+                                    if (!result)
+                                    {
+                                        ItemID = SplitMain[0];
+                                    }
                                 }
 
                                 OldImagePath = Path.GetFileName(item.ImagePath);

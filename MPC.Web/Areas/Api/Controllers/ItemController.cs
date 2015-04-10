@@ -45,6 +45,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public Item Get(int id)
         {
             if (id <= 0)
@@ -60,6 +61,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public ItemSearchResponse Get([FromUri] ItemSearchRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
@@ -75,6 +77,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public Item Post(Item request)
         {
             if (request == null || !ModelState.IsValid)
@@ -90,6 +93,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public void Delete(ItemDeleteRequest request)
         {
             if (request == null || !ModelState.IsValid || request.ItemId <= 0)

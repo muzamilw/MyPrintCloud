@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewProduct })]
+        [CompressFilterAttribute]
         public Models.ItemBaseResponse Get()
         {
             if (!ModelState.IsValid)

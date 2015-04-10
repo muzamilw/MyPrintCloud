@@ -4,6 +4,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -32,6 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
 
+        [CompressFilter]
         public CompanyContactResponseForCalendar Get([FromUri]CompanyContactForCalendarRequestModel request)
         {
             return calendarService.GetCompanyContacts(request).CreateFromForCalendar();
