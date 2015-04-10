@@ -44,7 +44,15 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
-
+        public CostCentreQuestion Put(CostCentreQuestionRequestModel QuestionRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            
+            return _ICostCentreQuestion.Add(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g => g.CreateFrom())).CreateFrom();
+        }
 
         public bool Post(CostCentreQuestionRequestModel QuestionRequest)
         {
@@ -56,6 +64,23 @@ namespace MPC.MIS.Areas.Api.Controllers
             return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g=>g.CreateFrom()));
         }
 
+
+        public bool Delete(CostCentreQuestionDeleteRequest Req)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+            if (Req.QuestionId > 0)
+            {
+                return _ICostCentreQuestion.DeleteQuestionById(Req.QuestionId);
+            }
+            else
+            {
+                return _ICostCentreQuestion.DeleteMCQsQuestionAnswerById(Req.MCQsQuestionAnswerId);
+            }
+           
+        }
         public IEnumerable<CostCentreAnswer> Get(int QuestionId)
         {
             if (!ModelState.IsValid)

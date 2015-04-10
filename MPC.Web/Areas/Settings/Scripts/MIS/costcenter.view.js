@@ -20,7 +20,10 @@
                      $("#CostCentreQuestionModal").modal("show");
                   //   initializeLabelPopovers();
                  },
-
+                  hideCostCentreQuestionDialog = function () {
+                      $("#CostCentreQuestionModal").modal("hide");
+                      
+                  },
                 showAddEditQuestionMenu = function () {
                     $(".AddEditQuestion").contextMenu({
                         menuSelector: "#contextMenu"
@@ -47,6 +50,7 @@
                 viewModel: viewModel,
                 productCategorySelectedEvent: productCategorySelectedEvent,
                 showCostCentreQuestionDialog: showCostCentreQuestionDialog,
+                hideCostCentreQuestionDialog:hideCostCentreQuestionDialog,
                 showAddEditQuestionMenu: showAddEditQuestionMenu
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog

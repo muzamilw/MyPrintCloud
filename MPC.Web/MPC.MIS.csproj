@@ -295,12 +295,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -455,7 +457,9 @@
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreVariableType.cs" />
@@ -1945,12 +1949,8 @@
     <Content Include="Areas\Orders\Views\Home\_EstimationRunWizard.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_ReportManager.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
-
-  
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
-
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
-
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

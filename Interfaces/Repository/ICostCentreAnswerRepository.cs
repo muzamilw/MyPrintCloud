@@ -10,6 +10,8 @@ namespace MPC.Interfaces.Repository
     public interface ICostCentreAnswerRepository : IBaseRepository<CostCentreAnswer, long>
     {
         IEnumerable<CostCentreAnswer> GetByQuestionId(int QuestionId);
+        bool DeleteMCQsQuestionAnswerById(int MCQsQuestionAnswerId);
 
     }
 }
+    

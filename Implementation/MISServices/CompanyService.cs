@@ -3537,7 +3537,11 @@ namespace MPC.Implementation.MISServices
             // cost centre choices 
             ObjExportOrg.CostCenterChoice = CostCenterChoice;
 
+            ObjExportOrg.CostCentreType = costCentreRepository.GetCostCentreTypeByOrganisationID(OrganisationID);
+
             ObjExportOrg.SuppliersList = companyRepository.GetSupplierByOrganisationid(OrganisationID);
+
+
 
             string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             // export json file
@@ -4126,7 +4130,17 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
 
+                            if (ObjExportCorp.Company.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportCorp.Company.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + CompanyID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
                             // export media
 
                             if (ObjExportCorp.Company.MediaLibraries != null)
@@ -4430,7 +4444,17 @@ namespace MPC.Implementation.MISServices
 
                                 }
                             }
+                            if (ObjExportRetail.RetailCompany.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetail.RetailCompany.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyID;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
 
                             // export media
 
@@ -4767,7 +4791,17 @@ namespace MPC.Implementation.MISServices
                                 }
                             }
 
+                            if (ObjExportCorpWOP.Company.StoreBackgroundImage != null)
+                            {
+                                string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportCorpWOP.Company.StoreBackgroundImage);
+                                DPath = "/Assets/" + OrganisationID + "/" + CompanyIDWOP;
+                                if (File.Exists(FilePath))
+                                {
+                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                    r.Comment = "Background image for Store";
 
+                                }
+                            }
                             // export media
 
                             if (ObjExportCorpWOP.Company.MediaLibraries != null)
@@ -5074,7 +5108,17 @@ namespace MPC.Implementation.MISServices
 
                                     }
                                 }
+                                if (ObjExportCorpWOP.Company.StoreBackgroundImage != null)
+                                {
+                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + ObjExportRetailWOP.RetailCompany.StoreBackgroundImage);
+                                    DPath = "/Assets/" + OrganisationID + "/" + RetailCompanyIDWOP;
+                                    if (File.Exists(FilePath))
+                                    {
+                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                        r.Comment = "Background image for Store";
 
+                                    }
+                                }
 
                                 // export media
 
@@ -5655,8 +5699,8 @@ namespace MPC.Implementation.MISServices
                     ImportStore(OrganisationId, StoreName,SubDomain);
                     end = DateTime.Now;
                     timelog += "import 2nd store Complete" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
-
-
+                    string StoreNamewop = ConfigurationManager.AppSettings["RetailStoreNameWOP"];
+                    ImportStore(OrganisationId, StoreNamewop, SubDomain);
 
                     st = DateTime.Now;
                     end = DateTime.Now;
@@ -5808,6 +5852,7 @@ namespace MPC.Implementation.MISServices
         {
             try
             {
+                string status = string.Empty;
                 ExportSets exportSets = new ExportSets();
                 ExportOrganisation objExpCorp = new Models.Common.ExportOrganisation();
                 ExportOrganisation objExpRetail = new Models.Common.ExportOrganisation();
@@ -5996,8 +6041,8 @@ namespace MPC.Implementation.MISServices
 
                     //    json = string.Empty;
                     //}
-
-                    companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets,SubDomain);
+                    status += "deserializationDone";
+                    status += companyRepository.InsertStore(OrganisationId, objExpCorp, objExpRetail, objExpCorpWOP, objExpRetailWOP, StoreName, exportSets, SubDomain, status);
 
                     return true;
                 }

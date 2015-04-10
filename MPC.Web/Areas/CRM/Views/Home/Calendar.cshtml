@@ -25,7 +25,7 @@
                                 <a href="#tab-Calendar" data-toggle="tab">Calendar</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "Contacts", "Home")
+                                @Html.ActionLink("To Do Lists", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 @Html.ActionLink("Contacts", "Contacts", "Home")
@@ -37,7 +37,7 @@
                                 @Html.ActionLink("Supplier", "SuppliersList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
-                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
+                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -102,13 +102,14 @@
     </div>
 </div>
 <!-- ko stopBinding: true -->
+@Html.Partial("~/Areas/CRM/Views/Home/_UserProfileDetailsForContact.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
-@*@Html.Partial("~/Areas/CRM/Views/Home/_ContactSelector.cshtml")*@
 <!-- /ko -->
+
 @section Scripts {
     @*<script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>*@
     <script>
-        require(["calendar/calendar.view", "common/companySelector.view"]);
+        require(["calendar/calendar.view", "common/companySelector.view", "crm/contacts.view"]);
 
     </script>
 }
