@@ -2280,7 +2280,10 @@ namespace MPC.Repository.Repositories
                             // setting organisationid 
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
                                 comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                            }
                             if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                                 comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.Addresses != null && comp.Addresses.Count > 0)
@@ -2323,7 +2326,11 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCID = comp.CompanyId;
 
+                            if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
 
+                            }
                             // add companydomain
                             string DomainName = SubDomain + "/store/" + objExpRetail.RetailCompany.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();
@@ -2574,7 +2581,10 @@ namespace MPC.Repository.Repositories
                             // setting organisationid 
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
                                 comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                            }
                             if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                                 comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.Addresses != null && comp.Addresses.Count > 0)
@@ -2617,6 +2627,11 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oRetailCIDWOP = comp.CompanyId;
 
+                            if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+
+                            }
                             // add companydomain
                             string DomainName = SubDomain + "/store/" + objExpRetailWOP.RetailCompany.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();
@@ -2859,7 +2874,10 @@ namespace MPC.Repository.Repositories
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
                                 comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                            }
                             if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                                 comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.Addresses != null && comp.Addresses.Count > 0)
@@ -2900,7 +2918,11 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oCID = comp.CompanyId;
 
+                            if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
 
+                            }
                             // add companydomain
                             string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();
@@ -3157,7 +3179,10 @@ namespace MPC.Repository.Repositories
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
                                 comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                            }
                             if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                                 comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.Addresses != null && comp.Addresses.Count > 0)
@@ -3199,6 +3224,11 @@ namespace MPC.Repository.Repositories
                             db.SaveChanges();
                             oCIDWOP = comp.CompanyId;
 
+                            if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
+                            {
+                                comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+
+                            }
                             // add companydomain
                             string DomainName = SubDomain + "/store/" + objExpCorporate.Company.WebAccessCode;
                             CompanyDomain domain = new CompanyDomain();

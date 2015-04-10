@@ -3,7 +3,7 @@
 */
 define("calendar/calendar.viewModel",
     ["jquery", "amplify", "ko", "calendar/calendar.dataservice", "calendar/calendar.model", "common/companySelector.viewModel", "common/pagination"],
-    function ($, amplify, ko, dataservice, model, companySelector,pagination) {
+    function ($, amplify, ko, dataservice, model, companySelector, pagination) {
         var ist = window.ist || {};
         ist.calendar = {
             viewModel: (function () {
@@ -13,7 +13,7 @@ define("calendar/calendar.viewModel",
                     //Active Calender Activity
                     selectedActivity = ko.observable(),
                     selectedSystemUser = ko.observable(),
-                    isCustomerType = ko.observable(1),
+                    isCustomerType = ko.observable("1"),
                     selectedActivityForRemove = ko.observable(),
                     selectedCompany = ko.observable(),
                     companySearchFilter = ko.observable(),
@@ -79,6 +79,8 @@ define("calendar/calendar.viewModel",
                 //Call click on activity for edit
                 eventClick = function (activity) {
                     searchContactFilter(undefined);
+                    selectedActivity(undefined);
+                    isCustomerType("1");
                     selectedActivityForRemove(activity);
                     getActivityDetail(activity);
                     selectedActivity(model.Activity());
@@ -114,6 +116,8 @@ define("calendar/calendar.viewModel",
                 //Add new Activity
                 newEventAdd = function (addNewActivityEvent) {
                     searchContactFilter(undefined);
+                    selectedActivity(undefined);
+                    isCustomerType("1");
                     var newAddActivity = model.Activity();
                     newAddActivity.startDateTime(addNewActivityEvent);
                     newAddActivity.endDateTime(addNewActivityEvent);
@@ -405,9 +409,10 @@ define("calendar/calendar.viewModel",
                 //Get Contact List
                 getContactList = function () {
                     if (selectedActivity() !== undefined && selectedActivity().isCustomerActivity()) {
-                       // toastr.success("sss");
+                        // toastr.success("sss");
                         getCompanyContactByName();
                     }
+
                 },
 
                 //Get Company Contact By Name and customer Type
@@ -422,8 +427,9 @@ define("calendar/calendar.viewModel",
                             if (data != null) {
                                 //Company Contacts
                                 companyContacts.removeAll();
-                                ko.utils.arrayPushAll(companyContacts(), data.CompanyContacts);
-                                companyContacts.valueHasMutated();
+                                _.each(data.CompanyContacts, function (item) {
+                                    companyContacts.push(model.CompanyContact.Create(item));
+                                });
                                 pager().totalCount(data.RowCount);
                                 view.showContactSelectorDialog();
 
@@ -434,13 +440,37 @@ define("calendar/calendar.viewModel",
                         }
                     });
                 },
-                //Initialize
-               initialize = function (specifiedView) {
-                   view = specifiedView;
-                   ko.applyBindings(view.viewModel, view.bindingRoot);
-                   pager(pagination.Pagination({ PageSize: 10 }, companyContacts, getCompanyContactByName));
+                // On Select Contact
+                onSelectContact = function (contact) {
+                    view.hideContactSelectorDialog();
+                    selectedActivity().companyName(contact.name() + " , " + contact.companyName());
+                    selectedActivity().contactId(contact.id());
+                },
+                //Change  Customer Type in Contact Dialog
+                onClickCustomerTypeRadio = ko.computed(function () {
+                    //if (selectedActivity() != undefined) {
+                    //    // isCustomerType(radio.isCustomerType());
+                    //   // getCompanyContactByName();
+                    //}
+                    // toastr.success("sss");
+                }),
+                // Work n Turn
+                        isCustomerType.subscribe(function (value) {
+                            if (selectedActivity() !== undefined) {
+                                getCompanyContactByName();
+                            }
 
-               };
+                        }),
+                closeContactDialog = function () {
+                    view.hideContactSelectorDialog();
+                },
+                //Initialize
+                initialize = function (specifiedView) {
+                    view = specifiedView;
+                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    pager(pagination.Pagination({ PageSize: 10 }, companyContacts, getCompanyContactByName));
+
+                };
 
                 return {
                     selectedActivity: selectedActivity,
@@ -469,7 +499,11 @@ define("calendar/calendar.viewModel",
                     selectedSystemUser: selectedSystemUser,
                     onChangeSystemUser: onChangeSystemUser,
                     searchContactFilter: searchContactFilter,
-                    getContactList: getContactList
+                    getContactList: getContactList,
+                    onSelectContact: onSelectContact,
+                    isCustomerType: isCustomerType,
+                    onClickCustomerTypeRadio: onClickCustomerTypeRadio,
+                    closeContactDialog: closeContactDialog
                 };
             })()
         };

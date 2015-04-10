@@ -32,7 +32,64 @@ namespace MPC.Repository.Repositories
                 return db.CostCentreQuestions;
             }
         }
+        public bool DeleteQuestionById(int QuestionId)
+        {
+            CostCentreQuestion oQuestion= db.CostCentreQuestions.Where(g=>g.Id==QuestionId).SingleOrDefault();
+            if (oQuestion != null)
+            {
+                if (oQuestion.Type == 2)
+                {
 
+                    //     IEnumerable<CostCentreAnswer> answerList = db.CostCentreAnswers.Where(g => g.QuestionId == QuestionId).ToList();
+                    db.CostCentreAnswers.RemoveRange(db.CostCentreAnswers.Where(g => g.QuestionId == QuestionId));
+                }
+                db.CostCentreQuestions.Remove(oQuestion);
+            }
+           
+            if (db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public CostCentreQuestion Add(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer)
+        {
+            CostCentreQuestion oQuestion = new CostCentreQuestion();
+            oQuestion.QuestionString = question.QuestionString;
+            oQuestion.Type = question.Type;
+            oQuestion.DefaultAnswer = question.DefaultAnswer;
+            db.CostCentreQuestions.Add(oQuestion);
+            if (db.SaveChanges() > 0)
+            {
+                if (question.Type == 2 && answer.Count() > 0)
+                {
+                    foreach (CostCentreAnswer ans in answer)
+                    {
+                        CostCentreAnswer oAns = new CostCentreAnswer();
+                        oAns.AnswerString = ans.AnswerString;
+                        oAns.QuestionId = oQuestion.Id;
+                        db.CostCentreAnswers.Add(oAns);
+
+
+                    }
+
+
+                }
+                db.SaveChanges();
+                return oQuestion;
+
+            }          
+            
+            else
+            {
+                return null;
+            }
+
+        }
         public bool update(CostCentreQuestion question, IEnumerable<CostCentreAnswer> answer)
         {
             CostCentreQuestion oQuestion = db.CostCentreQuestions.Where(g => g.Id == question.Id).SingleOrDefault();
@@ -52,7 +109,7 @@ namespace MPC.Repository.Repositories
                     {
                         CostCentreAnswer oAns = new CostCentreAnswer();
                         oAns.AnswerString = ans.AnswerString;
-                        oAns.QuestionId = ans.QuestionId;
+                        oAns.QuestionId = question.Id;
                         db.CostCentreAnswers.Add(oAns);
                     }
                     
@@ -63,6 +120,7 @@ namespace MPC.Repository.Repositories
             if (db.SaveChanges() > 0)
             {
                 return true;
+                
             }
             else
             {

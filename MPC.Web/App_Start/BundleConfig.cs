@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using MPC.WebBase;
+using System.IO;
 using System.Web;
 using System.Web.Optimization;
 
@@ -27,8 +28,30 @@ namespace MPC.MIS
                         "~/Scripts/modernizr-*"));
 
             /* ============================================================== */
-            bundles.Add(new ScriptBundle("~/Content/themes/Centaurus/js").Include(
-                        "~/Content/themes/Centaurus/js/*.js"));
+            bundles.Add(new ScriptBundle("~/Bundle/CentaurusLibs")
+                .Include("~/Content/themes/Centaurus/js/demo-skin-changer.js")
+                .Include("~/Content/themes/Centaurus/js/bootstrap.js")
+                .Include("~/Content/themes/Centaurus/js/jquery.nanoscroller.min.js")
+                .Include("~/Content/themes/Centaurus/js/demo.js")
+                .Include("~/Content/themes/Centaurus/js/fullcalendar.min.js")
+                .Include("~/Content/themes/Centaurus/js/jquery.slimscroll.min.js")
+                .Include("~/Content/themes/Centaurus/js/raphael-min.js")
+                .Include("~/Content/themes/Centaurus/js/morris.min.js")
+                .Include("~/Content/themes/Centaurus/js/daterangepicker.js")
+                .Include("~/Content/themes/Centaurus/js/jquery-jvectormap-1.2.2.min.js")
+                .Include("~/Content/themes/Centaurus/js/jquery-jvectormap-world-merc-en.js")
+                .Include("~/Content/themes/Centaurus/js/gdp-data.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.min.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.pie.min.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.stack.min.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.resize.min.js")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.time.min")
+                .Include("~/Content/themes/Centaurus/js/flot/jquery.flot.threshold.js")
+                .Include("~/Content/themes/Centaurus/js/scripts.js")
+                .Include("~/Content/themes/Centaurus/js/jquery.nestable.js")
+                .Include("~/Content/themes/Centaurus/js/jquery.nouislider.js")
+                .Include("~/Content/themes/Centaurus/js/jquerySlider.js"));
 
             /* ============================================================== */
 
@@ -90,7 +113,33 @@ namespace MPC.MIS
                      "~/Scripts/dropzone/css/basic.css",
                      "~/Scripts/dropzone/css/dropzone.css"));
 
-            BundleTable.EnableOptimizations = true;
+            bundles.Add(new StyleBundle("~/Content/themes/Centaurus/css/bundleCentaurus/css")
+                .Include("~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css")
+                .Include("~/Content/themes/Centaurus/css/libs/font-awesome.css")
+                .Include("~/Content/themes/Centaurus/css/libs/nanoscroller.css")
+                .Include("~/Content/themes/Centaurus/css/libs/datepicker.css")
+                .Include("~/Content/themes/Centaurus/css/compiled/layout.css")
+                .Include("~/Content/themes/Centaurus/css/compiled/elements.css")
+                .Include("~/Content/themes/Centaurus/css/libs/dropzone.css")
+                .Include("~/Content/themes/Centaurus/css/libs/magnific-popup.css")
+                .Include("~/Content/themes/Centaurus/css/libs/fullcalendar.css")
+                .Include("~/Content/themes/Centaurus/css/libs/fullcalendar.print.css")
+                .Include("~/Content/themes/Centaurus/css/compiled/calendar.css")
+                .Include("~/Content/themes/Centaurus/css/libs/morris.css")
+                .Include("~/Content/themes/Centaurus/css/libs/daterangepicker.css")
+                .Include("~/Content/themes/Centaurus/css/libs/jquery-jvectormap-1.2.2.css")
+                .Include("~/Content/themes/Centaurus/css/compiled/wizard.css")
+                .Include("~/Content/themes/Centaurus/css/libs/bootstrap-wizard.css")
+                .Include("~/Content/themes/Centaurus/css/libs/select2.css")
+                .Include("~/Content/themes/Centaurus/css/libs/jquery.nouislider.css")
+                .Include("~/Content/CSS/jquery-Slider.css"));
+
+            Bundle lessBundle = new Bundle("~/Bundle/AppLess").Include("~/Content/less/MainSite.less");
+
+            lessBundle.Transforms.Add(new LessTransform(Path.Combine(HttpRuntime.AppDomainAppPath, "Content\\less")));
+            lessBundle.Transforms.Add(new CssMinify());
+
+            bundles.Add(lessBundle);
         }
     }
 }

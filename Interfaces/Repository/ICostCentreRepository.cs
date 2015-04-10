@@ -65,5 +65,7 @@ namespace MPC.Interfaces.Repository
         IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore();
 
         CostCenterBaseResponse GetBaseData();
+
+        List<CostCentreType> GetCostCentreTypeByOrganisationID(long OID);
     }
 }

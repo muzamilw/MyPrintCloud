@@ -346,7 +346,7 @@ function d8(mode, dheight, title) {
 
         StopLoader();
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $(".previewerTitle").html('  <span class="lightGray">Proof :</span> " ' + title + ' "');
+            $(".previewerTitle").html('  <span class="lightGray">Approval for :</span>  ' + title + ' ');
         } else {
             $(".previewerTitle").html('  <span class="lightGray">Preview :</span> " ' + Template.ProductName + ' "');
         }
@@ -568,6 +568,10 @@ function f5(c, m, y, k) {
     $('#LblDivColorY').html(y + "%");
     $('#LblDivColorK').html(k + "%");
     $('#ColorPickerPalletContainer').html(html);
+    $("#LblCollarPalet").click(function () {
+
+        $(".btnClrPallet").click();
+    });
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
@@ -986,6 +990,13 @@ function g2(e) {
         pcL13();
         pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText, #addImage , #addText , #DivToolTip');
         pcL36('show', '#DivAlignObjs');
+        $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+        if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+            $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+            //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+            $("#FrontBackOptionPanal").css("display", "none");
+        }
+        $(".collapseDesignerMenu").css("display", "none");
     }
 
     if (D1AO && D1AO.type === 'text' || D1AO && D1AO.type === 'i-text') {
@@ -1677,6 +1688,7 @@ function h1(left, top) {
     ROL.K = "100";
     canvas.renderAll();
     TO.push(D1NTO);
+    canvas.setActiveObject(ROL);
 }
 function h2(left, top) {
     var NewCircleObejct = {};
@@ -1743,6 +1755,7 @@ function h2(left, top) {
     COL.K = "100";
     canvas.renderAll();
     TO.push(NewCircleObejct);
+    canvas.setActiveObject(COL);
 }
 function i7() {
     var OBS = canvas.getObjects();

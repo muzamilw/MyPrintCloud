@@ -940,7 +940,7 @@ $('#btnReplaceImage').click(function () {
 });
 $('#editorLogo').click(function () {
     if (smartFormClicked) {
-        StartLoader("Saving and generating preview, Please wait...");
+        StartLoader("Generating artwork for your approval to order...");
         //   parent.Next(); // webstore caller function
         fu12("preview", $("#txtTemplateTitle").val());
         return false;
@@ -1133,12 +1133,17 @@ $(".returnToLib").click(function (event) {
     if (imgLoaderSection == 1) {
         $(".text").click();
     } else if (imgLoaderSection == 2) {
-        $(".text").click();
+        $(".backgrounds").click();
     } else {
-        $('.btnAdd').click();
-        $('.btnAFrames').click();
-        $(".btnIllustrations").click();
-    }
+        if (isBkPnlUploads){
+            $(".backgrounds").click();
+        } else {
+            $('.btnAdd').click();
+            $('.btnAFrames').click();
+            $(".btnIllustrations").click();
+        }
+        
+    } 
 });
 $(".returnToLayers").click(function (event) {
     $(".layersPanel").click();
@@ -1815,7 +1820,7 @@ $("#clearBackground").click(function (event) {
     $(".bKimgBrowseCategories").removeClass("folderExpanded"); $(".bKimgBrowseCategories ul li").removeClass("folderExpanded");
     $(".BkImgPanels").addClass("disappearing");
     isBkPaCl = false; SelBkCat = "00";
-    StartLoader("Loading content please wait...");
+    StartLoader("Clearing background");
     canvas.backgroundColor = "#ffffff";
     canvas.setBackgroundImage(null, function (IOL) { });
     canvas.renderAll(); StopLoader();

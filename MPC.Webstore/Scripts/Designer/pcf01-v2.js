@@ -130,7 +130,7 @@ function b4(imgSrc) {
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
-        StartLoader("Deleting the image from your design, please wait....");
+        StartLoader("Deleting image from all pages and image library....");
         b8_svc(imageID, productID);
     }
 }
@@ -1544,8 +1544,8 @@ function b3_lDimensions() {
 function fu05_svcCall(DT) {
     if (IsCalledFrom == 2 || IsCalledFrom == 4)
     {
-        var html = "<div class='closePanelButton closeBtnMenus' onclick='p36_22();'><br></div><div id='tabs' style='margin-top:10px;'><ul class='tabsList'><li><a href='#tabsActiveColors'>Available<br /> Colors</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled <br />Colors</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
-        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        var html = "<div class='closePanelButton closeBtnMenus' onclick='p36_22();'><br></div><div id='tabs' style='margin-top:22px;'><ul class='tabsList'><li><a href='#tabsActiveColors'>Available<br /> Colors</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled <br />Colors</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a title="Add new Color to pallet">Add a color</a></li>';
         $('.ColorOptionContainer').append(html);
         $.each(DT, function (i, IT) {
             fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
@@ -1821,7 +1821,7 @@ function fu09_1(DT) {
 function fu10(ca, gtID) {
     $(".templateListUL .on").removeClass("on");
     $(ca).parent().addClass("on");
-    StartLoader("Placing image on canvas, please wait....");
+    StartLoader("Loading design onto the canvas...");
     TP = [];
     TO = [];
     isloadingNew = true;
@@ -3755,18 +3755,18 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     if (sObj) {
         cid = sObj.ObjectID;
     }
-    var btnHtml = ' <button class="btnMoveLayerUp" ></button><button class="btnMoveLayerDown" ></button>';
+    var btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up"></button><button class="btnMoveLayerDown" title="Move layer down"></button>';
     if (index1 == 0) {
-        btnHtml = '<button class="btnMoveLayerDown" ></button>';
+        btnHtml = '<button class="btnMoveLayerDown" title="Move layer down"></button>';
     } else if (index1 == -1) {
-        btnHtml = ' <button class="btnMoveLayerUp" ></button>';
+        btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up" ></button>';
     }
     btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
     } else {
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
 
     }
     return html;
