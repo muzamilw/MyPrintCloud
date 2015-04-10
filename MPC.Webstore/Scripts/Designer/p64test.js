@@ -18189,7 +18189,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
                     this.fontSize = this.fontSize - 0.667;
                     return this.wrapText(context, text, x, y, maxWidth, this.lineHeight * this.fontSize, BoxHeight, charSpacing, textAlign, this.fontSize, appliedStyles, this);
                 }
-        } else {
+        } //else {
             chars = chars.substring(0, chars.length - 1);
             this.clippedText = chars;
             this._cachedObject = clone(this);
@@ -18208,7 +18208,7 @@ fabric.Image.filters.Tint.fromObject = function (object) {
             //    formattedText = formattedTextTemp;
             //}
             return formattedText;
-        } 
+       // } 
     },
 
     _performClipping: function (ctx, text, objThis) {
