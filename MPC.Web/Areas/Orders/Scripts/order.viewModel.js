@@ -1090,7 +1090,7 @@ define("order/order.viewModel",
                                     _.each(data.PrePayments, function (item) {
                                         selectedOrder().prePayments.push(model.PrePayment.Create(item));
                                     });
-                                    view.setOrderState(selectedOrder().statusId());
+                                    view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
 
                                     // Get Base Data For Company
                                     if (data.CompanyId) {
@@ -1685,6 +1685,10 @@ define("order/order.viewModel",
                 },
 
                 getSectionSystemCostCenters = function () {
+                    if (!selectedBestPressFromWizard()) {
+                        return;
+                    }
+                    
                     isLoadingOrders(true);
                     var currSec = selectedSection().convertToServerData();
                     dataservice.getUpdatedSystemCostCenters({
