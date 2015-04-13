@@ -382,7 +382,10 @@ namespace MPC.Implementation.MISServices
             return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.AllSectionInks);
         }
 
-
+        public string DownloadOrderArtwork(int OrderID, string sZipName)
+        {
+            return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
+        }
         #endregion
 
         

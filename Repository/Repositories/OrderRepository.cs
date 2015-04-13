@@ -2758,14 +2758,20 @@ namespace MPC.Repository.Repositories
         }
 
         #region Download Artwork
-        public string GenerateOrderArtworkArchive(int OrderID, string sZipName, bool IncludeOrderReport, bool IncludeOrderXML, bool IncludeJobCardReport, bool MakeArtWorkProductionReady)
+
+
+        public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
         {
 
             string ReturnRelativePath = string.Empty;
             string ReturnPhysicalPath = string.Empty;
             string sZipFileName = string.Empty;
+            bool IncludeOrderReport = false;
+            bool IncludeOrderXML = false;
+            bool IncludeJobCardReport = false;
+            bool MakeArtWorkProductionReady = false;
 
-            string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks" + this.OrganisationId);
+            string sCreateDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + this.OrganisationId);
             bool ArtworkProductionReadyResult = false;
 
             //string sZipName = string.Format("{0}_{1}_{2}", ((tbl_estimates)EditRecord).Order_Code, ContactCompanyName, BrokerName);
@@ -4349,7 +4355,7 @@ namespace MPC.Repository.Repositories
             if (val)
             {
                 iOrderID = Convert.ToInt32(OrderID);
-                ZipPath = GenerateOrderArtworkArchive(iOrderID, sZipName, IncludeOrderReport, IncludeOrderXML, IncludeJobCardReport, MakeArtWorkProductionReady);
+                ZipPath = GenerateOrderArtworkArchive(iOrderID, sZipName);
                 // FileStream fileStream = new FileStream(ZipPath[0], FileMode.Open);
                 return ZipPath;
             }

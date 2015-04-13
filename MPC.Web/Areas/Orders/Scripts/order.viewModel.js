@@ -1706,6 +1706,23 @@ define("order/order.viewModel",
                         }
                     });
                 },
+                downloadArtwork = function(){
+                    isLoadingOrders(true);                    
+                    dataservice.downloadOrderArtwork({
+                        OrderId: selectedOrder().id()
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                               
+                            }
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Download Artwork." + response);
+                        }
+                    });
+                },
                 // Template Chooser For Delivery Schedule
                 templateToUseDeliverySchedule = function (deliverySchedule) {
                     return (deliverySchedule === selectedDeliverySchedule() ? 'ediDeliverScheduleTemplate' : 'itemDeliverScheduleTemplate');
@@ -1877,7 +1894,8 @@ define("order/order.viewModel",
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
                     clickOnWizardOk: clickOnWizardOk,
-                    runWizard: runWizard
+                    runWizard: runWizard,
+                    downloadArtwork: downloadArtwork
                     //#endregion
                 };
             })()
