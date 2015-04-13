@@ -204,9 +204,9 @@ namespace MPC.Repository.Repositories
                         
                           
                     }
-                    
-                    
 
+
+                    List<CostCentreType> types = db.CostCentreTypes.Where(c => c.OrganisationId == OrganisationID).ToList();
                     // save cost centres and its child objects
                     if (Sets.ExportOrganisationSet1.CostCentre != null && Sets.ExportOrganisationSet1.CostCentre.Count > 0)
                     {
@@ -227,6 +227,11 @@ namespace MPC.Repository.Repositories
                                     if(id.Key == oldTypeID)
                                     {
                                         cc.Type = (int)id.Value;
+                                    }
+                                    else
+                                    {
+                                        if (types != null)
+                                            cc.Type = types.Select(c => c.TypeId).FirstOrDefault();
                                     }
                                 }
                             }
