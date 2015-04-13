@@ -52,15 +52,7 @@ namespace MPC.Webstore.Controllers
                     this.CategoryBrowsingMode();
                     break;
             }
-
-<<<<<<< HEAD
-            }
-=======
-
         }
->>>>>>> e1800adf99d6584c81ba260207394add26ff4472
-
-
 
         private void MyAccountWorkingMode()
         {

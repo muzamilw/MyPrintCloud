@@ -42,7 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return dashboardService.GetOrderStatusesCount();
+            return dashboardService.GetOrderStatusesCount(request);
         }
         #endregion
     }
