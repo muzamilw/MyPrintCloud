@@ -605,6 +605,8 @@ define("product/product.viewModel",
                     initializeForStore = function(companyId) {
                         if (selectedCompany() !== companyId) {
                             selectedCompany(companyId);
+                            // Reset Designer load flag, to load smart forms list for this company
+                            isDesignerCategoryBaseDataLoaded(false);
                         }
 
                         var productDetailBinding = $("#productDetailBinding")[0];
@@ -954,8 +956,14 @@ define("product/product.viewModel",
                         // Return Callback
                         return callback;
                     },
+                    // Is Base Data Loaded
+                    isBaseDataLoaded = false,
                     // Get Base Data
                     getBaseData = function () {
+                        if (isBaseDataLoaded) {
+                            return;
+                        }
+                        
                         dataservice.getBaseDataForProduct({
                             success: function (data) {
                                 costCentres.removeAll();
@@ -1003,6 +1011,8 @@ define("product/product.viewModel",
                                     // Assign countries & states to StateTaxConstructorParam
                                     itemStateTaxConstructorParams.countries = countries();
                                     itemStateTaxConstructorParams.states = states();
+
+                                    isBaseDataLoaded = true;
                                 }
                             },
                             error: function (response) {
