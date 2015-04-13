@@ -1,4 +1,4 @@
-﻿using MPC.Interfaces.WebStoreServices;
+using MPC.Interfaces.WebStoreServices;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Webstore.Common;
@@ -54,10 +54,8 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        private void MyAccountWorkingMode()
-        {
-            //BuildMyAccountBreadCrumbMenu();        
-        }
+
+
 
         private void CategoryBrowsingMode()
         {

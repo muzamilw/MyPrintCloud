@@ -319,7 +319,7 @@
 
             <div class="quote_send_button">
                
-                <input id="btnSend" class="start_creating_btn rounded_corners5"  value="Send" onclick="Submit()"/>
+                <input id="btnSend" class="start_creating_btn rounded_corners5" type="button" value="Send" onclick="Submit();"/>
             </div>
             <div class="quote_cancel_button">
                
@@ -487,8 +487,8 @@
         var isValid = true;
         if ($("#hfIsUserLoggedIn").val() == "false") {
             if ($("#txtBoxUserName").val().trim() == '') {
-                var inquirytitlexreq = "First Name Is Required.";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                var inquirytitlexreq = "First Name";
+                errorMessage = errorMessage + inquirytitlexreq;
                 $('#divYourNameRq').css('display', 'block');
                 isValid = false;
             }
@@ -496,8 +496,12 @@
                 $('#divYourNameRq').css('display', 'none');
             }
             if ($("#LastName").val() == '') {
-                var inquirytitlexreq = "Last Name Required";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + "Last Name";
+                    } else {
+                    errorMessage = errorMessage + ", Last Name";
+                }
+               
                 $('#ltrlLastNameRQ').css('display', 'block');
                 isValid = false;
             }
@@ -506,8 +510,12 @@
             }
             //yourNameRequiredLast
             if ($("#UserEmail").val() == '') {
-                var inquirytitlexreq = "Your Email is Required";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + "Email";
+                } else {
+                    errorMessage = errorMessage + ", Email";
+                }
+                
                 $('#divEmailRq').css('display', 'block');
                 isValid = false;
             }
@@ -519,17 +527,26 @@
                         $('#divEmailRq').css('display', 'none');
                     }
                     else {
-                        var Message = "Please Enter Valid Email Address";
-                        errorMessage = errorMessage + Message + "<br>"
+                        if (errorMessage == '') {
+                            errorMessage = errorMessage + "valid Email Address";
+                        } else {
+                            errorMessage = errorMessage + ", valid Email Address";
+                        }
+                       
                         isValid = false;
                     }
-                    // $('#divEmailRq').css('display', 'none');
+                    
                 }
             }
         }
         if ($("#txtInquiryTitle").val().trim() == '') {
-            var inquirytitlexreq = "Your InquiryTitle is Required";
-            errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            if (errorMessage == '') {
+                errorMessage = errorMessage + "Inquiry Title";
+            } else {
+                errorMessage = errorMessage + ", Inquiry Title";
+            }
+
+           
             $('#InquiryTitleInd2').css('display', 'block');
             isValid = false;
         }
@@ -537,58 +554,43 @@
             $('#InquiryTitleInd2').css('display', 'none');
         }
         if ($("#txtTitle1").val().trim() == '') {
-            var inquirytitlexreq = " Inquiry Item Title is Required";
-            errorMessage = errorMessage + inquirytitlexreq + "<br>";
+            if (errorMessage == '') {
+                errorMessage = errorMessage + "Inquiry Item";
+            } else {
+                errorMessage = errorMessage + ", Inquiry Item";
+            }
+           
             $('#ItemTitleInd1').css('display', 'block');
             isValid = false;
         }
         else {
             $('#ItemTitleInd1').css('display', 'none');
         }
-        //if ($("#txtInquiryDate1").val().trim() == '') {
-        //    var inquirytitlexreq = " Desired Delivery Dates is Required";
-        //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-        //    $("#DesiredDeldate1").css('display', 'block');
-        //    isValid = false;
-        //}
-        //else {
-        //    $("#DesiredDeldate1").css('display', 'none');
-        //}
+       
         if (val == 2) {
 
             if ($("#txtTitle2").val().trim() == '') {
-                var inquirytitlexreq = "Inquiry Item title for 2nd item is Required";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + "Second Inquiry Item";
+                } else {
+                    errorMessage = errorMessage + ", Second Inquiry Item";
+                }
+               
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
             }
             else {
                 $("#InquiryTitleInd2").css('display', 'none');
             }
-            //if ($("#txtInquiryDate1").val().trim() == '') {
-            //    var inquirytitlexreq = " Desired Delivery Dates is Required";
-            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-            //    $("#DesiredDeldate1").css('display', 'block');
-            //    isValid = false;
-            //}
-            //else {
-            //    $("#DesiredDeldate1").css('display', 'none');
-            //}
-
-            //if ($("#txtInquiryDate2").val().trim() == '') {
-            //    var inquirytitlexreq = " Desired Delivery Date is Required";
-            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-            //    $("#DesiredDeldate2").css('display', 'block');
-            //    isValid = false;
-            //}
-            //else {
-            //    $("#DesiredDeldate2").css('display', 'none');
-            //}
+           
         }
         if (val == 3) {
             if ($("#txtTitle2").val().trim() == '') {
-                var inquirytitlexreq = " Inquiry Item title for 2nd item is Required";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + "Second Inquiry Item";
+                } else {
+                    errorMessage = errorMessage + ", Second Inquiry Item";
+                }
                 $("#ItemTitleInd2").css('display', 'block');
                 isValid = false;
             }
@@ -597,8 +599,12 @@
             }
 
             if ($("#txtTitle3").val().trim() == '') {
-                var inquirytitlexreq = " Inquiry Item title for 3rd item is Required";
-                errorMessage = errorMessage + inquirytitlexreq + "<br>";
+                if (errorMessage == '') {
+                    errorMessage = errorMessage + "Third Inquiry Item";
+                } else {
+                    errorMessage = errorMessage + ", Third Inquiry Item";
+                }
+               
                 $("#ItemTitleInd3").css('display', 'block');
                 isValid = false;
             }
@@ -606,32 +612,16 @@
                 $("#ItemTitleInd3").css('display', 'none');
             }
 
-            //if ($("#txtInquiryDate2").val().trim() == '') {
-            //    var inquirytitlexreq = " Desired Delivery Date is Required";
-            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-            //    $("#DesiredDeldate2").css('display', 'block');
-            //    isValid = false;
-            //}
-            //else {
-            //    $("#DesiredDeldate2").css('display', 'none');
-            //}
-            //if ($("#txtInquiryDate3").val().trim() == '') {
-            //    var inquirytitlexreq = " Desired Delivery Date is Required";
-            //    errorMessage = errorMessage + inquirytitlexreq + "<br>";
-            //    $("#DesiredDeldate3").css('display', 'block');
-            //    isValid = false;
-            //}
-            //else {
-            //    $("#DesiredDeldate3").css('display', 'none');
-            //}
+          
         }
 
-        ShowPopUp('Message', errorMessage);
+        ShowPopUp('Message', 'Please enter ' + errorMessage + ' to proceed.');
         return isValid;
 
     }
 
     function SubmitData() {
+        ShowLoader();
         var FirstName = $("#txtBoxUserName").val();
         var LastName = $("#LastName").val();
         var Email = $("#UserEmail").val();
@@ -697,6 +687,7 @@
     }
     function CancelBtn()
     {
+        ShowLoader();
         window.location.href = "/Dashboard";
     }
 </script>
