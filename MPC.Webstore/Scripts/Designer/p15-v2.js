@@ -141,10 +141,8 @@ function fu04_1GetItem(DT)
                  fu04_TempCbkGen(DT);
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
-              //   alert(result.SmartFormId);
                  $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
                       function (userData) {
-                          //alert(result.SmartFormId);
                           userVariableData = userData;
                           fu04_TempCbkGen(DT);
                           if (DT.IsCorporateEditable == false && IsCalledFrom == 4) {

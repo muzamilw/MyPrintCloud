@@ -5,6 +5,7 @@ using MPC.Interfaces.Data;
 using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.RequestModels;
 using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -35,7 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
         [CompressFilterAttribute]
-        public OrderStatusesResponse Get()
+        public OrderStatusesResponse Get([FromUri] DashboardRequestModel request)
         {
             if (!ModelState.IsValid)
             {

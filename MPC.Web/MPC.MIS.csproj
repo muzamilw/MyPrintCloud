@@ -322,6 +322,7 @@
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
