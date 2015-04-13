@@ -1868,7 +1868,8 @@ namespace MPC.Repository.Repositories
 
             tblOrder.StatusId = (short)orderStatus;
 
-            //OrderManager.UpdateOrderedItems(context, orderStatus, tblOrder, ProductManager.ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
+            
+            //UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
             db.SaveChanges();
 

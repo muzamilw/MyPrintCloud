@@ -5,18 +5,16 @@
 
     <div class="row left_right_padding">
 
-        <div class="signin_heading_div  col-md-12 col-lg-12 col-xs-12" style="display:none;">
-            <label id="lbl_newCoustomerReg" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_newCoustomerReg", UserCookieManager.WBStoreId))</label>
-        </div>
+       
         <div class="page_border_div rounded_corners col-md-12 col-lg-12 col-xs-12">
             <div class="sign_up_page_box">
                 <div class="SignUpLeftPanel col-md-6 col-lg-6 col-xs-12">
 
                     @if (ViewBag.ShowFacebookSignInLink == 1 || ViewBag.ShowTwitterSignInLink == 1)
                     {
-                        <div id="lbl_RegisterUsing" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("lbl_RegisterUsing", UserCookieManager.WBStoreId))</div>
+                        <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
                         <div class="clearBoth">&nbsp;</div>
-
+                        <br />
                         <div id="cntSocialLink" class="cntSignInWithSocialinks">
                             @if (ViewBag.ShowFacebookSignInLink == 1)
                             {
@@ -53,7 +51,7 @@
                         </div>
                     }
                     <div class="clearBoth">&nbsp;</div>
-                    <div id="lbl_SignUp" class="mainHeadingAveniorCheckout">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
+                    <div id="lbl_SignUp" class="custom_color_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("registerFor", UserCookieManager.WBStoreId)) @ViewBag.CompanyName</div>
                     @{
                         bool isSocialSignUp = Convert.ToBoolean(ViewData["IsSocialSignUp"]);
                         if (isSocialSignUp == true)

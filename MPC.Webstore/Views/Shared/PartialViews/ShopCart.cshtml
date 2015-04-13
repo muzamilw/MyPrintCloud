@@ -139,7 +139,7 @@
                                                     }
                                                 </div>
                                             </td>
-                                            <td style="width:29%;">
+                                            <td style="width:29%;" valign="top">
                                                 <span id="lblItemProductName" class="heading_16">@prod.ProductName</span><span id="CopyTxt" class="heading_16" style="color: red !important;"></span>
                                                 <br>
                                                 <span id="lblProductCategory" class="ItemdetailDesc">( @prod.ProductCategoryName )</span>
@@ -176,9 +176,11 @@
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
                                                 <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
-                                                <br>
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product  from cart">
+                                                <br />
+                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Make a copy of this product in cart">
                                             </td>
-                                            <td class="PadTop5" align="left" style="width:5%;padding-left: 20px;" valign="top">
+                                            <td class="PadTop5" align="left" style="width:5%;" valign="top">
                                                 <span id="lblItemQuantity" class="fntQtyPrice" style="font-weight:bold;">@prod.Qty1</span>
                                             </td>
                                             @if (ViewBag.IsShowPrices)
@@ -200,12 +202,12 @@
                                                 </td>
                                             }
 
-                                            <td align="left" style="width:20%;" valign="top">
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
+                                            <td align="left" style="width:20%; padding-top:3px;" valign="top">
+                                                @*<input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove">
                                                 @*<a id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="ConfirmDeleteItem('@prod.ItemID');">Remove</a>*@
                                                 <br>
                                                 @* @Html.ActionLink("Copy Product", "CopyProduct", "ShopCart", new { ItemID = prod.ItemID, OrderID = UserCookieManager.WEBOrderId }, new { @class = "silver_back_button", onclick="ShowLoader();" })*@
-                                                <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">
+                                                @*<input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Copy in cart">*@
                                             </td>
                                         </tr>
 
