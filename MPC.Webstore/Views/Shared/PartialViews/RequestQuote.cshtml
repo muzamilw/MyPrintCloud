@@ -19,7 +19,7 @@
         <div  class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" style="display:none">
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlYourName">First Name :</label>
+                @*<label id="ltrlYourName">First Name :</label>*@
                 <div id="divYourNameRq" class="error_star" style="display: none;">
                     *
                 </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlLastName">Last Name :</label>
+                @*<label id="ltrlLastName">Last Name :</label>*@
 
                 <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                     *
@@ -45,7 +45,7 @@
             <div class="clearBoth">
             </div>
             <div class="smallContctUsAvenior float_left_simple">
-                <label id="ltrlLastName">Email :</label>
+                @*<label id="ltrlLastName">Email :</label>*@
 
                 <div id="divEmailRq" class="error_star" style="display: none;">
                     *
@@ -59,7 +59,7 @@
             </div>
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlLastName">Phone :</label>
+                @*<label id="ltrlLastName">Phone :</label>*@
                 <div id="div1" class="error_star" style="display: none;">
                     *
                 </div>
@@ -82,7 +82,7 @@
        <div  class="get_in_touch_box_RFQ rounded_corners" id="divUserInfo" >
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlYourName">First Name :</label>
+                @*<label id="ltrlYourName">First Name :</label>*@
                 <div id="divYourNameRq" class="error_star" style="display: none;">
                     *
                 </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlLastName">Last Name :</label>
+                @*<label id="ltrlLastName">Last Name :</label>*@
 
                 <div id="ltrlLastNameRQ" class="error_star" style="display: none;">
                     *
@@ -108,7 +108,7 @@
             <div class="clearBoth">
             </div>
             <div class="smallContctUsAvenior float_left_simple">
-                <label id="ltrlLastName">Email :</label>
+                @*<label id="ltrlLastName">Email :</label>*@
 
                 <div id="divEmailRq" class="error_star" style="display: none;">
                     *
@@ -122,7 +122,7 @@
             </div>
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlLastName">Phone :</label>
+                @*<label id="ltrlLastName">Phone :</label>*@
                 <div id="div1" class="error_star" style="display: none;">
                     *
                 </div>
@@ -142,7 +142,7 @@
         <div class="get_in_touch_box_RFQ rounded_corners">
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlinquirytitle">Inquiry Title :</label>
+                @*<label id="ltrlinquirytitle">Inquiry Title :</label>*@
 
                 <div id="InquiryTitleInd2" class="error_star" style="display: none;">
                     *
@@ -156,7 +156,7 @@
             </div>
             <div class="smallContctUsAvenior float_left_simple">
                 
-                <label id="ltrlinquiryAttachement">Inquiry Attachment's :</label>
+                <span id="ltrlinquiryAttachement">Inquiry Attachment's :</span>
             </div>
             <div class="TTL widthAvenior">
                 <input id="InquiryAttachment" type="file" name="uploadFile" class="newTxtBox"  multiple accept="psd,pdd,bmp,rle,dib,gif,eps,jpg,jpeg,jpe,pcx,pdf,pdp,pct,pict,pxr,png,raw,sct,tiff,tif,svc,bmp,doc,docx,xls,ppt,pptx,xlsx" max="4" />
@@ -175,18 +175,18 @@
                     <div class="smallContctUsAvenior float_left_simple">
                         
 
-                        <label id="ltrlitemtitle">Item Title :</label>
+                        @*<label id="ltrlitemtitle">Item Title :</label>*@
                         <div id="ItemTitleInd1" class="error_star" style="display: none;">
                             *
                         </div>
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder = "Txt Title", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemTitle1, new { id = "txtTitle1", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500 })
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <label id="ltrlitemnotes">Item Notes  :</label>
+                        <span id="ltrlitemnotes">Item Notes:</span>
                     </div>
                     <div class="TTL widthAvenior">
                         
@@ -194,7 +194,7 @@
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <label id="ltrldeliverydate">Desired Delivery  :</label>
+                        <span id="ltrldeliverydate">Desired Delivery  :</span>
                     </div>
                     <div id="DesiredDeldate1" class="error_star" style="display: none;">
                         *
@@ -220,7 +220,7 @@
                     <div class="smallContctUsAvenior float_left_simple">
                         
 
-                        <label id="ltrlitemtitle2">Item Title  :</label>
+                        @*<label id="ltrlitemtitle2">Item Title  :</label>*@
 
                         <div id="ItemTitleInd2" class="error_star" style="display: none;">
                             *
@@ -228,7 +228,7 @@
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = "txtTitle2", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemTitle2, new { id = "txtTitle2", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500 })
                         
                     </div>
                     <div class="exit_container_RQ">
@@ -237,15 +237,15 @@
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                        
-                        <label id="ltrlitemnotes2">Item Notes  :</label>
+                        <span id="ltrlitemnotes2">Item Notes  :</span>
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemNotes2, new { id = "itemnotes2", @class = "newTxtBox", maxlength = 500 })
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                        
-                        <label id="ltrldeliverydate2">Desired Delivery  :</label>
+                        <span id="ltrldeliverydate2">Desired Delivery  :</span>
                     </div>
                     <div id="DesiredDeldate2" class="error_star" style="display: none;">
                         *
@@ -253,7 +253,7 @@
 
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate2, new { id = "txtInquiryDate2", @class = "newTxtBox", maxlength = 500, @readonly = "readonly" })
                         
                     </div>
                     <div class="clearBoth">
@@ -269,30 +269,30 @@
                 <div>
                     <div class="smallContctUsAvenior float_left_simple">
                         
-                        <label id="ltrlitemtitle3">Item Title :</label>
+                        @*<label id="ltrlitemtitle3">Item Title :</label>*@
                         <div id="ItemTitleInd3" class="error_star" style="display: none;">
                             *
                         </div>
                     </div>
                     <div class="TTL widthAvenior">
                       
-                        @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = "Item Title :", maxlength = 500, })
+                        @Html.TextBoxFor(model => model.InquiryItemTitle3, new { id = "txtTitle3", @class = "newTxtBox", placeholder = "Item Title", maxlength = 500, })
                     </div>
-                    <div class="exit_container">
-                        <div class="exit_popup"  title="Click to remove item." id="Remove3">
+                    <div class="exit_container_RQ">
+                        <div class="exit_popup" title="Click to remove item." id="Remove3">
                         </div>
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <label id="ltrlitemnotes3">Item Notes :</label>
+                        <span id="ltrlitemnotes3">Item Notes :</span>
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", @class = "newTxtBox", placeholder = "Item Notes ", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemNotes3, new { id = "txtItemNote3", @class = "newTxtBox", maxlength = 500 })
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <label id="ltrldeliverydate3">Desired Delivery  :</label>
+                        <span id="ltrldeliverydate3">Desired Delivery  :</span>
                     </div>
                     <div id="DesiredDeldate3" class="error_star" style="display: none;">
                         *
@@ -300,7 +300,7 @@
 
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", placeholder = "Desired Delivery ", maxlength = 500, @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate3, new { id = "txtInquiryDate3", @class = "newTxtBox", maxlength = 500, @readonly = "readonly" })
                         
                     </div>
                     <div class="clearBoth">
@@ -313,7 +313,7 @@
         </div>
         <div class="float_left_simple colorBlack">
 
-            <a id="AddNewInquiryItemList" class="colorBlack"><i class="fa fa-plus-circle"></i> Add New Item</a>
+            <a id="AddNewInquiryItemList" class="colorBlack"><input id="btnSend" class="add-inquiry-btn rounded_corners5" value="Add new item" type="button" /></a>
         </div>
         <div class="quote_control_sec_btnsDiv float_left">
 
