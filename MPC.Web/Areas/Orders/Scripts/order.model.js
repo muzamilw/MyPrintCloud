@@ -43,6 +43,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             creationDate = ko.observable(specifiedCreationDate ? moment(specifiedCreationDate).toDate() : undefined),
             // Flag Color
             flagColor = ko.observable(specifiedFlagColor || undefined),
+             // Estimate Total
+            estimateTotal = ko.observable(undefined),
             // Flag Id
             sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
             // Order Code
@@ -177,7 +179,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 footNotes: footNotes,
                 sectionFlagId: sectionFlagId,
-                statusId: statusId
+                statusId: statusId,
+                estimateTotal: estimateTotal
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -242,6 +245,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isEstimate: isEstimate,
             companyId: companyId,
             companyName: companyName,
+            estimateTotal:estimateTotal,
             contactId: contactId,
             addressId: addressId,
             sectionFlagId: sectionFlagId,
@@ -1981,6 +1985,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
+        estimate.estimateTotal(source.EstimateTotal || undefined);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];
