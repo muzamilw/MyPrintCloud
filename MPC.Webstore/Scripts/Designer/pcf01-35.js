@@ -2949,8 +2949,10 @@ function pcl42_UpdateTO() {
                     obj.Value = "";
                 }
                 if (obj.Value != null) {
-                    while (IT.ContentString.indexOf(variableTag) != -1)
-                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                    while (IT.ContentString.indexOf(variableTag) != -1) {
+                        updateTOWithStyles(IT, variableTag,obj.Value);
+                    }
+//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
             });
         }); 
@@ -3021,17 +3023,20 @@ function updateTOWithStyles(obTO, vTag, vVal) {
                 }
                 if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
                     var objToRemove = getObjectToRemove(stylesCopy, objStyle);
-                    stylesCopy = $.grep(stylesCopy, function (n, i) {
-                        return (n.characterIndex != objToRemove.characterIndex);
-                    });
-                    stylesRemoved++;
+                    if (objToRemove != null) {
+                        stylesCopy = $.grep(stylesCopy, function (n, i) {
+                            return (n.characterIndex != objToRemove.characterIndex);
+                        });
+                        stylesRemoved++;
+                    }
                 }
             });
 
             var diff = vVal.length - (variableLength);
             $.each(stylesCopy, function (i, objStyle) {
-                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.Length))
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
                     objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
+                }
             });
             if (styleExist) {
                 for (var z = 0; z < vVal.length; z++) {
