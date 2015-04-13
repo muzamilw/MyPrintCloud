@@ -4354,6 +4354,16 @@ namespace MPC.Implementation.MISServices
                                                             }
 
                                                         }
+
+                                                        string fileName =  "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                        string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                        string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        if (File.Exists(FilePaths))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                            r.Comment = "Items image for Store";
+                                                        }
                                                        
                                                     }
                                                 }
@@ -4778,7 +4788,15 @@ namespace MPC.Implementation.MISServices
                                                                 }
 
                                                             }
-
+                                                            string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                            string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                            string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            if (File.Exists(FilePaths))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                                r.Comment = "Items image for Store";
+                                                            }
                                                         }
                                                     }
                                                    
@@ -5198,6 +5216,15 @@ namespace MPC.Implementation.MISServices
                                                             }
 
                                                         }
+                                                        string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                        string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                        string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        if (File.Exists(FilePaths))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                            r.Comment = "Items image for Store";
+                                                        }
 
                                                     }
                                                 }
@@ -5549,7 +5576,15 @@ namespace MPC.Implementation.MISServices
                                                                     }
 
                                                                 }
-
+                                                                string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                                string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                                string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                if (File.Exists(FilePaths))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                                    r.Comment = "Items image for Store";
+                                                                }
                                                             }
                                                         }
                                                      
