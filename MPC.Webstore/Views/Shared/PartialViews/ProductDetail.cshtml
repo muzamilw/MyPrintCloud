@@ -154,20 +154,21 @@
                                 }
                                 else
                                 {
-                                    if (ViewBag.isAllowBackOrder)
-                                    {
-                                        <button id="btnUploadDesign" value="Upload files"
-                                                class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">
-                                            @Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId))
-                                            </button>
-                                    }
+                                    //if (ViewBag.isAllowBackOrder)
+                                    //{
+                                    <a href="@ViewBag.btnUploadDesignPath">
+                                        <input id="btnUploadDesign" value="Upload files" type="button"
+                                               class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" />
+                                    </a>
+                                        
+                                    @*}
                                     else
                                     {
                                         <button id="btnUploadDesign" value="Upload files"
                                                 class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">
                                             @Html.Raw(Html.GetKeyValueFromResourceFile("front", UserCookieManager.WBStoreId))
                                         </button>
-                                    }
+                                    }*@
                                 }
 								
 							  
@@ -411,7 +412,7 @@
 
 																		<td class="product_detail_HeaderCell procu_detail_grid_cell wdthWrp"
 																			style="text-align: right;">
-																			<label id="lblHeaderText1">@stock.StockLabel</label>
+																			<span id="lblHeaderText1">@stock.StockLabel</span>
 																		</td>
 																	 }
 
@@ -453,7 +454,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn1">
 																			<span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
-																				<label id="lblMatt">@ViewBag.Currency @ObjPriceMatrix.PricePaperType1</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType1
 
 																			</span>
 																		</div>
@@ -466,7 +467,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn2">
 																			<span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
-																				<label id="lblGlossy">@ViewBag.Currency @ObjPriceMatrix.PricePaperType2</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType2
 
 																			</span>
 																		</div>
@@ -479,7 +480,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn3">
 																			<span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
-																				<label id="lblPremiumMatt">@ViewBag.Currency @ObjPriceMatrix.PricePaperType3</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType3
 
 																			</span>
 																		</div>
@@ -491,7 +492,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
-																				<label id="lblForthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType4</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType4
 
 																			</span>
 																		</div>
@@ -503,7 +504,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
-																				<label id="lblFifthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType5</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType5
 
 																			</span>
 																		</div>
@@ -517,7 +518,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
-																				<label id="lblSixthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType6</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType6
 
 																			</span>
 																		</div>
@@ -530,7 +531,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
-																				<label id="lblSevenStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType7</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType7
 
 																			</span>
 																		</div>
@@ -543,7 +544,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
-																				<label id="lblEightStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType8</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType8
 
 																			</span>
 																		</div>
@@ -555,7 +556,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
-																				<label id="lblNinthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType9</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType9
 
 
 																			</span>
@@ -568,7 +569,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
-																				<label id="lblTenthStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType10</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType10
 
 																			</span>
 																		</div>
@@ -580,7 +581,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
-																				<label id="lblElevenStock">@ViewBag.Currency @ObjPriceMatrix.PriceStockType11</label>
+																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType11
 
 																			</span>
 																		</div>
@@ -592,19 +593,7 @@
 													</table>
 													<div class="product_detail_note">
 													  
-														@if(UserCookieManager.isIncludeTax)
-														{
-															 lblTaxLabel = "(Prices shown " + "inc. " + " " + UserCookieManager.TaxRate + ")";
-														}
-														else
-														{
-															lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
-														}
-														@if (Model.DefaultItemTax == 0)
-														{
-															lblTaxLabel = "(Prices shown " + "ex. " + " " + UserCookieManager.TaxRate + ")";
-														}
-														<label ID="lblTaxLabel" class="lblTxtProdDet">@lblTaxLabel</label>
+														<label ID="lblTaxLabel" class="lblTxtProdDet">@ViewBag.VATLabel</label>
 													</div>
 													<div class="clearBoth">
 														&nbsp;
@@ -1301,10 +1290,9 @@
 	}
 
 	function UploadDesign(path) {
-	   
+	    alert(path);
 	    window.location.href = path;
-	    return false;
-
+	    return true;
 	}
 	function ShowDesignNow()
 	{
