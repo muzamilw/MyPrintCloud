@@ -51,5 +51,7 @@ namespace MPC.Interfaces.MISServices
         BestPressResponse GetBestPresses(ItemSection currentSection);
 
         ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request);
+
+        string DownloadOrderArtwork(int OrderID, string sZipName);
     }
 }
