@@ -4301,81 +4301,73 @@ namespace MPC.Implementation.MISServices
                                         {
                                             if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                             {
-                                                if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                                if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                 {
-                                                    foreach (var tempFont in item.Template.TemplateFonts)
+                                                    foreach (var tempbcI in item.Template.TemplateBackgroundImages)
                                                     {
-                                                        if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                       
+                                                      
+
+                                                        if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                         {
-                                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
-
-                                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
-
-                                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
-
-                                                            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
-
-                                                            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
-
-                                                            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
-
-                                                            if (File.Exists(F1))
+                                                            
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
+                                                            
+                                                        
+                                                            if(tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
-                                                                ZipEntry r = zip.AddFile(F1, DPath);
-                                                                r.Comment = "template font";
+
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorp.Company.CompanyId;
+                                                            }
+                                                            else
+                                                            {
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                            }
+                                                          
+                                                            if (File.Exists(FilePath))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                r.Comment = "Items image for Store";
+
                                                             }
 
-                                                            if (File.Exists(F2))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                r.Comment = "template font";
-                                                            }
-
-                                                            if (File.Exists(F3))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                r.Comment = "template font";
-                                                            }
-
-
-                                                        }
-                                                        else
-                                                        {
-
-                                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
-
-                                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
-
-                                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
-
-                                                            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
-
-                                                            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
-
-                                                            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
-
-                                                            if (File.Exists(F1))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F1, DPath);
-                                                                r.Comment = "template font";
-                                                            }
-
-                                                            if (File.Exists(F2))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                r.Comment = "template font";
-                                                            }
-
-                                                            if (File.Exists(F3))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                r.Comment = "template font";
-                                                            }
                                                         }
 
                                                     }
-
                                                 }
+
+                                               
+                                                if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
+                                                {
+                                                    foreach(var tempPage in item.Template.TemplatePages)
+                                                    {
+                                                        if (!string.IsNullOrEmpty(tempPage.BackgroundFileName))
+                                                        {
+                                                            string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
+                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            if (File.Exists(FilePath))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                r.Comment = "Items image for Store";
+
+                                                            }
+
+                                                        }
+
+                                                        string fileName =  "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                        string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                        string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        if (File.Exists(FilePaths))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                            r.Comment = "Items image for Store";
+                                                        }
+                                                       
+                                                    }
+                                                }
+                                               
                                             }
                                             //if(ObjExportRetail.TemplateBackgroundImage)
 
@@ -4384,6 +4376,54 @@ namespace MPC.Implementation.MISServices
 
                                 }
                             }
+                            // copy template fonts of customer
+                            if (ObjExportCorp.TemplateFonts != null && ObjExportCorp.TemplateFonts.Count > 0)
+                            {
+                                foreach (var font in ObjExportCorp.TemplateFonts)
+                                {
+                                    if (!string.IsNullOrEmpty(font.FontPath))
+                                    {
+
+                                        if (!string.IsNullOrEmpty(font.FontPath))
+                                        {
+
+
+                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".eot");
+
+                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".ttf");
+
+                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".woff");
+
+                                            DPath = "Designer/" + font.FontPath + "/" + font.FontFile + ".eot";
+
+                                            string Dpath2 = "Designer/" + font.FontPath + "/" + font.FontFile + ".ttf";
+
+                                            string DPath3 = "Designer/" + font.FontPath + "/" + font.FontFile + ".woff";
+
+                                            if (File.Exists(F1))
+                                            {
+                                                ZipEntry r = zip.AddFile(F1, DPath);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F2))
+                                            {
+                                                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F3))
+                                            {
+                                                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                r.Comment = "template font";
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                           
                             if (ObjExportCorp.Company.CompanyContacts != null && ObjExportCorp.Company.CompanyContacts.Count > 0)
                             {
                                 foreach (var contact in ObjExportCorp.Company.CompanyContacts)
@@ -4621,95 +4661,109 @@ namespace MPC.Implementation.MISServices
                                             {
                                                 if (item.Template != null)
                                                 {
-                                                    if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
-                                                    {
-                                                        foreach (var tempFont in item.Template.TemplateFonts)
-                                                        {
-                                                            if (!string.IsNullOrEmpty(tempFont.FontPath))
-                                                            {
-                                                                string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+                                                    //if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                                    //{
+                                                    //    foreach (var tempFont in item.Template.TemplateFonts)
+                                                    //    {
+                                                    //        if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                    //        {
+                                                    //            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
 
-                                                                string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+                                                    //            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
 
-                                                                string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+                                                    //            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
 
-                                                                DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+                                                    //            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
 
-                                                                string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+                                                    //            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
 
-                                                                string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+                                                    //            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
 
-                                                                if (File.Exists(F1))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F1, DPath);
-                                                                    r.Comment = "template font";
-                                                                }
+                                                    //            if (File.Exists(F1))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F1, DPath);
+                                                    //                r.Comment = "template font";
+                                                    //            }
 
-                                                                if (File.Exists(F2))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                    r.Comment = "template font";
-                                                                }
+                                                    //            if (File.Exists(F2))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                    //                r.Comment = "template font";
+                                                    //            }
 
-                                                                if (File.Exists(F3))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                    r.Comment = "template font";
-                                                                }
-
-
-                                                            }
-                                                            else
-                                                            {
-
-                                                                string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
-
-                                                                string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
-
-                                                                string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
-
-                                                                DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
-
-                                                                string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
-
-                                                                string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
-
-                                                                if (File.Exists(F1))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F1, DPath);
-                                                                    r.Comment = "template font";
-                                                                }
-
-                                                                if (File.Exists(F2))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                    r.Comment = "template font";
-                                                                }
-
-                                                                if (File.Exists(F3))
-                                                                {
-                                                                    ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                    r.Comment = "template font";
-                                                                }
-                                                            }
-
-                                                        }
+                                                    //            if (File.Exists(F3))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                    //                r.Comment = "template font";
+                                                    //            }
 
 
-                                                    }
+                                                    //        }
+                                                    //        else
+                                                    //        {
+
+                                                    //            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                    //            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                    //            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                    //            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                    //            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                    //            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                    //            if (File.Exists(F1))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F1, DPath);
+                                                    //                r.Comment = "template font";
+                                                    //            }
+
+                                                    //            if (File.Exists(F2))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                    //                r.Comment = "template font";
+                                                    //            }
+
+                                                    //            if (File.Exists(F3))
+                                                    //            {
+                                                    //                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                    //                r.Comment = "template font";
+                                                    //            }
+                                                    //        }
+
+                                                    //    }
+
+
+                                                    //}
                                                     if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                     {
-                                                        foreach (var img in item.Template.TemplateBackgroundImages)
+                                                        foreach (var tempbcI in item.Template.TemplateBackgroundImages)
                                                         {
 
-                                                            if (!string.IsNullOrEmpty(img.ImageName))
+
+
+                                                            if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                             {
-                                                                DPath = "Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName;
-                                                                string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName);
+
+                                                                string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
+
+
+                                                                if (tempbcI.ImageName.Contains("UserImgs/"))
+                                                                {
+
+                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetail.RetailCompany.CompanyId;
+                                                                }
+                                                                else
+                                                                {
+                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                }
+
                                                                 if (File.Exists(FilePath))
                                                                 {
                                                                     ZipEntry r = zip.AddFile(FilePath, DPath);
-                                                                    r.Comment = "template images";
+                                                                    r.Comment = "Items image for Store";
 
                                                                 }
 
@@ -4717,6 +4771,35 @@ namespace MPC.Implementation.MISServices
 
                                                         }
                                                     }
+                                                    if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
+                                                    {
+                                                        foreach (var tempPage in item.Template.TemplatePages)
+                                                        {
+                                                            if (!string.IsNullOrEmpty(tempPage.BackgroundFileName))
+                                                            {
+                                                                string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
+                                                                string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                if (File.Exists(FilePath))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                    r.Comment = "Items image for Store";
+
+                                                                }
+
+                                                            }
+                                                            string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                            string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                            string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            if (File.Exists(FilePaths))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                                r.Comment = "Items image for Store";
+                                                            }
+                                                        }
+                                                    }
+                                                   
 
                                                 }
 
@@ -4727,7 +4810,52 @@ namespace MPC.Implementation.MISServices
 
                                 }
                             }
+                            if (ObjExportRetail.RetailTemplateFonts != null && ObjExportRetail.RetailTemplateFonts.Count > 0)
+                            {
+                                foreach (var font in ObjExportRetail.RetailTemplateFonts)
+                                {
+                                    if (!string.IsNullOrEmpty(font.FontPath))
+                                    {
+                                        if (!string.IsNullOrEmpty(font.FontPath))
+                                        {
 
+
+                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".eot");
+
+                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".ttf");
+
+                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".woff");
+
+                                            DPath = "Designer/" + font.FontPath + "/" + font.FontFile + ".eot";
+
+                                            string Dpath2 = "Designer/" + font.FontPath + "/" + font.FontFile + ".ttf";
+
+                                            string DPath3 = "Designer/" + font.FontPath + "/" + font.FontFile + ".woff";
+
+                                            if (File.Exists(F1))
+                                            {
+                                                ZipEntry r = zip.AddFile(F1, DPath);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F2))
+                                            {
+                                                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F3))
+                                            {
+                                                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                r.Comment = "template font";
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+                           
                             //ExportOrganisation RetailexOrg = new ExportOrganisation();
                             //RetailexOrg = ObjExportRetailSet.ExportRetailStore2;
                             if (ObjExportRetail.RetailCompanyContact != null && ObjExportRetail.RetailCompanyContact.Count > 0)
@@ -4962,87 +5090,196 @@ namespace MPC.Implementation.MISServices
                                         {
                                             if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                             {
-                                                if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                                //if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                                //{
+                                                //    foreach (var tempFont in item.Template.TemplateFonts)
+                                                //    {
+                                                //        if (!string.IsNullOrEmpty(tempFont.FontPath))
+                                                //        {
+                                                //            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
+
+                                                //            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
+
+                                                //            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
+
+                                                //            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
+
+                                                //            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
+
+                                                //            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
+
+                                                //            if (File.Exists(F1))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F1, DPath);
+                                                //                r.Comment = "template font";
+                                                //            }
+
+                                                //            if (File.Exists(F2))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                //                r.Comment = "template font";
+                                                //            }
+
+                                                //            if (File.Exists(F3))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                //                r.Comment = "template font";
+                                                //            }
+
+
+                                                //        }
+                                                //        else
+                                                //        {
+
+                                                //            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+
+                                                //            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
+
+                                                //            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
+
+                                                //            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
+
+                                                //            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
+
+                                                //            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
+
+                                                //            if (File.Exists(F1))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F1, DPath);
+                                                //                r.Comment = "template font";
+                                                //            }
+
+                                                //            if (File.Exists(F2))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                //                r.Comment = "template font";
+                                                //            }
+
+                                                //            if (File.Exists(F3))
+                                                //            {
+                                                //                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                //                r.Comment = "template font";
+                                                //            }
+                                                //        }
+
+                                                //    }
+
+                                                //}
+                                                if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                 {
-                                                    foreach (var tempFont in item.Template.TemplateFonts)
+                                                    foreach (var tempbcI in item.Template.TemplateBackgroundImages)
                                                     {
-                                                        if (!string.IsNullOrEmpty(tempFont.FontPath))
-                                                        {
-                                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
-
-                                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
-
-                                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
-
-                                                            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
-
-                                                            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
-
-                                                            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
-
-                                                            if (File.Exists(F1))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F1, DPath);
-                                                                r.Comment = "template font";
-                                                            }
-
-                                                            if (File.Exists(F2))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                r.Comment = "template font";
-                                                            }
-
-                                                            if (File.Exists(F3))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                r.Comment = "template font";
-                                                            }
 
 
-                                                        }
-                                                        else
+
+                                                        if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                         {
 
-                                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
 
-                                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
 
-                                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
-
-                                                            DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
-
-                                                            string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
-
-                                                            string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
-
-                                                            if (File.Exists(F1))
+                                                            if (tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
-                                                                ZipEntry r = zip.AddFile(F1, DPath);
-                                                                r.Comment = "template font";
+
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorpWOP.Company.CompanyId;
+                                                            }
+                                                            else
+                                                            {
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                             }
 
-                                                            if (File.Exists(F2))
+                                                            if (File.Exists(FilePath))
                                                             {
-                                                                ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                r.Comment = "template font";
+                                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                r.Comment = "Items image for Store";
+
                                                             }
 
-                                                            if (File.Exists(F3))
-                                                            {
-                                                                ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                r.Comment = "template font";
-                                                            }
                                                         }
 
                                                     }
-
                                                 }
+                                                if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
+                                                {
+                                                    foreach (var tempPage in item.Template.TemplatePages)
+                                                    {
+                                                        if (!string.IsNullOrEmpty(tempPage.BackgroundFileName))
+                                                        {
+                                                            string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
+                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            if (File.Exists(FilePath))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                r.Comment = "Items image for Store";
+
+                                                            }
+
+                                                        }
+                                                        string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                        string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                        string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        if (File.Exists(FilePaths))
+                                                        {
+                                                            ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                            r.Comment = "Items image for Store";
+                                                        }
+
+                                                    }
+                                                }
+                                              
                                             }
                                             //if(ObjExportRetail.TemplateBackgroundImage)
 
                                         }
                                     }
 
+                                }
+                            }
+                            if (ObjExportCorpWOP.TemplateFonts != null && ObjExportCorpWOP.TemplateFonts.Count > 0)
+                            {
+                                foreach (var font in ObjExportCorpWOP.TemplateFonts)
+                                {
+                                    if (!string.IsNullOrEmpty(font.FontPath))
+                                    {
+                                        if (!string.IsNullOrEmpty(font.FontPath))
+                                        {
+
+
+                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".eot");
+
+                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".ttf");
+
+                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".woff");
+
+                                            DPath = "Designer/" + font.FontPath + "/" + font.FontFile + ".eot";
+
+                                            string Dpath2 = "Designer/" + font.FontPath + "/" + font.FontFile + ".ttf";
+
+                                            string DPath3 = "Designer/" + font.FontPath + "/" + font.FontFile + ".woff";
+
+                                            if (File.Exists(F1))
+                                            {
+                                                ZipEntry r = zip.AddFile(F1, DPath);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F2))
+                                            {
+                                                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F3))
+                                            {
+                                                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                r.Comment = "template font";
+                                            }
+
+
+                                        }
+                                    }
                                 }
                             }
                             if (ObjExportCorpWOP.Company.CompanyContacts != null && ObjExportCorpWOP.Company.CompanyContacts.Count > 0)
@@ -5063,6 +5300,7 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
+                            
                             string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyIDWOP + "/Site.css";
                             string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyIDWOP;
                             if (File.Exists(CSSPath))
@@ -5285,95 +5523,35 @@ namespace MPC.Implementation.MISServices
                                                 {
                                                     if (item.Template != null)
                                                     {
-                                                        if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
-                                                        {
-                                                            foreach (var tempFont in item.Template.TemplateFonts)
-                                                            {
-                                                                if (!string.IsNullOrEmpty(tempFont.FontPath))
-                                                                {
-                                                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot");
-
-                                                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf");
-
-                                                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff");
-
-                                                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".eot";
-
-                                                                    string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".ttf";
-
-                                                                    string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontPath + "/" + tempFont.FontFile + ".woff";
-
-                                                                    if (File.Exists(F1))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F1, DPath);
-                                                                        r.Comment = "template font";
-                                                                    }
-
-                                                                    if (File.Exists(F2))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                        r.Comment = "template font";
-                                                                    }
-
-                                                                    if (File.Exists(F3))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                        r.Comment = "template font";
-                                                                    }
-
-
-                                                                }
-                                                                else
-                                                                {
-
-                                                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot");
-
-                                                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf");
-
-                                                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff");
-
-                                                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".eot";
-
-                                                                    string Dpath2 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".ttf";
-
-                                                                    string DPath3 = "Designer/Organisation" + OrganisationID + "/WebFonts/" + tempFont.FontFile + ".woff";
-
-                                                                    if (File.Exists(F1))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F1, DPath);
-                                                                        r.Comment = "template font";
-                                                                    }
-
-                                                                    if (File.Exists(F2))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F2, Dpath2);
-                                                                        r.Comment = "template font";
-                                                                    }
-
-                                                                    if (File.Exists(F3))
-                                                                    {
-                                                                        ZipEntry r = zip.AddFile(F3, DPath3);
-                                                                        r.Comment = "template font";
-                                                                    }
-                                                                }
-
-                                                            }
-
-
-                                                        }
+                                                       
+                                                      
                                                         if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                         {
-                                                            foreach (var img in item.Template.TemplateBackgroundImages)
+                                                            foreach (var tempbcI in item.Template.TemplateBackgroundImages)
                                                             {
 
-                                                                if (!string.IsNullOrEmpty(img.ImageName))
+
+
+                                                                if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                                 {
-                                                                    DPath = "Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName;
-                                                                    string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + img.ImageName);
+
+                                                                    string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
+
+
+                                                                    if (tempbcI.ImageName.Contains("UserImgs/"))
+                                                                    {
+
+                                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetailWOP.RetailCompany.CompanyId;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                    }
+
                                                                     if (File.Exists(FilePath))
                                                                     {
                                                                         ZipEntry r = zip.AddFile(FilePath, DPath);
-                                                                        r.Comment = "template images";
+                                                                        r.Comment = "Items image for Store";
 
                                                                     }
 
@@ -5381,6 +5559,35 @@ namespace MPC.Implementation.MISServices
 
                                                             }
                                                         }
+                                                        if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
+                                                        {
+                                                            foreach (var tempPage in item.Template.TemplatePages)
+                                                            {
+                                                                if (!string.IsNullOrEmpty(tempPage.BackgroundFileName))
+                                                                {
+                                                                    string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
+                                                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
+                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                    if (File.Exists(FilePath))
+                                                                    {
+                                                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                                        r.Comment = "Items image for Store";
+
+                                                                    }
+
+                                                                }
+                                                                string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                                string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                                string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                if (File.Exists(FilePaths))
+                                                                {
+                                                                    ZipEntry r = zip.AddFile(FilePaths, DPath);
+                                                                    r.Comment = "Items image for Store";
+                                                                }
+                                                            }
+                                                        }
+                                                     
 
                                                     }
 
@@ -5391,7 +5598,49 @@ namespace MPC.Implementation.MISServices
 
                                     }
                                 }
+                                if (ObjExportRetailWOP.RetailTemplateFonts != null && ObjExportRetailWOP.RetailTemplateFonts.Count > 0)
+                                {
+                                    foreach (var font in ObjExportRetailWOP.RetailTemplateFonts)
+                                    {
+                                        if (!string.IsNullOrEmpty(font.FontPath))
+                                        {
 
+
+                                            string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".eot");
+
+                                            string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".ttf");
+
+                                            string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + font.FontPath + "/" + font.FontFile + ".woff");
+
+                                            DPath = "Designer/" + font.FontPath + "/" + font.FontFile + ".eot";
+
+                                            string Dpath2 = "Designer/" + font.FontPath + "/" + font.FontFile + ".ttf";
+
+                                            string DPath3 = "Designer/" + font.FontPath + "/" + font.FontFile + ".woff";
+
+                                            if (File.Exists(F1))
+                                            {
+                                                ZipEntry r = zip.AddFile(F1, DPath);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F2))
+                                            {
+                                                ZipEntry r = zip.AddFile(F2, Dpath2);
+                                                r.Comment = "template font";
+                                            }
+
+                                            if (File.Exists(F3))
+                                            {
+                                                ZipEntry r = zip.AddFile(F3, DPath3);
+                                                r.Comment = "template font";
+                                            }
+
+
+                                        }
+                                       
+                                    }
+                                }
                                 //ExportOrganisation RetailexOrg = new ExportOrganisation();
                                 //RetailexOrg = ObjExportRetailSet.ExportRetailStore2;
                                 if (ObjExportRetailWOP.RetailCompanyContact != null && ObjExportRetailWOP.RetailCompanyContact.Count > 0)

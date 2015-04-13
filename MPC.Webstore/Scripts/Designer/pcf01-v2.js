@@ -1490,7 +1490,6 @@ function fu02() {
         $("#sortableLayers li").removeClass("selectedItemLayers");
         if ($('#selectedTab').css('top') == "280px")
         {
-            console.log("call");
             $("#btnAdd").click();
         }
     });

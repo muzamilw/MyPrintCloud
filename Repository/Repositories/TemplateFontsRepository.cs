@@ -100,6 +100,18 @@ namespace MPC.Repository.Repositories
             db.TemplateFonts.Add(objFont);
             db.SaveChanges();
         }
+
+        public List<TemplateFont> getTemplateFontsByCompanyID(long CustomerID)
+        {
+           try
+           {
+               return db.TemplateFonts.Where(c => c.CustomerId == CustomerID).ToList();
+           }
+           catch(Exception ex)
+           {
+               throw ex;
+           }
+        }
         #endregion
     }
 }

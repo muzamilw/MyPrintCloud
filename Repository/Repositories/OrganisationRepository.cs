@@ -932,14 +932,15 @@ namespace MPC.Repository.Repositories
                     long oCID = 0;
                     long oRetailCID = 0;
                     List<CostCentre> costC = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
+                    int FlagID = db.SectionFlags.Where(c => c.OrganisationId == OrganisationID & c.SectionId == 81 && c.isDefault == true).Select(c => c.SectionFlagId).FirstOrDefault();
                      if(isCorpStore == true) // import corporate store
                      {
                          Company comp = new Company();
                          comp = objExpCorporate.Company;
                          comp.OrganisationId = OrganisationID;
                          comp.IsDisabled = 0;
-                        
 
+                         comp.PriceFlagId = FlagID;
                          comp.CompanyDomains = null;
 
                       
@@ -1098,6 +1099,8 @@ namespace MPC.Repository.Repositories
                          List<CostCentre> CostCentres = db.CostCentres.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<StockItem> stockitems = db.StockItems.Where(c => c.OrganisationId == OrganisationID).ToList();
                          List<Machine> machines = db.Machines.Where(c => c.OrganisationId == OrganisationID).ToList();
+                         
+
                          List<Item> items = Sets.ExportStore3;
                          if (items != null && items.Count > 0)
                          {
@@ -1223,6 +1226,13 @@ namespace MPC.Repository.Repositories
                                          pci.RelatedItemId = item.ItemId;
                                      }
                                  }
+                                 if(item.ItemPriceMatrices != null && item.ItemPriceMatrices.Count > 0)
+                                 {
+                                     foreach(var price in item.ItemPriceMatrices)
+                                     {
+                                         price.FlagId = FlagID;
+                                     }
+                                 }
 
                                  db.Items.Add(item);
 
@@ -1265,6 +1275,18 @@ namespace MPC.Repository.Repositories
                              }
                              db.SaveChanges();
                          }
+
+                         if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
+                         {
+                             foreach (var color in objExpCorporate.TemplateFonts)
+                             {
+                                 TemplateFont objFont = new TemplateFont();
+                                 objFont = color;
+                                 objFont.CustomerId = (int)oCID;
+                                 db.TemplateFonts.Add(objFont);
+                             }
+                             db.SaveChanges();
+                         }
                          end = DateTime.Now;
                          timelog += "template color style add" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now;
@@ -1276,6 +1298,8 @@ namespace MPC.Repository.Repositories
                          comp = objExpRetail.RetailCompany;
                          comp.OrganisationId = OrganisationID;
                          comp.IsDisabled = 0;
+                         comp.PriceFlagId = FlagID;
+
                          comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                          comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
 
@@ -1768,10 +1792,10 @@ namespace MPC.Repository.Repositories
                              timelog += "end copying corporate files" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                              st = DateTime.Now; 
                          }
-                         else // copy retail store
-                         {
-                             CopyRetailCompanyFiles(oRetailCID, DestinationsPath, ImportIDs);
-                         }
+                         //else // copy retail store
+                         //{
+                         //    CopyRetailCompanyFiles(oRetailCID, DestinationsPath, ImportIDs);
+                         //}
                        
 
                          db.SaveChanges();
@@ -2224,8 +2248,8 @@ namespace MPC.Repository.Repositories
 
                                     }
                                     int i = 0;
-                                    // string s = "108";
-                                    bool result = int.TryParse(ItemID, out i);
+                                     string s = "sdfs";
+                                     bool result = int.TryParse(s, out i);
                                     if (!result)
                                     {
                                         ItemID = SplitMain[0];
@@ -2620,164 +2644,164 @@ namespace MPC.Repository.Repositories
                             }
                             if(item.TemplateId != null && item.TemplateId > 0)
                             {
-                                if(item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                if(item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                 {
                                     if (item.Template != null)
                                     {
-                                        if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
-                                        {
-                                            foreach (var fonts in item.Template.TemplateFonts)
-                                            {
-                                                string DestinationFontDirectory = string.Empty;
-                                                string FontSourcePath = string.Empty;
-                                                string FontSourcePath1 = string.Empty;
-                                                string FontSourcePath2 = string.Empty;
+                                        //if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+                                        //{
+                                        //    foreach (var fonts in item.Template.TemplateFonts)
+                                        //    {
+                                        //        string DestinationFontDirectory = string.Empty;
+                                        //        string FontSourcePath = string.Empty;
+                                        //        string FontSourcePath1 = string.Empty;
+                                        //        string FontSourcePath2 = string.Empty;
 
-                                                if (!string.IsNullOrEmpty(fonts.FontPath))
-                                                {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+                                        //        if (!string.IsNullOrEmpty(fonts.FontPath))
+                                        //        {
+                                        //            DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
 
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+                                        //            DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
 
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+                                        //            DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
 
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath);
+                                        //            DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath);
 
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+                                        //            FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
 
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+                                        //            FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
 
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+                                        //            FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
 
-                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationFontDirectory);
-                                                        if (Directory.Exists(DestinationFontDirectory))
-                                                        {
-                                                            if (File.Exists(FontSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationFont1))
-                                                                    File.Copy(FontSourcePath, DestinationFont1);
-                                                            }
+                                        //            if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                        //            {
+                                        //                Directory.CreateDirectory(DestinationFontDirectory);
+                                        //                if (Directory.Exists(DestinationFontDirectory))
+                                        //                {
+                                        //                    if (File.Exists(FontSourcePath))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont1))
+                                        //                            File.Copy(FontSourcePath, DestinationFont1);
+                                        //                    }
 
-                                                            if (File.Exists(FontSourcePath1))
-                                                            {
-                                                                if (!File.Exists(DestinationFont2))
-                                                                    File.Copy(FontSourcePath1, DestinationFont2);
+                                        //                    if (File.Exists(FontSourcePath1))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont2))
+                                        //                            File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                            }
+                                        //                    }
 
-                                                            if (File.Exists(FontSourcePath2))
-                                                            {
-                                                                if (!File.Exists(DestinationFont3))
-                                                                    File.Copy(FontSourcePath2, DestinationFont3);
+                                        //                    if (File.Exists(FontSourcePath2))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont3))
+                                        //                            File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                            }
+                                        //                    }
 
-                                                        }
+                                        //                }
 
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FontSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationFont1))
-                                                                File.Copy(FontSourcePath, DestinationFont1);
-                                                        }
+                                        //            }
+                                        //            else
+                                        //            {
+                                        //                if (File.Exists(FontSourcePath))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont1))
+                                        //                        File.Copy(FontSourcePath, DestinationFont1);
+                                        //                }
 
-                                                        if (File.Exists(FontSourcePath1))
-                                                        {
-                                                            if (!File.Exists(DestinationFont2))
-                                                                File.Copy(FontSourcePath1, DestinationFont2);
+                                        //                if (File.Exists(FontSourcePath1))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont2))
+                                        //                        File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                        }
+                                        //                }
 
-                                                        if (File.Exists(FontSourcePath2))
-                                                        {
-                                                            if (!File.Exists(DestinationFont3))
-                                                                File.Copy(FontSourcePath2, DestinationFont3);
+                                        //                if (File.Exists(FontSourcePath2))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont3))
+                                        //                        File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                        }
+                                        //                }
 
-                                                    }
+                                        //            }
 
-                                                }
-                                                else
-                                                {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                        //        }
+                                        //        else
+                                        //        {
+                                        //            DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                        //            DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                        //            DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
 
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts");
+                                        //            DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts");
 
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                        //            FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
 
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                        //            FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
 
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                        //            FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
 
-                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationFontDirectory);
-                                                        if (Directory.Exists(DestinationFontDirectory))
-                                                        {
-                                                            if (File.Exists(FontSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationFont1))
-                                                                    File.Copy(FontSourcePath, DestinationFont1);
-                                                            }
+                                        //            if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                        //            {
+                                        //                Directory.CreateDirectory(DestinationFontDirectory);
+                                        //                if (Directory.Exists(DestinationFontDirectory))
+                                        //                {
+                                        //                    if (File.Exists(FontSourcePath))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont1))
+                                        //                            File.Copy(FontSourcePath, DestinationFont1);
+                                        //                    }
 
-                                                            if (File.Exists(FontSourcePath1))
-                                                            {
-                                                                if (!File.Exists(DestinationFont2))
-                                                                    File.Copy(FontSourcePath1, DestinationFont2);
+                                        //                    if (File.Exists(FontSourcePath1))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont2))
+                                        //                            File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                            }
+                                        //                    }
 
-                                                            if (File.Exists(FontSourcePath2))
-                                                            {
-                                                                if (!File.Exists(DestinationFont3))
-                                                                    File.Copy(FontSourcePath2, DestinationFont3);
+                                        //                    if (File.Exists(FontSourcePath2))
+                                        //                    {
+                                        //                        if (!File.Exists(DestinationFont3))
+                                        //                            File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                            }
+                                        //                    }
 
-                                                        }
+                                        //                }
 
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FontSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationFont1))
-                                                                File.Copy(FontSourcePath, DestinationFont1);
-                                                        }
+                                        //            }
+                                        //            else
+                                        //            {
+                                        //                if (File.Exists(FontSourcePath))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont1))
+                                        //                        File.Copy(FontSourcePath, DestinationFont1);
+                                        //                }
 
-                                                        if (File.Exists(FontSourcePath1))
-                                                        {
-                                                            if (!File.Exists(DestinationFont2))
-                                                                File.Copy(FontSourcePath1, DestinationFont2);
+                                        //                if (File.Exists(FontSourcePath1))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont2))
+                                        //                        File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                        }
+                                        //                }
 
-                                                        if (File.Exists(FontSourcePath2))
-                                                        {
-                                                            if (!File.Exists(DestinationFont3))
-                                                                File.Copy(FontSourcePath2, DestinationFont3);
+                                        //                if (File.Exists(FontSourcePath2))
+                                        //                {
+                                        //                    if (!File.Exists(DestinationFont3))
+                                        //                        File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                        }
+                                        //                }
 
-                                                    }
+                                        //            }
 
-                                                }
+                                        //        }
 
-                                                DestinationsPath.Add(DestinationFont1);
-                                                DestinationsPath.Add(DestinationFont2);
-                                                DestinationsPath.Add(DestinationFont3);
+                                        //        DestinationsPath.Add(DestinationFont1);
+                                        //        DestinationsPath.Add(DestinationFont2);
+                                        //        DestinationsPath.Add(DestinationFont3);
 
 
-                                            }
+                                        //    }
 
-                                        }
+                                        //}
                                         // template background images
                                         if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                         {
@@ -2785,30 +2809,161 @@ namespace MPC.Repository.Repositories
                                             {
                                                 if(!string.IsNullOrEmpty(tempImg.ImageName))
                                                 {
-                                                    string name = tempImg.ImageName;
+                                                    if (tempImg.ImageName.Contains("UserImgs/"))
+                                                    {
+                                                         string name = tempImg.ImageName;
 
-                                                    string ImageName = Path.GetFileName(tempImg.ImageName);
+                                                        string ImageName = Path.GetFileName(tempImg.ImageName);
 
-                                                    string NewPath = tempImg.ProductId + "/" + ImageName;
+                                                        string NewPath = "UserImgs/" + oCID + "/" + ImageName;
 
-                                                    string[] tempID = tempImg.ImageName.Split('/');
+                                                        string[] tempID = tempImg.ImageName.Split('/');
 
-                                                    string OldTempID = tempID[0];
+                                                        string OldTempID = tempID[1];
+
+                                                        string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/" + NewPath);
+                                                            DestinationsPath.Add(DestinationTempBackGroundImages);
+                                                            string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/UserImgs/" + oCID);
+                                                            string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/UserImgs/" + ImportIDs.OldCompanyID + "/" + ImageName);
+                                                            if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
+                                                            {
+                                                                Directory.CreateDirectory(DestinationTempBackgroundDirectory);
+                                                                if (Directory.Exists(DestinationTempBackgroundDirectory))
+                                                                {
+                                                                    if (File.Exists(FileBackGroundSourcePath))
+                                                                    {
+                                                                        if (!File.Exists(DestinationTempBackGroundImages))
+                                                                            File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                                    }
+
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (File.Exists(FileBackGroundSourcePath))
+                                                                {
+                                                                    if (!File.Exists(DestinationTempBackGroundImages))
+                                                                        File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                                }
+
+                                                            }
+                                                            tempImg.ImageName = NewPath;
+                                                    }
+                                                    else
+                                                    {
+                                                            string name = tempImg.ImageName;
+
+                                                            string ImageName = Path.GetFileName(tempImg.ImageName);
+
+                                                            string NewPath = tempImg.ProductId + "/" + ImageName;
+
+                                                            string[] tempID = tempImg.ImageName.Split('/');
+
+                                                            string OldTempID = tempID[0];
                                                  
                                                 
-                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/"  + NewPath);
-                                                    DestinationsPath.Add(DestinationTempBackGroundImages);
-                                                    string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempImg.ProductId);
-                                                    string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + ImageName);
-                                                    if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
+                                                            string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/"  + NewPath);
+                                                            DestinationsPath.Add(DestinationTempBackGroundImages);
+                                                            string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempImg.ProductId);
+                                                            string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + ImageName);
+                                                            if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
+                                                            {
+                                                                Directory.CreateDirectory(DestinationTempBackgroundDirectory);
+                                                                if (Directory.Exists(DestinationTempBackgroundDirectory))
+                                                                {
+                                                                    if (File.Exists(FileBackGroundSourcePath))
+                                                                    {
+                                                                        if (!File.Exists(DestinationTempBackGroundImages))
+                                                                            File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                                    }
+
+
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                if (File.Exists(FileBackGroundSourcePath))
+                                                                {
+                                                                    if (!File.Exists(DestinationTempBackGroundImages))
+                                                                        File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                                }
+
+                                                            }
+                                                            tempImg.ImageName = NewPath;
+                                                    }
+
+
+                                                   
+                                                }
+                                                
+                                            }
+                                        }
+
+                                        if (item.Template.TemplatePages != null && item.Template.TemplatePages.Count > 0)
+                                        {
+                                            foreach (var tempPage in item.Template.TemplatePages)
+                                            {
+                                                if (!string.IsNullOrEmpty(tempPage.BackgroundFileName))
                                                 {
-                                                    Directory.CreateDirectory(DestinationTempBackgroundDirectory);
-                                                    if (Directory.Exists(DestinationTempBackgroundDirectory))
+                                                    string name = tempPage.BackgroundFileName;
+
+                                                    string FileName = Path.GetFileName(tempPage.BackgroundFileName);
+
+                                                    string NewPath = tempPage.ProductId + "/" + FileName;
+
+                                                    string[] tempID = tempPage.BackgroundFileName.Split('/');
+
+                                                    string OldTempID = tempID[0];
+
+
+                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/~MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
+                                                    DestinationsPath.Add(DestinationTempBackGroundImages);
+                                                    string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempPage.ProductId);
+                                                    string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + FileName);
+                                                    if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
+                                                    {
+                                                        Directory.CreateDirectory(DestinationTempBackgroundDirectory);
+                                                        if (Directory.Exists(DestinationTempBackgroundDirectory))
+                                                        {
+                                                            if (File.Exists(FileBackGroundSourcePath))
+                                                            {
+                                                                if (!File.Exists(DestinationTempBackGroundImages))
+                                                                    File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                            }
+
+
+                                                        }
+
+                                                    }
+                                                    else
                                                     {
                                                         if (File.Exists(FileBackGroundSourcePath))
                                                         {
                                                             if (!File.Exists(DestinationTempBackGroundImages))
                                                                 File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                        }
+
+                                                    }
+                                                    tempPage.BackgroundFileName = NewPath;
+                                                }
+                                                string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
+                                                string sPath = "/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
+                                                string FilePaths = HttpContext.Current.Server.MapPath("~/" + sPath);
+                                               
+                                              
+                                                string DestinationDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempPage.ProductId);
+                                                string SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName);
+                                                string DestinationPath = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName);
+                                                if (!System.IO.Directory.Exists(DestinationDirectory))
+                                                {
+                                                    Directory.CreateDirectory(DestinationDirectory);
+                                                    if (Directory.Exists(DestinationDirectory))
+                                                    {
+                                                        if (File.Exists(SourcePath))
+                                                        {
+                                                            if (!File.Exists(DestinationPath))
+                                                                File.Copy(SourcePath, DestinationPath);
                                                         }
 
 
@@ -2817,16 +2972,14 @@ namespace MPC.Repository.Repositories
                                                 }
                                                 else
                                                 {
-                                                    if (File.Exists(FileBackGroundSourcePath))
+                                                    if (File.Exists(SourcePath))
                                                     {
-                                                        if (!File.Exists(DestinationTempBackGroundImages))
-                                                            File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+                                                        if (!File.Exists(DestinationPath))
+                                                            File.Copy(SourcePath, DestinationPath);
                                                     }
 
                                                 }
-                                                    tempImg.ImageName = NewPath;
-                                                }
-                                                
+
                                             }
                                         }
 
@@ -2842,6 +2995,165 @@ namespace MPC.Repository.Repositories
 
                         }
                     }
+                     List<TemplateFont> templatefonts = db.TemplateFonts.Where(c => c.CustomerId == oCID).ToList();
+                    if (templatefonts != null && templatefonts.Count > 0)
+                    {
+                        foreach (var fonts in templatefonts)
+                        {
+                             string DestinationFontDirectory = string.Empty;
+                            string companyoid = string.Empty;
+                                                string FontSourcePath = string.Empty;
+                                                string FontSourcePath1 = string.Empty;
+                                                string FontSourcePath2 = string.Empty;
+                                                string NewFilePath = string.Empty;
+                                                if (!string.IsNullOrEmpty(fonts.FontPath))
+                                                {
+
+                                                    string NewPath = "Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.CustomerId;
+                                                  
+
+                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".eot");
+
+                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".ttf");
+
+                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".woff");
+
+                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
+
+                                                    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" +  ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+
+                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" +  ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+
+                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" +  ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+
+                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                                    {
+                                                        Directory.CreateDirectory(DestinationFontDirectory);
+                                                        if (Directory.Exists(DestinationFontDirectory))
+                                                        {
+                                                            if (File.Exists(FontSourcePath))
+                                                            {
+                                                                if (!File.Exists(DestinationFont1))
+                                                                    File.Copy(FontSourcePath, DestinationFont1);
+                                                            }
+
+                                                            if (File.Exists(FontSourcePath1))
+                                                            {
+                                                                if (!File.Exists(DestinationFont2))
+                                                                    File.Copy(FontSourcePath1, DestinationFont2);
+
+                                                            }
+
+                                                            if (File.Exists(FontSourcePath2))
+                                                            {
+                                                                if (!File.Exists(DestinationFont3))
+                                                                    File.Copy(FontSourcePath2, DestinationFont3);
+
+                                                            }
+
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        if (File.Exists(FontSourcePath))
+                                                        {
+                                                            if (!File.Exists(DestinationFont1))
+                                                                File.Copy(FontSourcePath, DestinationFont1);
+                                                        }
+
+                                                        if (File.Exists(FontSourcePath1))
+                                                        {
+                                                            if (!File.Exists(DestinationFont2))
+                                                                File.Copy(FontSourcePath1, DestinationFont2);
+
+                                                        }
+
+                                                        if (File.Exists(FontSourcePath2))
+                                                        {
+                                                            if (!File.Exists(DestinationFont3))
+                                                                File.Copy(FontSourcePath2, DestinationFont3);
+
+                                                        }
+
+                                                    }
+                                                    fonts.FontPath = NewPath;
+                                                }
+                                                //else
+                                                //{
+                                                //    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                                //    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                                //    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+
+                                                //    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts");
+
+                                                //    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+
+                                                //    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+
+                                                //    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+
+                                                //    if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                                //    {
+                                                //        Directory.CreateDirectory(DestinationFontDirectory);
+                                                //        if (Directory.Exists(DestinationFontDirectory))
+                                                //        {
+                                                //            if (File.Exists(FontSourcePath))
+                                                //            {
+                                                //                if (!File.Exists(DestinationFont1))
+                                                //                    File.Copy(FontSourcePath, DestinationFont1);
+                                                //            }
+
+                                                //            if (File.Exists(FontSourcePath1))
+                                                //            {
+                                                //                if (!File.Exists(DestinationFont2))
+                                                //                    File.Copy(FontSourcePath1, DestinationFont2);
+
+                                                //            }
+
+                                                //            if (File.Exists(FontSourcePath2))
+                                                //            {
+                                                //                if (!File.Exists(DestinationFont3))
+                                                //                    File.Copy(FontSourcePath2, DestinationFont3);
+
+                                                //            }
+
+                                                //        }
+
+                                                //    }
+                                                //    else
+                                                //    {
+                                                //        if (File.Exists(FontSourcePath))
+                                                //        {
+                                                //            if (!File.Exists(DestinationFont1))
+                                                //                File.Copy(FontSourcePath, DestinationFont1);
+                                                //        }
+
+                                                //        if (File.Exists(FontSourcePath1))
+                                                //        {
+                                                //            if (!File.Exists(DestinationFont2))
+                                                //                File.Copy(FontSourcePath1, DestinationFont2);
+
+                                                //        }
+
+                                                //        if (File.Exists(FontSourcePath2))
+                                                //        {
+                                                //            if (!File.Exists(DestinationFont3))
+                                                //                File.Copy(FontSourcePath2, DestinationFont3);
+
+                                                //        }
+
+                                                //    }
+
+                                                //}
+
+                                                DestinationsPath.Add(DestinationFont1);
+                                                DestinationsPath.Add(DestinationFont2);
+                                                DestinationsPath.Add(DestinationFont3);
+                                         
+                        }
+                    }
+                    db.SaveChanges();
                     // site.css
                     DestinationSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Site.css");
                     DestinationsPath.Add(DestinationSiteFile);
@@ -2922,1101 +3234,1101 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public void CopyRetailCompanyFiles(long oCID, List<string> DestinationsPath, ImportOrganisation ImportIDs)
-        {
-            try
-            {
-                string DestinationThumbPath = string.Empty;
-                string DestinationMainPath = string.Empty;
-                string DestinationContactFilesPath = string.Empty;
-                string DestinationMediaFilesPath = string.Empty;
-                string DestinationReportPath = string.Empty;
-                string DestinationThumbPathCat = string.Empty;
-                string DestinationThumbnailPath = string.Empty;
-                string DestinationImagePath = string.Empty;
-                string DestinationGridPath = string.Empty;
-                string DestinationFile1Path = string.Empty;
-                string DestinationFile2Path = string.Empty;
-                string DestinationFil3Path = string.Empty;
-                string DestinationFile4Path = string.Empty;
-                string DestinationFile5Path = string.Empty;
-                string DestinationSiteFile = string.Empty;
-                string DestinationSpriteFile = string.Empty;
-                string DestinationLanguageDirectory = string.Empty;
-                string DestinationLanguageFilePath = string.Empty;
-                string DestinationItemAttachmentsPath = string.Empty;
-                string DestinationFont1 = string.Empty;
-                string DestinationFont2 = string.Empty;
-                string DestinationFont3 = string.Empty;
+        //public void CopyRetailCompanyFiles(long oCID, List<string> DestinationsPath, ImportOrganisation ImportIDs)
+        //{
+        //    try
+        //    {
+        //        string DestinationThumbPath = string.Empty;
+        //        string DestinationMainPath = string.Empty;
+        //        string DestinationContactFilesPath = string.Empty;
+        //        string DestinationMediaFilesPath = string.Empty;
+        //        string DestinationReportPath = string.Empty;
+        //        string DestinationThumbPathCat = string.Empty;
+        //        string DestinationThumbnailPath = string.Empty;
+        //        string DestinationImagePath = string.Empty;
+        //        string DestinationGridPath = string.Empty;
+        //        string DestinationFile1Path = string.Empty;
+        //        string DestinationFile2Path = string.Empty;
+        //        string DestinationFil3Path = string.Empty;
+        //        string DestinationFile4Path = string.Empty;
+        //        string DestinationFile5Path = string.Empty;
+        //        string DestinationSiteFile = string.Empty;
+        //        string DestinationSpriteFile = string.Empty;
+        //        string DestinationLanguageDirectory = string.Empty;
+        //        string DestinationLanguageFilePath = string.Empty;
+        //        string DestinationItemAttachmentsPath = string.Empty;
+        //        string DestinationFont1 = string.Empty;
+        //        string DestinationFont2 = string.Empty;
+        //        string DestinationFont3 = string.Empty;
                          
-                Company ObjCompany = db.Companies.Where(c => c.CompanyId == oCID).FirstOrDefault();
+        //        Company ObjCompany = db.Companies.Where(c => c.CompanyId == oCID).FirstOrDefault();
 
-                if (ObjCompany != null)
-                {
-                    // company logo
-                    string CompanyPathOld = string.Empty;
-                    string CompanylogoPathNew = string.Empty;
-                    if (ObjCompany.Image != null)
-                    {
-                        CompanyPathOld = Path.GetFileName(ObjCompany.Image);
+        //        if (ObjCompany != null)
+        //        {
+        //            // company logo
+        //            string CompanyPathOld = string.Empty;
+        //            string CompanylogoPathNew = string.Empty;
+        //            if (ObjCompany.Image != null)
+        //            {
+        //                CompanyPathOld = Path.GetFileName(ObjCompany.Image);
 
-                        CompanylogoPathNew = CompanyPathOld.Replace(ImportIDs.RetailOldCompanyID + "_", oCID + "_");
+        //                CompanylogoPathNew = CompanyPathOld.Replace(ImportIDs.RetailOldCompanyID + "_", oCID + "_");
 
-                        string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew);
-                        DestinationsPath.Add(DestinationCompanyLogoFilePath);
-                        string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
-                        string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/" + CompanyPathOld);
-                        if (!System.IO.Directory.Exists(DestinationCompanyLogoDirectory))
-                        {
-                            Directory.CreateDirectory(DestinationCompanyLogoDirectory);
-                            if (Directory.Exists(DestinationCompanyLogoDirectory))
-                            {
-                                if (File.Exists(CompanyLogoSourcePath))
-                                {
-                                    if (!File.Exists(DestinationCompanyLogoFilePath))
-                                        File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
-                                }
-
-
-                            }
+        //                string DestinationCompanyLogoFilePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew);
+        //                DestinationsPath.Add(DestinationCompanyLogoFilePath);
+        //                string DestinationCompanyLogoDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
+        //                string CompanyLogoSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/" + CompanyPathOld);
+        //                if (!System.IO.Directory.Exists(DestinationCompanyLogoDirectory))
+        //                {
+        //                    Directory.CreateDirectory(DestinationCompanyLogoDirectory);
+        //                    if (Directory.Exists(DestinationCompanyLogoDirectory))
+        //                    {
+        //                        if (File.Exists(CompanyLogoSourcePath))
+        //                        {
+        //                            if (!File.Exists(DestinationCompanyLogoFilePath))
+        //                                File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+        //                        }
 
 
-                        }
-                        else
-                        {
-                            if (File.Exists(CompanyLogoSourcePath))
-                            {
-                                if (!File.Exists(DestinationCompanyLogoFilePath))
-                                    File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
-                            }
-                        }
-                        ObjCompany.Image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
-                    }
+        //                    }
 
 
-                    if (ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)
-                    {
-                        foreach (var contact in ObjCompany.CompanyContacts)
-                        {
-                            string OldContactImage = string.Empty;
-                            string NewContactImage = string.Empty;
-                            string OldContactID = string.Empty;
-                            if (contact.image != null)
-                            {
-                                string name = Path.GetFileName(contact.image);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    OldContactID = SplitMain[0];
-
-                                }
-
-                                OldContactImage = Path.GetFileName(contact.image);
-                                NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
-
-                                DestinationContactFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
-                                DestinationsPath.Add(DestinationContactFilesPath);
-                                string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId);
-                                string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
-                                if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationContactFilesDirectory);
-                                    if (Directory.Exists(DestinationContactFilesDirectory))
-                                    {
-                                        if (File.Exists(ContactFilesSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationContactFilesPath))
-                                                File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
-                                        }
+        //                }
+        //                else
+        //                {
+        //                    if (File.Exists(CompanyLogoSourcePath))
+        //                    {
+        //                        if (!File.Exists(DestinationCompanyLogoFilePath))
+        //                            File.Copy(CompanyLogoSourcePath, DestinationCompanyLogoFilePath);
+        //                    }
+        //                }
+        //                ObjCompany.Image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + CompanylogoPathNew;
+        //            }
 
 
-                                    }
+        //            if (ObjCompany.CompanyContacts != null && ObjCompany.CompanyContacts.Count > 0)
+        //            {
+        //                foreach (var contact in ObjCompany.CompanyContacts)
+        //                {
+        //                    string OldContactImage = string.Empty;
+        //                    string NewContactImage = string.Empty;
+        //                    string OldContactID = string.Empty;
+        //                    if (contact.image != null)
+        //                    {
+        //                        string name = Path.GetFileName(contact.image);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            OldContactID = SplitMain[0];
+
+        //                        }
+
+        //                        OldContactImage = Path.GetFileName(contact.image);
+        //                        NewContactImage = OldContactImage.Replace(OldContactID + "_", contact.ContactId + "_");
+
+        //                        DestinationContactFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage);
+        //                        DestinationsPath.Add(DestinationContactFilesPath);
+        //                        string DestinationContactFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId);
+        //                        string ContactFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Contacts/" + OldContactID + "/" + OldContactImage);
+        //                        if (!System.IO.Directory.Exists(DestinationContactFilesDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationContactFilesDirectory);
+        //                            if (Directory.Exists(DestinationContactFilesDirectory))
+        //                            {
+        //                                if (File.Exists(ContactFilesSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationContactFilesPath))
+        //                                        File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
+        //                                }
 
 
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(ContactFilesSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationContactFilesPath))
-                                            File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
-                                    }
-
-                                }
-                                contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
-                            }
-                        }
-                    }
-                    Dictionary<string, string> dictionaryMediaIds = new Dictionary<string, string>();
-
-                    // copy media files
-                    if (ObjCompany.MediaLibraries != null && ObjCompany.MediaLibraries.Count > 0)
-                    {
-                        foreach (var media in ObjCompany.MediaLibraries)
-                        {
-                            string OldMediaFilePath = string.Empty;
-                            string NewMediaFilePath = string.Empty;
-                            string OldMediaID = string.Empty;
-                            string NewMediaID = string.Empty;
-                            if (media.FilePath != null)
-                            {
-                                string name = Path.GetFileName(media.FilePath);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    OldMediaID = SplitMain[0];
-
-                                }
-
-                                if (media.MediaId > 0)
-                                    NewMediaID = Convert.ToString(media.MediaId);
-
-                                dictionaryMediaIds.Add(OldMediaID, NewMediaID);
-
-                                OldMediaFilePath = Path.GetFileName(media.FilePath);
-                                NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
-
-                                DestinationMediaFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath);
-                                DestinationsPath.Add(DestinationMediaFilesPath);
-                                string DestinationMediaFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID);
-                                string MediaFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Media/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/" + OldMediaFilePath);
-                                if (!System.IO.Directory.Exists(DestinationMediaFilesDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationMediaFilesDirectory);
-                                    if (Directory.Exists(DestinationMediaFilesDirectory))
-                                    {
-                                        if (File.Exists(MediaFilesSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationMediaFilesPath))
-                                                File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
-                                        }
-
-
-                                    }
+        //                            }
 
 
 
-                                }
-                                else
-                                {
-                                    if (File.Exists(MediaFilesSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationMediaFilesPath))
-                                            File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
-                                    }
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(ContactFilesSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationContactFilesPath))
+        //                                    File.Copy(ContactFilesSourcePath, DestinationContactFilesPath);
+        //                            }
 
-                                }
-                                media.FilePath = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath;
-                            }
+        //                        }
+        //                        contact.image = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Contacts/" + contact.ContactId + "/" + NewContactImage;
+        //                    }
+        //                }
+        //            }
+        //            Dictionary<string, string> dictionaryMediaIds = new Dictionary<string, string>();
 
-                        }
-                    }
+        //            // copy media files
+        //            if (ObjCompany.MediaLibraries != null && ObjCompany.MediaLibraries.Count > 0)
+        //            {
+        //                foreach (var media in ObjCompany.MediaLibraries)
+        //                {
+        //                    string OldMediaFilePath = string.Empty;
+        //                    string NewMediaFilePath = string.Empty;
+        //                    string OldMediaID = string.Empty;
+        //                    string NewMediaID = string.Empty;
+        //                    if (media.FilePath != null)
+        //                    {
+        //                        string name = Path.GetFileName(media.FilePath);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            OldMediaID = SplitMain[0];
 
-                    if (ObjCompany.CompanyBannerSets != null && ObjCompany.CompanyBannerSets.Count > 0)
-                    {
-                        foreach (var sets in ObjCompany.CompanyBannerSets)
-                        {
+        //                        }
+
+        //                        if (media.MediaId > 0)
+        //                            NewMediaID = Convert.ToString(media.MediaId);
+
+        //                        dictionaryMediaIds.Add(OldMediaID, NewMediaID);
+
+        //                        OldMediaFilePath = Path.GetFileName(media.FilePath);
+        //                        NewMediaFilePath = OldMediaFilePath.Replace(OldMediaID + "_", media.MediaId + "_");
+
+        //                        DestinationMediaFilesPath = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath);
+        //                        DestinationsPath.Add(DestinationMediaFilesPath);
+        //                        string DestinationMediaFilesDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID);
+        //                        string MediaFilesSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Media/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/" + OldMediaFilePath);
+        //                        if (!System.IO.Directory.Exists(DestinationMediaFilesDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationMediaFilesDirectory);
+        //                            if (Directory.Exists(DestinationMediaFilesDirectory))
+        //                            {
+        //                                if (File.Exists(MediaFilesSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationMediaFilesPath))
+        //                                        File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
+        //                                }
 
 
-                            if (sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
-                            {
-                                foreach (var bann in sets.CompanyBanners)
-                                {
-                                    if (!string.IsNullOrEmpty(bann.ImageURL))
-                                    {
-                                        string OldMediaID = string.Empty;
-                                        string newMediaID = string.Empty;
-                                        string name = Path.GetFileName(bann.ImageURL);
-                                        string[] SplitMain = name.Split('_');
-                                        if (SplitMain[0] != string.Empty)
-                                        {
-                                            OldMediaID = SplitMain[0];
+        //                            }
 
-                                        }
-                                        if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
-                                            newMediaID = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault().ToString();
 
-                                        string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
 
-                                        bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
-                                    }
-                                }
-                            }
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(MediaFilesSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationMediaFilesPath))
+        //                                    File.Copy(MediaFilesSourcePath, DestinationMediaFilesPath);
+        //                            }
 
-                        }
-                    }
+        //                        }
+        //                        media.FilePath = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewMediaFilePath;
+        //                    }
 
-                    if (ObjCompany.CmsPages != null && ObjCompany.CmsPages.Count > 0)
-                    {
-                        foreach (var pages in ObjCompany.CmsPages)
-                        {
-                            if (!string.IsNullOrEmpty(pages.PageBanner))
-                             {
-                                 string name = Path.GetFileName(pages.PageBanner);
-                                 pages.PageBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
-                             }
+        //                }
+        //            }
+
+        //            if (ObjCompany.CompanyBannerSets != null && ObjCompany.CompanyBannerSets.Count > 0)
+        //            {
+        //                foreach (var sets in ObjCompany.CompanyBannerSets)
+        //                {
+
+
+        //                    if (sets.CompanyBanners != null && sets.CompanyBanners.Count > 0)
+        //                    {
+        //                        foreach (var bann in sets.CompanyBanners)
+        //                        {
+        //                            if (!string.IsNullOrEmpty(bann.ImageURL))
+        //                            {
+        //                                string OldMediaID = string.Empty;
+        //                                string newMediaID = string.Empty;
+        //                                string name = Path.GetFileName(bann.ImageURL);
+        //                                string[] SplitMain = name.Split('_');
+        //                                if (SplitMain[0] != string.Empty)
+        //                                {
+        //                                    OldMediaID = SplitMain[0];
+
+        //                                }
+        //                                if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
+        //                                    newMediaID = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault().ToString();
+
+        //                                string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
+
+        //                                bann.ImageURL = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + NewBannerPath;
+        //                            }
+        //                        }
+        //                    }
+
+        //                }
+        //            }
+
+        //            if (ObjCompany.CmsPages != null && ObjCompany.CmsPages.Count > 0)
+        //            {
+        //                foreach (var pages in ObjCompany.CmsPages)
+        //                {
+        //                    if (!string.IsNullOrEmpty(pages.PageBanner))
+        //                     {
+        //                         string name = Path.GetFileName(pages.PageBanner);
+        //                         pages.PageBanner = "/MPC_Content/Media/" + ImportIDs.NewOrganisationID + "/" + oCID + "/" + name;
+        //                     }
                              
-                        }
-                    }
-
-                    if (ObjCompany.ProductCategories != null && ObjCompany.ProductCategories.Count > 0)
-                    {
-                        foreach (var prodCat in ObjCompany.ProductCategories)
-                        {
-                            string ProdCatID = string.Empty;
-                            string CatName = string.Empty;
-
-                            if (!string.IsNullOrEmpty(prodCat.ThumbnailPath))
-                            {
-                                string OldThumbnailPath = string.Empty;
-                                string NewThumbnailPath = string.Empty;
-
-                                string name = Path.GetFileName(prodCat.ThumbnailPath);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
-                                {
-                                    ProdCatID = SplitMain[1];
-
-                                }
-
-                                OldThumbnailPath = Path.GetFileName(prodCat.ThumbnailPath);
-                                NewThumbnailPath = OldThumbnailPath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
-
-
-
-                                DestinationThumbPathCat = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath);
-                                DestinationsPath.Add(DestinationThumbPathCat);
-                                string DestinationThumbDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories");
-                                string ThumbSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/ProductCategories/" + OldThumbnailPath);
-                                if (!System.IO.Directory.Exists(DestinationThumbDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationThumbDirectory);
-                                    if (Directory.Exists(DestinationThumbDirectory))
-                                    {
-                                        if (File.Exists(ThumbSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationThumbPathCat))
-                                                File.Copy(ThumbSourcePath, DestinationThumbPathCat);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(ThumbSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationThumbPathCat))
-                                            File.Copy(ThumbSourcePath, DestinationThumbPathCat);
-                                    }
-
-                                }
-                                prodCat.ThumbnailPath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
-                            }
-
-                            if (!string.IsNullOrEmpty(prodCat.ImagePath))
-                            {
-                                string OldImagePath = string.Empty;
-                                string NewImagePath = string.Empty;
-
-                                string name = Path.GetFileName(prodCat.ImagePath);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
-                                {
-                                    ProdCatID = SplitMain[1];
-
-                                }
-
-                                OldImagePath = Path.GetFileName(prodCat.ImagePath);
-                                NewImagePath = OldImagePath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
-
-                                DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath);
-                                DestinationsPath.Add(DestinationImagePath);
-                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories");
-                                string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/ProductCategories/" + OldImagePath);
-
-                                if (!System.IO.Directory.Exists(DestinationImageDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationImageDirectory);
-                                    if (Directory.Exists(DestinationImageDirectory))
-                                    {
-                                        if (File.Exists(ImageSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationImagePath))
-                                                File.Copy(ImageSourcePath, DestinationImagePath);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(ImageSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationImagePath))
-                                            File.Copy(ImageSourcePath, DestinationImagePath);
-                                    }
-
-                                }
-                                prodCat.ImagePath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath;
-                            }
-
-
-                        }
-                    }
-
-                    if (ObjCompany.Items != null && ObjCompany.Items.Count > 0)
-                    {
-                        string ItemID = string.Empty;
-                        string ItemName = string.Empty;
-                        foreach (var item in ObjCompany.Items)
-                        {
-                            // thumbnail images
-                            if (!string.IsNullOrEmpty(item.ThumbnailPath))
-                            {
-                                string OldThumbnailPath = string.Empty;
-                                string NewThumbnailPath = string.Empty;
-
-                                string name = Path.GetFileName(item.ThumbnailPath);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
-                                {
-                                    ItemID = SplitMain[1];
-
-                                }
-                                OldThumbnailPath = Path.GetFileName(item.ThumbnailPath);
-                                NewThumbnailPath = OldThumbnailPath.Replace(ItemID + "_", item.ItemId + "_");
-
-
-                                DestinationThumbnailPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath);
-                                DestinationsPath.Add(DestinationThumbnailPath);
-                                string DestinationThumbnailDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string ThumbnailSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldThumbnailPath);
-                                if (!System.IO.Directory.Exists(DestinationThumbnailDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationThumbnailDirectory);
-                                    if (Directory.Exists(DestinationThumbnailDirectory))
-                                    {
-                                        if (File.Exists(ThumbnailSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationThumbnailPath))
-                                                File.Copy(ThumbnailSourcePath, DestinationThumbnailPath);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(ThumbnailSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationThumbnailPath))
-                                            File.Copy(ThumbnailSourcePath, DestinationThumbnailPath);
-                                    }
-
-                                }
-                                item.ThumbnailPath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath;
-                            }
-
-                            // main image
-                            if (!string.IsNullOrEmpty(item.ImagePath))
-                            {
-
-                                string OldImagePath = string.Empty;
-                                string NewImagePath = string.Empty;
-
-
-                                string name = Path.GetFileName(item.ImagePath);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
-                                {
-                                    ItemID = SplitMain[1];
-
-                                }
-
-                                OldImagePath = Path.GetFileName(item.ImagePath);
-                                NewImagePath = OldImagePath.Replace(ItemID + "_", item.ItemId + "_");
-
-
-                                DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath);
-                                DestinationsPath.Add(DestinationImagePath);
-                                string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldImagePath);
-                                if (!System.IO.Directory.Exists(DestinationImageDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationImageDirectory);
-                                    if (Directory.Exists(DestinationImageDirectory))
-                                    {
-                                        if (File.Exists(ImageSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationImagePath))
-                                                File.Copy(ImageSourcePath, DestinationImagePath);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(ImageSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationImagePath))
-                                            File.Copy(ImageSourcePath, DestinationImagePath);
-                                    }
-
-                                }
-                                item.ImagePath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath;
-                            }
-
-                            // Gird image
-                            if (!string.IsNullOrEmpty(item.GridImage))
-                            {
-                                string OldGridPath = string.Empty;
-                                string NewGridPath = string.Empty;
-
-                                string name = Path.GetFileName(item.GridImage);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldGridPath = Path.GetFileName(item.GridImage);
-                                NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationGridPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath);
-                                DestinationsPath.Add(DestinationGridPath);
-                                string DestinationGridDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string GridSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldGridPath);
-                                if (!System.IO.Directory.Exists(DestinationGridDirectory))
-                                {
-                                    Directory.CreateDirectory(DestinationGridDirectory);
-                                    if (Directory.Exists(DestinationGridDirectory))
-                                    {
-                                        if (File.Exists(GridSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationGridPath))
-                                                File.Copy(GridSourcePath, DestinationGridPath);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(GridSourcePath))
-                                    {
-                                        if (!File.Exists(DestinationGridPath))
-                                            File.Copy(GridSourcePath, DestinationGridPath);
-
-                                    }
-                                }
-                                item.GridImage = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath;
-                            }
-
-                            // file 1
-                            if (!string.IsNullOrEmpty(item.File1))
-                            {
-                                string OldF1Path = string.Empty;
-                                string NewF1Path = string.Empty;
-
-                                string name = Path.GetFileName(item.File1);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldF1Path = Path.GetFileName(item.File1);
-                                NewF1Path = OldF1Path.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationFile1Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path);
-                                DestinationsPath.Add(DestinationFile1Path);
-                                string DestinationFile1Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string File1SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF1Path);
-                                if (!System.IO.Directory.Exists(DestinationFile1Directory))
-                                {
-                                    Directory.CreateDirectory(DestinationFile1Directory);
-                                    if (Directory.Exists(DestinationFile1Directory))
-                                    {
-                                        if (File.Exists(File1SourcePath))
-                                        {
-                                            if (!File.Exists(DestinationFile1Path))
-                                                File.Copy(File1SourcePath, DestinationFile1Path);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(File1SourcePath))
-                                    {
-                                        if (!File.Exists(DestinationFile1Path))
-                                            File.Copy(File1SourcePath, DestinationFile1Path);
-                                    }
-
-                                }
-                                item.File1 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path;
-
-                            }
-
-                            // file 2
-                            if (!string.IsNullOrEmpty(item.File2))
-                            {
-                                string OldF2Path = string.Empty;
-                                string NewF2Path = string.Empty;
-
-                                string name = Path.GetFileName(item.File2);
-
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldF2Path = Path.GetFileName(item.File2);
-                                NewF2Path = OldF2Path.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationFile2Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path);
-                                DestinationsPath.Add(DestinationFile2Path);
-                                string DestinationFile2Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string File2SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF2Path);
-                                if (!System.IO.Directory.Exists(DestinationFile2Directory))
-                                {
-                                    Directory.CreateDirectory(DestinationFile2Directory);
-                                    if (Directory.Exists(DestinationFile2Directory))
-                                    {
-                                        if (File.Exists(File2SourcePath))
-                                        {
-                                            if (!File.Exists(DestinationFile2Path))
-                                                File.Copy(File2SourcePath, DestinationFile2Path);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(File2SourcePath))
-                                    {
-                                        if (!File.Exists(DestinationFile2Path))
-                                            File.Copy(File2SourcePath, DestinationFile2Path);
-                                    }
-
-                                }
-                                item.File2 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path;
-                            }
-
-                            // file 3
-                            if (!string.IsNullOrEmpty(item.File3))
-                            {
-                                string OldF3Path = string.Empty;
-                                string NewF3Path = string.Empty;
-
-                                string name = Path.GetFileName(item.File3);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldF3Path = Path.GetFileName(item.File3);
-                                NewF3Path = OldF3Path.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationFil3Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path);
-                                DestinationsPath.Add(DestinationFil3Path);
-                                string DestinationFile3Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string File3SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF3Path);
-                                if (!System.IO.Directory.Exists(DestinationFile3Directory))
-                                {
-                                    Directory.CreateDirectory(DestinationFile3Directory);
-                                    if (Directory.Exists(DestinationFile3Directory))
-                                    {
-                                        if (File.Exists(File3SourcePath))
-                                        {
-                                            if (!File.Exists(DestinationFil3Path))
-                                                File.Copy(File3SourcePath, DestinationFil3Path);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(File3SourcePath))
-                                    {
-                                        if (!File.Exists(DestinationFil3Path))
-                                            File.Copy(File3SourcePath, DestinationFil3Path);
-                                    }
-
-                                }
-                                item.File3 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path;
-                            }
-
-                            // file 4
-                            if (!string.IsNullOrEmpty(item.File4))
-                            {
-                                string OldF4Path = string.Empty;
-                                string NewF4Path = string.Empty;
-
-                                string name = Path.GetFileName(item.File4);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldF4Path = Path.GetFileName(item.File4);
-                                NewF4Path = OldF4Path.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationFile4Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path);
-                                DestinationsPath.Add(DestinationFile4Path);
-                                string DestinationFile4Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string File4SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF4Path);
-                                if (!System.IO.Directory.Exists(DestinationFile4Directory))
-                                {
-                                    Directory.CreateDirectory(DestinationFile4Directory);
-                                    if (Directory.Exists(DestinationFile4Directory))
-                                    {
-                                        if (File.Exists(File4SourcePath))
-                                        {
-                                            if (!File.Exists(DestinationFile4Path))
-                                                File.Copy(File4SourcePath, DestinationFile4Path);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(File4SourcePath))
-                                    {
-                                        if (!File.Exists(DestinationFile4Path))
-                                            File.Copy(File4SourcePath, DestinationFile4Path);
-                                    }
-
-                                }
-                                item.File4 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path;
-                            }
-
-                            // file 5
-                            if (!string.IsNullOrEmpty(item.File5))
-                            {
-                                string OldF5Path = string.Empty;
-                                string NewF5Path = string.Empty;
-
-                                string name = Path.GetFileName(item.File5);
-                                string[] SplitMain = name.Split('_');
-                                if (SplitMain[0] != string.Empty)
-                                {
-                                    ItemID = SplitMain[0];
-
-                                }
-
-                                OldF5Path = Path.GetFileName(item.File5);
-                                NewF5Path = OldF5Path.Replace(ItemID + "_", item.ItemId + "_");
-
-                                DestinationFile5Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path);
-                                DestinationsPath.Add(DestinationFile5Path);
-                                string DestinationFile5Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                string File5SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF5Path);
-                                if (!System.IO.Directory.Exists(DestinationFile5Directory))
-                                {
-                                    Directory.CreateDirectory(DestinationFile5Directory);
-                                    if (Directory.Exists(DestinationFile5Directory))
-                                    {
-                                        if (File.Exists(File5SourcePath))
-                                        {
-                                            if (!File.Exists(DestinationFile5Path))
-                                                File.Copy(File5SourcePath, DestinationFile5Path);
-                                        }
-
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    if (File.Exists(File5SourcePath))
-                                    {
-                                        if (!File.Exists(DestinationFile5Path))
-                                            File.Copy(File5SourcePath, DestinationFile5Path);
-                                    }
-
-                                }
-                                item.File5 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
-                            }
-                            if (item.TemplateId != null && item.TemplateId > 0)
-                            {
-                                if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
-                                {
-                                    if (item.Template != null)
-                                    {
-                                        if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
-                                        {
-                                            foreach (var fonts in item.Template.TemplateFonts)
-                                            {
-                                                string DestinationFontDirectory = string.Empty;
-                                                string FontSourcePath = string.Empty;
-                                                string FontSourcePath1 = string.Empty;
-                                                string FontSourcePath2 = string.Empty;
-
-                                                if (!string.IsNullOrEmpty(fonts.FontPath))
-                                                {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
-
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
-
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
-
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath);
-
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
-
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
-
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
-
-                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationFontDirectory);
-                                                        if (Directory.Exists(DestinationFontDirectory))
-                                                        {
-                                                            if (File.Exists(FontSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationFont1))
-                                                                    File.Copy(FontSourcePath, DestinationFont1);
-                                                            }
-
-                                                            if (File.Exists(FontSourcePath1))
-                                                            {
-                                                                if (!File.Exists(DestinationFont2))
-                                                                    File.Copy(FontSourcePath1, DestinationFont2);
-
-                                                            }
-
-                                                            if (File.Exists(FontSourcePath2))
-                                                            {
-                                                                if (!File.Exists(DestinationFont3))
-                                                                    File.Copy(FontSourcePath2, DestinationFont3);
-
-                                                            }
-
-                                                        }
-
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FontSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationFont1))
-                                                                File.Copy(FontSourcePath, DestinationFont1);
-                                                        }
-
-                                                        if (File.Exists(FontSourcePath1))
-                                                        {
-                                                            if (!File.Exists(DestinationFont2))
-                                                                File.Copy(FontSourcePath1, DestinationFont2);
-
-                                                        }
-
-                                                        if (File.Exists(FontSourcePath2))
-                                                        {
-                                                            if (!File.Exists(DestinationFont3))
-                                                                File.Copy(FontSourcePath2, DestinationFont3);
-
-                                                        }
-
-                                                    }
-
-                                                }
-                                                else
-                                                {
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
-
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts");
-
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
-
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
-
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
-
-                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationFontDirectory);
-                                                        if (Directory.Exists(DestinationFontDirectory))
-                                                        {
-                                                            if (File.Exists(FontSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationFont1))
-                                                                    File.Copy(FontSourcePath, DestinationFont1);
-                                                            }
-
-                                                            if (File.Exists(FontSourcePath1))
-                                                            {
-                                                                if (!File.Exists(DestinationFont2))
-                                                                    File.Copy(FontSourcePath1, DestinationFont2);
-
-                                                            }
-
-                                                            if (File.Exists(FontSourcePath2))
-                                                            {
-                                                                if (!File.Exists(DestinationFont3))
-                                                                    File.Copy(FontSourcePath2, DestinationFont3);
-
-                                                            }
-
-                                                        }
-
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FontSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationFont1))
-                                                                File.Copy(FontSourcePath, DestinationFont1);
-                                                        }
-
-                                                        if (File.Exists(FontSourcePath1))
-                                                        {
-                                                            if (!File.Exists(DestinationFont2))
-                                                                File.Copy(FontSourcePath1, DestinationFont2);
-
-                                                        }
-
-                                                        if (File.Exists(FontSourcePath2))
-                                                        {
-                                                            if (!File.Exists(DestinationFont3))
-                                                                File.Copy(FontSourcePath2, DestinationFont3);
-
-                                                        }
-
-                                                    }
-
-                                                }
-
-                                                DestinationsPath.Add(DestinationFont1);
-                                                DestinationsPath.Add(DestinationFont2);
-                                                DestinationsPath.Add(DestinationFont3);
-
-
-                                            }
-
-                                        }
-                                        // template background images
-                                        if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
-                                        {
-                                            foreach (var tempImg in item.Template.TemplateBackgroundImages)
-                                            {
-                                                if (!string.IsNullOrEmpty(tempImg.ImageName))
-                                                {
-                                                    string name = tempImg.ImageName;
-
-                                                    string ImageName = Path.GetFileName(tempImg.ImageName);
-
-                                                    string NewPath = tempImg.ProductId + "/" + ImageName;
-
-                                                    string[] tempID = tempImg.ImageName.Split('/');
-
-                                                    string OldTempID = tempID[0];
-
-
-                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
-                                                    DestinationsPath.Add(DestinationTempBackGroundImages);
-                                                    string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempImg.ProductId);
-                                                    string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + ImageName);
-                                                    if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationTempBackgroundDirectory);
-                                                        if (Directory.Exists(DestinationTempBackgroundDirectory))
-                                                        {
-                                                            if (File.Exists(FileBackGroundSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationTempBackGroundImages))
-                                                                    File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
-                                                            }
-
-
-                                                        }
-
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FileBackGroundSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationTempBackGroundImages))
-                                                                File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
-                                                        }
-
-                                                    }
-                                                    tempImg.ImageName = NewPath;
-                                                }
-
-                                            }
-                                        }
-
-                                    }
-
-
-
-
-                                }
-
-                            }
-                            // attachments
-                            if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
-                            {
-                                foreach (var itemAttach in item.ItemAttachments)
-                                {
-                                    string OldAttachPath = string.Empty;
-                                    string NewAttachPath = string.Empty;
-
-                                    string name = Path.GetFileName(itemAttach.FolderPath);
-                                    string[] SplitMain = name.Split('_');
-                                    if (SplitMain[0] != string.Empty)
-                                    {
-                                        ItemID = SplitMain[0];
-
-                                    }
-
-                                    OldAttachPath = Path.GetFileName(item.File5);
-                                    NewAttachPath = OldAttachPath.Replace(ItemID + "_", item.ItemId + "_");
-
-                                    DestinationItemAttachmentsPath = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewAttachPath);
-                                    DestinationsPath.Add(DestinationItemAttachmentsPath);
-                                    string DestinationItemAttachmentDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
-                                    string AttachmentSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Attachments/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldAttachPath);
-                                    if (!System.IO.Directory.Exists(DestinationItemAttachmentDirectory))
-                                    {
-                                        Directory.CreateDirectory(DestinationItemAttachmentDirectory);
-                                        if (Directory.Exists(DestinationItemAttachmentDirectory))
-                                        {
-                                            if (File.Exists(AttachmentSourcePath))
-                                            {
-                                                if (!File.Exists(DestinationItemAttachmentsPath))
-                                                    File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
-                                            }
-
-
-                                        }
-
-                                    }
-                                    else
-                                    {
-                                        if (File.Exists(AttachmentSourcePath))
-                                        {
-                                            if (!File.Exists(DestinationItemAttachmentsPath))
-                                                File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
-                                        }
-
-                                    }
-                                    itemAttach.FolderPath = DestinationItemAttachmentsPath;
-
-                                }
-
-                            }
-                        }
-                    }
-                    // site.css
-                    DestinationSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Site.css");
-                    DestinationsPath.Add(DestinationSiteFile);
-                    string DestinationSiteFileDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
-                    string SourceSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Site.css");
-                    if (!System.IO.Directory.Exists(DestinationSiteFileDirectory))
-                    {
-                        Directory.CreateDirectory(DestinationSiteFileDirectory);
-                        if (Directory.Exists(DestinationSiteFileDirectory))
-                        {
-                            if (File.Exists(SourceSiteFile))
-                            {
-                                if (!File.Exists(DestinationSiteFile))
-                                    File.Copy(SourceSiteFile, DestinationSiteFile);
-                            }
-
-
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (File.Exists(SourceSiteFile))
-                        {
-                            if (!File.Exists(DestinationSiteFile))
-                                File.Copy(SourceSiteFile, DestinationSiteFile);
-                        }
-
-                    }
-
-                    // sprite.png
-                    DestinationSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Sprite.png");
-                    DestinationsPath.Add(DestinationSpriteFile);
-                    string DestinationSpriteDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
-                    string SourceSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Sprite.png");
-                    if (!System.IO.Directory.Exists(DestinationSpriteDirectory))
-                    {
-                        Directory.CreateDirectory(DestinationSpriteDirectory);
-                        if (Directory.Exists(DestinationSpriteDirectory))
-                        {
-                            if (File.Exists(SourceSiteFile))
-                            {
-                                if (!File.Exists(DestinationSpriteFile))
-                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
-                            }
+        //                }
+        //            }
+
+        //            if (ObjCompany.ProductCategories != null && ObjCompany.ProductCategories.Count > 0)
+        //            {
+        //                foreach (var prodCat in ObjCompany.ProductCategories)
+        //                {
+        //                    string ProdCatID = string.Empty;
+        //                    string CatName = string.Empty;
+
+        //                    if (!string.IsNullOrEmpty(prodCat.ThumbnailPath))
+        //                    {
+        //                        string OldThumbnailPath = string.Empty;
+        //                        string NewThumbnailPath = string.Empty;
+
+        //                        string name = Path.GetFileName(prodCat.ThumbnailPath);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[1] != string.Empty)
+        //                        {
+        //                            ProdCatID = SplitMain[1];
+
+        //                        }
+
+        //                        OldThumbnailPath = Path.GetFileName(prodCat.ThumbnailPath);
+        //                        NewThumbnailPath = OldThumbnailPath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
+
+
+
+        //                        DestinationThumbPathCat = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath);
+        //                        DestinationsPath.Add(DestinationThumbPathCat);
+        //                        string DestinationThumbDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories");
+        //                        string ThumbSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/ProductCategories/" + OldThumbnailPath);
+        //                        if (!System.IO.Directory.Exists(DestinationThumbDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationThumbDirectory);
+        //                            if (Directory.Exists(DestinationThumbDirectory))
+        //                            {
+        //                                if (File.Exists(ThumbSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationThumbPathCat))
+        //                                        File.Copy(ThumbSourcePath, DestinationThumbPathCat);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(ThumbSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationThumbPathCat))
+        //                                    File.Copy(ThumbSourcePath, DestinationThumbPathCat);
+        //                            }
+
+        //                        }
+        //                        prodCat.ThumbnailPath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
+        //                    }
+
+        //                    if (!string.IsNullOrEmpty(prodCat.ImagePath))
+        //                    {
+        //                        string OldImagePath = string.Empty;
+        //                        string NewImagePath = string.Empty;
+
+        //                        string name = Path.GetFileName(prodCat.ImagePath);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[1] != string.Empty)
+        //                        {
+        //                            ProdCatID = SplitMain[1];
+
+        //                        }
+
+        //                        OldImagePath = Path.GetFileName(prodCat.ImagePath);
+        //                        NewImagePath = OldImagePath.Replace(ProdCatID + "_", prodCat.ProductCategoryId + "_");
+
+        //                        DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath);
+        //                        DestinationsPath.Add(DestinationImagePath);
+        //                        string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories");
+        //                        string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/ProductCategories/" + OldImagePath);
+
+        //                        if (!System.IO.Directory.Exists(DestinationImageDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationImageDirectory);
+        //                            if (Directory.Exists(DestinationImageDirectory))
+        //                            {
+        //                                if (File.Exists(ImageSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationImagePath))
+        //                                        File.Copy(ImageSourcePath, DestinationImagePath);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(ImageSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationImagePath))
+        //                                    File.Copy(ImageSourcePath, DestinationImagePath);
+        //                            }
+
+        //                        }
+        //                        prodCat.ImagePath = "/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/ProductCategories/" + NewImagePath;
+        //                    }
+
+
+        //                }
+        //            }
+
+        //            if (ObjCompany.Items != null && ObjCompany.Items.Count > 0)
+        //            {
+        //                string ItemID = string.Empty;
+        //                string ItemName = string.Empty;
+        //                foreach (var item in ObjCompany.Items)
+        //                {
+        //                    // thumbnail images
+        //                    if (!string.IsNullOrEmpty(item.ThumbnailPath))
+        //                    {
+        //                        string OldThumbnailPath = string.Empty;
+        //                        string NewThumbnailPath = string.Empty;
+
+        //                        string name = Path.GetFileName(item.ThumbnailPath);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[1] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[1];
+
+        //                        }
+        //                        OldThumbnailPath = Path.GetFileName(item.ThumbnailPath);
+        //                        NewThumbnailPath = OldThumbnailPath.Replace(ItemID + "_", item.ItemId + "_");
+
+
+        //                        DestinationThumbnailPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath);
+        //                        DestinationsPath.Add(DestinationThumbnailPath);
+        //                        string DestinationThumbnailDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string ThumbnailSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldThumbnailPath);
+        //                        if (!System.IO.Directory.Exists(DestinationThumbnailDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationThumbnailDirectory);
+        //                            if (Directory.Exists(DestinationThumbnailDirectory))
+        //                            {
+        //                                if (File.Exists(ThumbnailSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationThumbnailPath))
+        //                                        File.Copy(ThumbnailSourcePath, DestinationThumbnailPath);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(ThumbnailSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationThumbnailPath))
+        //                                    File.Copy(ThumbnailSourcePath, DestinationThumbnailPath);
+        //                            }
+
+        //                        }
+        //                        item.ThumbnailPath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath;
+        //                    }
+
+        //                    // main image
+        //                    if (!string.IsNullOrEmpty(item.ImagePath))
+        //                    {
+
+        //                        string OldImagePath = string.Empty;
+        //                        string NewImagePath = string.Empty;
+
+
+        //                        string name = Path.GetFileName(item.ImagePath);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[1] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[1];
+
+        //                        }
+
+        //                        OldImagePath = Path.GetFileName(item.ImagePath);
+        //                        NewImagePath = OldImagePath.Replace(ItemID + "_", item.ItemId + "_");
+
+
+        //                        DestinationImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath);
+        //                        DestinationsPath.Add(DestinationImagePath);
+        //                        string DestinationImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string ImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldImagePath);
+        //                        if (!System.IO.Directory.Exists(DestinationImageDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationImageDirectory);
+        //                            if (Directory.Exists(DestinationImageDirectory))
+        //                            {
+        //                                if (File.Exists(ImageSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationImagePath))
+        //                                        File.Copy(ImageSourcePath, DestinationImagePath);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(ImageSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationImagePath))
+        //                                    File.Copy(ImageSourcePath, DestinationImagePath);
+        //                            }
+
+        //                        }
+        //                        item.ImagePath = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewImagePath;
+        //                    }
+
+        //                    // Gird image
+        //                    if (!string.IsNullOrEmpty(item.GridImage))
+        //                    {
+        //                        string OldGridPath = string.Empty;
+        //                        string NewGridPath = string.Empty;
+
+        //                        string name = Path.GetFileName(item.GridImage);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldGridPath = Path.GetFileName(item.GridImage);
+        //                        NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationGridPath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath);
+        //                        DestinationsPath.Add(DestinationGridPath);
+        //                        string DestinationGridDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string GridSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldGridPath);
+        //                        if (!System.IO.Directory.Exists(DestinationGridDirectory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationGridDirectory);
+        //                            if (Directory.Exists(DestinationGridDirectory))
+        //                            {
+        //                                if (File.Exists(GridSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationGridPath))
+        //                                        File.Copy(GridSourcePath, DestinationGridPath);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(GridSourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationGridPath))
+        //                                    File.Copy(GridSourcePath, DestinationGridPath);
+
+        //                            }
+        //                        }
+        //                        item.GridImage = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewGridPath;
+        //                    }
+
+        //                    // file 1
+        //                    if (!string.IsNullOrEmpty(item.File1))
+        //                    {
+        //                        string OldF1Path = string.Empty;
+        //                        string NewF1Path = string.Empty;
+
+        //                        string name = Path.GetFileName(item.File1);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldF1Path = Path.GetFileName(item.File1);
+        //                        NewF1Path = OldF1Path.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationFile1Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path);
+        //                        DestinationsPath.Add(DestinationFile1Path);
+        //                        string DestinationFile1Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string File1SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF1Path);
+        //                        if (!System.IO.Directory.Exists(DestinationFile1Directory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationFile1Directory);
+        //                            if (Directory.Exists(DestinationFile1Directory))
+        //                            {
+        //                                if (File.Exists(File1SourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationFile1Path))
+        //                                        File.Copy(File1SourcePath, DestinationFile1Path);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(File1SourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationFile1Path))
+        //                                    File.Copy(File1SourcePath, DestinationFile1Path);
+        //                            }
+
+        //                        }
+        //                        item.File1 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF1Path;
+
+        //                    }
+
+        //                    // file 2
+        //                    if (!string.IsNullOrEmpty(item.File2))
+        //                    {
+        //                        string OldF2Path = string.Empty;
+        //                        string NewF2Path = string.Empty;
+
+        //                        string name = Path.GetFileName(item.File2);
+
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldF2Path = Path.GetFileName(item.File2);
+        //                        NewF2Path = OldF2Path.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationFile2Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path);
+        //                        DestinationsPath.Add(DestinationFile2Path);
+        //                        string DestinationFile2Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string File2SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF2Path);
+        //                        if (!System.IO.Directory.Exists(DestinationFile2Directory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationFile2Directory);
+        //                            if (Directory.Exists(DestinationFile2Directory))
+        //                            {
+        //                                if (File.Exists(File2SourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationFile2Path))
+        //                                        File.Copy(File2SourcePath, DestinationFile2Path);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(File2SourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationFile2Path))
+        //                                    File.Copy(File2SourcePath, DestinationFile2Path);
+        //                            }
+
+        //                        }
+        //                        item.File2 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF2Path;
+        //                    }
+
+        //                    // file 3
+        //                    if (!string.IsNullOrEmpty(item.File3))
+        //                    {
+        //                        string OldF3Path = string.Empty;
+        //                        string NewF3Path = string.Empty;
+
+        //                        string name = Path.GetFileName(item.File3);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldF3Path = Path.GetFileName(item.File3);
+        //                        NewF3Path = OldF3Path.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationFil3Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path);
+        //                        DestinationsPath.Add(DestinationFil3Path);
+        //                        string DestinationFile3Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string File3SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF3Path);
+        //                        if (!System.IO.Directory.Exists(DestinationFile3Directory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationFile3Directory);
+        //                            if (Directory.Exists(DestinationFile3Directory))
+        //                            {
+        //                                if (File.Exists(File3SourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationFil3Path))
+        //                                        File.Copy(File3SourcePath, DestinationFil3Path);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(File3SourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationFil3Path))
+        //                                    File.Copy(File3SourcePath, DestinationFil3Path);
+        //                            }
+
+        //                        }
+        //                        item.File3 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF3Path;
+        //                    }
+
+        //                    // file 4
+        //                    if (!string.IsNullOrEmpty(item.File4))
+        //                    {
+        //                        string OldF4Path = string.Empty;
+        //                        string NewF4Path = string.Empty;
+
+        //                        string name = Path.GetFileName(item.File4);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldF4Path = Path.GetFileName(item.File4);
+        //                        NewF4Path = OldF4Path.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationFile4Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path);
+        //                        DestinationsPath.Add(DestinationFile4Path);
+        //                        string DestinationFile4Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string File4SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF4Path);
+        //                        if (!System.IO.Directory.Exists(DestinationFile4Directory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationFile4Directory);
+        //                            if (Directory.Exists(DestinationFile4Directory))
+        //                            {
+        //                                if (File.Exists(File4SourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationFile4Path))
+        //                                        File.Copy(File4SourcePath, DestinationFile4Path);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(File4SourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationFile4Path))
+        //                                    File.Copy(File4SourcePath, DestinationFile4Path);
+        //                            }
+
+        //                        }
+        //                        item.File4 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF4Path;
+        //                    }
+
+        //                    // file 5
+        //                    if (!string.IsNullOrEmpty(item.File5))
+        //                    {
+        //                        string OldF5Path = string.Empty;
+        //                        string NewF5Path = string.Empty;
+
+        //                        string name = Path.GetFileName(item.File5);
+        //                        string[] SplitMain = name.Split('_');
+        //                        if (SplitMain[0] != string.Empty)
+        //                        {
+        //                            ItemID = SplitMain[0];
+
+        //                        }
+
+        //                        OldF5Path = Path.GetFileName(item.File5);
+        //                        NewF5Path = OldF5Path.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                        DestinationFile5Path = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path);
+        //                        DestinationsPath.Add(DestinationFile5Path);
+        //                        string DestinationFile5Directory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                        string File5SourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldF5Path);
+        //                        if (!System.IO.Directory.Exists(DestinationFile5Directory))
+        //                        {
+        //                            Directory.CreateDirectory(DestinationFile5Directory);
+        //                            if (Directory.Exists(DestinationFile5Directory))
+        //                            {
+        //                                if (File.Exists(File5SourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationFile5Path))
+        //                                        File.Copy(File5SourcePath, DestinationFile5Path);
+        //                                }
+
+
+        //                            }
+
+        //                        }
+        //                        else
+        //                        {
+        //                            if (File.Exists(File5SourcePath))
+        //                            {
+        //                                if (!File.Exists(DestinationFile5Path))
+        //                                    File.Copy(File5SourcePath, DestinationFile5Path);
+        //                            }
+
+        //                        }
+        //                        item.File5 = "/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
+        //                    }
+        //                    if (item.TemplateId != null && item.TemplateId > 0)
+        //                    {
+        //                        if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+        //                        {
+        //                            if (item.Template != null)
+        //                            {
+        //                                if (item.Template.TemplateFonts != null && item.Template.TemplateFonts.Count > 0)
+        //                                {
+        //                                    foreach (var fonts in item.Template.TemplateFonts)
+        //                                    {
+        //                                        string DestinationFontDirectory = string.Empty;
+        //                                        string FontSourcePath = string.Empty;
+        //                                        string FontSourcePath1 = string.Empty;
+        //                                        string FontSourcePath2 = string.Empty;
+
+        //                                        if (!string.IsNullOrEmpty(fonts.FontPath))
+        //                                        {
+        //                                            DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+
+        //                                            DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+
+        //                                            DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+
+        //                                            DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontPath);
+
+        //                                            FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+
+        //                                            FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+
+        //                                            FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+
+        //                                            if (!System.IO.Directory.Exists(DestinationFontDirectory))
+        //                                            {
+        //                                                Directory.CreateDirectory(DestinationFontDirectory);
+        //                                                if (Directory.Exists(DestinationFontDirectory))
+        //                                                {
+        //                                                    if (File.Exists(FontSourcePath))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont1))
+        //                                                            File.Copy(FontSourcePath, DestinationFont1);
+        //                                                    }
+
+        //                                                    if (File.Exists(FontSourcePath1))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont2))
+        //                                                            File.Copy(FontSourcePath1, DestinationFont2);
+
+        //                                                    }
+
+        //                                                    if (File.Exists(FontSourcePath2))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont3))
+        //                                                            File.Copy(FontSourcePath2, DestinationFont3);
+
+        //                                                    }
+
+        //                                                }
+
+        //                                            }
+        //                                            else
+        //                                            {
+        //                                                if (File.Exists(FontSourcePath))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont1))
+        //                                                        File.Copy(FontSourcePath, DestinationFont1);
+        //                                                }
+
+        //                                                if (File.Exists(FontSourcePath1))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont2))
+        //                                                        File.Copy(FontSourcePath1, DestinationFont2);
+
+        //                                                }
+
+        //                                                if (File.Exists(FontSourcePath2))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont3))
+        //                                                        File.Copy(FontSourcePath2, DestinationFont3);
+
+        //                                                }
+
+        //                                            }
+
+        //                                        }
+        //                                        else
+        //                                        {
+        //                                            DestinationFont1 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+        //                                            DestinationFont2 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+        //                                            DestinationFont3 = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+
+        //                                            DestinationFontDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/WebFonts");
+
+        //                                            FontSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+
+        //                                            FontSourcePath1 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+
+        //                                            FontSourcePath2 = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+
+        //                                            if (!System.IO.Directory.Exists(DestinationFontDirectory))
+        //                                            {
+        //                                                Directory.CreateDirectory(DestinationFontDirectory);
+        //                                                if (Directory.Exists(DestinationFontDirectory))
+        //                                                {
+        //                                                    if (File.Exists(FontSourcePath))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont1))
+        //                                                            File.Copy(FontSourcePath, DestinationFont1);
+        //                                                    }
+
+        //                                                    if (File.Exists(FontSourcePath1))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont2))
+        //                                                            File.Copy(FontSourcePath1, DestinationFont2);
+
+        //                                                    }
+
+        //                                                    if (File.Exists(FontSourcePath2))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationFont3))
+        //                                                            File.Copy(FontSourcePath2, DestinationFont3);
+
+        //                                                    }
+
+        //                                                }
+
+        //                                            }
+        //                                            else
+        //                                            {
+        //                                                if (File.Exists(FontSourcePath))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont1))
+        //                                                        File.Copy(FontSourcePath, DestinationFont1);
+        //                                                }
+
+        //                                                if (File.Exists(FontSourcePath1))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont2))
+        //                                                        File.Copy(FontSourcePath1, DestinationFont2);
+
+        //                                                }
+
+        //                                                if (File.Exists(FontSourcePath2))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationFont3))
+        //                                                        File.Copy(FontSourcePath2, DestinationFont3);
+
+        //                                                }
+
+        //                                            }
+
+        //                                        }
+
+        //                                        DestinationsPath.Add(DestinationFont1);
+        //                                        DestinationsPath.Add(DestinationFont2);
+        //                                        DestinationsPath.Add(DestinationFont3);
+
+
+        //                                    }
+
+        //                                }
+        //                                // template background images
+        //                                if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
+        //                                {
+        //                                    foreach (var tempImg in item.Template.TemplateBackgroundImages)
+        //                                    {
+        //                                        if (!string.IsNullOrEmpty(tempImg.ImageName))
+        //                                        {
+        //                                            string name = tempImg.ImageName;
+
+        //                                            string ImageName = Path.GetFileName(tempImg.ImageName);
+
+        //                                            string NewPath = tempImg.ProductId + "/" + ImageName;
+
+        //                                            string[] tempID = tempImg.ImageName.Split('/');
+
+        //                                            string OldTempID = tempID[0];
+
+
+        //                                            string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
+        //                                            DestinationsPath.Add(DestinationTempBackGroundImages);
+        //                                            string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempImg.ProductId);
+        //                                            string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + ImageName);
+        //                                            if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
+        //                                            {
+        //                                                Directory.CreateDirectory(DestinationTempBackgroundDirectory);
+        //                                                if (Directory.Exists(DestinationTempBackgroundDirectory))
+        //                                                {
+        //                                                    if (File.Exists(FileBackGroundSourcePath))
+        //                                                    {
+        //                                                        if (!File.Exists(DestinationTempBackGroundImages))
+        //                                                            File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+        //                                                    }
+
+
+        //                                                }
+
+        //                                            }
+        //                                            else
+        //                                            {
+        //                                                if (File.Exists(FileBackGroundSourcePath))
+        //                                                {
+        //                                                    if (!File.Exists(DestinationTempBackGroundImages))
+        //                                                        File.Copy(FileBackGroundSourcePath, DestinationTempBackGroundImages);
+        //                                                }
+
+        //                                            }
+        //                                            tempImg.ImageName = NewPath;
+        //                                        }
+
+        //                                    }
+        //                                }
+
+        //                            }
+
+
+
+
+        //                        }
+
+        //                    }
+        //                    // attachments
+        //                    if (item.ItemAttachments != null && item.ItemAttachments.Count > 0)
+        //                    {
+        //                        foreach (var itemAttach in item.ItemAttachments)
+        //                        {
+        //                            string OldAttachPath = string.Empty;
+        //                            string NewAttachPath = string.Empty;
+
+        //                            string name = Path.GetFileName(itemAttach.FolderPath);
+        //                            string[] SplitMain = name.Split('_');
+        //                            if (SplitMain[0] != string.Empty)
+        //                            {
+        //                                ItemID = SplitMain[0];
+
+        //                            }
+
+        //                            OldAttachPath = Path.GetFileName(item.File5);
+        //                            NewAttachPath = OldAttachPath.Replace(ItemID + "_", item.ItemId + "_");
+
+        //                            DestinationItemAttachmentsPath = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewAttachPath);
+        //                            DestinationsPath.Add(DestinationItemAttachmentsPath);
+        //                            string DestinationItemAttachmentDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Attachments/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+        //                            string AttachmentSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Attachments/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + OldAttachPath);
+        //                            if (!System.IO.Directory.Exists(DestinationItemAttachmentDirectory))
+        //                            {
+        //                                Directory.CreateDirectory(DestinationItemAttachmentDirectory);
+        //                                if (Directory.Exists(DestinationItemAttachmentDirectory))
+        //                                {
+        //                                    if (File.Exists(AttachmentSourcePath))
+        //                                    {
+        //                                        if (!File.Exists(DestinationItemAttachmentsPath))
+        //                                            File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
+        //                                    }
+
+
+        //                                }
+
+        //                            }
+        //                            else
+        //                            {
+        //                                if (File.Exists(AttachmentSourcePath))
+        //                                {
+        //                                    if (!File.Exists(DestinationItemAttachmentsPath))
+        //                                        File.Copy(AttachmentSourcePath, DestinationItemAttachmentsPath);
+        //                                }
+
+        //                            }
+        //                            itemAttach.FolderPath = DestinationItemAttachmentsPath;
+
+        //                        }
+
+        //                    }
+        //                }
+        //            }
+        //            // site.css
+        //            DestinationSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Site.css");
+        //            DestinationsPath.Add(DestinationSiteFile);
+        //            string DestinationSiteFileDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
+        //            string SourceSiteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Site.css");
+        //            if (!System.IO.Directory.Exists(DestinationSiteFileDirectory))
+        //            {
+        //                Directory.CreateDirectory(DestinationSiteFileDirectory);
+        //                if (Directory.Exists(DestinationSiteFileDirectory))
+        //                {
+        //                    if (File.Exists(SourceSiteFile))
+        //                    {
+        //                        if (!File.Exists(DestinationSiteFile))
+        //                            File.Copy(SourceSiteFile, DestinationSiteFile);
+        //                    }
+
+
+        //                }
+
+
+        //            }
+        //            else
+        //            {
+        //                if (File.Exists(SourceSiteFile))
+        //                {
+        //                    if (!File.Exists(DestinationSiteFile))
+        //                        File.Copy(SourceSiteFile, DestinationSiteFile);
+        //                }
+
+        //            }
+
+        //            // sprite.png
+        //            DestinationSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID + "/Sprite.png");
+        //            DestinationsPath.Add(DestinationSpriteFile);
+        //            string DestinationSpriteDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Assets/" + ImportIDs.NewOrganisationID + "/" + oCID);
+        //            string SourceSpriteFile = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Assets/" + ImportIDs.OldOrganisationID + "/" + ImportIDs.RetailOldCompanyID + "/Sprite.png");
+        //            if (!System.IO.Directory.Exists(DestinationSpriteDirectory))
+        //            {
+        //                Directory.CreateDirectory(DestinationSpriteDirectory);
+        //                if (Directory.Exists(DestinationSpriteDirectory))
+        //                {
+        //                    if (File.Exists(SourceSiteFile))
+        //                    {
+        //                        if (!File.Exists(DestinationSpriteFile))
+        //                            File.Copy(SourceSpriteFile, DestinationSpriteFile);
+        //                    }
                           
 
-                        }
-                        else
-                        {
-                            if (File.Exists(SourceSpriteFile))
-                            {
+        //                }
+        //                else
+        //                {
+        //                    if (File.Exists(SourceSpriteFile))
+        //                    {
 
-                                if (!File.Exists(DestinationSpriteFile))
-                                    File.Copy(SourceSpriteFile, DestinationSpriteFile);
-                            }
+        //                        if (!File.Exists(DestinationSpriteFile))
+        //                            File.Copy(SourceSpriteFile, DestinationSpriteFile);
+        //                    }
 
-                        }
-
-
-                    }
-                    else
-                    {
-                        if (File.Exists(SourceSpriteFile))
-                        {
-                            if (!File.Exists(DestinationSpriteFile))
-                                File.Copy(SourceSpriteFile, DestinationSpriteFile);
-                        }
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+        //                }
 
 
+        //            }
+        //            else
+        //            {
+        //                if (File.Exists(SourceSpriteFile))
+        //                {
+        //                    if (!File.Exists(DestinationSpriteFile))
+        //                        File.Copy(SourceSpriteFile, DestinationSpriteFile);
+        //                }
+        //            }
+        //        }
 
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+
+
+        //}
         void Copy(string sourceDir, string targetDir)
         {
             if(!Directory.Exists(targetDir))
