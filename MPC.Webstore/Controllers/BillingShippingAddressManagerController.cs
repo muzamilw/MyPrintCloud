@@ -5,6 +5,7 @@ using MPC.Webstore.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -21,25 +22,7 @@ namespace MPC.Webstore.Controllers
             this._myClaimHelper = _myClaimHelper;
         }
         
-        public ActionResult Index()
-        {
-            List<Address> AddressList = new List<Address>();
-            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-            {
-                AddressList = FilterAddresses();
-                ViewBag.Address = AddressList;
-                ViewBag.TotalAddresses = AddressList.Count;
-               
-            }
-            else
-            {
-                AddressList=_companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
-                ViewBag.Address = AddressList;
-                ViewBag.TotalAddresses = AddressList.Count;
-            }
-
-            return View("PartialViews/BillingShippingAddressManager");
-        }
+      
 
         private List<Address> FilterAddresses()
         {
@@ -100,45 +83,179 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        [HttpPost]
-        public ActionResult Index(string SearchString, string btnsearch, string btnReset)
+        
+        public ActionResult Index()
         {
-            List<Address> AddressList = new List<Address>();
-            if (btnsearch !=null)
-            {
+
+                List<Address> AddressList = new List<Address>();
+          
+           
+                //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                //{
+                //    List<Address> RefinedAddresses = FilterAddresses();
+                //    AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                //    ViewBag.Address = AddressList;
+                //    ViewBag.TotalAddresses = AddressList.Count;
+                //}
+                //else
+                //{
+                //    AddressList = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchString);
+                //    ViewBag.Address = AddressList;
+                //    ViewBag.TotalAddresses = AddressList.Count;
+                //}
+
+          
+          //  else
+          //  {
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
                 {
-                    List<Address> RefinedAddresses = FilterAddresses();
-                    AddressList=RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
-                    ViewBag.Address = AddressList;
+                   AddressList = FilterAddresses();
+                   ViewBag.Address = AddressList;
                     ViewBag.TotalAddresses = AddressList.Count;
                 }
                 else
                 {
-                    AddressList=_companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchString);
-                    ViewBag.Address = AddressList;
-                    ViewBag.TotalAddresses = AddressList.Count;
-                }
-                
-            }
-            else
-            {
-                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                {
-                    AddressList=FilterAddresses();
-                    ViewBag.Address = AddressList;
-                    ViewBag.TotalAddresses = AddressList.Count;
-                }
-                else
-                {
-                    AddressList=_companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
-                    ViewBag.Address = AddressList;
+                    AddressList = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+                   ViewBag.Address = AddressList;
                     ViewBag.TotalAddresses = AddressList.Count;
                 }
 
-            }
+            //}
             return View("PartialViews/BillingShippingAddressManager");
         }
+        [HttpPost]
+        public ActionResult Index(string SearchString)
+        {
+
+             List<Address> AddressList = new List<Address>();
+
+
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            {
+                List<Address> RefinedAddresses = FilterAddresses();
+                AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(SearchString.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
+            }
+            else
+            {
+                AddressList = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), SearchString);
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
+            }
+
+
+            //  else
+            //  {
+            //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            //{
+            //    AddressList = FilterAddresses();
+            //    ViewBag.Address = AddressList;
+            //    ViewBag.TotalAddresses = AddressList.Count;
+            //}
+            //else
+            //{
+            //    AddressList = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+            //    ViewBag.Address = AddressList;
+            //    ViewBag.TotalAddresses = AddressList.Count;
+            //}
+
+            //}
+            return View("PartialViews/BillingShippingAddressManager");
+        }
+        //[HttpPost]
+        //public ActionResult Index(string text)
+        //{
+        //        List<Address> AddressList = new List<Address>();
+        //        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+        //        {
+        //            List<Address> RefinedAddresses = FilterAddresses();
+        //            AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(text.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+        //            ViewBag.Address = AddressList;
+        //            ViewBag.TotalAddresses = AddressList.Count;
+        //        }
+        //        else
+        //        {
+        //            AddressList = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), text);
+        //            ViewBag.Address = AddressList;
+        //            ViewBag.TotalAddresses = AddressList.Count;
+        //        }
+
+        //        //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+        //        //{
+        //        //    AddressList = FilterAddresses();
+        //        //    ViewBag.Address = AddressList;
+        //        //    ViewBag.TotalAddresses = AddressList.Count;
+        //        //}
+        //        //else
+        //        //{
+        //        //    AddressList = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+        //        //    ViewBag.Address = AddressList;
+        //        //    ViewBag.TotalAddresses = AddressList.Count;
+        //        //}
+
+        //    return View("PartialViews/BillingShippingAddressManager");
+        //}
+        [HttpPost]
+        public JsonResult IntellisenceData(string prefixText)
+        {
+                 StringBuilder sb = new StringBuilder();
+                 List<Address> AddressList = new List<Address>();
+           
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    List<Address> RefinedAddresses = FilterAddresses();
+                    AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Contains(prefixText.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                    //ViewBag.Address = AddressList;
+                    //ViewBag.TotalAddresses = AddressList.Count;
+                }
+                else
+                {
+                    AddressList = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), prefixText);
+                    //ViewBag.Address = AddressList;
+                    //ViewBag.TotalAddresses = AddressList.Count;
+                }
+                foreach (var Address in AddressList)
+                {
+                    sb.AppendFormat("{0}:", Address.AddressName);
+                }
+                //if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                //{
+                //    AddressList = FilterAddresses();
+                //    ViewBag.Address = AddressList;
+                //    ViewBag.TotalAddresses = AddressList.Count;
+                //}
+                //else
+                //{
+                //    AddressList = _companyService.GetAddressesListByContactCompanyID(_myClaimHelper.loginContactCompanyID());
+                //    ViewBag.Address = AddressList;
+                //    ViewBag.TotalAddresses = AddressList.Count;
+                //}
+                return Json(sb.ToString(), JsonRequestBehavior.DenyGet);
+        }
+
+        [HttpPost]
+        public ActionResult DisplaySearchedData(string text)
+        {
+            List<Address> AddressList = new List<Address>();
+            if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+            {
+                List<Address> RefinedAddresses = FilterAddresses();
+                AddressList = RefinedAddresses.Where(w => w.CompanyId == _myClaimHelper.loginContactCompanyID() && w.AddressName.Equals(text.Trim()) && (w.isArchived == null || w.isArchived.Value == false)).ToList();
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
+            }
+            else
+            {
+                AddressList = _companyService.GetsearchedAddress(_myClaimHelper.loginContactCompanyID(), text);
+                ViewBag.Address = AddressList;
+                ViewBag.TotalAddresses = AddressList.Count;
+            }
+            
+              return View("PartialViews/BillingShippingAddressManager");
+        }
+
+       
         [HttpPost]
         public JsonResult FillAddresses(long AddressID)
         {
@@ -196,7 +313,6 @@ namespace MPC.Webstore.Controllers
             JsonResponse obj = new JsonResponse();
             obj.State = _companyService.GetCountryStates(CountryId);
             return Json(obj, JsonRequestBehavior.AllowGet);
-           
         }
         [HttpGet]
         public ActionResult RebindGrid()
@@ -217,6 +333,5 @@ namespace MPC.Webstore.Controllers
     {
         public List<State> State;
         public List<Country> Country;
-    
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 using MPC.MIS.Areas.Api.Models;
+using MPC.Models.RequestModels;
 
 namespace MPC.Interfaces.MISServices
 {
@@ -11,6 +12,6 @@ namespace MPC.Interfaces.MISServices
         /// <summary>
         /// Get Order Statuses Response
         /// </summary>
-        OrderStatusesResponse GetOrderStatusesCount();
+        OrderStatusesResponse GetOrderStatusesCount(DashboardRequestModel request);
     }
 }
