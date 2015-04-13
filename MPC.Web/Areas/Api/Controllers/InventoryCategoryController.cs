@@ -40,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
+        [CompressFilterAttribute]
         public StockCategoryResponse Get([FromUri] StockCategoryRequestModel request)
         {
             var result = stockCategoryService.GetAll(request);
@@ -57,6 +58,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
+        [CompressFilterAttribute]
         public StockCategory Post(StockCategory stockCategory)
         {
             if (ModelState.IsValid)
@@ -89,6 +91,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventoryCategory })]
+        [CompressFilterAttribute]
         public bool Delete(StockCategoryRequestModel model)
         {
             if (ModelState.IsValid)

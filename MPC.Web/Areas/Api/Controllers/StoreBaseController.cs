@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyBaseResponse Get(long companyId)
         {
             if (!ModelState.IsValid)
@@ -81,6 +82,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyBaseResponse Get()
         {
             if (!ModelState.IsValid)

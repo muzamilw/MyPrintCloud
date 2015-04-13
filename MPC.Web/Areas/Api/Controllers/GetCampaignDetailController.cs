@@ -35,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         ///  Get Campaign By Campaign Id
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public Campaign Get([FromUri]long campaignId)
         {
             return companyService.GetCampaignById(campaignId).CreateFrom();

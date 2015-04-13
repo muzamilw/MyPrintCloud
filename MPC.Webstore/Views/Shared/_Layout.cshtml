@@ -9,8 +9,8 @@
     <link href="@ViewBag.StyleSheet" rel="stylesheet" />
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-    @Styles.Render("~/Content/js-image-slider.css")
     @Styles.Render("~/Content/ListingPropertiesCarousel.css")
+    @Styles.Render("~/Content/js-image-slider.css")
     @Styles.Render("~/Content/CSS")
     @RenderSection("headerScripts", required: false)
     @RenderSection("metatags", false)
@@ -23,8 +23,15 @@
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+    @{
+        string currentController = ViewContext.RouteData.Values["controller"].ToString();
+    }
+    @if (currentController != "Designer")
+    {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+  
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")

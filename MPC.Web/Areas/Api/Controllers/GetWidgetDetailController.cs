@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public string Get([FromUri]string widgetControlName)
         {
             string mySiteUrl = HttpContext.Current.Request.Url.Host;

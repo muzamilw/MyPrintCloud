@@ -38,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public List<CmsSkinPageWidget> Get([FromUri]int pageId, long companyId)
         {
             return companyService.GetCmsPageWidgetByPageId(pageId, companyId).Select(w => w.CreateFrom()).ToList();

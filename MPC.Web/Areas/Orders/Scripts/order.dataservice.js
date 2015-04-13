@@ -118,6 +118,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to Download Artwork of the order
+                    amplify.request.define('downloadOrderArtwork', 'ajax', {
+                        url: ist.siteUrl + '/Api/DownloadArtwork',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -268,6 +274,15 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            downloadOrderArtwork = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'downloadOrderArtwork',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -295,7 +310,8 @@ define("order/order.dataservice", function () {
             getPTV: getPTV,
             getBestPress: getBestPress,
             getPTVCalculation: getPTVCalculation,
-            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters
+            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters,
+            downloadOrderArtwork: downloadOrderArtwork
         };
     })();
 

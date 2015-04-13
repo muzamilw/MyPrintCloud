@@ -41,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Companies By Is Customer Type
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCalendar })]
+        [CompressFilterAttribute]
         public CompanySearchResponseForCalendar Get([FromUri]CompanyRequestModelForCalendar request)
         {
             var response = calendarService.GetCompaniesByCustomerType(request);

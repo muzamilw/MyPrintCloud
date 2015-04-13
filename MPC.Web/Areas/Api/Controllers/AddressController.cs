@@ -40,6 +40,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public Models.AddressResponse Get([FromUri] AddressRequestModel request)
         {
             var result = companyService.SearchAddresses(request);
@@ -55,6 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="addressId"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public bool Get([FromUri] long addressId)
         {
             var address = addressService.Get(addressId);
@@ -71,6 +73,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [HttpPost]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public Address Post(Address address)
         {
             if (!ModelState.IsValid)
@@ -80,6 +83,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             return addressService.Save(address.CreateFrom()).CreateFrom();
         }
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public bool Delete(CompanyAddressDeleteModel request)
         {
             if (request == null || !ModelState.IsValid || request.AddressId <= 0)
