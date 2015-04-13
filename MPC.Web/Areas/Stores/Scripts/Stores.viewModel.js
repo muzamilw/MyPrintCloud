@@ -284,7 +284,7 @@ define("stores/stores.viewModel",
                         }
                     }),
                     openDomainInTab = function (data, event) {
-                        window.open(data.domain(), '_blank');
+                        window.open(window.location.protocol +"//"+data.domain());
                         event.stopImmediatePropagation();
                     },
                     //#region _________S T O R E ____________________________________
