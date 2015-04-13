@@ -1574,8 +1574,8 @@ define("order/order.viewModel",
                             gripDepth: 0,
                             headDepth: 0,
                             printGutter: selectedSection().includeGutter() ? 1 : 0,
-                            horizentalGutter: 0,
-                            verticalGutter: 0
+                            horizentalGutter: 2,
+                            verticalGutter: 2
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1656,7 +1656,8 @@ define("order/order.viewModel",
                     bestPressList.valueHasMutated();
                     if (selectedSection().pressId() !== undefined) {
                         var bestPress = _.find(bestPressList(), function (item) {
-                            return item.id() === selectedSection().pressId();
+                           // var id = item.id;
+                            return item.id === selectedSection().pressId();
                         });
                         if (bestPress) {
                             selectedBestPressFromWizard(bestPress);
@@ -1693,7 +1694,7 @@ define("order/order.viewModel",
                     var currSec = selectedSection().convertToServerData();
                     dataservice.getUpdatedSystemCostCenters({
                         CurrentSection: currSec,
-                        PressId: selectedBestPressFromWizard().id,
+                        PressId: currSec.PressId,
                         AllSectionInks: currSec.SectionInkCoverages
                     }, {
                         success: function (data) {
@@ -1706,6 +1707,23 @@ define("order/order.viewModel",
                         error: function (response) {
                             isLoadingOrders(false);
                             toastr.error("Error: Failed to Load System Cost Centers." + response);
+                        }
+                    });
+                },
+                downloadArtwork = function(){
+                    isLoadingOrders(true);                    
+                    dataservice.downloadOrderArtwork({
+                        OrderId: selectedOrder().id()
+                    }, {
+                        success: function (data) {
+                            if (data != null) {
+                               
+                            }
+                            isLoadingOrders(false);
+                        },
+                        error: function (response) {
+                            isLoadingOrders(false);
+                            toastr.error("Error: Failed to Download Artwork." + response);
                         }
                     });
                 },
@@ -1880,7 +1898,8 @@ define("order/order.viewModel",
                     selectBestPressFromWizard: selectBestPressFromWizard,
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
                     clickOnWizardOk: clickOnWizardOk,
-                    runWizard: runWizard
+                    runWizard: runWizard,
+                    downloadArtwork: downloadArtwork
                     //#endregion
                 };
             })()
