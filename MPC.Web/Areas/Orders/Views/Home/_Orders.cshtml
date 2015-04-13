@@ -98,7 +98,7 @@
                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-            <a href="#" class="table-link danger">
+            <a href="#" class="table-link danger">r
                 <span class="fa-stack">
                     <i class="fa fa-square fa-stack-2x"></i>
                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -109,7 +109,12 @@
     <script id="orderListViewTemplate" type="text/html">
         <tr>
             <td>
-                <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/logos/1.jpg")" alt="" />
+                <!-- ko if: isDirectSale()==true -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/forwardicon.png")" alt="" />
+                <!-- /ko -->
+                <!-- ko if: isDirectSale()==false -->
+                <img src="@Url.Content("~/Content/themes/Centaurus/img/samples/arrow_down.png")" alt="" />
+                <!-- /ko -->
                 <a data-bind="text: companyName, click: $root.editOrder" style="cursor:pointer;" class="user-link"></a>
                 <span class="user-subhead">
                     <span data-bind="text: name"></span>
@@ -117,16 +122,16 @@
                     <span data-bind="text: noOfItemsUi"></span>
                 </span>
             </td>
-
+            <td>
+                <span data-bind="text: orderCode"></span>
+            </td>
             <td>
                 <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span>
             </td>
             <td>
                 <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
-            <td>
-                <span data-bind="text: orderCode"></span>
-            </td>
+           
             <td>
                 <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
             </td>
@@ -145,9 +150,9 @@
                     <thead>
                         <tr>
                             <th class="col-lg-4"><span>Customer</span></th>
+                            <th class="col-lg-2"><span>Order Code</span></th>
                             <th class="col-lg-2"><span>Order Date</span></th>
                             <th class="col-lg-2"><span>Flag</span></th>
-                            <th class="col-lg-2"><span>Order Code</span></th>
                             <th class="col-lg-2"><span>Order Total</span></th>
                         </tr>
                     </thead>
