@@ -44,6 +44,7 @@ define("dashboard.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 setOrderStatusesCount(data);
+                                mapOrders(data.Estimates);
                             }
                             //load the tour
                             openTourInit();
