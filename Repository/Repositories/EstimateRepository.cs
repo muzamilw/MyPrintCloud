@@ -179,6 +179,20 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request)
+        {
+            Expression<Func<Estimate, bool>> query =
+                item =>// || (item.Company != null && item.Company.Name.Contains(request.SearchString)) 
+                    (string.IsNullOrEmpty(request.SearchString)&&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
+                    item.OrganisationId == OrganisationId);
+
+            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateDate).Take(5)
+                .ToList();
+
+            return items;
+        }
+
         #endregion
     }
 }

@@ -1,24 +1,20 @@
-﻿<head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-    <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-    
-</head>
+﻿
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
 @{
     var grid = new WebGrid(source: ViewBag.Address, canPage: true,canSort:false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
-    
 }
 
 <div class="content_area container">
+    
     <div class="left_right_padding row">
-        
-        <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-            <label class="sign_in_heading" id="HistryBtn">Billing &amp; Shipping Addresses</label>
+      
+        <div class="signin_heading_div float_left_simple ">
+            <label class="sign_in_heading" id="HistryBtn">My Saved Billing & Shipping Details</label>
         </div>
-        <div class="dashBoardRetrunLink">
+        <div class="dashBoardRetrunLink dashboard_heading_signin">
             <div class=" left_align">
                 <h1>
                     <a href="/Dashboard" class="left_align" title="Back to my dashboard">
@@ -33,14 +29,9 @@
         <div class="paddingTop15px">
 
             <div class="cursor_pointer">
-                <div class="float_left">
-                    @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New Address" runat="server"
-                    ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
-                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" onclick="ResetTextboxes()" />
-                </div>
+               
                 <div class="new_caption">
-                    @*<asp:Literal ID="ltrlnewShippingAddress" runat="server" Text="New Shipping Address"></asp:Literal>*@
-                    <label id="ltrlnewShippingAddress" onclick="ResetTextboxes()">New Billing & Shipping Address</label>
+                    <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="Add new address">
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -51,7 +42,7 @@
                     <tr>
                         <td>
                             @*<asp:Literal ID="ltrlSearchrecords" runat="server" Text=" Search Address"></asp:Literal>*@
-                            <label id="ltrlSearchrecords">Water Marks</label>
+                            <label id="ltrlSearchrecords"></label>
 
                         </td>
                         @using(Html.BeginForm())
@@ -60,19 +51,19 @@
                             @*<asp:TextBox ID="txtsearch" runat="server" Width="400px" CssClass="text_box150 rounded_corners5"></asp:TextBox>*@
 
                             @*@Html.TextBoxFor(model => model.FirstName, new { id = "txtsearch", @class = "text_box150 rounded_corners5", placeholder = "Search", maxlength = 500, })*@
-                            <input id="txtsearch" type="text" style="width:400px;" class="text_box150 rounded_corners5" name="SearchString" />
+                            <input id="txtsearch" type="text" style="width:248px;"  class="text_box150 rounded_corners5" name="SearchString" placeholder="Search Address" />
                         </td>
 
                         <td style="padding-left: 10px;">
                             @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
                             OnClick="btnsearch_Click" />*@
-                            <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5">Go</button>
+                            <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Go</button>
                         </td>
                           
                         <td style="padding-left: 10px;">
                             @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
                             OnClick="btnReset_Click" />*@
-                            <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5">Clear</button>
+                            <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Clear</button>
                         </td>
                         }
                     </tr>
@@ -128,7 +119,7 @@
                       alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
-    grid.Column("Address Title",format:@<p>@item.AddressName</p>),
+    grid.Column("Address Title",format:@<p>@item.AddressName</p>,style:"WebGridPadding"),
     grid.Column("Address Details",format:@<p>@item.Address1</p>),
     @*grid.Column("Main Contact",format:@<p>
 
@@ -199,16 +190,11 @@ grid.Column("Default Shipping",format:@<p>
                         }
                     </div>
                 </div>
-                @*grid.column("reorder", format:@<text><button id="view" value="Reorder" style="height: 28px; width: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
-                    </text>),
-                grid.Column("Reorder", format:@<text>idth: 28px; background-image: url('Content/Images/repeat.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
-                </text>),*@
+            
                 <div class="float_right"></div>
                 <div class="clearBoth">
                 </div>
-                @*<div class="border_bottom_line">
-                    &nbsp;
-                </div>*@
+               
 
             </div>
             @*<div id="PnlPagerControl" class="Width100Percent" runat="server">
@@ -427,34 +413,72 @@ grid.Column("Default Shipping",format:@<p>
         </div>
     </div>
 </div>
-        
-  <script type="text/javascript">
+       
+@section scripts
+
+    {
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+<script type="text/javascript">
 
     var AdRessID;
     var CountryID;
     var StateID;
     var UpdateStatus = true;
-    //var CompanyID;
-    //alert(CompanyID+'companyID');
+
     function AddAndUpdate() {
         if (UpdateStatus == true) {
-            
+
             UpdateAddress();
         }
         else {
-            
+
             AddNewAddress();
         }
     }
 
     function SearchAddress() {
         var SeearchString = $("#txtsearch").val();
-        
+
         Search(SeearchString);
     }
 
-    function Search(SearchText) {
-        var data = { SearchedText: SearchText }
+    $("#txtsearch").autocomplete({
+        source: function (request, response) {
+            // your ajax code
+            $.ajax({
+                url: "/BillingShippingAddressManager/IntellisenceData",
+                data: "{ 'prefixText': '" + request.term + "' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+
+                    response(data.split(":"))
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('Error occured while autocomplete');
+                }
+            });
+        },
+        select: function (event, ui) {
+
+
+        },
+        minLength: 1,
+        change: function (event, ui) {
+            $("#btnsearch").trigger('click');
+
+        }
+
+    });
+
+    function Searching(SearchText) {
+        var data = { text: SearchText }
         $.ajax({
             type: "POST",
             url: "/BillingShippingAddressManager/Index",
@@ -463,7 +487,20 @@ grid.Column("Default Shipping",format:@<p>
             async: true,
             success: function (response) {
             }
-           
+
+        });
+    }
+    function Search(SearchText) {
+        var data = { SearchedText: SearchText }
+        $.ajax({
+            type: "POST",
+            url: "/BillingShippingAddressManager/DisplaySearchedData",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+            }
+
         });
     }
     function ShowBillingShippingDetails(AddressID) {
@@ -513,7 +550,7 @@ grid.Column("Default Shipping",format:@<p>
             async: true,
             success: function (response) {
                 var CountriesDD = $("#DDCountry");
-                CountriesDD.html(''); 
+                CountriesDD.html('');
                 CountriesDD.append($('<option></option>').val(0).html('Select Country'));
                 $.each(response.Country, function (id, option) {
 
@@ -539,7 +576,7 @@ grid.Column("Default Shipping",format:@<p>
             if (StateID > 0) {
 
                 if (CountryID > 0) {
-                   
+
                     LoadCountryStatesOnLoad(CountryID);
                 }
             }
@@ -549,7 +586,7 @@ grid.Column("Default Shipping",format:@<p>
             }
         }
         else {
-            
+
             LoadAllStates();
             $("#DDSate")[0].selectedIndex = 0;
         }
@@ -565,7 +602,7 @@ grid.Column("Default Shipping",format:@<p>
             async: true,
             success: function (response) {
                 obj = response.State;
-               
+
                 var StatesDD = $("#DDSate");
                 StatesDD.html('');
                 //StatesDD.append($('<option></option>').val(0).html('Select State'));
@@ -682,7 +719,7 @@ grid.Column("Default Shipping",format:@<p>
             },
             error: function (error) {
                 ShowPopUp('Error Occured While Adding Address', error);
-              }
+            }
         });
     }
     function UpdateAddress() {
@@ -794,7 +831,7 @@ grid.Column("Default Shipping",format:@<p>
                     StatesDD.append($('<option></option>').val(option.StateId).html(option.StateName));
 
                 });
-                
+
                 SetSelectedState(response.State, StateID);
             }
         });
@@ -820,80 +857,73 @@ grid.Column("Default Shipping",format:@<p>
         var CountryID = $(this).val();
 
         if (CountryID > 0) {
-            
+
             loadCountryStates(CountryID);
         }
-        if (CountryID == 0)
-        {
+        if (CountryID == 0) {
             LoadAllStates();
         }
     });
     function RebindGrid() {
-     
+
         window.location.href = "/BillingShippingAddressManager";
     }
-    
+
     function myFunction() {
         HideLoader();
     }
-    
-  
-    function Validation()
-    {
+
+
+    function Validation() {
         var IsValid = true;
         var errorMessage = '';
-        
-            if ($("#txtAddressName").val().trim() == '')
-            { 
-                var AddressNAme = "Address Name Is Required";
-                errorMessage = errorMessage + AddressNAme + "<br>";
-                $("#divAddressName").css('display', 'block');
-                IsValid = false;
-            }
-            else
-            {
-               $("#divAddressName").css('display', 'none');
-            }
 
-            if ($("#txtAddress1").val().trim() == '')
-            {
-                var Address1="Address1 is Ruquired";
-                errorMessage = errorMessage + Address1 + "<br>";
-                $("#divAddress1").css('display', 'block');
-                IsValid = false;
-            }
-            else
-            {
-               
-                $("#divAddress1").css('display', 'none');
-            }
+        if ($("#txtAddressName").val().trim() == '') {
+            var AddressNAme = "Address Name Is Required";
+            errorMessage = errorMessage + AddressNAme + "<br>";
+            $("#divAddressName").css('display', 'block');
+            IsValid = false;
+        }
+        else {
+            $("#divAddressName").css('display', 'none');
+        }
 
-            if ($("#txtCity").val().trim()== '')
-            {
-                var City="City is Ruquired";
-                errorMessage = errorMessage + City + "<br>";
-                $("#divCity").css('display', 'block');
-                IsValid = false;
-            }
-            else
-            {
-                $("#divCity").css('display', 'none');
-            }
-            //if (IsValid == false)
-            //{
-            //    ShowPopUp('Message', errorMessage);
+        if ($("#txtAddress1").val().trim() == '') {
+            var Address1 = "Address1 is Ruquired";
+            errorMessage = errorMessage + Address1 + "<br>";
+            $("#divAddress1").css('display', 'block');
+            IsValid = false;
+        }
+        else {
+
+            $("#divAddress1").css('display', 'none');
+        }
+
+        if ($("#txtCity").val().trim() == '') {
+            var City = "City is Ruquired";
+            errorMessage = errorMessage + City + "<br>";
+            $("#divCity").css('display', 'block');
+            IsValid = false;
+        }
+        else {
+            $("#divCity").css('display', 'none');
+        }
+        //if (IsValid == false)
+        //{
+        //    ShowPopUp('Message', errorMessage);
         //}
-            
-            return IsValid;
-           
+
+        return IsValid;
+
     }
 
-    function SaveCall()
-    {
-        if (Validation() == true)
-        {
+    function SaveCall() {
+        if (Validation() == true) {
             AddAndUpdate();
         }
 
     }
-        </script>
+</script>
+
+    } 
+

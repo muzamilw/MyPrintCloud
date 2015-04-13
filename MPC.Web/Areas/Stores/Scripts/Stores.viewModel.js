@@ -284,7 +284,7 @@ define("stores/stores.viewModel",
                         }
                     }),
                     openDomainInTab = function (data, event) {
-                        window.open(data.domain(), '_blank');
+                        window.open(window.location.protocol +"//"+data.domain());
                         event.stopImmediatePropagation();
                     },
                     //#region _________S T O R E ____________________________________
@@ -5355,14 +5355,25 @@ define("stores/stores.viewModel",
                 return item.id() === fieldVariable.fakeId();
             });
             if (fieldvariableOfSmartForm) {
-                fieldvariableOfSmartForm.variableName(fieldVariable.variableName());
-                fieldvariableOfSmartForm.variableTag(fieldVariable.variableTag());
-                fieldvariableOfSmartForm.scopeName(fieldVariable.scopeName());
-                fieldvariableOfSmartForm.typeName(fieldVariable.typeName());
-                fieldvariableOfSmartForm.variableType(fieldVariable.variableType());
-                fieldvariableOfSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
-                fieldvariableOfSmartForm.title(fieldVariable.variableTitle());
+                updateSmartFormVariable(fieldvariableOfSmartForm, fieldVariable);
             }
+        },
+        updateSmartFormVariableOnUpdatingCustomCrmField = function(fieldVariable) {
+            var fieldvariableOfSmartForm = _.find(fieldVariablesForSmartForm(), function (item) {
+                return item.id() === fieldVariable.id();
+            });
+            if (fieldvariableOfSmartForm) {
+                updateSmartFormVariable(fieldvariableOfSmartForm, fieldVariable);
+            }
+        },
+        updateSmartFormVariable = function (fieldvariableOfSmartForm, fieldVariable) {
+            fieldvariableOfSmartForm.variableName(fieldVariable.variableName());
+            fieldvariableOfSmartForm.variableTag(fieldVariable.variableTag());
+            fieldvariableOfSmartForm.scopeName(fieldVariable.scopeName());
+            fieldvariableOfSmartForm.typeName(fieldVariable.typeName());
+            fieldvariableOfSmartForm.variableType(fieldVariable.variableType());
+            fieldvariableOfSmartForm.defaultValue(fieldVariable.variableType() === 1 ? fieldVariable.defaultValue() : fieldVariable.defaultValueForInput());
+            fieldvariableOfSmartForm.title(fieldVariable.variableTitle());
         },
                 //Add to Smart Form Variable List
         addToSmartFormVariableList = function (fieldVariable) {
@@ -5431,6 +5442,8 @@ define("stores/stores.viewModel",
 
            updatedFieldVariable.variableName(selectedFieldVariable().variableName());
            updatedFieldVariable.variableTag(selectedFieldVariable().variableTag());
+           updatedFieldVariable.variableTitle(selectedFieldVariable().variableTitle());
+           updateSmartFormVariableOnUpdatingCustomCrmField(updatedFieldVariable);
        },
                 //Do Before Save Field Variable
         doBeforeSaveFieldVariable = function () {

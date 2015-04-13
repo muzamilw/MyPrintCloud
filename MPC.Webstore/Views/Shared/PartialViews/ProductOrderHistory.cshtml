@@ -31,10 +31,10 @@
 
 <div class="content_area container">
     <div class="left_right_padding row">
-        <div class="signin_heading_div float_left_simple dashboard_heading_signin">
+        <div class="signin_heading_div float_left_simple ">
             <label class="sign_in_heading" id="HistryBtn">Order History</label>
         </div>
-        <div class="dashBoardRetrunLink">
+        <div class="dashBoardRetrunLink dashboard_heading_signin">
             <div class=" left_align">
                 <h1>
                     <a href="/Dashboard" class="left_align" title="Back to my dashboard">
@@ -246,9 +246,206 @@
                     </div>
                 </td>
             </tr>
+           
+        </tbody>
+    </table>
+    <br />
+    <br />
+
+    <table width="99%">
+        <tbody>
             <tr id="PnalTotalBox">
+                <td align="left">
+                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140 margnLft">
+                        <div class="product_detail_sup_padding" style="width:50%;float:left;">
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th>
+                                            <label id="lblMainControlHeading" class="heading_small">Billing Address:</label>
+                                        </th>
+                                        <th style="height: 25px; text-align: left;">
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 33%">
+                                            <span id="BillingAddressName"></span>
+                                        </td>
+                                        <td style="width: 67%">
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span id="BillingAddressline1"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblAddressLine1" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrladdressline2">Address line 2:</span>*@
+                                            <span id="BillingAddressline2"></span>
+                                        </td>
+                                        <td>
+
+                                            @*<label id="lblAddressLine2" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcity">City:</span>*@
+                                            <span id="BillingAddressCity"></span>&nbsp;<span id="BillingAddressState"></span>&nbsp;<span id="BillingAddressCountryName"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblCity" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlstate">State:</span>*@
+                                            <span id="BillingAddressState"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblState" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlzipcodeP">Zip Code / Post Code:</span>*@
+                                            <span id="BillingAddressPostCode"></span>
+                                        </td>
+                                        <td>
+                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcountry">Country:</span>*@
+                                            <span id="BillingAddressCountryName"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblCountry" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="ltrlcontactnum">Contact Number:</span>*@
+                                            <span id="BillingAddressContactNumber"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblContactNumber" class="txtBold">*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="product_detail_sup_padding" style="width:50%;float:left;">
+
+                            <table border="0" cellpadding="2" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th style="height: 25px; text-align: left;">
+                                            <label id="Label1" class="heading_small">Shipping Address:</label>
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="width: 33%">
+                                            @*<span id="spnshppingname">Shipping Name:</span>*@
+                                            <span id="DeliveryAddressName"></span>
+                                        </td>
+                                        <td style="width: 67%">
+                                            @*<label id="lblShipAddressName" >*@@*@ViewBag.DeliveryAddress.AddressName*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnaddressline2nd">Address line 1:</span>*@
+                                            <span id="DeliveryAddressline1"></span>
+                                        </td>
+                                        <td>
+                                            @*<Label ID="lblShipAddLine1" >*@@*@ViewBag.DeliveryAddress.Address1*@@*</Label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnaddressline2nd2">Address line 2:</span>*@
+                                            <span id="DeliveryAddressline2"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblShipAddressLine2" >*@@*@ViewBag.DeliveryAddress.Address2*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spncity2">City:</span>*@
+                                            <span id="DeliveryAddressCity"></span>&nbsp;<span id="DeliveryAddressState"></span>&nbsp;<span id="DeliveryAddressCountryName"></span>
+                                        </td>
+                                        <td>
+                                            @*<Label ID="lblShipAddCity" >*@@*@ViewBag.DeliveryAddress.City*@@*</Label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnstate2">State:</span>*@
+                                            <span id="DeliveryAddressState"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblShipState" >*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spnzipcoeP2">Zip Code / Post Code:</span>*@
+                                            <span id="DeliveryAddressPost"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblShipPostCode" >*@@*@ViewBag.DeliveryAddress.PostCode*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spncountry2">Country:</span>*@
+                                            <span id="DeliveryAddressCountryName"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblShipCountry" >*@@*@ViewBag.DeliveryAddress.Country.CountryName*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @*<span id="spncontactnum2">Contact Number:</span>*@
+                                            <span id="DeliveryAddressContactNo"></span>
+                                        </td>
+                                        <td>
+                                            @*<label id="lblShipContact" >*@@*@ViewBag.DeliveryAddress.ContactMobile*@@*</label>*@
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                   
+                    <div class="clearBoth">
+
+                    </div>
+                </td>
+                <td>
+                    &nbsp;
+                </td>
                 <td align="right">
-                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
+                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
                                 <tr>
@@ -256,7 +453,7 @@
                                         <span id="spnsubtotal">Sub Total:</span>
                                     </td>
                                     <td>
-                                     <label id="lblSubTotal"><span id="subtotal"></span></label>
+                                        <label id="lblSubTotal"><span id="subtotal"></span></label>
 
                                     </td>
                                 </tr>
@@ -265,7 +462,7 @@
                                         <span id="spnDeliveryoptn">Deivery Cost:</span>
                                     </td>
                                     <td>
-                                         <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
+                                        <label id="lblDeliveryCost"><span id="DelCharge"></span></label>
                                     </td>
                                 </tr>
                                 <tr>
@@ -278,218 +475,16 @@
                                 </tr>
                                 <tr>
                                     <td align="left">
-                                     <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
-                                  </td>
-                                  <td>
-                                        
-                                            <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
+                                        <span class="CartFonts" id="spngrndtotal">Grand Total:</span>
+                                    </td>
+                                    <td>
+
+                                        <label class="CartFonts txtBold" id="lblGrandTotal"><span id="Grandtotal"></span></label>
 
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>
-                        <table id="PnlAddresses" border="0" cellpadding="0" cellspacing="0"
-                               width="100%">
-                            <tr>
-                                <td>
-                                        <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
-                                            <div class="product_detail_sup_padding">
-                                                <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th  style="height: 25px; text-align: left;">
-
-                                                                @*<label id="lblMainControlHeading" class="heading_small">Billing Address:</label>*@
-                                                            </th>
-                                                            <th>
-                                                                <label id="lblMainControlHeading" class="heading_small">Billing Address:</label>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="width: 33%">
-                                                              @*<span id="spnbillingname">Billing Name:</span>*@
-                                                                
-                                                            </td>
-                                                            <td style="width: 67%">
-                                                                <span id="BillingAddressName"></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrladdressline1">Address line 1:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblAddressLine1" class="txtBold">*@<span id="BillingAddressline1"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrladdressline2">Address line 2:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-
-                                                                @*<label id="lblAddressLine2" class="txtBold">*@<span id="BillingAddressline2"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrlcity">City:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblCity" class="txtBold">*@<span id="BillingAddressCity"></span>&nbsp;<span id="BillingAddressState"></span>&nbsp;<span id="BillingAddressCountryName"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrlstate">State:</span>*@
-                                                                
-                                                          </td>
-                                                            <td>
-                                                                @*<label id="lblState" class="txtBold">*@<span id="BillingAddressState"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrlzipcodeP">Zip Code / Post Code:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                <span id="BillingAddressPostCode"></span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrlcountry">Country:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblCountry" class="txtBold">*@<span id="BillingAddressCountryName"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="ltrlcontactnum">Contact Number:</span>*@
-                                                                
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblContactNumber" class="txtBold">*@<span id="BillingAddressContactNumber"></span>@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                   
-                                </td>
-                                <td></td>
-                                <td align="right">
-                                    
-                                    <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText">
-                                        <div class="product_detail_sup_padding">
-                                         
-                                                <table border="0" cellpadding="2" cellspacing="0" width="100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th  style="height: 25px; text-align: left;">
-                                                                <label id="Label1" class="heading_small">Shipping Address:</label>
-                                                            </th>
-                                                            <th>
-                                                               
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td style="width: 33%">
-                                                                @*<span id="spnshppingname">Shipping Name:</span>*@
-                                                                <span id="DeliveryAddressName"></span>
-                                                            </td>
-                                                            <td style="width: 67%">
-                                                                @*<label id="lblShipAddressName" >*@@*@ViewBag.DeliveryAddress.AddressName*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spnaddressline2nd">Address line 1:</span>*@
-                                                                <span id="DeliveryAddressline1"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<Label ID="lblShipAddLine1" >*@@*@ViewBag.DeliveryAddress.Address1*@@*</Label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spnaddressline2nd2">Address line 2:</span>*@
-                                                                <span id="DeliveryAddressline2"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblShipAddressLine2" >*@@*@ViewBag.DeliveryAddress.Address2*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spncity2">City:</span>*@
-                                                                <span id="DeliveryAddressCity"></span>&nbsp;<span id="DeliveryAddressState"></span>&nbsp;<span id="DeliveryAddressCountryName"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<Label ID="lblShipAddCity" >*@@*@ViewBag.DeliveryAddress.City*@@*</Label>*@
-                                                            </td>
-                                                        </tr>
-                                                      <tr>
-                                                            <td>
-                                                                @*<span id="spnstate2">State:</span>*@
-                                                                <span id="DeliveryAddressState"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblShipState" >*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spnzipcoeP2">Zip Code / Post Code:</span>*@
-                                                                <span id="DeliveryAddressPost"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblShipPostCode" >*@@*@ViewBag.DeliveryAddress.PostCode*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spncountry2">Country:</span>*@
-                                                                <span id="DeliveryAddressCountryName"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblShipCountry" >*@@*@ViewBag.DeliveryAddress.Country.CountryName*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                @*<span id="spncontactnum2">Contact Number:</span>*@
-                                                                <span id="DeliveryAddressContactNo"></span>
-                                                            </td>
-                                                            <td>
-                                                                @*<label id="lblShipContact" >*@@*@ViewBag.DeliveryAddress.ContactMobile*@@*</label>*@
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                           
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </table>
                     </div>
                 </td>
             </tr>
@@ -517,7 +512,7 @@
         }
         function ReOrder(orderId)
         {
-            alert(orderId);
+            ShowLoader();
             var d={ OrderId: orderId }
             $.ajax({
                 type: "POST",

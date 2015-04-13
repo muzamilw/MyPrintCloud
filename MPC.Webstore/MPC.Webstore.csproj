@@ -621,17 +621,6 @@
     <Content Include="Content\smoothslides.theme.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\zoomslider.css" />
-    <Content Include="LightBox1\Css\jquery.lightbox-0.5.css" />
-    <Content Include="LightBox1\Images\lightbox-blank.gif" />
-    <Content Include="LightBox1\Images\lightbox-btn-close.gif" />
-    <Content Include="LightBox1\Images\lightbox-btn-next.gif" />
-    <Content Include="LightBox1\Images\lightbox-btn-prev.gif" />
-    <Content Include="LightBox1\Images\lightbox-ico-loading.gif" />
-    <Content Include="LightBox1\Js\jquery.js" />
-    <Content Include="LightBox1\Js\jquery.lightbox-0.5.js" />
-    <Content Include="LightBox1\Js\jquery.lightbox-0.5.min.js" />
-    <Content Include="LightBox1\Js\jquery.lightbox-0.5.pack.js" />
-    <Content Include="LightBox1\Js\viewport.js" />
     <Content Include="LightBox\Css\jquery.fancybox.css" />
     <Content Include="LightBox\Images\blank.gif" />
     <Content Include="LightBox\Images\fancybox_buttons.png" />

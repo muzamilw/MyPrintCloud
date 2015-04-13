@@ -39,6 +39,16 @@ namespace MPC.Webstore
            new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
            );
 
+            routes.MapRoute(
+       "BillingShippingIntellisenceData",
+       "BillingShippingAddressManager/IntellisenceData",
+       new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
+       );
+            routes.MapRoute(
+              "BillingShippingDisplaySearchedData",
+              "BillingShippingAddressManager/DisplaySearchedData",
+              new { controller = "BillingShippingAddressManager", action = "DisplaySearchedData", id = UrlParameter.Optional }
+              );
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
