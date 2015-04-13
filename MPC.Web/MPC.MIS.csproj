@@ -1957,6 +1957,8 @@
     <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Areas\Orders\Views\Home\EstimatesList.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\EstimateDetail.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
