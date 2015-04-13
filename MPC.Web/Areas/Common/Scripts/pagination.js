@@ -125,7 +125,7 @@
                 if (totalCount() > 0) {
                     startIndex += 1;
                 }
-                var totalCountValue = totalCount() == 0 ? 0 : totalCount() - 1;
+                var totalCountValue = totalCount() == 0 ? 0 : totalCount();
                 totalCount(totalCountValue);
                 if (total > 0) {
                     return ist.resourceText.showing + startIndex + " - " + total + " " + ist.resourceText.of + " " + +(totalCountValue);
@@ -139,12 +139,12 @@
                 var length = list().length;
                 var startIndex = (currentPage() - 1) * pageSize();
                 var total = startIndex + length;
-                if (totalPageListCount < total) {
+                if (totalPageListCount < length) {
                     incrementTotalCount();
-                } else {
+                } else if (totalPageListCount > length) {
                     decrementTotalCount();
                 }
-                totalPageListCount = total;
+                totalPageListCount = length;
             }),
             // Reset
             reset = function() {
