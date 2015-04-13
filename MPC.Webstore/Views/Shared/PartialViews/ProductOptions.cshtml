@@ -367,7 +367,7 @@
                 </div>
                 <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
                             font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                    <label id="lbl_ShowPriceTable">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId))</label>
+                    <label id="lbl_ShowPriceTable" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId))</label>
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -383,7 +383,7 @@
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
-                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -49px;">
+                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
                                 <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId))</label>
                             </div>
                             <div class="Fsize13 divtxtalgn float_left_simple">
