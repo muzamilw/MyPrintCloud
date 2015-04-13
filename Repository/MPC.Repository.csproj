@@ -48,18 +48,19 @@
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.Document.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Document.v7.dll</HintPath>
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.Export.Pdf.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.Export.Pdf.v7.dll</HintPath>
     </Reference>
     <Reference Include="GrapeCity.ActiveReports.v7, Version=7.1.7470.0, Culture=neutral, PublicKeyToken=cc4967777c49a3ff, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Common Files\ComponentOne\ActiveReports Developer 7\GrapeCity.ActiveReports.v7.dll</HintPath>
+      <HintPath>..\MPC.Common\Externaldlls\GrapeCity.ActiveReports.v7.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\..\..\MPC\Bantex\Server\Server.Library\Ionic.Zip.dll</HintPath>
+    <Reference Include="Ionic.Zip, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MPC.Common\Externaldlls\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.0.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
