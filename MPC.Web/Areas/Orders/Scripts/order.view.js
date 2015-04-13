@@ -77,11 +77,17 @@ define("order/order.view",
                 hideCostCentersQuantityDialog = function () {
                     $("#costCentersQuanity").modal("hide");
                 },
-                setOrderState = function (state) {
+                setOrderState = function (state, isFromEstimate) {
                     orderstate(state);
                     $(function () {
                         // set up an array to hold the order Status
-                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Ship", "Invoice"];
+                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced"];
+                        
+                        // If Is Order is From Estimate then add Status "Revert to Estimate"
+                        if (isFromEstimate) {
+                            orderStatusArray.splice(0, 0, "Revert to Estimate");
+                        }
+                        
                         $(".slider").slider().slider("pips");
                         $(".slider")
 

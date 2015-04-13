@@ -195,18 +195,18 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                if (CompanyId > 0)
-                {
+                //if (CompanyId > 0)
+                //{
+                //    return
+                //        db.ItemStockOptions.Where(
+                //            i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+                //}
+                //else
+                //{
                     return
-                        db.ItemStockOptions.Where(
-                            i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-                }
-                else
-                {
-                    return
-                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1)
+                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.OptionSequence == 1)
                             .FirstOrDefault();
-                }
+                //}
             }
             catch (Exception ex)
             {
