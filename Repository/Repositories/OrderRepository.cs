@@ -2791,6 +2791,8 @@ namespace MPC.Repository.Repositories
                     IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
                     MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
                 }
+                else
+                    return string.Empty;
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
