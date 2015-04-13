@@ -4323,12 +4323,36 @@ namespace MPC.Implementation.MISServices
                                                             {
                                                                 DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                             }
-                                                          
+                                                            
+                                                            
                                                             if (File.Exists(FilePath))
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                                 r.Comment = "Items image for Store";
 
+                                                            }
+
+                                                            string Filename = tempbcI.ImageName;
+                                                            string OldPath = Path.GetFileNameWithoutExtension(tempbcI.ImageName);
+
+                                                            string newPath = OldPath + "_thumb";
+                                                            
+                                                            Filename = Filename.Replace(OldPath, newPath);
+
+                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + Filename);
+                                                            if (tempbcI.ImageName.Contains("UserImgs/"))
+                                                            {
+
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorp.Company.CompanyId;
+                                                            }
+                                                            else
+                                                            {
+                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                            }
+                                                            if(File.Exists(oPath))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(oPath, DPath);
+                                                                r.Comment = "Items image for Store";
                                                             }
 
                                                         }
