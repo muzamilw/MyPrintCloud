@@ -5,6 +5,7 @@ using MPC.Models.RequestModels;
 using System.Net;
 using System.Web;
 using System.Web.Http;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -35,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Orders
         /// </summary>
+        [CompressFilter]
         public InvoiceRequestResponseModel Get([FromUri] GetInvoicesRequestModel request)
         {
             if (request == null || !ModelState.IsValid)

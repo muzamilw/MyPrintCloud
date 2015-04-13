@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Smart Forms
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public IEnumerable<SmartFormDetail> Get([FromUri] long smartFormId)
         {
             return companyService.GetSmartFormDetailBySmartFormId(smartFormId).Select(sfd => sfd.CreateFrom());

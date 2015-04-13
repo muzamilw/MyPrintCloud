@@ -37,6 +37,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         // GET api/<controller>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public SupplierSearchResponseForInventory Get([FromUri] SupplierRequestModelForInventory request)
         {
             return inventoryService.LoadSuppliers((request)).CreateFrom();

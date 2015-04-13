@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using MPC.MIS.Areas.Api.ModelMappers;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -23,6 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         }
 
+        [CompressFilter]
         public IEnumerable<Section> getSectionLibray()
         {
 

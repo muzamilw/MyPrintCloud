@@ -36,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Addresses / Compnay Contacts
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewCrm })]
+        [CompressFilterAttribute]
         public OrdersForCrmResponse Get([FromUri] GetOrdersRequest request)
         {
             if (request == null || !ModelState.IsValid)

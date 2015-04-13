@@ -89,11 +89,11 @@ define("paperSheet/paperSheet.viewModel",
                             success: function (data) {
                                 paperSheets.removeAll();
                                 if (data != null) {
-                                    pager().totalCount(data.RowCount);
                                     _.each(data.PaperSheets, function (item) {
                                         var module = model.paperSheetServertoClientMapper(item);
                                         paperSheets.push(module);
                                     });
+                                    pager().totalCount(data.RowCount);
                                 }
                                 isLoadingPaperSheet(false);
                             },

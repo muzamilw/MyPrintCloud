@@ -510,12 +510,13 @@ define("order/order.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders()));
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
                         categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                         costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
                         // Get Base Data
                         getBaseData();
+                        getOrders();
 
 
                     },
@@ -1043,9 +1044,13 @@ define("order/order.viewModel",
                     getOrdersOfCurrentScreen = function () {
                         getOrders(currentScreen());
                     },
+                    //Get Order Tab Changed Event
+                    getOrdersOnTabChange = function (currentTab) {
+                        pager().reset();
+                        getOrders(currentTab);
+                    },
                     // Get Orders
                     getOrders = function (currentTab) {
-
                         isLoadingOrders(true);
                         currentScreen(currentTab);
                         dataservice.getOrders({
@@ -1061,8 +1066,8 @@ define("order/order.viewModel",
                             success: function (data) {
                                 orders.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    pager().totalCount(data.TotalCount);
                                     mapOrders(data.Orders);
+                                    pager().totalCount(data.TotalCount);
                                 }
                                 isLoadingOrders(false);
                             },
@@ -1168,12 +1173,12 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-                                    costCentrePager().totalCount(data.RowCount);
                                     costCentres.removeAll();
                                     _.each(data.CostCentres, function (item) {
                                         var costCentre = new model.costCentre.Create(item);
                                         costCentres.push(costCentre);
                                     });
+                                    costCentrePager().totalCount(data.RowCount);
                                 }
                             },
                             error: function (response) {
@@ -1289,12 +1294,12 @@ define("order/order.viewModel",
                             PageNo: categoryPager().currentPage()
                         }, {
                             success: function (data) {
-                                categoryPager().totalCount(data.TotalCount);
                                 inventoryItems.removeAll();
                                 _.each(data.StockItems, function (item) {
                                     var inventory = new model.Inventory.Create(item);
                                     inventoryItems.push(inventory);
                                 });
+                                categoryPager().totalCount(data.TotalCount);
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -1802,6 +1807,7 @@ define("order/order.viewModel",
                     orderProductItems: orderProductItems,
                     getOrders: getOrders,
                     getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
+                    getOrdersOnTabChange: getOrdersOnTabChange,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,

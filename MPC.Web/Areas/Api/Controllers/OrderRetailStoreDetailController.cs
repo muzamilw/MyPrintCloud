@@ -30,7 +30,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
 
-
+        [CompressFilterAttribute]
         public OrderRetailItemDetail Get([FromUri] int itemId)
         {
             Item item = itemService.GetById(itemId);

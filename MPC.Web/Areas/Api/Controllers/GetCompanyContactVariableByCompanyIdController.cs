@@ -35,6 +35,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Scope Variables
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public IEnumerable<ScopeVariable> Get([FromUri]long companyId,int scope)
         {
             return companyService.GetFieldVariableByCompanyIdAndScope(companyId, scope).Select(cv => cv.CreateFromFieldVariable());

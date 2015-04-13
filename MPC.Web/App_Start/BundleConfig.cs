@@ -33,7 +33,6 @@ namespace MPC.MIS
                 .Include("~/Content/themes/Centaurus/js/bootstrap.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.nanoscroller.min.js")
                 .Include("~/Content/themes/Centaurus/js/demo.js")
-                .Include("~/Content/themes/Centaurus/js/fullcalendar.min.js")
                 .Include("~/Content/themes/Centaurus/js/jquery.slimscroll.min.js")
                 .Include("~/Content/themes/Centaurus/js/raphael-min.js")
                 .Include("~/Content/themes/Centaurus/js/morris.min.js")
@@ -62,7 +61,6 @@ namespace MPC.MIS
                 .Include("~/Scripts/jquery.blockUI.js")
                 .Include("~/Scripts/spectrum.js")
                 .Include("~/Scripts/Ace/colorpicker.js")
-                .Include("~/Content/themes/Centaurus/js/fullcalendar.min.js")
                 .Include("~/Scripts/json2.js")
                 .Include("~/Scripts/knockout-3.1.0.js")
                 .Include("~/Scripts/knockout.mapping-latest.js")
@@ -89,7 +87,8 @@ namespace MPC.MIS
                 .Include("~/Content/CSS/toastr.css")
                 .Include("~/Content/colorpicker.css")
                 .Include("~/Content/CSS/spectrum.css")
-                .Include("~/RichTextEditor/skins/moono/editor.css"));
+                .Include("~/RichTextEditor/skins/moono/editor.css")
+                .Include("~/Content/CSS/custom.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                 "~/Content/themes/base/jquery.ui.core.css",
@@ -122,8 +121,6 @@ namespace MPC.MIS
                 .Include("~/Content/themes/Centaurus/css/compiled/elements.css")
                 .Include("~/Content/themes/Centaurus/css/libs/dropzone.css")
                 .Include("~/Content/themes/Centaurus/css/libs/magnific-popup.css")
-                .Include("~/Content/themes/Centaurus/css/libs/fullcalendar.css")
-                .Include("~/Content/themes/Centaurus/css/libs/fullcalendar.print.css")
                 .Include("~/Content/themes/Centaurus/css/compiled/calendar.css")
                 .Include("~/Content/themes/Centaurus/css/libs/morris.css")
                 .Include("~/Content/themes/Centaurus/css/libs/daterangepicker.css")

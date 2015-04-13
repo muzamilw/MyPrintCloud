@@ -803,6 +803,8 @@
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
     <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Views\Home\AddBanner.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1951,6 +1953,9 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

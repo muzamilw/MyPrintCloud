@@ -36,29 +36,31 @@ body
     cursor: pointer !important;
 }
 
-div#spinner 
-{
-    display: none;
-width: 150px;
-height: 150px;
-position: fixed;
-top: 50%;
-left: 50%;
-background: url('../Images/loaders/circular/spinner.gif') no-repeat center white;
-text-align: center;
-padding: 10px;
-font: normal 16px Tahoma, Geneva, sans-serif;
-/* border: 1px solid #666; */
-margin-left: -50px;
-margin-top: -50px;
-z-index: 10051;
-overflow: auto;
--webkit-border-radius: 30px;
-z-index:1000000011;
+div#spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index:1000000011;
+    border: 2px solid #eeeeee;
+    font-size: 40px;
+    width: 1em;
+    height: 1em;
+    -moz-border-radius: .5em;
+    -webkit-border-radius: .5em;
+    -ms-border-radius: .5em;
+    border-radius: .5em;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    -o-animation: spin 1s linear infinite;
+    -ms-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top-color: #2eaef0;
 }
 
- 
- .trial-description 
+.trial-description 
         {
             top: 0;
             position: fixed;

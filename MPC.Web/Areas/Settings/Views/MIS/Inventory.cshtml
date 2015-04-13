@@ -39,7 +39,7 @@
                                         <th class="col-lg-1">&nbsp;</th>
                                         <th class="col-lg-4"> <span>Name<span></span></span></th>
                                         <th class="col-lg-3"> <span>Category<span></span></span></th>
-                                        <th class="col-lg-3">Cost</th>
+                                        <th class="col-lg-3">Selling Pack Price</th>
                                         <th class="col-lg-1">&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -65,15 +65,15 @@
                 <form data-bind="submit: $root.filterInventories">
                     <div class="filter-block pull-right">
 
-                        <div class="form-group pull-right">
+                        <div class="form-group pull-left">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
                             <i class="fa fa-search search-icon"></i>
                         </div>
 
-                        <div class="form-group pull-right">
+                        <div class="form-group pull-left">
                             <select id="category" class="form-control" data-bind="options: $root.categories,optionsCaption:'Category', optionsText: 'Name', optionsValue: 'CategoryId',value:categoryFilter"></select>
                         </div>
-                        <div class="form-group pull-right">
+                        <div class="form-group pull-left">
                             <select id="subCategory" class="form-control" data-bind="options: $root.filteredSubCategories,optionsCaption:'Sub Category', optionsText: 'Name', optionsValue: 'SubCategoryId',value:subCategoryFilter"></select>
                         </div>
                         @*<div class="pull-right">
@@ -94,18 +94,10 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_SupplierDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
-    <script src="~/Content/themes/Centaurus/js/wizard.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.maskedinput.min.js"></script>
-    <script src="~/Scripts/jquery.form.js"></script>
     <script>
         require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
         $(function () {
-            $('#myWizard').wizard();
             $('#listores').addClass('active');
-            //masked inputs
-            $("#maskedDate").mask("99/99/9999");
-            $("#maskedPhone").mask("(999) 999-9999");
-            $("#maskedPhoneExt").mask("(999) 999-9999? x99999");
         });
     </script>
 }
@@ -138,9 +130,7 @@
             </td>*@
         <td class="col-lg-3" data-bind="text: fullCategoryName"></td>
         <td class="col-lg-3">
-            <span data-bind="text: weight"></span> <span data-bind="text: weightUnitName"></span>
-            <br /><br />
-            <span data-bind="text:perQtyQty"> Sheets</span>
+            <span data-bind="text: packCostPrice()!=='' ?$root.currencySymbol()+' '+ packCostPrice():''"></span>
         </td>
         <td class="col-lg-2" id="actionColumn">
             @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->

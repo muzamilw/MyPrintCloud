@@ -34,6 +34,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Addresses / Compnay Contacts
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
+        [CompressFilterAttribute]
         public OrderStatusesResponse Get()
         {
             if (!ModelState.IsValid)
