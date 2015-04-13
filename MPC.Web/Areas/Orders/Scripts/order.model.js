@@ -29,6 +29,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             name = ko.observable(specifiedName || undefined).extend({ required: true }),
             // Code
             code = ko.observable(specifiedCode || undefined),
+            // Is From Estimate
+            isFromEstimate = ko.computed(function() {
+                return code() !== null && code() !== undefined && code() !== "";
+            }),
             // Company Id
             companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
             // Company Name
@@ -238,6 +242,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             id: id,
             name: name,
             code: code,
+            isFromEstimate: isFromEstimate,
             noOfItemsUi: noOfItemsUi,
             creationDate: creationDate,
             flagColor: flagColor,

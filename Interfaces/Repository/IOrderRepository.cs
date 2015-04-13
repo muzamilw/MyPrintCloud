@@ -101,7 +101,7 @@ namespace MPC.Interfaces.Repository
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
         void DeleteOrder(long orderId);
 
-
+        string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
        }
 }
