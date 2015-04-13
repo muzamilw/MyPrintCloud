@@ -4299,7 +4299,7 @@ namespace MPC.Implementation.MISServices
 
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
-                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                            if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                             {
                                                 if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                 {
@@ -4681,7 +4681,7 @@ namespace MPC.Implementation.MISServices
 
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
-                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                            if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                             {
                                                 if (item.Template != null)
                                                 {
@@ -5110,7 +5110,7 @@ namespace MPC.Implementation.MISServices
                                             }
                                         }
 
-                                        if (item.TemplateId != null && item.TemplateId > 0)
+                                        if (item.TemplateId != null || item.TemplateId > 0)
                                         {
                                             if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                             {
@@ -5543,7 +5543,7 @@ namespace MPC.Implementation.MISServices
 
                                             if (item.TemplateId != null && item.TemplateId > 0)
                                             {
-                                                if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                                if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                                 {
                                                     if (item.Template != null)
                                                     {
