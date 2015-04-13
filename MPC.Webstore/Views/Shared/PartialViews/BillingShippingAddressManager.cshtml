@@ -1,7 +1,10 @@
 ﻿<head>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
     <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
-    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
 </head>
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Models.Common;
@@ -13,6 +16,7 @@
 }
 
 <div class="content_area container">
+    <input id="myId" type="text" name="myvalue" />
     <div class="left_right_padding row">
         <div class="signin_heading_div float_left_simple dashboard_heading_signin">
             <span id="MainContent_lblPageTitle" class="sign_in_heading">My Saved Billing & Shipping Details</span>
@@ -60,19 +64,19 @@
                             @*<asp:TextBox ID="txtsearch" runat="server" Width="400px" CssClass="text_box150 rounded_corners5"></asp:TextBox>*@
 
                             @*@Html.TextBoxFor(model => model.FirstName, new { id = "txtsearch", @class = "text_box150 rounded_corners5", placeholder = "Search", maxlength = 500, })*@
-                            <input id="txtsearch" type="text" style="width:400px;" class="text_box150 rounded_corners5" name="SearchString" />
+                            <input id="txtsearch" type="text" style="width:248px;" autocomplete="on" class="text_box150 rounded_corners5" name="SearchString" />
                         </td>
 
                         <td style="padding-left: 10px;">
                             @*<asp:Button ID="btnsearch" runat="server" Text="Go" CssClass="start_creating_btn rounded_corners5"
                             OnClick="btnsearch_Click" />*@
-                            <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5">Go</button>
+                            <button id="btnsearch" name="btnsearch" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Go</button>
                         </td>
                           
                         <td style="padding-left: 10px;">
                             @*<asp:Button ID="btnReset" runat="server" Text="Reset" CssClass="start_creating_btn rounded_corners5"
                             OnClick="btnReset_Click" />*@
-                            <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5">Clear</button>
+                            <button id="btnReset" name="btnReset" type="submit" class="start_creating_btn rounded_corners5" style="visibility:hidden;">Clear</button>
                         </td>
                         }
                     </tr>
@@ -434,8 +438,7 @@ grid.Column("Default Shipping",format:@<p>
     var CountryID;
     var StateID;
     var UpdateStatus = true;
-    //var CompanyID;
-    //alert(CompanyID+'companyID');
+    
     function AddAndUpdate() {
         if (UpdateStatus == true) {
             
@@ -453,11 +456,54 @@ grid.Column("Default Shipping",format:@<p>
         Search(SeearchString);
     }
 
+    $("#txtsearch").autocomplete({
+        source: function (request, response) {
+            // your ajax code
+            $.ajax({
+                url: "/BillingShippingAddressManager/IntellisenceData",
+                data: "{ 'prefixText': '" + request.term + "' }",
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    
+                    response(data.split(":"))
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('Error occured while autocomplete');
+                }
+            });
+        },
+        select: function (event, ui) {
+            
+        
+        },
+        minLength: 1,
+        change: function (event, ui) {
+            $("#btnsearch").trigger('click');
+            
+        }
+
+    });
+
+    function Searching(SearchText) {
+        var data = { text: SearchText }
+        $.ajax({
+            type: "POST",
+            url: "/BillingShippingAddressManager/Index",
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            async: true,
+            success: function (response) {
+            }
+
+        });
+    }
     function Search(SearchText) {
         var data = { SearchedText: SearchText }
         $.ajax({
             type: "POST",
-            url: "/BillingShippingAddressManager/Index",
+            url: "/BillingShippingAddressManager/DisplaySearchedData",
             contentType: "application/json",
             data: JSON.stringify(data),
             async: true,
