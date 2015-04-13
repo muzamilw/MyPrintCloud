@@ -78,6 +78,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string Region { get; set; }
 
         /// <summary>
+        /// Pack Cost Price
+        /// </summary>
+        public double PackCostPrice { get; set; }
+
+        /// <summary>
         /// 
         /// </summary>
         public string PerQtyWithUnitName

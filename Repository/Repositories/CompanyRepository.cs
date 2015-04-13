@@ -81,7 +81,7 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                var companyDomain = db.CompanyDomains.Where(d => d.Domain.Contains(domain)).ToList();
+                var companyDomain = db.CompanyDomains.Where(d => d.Domain == domain).ToList();
                 if (companyDomain.FirstOrDefault() != null)
                 {
                     return companyDomain.FirstOrDefault().CompanyId;

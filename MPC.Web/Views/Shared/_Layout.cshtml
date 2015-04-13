@@ -9,7 +9,8 @@
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
     //]]>
     </script>
-
+    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.css" type="text/css" />
+    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.print.css" type="text/css" media="print" />
     @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
     
     @* If Debuggin is Enabled then pick css *@
@@ -580,6 +581,7 @@
     </script>
 
     @Scripts.Render("~/Bundle/BaseLibs")
+    <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
     @Scripts.Render("~/Bundle/CentaurusLibs")
     <script>
         $(document).ready(function () {

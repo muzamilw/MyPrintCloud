@@ -34,32 +34,40 @@
                             @Model.PhoneNo
                         </div>
                     </div>
-                    <div id="cntresponsiveMenu">
-                        <div id="CollapseBtn" class="float_right" onclick="ToggleMenu();">
-                            <a class="icon-align-justify">
+@if (Model.IsCustomer != 3)
+{  <div id="cntresponsiveMenu">
+        <div id="CollapseBtn" class="float_right" onclick="ToggleMenu();">
+            <a class="icon-align-justify">
 
-                            </a>
-                        </div>
-                        <div class="clearBoth">
-                        </div>
-                    </div>
+            </a>
+        </div>
+        <div class="clearBoth">
+        </div>
+    </div>
+
+}
+                  
                 </div>
                 <div class="clearBoth">
                 </div>
-                <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
-                    <ul id="ulCollapseMenu" style="">
-                        <li>
-                            <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
-                        </li>
-                        <li>
-                            <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
-                        </li>
-                        <li>
-                            <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
+@if (Model.IsCustomer != 3)
+{
+    <div id="collapsedMenu" style="display: none;" class="containerCollapsedMenu col-md-12 col-lg-12 col-xs-12 col-sm-12">
+        <ul id="ulCollapseMenu" style="">
+            <li>
+                <a id="lnk_AllProducts" href="/AllProducts">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkProducts", UserCookieManager.WBStoreId))</a>
+            </li>
+            <li>
+                <a id="lnk_RequestQuote" href="/RequestQuote" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleRequestQuote", UserCookieManager.WBStoreId))</a>
+            </li>
+            <li>
+                <a id="lnk_ContactUs" href="/ContactUs">@Html.Raw(Html.GetKeyValueFromResourceFile("lblPageTitle", UserCookieManager.WBStoreId))</a>
 
-                        </li>
-                    </ul>
-                </div>
+            </li>
+        </ul>
+    </div>
+}
+               
             </div>
         </div>
     </div>
@@ -69,6 +77,11 @@
 
         function ToggleMenu() {
             $("#collapsedMenu").slideToggle();
+
+        }
+
+        function ToggleProfile() {
+            $("#profileMenu").slideToggle();
 
         }
 

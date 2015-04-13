@@ -36,6 +36,7 @@ define("calendar/calendar.viewModel",
                     viewModel: function (configuration) {
                         this.events = configuration.events;
                         this.header = configuration.header;
+                        this.eventDropOrResize = configuration.eventDropOrResize;
                         this.editable = configuration.editable;
                         this.viewDate = configuration.viewDate || ko.observable(new Date());
                         this.defaultView = configuration.defaultView || ko.observable();
@@ -49,7 +50,12 @@ define("calendar/calendar.viewModel",
                     var activity = model.Activity();
                     activity.id(calenderActivity.id);
                     activity.startDateTime(calenderActivity.start);
-                    activity.endDateTime(calenderActivity.end);
+                    if (calenderActivity.end === null) {
+                        activity.endDateTime(calenderActivity.start);
+                    } else {
+                        activity.endDateTime(calenderActivity.end);
+                    }
+                   
                     selectedActivity(activity);
                     saveActivityOnDropOrResize();
                 },
@@ -128,7 +134,7 @@ define("calendar/calendar.viewModel",
                 },
                 // Filter Calendar Activities change on user
                 onChangeSystemUser = function () {
-                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end.start).format(ist.utcFormat));
+                    getCalendarActivities(moment(start).format(ist.utcFormat), moment(end).format(ist.utcFormat));
                 },
                 //delete Activity
                 onDeleteActivity = function (activity) {
@@ -191,6 +197,7 @@ define("calendar/calendar.viewModel",
                     selectHelper: true,
                     defaultView: lastView,
                     viewDate: viewDate,
+                    eventDropOrResize: eventDropOrResize,
                 }),
 
                 //Set IS Customer Type
@@ -286,7 +293,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor + " !important" : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
-                                        allDay: false
+                                        allDay: true
                                     });
                                 } else {
                                     items.remove(selectedActivityForRemove());
@@ -296,7 +303,7 @@ define("calendar/calendar.viewModel",
                                         backgroundColor: sectionFlag != undefined ? sectionFlag.FlagColor : null,
                                         start: activity.startDateTime(),
                                         end: activity.endDateTime(),
-                                        allDay: false
+                                        allDay: true
                                     });
                                 }
                             }
