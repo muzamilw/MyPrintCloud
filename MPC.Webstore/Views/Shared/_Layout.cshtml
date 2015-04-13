@@ -23,8 +23,15 @@
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/jqueryval")
+    @{
+        string currentController = ViewContext.RouteData.Values["controller"].ToString();
+    }
+    @if (currentController != "Designer")
+    {
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+  
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
     @Scripts.Render("~/bundles/modernizr")

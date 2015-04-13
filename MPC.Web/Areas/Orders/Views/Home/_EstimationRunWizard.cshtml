@@ -60,16 +60,14 @@
                                             <div class="table-responsive" style="border:groove;border-width:1px;">
                                                 <table class="table-run-wizard table-striped table-hover">
                                                     <thead>
-
                                                         <tr>
-
-                                                            <th style="width:45%; text-align:center"><span>Machine Name</span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:18%"><span>Run Time </span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:21%"><span>Run Time </span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:26%"><span>Run Time </span></th>
+                                                            <th class="col-lg-3 text-center"><span>Machine Name</span></th>
+                                                            <th class="col-lg-1 text-center"><span>Cost</span></th>
+                                                            <th class="col-lg-2 text-center"><span>Run Time </span></th>
+                                                            <th class="col-lg-1 text-center"><span>Cost</span></th>
+                                                            <th class="col-lg-2 text-center"><span>Run Time </span></th>
+                                                            <th class="col-lg-1 text-center"><span>Cost</span></th>
+                                                            <th class="col-lg-2 text-center"><span>Run Time </span></th>
                                                             <th style="width:55px;">&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -82,7 +80,20 @@
                                         </div>
                                         @*</div>*@
                                         @*</div>*@
-
+                                        
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label">Pre Trim</label>
+                                                <input type="checkbox"  />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label">Trim</label>
+                                                <input type="checkbox"  />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade " id="tab-Sections">
@@ -169,7 +180,7 @@
 
 <script id="bestPressItemtemplate" type="text/html">
     <tr data-bind="click:$root.selectBestPressFromWizard, css: { selectedBestPressFromWizard: $root.selectedBestPressFromWizard() === $data }">
-        <td style="width:31%">
+        <td>
             @*<div style="width:87px;">*@
             <div class="col-xs-4" style="width: 66%;">
                 <label class="control-label tooltip-float " data-bind="text:machineName"></label>

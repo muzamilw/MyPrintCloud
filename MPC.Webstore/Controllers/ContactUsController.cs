@@ -137,7 +137,7 @@ namespace MPC.Webstore.Controllers
                 }
                 if (!string.IsNullOrEmpty(StoreBaseResopnse.StoreDetaultAddress.Email))
                 {
-                    oAddress.Email = "Email: " + StoreBaseResopnse.StoreDetaultAddress.Email;
+                    oAddress.Email = StoreBaseResopnse.StoreDetaultAddress.Email;
                 }
             }
             if (StoreBaseResopnse.StoreDetaultAddress != null)
