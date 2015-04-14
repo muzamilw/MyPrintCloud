@@ -314,11 +314,11 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th><a href="#"><span>Order Code</span></a></th>
-                                                        <th><a href="#" class="desc"><span>Order Date</span></a></th>
-                                                        <th><a href="#" class="asc"><span>Customer</span></a></th>
-                                                        <th class="text-center"><span>Order Status</span></th>
-                                                        <th class="text-right"><span>Order Total</span></th>
+                                                        <th><span>Order Code</span></th>
+                                                        <th><span>Order Date</span></th>
+                                                        <th><span>Customer</span></th>
+                                                        <th><span>Order Status</span></th>
+                                                        <th><span>Order Total</span></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -696,8 +696,8 @@
             <td data-bind="text: orderCode"></td>
             <td > <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text: companyName"></td>
-            <td > <span class="label label-success">Completed*</span></td>  @*fields mapping required*@
-            <td >$0*</td>  @*fields mapping required*@
+            <td > <span class="label label-success" data-bind="text: status"></span></td>  @*fields mapping required*@
+            <td data-bind="text: estimateTotal() == undefined ? '$ 0' : '$ ' + estimateTotal()"></td>  @*fields mapping required*@
         </tr>
     </script>
 </div>
