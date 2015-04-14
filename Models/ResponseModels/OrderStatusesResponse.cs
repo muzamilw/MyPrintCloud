@@ -1,8 +1,7 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
-namespace MPC.MIS.Areas.Api.Models
+namespace MPC.Models.ResponseModels
 {
     /// <summary>
     /// Order Statuses Response Model
@@ -47,7 +46,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Estimates / Orders list
         /// </summary>
-        public IEnumerable<Estimate> Estimates{ get; set; }
+        public IEnumerable<Estimate> Estimates { get; set; }
 
         
     }

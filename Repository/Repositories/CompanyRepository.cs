@@ -2460,7 +2460,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-                                   
+                                  
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCID;
                                     item.SmartFormId = null;
@@ -2792,7 +2792,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-
+                                  
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCIDWOP;
                                     item.SmartFormId = null;
@@ -3118,7 +3118,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-
+                                 
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCID;
                                     item.SmartFormId = null;
@@ -3463,7 +3463,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-
+                                   
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCIDWOP;
                                     item.SmartFormId = null;

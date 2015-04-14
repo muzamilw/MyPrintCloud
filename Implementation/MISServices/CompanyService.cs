@@ -16,7 +16,6 @@ using Microsoft.IdentityModel.SecurityTokenService;
 using MPC.ExceptionHandling;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
-using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.ModelMappers;
@@ -4299,7 +4298,7 @@ namespace MPC.Implementation.MISServices
 
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
-                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                            if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                             {
                                                 if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                                 {
@@ -4317,18 +4316,42 @@ namespace MPC.Implementation.MISServices
                                                             if(tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
 
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorp.Company.CompanyId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorp.Company.CompanyId;
                                                             }
                                                             else
                                                             {
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                             }
-                                                          
+                                                            
+                                                            
                                                             if (File.Exists(FilePath))
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
                                                                 r.Comment = "Items image for Store";
 
+                                                            }
+
+                                                            string Filename = tempbcI.ImageName;
+                                                            string OldPath = Path.GetFileNameWithoutExtension(tempbcI.ImageName);
+
+                                                            string newPath = OldPath + "_thumb";
+                                                            
+                                                            Filename = Filename.Replace(OldPath, newPath);
+
+                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + Filename);
+                                                            if (tempbcI.ImageName.Contains("UserImgs/"))
+                                                            {
+
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorp.Company.CompanyId;
+                                                            }
+                                                            else
+                                                            {
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                            }
+                                                            if(File.Exists(oPath))
+                                                            {
+                                                                ZipEntry r = zip.AddFile(oPath, DPath);
+                                                                r.Comment = "Items image for Store";
                                                             }
 
                                                         }
@@ -4345,7 +4368,7 @@ namespace MPC.Implementation.MISServices
                                                         {
                                                             string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
                                                             string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
-                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                             if (File.Exists(FilePath))
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
@@ -4358,7 +4381,7 @@ namespace MPC.Implementation.MISServices
                                                         string fileName =  "templatImgBk" + tempPage.PageNo + ".jpg";
                                                         string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
                                                         string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
-                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                         if (File.Exists(FilePaths))
                                                         {
                                                             ZipEntry r = zip.AddFile(FilePaths, DPath);
@@ -4657,7 +4680,7 @@ namespace MPC.Implementation.MISServices
 
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
-                                            if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                            if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                             {
                                                 if (item.Template != null)
                                                 {
@@ -4753,11 +4776,11 @@ namespace MPC.Implementation.MISServices
                                                                 if (tempbcI.ImageName.Contains("UserImgs/"))
                                                                 {
 
-                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetail.RetailCompany.CompanyId;
+                                                                    DPath = "/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetail.RetailCompany.CompanyId;
                                                                 }
                                                                 else
                                                                 {
-                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                    DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                                 }
 
                                                                 if (File.Exists(FilePath))
@@ -4779,7 +4802,7 @@ namespace MPC.Implementation.MISServices
                                                             {
                                                                 string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
                                                                 string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                                 if (File.Exists(FilePath))
                                                                 {
                                                                     ZipEntry r = zip.AddFile(FilePath, DPath);
@@ -4791,7 +4814,7 @@ namespace MPC.Implementation.MISServices
                                                             string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
                                                             string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
                                                             string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
-                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                             if (File.Exists(FilePaths))
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePaths, DPath);
@@ -5086,7 +5109,7 @@ namespace MPC.Implementation.MISServices
                                             }
                                         }
 
-                                        if (item.TemplateId != null && item.TemplateId > 0)
+                                        if (item.TemplateId != null || item.TemplateId > 0)
                                         {
                                             if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
                                             {
@@ -5181,11 +5204,11 @@ namespace MPC.Implementation.MISServices
                                                             if (tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
 
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorpWOP.Company.CompanyId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportCorpWOP.Company.CompanyId;
                                                             }
                                                             else
                                                             {
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                             }
 
                                                             if (File.Exists(FilePath))
@@ -5207,7 +5230,7 @@ namespace MPC.Implementation.MISServices
                                                         {
                                                             string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
                                                             string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
-                                                            DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                            DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                             if (File.Exists(FilePath))
                                                             {
                                                                 ZipEntry r = zip.AddFile(FilePath, DPath);
@@ -5219,7 +5242,7 @@ namespace MPC.Implementation.MISServices
                                                         string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
                                                         string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
                                                         string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
-                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                        DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                         if (File.Exists(FilePaths))
                                                         {
                                                             ZipEntry r = zip.AddFile(FilePaths, DPath);
@@ -5519,7 +5542,7 @@ namespace MPC.Implementation.MISServices
 
                                             if (item.TemplateId != null && item.TemplateId > 0)
                                             {
-                                                if (item.DesignerCategoryId == 0 && item.DesignerCategoryId == null)
+                                                if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
                                                 {
                                                     if (item.Template != null)
                                                     {
@@ -5541,11 +5564,11 @@ namespace MPC.Implementation.MISServices
                                                                     if (tempbcI.ImageName.Contains("UserImgs/"))
                                                                     {
 
-                                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetailWOP.RetailCompany.CompanyId;
+                                                                        DPath = "/Designer/Organisation" + OrganisationID + "/Templates/UserImgs/" + ObjExportRetailWOP.RetailCompany.CompanyId;
                                                                     }
                                                                     else
                                                                     {
-                                                                        DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
+                                                                        DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ProductId;
                                                                     }
 
                                                                     if (File.Exists(FilePath))
@@ -5567,7 +5590,7 @@ namespace MPC.Implementation.MISServices
                                                                 {
                                                                     string TemplatePagesFile = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.BackgroundFileName;
                                                                     string FilePath = HttpContext.Current.Server.MapPath("~/" + TemplatePagesFile);
-                                                                    DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                    DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                                     if (File.Exists(FilePath))
                                                                     {
                                                                         ZipEntry r = zip.AddFile(FilePath, DPath);
@@ -5579,7 +5602,7 @@ namespace MPC.Implementation.MISServices
                                                                 string fileName = "templatImgBk" + tempPage.PageNo + ".jpg";
                                                                 string oPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId + "/" + fileName;
                                                                 string FilePaths = HttpContext.Current.Server.MapPath("~/" + oPath);
-                                                                DPath = "/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
+                                                                DPath = "/Designer/Organisation" + OrganisationID + "/Templates/" + tempPage.ProductId;
                                                                 if (File.Exists(FilePaths))
                                                                 {
                                                                     ZipEntry r = zip.AddFile(FilePaths, DPath);

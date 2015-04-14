@@ -22,6 +22,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsEstimate { get; set; }
         public int? ItemsCount { get; set; }
         public string Status { get; set; }
+        public string SectionFlagColor { get; set; }
         public double? EstimateTotal { get; set; }
         public Boolean? IsDirectOrder { get; set; }
     }
