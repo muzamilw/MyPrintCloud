@@ -134,6 +134,13 @@ namespace MPC.Implementation.MISServices
         {
             return estimateRepository.GetOrders(request);
         }
+        /// <summary>
+        /// Get Orders For Estimates List View
+        /// </summary>
+        public GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request)
+        {
+            return estimateRepository.GetOrdersForEstimates(request);
+        }
 
         /// <summary>
         /// Get By Id

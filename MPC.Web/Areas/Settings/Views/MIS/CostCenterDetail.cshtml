@@ -51,7 +51,7 @@
                                             <div class="col-lg-6">
                                                 <div class="form-group">
                                                     <div class="col-lg-5 text-right">
-                                                        @*<div class="bs-example-tooltips tooltip-float-width">
+                                                       
                                                                 <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Name of the cost center." data-original-title="" title="">
                                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                                 </a>
@@ -1209,11 +1209,18 @@
                                                                 <div class="dd-handle-list" data-bind="click: $root.getMatricesVariableTreeChildItems"><i class="fa fa-bars"></i></div>
                                                                 <div class="dd-handle">
                                                                     <span>Matrices</span>
-                                                                </div> @*"*@
+                                                                </div> 
                                                                 <ol data-bind="visible:$root.showMatricesVariableChildList">
                                                                     <!-- ko template: { name: 'MatricesVariableTemplate' , foreach: $root.matrixVariableNodes } -->
                                                                     <!-- /ko -->
                                                                 </ol>
+                                                            </li>
+                                                            <li class="dd-item dd-item-list">
+                                                                <div class="dd-handle-list" data-bind="click: $root.openStockItemDialog"><i class="fa fa-bars"></i></div>
+                                                                <div class="dd-handle">
+                                                                    <span>Stock Items</span>
+                                                                </div>
+                                                                
                                                             </li>
 
                                                             <!-- ko template: { name: 'costCenterVariableTree' , foreach: $root.variablesTreePrent } -->

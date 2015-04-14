@@ -236,7 +236,7 @@
                                         </div>
                                         @* <span class="social-name">google+</span>*@
                                     </div>
-                                   
+
                                 </div>
                             </div>
 
@@ -304,9 +304,9 @@
                                             <table class="table table-hover">
                                                 <thead>
                                                     <tr>
+                                                        <th><span>Customer</span></th>
                                                         <th><span>Order Code</span></th>
                                                         <th><span>Order Date</span></th>
-                                                        <th><span>Customer</span></th>
                                                         <th><span>Order Status</span></th>
                                                         <th><span>Order Total</span></th>
                                                     </tr>
@@ -683,10 +683,10 @@
     </div>
     <script id="itemOrderTemplate" type="text/html">
         <tr>
-            <td data-bind="text: orderCode"></td>
-            <td > <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
             <td data-bind="text: companyName"></td>
-            <td > <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@
+            <td data-bind="text: orderCode"></td>
+            <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
+            <td> <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@
             <td data-bind="text: estimateTotal() == undefined ? '$ 0' : '$ ' + estimateTotal()"></td>  @*fields mapping required*@
         </tr>
     </script>

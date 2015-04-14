@@ -36,6 +36,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             var item = itemService.GetItemByIdDesigner(parameter1);
             long parentTemplateID = itemService.getParentTemplateID(parameter1);
             string[] images = smartFormService.GetContactImageAndCompanyLogo(parameter2);
+            long parentItemID = 0;
+            if (item.RefItemId.HasValue)
+                parentItemID = item.RefItemId.Value;
             var result = new
             {
                 ItemId = item.ItemId,
@@ -50,7 +53,8 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 userImage = images[1],
                 companyImage = images[0],
                 ScaleFactor = item.Scalar,
-                ParentTemplateId = parentTemplateID
+                ParentTemplateId = parentTemplateID,
+                RefItemId = parentItemID
             };
 
             var formatter = new JsonMediaTypeFormatter();
