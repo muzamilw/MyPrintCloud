@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
-using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -182,12 +181,12 @@ namespace MPC.Repository.Repositories
         public IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request)
         {
             Expression<Func<Estimate, bool>> query =
-                item =>// || (item.Company != null && item.Company.Name.Contains(request.SearchString)) 
-                    (string.IsNullOrEmpty(request.SearchString)&&
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString)) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) &&
                     item.OrganisationId == OrganisationId);
 
-            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateDate).Take(5)
+            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
                 .ToList();
 
             return items;

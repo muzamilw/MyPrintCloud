@@ -173,13 +173,11 @@ namespace MPC.Models.DomainModels
         public int? InkColorType { get; set; }
         public int? PlateInkId { get; set; }
         public int? SimilarSections { get; set; }
-
         public virtual Item Item { get; set; }
-
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
-
         public virtual StockItem StockItem { get; set; }
         public virtual Machine Machine { get; set; }
+        public virtual ICollection<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         #region Public
 

@@ -710,11 +710,11 @@ namespace MPC.Implementation.WebStoreServices
            
         }
 
-        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null)
+        public long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null)
         {
             try
             {
-                return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, regContact);
+                return _CompanyRepository.CreateCustomer(name, isEmailSubScription, isNewsLetterSubscription, customerType, RegWithTwitter, OrganisationId, StoreId, regContact);
             }
             catch (Exception ex)
             {

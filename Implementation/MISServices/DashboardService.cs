@@ -1,7 +1,7 @@
 ﻿using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
-using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -36,7 +36,7 @@ namespace MPC.Implementation.MISServices
         {
             OrderStatusesResponse response = estimateRepository.GetOrderStatusesCount();
             response.LiveStoresCount = companyRepository.LiveStoresCountForDashboard();
-            //response.Estimates = estimateRepository.GetEstimatesForDashboard(request);
+            response.Estimates = estimateRepository.GetEstimatesForDashboard(request);
             return response;
         }
 
