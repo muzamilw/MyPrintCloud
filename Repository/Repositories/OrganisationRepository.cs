@@ -204,9 +204,9 @@ namespace MPC.Repository.Repositories
                         
                           
                     }
-                    
-                    
 
+
+                    List<CostCentreType> types = db.CostCentreTypes.Where(c => c.OrganisationId == OrganisationID).ToList();
                     // save cost centres and its child objects
                     if (Sets.ExportOrganisationSet1.CostCentre != null && Sets.ExportOrganisationSet1.CostCentre.Count > 0)
                     {
@@ -227,6 +227,11 @@ namespace MPC.Repository.Repositories
                                     if(id.Key == oldTypeID)
                                     {
                                         cc.Type = (int)id.Value;
+                                    }
+                                    else
+                                    {
+                                        if (types != null)
+                                            cc.Type = types.Select(c => c.TypeId).FirstOrDefault();
                                     }
                                 }
                             }
@@ -2821,10 +2826,10 @@ namespace MPC.Repository.Repositories
 
                                                         string OldTempID = tempID[1];
 
-                                                        string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/" + NewPath);
+                                                        string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
                                                             DestinationsPath.Add(DestinationTempBackGroundImages);
-                                                            string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/UserImgs/" + oCID);
-                                                            string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/UserImgs/" + ImportIDs.OldCompanyID + "/" + ImageName);
+                                                            string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/UserImgs/" + oCID);
+                                                            string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/UserImgs/" + ImportIDs.OldCompanyID + "/" + ImageName);
                                                             if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
                                                             {
                                                                 Directory.CreateDirectory(DestinationTempBackgroundDirectory);
@@ -2855,9 +2860,9 @@ namespace MPC.Repository.Repositories
                                                             string newPath = OldPath + "_thumb";
 
                                                             NewName = NewName.Replace(OldPath, newPath);
-                                                            string SourcePth = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/UserImgs/" + ImportIDs.OldCompanyID + "/" + NewName);
-                                                            string DestinationPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/UserImgs/" + oCID);
-                                                            string fileDestination = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/UserImgs/" + ImportIDs.NewCompanyID + "/" + NewName);
+                                                            string SourcePth = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/UserImgs/" + ImportIDs.OldCompanyID + "/" + NewName);
+                                                            string DestinationPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/UserImgs/" + oCID);
+                                                            string fileDestination = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/UserImgs/" + ImportIDs.NewCompanyID + "/" + NewName);
                                                             if (File.Exists(SourcePth))
                                                             {
                                                                 if (!File.Exists(DestinationPath))
@@ -2947,7 +2952,7 @@ namespace MPC.Repository.Repositories
                                                     string OldTempID = tempID[0];
 
 
-                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/~MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
+                                                    string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + NewPath);
                                                     DestinationsPath.Add(DestinationTempBackGroundImages);
                                                     string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + ImportIDs.NewOrganisationID + "/Templates/" + tempPage.ProductId);
                                                     string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + ImportIDs.OldOrganisationID + "/Templates/" + OldTempID + "/" + FileName);
