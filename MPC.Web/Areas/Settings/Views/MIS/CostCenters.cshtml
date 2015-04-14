@@ -125,14 +125,16 @@
     @Html.Partial("~/Areas/Settings/Views/MIS/CostCenterDetail.cshtml")
     @Html.Partial("~/Areas/Settings/Views/MIS/_AddEditCostCentreQuestion.cshtml")
     @Html.Partial("~/Areas/Settings/Views/MIS/_AddEditCostCentreMatrix.cshtml")
+    @Html.Partial("~/Areas/Settings/Views/MIS/_CostCentreStockVariable.cshtml")
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        require(["costcenter/costcenter.view", "common/confirmation.view"]);
+        require(["costcenter/costcenter.view", "common/confirmation.view", "common/stockItem.view"]);
         var CostCenterType = 0;
         $(function () {
             $('#lisettings').addClass('active');

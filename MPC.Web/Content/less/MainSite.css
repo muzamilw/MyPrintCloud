@@ -73,6 +73,9 @@
 .filter-block .form-group {
   margin-bottom: 0;
 }
+.filter-block .from-group-filterText {
+  margin-right: 0;
+}
 .form-group .input-group-addon {
   text-decoration: none;
   border: 0;
@@ -769,4 +772,12 @@
   margin-top: 15px;
   margin-bottom: 30px;
   height: 63px;
+}
+#itemJobStatusBinding .collapsableView {
+  margin-right: 3px;
+}
+#itemJobStatusBinding .collapsableHeight {
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
 }

@@ -80,7 +80,11 @@ namespace MPC.Repository.Repositories
             bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
             Expression<Func<Estimate, bool>> query =
                 item =>
-                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
+                    ((
+                    string.IsNullOrEmpty(request.SearchString) || 
+                    ((item.Company != null && item.Company.Name.Contains(request.SearchString)) || (item.Order_Code.Contains(request.SearchString)) ||
+                    (item.Estimate_Name.Contains(request.SearchString)) || (item.Items.Any(product => product.ProductName.Contains(request.SearchString)))
+                    )) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
                     ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) && 

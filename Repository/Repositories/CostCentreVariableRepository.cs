@@ -228,7 +228,10 @@ namespace MPC.Repository.Repositories
                 throw new Exception("returnLoadVariableList", ex);
             }
         }
-
+        public IEnumerable<CostCentreVariable> GetVariableList()
+        {
+            return db.CostCentreVariables;
+        }
         /// <summary>
         /// returns variable Category list
         /// </summary>
