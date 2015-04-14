@@ -15,6 +15,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 MatrixId = source.MatrixId,
                 Name = source.Name,
                 Description = source.Description,
+                RowsCount= source.RowsCount,
+                ColumnsCount= source.ColumnsCount,
                 VariableString = GetVariableString(source)
             };
         }
@@ -25,6 +27,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Id = source.Id,
                 MatrixId = source.MatrixId,
                 Value = source.Value
+               
             };
         }
         public static MPC.Models.DomainModels.CostCentreMatrixDetail CreateFrom(this CostCentreMatrixDetail source)
@@ -43,7 +46,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 MatrixId = source.MatrixId,
                 Name = source.Name,
-                Description = source.Description
+                Description = source.Description,
+                RowsCount = source.RowsCount,
+                ColumnsCount = source.ColumnsCount
             };
         }
 

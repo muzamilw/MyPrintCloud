@@ -20,6 +20,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         private readonly ICostCentersService _costCentersService;
         private readonly ICostCentreQuestionService _ICostCentreQuestion;
+        private readonly ICostCentreMatrixServices _CostCentreMatrix;
        // private readonly ICostCentreAnswerRepository ICostCentreAnswerRepository;
         #endregion
         
@@ -27,7 +28,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public CostCenterTreeController(ICostCentersService costCenterService, ICostCentreQuestionService _ICostCentreQuestion)
+        public CostCenterTreeController(ICostCentersService costCenterService, ICostCentreQuestionService _ICostCentreQuestion, ICostCentreMatrixServices _CostCentreMatrix)
         {
             if (costCenterService == null)
             {
@@ -37,7 +38,11 @@ namespace MPC.MIS.Areas.Api.Controllers
             {
                 throw new ArgumentNullException("ICostCentreQuestion");
             }
-
+            if (_CostCentreMatrix == null)
+            {
+                throw new ArgumentNullException("ICostCentreMatrixServices");
+            }
+            this._CostCentreMatrix = _CostCentreMatrix;
             this._costCentersService = costCenterService;
             this._ICostCentreQuestion = _ICostCentreQuestion;
         }
@@ -64,10 +69,11 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
 
-            return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g=>g.CreateFrom()));
+            return _ICostCentreQuestion.update(QuestionRequest.Question.CreateFrom(), QuestionRequest.Answer == null ? null : QuestionRequest.Answer.Select(g => g.CreateFrom()));
         }
-
+       
         [CompressFilterAttribute]
+
         public bool Delete(CostCentreQuestionDeleteRequest Req)
         {
             if (!ModelState.IsValid)
@@ -93,6 +99,16 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
             return _ICostCentreQuestion.GetByQuestionId(QuestionId).Select(g=>g.CreateFrom());
+        }
+
+        public IEnumerable<CostCentreMatrixDetail> GetByMatrixId(int MatrixId)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+
+            return _CostCentreMatrix.GetByMatrixId(MatrixId).Select(g => g.CreateFrom());
         }
         [CompressFilterAttribute]
         public Models.CostCenterVariablesResponseModel GetListById(int Id)

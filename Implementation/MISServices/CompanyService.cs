@@ -97,6 +97,7 @@ namespace MPC.Implementation.MISServices
         private readonly ICompanyBannerSetRepository bannerSetRepository;
         private readonly MPC.Interfaces.WebStoreServices.ITemplateService templateService;
         private readonly ICampaignRepository campaignRepository;
+        private readonly ITemplateFontsRepository templatefonts;
 
         #endregion
 
@@ -2942,7 +2943,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,ITemplateFontsRepository templateFontRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3006,6 +3007,7 @@ namespace MPC.Implementation.MISServices
             this.variableOptionRepository = variableOptionRepository;
             this.scopeVariableRepository = scopeVariableRepository;
             this.templateService = templateService;
+            this.templatefonts = templateFontRepository; 
 
         }
         #endregion
@@ -3540,7 +3542,7 @@ namespace MPC.Implementation.MISServices
 
             ObjExportOrg.SuppliersList = companyRepository.GetSupplierByOrganisationid(OrganisationID);
 
-
+            //ObjExportOrg.DefaultTemplateFonts = templatefonts.getTemplateFonts();
 
             string Json = JsonConvert.SerializeObject(ObjExportOrg, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
             // export json file
@@ -4107,6 +4109,49 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                     ObExportOrg2 = null;
+                    // export fonts
+                    List<TemplateFont> lsttemplateFonts = templatefonts.getTemplateFonts();
+                    if(lsttemplateFonts != null && lsttemplateFonts.Count > 0)
+                    {
+                        foreach(var font in lsttemplateFonts)
+                        {
+                          
+                                if (string.IsNullOrEmpty(font.FontPath))
+                                {
+
+
+                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".eot");
+
+                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".ttf");
+
+                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".woff");
+
+                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts";
+
+                                  
+
+                                    if (File.Exists(F1))
+                                    {
+                                        ZipEntry r = zip.AddFile(F1, DPath);
+                                        r.Comment = "template font";
+                                    }
+
+                                    if (File.Exists(F2))
+                                    {
+                                        ZipEntry r = zip.AddFile(F2, DPath);
+                                        r.Comment = "template font";
+                                    }
+
+                                    if (File.Exists(F3))
+                                    {
+                                        ZipEntry r = zip.AddFile(F3, DPath);
+                                        r.Comment = "template font";
+                                    }
+
+                                }
+                          
+                        }
+                    }
 
                     // export corporate company Flow
                     #region export corporate files
@@ -4465,6 +4510,8 @@ namespace MPC.Implementation.MISServices
                                 }
 
                             }
+
+
                             string CSSPath = System.Web.Hosting.HostingEnvironment.MapPath("~/MPC_Content") + "/Assets/" + OrganisationID + "/" + CompanyID + "/Site.css";
                             string pCSSDirectory = "/Assets/" + OrganisationID + "/" + CompanyID;
                             if (File.Exists(CSSPath))

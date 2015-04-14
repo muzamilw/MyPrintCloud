@@ -24,14 +24,22 @@
                       $("#CostCentreQuestionModal").modal("hide");
                       
                   },
-                showAddEditQuestionMenu = function () {
-                    $(".AddEditQuestion").contextMenu({
-                        menuSelector: "#contextMenu"
-                        //menuSelected: function (invokedOn, selectedMenu) {
-                        //    var msg = "You selected the menu item '" + selectedMenu.text() +
-                        //        "' on the value '" + invokedOn.text() + "'";
-                        //    alert(msg);
-                        //}
+                  showAddEditQuestionMenu = function () {
+                      $(".AddEditQuestion").contextMenu({
+                          menuSelector: "#contextMenu"
+                      });
+                  },
+                   showCostCentreMatrixDialog = function () {
+                       $("#CostCentreMatrixModal").modal("show");
+                       //   initializeLabelPopovers();
+                   },
+                  hideCostCentreMatrixDialog = function () {
+                      $("#CostCentreMatrixModal").modal("hide");
+
+                  },
+                showAddEditMatrixMenu = function () {
+                    $(".AddEditMatrix").contextMenu({
+                        menuSelector: "#contextMenuMatrix"
                     });
                 },
                 //// Hide Activity the dialog
@@ -51,7 +59,10 @@
                 productCategorySelectedEvent: productCategorySelectedEvent,
                 showCostCentreQuestionDialog: showCostCentreQuestionDialog,
                 hideCostCentreQuestionDialog:hideCostCentreQuestionDialog,
-                showAddEditQuestionMenu: showAddEditQuestionMenu
+                showAddEditQuestionMenu: showAddEditQuestionMenu,
+                showCostCentreMatrixDialog: showCostCentreMatrixDialog,
+                hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
+                showAddEditMatrixMenu: showAddEditMatrixMenu
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

@@ -987,6 +987,8 @@ namespace MPC.Repository.Repositories
         {
             try
             {
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
                 return db.CostCentreTypes.Where(c => c.OrganisationId == OID).ToList();
             }
             catch (Exception ex)
