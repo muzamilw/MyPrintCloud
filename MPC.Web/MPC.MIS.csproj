@@ -1987,6 +1987,7 @@
     <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Production\Views\web.config" />
+    <Content Include="Areas\Settings\Views\MIS\_CostCentreStockVariable.cshtml" />
     <Content Include="Areas\Orders\Scripts\estimate.view.js" />
     <Content Include="Areas\Production\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Production\Views\Home\Index.cshtml" />

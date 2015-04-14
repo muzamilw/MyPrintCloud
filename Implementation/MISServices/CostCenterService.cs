@@ -964,7 +964,10 @@ namespace MPC.Implementation.MISServices
             }
             return null;
         }
-
+        public IEnumerable<CostCentreVariable> GetVariableList()
+        {
+            return _costCentreVariableRepository.GetVariableList();
+        }
         public CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id)
         {
             return _costCenterRepository.GetCostCenterVariablesTree(id);
