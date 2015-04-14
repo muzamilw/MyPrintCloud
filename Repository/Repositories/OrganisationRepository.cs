@@ -194,7 +194,7 @@ namespace MPC.Repository.Repositories
                             type = CCT;
                             type.TypeId = 0;
                             type.OrganisationId = OrganisationID;
-                           
+                            type.CostCentres = null;
                             db.CostCentreTypes.Add(type);
                             db.SaveChanges();
                             OlDCCT.Add(OLDCCTId, type.TypeId);
@@ -205,8 +205,11 @@ namespace MPC.Repository.Repositories
                           
                     }
 
-
-                    List<CostCentreType> types = db.CostCentreTypes.Where(c => c.OrganisationId == OrganisationID).ToList();
+                    db.Configuration.LazyLoadingEnabled = false;
+                    db.Configuration.ProxyCreationEnabled = false;
+                    CostCentreType oType = db.CostCentreTypes.Where(c => c.OrganisationId == OrganisationID).FirstOrDefault();
+                    db.Configuration.LazyLoadingEnabled = true;
+                    db.Configuration.ProxyCreationEnabled = true;
                     // save cost centres and its child objects
                     if (Sets.ExportOrganisationSet1.CostCentre != null && Sets.ExportOrganisationSet1.CostCentre.Count > 0)
                     {
@@ -230,8 +233,8 @@ namespace MPC.Repository.Repositories
                                     }
                                     else
                                     {
-                                        if (types != null)
-                                            cc.Type = types.Select(c => c.TypeId).FirstOrDefault();
+                                        if (oType != null)
+                                            cc.Type = oType.TypeId;
                                     }
                                 }
                             }
@@ -1610,6 +1613,7 @@ namespace MPC.Repository.Repositories
 
                          }
 
+
                          // cost centre images
 
                          List<CostCentre> costcentres = db.CostCentres.Where(o => o.OrganisationId == OrganisationID).ToList();
@@ -1784,6 +1788,82 @@ namespace MPC.Repository.Repositories
                          end = DateTime.Now;
                          timelog += "end copying organisation files" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now; 
+                        // import templateFonts
+                         List<TemplateFont> listTempFonts = db.TemplateFonts.Where(c => c.FontPath == null).ToList();
+                         if (listTempFonts != null && listTempFonts.Count > 0)
+                         {
+                             foreach(var fonts in listTempFonts)
+                             {
+                                 string NewPath = "Organisation" + ImportIDs.NewOrganisationID + "/WebFonts";
+
+
+                                 string DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".eot");
+
+                                 string DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".ttf");
+
+                                 string DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".woff");
+
+                                 string DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
+
+                                 string  FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+
+                                 string FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+
+                                 string FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+
+                                 if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                 {
+                                     Directory.CreateDirectory(DestinationFontDirectory);
+                                     if (Directory.Exists(DestinationFontDirectory))
+                                     {
+                                         if (File.Exists(FontSourcePath))
+                                         {
+                                             if (!File.Exists(DestinationFont1))
+                                                 File.Copy(FontSourcePath, DestinationFont1);
+                                         }
+
+                                         if (File.Exists(FontSourcePath1))
+                                         {
+                                             if (!File.Exists(DestinationFont2))
+                                                 File.Copy(FontSourcePath1, DestinationFont2);
+
+                                         }
+
+                                         if (File.Exists(FontSourcePath2))
+                                         {
+                                             if (!File.Exists(DestinationFont3))
+                                                 File.Copy(FontSourcePath2, DestinationFont3);
+
+                                         }
+
+                                     }
+
+                                 }
+                                 else
+                                 {
+                                     if (File.Exists(FontSourcePath))
+                                     {
+                                         if (!File.Exists(DestinationFont1))
+                                             File.Copy(FontSourcePath, DestinationFont1);
+                                     }
+
+                                     if (File.Exists(FontSourcePath1))
+                                     {
+                                         if (!File.Exists(DestinationFont2))
+                                             File.Copy(FontSourcePath1, DestinationFont2);
+
+                                     }
+
+                                     if (File.Exists(FontSourcePath2))
+                                     {
+                                         if (!File.Exists(DestinationFont3))
+                                             File.Copy(FontSourcePath2, DestinationFont3);
+
+                                     }
+
+                                 }
+                             }
+                         }
                         // copy company files
                          if (isCorpStore == true)// copy corporate store
                          {

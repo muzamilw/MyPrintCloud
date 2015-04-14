@@ -883,32 +883,36 @@ grid.Column("Default Shipping",format:@<p>
         if ($("#txtAddressName").val().trim() == '') {
             var AddressNAme = "Address Name Is Required";
             errorMessage = errorMessage + AddressNAme + "<br>";
-            $("#divAddressName").css('display', 'block');
+            $("#txtAddressName").css("border", "2px solid red");
             IsValid = false;
         }
         else {
-            $("#divAddressName").css('display', 'none');
+            //$("#divAddressName").css('display', 'none');
+
+            $("#txtAddressName").css("border", "1px solid #c1c6cc");
         }
 
         if ($("#txtAddress1").val().trim() == '') {
             var Address1 = "Address1 is Ruquired";
             errorMessage = errorMessage + Address1 + "<br>";
-            $("#divAddress1").css('display', 'block');
+            $("#txtAddress1").css("border", "2px solid red");
             IsValid = false;
         }
         else {
 
-            $("#divAddress1").css('display', 'none');
+            //$("#divAddress1").css('display', 'none');
+            $("#txtAddress1").css("border", "1px solid #c1c6cc");
         }
 
         if ($("#txtCity").val().trim() == '') {
             var City = "City is Ruquired";
             errorMessage = errorMessage + City + "<br>";
-            $("#divCity").css('display', 'block');
+            $("#txtCity").css("border", "2px solid red");
             IsValid = false;
         }
         else {
-            $("#divCity").css('display', 'none');
+            //$("#divCity").css('display', 'none');
+            $("#txtCity").css("border", "1px solid #c1c6cc");
         }
         //if (IsValid == false)
         //{
