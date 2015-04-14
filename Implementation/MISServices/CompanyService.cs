@@ -4120,17 +4120,17 @@ namespace MPC.Implementation.MISServices
                                 {
 
 
-                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".eot");
+                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".eot");
 
-                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".ttf");
+                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".ttf");
 
-                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".woff");
+                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".woff");
 
-                                    DPath = "Designer/WebFonts/" + font.FontFile + ".eot";
+                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".eot";
 
-                                    string Dpath2 = "Designer/WebFonts/" + font.FontFile + ".ttf";
+                                    string Dpath2 = "Designer/Organisation" + OrganisationID +  "/WebFonts/" + font.FontFile + ".ttf";
 
-                                    string DPath3 = "Designer/WebFonts/" + font.FontFile + ".woff";
+                                    string DPath3 = "Designer/Organisation" + OrganisationID +  "/WebFonts/" + font.FontFile + ".woff";
 
                                     if (File.Exists(F1))
                                     {

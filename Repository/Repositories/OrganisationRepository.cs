@@ -1805,11 +1805,11 @@ namespace MPC.Repository.Repositories
 
                                  string DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
 
-                                 string  FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                 string  FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
 
-                                 string FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                 string FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
 
-                                 string FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                 string FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
 
                                  if (!System.IO.Directory.Exists(DestinationFontDirectory))
                                  {
