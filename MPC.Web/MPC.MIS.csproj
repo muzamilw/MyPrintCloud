@@ -325,6 +325,7 @@
     <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
+    <Compile Include="Areas\Api\Controllers\EstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemJobStatusController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
@@ -380,6 +382,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
@@ -473,6 +476,7 @@
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
+    <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
@@ -713,6 +717,8 @@
     <Compile Include="Areas\Invoices\InvoicesAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
+    <Compile Include="Areas\Production\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -823,6 +829,10 @@
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
     <Content Include="Areas\Orders\Scripts\order.viewModel.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.dataservice.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.model.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.view.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.viewModel.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
@@ -1027,6 +1037,9 @@
     </Content>
     <Content Include="Content\less\InventoryCategory.css">
       <DependentUpon>InventoryCategory.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\ItemJobStatus.css">
+      <DependentUpon>ItemJobStatus.less</DependentUpon>
     </Content>
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
@@ -1972,7 +1985,12 @@
     <Content Include="Areas\Invoices\Views\web.config" />
     <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\web.config" />
     <Content Include="Areas\Settings\Views\MIS\_CostCentreStockVariable.cshtml" />
+    <Content Include="Areas\Orders\Scripts\estimate.view.js" />
+    <Content Include="Areas\Production\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
@@ -1981,6 +1999,7 @@
     <Content Include="Content\less\MainSite.css.map">
       <DependentUpon>MainSite.css</DependentUpon>
     </Content>
+    <Content Include="Content\less\ItemJobStatus.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3163,6 +3182,7 @@
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
+    <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
@@ -3182,6 +3202,7 @@
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
     <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
+    <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />
