@@ -218,6 +218,7 @@ namespace MPC.Webstore.Controllers
                     
 
                 }
+                ViewBag.Currency = StoreBaseResopnse.Currency;
                 return View("PartialViews/ProductDetail", ItemRecord);
             }
             catch(Exception ex)
@@ -363,7 +364,7 @@ namespace MPC.Webstore.Controllers
                     TempName = ObjTemp.ProductName;
                     ViewBag.hfTemplateName = Server.UrlEncode(ObjTemp.ProductName);
                     ViewBag.TemplateName = ObjTemp.ProductName;
-                    ViewBag.ratingControlUserSelectedIndex = Convert.ToInt32(ObjTemp.MPCRating.Value);
+                    ViewBag.ratingControlUserSelectedIndex = ObjTemp.MPCRating == null ? 0 : Convert.ToInt32(ObjTemp.MPCRating);
                 }
 
                 ViewBag.txtNoOfPages = count.ToString();
