@@ -99,5 +99,6 @@ namespace MPC.Models.DomainModels
         public virtual Status Status { get; set; }
         public virtual ICollection<Item> Items { get; set; }
         public virtual ICollection<PrePayment> PrePayments { get; set; }
+        public virtual SectionFlag SectionFlag { get; set; }
     }
 }

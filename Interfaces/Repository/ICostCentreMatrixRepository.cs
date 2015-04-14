@@ -12,5 +12,10 @@ namespace MPC.Interfaces.Repository
         CostCentreMatrix GetMatrix(int MatrixID);
 
         List<CostCentreMatrix> GetMatrixByOrganisationID(long OrganisationID, out List<CostCentreMatrixDetail> matrixDetail);
+
+        IEnumerable<CostCentreMatrixDetail> GetByMatrixId(int MatrixId);
+        CostCentreMatrix Add(CostCentreMatrix Matrix, IEnumerable<CostCentreMatrixDetail> MatrixDetail);
+        CostCentreMatrix Update(CostCentreMatrix Matrix, IEnumerable<CostCentreMatrixDetail> MatrixDetail);
+        bool DeleteMatrixById(int MatrixId);
     }
 }

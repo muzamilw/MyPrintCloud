@@ -17,7 +17,7 @@
         <div class="dashBoardRetrunLink dashboard_heading_signin">
             <div class=" left_align">
                 <h1>
-                    <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                    <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
                         Back to my dashboard
                     </a>
                 </h1>
@@ -146,7 +146,7 @@ grid.Column("Default Shipping",format:@<p>
 
                                 @if (item.IsDefaultShippingAddress == true)
                                 {
-                                <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
                                 }
                                 else
                                 {
@@ -162,7 +162,7 @@ grid.Column("Default Shipping",format:@<p>
 
     @if (item.IsDefaultAddress == true)
     {
-    <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+    <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
 
     } 
     else
@@ -176,7 +176,7 @@ grid.Column("Default Shipping",format:@<p>
 
     </p>),
 
-    grid.Column("Edit", format:@<text> <i class="fa fa-pencil" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
+    grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
                 </text>,style:"WebGridPadding")
     }
 
@@ -238,158 +238,155 @@ grid.Column("Default Shipping",format:@<p>
 
 <div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; visibility:hidden;">
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
-        <div class="address_label_area1 ">
+        <div id="container" style="margin-left: 85px;">
+        @*<div class="address_label_area1 ">
             Address Name:
             <div id="divAddressName" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="Address Name" maxlength="100" id="txtAddressName" class="text_box200 rounded_corners5">
+            <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="Address Name">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             FAO:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="50" id="txtFAO" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="FAO">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1 ">
+        @*<div class="address_label_area1 ">
             Address 1:
             <div id="divAddress1" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="Address 1" maxlength="250" id="txtAddress1" class="text_box200 rounded_corners5">
+            <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="Address 1">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Reference:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="50" id="txtReference" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="Reference">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Address 2:
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" maxlength="250" id="txtAddress2" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="Address 2">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Telephone :
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <div class="float_left">
-                <input  type="text" maxlength="30" id="txtTel1" class="text_box rounded_corners5" style="width:100px;">
+            <div class="float_left_simple">
+                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="Telephone">
             </div>
-            <div class="label_area_ext">
+            @*<div class="label_area_ext">
                 Ext 1:
-            </div>
+            </div>*@
             <div class="float_left">
-                <input  type="text" maxlength="7" id="txtExt1" class="text_box rounded_corners5" style="width:60px;">
+                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:96px;" placeholder="Ext 1">
             </div>
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Address 3:
 
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" maxlength="250" id="txtAddress3" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="Address 3">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Tel 2:
 
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <div class="float_left">
-                <input  type="text" maxlength="30" id="txtTel2" class="text_box rounded_corners5" style="width:100px;">
+            <div class="float_left_simple">
+                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="Tel 2">
             </div>
-            <div class="label_area_ext">
+            @*<div class="label_area_ext">
                 Ext 2:
-            </div>
+            </div>*@
             <div class="float_left">
-                <input  type="text" maxlength="7" id="txtExt2" class="text_box rounded_corners5" style="width:60px;">
+                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="Ext 2">
             </div>
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1 ">
+        @*<div class="address_label_area1 ">
             City :
             <div id="divCity" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="City" maxlength="100" id="txtCity" class="text_box200 rounded_corners5">
+            <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="City">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Fax:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="30" id="txtFax" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="Fax">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
 
             Country :
-        </div>
+        </div>*@
         <div class="address_contol_area1">
 
 
-            <select id="DDCountry" class="text_box200 rounded_corners5">
-                
-            </select>
+            <select id="DDCountry" class="newTxtBox"></select>
 
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Latitude:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLatitude" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="Latitude">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
 
             State :
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <select  id="DDSate" class="text_box200 rounded_corners5">
-              
-            </select>
+            <select id="DDSate" class="newTxtBox"></select>
 
         </div>
 
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Longitude:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="100" id="txtLongitude" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="Longitude">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Postal Code:
 
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="54000" maxlength="30" id="txtPostalCode" class="text_box200 rounded_corners5">
+            <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="Postal Code">
         </div>
         <div class="address_label_area2">
 
@@ -400,18 +397,20 @@ grid.Column("Default Shipping",format:@<p>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        <div style="width:159px;float:left;">
+            &nbsp;
         </div>
         <div class="address_contol_area1_corp">
 
-            <input type="submit"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="SaveCall()">
+            <input type="button"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="SaveCall();">
 
-            <input value="Cancel" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction()">
+            <input value="Cancel" type="button"  id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction();">
         </div>
         <div class="clearBoth">
             
         </div>
     </div>
+        
 </div>
        
 @section scripts
@@ -471,8 +470,11 @@ grid.Column("Default Shipping",format:@<p>
         },
         minLength: 1,
         change: function (event, ui) {
+            if ($("#txtsearch").val() == '') {
+                alert('Empty');
+            }
             $("#btnsearch").trigger('click');
-
+            
         }
 
     });
@@ -881,32 +883,36 @@ grid.Column("Default Shipping",format:@<p>
         if ($("#txtAddressName").val().trim() == '') {
             var AddressNAme = "Address Name Is Required";
             errorMessage = errorMessage + AddressNAme + "<br>";
-            $("#divAddressName").css('display', 'block');
+            $("#txtAddressName").css("border", "2px solid red");
             IsValid = false;
         }
         else {
-            $("#divAddressName").css('display', 'none');
+            //$("#divAddressName").css('display', 'none');
+
+            $("#txtAddressName").css("border", "1px solid #c1c6cc");
         }
 
         if ($("#txtAddress1").val().trim() == '') {
             var Address1 = "Address1 is Ruquired";
             errorMessage = errorMessage + Address1 + "<br>";
-            $("#divAddress1").css('display', 'block');
+            $("#txtAddress1").css("border", "2px solid red");
             IsValid = false;
         }
         else {
 
-            $("#divAddress1").css('display', 'none');
+            //$("#divAddress1").css('display', 'none');
+            $("#txtAddress1").css("border", "1px solid #c1c6cc");
         }
 
         if ($("#txtCity").val().trim() == '') {
             var City = "City is Ruquired";
             errorMessage = errorMessage + City + "<br>";
-            $("#divCity").css('display', 'block');
+            $("#txtCity").css("border", "2px solid red");
             IsValid = false;
         }
         else {
-            $("#divCity").css('display', 'none');
+            //$("#divCity").css('display', 'none');
+            $("#txtCity").css("border", "1px solid #c1c6cc");
         }
         //if (IsValid == false)
         //{

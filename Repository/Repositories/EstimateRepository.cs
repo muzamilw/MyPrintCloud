@@ -1,6 +1,5 @@
 ﻿using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
-using MPC.MIS.Areas.Api.Models;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -103,6 +102,40 @@ namespace MPC.Repository.Repositories
         }
 
         /// <summary>
+        /// Get Orders For Estimates List View
+        /// </summary>
+        public GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStatusSpecified = request.Status == 0;//if true get all then get by status
+            bool filterFlagSpecified = request.FilterFlag == 0;
+            //Order Type Filter , 2-> all, 0 -> Direct  Order, 1 -> Online Order
+            bool orderTypeFilterSpecified = request.OrderTypeFilter == 2;
+            Expression<Func<Estimate, bool>> query =
+                item =>
+                    ((string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString))) &&
+                    (item.isEstimate.HasValue && item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
+                    ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    item.OrganisationId == OrganisationId);
+
+            IEnumerable<Estimate> items = request.IsAsc
+               ? DbSet.Where(query)
+                   .OrderBy(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList()
+               : DbSet.Where(query)
+                   .OrderByDescending(orderByClause[request.ItemOrderBy])
+                   .Skip(fromRow)
+                   .Take(toRow)
+                   .ToList();
+
+            return new GetOrdersResponse { Orders = items, TotalCount = DbSet.Count(query) };
+        }
+
+        /// <summary>
         /// Gives count of new orders by given number of last dats
         /// </summary>
         public int GetNewOrdersCount(int noOfLastDays, long companyId)
@@ -182,12 +215,12 @@ namespace MPC.Repository.Repositories
         public IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request)
         {
             Expression<Func<Estimate, bool>> query =
-                item =>// || (item.Company != null && item.Company.Name.Contains(request.SearchString)) 
-                    (string.IsNullOrEmpty(request.SearchString)&&
+                item =>
+                    (string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString)) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) &&
                     item.OrganisationId == OrganisationId);
 
-            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateDate).Take(5)
+            IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
                 .ToList();
 
             return items;
