@@ -302,6 +302,7 @@
     <Compile Include="Areas\Api\ApiAreaRegistration.cs" />
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCentreMatrixController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
@@ -377,6 +378,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
@@ -458,7 +460,9 @@
     <Compile Include="Areas\Api\Models\CostCenterVariablesResponseModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreAnswer.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrix.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreMatrixDetail.cs" />
+    <Compile Include="Areas\Api\Models\CostCentreMatrixRequestModel.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestion.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionDeleteRequest.cs" />
     <Compile Include="Areas\Api\Models\CostCentreQuestionRequestModel.cs" />
@@ -481,6 +485,7 @@
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
+    <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
@@ -1956,6 +1961,7 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreMatrix.cshtml" />
     <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -3151,6 +3157,7 @@
     <Folder Include="Areas\Api\Views\CompanyContactForCrm\" />
     <Folder Include="Areas\Api\Views\CompanyContact\" />
     <Folder Include="Areas\Api\Views\CompanyProduct\" />
+    <Folder Include="Areas\Api\Views\CostCentreMatrix\" />
     <Folder Include="Areas\Api\Views\CrmBase\" />
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
