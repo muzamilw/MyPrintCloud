@@ -361,7 +361,7 @@
                                         <p class="group-header-description">Enter information below to enable Social Login feature on your store. Users can login into your store using Facebook, Twitter and Linked Accounts. Only available for Retail stores.</p>
                                         <div class="col-lg-9">
 
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Facebook URL for social media icons displayed on the store (https://www.facebook.com/MyPrintCloud)" data-original-title="" title="">
@@ -375,7 +375,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Facebook Application ID e.g. (https://developers.facebook.com/apps). If you don't have a facebook App then create an App first.'" data-original-title="" title="">
@@ -389,7 +389,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key provided when you have applied for APP ID" data-original-title="" title="">
@@ -403,7 +403,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Twitter Account URL for social media icons displayed on the store" data-original-title="" title="">
@@ -417,7 +417,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Twitter Application ID ( https://dev.twitter.com/apps/new)" data-original-title="" title="">
@@ -431,7 +431,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Key Provided when you have applied for APP ID" data-original-title="" title="">
@@ -445,7 +445,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your LinkedIn account URL for social media icons displayed on the store.
@@ -460,7 +460,7 @@
                                                     <span class="help-block text-right"></span>
                                                 </div>
                                             </div>
-                                            <div class="form-group form-group-closer">
+                                            <div class="form-group ">
                                                 <div class="col-lg-3 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
                                                         <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Your Store Home page URL used within template population  (http://www.myprintcloud.com/)" data-original-title="" title="">
@@ -2418,10 +2418,10 @@ Public  - allows users to see other users addresses and orders." data-original-t
         <script id="itemCompanyDomainTemplate" type="text/html">
             <tr data-bind="click: $root.selectCompanyDomain, css: { selectedRow: $data === $root.selectedCompanyDomainItem() }">
                 <!--ko if: isMandatoryDomain()-->
-                <td class="col-lg-12"><a data-bind="text: domain"></a>  (Default)</td>
+                <td class="col-lg-12"><a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a>  (Default)</td>  
                 <!-- /ko -->
                 <!--ko if: !isMandatoryDomain()-->
-                <td class="col-lg-12"><a data-bind="text: domain"></a></td>
+                <td class="col-lg-12"><a data-bind="text: domain, attr: {href: domain}, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a></td> 
                 <!-- /ko -->
                 <td class="col-lg-1">
                     <!-- ko template: { name: 'deleteCompanyDomainItemTemplate' } -->

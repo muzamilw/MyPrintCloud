@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Smart Forms
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public SmartFormResponse Get([FromUri] SmartFormRequestModel request)
         {
             return companyService.GetSmartForms(request).CreateFrom();
@@ -47,6 +48,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [HttpPost]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public long Post(SmartForm smartForm)
         {
             if (!ModelState.IsValid)

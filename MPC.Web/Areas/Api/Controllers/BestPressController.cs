@@ -38,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
         public BestPressResponse Get([FromUri] ItemSection section)
         {
             if (section == null || !ModelState.IsValid)

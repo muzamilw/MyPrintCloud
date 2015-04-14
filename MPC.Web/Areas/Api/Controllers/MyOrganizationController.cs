@@ -43,6 +43,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Organization By Id
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
         public Organisation Get()
         {
             return myOrganizationService.GetOrganisationDetail().CreateFrom();
@@ -53,6 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrganisation })]
+        [CompressFilterAttribute]
         public MyOrganizationSaveResponse Post(Organisation organisation)
         {
             if (organisation == null || !ModelState.IsValid)

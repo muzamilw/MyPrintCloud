@@ -32,6 +32,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         ///  Get CMS Tags For  Load Default page keywords of Cms Page
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public string Get()
         {
             return companyService.GetCmsTagForCmsPage();

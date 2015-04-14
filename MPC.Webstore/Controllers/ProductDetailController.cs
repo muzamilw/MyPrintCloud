@@ -208,6 +208,16 @@ namespace MPC.Webstore.Controllers
                     Response.Redirect("/Error");
                     // redirect to error page
                 }
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                {
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    
+
+                }
                 return View("PartialViews/ProductDetail", ItemRecord);
             }
             catch(Exception ex)
@@ -653,7 +663,7 @@ namespace MPC.Webstore.Controllers
                 //This is required to dynamiacally build header 
                 List<ItemStockOption> Stocks = null;
 
-                Stocks = _vwItemSect_StockItems.OrderBy(o => o.OptionSequence).ToList();
+                Stocks = _IItemService.GetStockList(itemID, UserCookieManager.WBStoreId);// _vwItemSect_StockItems.OrderBy(o => o.OptionSequence).ToList();
                 
                 if (Stocks != null)
                 {

@@ -2,7 +2,7 @@
     loaderLoading = true;
     var3 = 1;
     if (msg == null || msg == "") {
-        msg = "Loadinng design onto the canvas.";
+        msg = "Loading design onto the canvas.";
     }
     $("#loaderTitleMsg").text(msg);
     $("#MainLoader").css("display", "block");
@@ -1490,7 +1490,6 @@ function fu02() {
         $("#sortableLayers li").removeClass("selectedItemLayers");
         if ($('#selectedTab').css('top') == "280px")
         {
-            console.log("call");
             $("#btnAdd").click();
         }
     });

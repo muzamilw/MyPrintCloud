@@ -322,6 +322,7 @@
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
@@ -703,6 +704,8 @@
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
+    <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Invoices\InvoicesAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -803,6 +806,8 @@
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
     <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Views\Home\AddBanner.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1951,6 +1956,16 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Orders\Views\Home\EstimatesList.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\EstimateDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\InvoiceDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\web.config" />
+    <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
@@ -3157,6 +3172,7 @@
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
+    <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />

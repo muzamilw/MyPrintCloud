@@ -214,6 +214,9 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
+    abc=function() {
+            alert("test");
+        },
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {
@@ -226,11 +229,12 @@ require(["ko", "knockout-validation"], function (ko) {
                 editable: viewModel.editable,
                 selectable: true,
                 cache: true,
-                default: false,
+                default: true,
                 defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
                 eventClick: this.eventClick,
-                eventDrop: this.eventDropOrResize,
-                eventResize: this.eventDropOrResize,
+              // eventDrop: this.eventDropOrResize,
+                eventDrop: viewModel.eventDropOrResize,
+                eventResize: viewModel.eventDropOrResize,
                 select: this.newEventAdd,
                 viewDisplay: this.viewEventClick,
                 //monthClick:this.dayEventClick
