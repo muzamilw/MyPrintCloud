@@ -594,16 +594,19 @@ namespace MPC.Repository.Repositories
 
                             }
                         }
-
-                        File.Copy(drURL + oTemplatePage.BackgroundFileName,
-                            drURL + result.ToString() + "/" +
-                            oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
-                        oTemplatePage.BackgroundFileName = result.ToString() + "/" +
-                                                           oTemplatePage.BackgroundFileName.Substring(
-                                                               oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                                               oTemplatePage.BackgroundFileName.Length -
-                                                               oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        if (File.Exists(drURL + oTemplatePage.BackgroundFileName))
+                        {
+                            File.Copy(drURL + oTemplatePage.BackgroundFileName,
+                                drURL + result.ToString() + "/" +
+                                oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
+                            oTemplatePage.BackgroundFileName = result.ToString() + "/" +
+                                                               oTemplatePage.BackgroundFileName.Substring(
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                                                   oTemplatePage.BackgroundFileName.Length -
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        }
+                        
 
                     }
                 }

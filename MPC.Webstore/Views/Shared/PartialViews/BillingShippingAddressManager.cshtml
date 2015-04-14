@@ -10,33 +10,28 @@
 <div class="content_area container">
     
     <div class="left_right_padding row">
-        <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-            <span id="MainContent_lblPageTitle" class="sign_in_heading">My Saved Billing & Shipping Details</span>
-
+      
+        <div class="signin_heading_div float_left_simple ">
+            <label class="sign_in_heading" id="HistryBtn">My Saved Billing & Shipping Details</label>
         </div>
-        <div class="dashBoardRetrunLink">
-        <div class="BreadCrumbMenu left_align">
-            <h1>
-                <a href="/Dashboard" class="left_align" title="Back to my dashboard">
-                    Back to my dashboard
-                </a>
-            </h1>
-            <div class="clearBoth"></div>
+        <div class="dashBoardRetrunLink dashboard_heading_signin">
+            <div class=" left_align">
+                <h1>
+                    <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                        Back to my dashboard
+                    </a>
+                </h1>
+                <div class="clearBoth"></div>
+            </div>
         </div>
-         </div>
         <div class="clearBoth">
         </div>
         <div class="paddingTop15px">
 
             <div class="cursor_pointer">
-                <div class="float_left">
-                    @*<asp:ImageButton ID="imgAddNew" CssClass="add_new" ToolTip="Add New Address" runat="server"
-                    ImageUrl="~/images/AddNew.png" OnClick="imgAddNew_Click" />*@
-                    <img id="imgAddNew" class=" add_new" src="/Content/Images/AddNew.png" onclick="ResetTextboxes()" />
-                </div>
+               
                 <div class="new_caption">
-                    @*<asp:Literal ID="ltrlnewShippingAddress" runat="server" Text="New Shipping Address"></asp:Literal>*@
-                    <label id="ltrlnewShippingAddress" onclick="ResetTextboxes()">New Billing & Shipping Address</label>
+                    <input type="button" id="btnCopyProduct" class="add-address-btn" onclick="ResetTextboxes()" value="Add new address">
                 </div>
                 <div class="clearBoth">
                 </div>
@@ -243,158 +238,155 @@ grid.Column("Default Shipping",format:@<p>
 
 <div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; visibility:hidden;">
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
-        <div class="address_label_area1 ">
+        <div id="container" style="margin-left: 128px;">
+        @*<div class="address_label_area1 ">
             Address Name:
             <div id="divAddressName" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="Address Name" maxlength="100" id="txtAddressName" class="text_box200 rounded_corners5">
+            <input type="text" value="Address Name" maxlength="100" id="txtAddressName" class="newTxtBox" placeholder="Address Name">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             FAO:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="50" id="txtFAO" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="50" id="txtFAO" class="newTxtBox" placeholder="FAO">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1 ">
+        @*<div class="address_label_area1 ">
             Address 1:
             <div id="divAddress1" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="Address 1" maxlength="250" id="txtAddress1" class="text_box200 rounded_corners5">
+            <input type="text" value="Address 1" maxlength="250" id="txtAddress1" class="newTxtBox" placeholder="Address 1">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Reference:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="50" id="txtReference" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="50" id="txtReference" class="newTxtBox" placeholder="Reference">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Address 2:
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" maxlength="250" id="txtAddress2" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="250" id="txtAddress2" class="newTxtBox" placeholder="Address 2">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Telephone :
-        </div>
+        </div>*@
         <div class="address_contol_area2">
             <div class="float_left">
-                <input  type="text" maxlength="30" id="txtTel1" class="text_box rounded_corners5" style="width:100px;">
+                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:128px;" placeholder="Telephone">
             </div>
-            <div class="label_area_ext">
+            @*<div class="label_area_ext">
                 Ext 1:
-            </div>
+            </div>*@
             <div class="float_left">
-                <input  type="text" maxlength="7" id="txtExt1" class="text_box rounded_corners5" style="width:60px;">
+                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:70px;" placeholder="Ext 1">
             </div>
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Address 3:
 
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" maxlength="250" id="txtAddress3" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="250" id="txtAddress3" class="newTxtBox" placeholder="Address 3">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
             Tel 2:
 
-        </div>
+        </div>*@
         <div class="address_contol_area2">
             <div class="float_left">
-                <input  type="text" maxlength="30" id="txtTel2" class="text_box rounded_corners5" style="width:100px;">
+                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:128px;" placeholder="Tel 2">
             </div>
-            <div class="label_area_ext">
+            @*<div class="label_area_ext">
                 Ext 2:
-            </div>
+            </div>*@
             <div class="float_left">
-                <input  type="text" maxlength="7" id="txtExt2" class="text_box rounded_corners5" style="width:60px;">
+                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:70px;" placeholder="Ext 2">
             </div>
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1 ">
+        @*<div class="address_label_area1 ">
             City :
             <div id="divCity" class="error_star" style="display: none;">
                 *
             </div>
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="City" maxlength="100" id="txtCity" class="text_box200 rounded_corners5">
+            <input type="text" value="City" maxlength="100" id="txtCity" class="newTxtBox" placeholder="City">
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Fax:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="30" id="txtFax" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="30" id="txtFax" class="newTxtBox" placeholder="Fax">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
 
             Country :
-        </div>
+        </div>*@
         <div class="address_contol_area1">
 
 
-            <select id="DDCountry" class="text_box200 rounded_corners5">
-                
-            </select>
+            <select id="DDCountry" class="newTxtBox"></select>
 
         </div>
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Latitude:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input type="text" maxlength="100" id="txtLatitude" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="100" id="txtLatitude" class="newTxtBox" placeholder="Latitude">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
 
             State :
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <select  id="DDSate" class="text_box200 rounded_corners5">
-              
-            </select>
+            <select id="DDSate" class="newTxtBox"></select>
 
         </div>
 
-        <div class="address_label_area2">
+        @*<div class="address_label_area2">
 
             Longitude:
-        </div>
+        </div>*@
         <div class="address_contol_area2">
-            <input  type="text" maxlength="100" id="txtLongitude" class="text_box200 rounded_corners5">
+            <input type="text" maxlength="100" id="txtLongitude" class="newTxtBox" placeholder="Longitude">
         </div>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        @*<div class="address_label_area1">
             Postal Code:
 
-        </div>
+        </div>*@
         <div class="address_contol_area1">
-            <input  type="text" value="54000" maxlength="30" id="txtPostalCode" class="text_box200 rounded_corners5">
+            <input type="text" value="54000" maxlength="30" id="txtPostalCode" class="newTxtBox" placeholder="Postal Code">
         </div>
         <div class="address_label_area2">
 
@@ -417,6 +409,7 @@ grid.Column("Default Shipping",format:@<p>
             
         </div>
     </div>
+        
 </div>
        
 @section scripts
@@ -476,8 +469,11 @@ grid.Column("Default Shipping",format:@<p>
         },
         minLength: 1,
         change: function (event, ui) {
+            if ($("#txtsearch").val() == '') {
+                alert('Empty');
+            }
             $("#btnsearch").trigger('click');
-
+            
         }
 
     });

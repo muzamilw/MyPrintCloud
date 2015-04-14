@@ -27,10 +27,10 @@
         }
        
 
-        <h2 class="sign_in_heading col-md-12 col-lg-12 col-xs-12 ">
-            Confirm Your Order
+        <div class="sign_in_heading col-md-12 col-lg-12 col-xs-12 ">
+           <label>Confirm Your Order</label>
 
-        </h2>
+        </div>
 
         <div class="white-container-lightgrey-border textAlignLeft rounded_corners OrderConfirmationPanel">
             @if (AddressList[2] != null)
@@ -432,7 +432,7 @@
                                             </div>
                                             <div class="float_right">
                                                 <input type="button" value="BACK TO SHOPPING" id="btnShopCart" class="btn_brown rounded_corners5"
-                                                       onclick="BackToShopping('@UserCookieManager.WEBOrderId');" />
+                                                       onclick="BackToShopping('@UserCookieManager.WEBOrderId'); ShowLoader();" />
                                                 @*<a href="/" class="btn_brown rounded_corners5">BACK TO SHOPPING</a>*@
                                             </div>
                                             <div class="clearBoth">
