@@ -1961,8 +1961,8 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
-    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreMatrix.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
       <SubType>Code</SubType>
     </Content>
     <Content Include="Areas\Orders\Views\Home\EstimatesList.cshtml" />
