@@ -4355,7 +4355,7 @@ namespace MPC.Implementation.MISServices
                                                         if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                         {
                                                             
-                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ImageName);
                                                             
                                                         
                                                             if(tempbcI.ImageName.Contains("UserImgs/"))
@@ -4383,7 +4383,7 @@ namespace MPC.Implementation.MISServices
                                                             
                                                             Filename = Filename.Replace(OldPath, newPath);
 
-                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + Filename);
+                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + Filename);
                                                             if (tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
 
