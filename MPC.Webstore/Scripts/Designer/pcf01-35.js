@@ -2482,6 +2482,13 @@ function pcL20_new() {
                     var h = $("#canvas").offset().top + D1AO.top - D1AO.getHeight() / 2;
                     // l = l - 430 + 128;
                     // h -= 30;
+                    if (h < 0)
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, "+(h*-1) +"px, 0px)");
+                    } else
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, -47px, 0px)");
+                    }
                     $(".CropControls").css("left", (l) + "px");
                     $(".CropControls").css("top", (h) + "px");
                     image.cropbox({ width: D1AO.getWidth(), height: D1AO.getHeight(), showControls: 'auto', xml: D1AO.ImageClippedInfo })
@@ -2899,15 +2906,20 @@ function pcl42_updateVariables(data) {
     });
 }
 function pcl42_UpdateTO() {
+
     $.each(TO, function (i, IT) {
         $.each(smartFormData.smartFormObjs, function (i, obj) {
             if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
             {
                 var variableTag = obj.FieldVariable.VariableTag;
-                if (IT.originalContentString.indexOf(variableTag) != -1)
-                {
-                    IT.ContentString = IT.originalContentString;
-                    IT.textStyles = IT.originalTextStyles;
+                if (IT.originalContentString != null) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1) {
+                        IT.ContentString = IT.originalContentString;
+                        IT.textStyles = IT.originalTextStyles;
+                        if (IT.originalTextStyles != null) {
+                            IT.textStyles = IT.originalTextStyles;
+                        }
+                    }
                 }
             }
         });
@@ -2917,7 +2929,10 @@ function pcl42_UpdateTO() {
             $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
               //  if (obj.ObjectType == 3)  // replacing variables
                 //    {
-                if (obj.Value != null && obj.Value != "") {
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
@@ -2930,9 +2945,14 @@ function pcl42_UpdateTO() {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
-                if (obj.Value != null && obj.Value != "") {
-                    while (IT.ContentString.indexOf(variableTag) != -1)
-                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null) {
+                    while (IT.ContentString.indexOf(variableTag) != -1) {
+                        updateTOWithStyles(IT, variableTag,obj.Value);
+                    }
+//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
             });
         }); 
@@ -2940,7 +2960,107 @@ function pcl42_UpdateTO() {
   
 
 }
+function pcl42_updateTemplate(DT) {
+    if (userVariableData != null) {
+        $.each(userVariableData, function (i, vari) {
+            if (vari.Value != null) {
+                var variableTag = vari.FieldVariable.VariableTag;
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, vari.Value);
+                });
+            }
+        });
+    }
+}
+function getObjectToRemove(stylesCopy,objStyle){
+    var result = null;
+    $.each(stylesCopy, function (i, objDT) {
+        if(objDT.characterIndex == objStyle.characterIndex)
+        {
+            result =objDT;
+        }
+    });
+    return result;
+}
+function isEmptyStyles(customStyles) {
+    if (!customStyles) return true;
+    var obj = customStyles;
 
+    for (var p1 in obj) {
+        for (var p2 in obj[p1]) {
+            return false;
+        }
+    }
+    return true;
+}
+function updateTOWithStyles(obTO, vTag, vVal) {
+    // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
+    var objs = obTO.ContentString.split(vTag);
+    var variableLength = vTag.length;
+    var lengthCount = 0;
+    var content = "";
+    var styles = JSON.parse( obTO.textStyles);
+    var stylesCopy =JSON.parse( obTO.textStyles);
+    for (var i = 0; i < objs.length; i++) {
+        content += objs[i];
+        if ((i + 1) != objs.length) {
+            content += vVal;
+        }
+        lengthCount += objs[i].length;
+        var toMove = (i + 1) * variableLength;
+        var toCopy = lengthCount;
+        var styleExist = false;
+        var stylesRemoved = 0;
+        var StyleToCopy = null;
+        if (styles != null && styles != "") {
+
+            $.each(styles, function (i, objStyle) {
+
+                if (parseInt(objStyle.characterIndex) == toCopy) {
+                    styleExist = true;
+                    StyleToCopy = objStyle;
+                }
+                if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
+                    var objToRemove = getObjectToRemove(stylesCopy, objStyle);
+                    if (objToRemove != null) {
+                        stylesCopy = $.grep(stylesCopy, function (n, i) {
+                            return (n.characterIndex != objToRemove.characterIndex);
+                        });
+                        stylesRemoved++;
+                    }
+                }
+            });
+
+            var diff = vVal.length - (variableLength);
+            $.each(stylesCopy, function (i, objStyle) {
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
+                    objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
+                }
+            });
+            if (styleExist) {
+                for (var z = 0; z < vVal.length; z++) {
+                    var objToAdd = {
+                        fontName: StyleToCopy.fontName,
+                        fontSize: StyleToCopy.fontSize,
+                        fontStyle: StyleToCopy.fontStyle,
+                        fontWeight: StyleToCopy.fontWeight,
+                        textColor: StyleToCopy.textColor,
+                        textCMYK: StyleToCopy.textCMYK,
+                        characterIndex: (lengthCount + z).toString()
+
+                    }
+                    stylesCopy.push(objToAdd);
+                }
+            }
+        }
+      //  styles = new List < InlineTextStyles > (stylesCopy);
+        lengthCount += vVal.length;
+    }
+
+    obTO.ContentString = content;
+    obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
+}
 function pcl42_Validate() {
     var result = true;
     $(".requiredSFObj").removeClass("requiredSFObj");

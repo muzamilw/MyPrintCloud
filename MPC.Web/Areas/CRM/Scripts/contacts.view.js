@@ -10,7 +10,8 @@ define("crm/contacts.view",
                 viewModel = specifiedViewModel,
                 // binding root
                 bindingRoot = $("#contactsBindingRoot")[0],
-
+                // contact profile binding root
+                contactProfileBindingRoot = $("#myContactProfileModal")[0],
                 // Initialize
                 initialize = function() {
                     if (!bindingRoot) {
@@ -30,7 +31,8 @@ define("crm/contacts.view",
                 bindingRoot: bindingRoot,
                 viewModel: viewModel,
                 showCompanyContactDetailDialog: showCompanyContactDetailDialog,
-                hideCompanyContactDialog: hideCompanyContactDialog
+                hideCompanyContactDialog: hideCompanyContactDialog,
+                contactProfileBindingRoot: contactProfileBindingRoot
             };
         })(contactsViewModel);
 

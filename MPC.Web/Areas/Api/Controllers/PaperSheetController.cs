@@ -41,6 +41,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public PaperSheetResponseModel Get([FromUri] PaperSheetRequestModel request)
         {
             PaperSheetResponse result = paperSheetService.GetAll(request);
@@ -58,6 +59,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="paperSheet"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public PaperSheet Post(PaperSheet paperSheet)
         {
             if (ModelState.IsValid)
@@ -79,6 +81,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public bool Delete(PaperSheetRequestModel model)
         {
             if (ModelState.IsValid)

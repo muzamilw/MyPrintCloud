@@ -38,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Addresses
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public SecondaryPageResponse Get([FromUri] SecondaryPageRequestModel request)
         {
             return companyService.GetCMSPages(request).CreateFrom();
@@ -47,6 +48,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Stock Item By Id
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CmsPage Get(int id)
         {
             if (id <= 0)

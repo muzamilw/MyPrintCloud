@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         // GET api/<controller>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public InventorySearchResponse Get([FromUri] InventorySearchRequestModel request)
         {
             return inventoryService.LoadStockItems((request)).CreateFrom();
@@ -49,6 +50,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Stock Item By Id
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public StockItem Get(int id)
         {
             if (id <= 0)
@@ -63,6 +65,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public StockItemForListView Post(StockItem stockItem)
         {
             if (stockItem == null || !ModelState.IsValid)
@@ -77,6 +80,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewInventory })]
+        [CompressFilterAttribute]
         public void Delete(StockItem stockItem)
         {
             if (stockItem == null || !ModelState.IsValid)

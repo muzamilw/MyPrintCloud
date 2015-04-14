@@ -295,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\CustomRazorViewEngine.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="Areas\Api\Controllers\BestPressController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyContactForCalendarController.cs" />
     <Compile Include="Areas\Api\Controllers\CostCentreMatrixController.cs" />
+    <Compile Include="Areas\Api\Controllers\CostCenterExecutionController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyCostCentersController.cs" />
     <Compile Include="Areas\Api\Controllers\ActivityDetailController.cs" />
@@ -321,6 +323,7 @@
     <Compile Include="Areas\Api\Controllers\CustomerController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteRoutineController.cs" />
     <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
+    <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
@@ -375,6 +378,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
@@ -481,6 +485,7 @@
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
+    <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
@@ -704,6 +709,8 @@
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
+    <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Invoices\InvoicesAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
@@ -719,9 +726,7 @@
     <Compile Include="Controllers\CRMController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\EstimateController.cs" />
-    <Compile Include="Controllers\HomeController.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -800,14 +805,14 @@
     <Content Include="Areas\Common\Scripts\pagination.js" />
     <Content Include="Areas\CRM\Scripts\calendar.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\calendar.model.js" />
-    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
     <Content Include="Areas\CRM\Scripts\calendar.view.js" />
-    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\calendar.viewModel.js" />
     <Content Include="Areas\CRM\Scripts\contacts.dataservice.js" />
     <Content Include="Areas\CRM\Scripts\contacts.model.js" />
     <Content Include="Areas\CRM\Scripts\contacts.view.js" />
     <Content Include="Areas\CRM\Scripts\contacts.viewModel.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.view.js" />
+    <Content Include="Areas\CRM\Scripts\toDoList.viewModel.js" />
     <Content Include="Areas\CRM\Views\Home\AddBanner.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -1956,8 +1961,17 @@
     <Content Include="Areas\Orders\Views\Home\_InksDialogs.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_ContactSelector.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_SectionCostCenterDialog.cshtml" />
-    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml" />
+    <Content Include="Areas\CRM\Views\Home\ToDoList.cshtml">
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreMatrix.cshtml" />
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Orders\Views\Home\EstimatesList.cshtml" />
+    <Content Include="Areas\Orders\Views\Home\EstimateDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Invoices\Views\Home\InvoiceDetail.cshtml" />
+    <Content Include="Areas\Invoices\Views\web.config" />
+    <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
@@ -3165,6 +3179,7 @@
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
+    <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />

@@ -125,9 +125,10 @@ function fu04_1GetItem(DT)
              //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
              $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
              productDimensionUpdated = true;
-
+           //
              item = result;
              if (item.SmartFormId != null) {
+               
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
@@ -140,7 +141,6 @@ function fu04_1GetItem(DT)
                  fu04_TempCbkGen(DT);
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
-                 
                  $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
                       function (userData) {
                           userVariableData = userData;
@@ -219,19 +219,7 @@ function fu04_01() {
               }
           });
  
-          if (userVariableData != null)
-          {
-              $.each(userVariableData, function (i, vari) {
-                  if(vari.Value != null)
-                  {
-                      var variableTag = vari.FieldVariable.VariableTag;
-                      $.each(DT, function (i, objDT) {
-                          while (objDT.ContentString.indexOf(variableTag) != -1)
-                              objDT.ContentString = objDT.ContentString.replace(variableTag, vari.Value);
-                      });
-                  }
-              });
-          }
+          pcl42_updateTemplate(DT);
           TO = DT;
           fu07();
           fu06();

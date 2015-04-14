@@ -882,6 +882,8 @@ namespace MPC.Repository.Repositories
         }
         public List<ScopeVariable> GetUserTemplateVariables(long itemId, long contactID)
         {
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
             List<ScopeVariable> result = new List<ScopeVariable>();
             CompanyContact contact = db.CompanyContacts.Where(g => g.ContactId == contactID).SingleOrDefault();
             Item item = db.Items.Where(g=>g.ItemId == itemId).SingleOrDefault();

@@ -47,8 +47,7 @@
                 if (pageNo < endIndex) {
                     startIndex = 0;
                     endIndex = pagerLimit() - 1;
-                }
-                else if (pagerWithLimit().length > 0) {
+                } else if (pagerWithLimit().length > 0) {
                     if (pageNo === pagerWithLimit()[pagerWithLimit().length - 1].page) {
                         startIndex = pageNo;
                         endIndex = (pageNo + pagerLimit()) - 1;
@@ -60,8 +59,7 @@
                         endIndex = pageNo + 1;
                         startIndex = endIndex - (pagerLimit() - 1);
                     }
-                }
-                else if (pages().length === 0) {
+                } else if (pages().length === 0) {
                     return pages();
                 }
                 return pages().slice(startIndex, endIndex);
@@ -111,6 +109,14 @@
                     callback();
                 }
             },
+            incrementTotalCount = function() {
+                totalCount(totalCount() + 1);
+            },
+            decrementTotalCount = function() {
+                totalCount(totalCount() + 1);
+            },
+            //Total page Count
+            totalPageListCount = 0,
             //for showing current page and total result found counter below paging 
             filteredTotalContents = ko.computed(function() {
                 var length = list().length;
@@ -119,7 +125,26 @@
                 if (totalCount() > 0) {
                     startIndex += 1;
                 }
-                return ist.resourceText.showing + startIndex + " - " + total + " "+ist.resourceText.of +" "+ + totalCount();
+                var totalCountValue = totalCount() == 0 ? 0 : totalCount();
+                totalCount(totalCountValue);
+                if (total > 0) {
+                    return ist.resourceText.showing + startIndex + " - " + total + " " + ist.resourceText.of + " " + +(totalCountValue);
+                } else {
+                    return ist.resourceText.showing + "0" + " - " + total + " " + ist.resourceText.of + " 0";
+                }
+                //return ist.resourceText.showing + startIndex + " - " + total + " " + ist.resourceText.of + " " + +(totalCountValue);
+            }),
+            //Update Total Count
+            updateTotalCount = ko.computed(function () {
+                var length = list().length;
+                var startIndex = (currentPage() - 1) * pageSize();
+                var total = startIndex + length;
+                if (totalPageListCount < length) {
+                    incrementTotalCount();
+                } else if (totalPageListCount > length) {
+                    decrementTotalCount();
+                }
+                totalPageListCount = length;
             }),
             // Reset
             reset = function() {
@@ -146,6 +171,8 @@
                 totalCount: totalCount,
                 totalPages: totalPages,
                 isPageValid: isPageValid,
+                incrementTotalCount: incrementTotalCount,
+                decrementTotalCount: decrementTotalCount,
                 list: list,
                 reset: reset
             };

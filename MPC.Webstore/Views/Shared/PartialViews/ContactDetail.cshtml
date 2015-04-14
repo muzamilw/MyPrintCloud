@@ -33,7 +33,6 @@
                 -ms-user-select: none;
                 user-select: none;
                 cursor: pointer;
-                cursor: hand;
                 color: #66615b;
                 outline: none !important;
             }
@@ -57,13 +56,13 @@
     <div class="content_area container">
         <div class="left_right_padding row">
 
-            <div class="signin_heading_div float_left_simple dashboard_heading_signin">
-                <label id="lblHead" class="sign_in_heading">Your Profile</label>
+            <div class="signin_heading_div float_left_simple ">
+                <label class="sign_in_heading" id="HistryBtn">My Profile</label>
             </div>
-            <div class="dashBoardRetrunLink">
-                <div class="BreadCrumbMenu left_align">
+            <div class="dashBoardRetrunLink dashboard_heading_signin">
+                <div class=" left_align">
                     <h1>
-                        <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                        <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
                             Back to my dashboard
                         </a>
                     </h1>
@@ -88,7 +87,7 @@
                         <br />
                         <div class="cntHalfRightProfile">
                             <div class="smallContctUsAvenior float_left_simple" id="divfname">
-                                First Name
+                                @*First Name*@
                             </div>
                             <div class="TTL widthAvenior">
                                 <span class="error-message EFirstName" style="display: none;">can't be blank</span>
@@ -98,7 +97,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divlname">
-                                Last Name
+                                @*Last Name*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "newTxtBox", placeholder = "Last Name", maxlength = 500, })
@@ -108,7 +107,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divemail">
-                                Email
+                                @*Email*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @Html.TextBoxFor(model => model.Email, new { id = "txtUserEmail", @class = "newTxtBox", placeholder = "Email", maxlength = 500, @readonly = "readonly" })
@@ -117,7 +116,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divjobtitle">
-                                Job Title
+                                @*Job Title*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @Html.TextBoxFor(model => model.JobTitle, new { id = "txtJobTitle", @class = "newTxtBox", placeholder = "JobTitle", maxlength = 500, })
@@ -126,7 +125,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divphonenumber">
-                                Phone Number
+                                @*Phone Number*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @*<input ID="txtUserPhone1" class="newTxtBox" MaxLength="30"
@@ -137,7 +136,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divcellnumber">
-                                Cell Number
+                                @*Cell Number*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @*<input ID="txtUserCellNo" class="newTxtBox" MaxLength="30"
@@ -148,7 +147,7 @@
                             </div>
                             <br />
                             <div class="smallContctUsAvenior float_left_simple" id="divfax">
-                                Fax
+                                @*Fax*@
                             </div>
                             <div class="TTL widthAvenior">
                                 @Html.TextBoxFor(model => model.FAX, new { id = "txtUserFax", @class = "newTxtBox", placeholder = "Fax", maxlength = 500, })
@@ -160,12 +159,12 @@
                             {
                                 <div id="CompanyNameOfBroker">
                                     <div class="smallContctUsAvenior float_left_simple" id="divcompanyname">
-                                        Company Name
+                                        @*Company Name*@
                                     </div>
 
                                     <div class="TTL widthAvenior">
                                         @*<span class="error-message ECompanyName" style="display: none;">can't be blank</span><br>*@
-                                        <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox " maxlength="500" tabindex="8" value="@ViewBag.CompanyName" />
+                                        <input id="txtCompanyName" name="txtCompanyName" class="newTxtBox " maxlength="500" tabindex="8" value="@ViewBag.CompanyName" placeholder="Company Name" />
                                     </div>
                                     <div class="clearBoth">
                                     </div>
@@ -175,7 +174,7 @@
 
                             <div id="WebsiteUrlOfBroker">
                                 <div class="smallContctUsAvenior float_left_simple" id="divwebsite">
-                                    Website
+                                    @*Website*@
                                 </div>
                                 <div class="TTL widthAvenior">
 
@@ -192,7 +191,7 @@
                                     <div>
 
                                         <div class="smallContctUsAvenior float_left_simple" id="divtxtPOBox">
-                                            PO Box Address
+                                            @*PO Box Address*@
                                         </div>
                                         <div class="TTL widthAvenior">
 
@@ -207,7 +206,7 @@
                                 {
                                     <div>
                                         <div class="smallContctUsAvenior float_left_simple" id="divtxtCunit">
-                                            Business/Corporate Unit
+                                            @*Business/Corporate Unit*@
                                         </div>
                                         <div class="TTL widthAvenior">
 
@@ -218,7 +217,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtOfcTrading">
-                                                Office Trading Name
+                                                @*Office Trading Name*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -230,7 +229,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtContractorName">
-                                                Contractor Name
+                                                @*Contractor Name*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -242,7 +241,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtBpay">
-                                                Bpay CRN
+                                                @*Bpay CRN*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -254,7 +253,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtABN">
-                                                ABN
+                                                @*ABN*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -266,7 +265,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtACN">
-                                                ACN
+                                                @*ACN*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -278,7 +277,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtAf1">
-                                                Additional Field 1
+                                                @*Additional Field 1*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -290,7 +289,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtAf2">
-                                                Additional Field 2
+                                                @*Additional Field 2*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -302,7 +301,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtAf3">
-                                                Additional Field 3
+                                                @*Additional Field 3*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -314,7 +313,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtAf4">
-                                                Additional Field 4
+                                                @*Additional Field 4*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -326,7 +325,7 @@
                                         </div>
                                         <div>
                                             <div class="smallContctUsAvenior float_left_simple" id="divtxtAf5">
-                                                Additional Field 5
+                                                @*Additional Field 5*@
                                             </div>
                                             <div class="TTL widthAvenior">
 
@@ -344,7 +343,7 @@
                                 }
 
                                 <div class="smallContctUsAvenior float_left_simple" id="div2">
-                                    Profile Picture
+                                    @*Profile Picture*@
                                 </div>
                                 <div class="TTL widthAvenior">
 
@@ -359,7 +358,7 @@
 
                                     @if (Model.image != null)
                                     {
-                                        <img src="@Html.GetAppBasePath()@Model.image    " id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
+                                        <img src="@Html.GetAppBasePath()@Model.image" id="imgContactPicture" alt="" class="user_image_container float_left_simple" />
                                     }
                                     else
                                     {

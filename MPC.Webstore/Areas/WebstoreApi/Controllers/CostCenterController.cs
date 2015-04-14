@@ -248,10 +248,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              CalculateProductDescription(order,out GrandTotal,out Subtotal,out vat);
              JasonResponseObject obj=new JasonResponseObject();
              obj.order=order;
-             obj.SubTotal=Math.Round(Subtotal,2);
-             obj.GrossTotal=Math.Round(GrandTotal,2);
-             obj.VAT=Math.Round(vat,2);
-             obj.DeliveryCostCharges=order.DeliveryCost;
+             obj.SubTotal =  @Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), StoreBaseResopnse.Currency);
+             obj.GrossTotal = @Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), StoreBaseResopnse.Currency);
+             obj.VAT = @Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), StoreBaseResopnse.Currency);
+             obj.DeliveryCostCharges=@Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), StoreBaseResopnse.Currency);
              obj.billingAddress= BillingAddress;
              obj.shippingAddress=ShippingAddress;
              if (BillingAddress.CountryId!= null && BillingAddress.CountryId >0)
@@ -323,7 +323,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
-
+                        
                         Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
                         TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
                         calculate = calculate + TotalVat;
@@ -556,7 +556,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Contact.Password = "password";
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
+                long Customer = 0;//_companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
 
                 if (Customer > 0)
                 {
@@ -785,10 +785,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public Order order;
           public Address billingAddress;
           public Address shippingAddress;
-          public double GrossTotal;
-          public double SubTotal;
-          public double VAT;
-          public double DeliveryCostCharges;
+          public string GrossTotal;
+          public string SubTotal;
+          public string VAT;
+          public string DeliveryCostCharges;
           public string CurrencySymbol;
           public string OrderDateValue;
           public string DeliveryDateValue;

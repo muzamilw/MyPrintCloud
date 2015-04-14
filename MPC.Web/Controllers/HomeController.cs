@@ -85,7 +85,6 @@ namespace MPC.MIS.Controllers
 
             //For Development environment Set these values and comment code above starting from using...
 
-
             validationInfo = new ValidationInfo();
             validationInfo.CustomerID = "1";
             validationInfo.userId = "xyz";

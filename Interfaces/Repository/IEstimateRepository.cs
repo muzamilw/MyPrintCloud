@@ -1,4 +1,4 @@
-﻿using MPC.MIS.Areas.Api.Models;
+﻿using System.Collections.Generic;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
@@ -35,5 +35,11 @@ namespace MPC.Interfaces.Repository
         /// </summary>
         /// <returns></returns>
         OrderMenuCount GetOrderStatusesCountForMenuItems();
+        /// <summary>
+        /// Get Orders For Dashboard Screen
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request);
     }
 }

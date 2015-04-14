@@ -178,7 +178,6 @@ define("common/supplier.viewModel",
                                 var supplierResult = new model.SupplierListView.Create(data);
                                 addSupplier().id(data.SupplierId);
                                 suppliers.splice(0, 0, supplierResult);
-                                view.saveImage();
                                 closeSupplierEditor();
                                 toastr.success("Successfully save.");
                             },

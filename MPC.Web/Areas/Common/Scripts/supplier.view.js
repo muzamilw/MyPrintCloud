@@ -12,16 +12,7 @@ define("common/supplier.view",
                 // Binding root used with knockout
                 bindingRoot = $("#supplierDialog")[0],
                  initializeForm = function () {
-                     // Initialize Forms - For File Upload
-                     $("#fileUploadForm").ajaxForm({
-                         success: function () {
-                             //toastr.success("Uploading completed");
-                         },
-                         dataType: "json",
-                         error: function () {
-                             //toastr.success("Uploading completed");
-                         }
-                     });
+                     
                  },
                 // Initialize Label Popovers
                 initializeLabelPopovers = function () {
@@ -30,7 +21,6 @@ define("common/supplier.view",
                     // ReSharper restore UnknownCssClass
                 },
                 saveImage = function () {
-                    $("#fileUploadForm").submit();
                 },
                  // Go To Element with Validation Errors
                 gotoElement = function (element) {

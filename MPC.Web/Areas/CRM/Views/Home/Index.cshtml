@@ -12,16 +12,13 @@
                     <li class="active"><span>Customers</span></li>
                 </ol>
                 <div class="clearfix">
-                    <h1 class="pull-left">Customers</h1>
+                    <h1 class="pull-left">Companies</h1>
                 </div>
-                <div id="addStore">
-                    &nbsp;
-                </div> <br />
             </div>
-            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible">
+            <div class="col-lg-12" data-bind="visible: $root.isEditorVisible" style="display: none">
                 <ol class="breadcrumb">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li><a href="/CRM/SuppliersList">CRM</a></li>
+                    <li><a href="~/CRM/Home/Index">Companies</a></li>
                     <!--ko if:$root.selectedStore() != undefined && $root.selectedStore().type() == 2-->
                     <li class="active"><span>Supplier</span></li>
                     <!-- /ko -->
@@ -31,7 +28,7 @@
 
                 </ol>
                 <!--ko if: $root.selectedStore() != undefined -->
-                <h1 data-bind="text: $root.selectedStore().name()"></h1>
+                <h1 data-bind="text: $root.selectedStore().name()==undefined ? 'Store Name':$root.selectedStore().name()"></h1>
                 <!-- /ko -->
 
 
@@ -46,7 +43,7 @@
                                 <a href="~/CRM/Home/Calendar">Calendar</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.ToDoList) { <text>active</text> }">
-                                @Html.ActionLink("To Do Lists", "Contacts", "Home")
+                               @Html.ActionLink("To Do Lists", "ToDoList", "Home")
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.Contacts) { <text>active</text> }">
                                 <a href="~/CRM/Home/Contacts">Contacts</a>
@@ -58,7 +55,7 @@
                                 <a href="~/CRM/Home/SuppliersList">Supplier</a>
                             </li>
                             <li class="@if (ViewBag.ActiveTab == MPC.Models.Common.ActiveModuleMenuItem.MySharedDocs) { <text>active</text> }">
-                                @Html.ActionLink("My Shared Docs", "Contacts", "Home")
+                                @Html.ActionLink("Shared Docs", "Contacts", "Home")
                             </li>
                         </ul>
                         <div class="tab-content">
@@ -68,121 +65,62 @@
                                     <!-- ko template: { name: 'filterTemplate' } -->
                                     <!-- /ko -->
                                     <div class="col-lg-12">
-                                        <div class="tabs-wrapper profile-tabs">
-                                            <ul class="nav nav-tabs">
-                                                <li class="active"><a href="#tab-Prospect" data-toggle="tab" data-bind="click: function(){$root.getCustomers(0);}">Prospects</a></li>
-                                                <li><a href="#tab-Customer" data-toggle="tab" data-bind="click: function(){$root.getCustomers(1);}">Customer</a></li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane fade in active" id="tab-Prospect">
-                                                    <div class="main-box-body main-box clearfix">
-                                                        <div class="table-responsive">
-                                                            <table class="table user-list">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="col-lg-1"></th>
-                                                                        <th class="col-lg-3"><span>Company</span></th>
-                                                                        <th class="col-lg-2"><span>Created</span></th>
-                                                                        @*<th class="col-lg-2"><span>Status</span></th>*@
-                                                                        <th class="col-lg-2"><span>Email</span></th>
-                                                                        @*<th class="col-lg-2">&nbsp;</th>*@
+                                        <div class="main-box no-header clearfix">
+                                            <div class="main-box-body clearfix">
+                                                <div class="table-responsive">
+                                                    <table class="table user-list">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-lg-1"></th>
+                                                                <th class="col-lg-3"><span>Company</span></th>
+                                                                <th class="col-lg-1"><span>Created</span></th>
+                                                                <th class="col-lg-2"><span>Email</span></th>
+                                                                <th class="col-lg-1"><span>Type</span></th>
 
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!-- ko foreach: $root.customersForListView -->
-                                                                    <tr data-bind="click: $root.selectStore">
-                                                                        <td>
-                                                                            <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- ko foreach: $root.customersForListView -->
+                                                            <tr data-bind="click: $root.selectStore">
+                                                                <td>
+                                                                    <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
 
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>
-                                                                            <span class="user-subhead" data-bind="text:defaultContact"></span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
-                                                                        </td>
-                                                                        @*<td>
-                                                        <span data-bind="text:status, css:statusClass"></span>
-                                                    </td>*@
-                                                                        <td>
-                                                                            <a>
-                                                                                <p data-bind="text:defaultContactEmail"></p>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <!-- /ko -->
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div id="pagerDiv" class="pull-right">
-                                                        <!-- ko with: prospectPager -->
-                                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                        <!-- /ko -->
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane fade in" id="tab-Customer">
-                                                    <div class="main-box-body main-box clearfix">
-                                                        <div class="table-responsive">
-                                                            <table class="table user-list">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th class="col-lg-1"></th>
-                                                                        <th class="col-lg-3"><span>Company</span></th>
-                                                                        <th class="col-lg-2"><span>Created</span></th>
-                                                                        @*<th class="col-lg-2"><span>Status</span></th>*@
-                                                                        <th class="col-lg-2"><span>Email</span></th>
-                                                                        @*<th class="col-lg-2">&nbsp;</th>*@
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <!-- ko foreach: $root.customersForListView -->
-                                                                    <tr data-bind="click: $root.selectStore">
-                                                                        <td>
-                                                                            <img data-bind="attr: { src: '@Url.Content("~/")' + storeImageFileBinary() }" alt="" />
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>
-                                                                            <span class="user-subhead" data-bind="text:defaultContact"></span>
-                                                                        </td>
-                                                                        <td>
-                                                                            <p data-bind="dateString: creationdate"></p>
-                                                                        </td>
-                                                                        @*<td>
-                                                        <span data-bind="text:status, css:statusClass"></span>
-                                                    </td>*@
-                                                                        <td>
-                                                                            <a>
-                                                                                <p data-bind="text:defaultContactEmail"></p>
-                                                                            </a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <!-- /ko -->
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div id="pagerDiv" class="pull-right">
-                                                        <!-- ko with: customerPager -->
-                                                        @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
-                                                        <!-- /ko -->
-                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="#" class="store-user-link" data-bind="text:name, click: $root.onEditItem"></a>
+                                                                    <span class="user-subhead" data-bind="text:defaultContact"></span>
+                                                                </td>
+                                                                <td>
+                                                                    <p data-bind="dateString: creationdate, datePattern: 'DD/MM/YYYY'"></p>
+                                                                </td>
+                                                                @*<td>
+                            <span data-bind="text:status, css:statusClass"></span>
+                        </td>*@
+                                                                <td>
+                                                                    <a>
+                                                                        <p data-bind="text:defaultContactEmail"></p>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                    <p data-bind="text:customerTYpe()==0 ? 'Prospect':'Customer'"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <!-- /ko -->
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="clearfix">
+                                            <div id="pagerDiv" style="margin-right :16px" class="pull-right">
+                                                <!-- ko with: prospectPager -->
+                                                @Html.Partial("~/Areas/Common/Views/Shared/_Pager.cshtml")
+                                                <!-- /ko -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    @{
-                                        Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
-                                    }
-                                </div>
-                            </div>
+                                @{
+                                    Html.RenderPartial("~/Areas/CRM/Views/Home/CompaniesDetail.cshtml");
+                                }
                         </div>
                     </div>
 
@@ -191,27 +129,30 @@
             </div>
 
         </div>
-        <script id="filterTemplate" type="text/html">
-            <div class="filter-body" id="filter">
-                
-                <form data-bind="submit:$root.searchButtonHandler">
-                    <div class="filter-block pull-right">
-                        <div class="form-group pull-left">
-                            <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                            <i class="fa fa-search search-icon" data-bind="click: $root.searchButtonHandler"></i>
+            <script id="filterTemplate" type="text/html">
+                <div class="filter-body" id="filter" style=" margin-left: 6px;   margin-right: 8px; margin-bottom: 4px;">
+
+                    <form data-bind="submit:$root.searchButtonHandler">
+                        <div class="filter-block pull-right">
+                            <div class="pull-left" style="margin-right:16px">
+                                <select style="margin-right:70px" class="form-control" data-bind="options:['All','Prospects', 'Customer'], value:$root.companyDdSelector, event:{ change: $root.onChangeCompany}"></select>
+                            </div>
+                            <div class="form-group pull-left">
+                                <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
+                                <i class="fa fa-search search-icon" data-bind="click: $root.searchButtonHandler"></i>
+                            </div>
+                            <div class="pull-left">
+                                <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
+                                    Add Customer
+                                </a>
+                            </div>
                         </div>
-                        <div class="pull-left">
-                            <a class="btn btn-primary" data-bind="click: $root.onCreateNewStore">
-                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Customer
-                            </a>
-                        </div>
+
+                    </form>
+
+                    <div class="clearfix">
                     </div>
-                   
-                </form>
-                
-                <div class="clearfix">
                 </div>
-            </div>
         </script>
     </div>
 </div>

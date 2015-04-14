@@ -30,7 +30,7 @@ namespace MPC.Interfaces.Repository
         /// <returns></returns>
         Company GetStoreById(long companyId);
 
-        long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null);
+        long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId,long StoreId, CompanyContact contact = null);
         /// <summary>
         /// Get Company Price Flag id for Price Matrix in webstore
         /// </summary>
@@ -66,7 +66,7 @@ namespace MPC.Interfaces.Repository
 
         Company GetCompanyByCompanyID(long CompanyID);
 
-        void InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain);
+        bool InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP,ExportOrganisation objExpRetailWOP,string StoreName, ExportSets Sets,string SubDomain,string status);
         ExportSets ExportCorporateCompanyWithoutProducts(long CompanyId);
 
         ExportSets ExportRetailCompanyWithoutProducts(long CompanyId);

@@ -4617,7 +4617,7 @@ h2 + .gallery {
     width: 83px;
     overflow: hidden;
     height: 19px;
-    margin-top: 7px;
+    margin-top: 12px;
     cursor: pointer;
 }
 
@@ -4628,7 +4628,7 @@ h2 + .gallery {
     border: none;
     margin-left: 15px;
     margin-bottom: 0px;
-    margin-top: 2px;
+    margin-top: 6px;
     cursor: pointer;
     background: url('assets-v2/arrowMoveDown.png');
 }
@@ -4640,7 +4640,7 @@ h2 + .gallery {
     border: none;
     margin-left: 15px;
     margin-bottom: 0px;
-    margin-top: 2px;
+    margin-top: 6px;
     cursor: pointer;
     background: url('assets-v2//arrowMoveUp.png');
 }
