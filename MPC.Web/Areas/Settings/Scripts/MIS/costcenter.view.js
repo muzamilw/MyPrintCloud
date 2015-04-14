@@ -42,6 +42,15 @@
                         menuSelector: "#contextMenuMatrix"
                     });
                 },
+                showCostCentreStockDialog = function () {
+                    $("#CostCentreStockModal").modal("show");
+                    //   initializeLabelPopovers();
+                },
+                  hideCostCentreStockDialog = function () {
+                      $("#CostCentreStockModal").modal("hide");
+
+                  },
+                
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -62,7 +71,9 @@
                 showAddEditQuestionMenu: showAddEditQuestionMenu,
                 showCostCentreMatrixDialog: showCostCentreMatrixDialog,
                 hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
-                showAddEditMatrixMenu: showAddEditMatrixMenu
+                showAddEditMatrixMenu: showAddEditMatrixMenu,
+                showCostCentreStockDialog: showCostCentreStockDialog,
+                hideCostCentreStockDialog: hideCostCentreStockDialog
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

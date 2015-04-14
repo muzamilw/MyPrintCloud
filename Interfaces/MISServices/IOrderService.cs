@@ -53,5 +53,6 @@ namespace MPC.Interfaces.MISServices
         ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request);
 
         string DownloadOrderArtwork(int OrderID, string sZipName);
+        GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
     }
 }

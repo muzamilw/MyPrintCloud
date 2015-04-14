@@ -214,9 +214,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
-    abc=function() {
-            alert("test");
-        },
+  
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {

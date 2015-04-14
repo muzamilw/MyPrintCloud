@@ -100,6 +100,15 @@ namespace MPC.MIS.Areas.Api.Controllers
 
             return _ICostCentreQuestion.GetByQuestionId(QuestionId).Select(g=>g.CreateFrom());
         }
+        public IEnumerable<CostCentreVariable> GetVariableList(int VariableId)
+        {
+            if (!ModelState.IsValid)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
+            }
+
+            return _costCentersService.GetVariableList().Select(g => g.CreateFrom());
+        }
 
         public IEnumerable<CostCentreMatrixDetail> GetByMatrixId(int MatrixId)
         {
