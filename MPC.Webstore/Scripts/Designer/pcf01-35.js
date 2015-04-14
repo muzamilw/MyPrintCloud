@@ -27,7 +27,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Placing image on canvas, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -83,7 +83,7 @@ function d1SvgToCCC(src, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Placing image on canvas, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -136,7 +136,7 @@ function d1ToCanvasCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Placing image on canvas, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
   
     } else {
@@ -562,7 +562,7 @@ function f4() {
 }
 function f5(c, m, y, k) {
     var Color = getColorHex(c, m, y, k);
-    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPallet btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
+    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPalletr btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
     $('#LblDivColorC').html(c + "%");
     $('#LblDivColorM').html(m + "%");
     $('#LblDivColorY').html(y + "%");
@@ -2876,7 +2876,7 @@ function pcL29_pcRestore(type) {
 
 }
 function pcl42() {
-    StartLoader("Applying Smart form variables to Canvas.");
+    StartLoader("Applying smart form variables to canvas.");
     if (pcl42_Validate()) {
         c2_v2(); c2_v2();// update template objects 
         if ($("#optionRadioOtherProfile").is(':checked')) {
