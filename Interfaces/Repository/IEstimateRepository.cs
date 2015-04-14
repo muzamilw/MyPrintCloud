@@ -41,5 +41,11 @@ namespace MPC.Interfaces.Repository
         /// <param name="request"></param>
         /// <returns></returns>
         IEnumerable<Estimate> GetEstimatesForDashboard(DashboardRequestModel request);
+        /// <summary>
+        /// Get Orders For Estimates List View
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
     }
 }

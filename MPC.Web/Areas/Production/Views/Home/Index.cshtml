@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Production/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+
+@{
+    ViewBag.Title = "Item Job Status";
+}
+@section leftmenue {
+
+}
+<div class="row" id="itemJobStatusBinding">
+    <div class="col-lg-12">
+        <div class="row">
+            <div class="col-lg-12" id="topArea">
+                <ol class="breadcrumb">
+                    <li><a href="~/Dashboard/Index">Home</a></li>
+                    <li class="active"><span>Production Board</span></li>
+                    <li class="active"><span>Item Job Status</span></li>
+                </ol>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="main-box no-header clearfix">
+                    <div class="main-box-body clearfix">
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        require(["inventory/inventory.view", "common/confirmation.view", "common/supplier.view"]);
+        $(function () {
+            $('#listores').addClass('active');
+        });
+    </script>
+}
+
