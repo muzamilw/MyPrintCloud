@@ -23,6 +23,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             // Markups
             markups = ko.observableArray([]),
             SelectedQuestionVariable = ko.observable(),
+            SelectedMatrixVariable = ko.observable(),
             costcenterVariableNodes = ko.observableArray([]),
             variableVariableNodes = ko.observableArray([]),
             resourceVariableNodes = ko.observableArray([]),
@@ -86,7 +87,6 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             ]),
 
             getQuestionsVariableTreeChildItems = function (Selecteddata) {
-                //if (Selecteddata.Id == 4) {
                     if (questionVariableNodes().length > 0) {
                         if (showQuestionVariableChildList() == 1) {
                             showQuestionVariableChildList(0);
@@ -114,9 +114,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         });
                     }
 
-                //}
 
             },
+
             getMatricesVariableTreeChildItems = function (Selecteddata) {
                 if (matrixVariableNodes().length > 0) {
                     if (showMatricesVariableChildList() == 1) {
@@ -132,22 +132,81 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         success: function (data) {
                             matrixVariableNodes.removeAll();
                             _.each(data.MatricesVariables, function (item) {
-                                matrixVariableNodes.push(model.matrixVariable(item));
+                                var ques = model.matrixVariable(item);
+                                matrixVariableNodes.push(ques);
                             });
                             showMatricesVariableChildList(1);
-                            view.showAddEditQuestionMenu();
+                              view.showAddEditMatrixMenu();
 
                         },
                         error: function () {
-                            toastr.error("Failed to load matrix variables tree data.");
+                            toastr.error("Failed to load variables tree data.");
                         }
                     });
                 }
 
-                //}
 
             },
+            OnEditMatrixVariable = function (oMatrix) {
+                if (oMatrix.MatrixId == undefined || oMatrix.MatrixId == null) {
+                    var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
+                    oMatrix = matrixVariableNodes.filter(function (item) { return item.MatrixId() === Id })[0];
+                }
+                if (oMatrix != null && oMatrix != undefined){
+                    dataservice.getCostCentreAnswerList({
+                        MatrixId: oMatrix.MatrixId(),
+                    }, {
+                        success: function (data) {
+                          
+                            SelectedMatrixVariable(model.MatrixVariableClientMapper(oMatrix, data));
+                            SelectedMatrixVariable().reset();
+                            
+                          
+                        },
+                        error: function (response) {
+                            toastr.error("Failed to Load . Error: " + response);
+                        }
 
+                    });
+                }
+                view.showCostCentreMatrixDialog();
+            },
+            addMatrixVariable = function () {
+                
+                SelectedMatrixVariable(model.MatrixVariableClientMapper());
+                view.showCostCentreMatrixDialog();
+                SelectedMatrixVariable().reset();
+            }
+            DeleteMatrixVariable = function (variable, event) {
+                if (event != undefined) {
+                    var Id = parseInt($('#' + event.currentTarget.parentElement.parentElement.id).data('invokedOn').closest('span').attr('id'));
+                    confirmation.messageText("Do you want to Detele this Item?");
+                    confirmation.afterProceed(function () {
+                        dataservice.DeleteMatrixVariable({
+                            MatrixId: Id
+                        },
+                        {
+                            success: function (data) {
+                                if (data) {
+                                    matrixVariableNodes.remove(matrixVariableNodes.filter(function (item) { return item.MatrixId() === Id })[0]);
+                                }
+                                //view.showAddEditQuestionMenu();
+
+
+                            },
+                            error: function (response) {
+                                toastr.error("Failed to Delete Matrix" + response);
+                            }
+                        });
+                    });
+                    confirmation.afterCancel(function () {
+                        //navigateToUrl(element);
+                    });
+                    confirmation.show();
+
+                }
+
+            },
             getVariableTreeChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').children('li').length > 0) {
@@ -305,6 +364,95 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     }
                 });
             },
+            saveMatrixVariable = function (oMatrix) {
+                 dataservice.saveVariable(model.MatrixVariableServerMapper(oMatrix),
+                {
+                    success: function (data) {
+                        if (oMatrix.MatrixId() > 0) {
+                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].RowsCount(oMatrix.RowsCount());
+                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].ColumnsCount(oMatrix.ColumnsCount());
+                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Name(oMatrix.Name());
+                            matrixVariableNodes.filter(function (item) { return item.MatrixId() === oMatrix.MatrixId() })[0].Description(oMatrix.Description());
+
+                        } else {
+                            matrixVariableNodes.push(model.matrixVariable(data));
+                        }
+                    
+
+                        toastr.success("successfully saved.");
+                        view.hideCostCentreMatrixDialog();
+                        SelectedMatrixVariable().reset();
+                       // view.hidecostcentrequestiondialog();
+                    },
+                    error: function (response) {
+                        toastr.error("failed to save Matrix" + response);
+                    }
+                });
+                 
+
+             }
+            UpdateMartix = function (oMatrix) {
+                $("#WarningRowColUpdate").html("");
+                if (SelectedMatrixVariable().MatrixDetailVariableList().length > 0) {
+                    var PreRow = SelectedMatrixVariable().MatrixDetailVariableList().length;
+                    var PreCol = SelectedMatrixVariable().MatrixDetailVariableList()[0].length;
+                    var colDiff = SelectedMatrixVariable().ColumnsCount() - SelectedMatrixVariable().MatrixDetailVariableList()[0]().length;
+                    var RowDiff = SelectedMatrixVariable().RowsCount() - SelectedMatrixVariable().MatrixDetailVariableList().length;
+                    if (RowDiff > 0) {
+                        for (var c = 0; c < RowDiff; c++) {
+                            var rowsTem = ko.observableArray([]);
+                            for (var j = 0; j < SelectedMatrixVariable().ColumnsCount() ; j++) {
+                                var row = model.MatrixDetailClientMapper();
+                                rowsTem.push(row);
+                            }
+                            SelectedMatrixVariable().MatrixDetailVariableList.push(rowsTem);
+                        }
+                    } else if (RowDiff < 0) {
+                        for (var d = RowDiff; d < 0; d++) {
+                            SelectedMatrixVariable().MatrixDetailVariableList.remove(SelectedMatrixVariable().MatrixDetailVariableList()[SelectedMatrixVariable().MatrixDetailVariableList().length - 1])
+                        }
+                    }
+                    if (colDiff > 0) {
+                        for (var j = 0 ; j < colDiff; j++) {
+                            for (var i = 0; i < oMatrix.RowsCount() ; i++) {
+                                SelectedMatrixVariable().MatrixDetailVariableList()[i].push(model.MatrixDetailClientMapper());
+                            }
+                        }
+                    } else if (colDiff < 0) {
+                        for (var j = colDiff ; j < 0; j++) {
+                            for (var i = 0; i < oMatrix.RowsCount() ; i++) {
+                                SelectedMatrixVariable().MatrixDetailVariableList()[i].remove(SelectedMatrixVariable().MatrixDetailVariableList()[i]()[SelectedMatrixVariable().MatrixDetailVariableList()[0]().length - 1]);
+
+                            }
+                        }
+                    }
+
+                } else if (SelectedMatrixVariable().ColumnsCount() > 0 & SelectedMatrixVariable().RowsCount() == undefined) {
+                    $("#WarningRowColUpdate").html("Select Rows");
+                } else if (SelectedMatrixVariable().RowsCount() > 0 & SelectedMatrixVariable().ColumnsCount() == undefined) {
+                    $("#WarningRowColUpdate").html("Select Columns");
+                } else {
+                    for (var i = 0; i < SelectedMatrixVariable().RowsCount() ; i++) {
+                        var rowsTem = ko.observableArray([]);
+                        for (var j = 0; j < SelectedMatrixVariable().ColumnsCount() ; j++) {
+                            var row = model.MatrixDetailClientMapper();
+                            if (i == 0 && j == 0) {
+                              row.Id(-1);
+                            } 
+                            rowsTem.push(row);
+
+                        }
+                        SelectedMatrixVariable().MatrixDetailVariableList.push(rowsTem);
+
+                    }
+                }
+                
+
+
+
+
+                
+            }
             saveQuestionVariable = function (oQuestion) {
 
                 if (oQuestion.Id() > 0) {
@@ -348,7 +496,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
 
             }
             // Returns the item being dragged source.$data.VariableString
-            draggedQuestion = function (source, event) {
+            draggedVariableString = function (source, event) {
                 if (event != undefined) {
                     return {
                         row: source.$parent,
@@ -1002,8 +1150,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 selectedVariableString: selectedVariableString,
                 iconClick: iconClick,
                 questionVariableNodes: questionVariableNodes,
+                matrixVariableNodes:matrixVariableNodes,
                 createDeliveryCostCenter: createDeliveryCostCenter,
                 SelectedQuestionVariable: SelectedQuestionVariable,
+                SelectedMatrixVariable:SelectedMatrixVariable,
                 AddAnswerofQuestionVariable: AddAnswerofQuestionVariable,
                 AddnewChildItem: AddnewChildItem,
                 QuestionVariableType: QuestionVariableType,
@@ -1017,9 +1167,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 OnDeleteAnswerStringofQuestionVariable: OnDeleteAnswerStringofQuestionVariable,
                 saveNewQuestionVariable: saveNewQuestionVariable,
                 saveEditedQuestionVariable: saveEditedQuestionVariable,
-                draggedQuestion: draggedQuestion,
+                draggedVariableString: draggedVariableString,
                 getMatricesVariableTreeChildItems: getMatricesVariableTreeChildItems,
-                showMatricesVariableChildList: showMatricesVariableChildList
+                showMatricesVariableChildList: showMatricesVariableChildList,
+                OnEditMatrixVariable: OnEditMatrixVariable,
+                saveMatrixVariable: saveMatrixVariable,
+                UpdateMartix: UpdateMartix,
+                addMatrixVariable: addMatrixVariable,
+                DeleteMatrixVariable: DeleteMatrixVariable
+                
             };
         })()
     };

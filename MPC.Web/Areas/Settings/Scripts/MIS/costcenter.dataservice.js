@@ -72,6 +72,8 @@ define("costcenter/costcenter.dataservice", function () {
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    
+                    
                     amplify.request.define('deleteAnswerVariable', 'ajax', {
                         url: ist.siteUrl + '/Api/CostCenterTree',
                         dataType: 'json',
@@ -83,6 +85,17 @@ define("costcenter/costcenter.dataservice", function () {
                         contentType: 'application/json; charset=utf-8',
                         decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'Put'
+                    });
+                    amplify.request.define('saveVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCentreMatrix',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
+                    amplify.request.define('DeleteMatrixVariable', 'ajax', {
+                        url: ist.siteUrl + '/Api/CostCentreMatrix',
+                        dataType: 'json',
+                        type: 'DELETE'
                     });
                     isInitialized = true;
                 }
@@ -123,6 +136,15 @@ define("costcenter/costcenter.dataservice", function () {
                 data: params
             });
         };
+        DeleteMatrixVariable = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'DeleteMatrixVariable',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
+        },
         deleteQuestionVariable = function (params, callbacks) {
             initialize();
             return amplify.request({
@@ -190,7 +212,16 @@ define("costcenter/costcenter.dataservice", function () {
                 data: param
             });
         },
-        // Save Cost Center
+         saveVariable = function (param, callbacks) {
+             initialize();
+             return amplify.request({
+                 resourceId: 'saveVariable',
+                 success: callbacks.success,
+                 error: callbacks.error,
+                 data: param // JSON.stringify(param)
+             });
+         },
+        // Save Cost Center 
         saveCostCenter = function (param, callbacks) {
             initialize();
             return amplify.request({
@@ -213,7 +244,9 @@ define("costcenter/costcenter.dataservice", function () {
             saveQuestionVariable: saveQuestionVariable,
             deleteQuestionVariable: deleteQuestionVariable,
             deleteAnswerVariable: deleteAnswerVariable,
-            saveNewQuestionVariable: saveNewQuestionVariable
+            saveNewQuestionVariable: saveNewQuestionVariable,
+            saveVariable: saveVariable,
+            DeleteMatrixVariable: DeleteMatrixVariable
         };
     })();
 
