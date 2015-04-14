@@ -340,6 +340,7 @@
     <Compile Include="Areas\Api\Controllers\InvoiceController.cs" />
     <Compile Include="Areas\Api\Controllers\CompanyProductCategoryController.cs" />
     <Compile Include="Areas\Api\Controllers\DeleteItemController.cs" />
+    <Compile Include="Areas\Api\Controllers\ItemJobStatusController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
@@ -708,6 +709,8 @@
     <Compile Include="Areas\Invoices\InvoicesAreaRegistration.cs" />
     <Compile Include="Areas\Orders\Controllers\HomeController.cs" />
     <Compile Include="Areas\Orders\OrdersAreaRegistration.cs" />
+    <Compile Include="Areas\Production\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Production\ProductionAreaRegistration.cs" />
     <Compile Include="Areas\Products\Controllers\HomeController.cs" />
     <Compile Include="Areas\Products\ProductsAreaRegistration.cs" />
     <Compile Include="Areas\Settings\Controllers\HomeController.cs" />
@@ -818,6 +821,10 @@
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
     <Content Include="Areas\Orders\Scripts\order.viewModel.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.dataservice.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.model.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.view.js" />
+    <Content Include="Areas\Production\Scripts\itemJobStatus.viewModel.js" />
     <Content Include="Areas\Products\Scripts\product.dataservice.js" />
     <Content Include="Areas\Products\Scripts\product.model.js" />
     <Content Include="Areas\Products\Scripts\product.view.js" />
@@ -1022,6 +1029,9 @@
     </Content>
     <Content Include="Content\less\InventoryCategory.css">
       <DependentUpon>InventoryCategory.less</DependentUpon>
+    </Content>
+    <Content Include="Content\less\ItemJobStatus.css">
+      <DependentUpon>ItemJobStatus.less</DependentUpon>
     </Content>
     <Content Include="Content\less\MainSite.css">
       <DependentUpon>MainSite.less</DependentUpon>
@@ -1966,6 +1976,10 @@
     <Content Include="Areas\Invoices\Views\web.config" />
     <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\web.config" />
+    <Content Include="Areas\Production\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Production\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
@@ -1974,6 +1988,7 @@
     <Content Include="Content\less\MainSite.css.map">
       <DependentUpon>MainSite.css</DependentUpon>
     </Content>
+    <Content Include="Content\less\ItemJobStatus.less" />
     <None Include="Properties\PublishProfiles\cares.pubxml" />
     <None Include="Properties\PublishProfiles\Khurram.pubxml" />
     <Content Include="RichTextEditor\CHANGES.md" />
@@ -3174,6 +3189,7 @@
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
     <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
+    <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
     <Folder Include="Areas\Settings\Models\" />
     <Folder Include="Areas\Stores\Models\" />

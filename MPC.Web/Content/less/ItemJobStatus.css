@@ -1,0 +1,8 @@
+﻿#itemJobStatusBinding .collapsableView {
+  margin-right: 3px;
+}
+#itemJobStatusBinding .collapsableHeight {
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
+}

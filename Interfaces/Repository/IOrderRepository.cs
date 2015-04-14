@@ -103,5 +103,10 @@ namespace MPC.Interfaces.Repository
 
         string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
-       }
+        /// <summary>
+        /// Get Estimates For Item Job Status
+        /// </summary>
+        IEnumerable<Estimate> GetEstimatesForItemJobStatus();
+
+    }
 }
