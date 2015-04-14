@@ -345,6 +345,7 @@
     <Compile Include="Areas\Api\Controllers\ItemJobStatusController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
+    <Compile Include="Areas\Api\Controllers\MediaLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />

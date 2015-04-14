@@ -51,6 +51,14 @@
                         dataType: 'json',
                         type: 'DELETE'
                     });
+                    // Define request to delete Media Library By Id 
+                    amplify.request.define('deleteMediaLibraryItemById', 'ajax', {
+                        url: ist.siteUrl + '/Api/MediaLibrary',
+                        dataType: 'json',
+                        type: 'DELETE',
+                        decoder: amplify.request.decoders.istStatusDecoder
+                    });
+                    
                     // Define request to get Company Territory
                     amplify.request.define('searchCompanyTerritory', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyTerritory',
@@ -309,6 +317,17 @@
                     data: params
                 });
             },
+              // delete Media Library Item By Id
+            deleteMediaLibraryItemById = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'deleteMediaLibraryItemById',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
+            
             // get Items For Widgets
             getItemsForWidgets = function (callbacks) {
                 initialize();
@@ -738,7 +757,8 @@
             getCampaignDetailById: getCampaignDetailById,
             deleteProductCategoryById: deleteProductCategoryById,
             createStore: createStore,
-            deleteCompanyPermanent: deleteCompanyPermanent
+            deleteCompanyPermanent: deleteCompanyPermanent,
+            deleteMediaLibraryItemById:deleteMediaLibraryItemById
         };
     })();
 
