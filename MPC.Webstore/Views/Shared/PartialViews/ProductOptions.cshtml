@@ -597,7 +597,7 @@
         {
             <div id="formatDesignContainer">
                 <div class="DesgnFormatelbl">
-                    <label id="lbl_DesignSize_Format" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignSizeFormat", UserCookieManager.WBStoreId))</label>
+                    <label id="lbl_DesignSize_Format" class="Fsize13">Design sizes & format</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
                     <img id="designFormateimg" src="@ViewBag.Item.GridImage" />
@@ -1314,7 +1314,7 @@
 
     function ShowArtworkPanel() {
         var panelHtml = $("#pnlArtworkUploader").html();
-        ShowArtWorkPopup("Upload Your Artwork", panelHtml);
+        ShowArtWorkPopup("Upload Artwork", panelHtml);
     }
 
     function LoadCostCentersByStockId(StockId) {

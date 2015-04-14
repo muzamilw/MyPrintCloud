@@ -61,20 +61,19 @@
 										@if (ViewBag.isAllowBackOrder)
                                         {
 
+                                            <a onclick="return ShowDesignNow();">
+                                                <input id="btnEditThisDesign" value="Design Now" type="button"
+                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
+                                            </a>
 
-                                            <button id="btnEditThisDesign" value="Design Now"
-                                                    class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-                                                    onclick="return ShowDesignNow();">
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.WBStoreId))
-                                            </button>
+
                                         }
                                         else
                                         {
-                                            <button id="btnEditThisDesign" value="Design Now"
-                                                    class="start_creating_btn_prodDetail_orng rounded_corners5 marginBtm10 padding0imp"
-                                                    onclick="return ShowDesignNow();">
-                                                @Html.Raw(Html.GetKeyValueFromResourceFile("btnDesignNow", UserCookieManager.WBStoreId))
-                                            </button>
+                                            <a onclick="return ShowDesignNow();">
+                                                <input id="btnEditThisDesign" value="Design Now" type="button"
+                                                       class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
+                                            </a>
                                         }
 
 										@*@if (ViewBag.Count > 0)
@@ -136,28 +135,34 @@
 								}
 								@*..*@
 								@if (Model.ProductType == (int)ProductType.NonPrintProduct)
-								{
-									if (ViewBag.TemplateID == 0)
-									{
-										if (ViewBag.isAllowBackOrder)
-										{
-											<button id="btnUploadDesign" value="ADD TO CART"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); " >@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.WBStoreId))</button>
-										}
-										else
-										{
-											<button id="btnUploadDesign" value="ADD TO CART"
-													class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" disabled onclick="return UploadDesign('@ViewBag.btnUploadDesignPath'); ">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkADDTOCART", UserCookieManager.WBStoreId))</button>
+                                {
+                                    if (ViewBag.TemplateID == 0)
+                                    {
+                                        if (ViewBag.isAllowBackOrder)
+                                        {
+                                            <a href="@ViewBag.btnUploadDesignPath">
+                                                <input id="btnUploadDesign" value="Upload design" type="button"
+                                                       class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" />
+                                            </a>
+
                                         }
-                                        //  @Resources.MyResource.lnkADDTOCART replace with this language file
+                                        else
+                                        {
+                                            <a href="@ViewBag.btnUploadDesignPath">
+                                                <input id="btnUploadDesign" value="Upload design" type="button"
+                                                       class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" />
+                                            </a>
+										
+                                        }
+                                      
                                     }
                                 }
                                 else
                                 {
                                     //if (ViewBag.isAllowBackOrder)
                                     //{
-                                    <a href="@ViewBag.btnUploadDesignPath">
-                                        <input id="btnUploadDesign" value="Upload files" type="button"
+                                    <a href="@ViewBag.btnUploadDesignPath" onclick="ShowLoader();">
+                                        <input id="btnUploadDesign" value="Upload design" type="button"
                                                class="btn_upload_design_Prod_details  rounded_corners5 padding0imp" />
                                     </a>
                                         
@@ -454,8 +459,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn1">
 																			<span id='Matt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType1'>
-																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType1
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType1.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -467,8 +471,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn2">
 																			<span id='Glossy_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType2'>
-																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType2
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType2.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -480,8 +483,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn3">
 																			<span id='PremiumMatt_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PricePaperType3'>
-																				@ViewBag.Currency @ObjPriceMatrix.PricePaperType3
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PricePaperType3.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -492,8 +494,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn4" class="Stock4PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='4_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType4'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType4
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType4.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -504,8 +505,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn5" class="Stock5PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='5_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType5'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType5
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType5.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -518,8 +518,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn6" class="Stock6PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='6_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType6'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType6
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType6.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -531,8 +530,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn7" class="Stock7PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='7_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType7'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType7
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType7.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -544,8 +542,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn8" class="Stock8PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='8_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType8'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType8
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType8.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -556,9 +553,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn9" class="Stock9PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='9_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType9'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType9
-
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType9.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -569,8 +564,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn10" class="Stock10PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='10_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType10'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType10
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType10.ToString())
 																			</span>
 																		</div>
 																	</td>
@@ -581,8 +575,7 @@
 																		style="text-align: right;">
 																		<div id="matrixItemColumn11" class="Stock11PriceMatrixColumn tblBorderTdWidth extra_pricing divtxtflt">
 																			<span id='11_PriceMatrixID_@ObjPriceMatrix.PriceMatrixId' title='@ObjPriceMatrix.PriceStockType11'>
-																				@ViewBag.Currency @ObjPriceMatrix.PriceStockType11
-
+																				@ViewBag.Currency@MPC.Webstore.Common.Utils.FormatValueToTwoDecimal(ObjPriceMatrix.PriceStockType11.ToString())
 																			</span>
 																		</div>
 																	</td>

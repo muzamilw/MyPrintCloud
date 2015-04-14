@@ -1715,7 +1715,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
+        public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, long StoreId, CompanyContact contact = null)
         {
             try
             {
@@ -1770,6 +1770,8 @@ namespace MPC.Repository.Repositories
                 ContactCompany.IsCustomer = 0; //prospect
 
                 ContactCompany.OrganisationId = OrganisationId;
+
+                ContactCompany.StoreId = StoreId;
 
                 Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 

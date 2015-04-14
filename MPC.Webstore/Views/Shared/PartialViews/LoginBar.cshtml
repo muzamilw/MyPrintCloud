@@ -21,7 +21,7 @@
                             </li>
                             <li class="ZeroRightMargin BlackBtnCS">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links hyperlinkCart ">
-                                    <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
                                     <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
                                     <div class="lblCartCounter" id="lblCartCount">
                                         @ViewBag.CartCount
@@ -44,33 +44,14 @@
                             <li class="liMarginRight">
                                 <a onclick="ShowLoader();" href="/Dashboard" class="usercolorSize"><i class="fa fa-user"></i> Profile</a>
                               
-                                @*<div class="ProfileSetingbtn">
-                                    <a href="/Dashboard" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
-
-                                    </a>
-                                </div>*@
                             </li>
                             <li class="liMarginRight">
                                 <a onclick="ShowLoader();" href="/SavedDesigns" class="usercolorSize"><i class="fa fa-floppy-o"></i> Saved</a>
 
-                                @*<div class="SavedDesignBtn">
-                                    <a href="/SavedDesigns" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
-                                        <div class="lblSDCounter" id="lblSavedDesignCount">
-                                            (0)
-                                        </div>
-                                    </a>
-                                </div>*@
                             </li>
                             <li class="liMarginRight cartli">
                                 <a onclick="ShowLoader();" href="/ShopCart" class="usercolorSize"><i class="fa fa-shopping-cart"></i> Cart</a>
 
-                                @*<div class="CartBtn">
-                                    <a href="/ShopCart" class="top_sub_section_links hyperlinkCart" onclick="ShowLoader();">
-                                        <div class="lblItemsCartCounter" id="lblCartCounter">
-                                            (@ViewBag.CartCount)
-                                        </div>
-                                    </a>
-                                </div>*@
                             </li>
                             <li>
 
@@ -78,7 +59,7 @@
                             </li>
                             <li class="ZeroRightMargin classicLoginCart">
                                 <a href="/ShopCart" onclick="ShowLoader();" class="top_sub_section_links usercolorSize hyperlinkCart ">
-                                    <i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>
+                                    @*<i class="fa fa-shopping-cart cartcolorSize classicthemeLoginMenu retrothemeDisplay"></i>*@
                                     <span id="lbl_ShoppingCart" class="carttxtcolorSize classicthemeLoginMenu retrothemeDisplay">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</span>
                                     <div class="lblCartCounter" id="lblCartCount">
                                         @ViewBag.CartCount
@@ -103,7 +84,7 @@
                                         <li><a href="/Dashboard"><i class="fa fa-user"></i> Profile</a></li>
                                         <li><a href="/SavedDesigns"><i class="fa fa-floppy-o"></i> Saved</a></li>
                                         <li><a href="/ShopCart"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-                                        <li><a href="@Url.Action("LogOut", "LoginBar")"><i class="fa fa-power-off"></i> Logout</a></li>
+                                        <li><a href="@Url.Action("Sign out", "LoginBar")"><i class="fa fa-power-off"></i> Logout</a></li>
                                     </ul>
                                
                             </li>

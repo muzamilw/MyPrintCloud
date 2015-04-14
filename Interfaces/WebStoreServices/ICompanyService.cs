@@ -82,7 +82,7 @@ namespace MPC.Interfaces.WebStoreServices
         double CalculateVATOnPrice(double ActualPrice, double TaxValue);
 
         double CalculateDiscount(double price, double discountPrecentage);
-        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId, CompanyContact regContact = null);
+        long CreateCustomer(string name, bool isEmailSubScription, bool isNewsLetterSubscription, CompanyTypes customerType, string RegWithTwitter, long OrganisationId,long StoreId, CompanyContact regContact = null);
         Organisation getOrganisatonByID(int OID);
         string GetContactMobile(long CID);
 

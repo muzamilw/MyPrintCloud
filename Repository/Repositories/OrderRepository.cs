@@ -1220,7 +1220,7 @@ namespace MPC.Repository.Repositories
                         UpdateContactTelNo(loggedInContactID, specialInsTel);
 
                         //Update Item Status form shop cart to not progress
-                        UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, CurrntStoreMde, org, MgrIds); // and Delete the items which are not of part
+                        //UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, CurrntStoreMde, org, MgrIds); // and Delete the items which are not of part
 
                         //Job Scheduling
                         //Update the order address id      
@@ -1270,16 +1270,48 @@ namespace MPC.Repository.Repositories
                 if (tblOrder != null)
                 {
                     tblOrder.StatusId = (short)orderStatus;
-                    List<long> MgrIds = new List<long>();
-                    Company ObjComp = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
-                    if (ObjComp != null)
+                    List<Guid> StockManagerIds = new List<Guid>();
+                    if (mode == StoreMode.Retail)
                     {
-                        org = db.Organisations.Where(o => o.OrganisationId == ObjComp.OrganisationId).FirstOrDefault();
+                        long? StoreId =  db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).Select(s => s.StoreId).FirstOrDefault();
+                        if (StoreId != null && StoreId > 0)
+                        {
+                            Company Store = db.Companies.Where(c => c.CompanyId == StoreId).FirstOrDefault();
+                            if (Store != null)
+                            {
+                                if (Store.StockNotificationManagerId1 != null)
+                                {
+                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                                }
+                                if (Store.StockNotificationManagerId2 != null)
+                                {
+                                    StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                                }
+                                org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                            }
+                        }
                     }
+                    else 
+                    {
+                        Company Store = db.Companies.Where(c => c.CompanyId == tblOrder.CompanyId).FirstOrDefault();
+                        if (Store != null)
+                        {
+                            if (Store.StockNotificationManagerId1 != null)
+                            {
+                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId1);
+                            }
+                            if (Store.StockNotificationManagerId2 != null)
+                            {
+                                StockManagerIds.Add((Guid)Store.StockNotificationManagerId2);
+                            }
+                            org = db.Organisations.Where(o => o.OrganisationId == Store.OrganisationId).FirstOrDefault();
+                        }
+                    }
+                  
                     // Approve the credit after user has pay online
                     tblOrder.IsCreditApproved = 1;
 
-                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, MgrIds);
+                    UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, mode, org, StockManagerIds);
                     db.SaveChanges();
                     result = true;
                 }
@@ -1291,7 +1323,7 @@ namespace MPC.Repository.Repositories
 
             return result;
         }
-        private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode, Organisation org, List<long> MgrIds)
+        private void UpdateOrderedItems(OrderStatus orderStatus, Estimate tblOrder, ItemStatuses itemStatus, StoreMode Mode, Organisation org, List<Guid> MgrIds)
         {
 
             tblOrder.Items.ToList().ForEach(item =>
@@ -1594,7 +1626,7 @@ namespace MPC.Repository.Repositories
             return itemAttactchment;
         }
 
-        public void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<long> MgrIds, Organisation org)
+        public void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org)
         {
 
             Item tblRefItemProduct = null;
@@ -1738,7 +1770,7 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        public void stockNotificationToManagers(List<long> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
+        public void stockNotificationToManagers(List<Guid> mangerList, long CompanyId, Organisation ServerSettings, StoreMode ModeOfStore, long salesId, long itemId, long emailevent, long contactId, long orderedItemid)
         {
             try
             {
@@ -1866,14 +1898,14 @@ namespace MPC.Repository.Repositories
         /// <param name="orderStatus"></param>
         /// <param name="currentStoreMode"></param>
         /// <returns></returns>
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
         {
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
 
-            
-            //UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
+            UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
+           // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
             db.SaveChanges();
 
