@@ -4147,7 +4147,6 @@ h2 + .gallery {
     overflow: hidden;
     border-radius: .7em;
     background-color: rgba(0,0,0,.67);
-    font-family: Georgia,Times New Roman;
     font-weight: 700;
     font-style: italic;
     line-height: 1.6;
@@ -4156,7 +4155,7 @@ h2 + .gallery {
 }
 
     .infoPanelGallery .info .moreInfo:hover {
-        background-color: #00c4cc;
+        background-color: #ffdd0c;
     }
 
     .infoPanelGallery .info .moreInfo:active {
@@ -4741,7 +4740,7 @@ h2 + .gallery {
 }
 
 .DivAlignObjs {
-    height: 145px !important;
+    height: 108px !important;
     z-index: 10000;
     width: 235px !important;
     display: none;
@@ -4761,7 +4760,7 @@ h2 + .gallery {
 
 .DivTitleLbl {
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 18px;
     padding-left: 6px;
 }
 
@@ -4922,7 +4921,7 @@ h2 + .gallery {
 }
 
 
-.BtnChngeClr {
+.BtnChngeClr,.OpacityBtn {
     border-radius: 50%;
     color: #fff;
     vertical-align: bottom;
@@ -6041,7 +6040,9 @@ right: -65px;
     padding-left:3px;
     color:white !important;
 }
-
+.RemoveButton:hover{
+    background-color: red !important;
+}
 .HelpButton {
     border: 2px solid transparent;
     position: relative;
@@ -6484,7 +6485,7 @@ padding-top: 7px !important;
     text-align: center;
     margin-bottom:10px;
 }
-.smartFormHeading p {
+.smartFormHeading p ,.templatesHeading {
     font-family: 'Helvetica';
     font-weight: normal;
     font-style: normal;
@@ -6755,8 +6756,8 @@ font-size: 13px;
       color: #222;
       background-color: #ffdd0c;
 }
-.divTxtAlignmentControls button:hover{
-    background-color:rgb(39, 44, 51);
+.divTxtAlignmentControls button:hover ,.divGroupAlignControls button:hover{
+    background-color:rgb(39, 44, 51) !important;
     border-radius: 5px;
 }
 .cropToolCaption {
@@ -6768,4 +6769,11 @@ font-size: 13px;
 .btnQRCode {
       line-height: 15px !important;
   padding-top: 10px;
+}
+.divGroupAlignControls {
+    margin-top:18px;
+}
+.messageSmartForm
+{
+    display:none;
 }

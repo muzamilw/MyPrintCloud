@@ -380,6 +380,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ItemAttachmentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeZoneMapper.cs" />
@@ -473,6 +474,7 @@
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteListView.cs" />
     <Compile Include="Areas\Api\Models\GoodsReceivedNoteResponseModel.cs" />
     <Compile Include="Areas\Api\Models\InkPlateSide.cs" />
+    <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
