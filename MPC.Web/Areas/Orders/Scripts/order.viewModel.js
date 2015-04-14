@@ -518,7 +518,18 @@ define("order/order.viewModel",
                         getBaseData();
                         getOrders();
 
-
+                        // On Dropdown filter selection change get orders
+                        subscribeDropdownFilterChange();
+                    },
+                    // Subscribe Dropdown Filter Changes to search on selection change
+                    subscribeDropdownFilterChange = function() {
+                        orderTypeFilter.subscribe(function() {
+                            getOrdersOfCurrentScreen(currentScreen());
+                        });
+                        
+                        selectedFilterFlag.subscribe(function () {
+                            getOrdersOfCurrentScreen(currentScreen());
+                        });
                     },
                     // Subscribe Section Changes for Ptv Calculation
                     subscribeSectionChanges = function () {
