@@ -1972,6 +1972,7 @@
     <Content Include="Areas\Invoices\Views\web.config" />
     <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Settings\Views\MIS\_CostCentreStockVariable.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

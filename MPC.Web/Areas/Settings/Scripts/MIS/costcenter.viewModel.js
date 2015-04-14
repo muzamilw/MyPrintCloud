@@ -2,8 +2,8 @@
 Module with the view model for the My Organization.
 */
 define("costcenter/costcenter.viewModel",
-["jquery", "amplify", "ko", "costcenter/costcenter.dataservice", "costcenter/costcenter.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel"],
-function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM) {
+["jquery", "amplify", "ko", "costcenter/costcenter.dataservice", "costcenter/costcenter.model", "common/confirmation.viewModel", "common/pagination", "common/sharedNavigation.viewModel", "common/stockItem.viewModel"],
+function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNavigationVM, stockDialog) {
     var ist = window.ist || {};
     ist.costcenter = {
         viewModel: (function () {
@@ -26,12 +26,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             SelectedMatrixVariable = ko.observable(),
             costcenterVariableNodes = ko.observableArray([]),
             variableVariableNodes = ko.observableArray([]),
+            variableDropdownList = ko.observableArray([]),
             resourceVariableNodes = ko.observableArray([]),
             questionVariableNodes = ko.observableArray([]),
             matrixVariableNodes = ko.observableArray([]),
             lookupVariableNodes = ko.observableArray([]),
             selectedCostCenterType = ko.observable(),
             selectedVariableType = ko.observable(),
+            SelectedStockVariable = ko.observable(),
             selectedcc = ko.observable(),
             fixedvarIndex = ko.observable(1),
             selectedVariableString = ko.observable(),
@@ -48,12 +50,17 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             { Id: 3, Text: 'Yes/No' }
             ]),
 
+            CalculateCostType = ko.observableArray([
+            { Id: 'perunit', Text: 'Per Unit' },
+            { Id: 'perpack', Text: 'Per Package' }
+            ]),
+
             variablesTreePrent = ko.observableArray([
             { Id: 2, Text: 'Variables' },
             //{ Id: 4, Text: 'Questions' },
             //{ Id: 5, Text: 'Matrices' },
-            { Id: 6, Text: 'Lookup' },
-            { Id: 7, Text: 'Stock Items' }
+            //{ Id: 6, Text: 'Lookup' },
+            //{ Id: 7, Text: 'Stock Items' }
             ]),
             fedexServiceTypes = ko.observableArray([{ Id: 1, Text: 'EUROPE_FIRST_INTERNATIONAL_PRIORITY' },
             { Id: 2, Text: 'FEDEX_1_DAY_FREIGHT' },
@@ -207,6 +214,26 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
 
             },
+
+            getvariableListItem = function () {
+                dataservice.getCostCentreAnswerList({
+                    VariableId: 2,
+                }, {
+                    success: function (data) {
+                        if (data != null) {
+                            variableDropdownList.removeAll();
+                            ko.utils.arrayPushAll(variableDropdownList(), data);
+                            variableDropdownList.valueHasMutated();
+                        }
+                    },
+                    error: function (response) {
+                        toastr.error("Failed to Load . Error: " + response);
+                    }
+
+                });
+
+  
+            }
             getVariableTreeChildListItems = function (dataRecieved, event) {
                 var id = $(event.target).closest('li')[0].id;
                 if ($(event.target).closest('li').children('ol').children('li').length > 0) {
@@ -501,7 +528,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     return {
                         row: source.$parent,
                         widget: source.$data,
-                        html: source.$data.VariableString().replace(/&quot;/g, '"') // event.currentTarget.children[0].value
+                        html: source.$data.VariableString().replace(/&quot;/g, '"') 
                     };
                 }
                 return {};
@@ -1076,7 +1103,8 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     selectedCostCenter().strCostPlantUnParsed(selectedCostCenter().strCostPlantUnParsed() + icoVal);
                 }
                 if (selectedVariableString() === 'txtQuotedLabourCost') {
-                    selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
+                    $("#txtQuotedLabourCost").val($("#txtQuotedLabourCost").val() + icoVal);
+                   // selectedCostCenter().strPriceLabourUnParsed(selectedCostCenter().strPriceLabourUnParsed() + icoVal);
                 }
                 if (selectedVariableString() === 'txtLabourActualCost') {
                     selectedCostCenter().strActualCostLabourUnParsed(selectedCostCenter().strActualCostLabourUnParsed() + icoVal);
@@ -1085,6 +1113,24 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     selectedCostCenter().strTimeUnParsed(selectedCostCenter().strTimeUnParsed() + icoVal);
                 }
             },
+            AddtoInputControl = function () {
+                if (selectedCostCenter().isEditLabourQuote()) {
+                    var t = $("#txtQuotedLabourCost").val() + SelectedStockVariable().VariableString().replace(/&quot;/g, '"');
+                    $("#txtQuotedLabourCost").val(t);
+                    
+                }
+                view.hideCostCentreStockDialog();
+            }
+
+
+             openStockItemDialog = function (stockCategoryId) {
+                 stockDialog.show(function (stockItem) {
+                     SelectedStockVariable(model.StockItemVariable(stockItem));
+                     getvariableListItem();
+                     view.showCostCentreStockDialog();
+                    
+                 }, 1, true);
+             },
             // #region Observables
             // Initialize the view model
             initialize = function (specifiedView) {
@@ -1174,7 +1220,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 saveMatrixVariable: saveMatrixVariable,
                 UpdateMartix: UpdateMartix,
                 addMatrixVariable: addMatrixVariable,
-                DeleteMatrixVariable: DeleteMatrixVariable
+                DeleteMatrixVariable: DeleteMatrixVariable,
+                SelectedStockVariable: SelectedStockVariable,
+                openStockItemDialog: openStockItemDialog,
+                CalculateCostType: CalculateCostType,
+                variableDropdownList: variableDropdownList,
+                AddtoInputControl: AddtoInputControl
                 
             };
         })()
