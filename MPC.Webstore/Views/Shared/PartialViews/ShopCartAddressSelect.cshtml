@@ -220,8 +220,6 @@
                             <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Shipping Name</label>
                             @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = "Shipping Name e.g London Office HQ" })
 
-                            @*<label ID="Label7" class="tooltipCheckoutAvenior" >e.g. Office Address</label>*@
-
                         </div>
 
                         <div class="clearBoth">
@@ -301,16 +299,12 @@
                 <div class="clearBoth">
                     &nbsp;
                 </div>
-                <div class="col-md-12 col-lg-12 col-xs-12 center_align">
+                <div class="col-md-12 col-lg-12 col-xs-12 center_align" style="padding-left:3px;">
                     <label id="ltrlcontactnum2" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Contact Number</label>
                     <input type="checkbox" id="chkBoxDeliverySameAsBilling" checked="checked" onchange="BillingSameAsDeliveryScriptCheckBox();" value="Bill items to the above shipping address">
                     <label id="lblCheckBox" for="chkBoxDeliverySameAsBilling" class="col-md-8 col-lg-7 col-xs-12 float-none" onclick="BillingSameAsDeliveryScriptCheckBox();">Bill items to the above shipping address</label>
 
                 </div>
-                @*<div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout center_align" onclick="BillingSameAsDeliveryScriptCheckBox();">
-                        <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">&nbsp;</label>
-
-                    </div>*@
                 <div class="clear">
                 </div>
                 <br />
@@ -437,7 +431,7 @@
 
                 </div>
                 <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 80%; text-align: left;">
-                    Please make sure your shipping and billing addresses are correct. Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
+                    Please make sure your shipping and billing addresses are correct. <br />Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
                 </div>
                 <br />
                 <br />
@@ -568,7 +562,7 @@
                                                         <td width="50%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize15" id="tdSubtotal">
+                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tdSubtotal">
                                                             <span id="spnsubtotal" style="margin-right: 13px;">Sub Total:</span>
                                                         </td>
                                                         @{
@@ -606,7 +600,7 @@
                                                         <td width="50%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize15" id="tddelivery">
+                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tddelivery">
                                                             <span id="spndelivery">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
                                                         </td>
                                                         @if (deliveryCost > 0)
@@ -625,7 +619,7 @@
                                                     <tr id="rowVat">
                                                         <td width="30%" align="left"></td>
                                                         <td width="50%"></td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize15">
+                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13">
                                                             <span id="lblTaxLabel">@Model.TaxLabel</span>
                                                         </td>
                                                         <td align="right" width="20%">
@@ -651,7 +645,7 @@
                                                         <td width="50%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize15" id="tdgrandtotal">
+                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tdgrandtotal">
                                                             <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
                                                         </td>
                                                         <td align="right" width="20%">
@@ -771,7 +765,7 @@
                                 </div>
                                 <div class="float_right">
 
-                                    <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId');" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
+                                    <button type="submit" id="btnShopCart" onclick="return BackToShopping('@Model.OrderId'); ShowLoader();" class="btn_brown rounded_corners5">BACK TO SHOPPING</button>
                                 </div>
                                 <div class="clearBoth">
                                     &nbsp;
@@ -977,7 +971,7 @@
                 $('#divBilling').css('display', 'none');
             }
             else {
-
+               
                 $('#isSameBillingAddress').val("False");
                 if ($("#hfIsDefaultBilling").val() != "1") {
                     EnableTextBoxes();
@@ -986,6 +980,23 @@
                 $('#BillTOShippTO').css('display', 'block');
                 $('#BillTOShippTOContainer').css('display', 'block');
 
+                
+
+
+                $('#divBilling').css('display', 'block');
+
+
+                HideAddressInBillingDropDown();
+                $('#ddlBilling option:first').attr('selected', 'selected');
+                $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+                $('#SelectedBillingState option:first').attr('selected', 'selected');
+                        
+                $('#txtBillingName').val("");
+                $('#txtAddressLine1').val("");
+                $('#txtAddressLine2').val("");
+                $('#txtCity').val("");
+                $('#txtZipPostCode').val("");
+                $('#txtContactNumber').val("");
                 //set labels
                 $("#ltrlShipTo").html(ShipTO + "");
                 $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
@@ -994,13 +1005,6 @@
                 $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
                 $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
                 $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-
-
-                $('#divBilling').css('display', 'block');
-
-
-                HideAddressInBillingDropDown();
-
             }
 
 
@@ -1320,6 +1324,9 @@
                 }
             }
 
+            if(isValid == true){
+                ShowLoader();
+            }
             return isValid;
         }
 
@@ -1367,6 +1374,11 @@
                     }
                     else
                     {
+                        $('#ddShippingCountry option:first').attr('selected', 'selected');
+                        $('#ddShippingState option:first').attr('selected', 'selected');
+                        
+                       
+                        $('#ddShippingCountry').click();
                         $('#txtShipAddressName').val("");
                         $('#txtShipAddLine1').val("");
                         $('#txtShipAddressLine2').val("");
@@ -1436,7 +1448,10 @@
                         break;
                     }
                     else // add new billing address
-                    {
+                    { 
+                        $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+                        $('#SelectedBillingState option:first').attr('selected', 'selected');
+                        
                         $('#txtBillingName').val("");
                         $('#txtAddressLine1').val("");
                         $('#txtAddressLine2').val("");

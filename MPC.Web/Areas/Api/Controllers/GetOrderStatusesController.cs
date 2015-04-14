@@ -6,6 +6,7 @@ using MPC.Interfaces.MISServices;
 using MPC.MIS.Areas.Api.ModelMappers;
 using MPC.MIS.Areas.Api.Models;
 using MPC.Models.RequestModels;
+using MPC.Models.ResponseModels;
 using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
@@ -36,13 +37,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewDashboard })]
         [CompressFilterAttribute]
-        public OrderStatusesResponse Get([FromUri] DashboardRequestModel request)
+        public Models.OrderStatusesResponse Get([FromUri] DashboardRequestModel request)
         {
             if (!ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, "Invalid Request");
             }
-            return dashboardService.GetOrderStatusesCount(request);
+            return dashboardService.GetOrderStatusesCount(request).CreateFrom();
         }
         #endregion
     }

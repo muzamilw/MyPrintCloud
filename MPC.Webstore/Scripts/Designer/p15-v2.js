@@ -219,19 +219,7 @@ function fu04_01() {
               }
           });
  
-          if (userVariableData != null)
-          {
-              $.each(userVariableData, function (i, vari) {
-                  if(vari.Value != null)
-                  {
-                      var variableTag = vari.FieldVariable.VariableTag;
-                      $.each(DT, function (i, objDT) {
-                          while (objDT.ContentString.indexOf(variableTag) != -1)
-                              objDT.ContentString = objDT.ContentString.replace(variableTag, vari.Value);
-                      });
-                  }
-              });
-          }
+          pcl42_updateTemplate(DT);
           TO = DT;
           fu07();
           fu06();
