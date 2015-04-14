@@ -17,7 +17,7 @@
         <div class="dashBoardRetrunLink dashboard_heading_signin">
             <div class=" left_align">
                 <h1>
-                    <a href="/Dashboard" class="left_align" title="Back to my dashboard">
+                    <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
                         Back to my dashboard
                     </a>
                 </h1>
@@ -146,7 +146,7 @@ grid.Column("Default Shipping",format:@<p>
 
                                 @if (item.IsDefaultShippingAddress == true)
                                 {
-                                <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+                                <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
                                 }
                                 else
                                 {
@@ -162,7 +162,7 @@ grid.Column("Default Shipping",format:@<p>
 
     @if (item.IsDefaultAddress == true)
     {
-    <p style="margin-left:26px;"><i class="fa fa-check"></i></p>
+    <p class="default-address-tickCs"><i class="fa fa-check"></i></p>
 
     } 
     else
@@ -176,7 +176,7 @@ grid.Column("Default Shipping",format:@<p>
 
     </p>),
 
-    grid.Column("Edit", format:@<text> <i class="fa fa-pencil" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
+    grid.Column("Edit", format:@<text> <i class="fa fa-pencil edit-address" onclick="ShowBillingShippingDetails(@item.addressid)" ></i>
                 </text>,style:"WebGridPadding")
     }
 
@@ -238,7 +238,7 @@ grid.Column("Default Shipping",format:@<p>
 
 <div id="UpdateModelPopUp" class="pop_body_MesgPopUp" style="padding: 25px; visibility:hidden;">
     <div id="MainContent_CRUDShippingAddress1_upnlBody">
-        <div id="container" style="margin-left: 128px;">
+        <div id="container" style="margin-left: 85px;">
         @*<div class="address_label_area1 ">
             Address Name:
             <div id="divAddressName" class="error_star" style="display: none;">
@@ -285,14 +285,14 @@ grid.Column("Default Shipping",format:@<p>
             Telephone :
         </div>*@
         <div class="address_contol_area2">
-            <div class="float_left">
-                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:128px;" placeholder="Telephone">
+            <div class="float_left_simple">
+                <input type="text" maxlength="30" id="txtTel1" class="newTxtBox" style="width:160px;" placeholder="Telephone">
             </div>
             @*<div class="label_area_ext">
                 Ext 1:
             </div>*@
             <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:70px;" placeholder="Ext 1">
+                <input type="text" maxlength="7" id="txtExt1" class="newTxtBox" style="width:96px;" placeholder="Ext 1">
             </div>
         </div>
         <div class="clearBoth">
@@ -310,14 +310,14 @@ grid.Column("Default Shipping",format:@<p>
 
         </div>*@
         <div class="address_contol_area2">
-            <div class="float_left">
-                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:128px;" placeholder="Tel 2">
+            <div class="float_left_simple">
+                <input type="text" maxlength="30" id="txtTel2" class="newTxtBox" style="width:160px;" placeholder="Tel 2">
             </div>
             @*<div class="label_area_ext">
                 Ext 2:
             </div>*@
             <div class="float_left">
-                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:70px;" placeholder="Ext 2">
+                <input type="text" maxlength="7" id="txtExt2" class="newTxtBox" style="width:96px;" placeholder="Ext 2">
             </div>
         </div>
         <div class="clearBoth">
@@ -397,13 +397,14 @@ grid.Column("Default Shipping",format:@<p>
         <div class="clearBoth">
             &nbsp;
         </div>
-        <div class="address_label_area1">
+        <div style="width:159px;float:left;">
+            &nbsp;
         </div>
         <div class="address_contol_area1_corp">
 
-            <input type="submit"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="SaveCall()">
+            <input type="button"  value="Save"  id="btnSaveShippingAddress" class="start_creating_btn rounded_corners5" style="float: left;" onclick="SaveCall();">
 
-            <input value="Cancel" id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction()">
+            <input value="Cancel" type="button"  id="btnCancelShippingAddress" class="start_creating_btn rounded_corners5" style="float: left; margin-left: 5px;" onclick="myFunction();">
         </div>
         <div class="clearBoth">
             
