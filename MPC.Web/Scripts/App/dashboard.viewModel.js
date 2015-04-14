@@ -92,6 +92,7 @@ define("dashboard.viewModel",
                     liveStoresCount: liveStoresCount,
                     currentMonthOrdersCount: currentMonthOrdersCount,
                     orderSearchString: orderSearchString,
+                    getDashboardData: getDashboardData,
                     orders: orders
                 };
             })()

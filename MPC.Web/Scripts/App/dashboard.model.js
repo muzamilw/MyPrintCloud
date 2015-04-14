@@ -304,6 +304,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
         estimate.status(source.Status || undefined);
+        estimate.flagColor(source.SectionFlagColor || undefined);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];
