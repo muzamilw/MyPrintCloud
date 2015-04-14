@@ -970,7 +970,19 @@ define("order/order.viewModel",
                         _.each(selectedOrder().deliverySchedules(), function (item) {
                             order.ShippingInformations.push(item.convertToServerData());
                         });
+                        var itemsArray = [];
+                        _.each(selectedOrder().items(), function (obj) {
+                            var item = obj.convertToServerData();  // item converted 
+                            var attArray = [];
+                            _.each(item.ItemAttachment, function (att) {
+                                var attchment = att.convertToServerData();  // item converted 
+                                attArray.push(attchment);
+                            });
+                            item.ItemAttachments = attArray;
+                            itemsArray.push(item);
 
+                        });
+                        order.Items = itemsArray;
                         dataservice.saveOrder(order, {
                             success: function (data) {
                                 if (!selectedOrder().id()) {
@@ -1039,6 +1051,26 @@ define("order/order.viewModel",
                                 toastr.error("Failed to archive Order. Error: " + response);
                             }
                         });
+                    },
+                    itemAttachmentFileLoadedCallback = function (file, data) {
+                        //Flag check, whether file is already exist in media libray
+                        var flag = true;
+
+                        _.each(selectedProduct().itemAttachments(), function (item) {
+                            if (item.fileSourcePath() === data && item.fileName() === file.name) {
+                                flag = false;
+                            }
+                        });
+
+                        if (flag) {
+                            var attachment = model.ItemAttachment();
+                            attachment.id(undefined);
+                            attachment.fileSourcePath(data);
+                            attachment.fileName(file.name);
+                            attachment.companyId(selectedOrder().companyId());
+                            selectedProduct().itemAttachments.push(attachment);
+                           
+                        }
                     },
                     //get Orders Of Current Screen
                     getOrdersOfCurrentScreen = function () {
@@ -1899,8 +1931,9 @@ define("order/order.viewModel",
                     selectedBestPressFromWizard: selectedBestPressFromWizard,
                     clickOnWizardOk: clickOnWizardOk,
                     runWizard: runWizard,
-                    downloadArtwork: downloadArtwork
+                    downloadArtwork: downloadArtwork,
                     //#endregion
+                    itemAttachmentFileLoadedCallback:itemAttachmentFileLoadedCallback,
                 };
             })()
         };

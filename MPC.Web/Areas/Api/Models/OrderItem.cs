@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MPC.Models.DomainModels;
 
 namespace MPC.MIS.Areas.Api.Models
 {
@@ -137,7 +138,7 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid? JobCardPrintedBy { get; set; }
         public IEnumerable<string> ProductCategories { get; set; }
         public IEnumerable<ItemSection> ItemSections { get; set; }
-
+        public  ICollection<ItemAttachment> ItemAttachments { get; set; }
         #endregion
     }
 }
