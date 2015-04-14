@@ -1203,9 +1203,9 @@
                                                             </li>
                                                             <li class="dd-item dd-item-list">
                                                                 <div class="dd-handle-list" data-bind="click: $root.getMatricesVariableTreeChildItems"><i class="fa fa-bars"></i></div>
-                                                                <div class="dd-handle togglelink">
+                                                                <div class="dd-handle">
                                                                     <span>Matrices</span>
-                                                                </div>
+                                                                </div> @*"*@
                                                                 <ol data-bind="visible:$root.showMatricesVariableChildList">
                                                                     <!-- ko template: { name: 'MatricesVariableTemplate' , foreach: $root.matrixVariableNodes } -->
                                                                     <!-- /ko -->
@@ -1416,7 +1416,7 @@
         <li class="dd-item dd-item-list" >
             <div class="dd-handle-list"> <i class="fa fa-bars"> </i> </div>
             <div class="dd-handle">
-                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: Id}">
+                <span class="AddEditQuestion" data-bind="text:QuestionString,drag: $root.draggedVariableString, click: $root.OnEditQuestionVariable, attr: {id: Id}">
                 </span>
                 <div class="nested-links">
                 </div>
@@ -1432,8 +1432,8 @@
                 <i class="fa fa-bars"> </i>
             </div>
             <div class="dd-handle">
-                @*<span class="AddEditMatrices" data-bind="text:Name,drag: $root.draggedQuestion, click: $root.OnEditQuestionVariable, attr: {id: MatrixId}">
-                </span>*@
+                <span class="AddEditMatrix" data-bind="text:Name,drag: $root.draggedVariableString, click: $root.OnEditMatrixVariable, attr: {id: MatrixId}">
+                </span>
                 <div class="nested-links">
                 </div>
             </div>
@@ -1446,6 +1446,14 @@
     <li><a tabindex="-1" data-bind="click:$root.DeleteQuestionVariable">Delete</a></li>
    
 </ul>
+<ul id="contextMenuMatrix" class="dropdown-menu" role="menu" style="display:none">
+    <li><a tabindex="-1" data-bind="click:$root.addMatrixVariable">Add</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.OnEditMatrixVariable">Edit</a></li>
+    <li><a tabindex="-1" data-bind="click:$root.DeleteMatrixVariable">Delete</a></li>
+
+</ul>
+
+
 <script src="http://mpc/Scripts/jquery.min.js"></script>
 
 <script type="text/javascript">
@@ -1466,22 +1474,48 @@
                             .show()
                             .css({
                                 position: "absolute",
-                                left: getLeftLocation(e)-50,
-                                top: getTopLocation(e)+5
+                                left: getLeftLocation(e)-100,
+                                top: getTopLocation(e)-15
                             })
                             .off('click')
                             .on('click', function (e) {
                                 $(this).hide();
 
-                                var $invokedOn = $(this).data("invokedOn");
-                                var $selectedMenu = $(e.target);
+                            //    var $invokedOn = $(this).data("invokedOn");
+                           //     var $selectedMenu = $(e.target);
 
-                                settings.menuSelected.call(this, $invokedOn, $selectedMenu);
+                              //  settings.menuSelected.call(this, $invokedOn, $selectedMenu);
                             });
 
                         return false;
                     });
+                    ///////////////
+                    //$(this).on("contextMenuMatrix", function (e) {
+                    //    // return native menu if pressing control
+                    //    if (e.ctrlKey) return;
 
+                    //    //open menu
+                    //    $(settings.menuSelector)
+                    //        .data("invokedOn", $(e.target))
+                    //        .show()
+                    //        .css({
+                    //            position: "absolute",
+                    //            left: getLeftLocation(e) - 100,
+                    //            top: getTopLocation(e) - 15
+                    //        })
+                    //        .off('click')
+                    //        .on('click', function (e) {
+                    //            $(this).hide();
+
+                    //            var $invokedOn = $(this).data("invokedOn");
+                    //            var $selectedMenu = $(e.target);
+
+                    //            settings.menuSelected.call(this, $invokedOn, $selectedMenu);
+                    //        });
+
+                    //    return false;
+                    //});
+                    ///////////////
                     //make sure menu closes on any click
                     $(document).click(function () {
                         $(settings.menuSelector).hide();
