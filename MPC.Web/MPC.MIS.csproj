@@ -377,6 +377,7 @@
     <Compile Include="Areas\Api\ModelMappers\CostCentreMatrixMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreQuestionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\CostCentreVariableTypeMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\DashboardMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\GoodsReceivedNoteMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ItemImageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineClickChargeLookupMapper.cs" />
@@ -481,6 +482,7 @@
     <Compile Include="Areas\Api\Models\MachinePerHourLookup.cs" />
     <Compile Include="Areas\Api\Models\MachineSpeedWeightLookup.cs" />
     <Compile Include="Areas\Api\Models\OrderRetailItemDetail.cs" />
+    <Compile Include="Areas\Api\Models\OrderStatusesResponse.cs" />
     <Compile Include="Areas\Api\Models\ProductCategoryDeleteModel.cs" />
     <Compile Include="Areas\Api\Models\PtvDTO.cs" />
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />

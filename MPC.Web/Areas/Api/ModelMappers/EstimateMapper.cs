@@ -93,6 +93,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status.StatusName,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectOrder = source.isDirectSale,
+                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
 
             };
 
