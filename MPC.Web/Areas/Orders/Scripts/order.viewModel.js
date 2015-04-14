@@ -1808,7 +1808,7 @@ define("order/order.viewModel",
                         view = specifiedView;
                         ko.applyBindings(view.viewModel, view.bindingRoot);
 
-                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
+                        
                         categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
                         costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
@@ -1821,12 +1821,14 @@ define("order/order.viewModel",
                     // Initialize the view model
                     initialize = function(specifiedView) {
                         initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
                         isEstimateScreen(false);
                         getOrders();
                     },
                     //Initialize Estimate
                     initializeEstimate = function(specifiedView) {
                         initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
                         isEstimateScreen(true);
                         getEstimates();
                     };
