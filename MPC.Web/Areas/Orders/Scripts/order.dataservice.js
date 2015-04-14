@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get Estimates
+                    amplify.request.define('getEstimates', 'ajax', {
+                        url: ist.siteUrl + '/Api/Estimate',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to delete Order
                     amplify.request.define('deleteOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
@@ -166,6 +173,16 @@ define("order/order.dataservice", function () {
                     error: callbacks.error
                 });
             },
+            //get Estimates
+            getEstimates = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getEstimates',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
              // Delete Orders
            deleteOrder = function (params, callbacks) {
                 initialize();
@@ -297,6 +314,7 @@ define("order/order.dataservice", function () {
         return {
             getOrder: getOrder,
             getOrders: getOrders,
+            getEstimates: getEstimates,
             saveOrder: saveOrder,
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,

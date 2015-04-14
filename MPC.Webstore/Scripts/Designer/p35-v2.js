@@ -940,13 +940,15 @@ $('#btnReplaceImage').click(function () {
 });
 $('#editorLogo').click(function () {
     if (smartFormClicked) {
-        StartLoader("Generating artwork for your approval to order...");
+        StartLoader("Generating artwork for your approval");
         //   parent.Next(); // webstore caller function
         fu12("preview", $("#txtTemplateTitle").val());
         return false;
     } else 
     {
-        alert("Please merge smart form details into template before you continue !");
+        $(".messageSmartForm").css("display", "block");
+        $("#Quick").click();
+        //alert("Please merge smart form details into template before you continue !");
         return false;
     }
 });
@@ -2137,11 +2139,14 @@ $("#smartFormSelectUserProfile").change(function () {
 });
 $("#BtnSmartFormSave").click(function () {
     pcl42();
-    smartFormClicked = true;
+    smartFormClicked = true; $(".messageSmartForm").css("display", "none");
 });
 $("#btnCompanyLogo").click(function () {
     d1CompanyLogoToCanvas();
 });
 $("#btnContactImage").click(function () {
     d1ContactLogoToCanvas();
+});
+$("#btnGoToLandingPage").click(function () {
+    window.location.href = "/ProductOptions/0/" + item.RefItemId + "/UploadDesign";
 });

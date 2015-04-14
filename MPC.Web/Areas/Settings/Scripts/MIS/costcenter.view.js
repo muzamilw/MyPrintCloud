@@ -24,16 +24,33 @@
                       $("#CostCentreQuestionModal").modal("hide");
                       
                   },
-                showAddEditQuestionMenu = function () {
-                    $(".AddEditQuestion").contextMenu({
-                        menuSelector: "#contextMenu"
-                        //menuSelected: function (invokedOn, selectedMenu) {
-                        //    var msg = "You selected the menu item '" + selectedMenu.text() +
-                        //        "' on the value '" + invokedOn.text() + "'";
-                        //    alert(msg);
-                        //}
+                  showAddEditQuestionMenu = function () {
+                      $(".AddEditQuestion").contextMenu({
+                          menuSelector: "#contextMenu"
+                      });
+                  },
+                   showCostCentreMatrixDialog = function () {
+                       $("#CostCentreMatrixModal").modal("show");
+                       //   initializeLabelPopovers();
+                   },
+                  hideCostCentreMatrixDialog = function () {
+                      $("#CostCentreMatrixModal").modal("hide");
+
+                  },
+                showAddEditMatrixMenu = function () {
+                    $(".AddEditMatrix").contextMenu({
+                        menuSelector: "#contextMenuMatrix"
                     });
                 },
+                showCostCentreStockDialog = function () {
+                    $("#CostCentreStockModal").modal("show");
+                    //   initializeLabelPopovers();
+                },
+                  hideCostCentreStockDialog = function () {
+                      $("#CostCentreStockModal").modal("hide");
+
+                  },
+                
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -51,7 +68,12 @@
                 productCategorySelectedEvent: productCategorySelectedEvent,
                 showCostCentreQuestionDialog: showCostCentreQuestionDialog,
                 hideCostCentreQuestionDialog:hideCostCentreQuestionDialog,
-                showAddEditQuestionMenu: showAddEditQuestionMenu
+                showAddEditQuestionMenu: showAddEditQuestionMenu,
+                showCostCentreMatrixDialog: showCostCentreMatrixDialog,
+                hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
+                showAddEditMatrixMenu: showAddEditMatrixMenu,
+                showCostCentreStockDialog: showCostCentreStockDialog,
+                hideCostCentreStockDialog: hideCostCentreStockDialog
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

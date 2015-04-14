@@ -4,6 +4,11 @@
 @section leftmenue {
 
 }
+<style>
+    .MatrixHeader td:first-child,.MatrixHeader td:first-child > input,.MatrixHeader tr:first-child td, .MatrixHeader tr:first-child td > input  { background-color: rgb(223, 217, 217) !important; }
+    .MatrixHeader tr:first-child td:first-child > input { border: 0px solid #ccc!important;}
+   
+</style>
 <div class="row" id="CostCentersBinding">
     <div class="col-lg-12" data-bind="visible: !isEditorVisible()">
         <div class="row">
@@ -119,15 +124,17 @@
     </div>
     @Html.Partial("~/Areas/Settings/Views/MIS/CostCenterDetail.cshtml")
     @Html.Partial("~/Areas/Settings/Views/MIS/_AddEditCostCentreQuestion.cshtml")
-
+    @Html.Partial("~/Areas/Settings/Views/MIS/_AddEditCostCentreMatrix.cshtml")
+    @Html.Partial("~/Areas/Settings/Views/MIS/_CostCentreStockVariable.cshtml")
 </div>
 <!-- ko stopBinding: true -->
 @Html.Partial("~/Areas/Common/Views/Shared/_ConfirmationDialog.cshtml")
+@Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 <!-- /ko -->
 @section Scripts{
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        require(["costcenter/costcenter.view", "common/confirmation.view"]);
+        require(["costcenter/costcenter.view", "common/confirmation.view", "common/stockItem.view"]);
         var CostCenterType = 0;
         $(function () {
             $('#lisettings').addClass('active');

@@ -1052,8 +1052,18 @@ namespace MPC.Repository.Repositories
                          //}
 
                          long OldCatIds = 0;
+                         long TerritoryId = 0;
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportStore2;
+                         if(comp != null)
+                         {
+                             if(comp.CompanyTerritories != null)
+                             {
+                                 TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                             }
+
+                         }
+                         
                          if (prodCats != null && prodCats.Count > 0)
                          {
                              foreach (var cat in prodCats)
@@ -1067,6 +1077,16 @@ namespace MPC.Repository.Repositories
                                  cat.Sides = (int)cat.ProductCategoryId;
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oCID;
+                                 if(cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                 {
+                                     foreach(var territory in cat.CategoryTerritories)
+                                     {
+                                         territory.CompanyId = oCID;
+                                         territory.OrganisationId = OrganisationID;
+
+                                         territory.TerritoryId = TerritoryId;
+                                     }
+                                 }
                                  db.ProductCategories.Add(cat);
                                  db.SaveChanges();
 
@@ -1805,11 +1825,11 @@ namespace MPC.Repository.Repositories
 
                                  string DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
 
-                                 string  FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
+                                 string  FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".eot");
 
-                                 string FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                                 string FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".ttf");
 
-                                 string FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                 string FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/Organisation" + ImportIDs.OldOrganisationID + "/WebFonts/" + fonts.FontFile + ".woff");
 
                                  if (!System.IO.Directory.Exists(DestinationFontDirectory))
                                  {

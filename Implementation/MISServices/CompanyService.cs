@@ -4120,17 +4120,15 @@ namespace MPC.Implementation.MISServices
                                 {
 
 
-                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".eot");
+                                    string F1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".eot");
 
-                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".ttf");
+                                    string F2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".ttf");
 
-                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/WebFonts/" + font.FontFile + ".woff");
+                                    string F3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/WebFonts/" + font.FontFile + ".woff");
 
-                                    DPath = "Designer/WebFonts/" + font.FontFile + ".eot";
+                                    DPath = "Designer/Organisation" + OrganisationID + "/WebFonts";
 
-                                    string Dpath2 = "Designer/WebFonts/" + font.FontFile + ".ttf";
-
-                                    string DPath3 = "Designer/WebFonts/" + font.FontFile + ".woff";
+                                  
 
                                     if (File.Exists(F1))
                                     {
@@ -4140,13 +4138,13 @@ namespace MPC.Implementation.MISServices
 
                                     if (File.Exists(F2))
                                     {
-                                        ZipEntry r = zip.AddFile(F2, Dpath2);
+                                        ZipEntry r = zip.AddFile(F2, DPath);
                                         r.Comment = "template font";
                                     }
 
                                     if (File.Exists(F3))
                                     {
-                                        ZipEntry r = zip.AddFile(F3, DPath3);
+                                        ZipEntry r = zip.AddFile(F3, DPath);
                                         r.Comment = "template font";
                                     }
 
@@ -4357,7 +4355,7 @@ namespace MPC.Implementation.MISServices
                                                         if (!string.IsNullOrEmpty(tempbcI.ImageName))
                                                         {
                                                             
-                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + tempbcI.ImageName);
+                                                            string FilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + tempbcI.ImageName);
                                                             
                                                         
                                                             if(tempbcI.ImageName.Contains("UserImgs/"))
@@ -4385,7 +4383,7 @@ namespace MPC.Implementation.MISServices
                                                             
                                                             Filename = Filename.Replace(OldPath, newPath);
 
-                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Templates/" + Filename);
+                                                            string oPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID + "/Templates/" + Filename);
                                                             if (tempbcI.ImageName.Contains("UserImgs/"))
                                                             {
 
