@@ -324,6 +324,7 @@
     <Compile Include="Areas\Api\Controllers\DeliverycarrierController.cs" />
     <Compile Include="Areas\Api\Controllers\DownloadArtworkController.cs" />
     <Compile Include="Areas\Api\Controllers\DrawPtvController.cs" />
+    <Compile Include="Areas\Api\Controllers\EstimateController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableController.cs" />
     <Compile Include="Areas\Api\Controllers\FieldVariableDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\GetCampaignDetailController.cs" />
@@ -1968,6 +1969,7 @@
     <Content Include="Areas\Invoices\Views\web.config" />
     <Content Include="Areas\Invoices\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Invoices\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Orders\Scripts\estimate.view.js" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
@@ -3157,6 +3159,7 @@
     <Folder Include="Areas\Api\Views\CrmContact\" />
     <Folder Include="Areas\Api\Views\Customer\" />
     <Folder Include="Areas\Api\Views\Deliverycarrier\" />
+    <Folder Include="Areas\Api\Views\EstimateApi\" />
     <Folder Include="Areas\Api\Views\GetOrderStatuses\" />
     <Folder Include="Areas\Api\Views\ImportExportOrganisation\" />
     <Folder Include="Areas\Api\Views\Invoice\" />
