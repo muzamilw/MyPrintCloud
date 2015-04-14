@@ -75,7 +75,7 @@ namespace MPC.Webstore.Controllers
                 Contact.Password = "password";
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, StoreBaseResopnse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
 
-                long Customer = _myCompanyService.CreateCustomer(Model.FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
+                long Customer = _myCompanyService.CreateCustomer(Model.FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, StoreBaseResopnse.Company.CompanyId , Contact);
 
 
                 if (Customer > 0)

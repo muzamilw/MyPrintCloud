@@ -112,6 +112,18 @@ namespace MPC.Repository.Repositories
                throw ex;
            }
         }
+
+        public List<TemplateFont> getTemplateFonts()
+        {
+            try
+            {
+                return db.TemplateFonts.ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }

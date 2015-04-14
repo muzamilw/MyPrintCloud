@@ -81,7 +81,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IGoodsReceivedNoteService, GoodsReceivedNoteService>();
             unityContainer.RegisterType<IDeliveryCarriersService, DeliveryCarrierService>();
             unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
-            unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
+            unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
+            unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
             
         }
     }

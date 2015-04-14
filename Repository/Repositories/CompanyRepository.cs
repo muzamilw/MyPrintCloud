@@ -1715,7 +1715,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, CompanyContact contact = null)
+        public long CreateCustomer(string CompanyName, bool isEmailSubscriber, bool isNewsLetterSubscriber, CompanyTypes customerType, string RegWithSocialMedia, long OrganisationId, long StoreId, CompanyContact contact = null)
         {
             try
             {
@@ -1770,6 +1770,8 @@ namespace MPC.Repository.Repositories
                 ContactCompany.IsCustomer = 0; //prospect
 
                 ContactCompany.OrganisationId = OrganisationId;
+
+                ContactCompany.StoreId = StoreId;
 
                 Markup OrgMarkup = db.Markups.Where(m => m.OrganisationId == OrganisationId && m.IsDefault == true).FirstOrDefault();
 
@@ -5085,7 +5087,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                prodCat.ThumbnailPath = "/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
+                                prodCat.ThumbnailPath = "MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewThumbnailPath;
                             }
 
                             if (!string.IsNullOrEmpty(prodCat.ImagePath))
@@ -5133,7 +5135,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                prodCat.ImagePath = "/MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewImagePath;
+                                prodCat.ImagePath = "MPC_Content/Assets/" + NewOrgID + "/" + oCID + "/ProductCategories/" + NewImagePath;
                             }
 
 
@@ -5201,7 +5203,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.ThumbnailPath = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewThumbnailPath;
+                                item.ThumbnailPath = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewThumbnailPath;
                             }
 
                             // main image
@@ -5262,7 +5264,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.ImagePath = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewImagePath;
+                                item.ImagePath = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewImagePath;
                             }
 
                             // Gird image
@@ -5310,7 +5312,7 @@ namespace MPC.Repository.Repositories
 
                                     }
                                 }
-                                item.GridImage = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewGridPath;
+                                item.GridImage = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewGridPath;
                             }
 
                             // file 1
@@ -5358,7 +5360,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File1 = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF1Path;
+                                item.File1 = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF1Path;
 
                             }
 
@@ -5408,7 +5410,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File2 = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF2Path;
+                                item.File2 = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF2Path;
                             }
 
                             // file 3
@@ -5456,7 +5458,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File3 = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF3Path;
+                                item.File3 = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF3Path;
                             }
 
                             // file 4
@@ -5504,7 +5506,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File4 = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF4Path;
+                                item.File4 = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF4Path;
                             }
 
                             // file 5
@@ -5552,7 +5554,7 @@ namespace MPC.Repository.Repositories
                                     }
 
                                 }
-                                item.File5 = "/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF5Path;
+                                item.File5 = "MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + NewF5Path;
                             }
                             if (item.TemplateId != null && item.TemplateId > 0)
                             {
@@ -5580,10 +5582,10 @@ namespace MPC.Repository.Repositories
 
                                                         string OldTempID = tempID[1];
 
-                                                        string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/" + NewPath);
+                                                        string DestinationTempBackGroundImages = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/" + NewPath);
                                                         DestinationsPath.Add(DestinationTempBackGroundImages);
-                                                        string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/UserImgs/" + oCID);
-                                                        string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + oldOrgID + "/UserImgs/" + OldCompanyID + "/" + ImageName);
+                                                        string DestinationTempBackgroundDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Designer/Organisation" + NewOrgID + "/Templates/UserImgs/" + oCID);
+                                                        string FileBackGroundSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Designer/Organisation" + oldOrgID + "/Templates/UserImgs/" + OldCompanyID + "/" + ImageName);
                                                         if (!System.IO.Directory.Exists(DestinationTempBackgroundDirectory))
                                                         {
                                                             Directory.CreateDirectory(DestinationTempBackgroundDirectory);

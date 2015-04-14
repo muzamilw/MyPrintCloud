@@ -773,3 +773,11 @@
   margin-bottom: 30px;
   height: 63px;
 }
+#itemJobStatusBinding .collapsableView {
+  margin-right: 3px;
+}
+#itemJobStatusBinding .collapsableHeight {
+  max-height: 300px;
+  overflow-y: auto;
+  list-style: none;
+}
