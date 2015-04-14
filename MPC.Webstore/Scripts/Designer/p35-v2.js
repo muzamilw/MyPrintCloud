@@ -2147,3 +2147,6 @@ $("#btnCompanyLogo").click(function () {
 $("#btnContactImage").click(function () {
     d1ContactLogoToCanvas();
 });
+$("#btnGoToLandingPage").click(function () {
+    window.location.href = "/ProductOptions/0/" + item.RefItemId + "/UploadDesign";
+});
