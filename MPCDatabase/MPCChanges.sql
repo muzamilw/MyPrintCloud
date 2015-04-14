@@ -2165,8 +2165,24 @@ delete from company where companyid = @CompanyID
 	END
 
 
+/* Execution Date: 14/04/2015 */
 
+GO
 
+alter table SectionInkCoverage
+alter column SectionId bigint null
+
+alter table SectionInkCoverage
+add constraint FK_SectionInkCoverage_ItemSection
+foreign key (SectionId)
+references ItemSection (ItemSectionId)
+
+alter table Estimate
+add constraint FK_Estimate_SectionFlag
+foreign key (SectionFlagId)
+references SectionFlag (SectionFlagId)
+
+GO
 
 
 

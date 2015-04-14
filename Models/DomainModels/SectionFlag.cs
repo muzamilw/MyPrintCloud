@@ -1,4 +1,6 @@
-﻿namespace MPC.Models.DomainModels
+﻿using System.Collections.Generic;
+
+namespace MPC.Models.DomainModels
 {
     /// <summary>
     /// Section Flag Domain Model
@@ -53,6 +55,7 @@
         /// Section
         /// </summary>
         public virtual Section Section { get; set; }
+        public virtual ICollection<Estimate> Estimates { get; set; }
         #endregion
     }
 }
