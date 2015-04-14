@@ -85,6 +85,7 @@ namespace MPC.Models.Common
         public List<CompanyContact> CompanyContact { get; set; }
         public List<ProductCategory> ProductCategory { get; set; }
 
+        public List<TemplateFont> TemplateFonts { get; set; }
         public List<Item> Items { get; set; }
         public List<ItemAttachment> ItemAttachment { get; set; }
         public List<ItemSection> ItemSection { get; set; }
@@ -92,7 +93,7 @@ namespace MPC.Models.Common
 
         public List<TemplatePage> TemplatePages { get; set; }
         public List<TemplateObject> TemplateObjects { get; set; }
-        public List<TemplateFont> TemplateFonts { get; set; }
+      
 
         public List<TemplateColorStyle> TemplateColorStyle { get; set; }
 
@@ -146,6 +147,8 @@ namespace MPC.Models.Common
         public List<ItemSection> RetailItemSection { get; set; }
         public List<SectionCostcentre> RetailSectionCostcentre { get; set; }
         public List<SectionCostCentreResource> RetailSectionCostCentreResource { get; set; }
+
+       
 
         public List<ItemImage> RetailItemImages { get; set; }
 

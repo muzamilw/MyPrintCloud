@@ -190,11 +190,11 @@
                     </div>
                     <div class="TTL widthAvenior">
                         
-                        @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", @class = "newTxtBox", placeholder = "Item Notes", maxlength = 500 })
+                        @Html.TextBoxFor(model => model.InquiryItemNotes1, new { id = "txtItemNote1", @class = "newTxtBox",  maxlength = 500 })
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <span id="ltrldeliverydate">Desired Delivery  :</span>
+                        @*<span id="ltrldeliverydate"></span>*@
                     </div>
                     <div id="DesiredDeldate1" class="error_star" style="display: none;">
                         *
@@ -203,7 +203,7 @@
                         <div id="test"></div>
                         <div id="datepicker"></div>
                         
-                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Inquiry date", maxlength = 500, @readonly = "readonly" })
+                        @Html.TextBoxFor(model => model.InquiryItemDeliveryDate1, new { id = "txtInquiryDate1", @class = "newTxtBox Jdatepicker", placeholder = "Desired Delivery", maxlength = 500, @readonly = "readonly" })
                     </div>
                     <div class="clearBoth">
                     </div>
@@ -237,7 +237,7 @@
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                        
-                        <span id="ltrlitemnotes2">Item Notes  :</span>
+                        <span id="ltrlitemnotes2">Item Notes:</span>
                     </div>
                     <div class="TTL widthAvenior">
                         
@@ -284,7 +284,7 @@
                     </div>
                     <div class="clear smallContctUsAvenior float_left_simple">
                         
-                        <span id="ltrlitemnotes3">Item Notes :</span>
+                        <span id="ltrlitemnotes3">Item Notes:</span>
                     </div>
                     <div class="TTL widthAvenior">
                         
