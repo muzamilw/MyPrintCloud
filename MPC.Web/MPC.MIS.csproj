@@ -345,6 +345,7 @@
     <Compile Include="Areas\Api\Controllers\ItemJobStatusController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemSectionController.cs" />
     <Compile Include="Areas\Api\Controllers\LookupMethodController.cs" />
+    <Compile Include="Areas\Api\Controllers\MediaLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderBaseForCompanyController.cs" />
     <Compile Include="Areas\Api\Controllers\ItemCloneController.cs" />
@@ -1991,6 +1992,8 @@
     <Content Include="Areas\Production\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Production\Views\Home\Index.cshtml" />
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <None Include="config\Web.connectionstrings.config" />
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">

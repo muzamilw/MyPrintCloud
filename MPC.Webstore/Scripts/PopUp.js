@@ -635,11 +635,11 @@ function ViewOrderPopUp(Type, panelHtml) {
     var left = parseInt((bws.width - 730) / 2);
 
     document.getElementById("innerLayer").innerHTML = container;
-
+   
     document.getElementById("innerLayer").style.left = left + "px";
     document.getElementById("innerLayer").style.top = "0px";
-    //730
-    document.getElementById("innerLayer").style.width = "883px";
+  
+    document.getElementById("innerLayer").style.width = "730px";
     document.getElementById("innerLayer").style.position = "fixed";
     document.getElementById("innerLayer").style.zIndex = "9999";
 
@@ -682,7 +682,7 @@ function ShowResetPassword(Type, panelHtml) {
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 730) / 2);
+    var left = parseInt((bws.width - 645) / 2);
 
     document.getElementById("innerLayer").innerHTML = container;
 

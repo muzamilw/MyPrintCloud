@@ -108,7 +108,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyTypes = companyTypeRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                NominalCodes = chartOfAccountRepository.GetAll(),
+                //NominalCodes = chartOfAccountRepository.GetAll(),
                 SystemUsers = systemUserRepository.GetAll(),
                 Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
