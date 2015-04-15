@@ -24,8 +24,16 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12 PaddingZero">
+                <div class="col-lg-12 PaddingZero">
+                    <div  style="text-align: right; ">
+                        <button data-bind="click:$root.closeItemDetail," class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row" id="user-profile">
-
             <div class="col-lg-12 col-md-8 col-sm-8">
                 <div class="main-box clearfix">
                     <div class="tabs-wrapper profile-tabs">
@@ -153,7 +161,7 @@
                                         </div>
                                         <div class="col-lg-4" style="padding-left:12px;">
                                             <div>
-                                                <input type="text" class="form-control" id="ProductTitle" data-bind="value: productName" />
+                                                <input type="text" style="margin-left: -3px; width: 352px" class="form-control" id="ProductTitle" data-bind="value: productName" />
                                             </div>
                                         </div>
                                         <div class="col-lg-2">
@@ -164,139 +172,139 @@
                                         </div>
                                     </div>
 
-                                        <div class="form-group">
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" />
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle1" placeholder="Enter Title 1">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" />
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" />
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle2" placeholder="Enter Title 2">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" />
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" >
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle3" placeholder="Enter Title 3">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" >
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" >
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle4" placeholder="Enter Title 4">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" >
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" >
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle5" placeholder="Enter Title 5">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" >
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6">
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle6" placeholder="Enter Title 6">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6">
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-lg-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-lg-4 text-right">
+                                            <input type="text" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
+                                            <span class="label label-circle-question"></span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
+                                                <input type="text" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" >
+                                            </div>
                                             <div class="col-lg-2">
-                                                &nbsp;
-                                            </div>
-                                            <div class="col-lg-4 text-right">
-                                                <input type="text" class="form-control" id="txtTitle7" placeholder="Enter Title 7">
-                                                <span class="label label-circle-question"></span>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                    <input type="text" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" >
-                                                </div>
-                                                <div class="col-lg-2">
-                                                    <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
-                                                        <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
-                                                </div>
+                                                <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-lg"></i>&nbsp;....
+                                                </a>
                                             </div>
                                         </div>
+                                    </div>
                                     @*<div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">

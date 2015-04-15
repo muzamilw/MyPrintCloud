@@ -4,7 +4,8 @@
         <div class="modal-content" data-bind="with:$root.selectedPrePayment">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add Pre Payment</h4>
+                <h4 class="modal-title" data-bind="visible:$root.flagForToShowAddTitle()">Add Pre Payment</h4>
+                <h4 class="modal-title" data-bind="visible:!$root.flagForToShowAddTitle()">Edit Pre Payment</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
