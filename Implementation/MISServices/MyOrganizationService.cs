@@ -72,7 +72,7 @@ namespace MPC.Implementation.MISServices
         {
             return new MyOrganizationBaseResponse
             {
-                ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                //ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),

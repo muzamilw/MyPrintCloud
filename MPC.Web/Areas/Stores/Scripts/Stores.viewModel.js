@@ -560,33 +560,37 @@ define("stores/stores.viewModel",
                 },
                 //Delete Media Gallary Item
                 onDeleteMedia = function (media) {
-                    if (media.fakeId() < 0) {
-                        var flag = true;
-                        if (selectedStore().storeBackgroudImageImageSource() === media.fileSource()) {
-                            toastr.error("File used in Store background Image.", "", ist.toastrOptions);
-                            flag = false;
-                        }
-                        var item = _.find(companyBanners(), function (banner) {
-                            return banner.filePath() === media.id();
-                        });
-                        if (item) {
-                            toastr.error("File used in banner.", "", ist.toastrOptions);
-                            flag = false;
-                        }
-                        var secPage = _.find(newAddedSecondaryPage(), function (page) {
-                            return page.imageSrc() === media.fileSource();
-                        });
-                        if (secPage) {
-                            toastr.error("File used in Secondary Page.", "", ist.toastrOptions);
-                            flag = false;
-                        }
-                        if (flag) {
-                            selectedStore().mediaLibraries.remove(media);
-                        }
+                    // Ask for confirmation
+                    confirmation.afterProceed(function () {
+                        if (media.fakeId() < 0) {
+                            var flag = true;
+                            if (selectedStore().storeBackgroudImageImageSource() === media.fileSource()) {
+                                toastr.error("File used in Store background Image.", "", ist.toastrOptions);
+                                flag = false;
+                            }
+                            var item = _.find(companyBanners(), function (banner) {
+                                return banner.filePath() === media.id();
+                            });
+                            if (item) {
+                                toastr.error("File used in banner.", "", ist.toastrOptions);
+                                flag = false;
+                            }
+                            var secPage = _.find(newAddedSecondaryPage(), function (page) {
+                                return page.imageSrc() === media.fileSource();
+                            });
+                            if (secPage) {
+                                toastr.error("File used in Secondary Page.", "", ist.toastrOptions);
+                                flag = false;
+                            }
+                            if (flag) {
+                                selectedStore().mediaLibraries.remove(media);
+                            }
 
-                    } else {
-                        deleteMediaFile(media);
-                    }
+                        } else {
+                            deleteMediaFile(media);
+                        }
+                    });
+                    confirmation.show();
                 },
             deleteMediaFile = function (media) {
                 dataservice.deleteMediaLibraryItemById(media.convertToServerData(), {
