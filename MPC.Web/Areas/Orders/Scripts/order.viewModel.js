@@ -1646,6 +1646,9 @@ define("order/order.viewModel",
                             selectedSection().errors.showAllMessages();
                             return;
                         }
+                        $('#myTab a[href="#tab-recomendation"]').tab('show');
+                        // $("#home").removeClass("active");  // this deactivates the home tab
+                        // $("#profile").addClass("active");
                         getBestPress();
                     },
                     getBestPress = function () {
@@ -1730,6 +1733,14 @@ define("order/order.viewModel",
                         }
 
                         isLoadingOrders(true);
+                        _.each(userCostCenters(), function (item) {
+                            if (item.isSelected()) {
+                                var sectionCostCenterItem = model.SectionCostCentre();
+                                sectionCostCenterItem.id(item.id());
+                                selectedSection().sectionCostCentres.push(sectionCostCenterItem);
+                            }
+                        });
+
                         var currSec = selectedSection().convertToServerData();
                         dataservice.getUpdatedSystemCostCenters({
                             CurrentSection: currSec,
@@ -1772,6 +1783,7 @@ define("order/order.viewModel",
                     },
                     selectBestPressFromWizard = function (bestPress) {
                         selectedBestPressFromWizard(bestPress);
+                        selectedSection().pressId(bestPress.id());
                     },
                     clickOnWizardOk = function () {
                         getSectionSystemCostCenters();
