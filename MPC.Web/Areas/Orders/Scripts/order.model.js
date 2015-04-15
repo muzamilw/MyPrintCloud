@@ -735,6 +735,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         doubleOrWorknTurn(value);
                     }
                 }),
+                
                 // PrintViewLayoutPortrait
                 printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
                 // PrintViewLayoutLandscape

@@ -1537,8 +1537,9 @@ define("order/order.viewModel",
                     showSide1Image = ko.observable(true),
                     getPtvPlan = function() {
                         isLoadingOrders(true);
+                        var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         dataservice.getPTV({
-                                orientation: 1,
+                            orientation: orient,
                                 reversRows: 0,
                                 revrseCols: 0,
                                 isDoubleSided: selectedSection().isDoubleSided(),
@@ -1552,7 +1553,7 @@ define("order/order.viewModel",
                                 grip: 1,
                                 gripDepth: 0,
                                 headDepth: 0,
-                                printGutter: selectedSection().includeGutter() ? 1 : 0,
+                                printGutter: 0,
                                 horizentalGutter: 0,
                                 verticalGutter: 0
                             }, {
@@ -1562,6 +1563,7 @@ define("order/order.viewModel",
                                         side1Image(undefined);
                                         side2Image(undefined);
                                         side1Image(data.Side1ImageSource);
+                                        showSide1Image(true);
                                         if (data.Side2ImageSource != "") {
                                             side2Image(data.Side2ImageSource);
                                         }
@@ -1577,12 +1579,16 @@ define("order/order.viewModel",
                                 }
                             });
                     },
+
                     //Get PTV Calculation
                     getPtvCalculation = function() {
                         if (isPtvCalculationInProgress()) {
                             return;
                         }
-
+                        if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
+                            return;
+                        }
+                        
                         isPtvCalculationInProgress(true);
                         dataservice.getPTVCalculation({
                                 orientation: 1,
@@ -1600,8 +1606,8 @@ define("order/order.viewModel",
                                 gripDepth: 0,
                                 headDepth: 0,
                                 printGutter: selectedSection().includeGutter() ? 1 : 0,
-                                horizentalGutter: 2,
-                                verticalGutter: 2
+                                horizentalGutter: 0,
+                                verticalGutter: 0
                             }, {
                                 success: function(data) {
                                     if (data != null) {
