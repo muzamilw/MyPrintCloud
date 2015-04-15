@@ -1335,6 +1335,9 @@ define("order/order.viewModel",
                     },
                     //#endregion
                     //#region Pre Payment
+                    // Flag for to show Add Title In Pre Payment Dialog
+                    flagForToShowAddTitle = ko.observable(true),
+                    // Show Pre Payment Dialog
                     showOrderPrePaymentModal = function () {
                         selectedPrePayment(model.PrePayment());
                         view.showOrderPrePaymentModal();
@@ -1344,6 +1347,7 @@ define("order/order.viewModel",
                     },
                     //Create Order Pre Payment
                     onCreateOrderPrePayment = function () {
+                        flagForToShowAddTitle(true);
                         showOrderPrePaymentModal();
                     },
                     // Close Order Pre Payment
@@ -1352,6 +1356,7 @@ define("order/order.viewModel",
                     },
                     // Edit Pre Payment
                     onEditPrePayment = function (prePayment) {
+                        flagForToShowAddTitle(false);
                         selectedPrePayment(prePayment);
                         view.showOrderPrePaymentModal();
                     },
@@ -1398,7 +1403,7 @@ define("order/order.viewModel",
                         if (selectedOrder().items().length > 0) {
                             setQuantityOfNewDeliverySchedule(deliverySchedule);
                         }
-                       // deliverySchedule.deliveryNoteRaised(true);
+                        // deliverySchedule.deliveryNoteRaised(true);
                         selectedOrder().deliverySchedules.splice(0, 0, deliverySchedule);
                         selectedDeliverySchedule(selectedOrder().deliverySchedules()[0]);
                     },
@@ -1983,6 +1988,7 @@ define("order/order.viewModel",
                     onSavePrePayment: onSavePrePayment,
                     onEditPrePayment: onEditPrePayment,
                     inventoryItems: inventoryItems,
+                    flagForToShowAddTitle: flagForToShowAddTitle,
                     //#endregion
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
                     side1ButtonClick: side1ButtonClick,
