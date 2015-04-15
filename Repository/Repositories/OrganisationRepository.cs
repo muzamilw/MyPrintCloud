@@ -1052,8 +1052,18 @@ namespace MPC.Repository.Repositories
                          //}
 
                          long OldCatIds = 0;
+                         long TerritoryId = 0;
                          // product categories
                          List<ProductCategory> prodCats = Sets.ExportStore2;
+                         if(comp != null)
+                         {
+                             if(comp.CompanyTerritories != null)
+                             {
+                                 TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                             }
+
+                         }
+                         
                          if (prodCats != null && prodCats.Count > 0)
                          {
                              foreach (var cat in prodCats)
@@ -1067,6 +1077,16 @@ namespace MPC.Repository.Repositories
                                  cat.Sides = (int)cat.ProductCategoryId;
                                  cat.OrganisationId = OrganisationID;
                                  cat.CompanyId = oCID;
+                                 if(cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                 {
+                                     foreach(var territory in cat.CategoryTerritories)
+                                     {
+                                         territory.CompanyId = oCID;
+                                         territory.OrganisationId = OrganisationID;
+
+                                         territory.TerritoryId = TerritoryId;
+                                     }
+                                 }
                                  db.ProductCategories.Add(cat);
                                  db.SaveChanges();
 
@@ -2333,8 +2353,8 @@ namespace MPC.Repository.Repositories
 
                                     }
                                     int i = 0;
-                                     string s = "sdfs";
-                                     bool result = int.TryParse(s, out i);
+                                   // string s = "sdfs";
+                                    bool result = int.TryParse(ItemID, out i);
                                     if (!result)
                                     {
                                         ItemID = SplitMain[0];

@@ -38,7 +38,7 @@
                                                 <label class="control-label tooltip-float">Quantities</label>
                                             </div>
                                             <div class="col-lg-9">
-                                                <!-- ko if:selectedSection()!==undefined -->
+                                                <!-- ko if: $root.selectedSection()!==undefined  -->   @*&& selectedSection()!==undefined*@
                                                 <div class="col-xs-4">
                                                     <input type="text" disabled="disabled" class="form-control" data-bind="value:$root.selectedSection().qty1" id="qty1" />
                                                 </div>
@@ -183,7 +183,7 @@
         <td>
             @*<div style="width:87px;">*@
             <div class="col-xs-4" style="width: 66%;">
-                <label class="control-label tooltip-float " data-bind="text:machineName"></label>
+                <label class="control-label text-left" data-bind="text:machineName"></label>
             </div>
         </td>
         <td>

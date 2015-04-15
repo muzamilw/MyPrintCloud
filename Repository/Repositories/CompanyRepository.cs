@@ -1184,8 +1184,10 @@ namespace MPC.Repository.Repositories
                .ForMember(x => x.Company, opt => opt.Ignore())
                .ForMember(x => x.ProductCategoryItems, opt => opt.Ignore());
 
+                Mapper.CreateMap<CategoryTerritory, CategoryTerritory>()
+              .ForMember(x => x.ProductCategory, opt => opt.Ignore());
 
-                List<ProductCategory> categories = db.ProductCategories.Where(s => s.isArchived != true && s.CompanyId == CompanyId).ToList();
+                List<ProductCategory> categories = db.ProductCategories.Include("CategoryTerritories").Where(s => s.isArchived != true && s.CompanyId == CompanyId).ToList();
                 //categories.ToList().ForEach(p => p.Company = null);
                 //categories.ToList().ForEach(p => p.ProductCategoryItems = null);
                 //productCategories = categories;
@@ -2379,6 +2381,17 @@ namespace MPC.Repository.Repositories
                             status += "companydomain done";
                             // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
+                            long TerritoryId = 0;
+                            // product categories
+                            
+                            if (comp != null)
+                            {
+                                if (comp.CompanyTerritories != null)
+                                {
+                                    TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                                }
+
+                            }
                             // product categories
                             List<ProductCategory> prodCats = Sets.ExportRetailStore2;
                             if (prodCats != null && prodCats.Count > 0)
@@ -2394,6 +2407,16 @@ namespace MPC.Repository.Repositories
                                     cat.Sides = (int)cat.ProductCategoryId;
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oRetailCID;
+                                    if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                    {
+                                        foreach (var territory in cat.CategoryTerritories)
+                                        {
+                                            territory.CompanyId = oRetailCID;
+                                            territory.OrganisationId = OrganisationID;
+
+                                            territory.TerritoryId = TerritoryId;
+                                        }
+                                    }
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
 
@@ -2716,6 +2739,18 @@ namespace MPC.Repository.Repositories
                             // List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
                             // product categories
+                            long TerritoryId = 0;
+                            // product categories
+
+                            if (comp != null)
+                            {
+                                if (comp.CompanyTerritories != null)
+                                {
+                                    TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                                }
+
+                            }
+
                             List<ProductCategory> prodCats = Sets.ExportRetailStore2WOP;
                             if (prodCats != null && prodCats.Count > 0)
                             {
@@ -2730,6 +2765,16 @@ namespace MPC.Repository.Repositories
                                     cat.Sides = (int)cat.ProductCategoryId;
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oRetailCIDWOP;
+                                    if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                    {
+                                        foreach (var territory in cat.CategoryTerritories)
+                                        {
+                                            territory.CompanyId = oRetailCIDWOP;
+                                            territory.OrganisationId = OrganisationID;
+
+                                            territory.TerritoryId = TerritoryId;
+                                        }
+                                    }
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
                                     //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
@@ -3041,6 +3086,18 @@ namespace MPC.Repository.Repositories
 
                             //List<long> OldCatIds = new List<long>();
                             long OldCatIds = 0;
+                            long TerritoryId = 0;
+                            // product categories
+
+                            if (comp != null)
+                            {
+                                if (comp.CompanyTerritories != null)
+                                {
+                                    TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                                }
+
+                            }
+
                             // product categories
                             List<ProductCategory> prodCats = Sets.ExportStore2;
                             if (prodCats != null && prodCats.Count > 0)
@@ -3057,6 +3114,16 @@ namespace MPC.Repository.Repositories
 
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oCID;
+                                    if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                    {
+                                        foreach (var territory in cat.CategoryTerritories)
+                                        {
+                                            territory.CompanyId = oCID;
+                                            territory.OrganisationId = OrganisationID;
+
+                                            territory.TerritoryId = TerritoryId;
+                                        }
+                                    }
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
                                     //  var gg = comp.Items.Where(c => c.ProductCategoryItems.t)
@@ -3396,7 +3463,28 @@ namespace MPC.Repository.Repositories
                                     cat.OrganisationId = OrganisationID;
                                     cat.CompanyId = oCIDWOP;
                                     cat.Sides = (int)cat.ProductCategoryId;
+                                    long TerritoryId = 0;
+                                    // product categories
 
+                                    if (comp != null)
+                                    {
+                                        if (comp.CompanyTerritories != null)
+                                        {
+                                            TerritoryId = comp.CompanyTerritories.Select(c => c.TerritoryId).FirstOrDefault();
+                                        }
+
+                                    }
+
+                                    if (cat.CategoryTerritories != null && cat.CategoryTerritories.Count > 0)
+                                    {
+                                        foreach (var territory in cat.CategoryTerritories)
+                                        {
+                                            territory.CompanyId = oCIDWOP;
+                                            territory.OrganisationId = OrganisationID;
+
+                                            territory.TerritoryId = TerritoryId;
+                                        }
+                                    }
 
                                     db.ProductCategories.Add(cat);
                                     db.SaveChanges();
@@ -5280,6 +5368,13 @@ namespace MPC.Repository.Repositories
                                     ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldGridPath = Path.GetFileName(item.GridImage);
                                 NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");

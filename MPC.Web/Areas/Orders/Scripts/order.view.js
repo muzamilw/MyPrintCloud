@@ -81,7 +81,7 @@ define("order/order.view",
                     orderstate(state);
                     $(function () {
                         // set up an array to hold the order Status
-                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced"];
+                        var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced", "Cancelled"];
                         
                         // If Is Order is From Estimate then add Status "Revert to Estimate"
                         if (isFromEstimate) {

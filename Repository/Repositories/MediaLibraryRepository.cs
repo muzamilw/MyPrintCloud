@@ -1,4 +1,7 @@
-﻿using System.Data.Entity;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
@@ -31,6 +34,14 @@ namespace MPC.Repository.Repositories
             }
         }
 
+
+        /// <summary>
+        /// Get Media Libraries By Company Id
+        /// </summary>
+        public IEnumerable<MediaLibrary> GetMediaLibrariesByCompanyId(long companyId)
+        {
+            return DbSet.Where(ml => ml.CompanyId == companyId).ToList();
+        }
         #endregion
     }
 }
