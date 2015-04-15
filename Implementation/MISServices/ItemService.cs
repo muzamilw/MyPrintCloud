@@ -740,6 +740,12 @@ namespace MPC.Implementation.MISServices
                         // Save Template Pdf
                         var mapPath = SavePdfForPreBuiltTemplate(itemTarget);
 
+                        // Return if edit case and no changes made to template type
+                        if (string.IsNullOrEmpty(itemTarget.Template.FileSource))
+                        {
+                            return;
+                        }
+
                         // Genereates Template Pages from Pdf supplied
                         GenerateTemplatePagesFromPdf(itemTarget, mapPath, organisationId, templateTypeMode);
                     }
