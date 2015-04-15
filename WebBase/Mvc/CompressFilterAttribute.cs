@@ -1,7 +1,5 @@
-﻿using System.IO.Compression;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Web;
 using System.Web.Http.Filters;
 namespace MPC.WebBase.Mvc
 {
@@ -32,7 +30,7 @@ namespace MPC.WebBase.Mvc
             encodingType = encodingType.ToUpperInvariant();
 
             // If Compression is not supported
-            if (encodingType != "GZIP" && encodingType != "DEFLATE")
+            if (encodingType != "GZIP" && encodingType != "DEFLATE" || filterContext.Response == null)
             {
                 base.OnActionExecuted(filterContext);
                 return;

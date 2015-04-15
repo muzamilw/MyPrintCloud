@@ -5,8 +5,11 @@
        opacity: 1
    },1500)
    $("#content").addClass("on");
-   
-    StartLoader();
+   if (IsCalledFrom == 3) {
+       StartLoader("Select a design to start customizing");
+   } else {
+       StartLoader();
+   }
     fu02UI();
     fu02();
 });
@@ -385,6 +388,7 @@ function SvcLoad2ndTemplate() {
             });
             TO = DT;
             fu06();
+            fu07();
         });
      });
 

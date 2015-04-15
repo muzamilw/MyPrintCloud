@@ -355,7 +355,7 @@ function d8(mode, dheight, title) {
         pcL36('show', "#PreviewerContainerDesigner");
 
 
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
     else if (mode == "continue") {
         parent.SaveAttachments();
@@ -363,7 +363,7 @@ function d8(mode, dheight, title) {
     else if (returnText != '"true"') {
         alert("error z : " + returnText);
         StopLoader();
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
 }
 function d8_chk(Pid) {

@@ -2353,8 +2353,8 @@ namespace MPC.Repository.Repositories
 
                                     }
                                     int i = 0;
-                                     string s = "sdfs";
-                                     bool result = int.TryParse(s, out i);
+                                   // string s = "sdfs";
+                                    bool result = int.TryParse(ItemID, out i);
                                     if (!result)
                                     {
                                         ItemID = SplitMain[0];

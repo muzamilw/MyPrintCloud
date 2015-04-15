@@ -70,7 +70,7 @@ namespace MPC.Implementation.WebStoreServices
             objTemplate.TempString = objGlobal.TempString;
             return objTemplate;
         }
-        private TemplatePage returnLocalPage(GlobalTemplateDesigner.TemplatePages objGlobalPage)
+        private TemplatePage returnLocalPage(GlobalTemplateDesigner.TemplatePages objGlobalPage, Template objtemplate)
         {
            TemplatePage obj = new TemplatePage();
            obj.BackgroundFileName = objGlobalPage.BackgroundFileName;
@@ -89,6 +89,12 @@ namespace MPC.Implementation.WebStoreServices
            obj.ProductId = objGlobalPage.ProductID;
            obj.ProductPageId = objGlobalPage.ProductPageID;
       //     obj.Width = objGlobalPage.Width;
+
+          if(objGlobalPage.Orientation == 2)
+          {
+              obj.Height = objtemplate.PDFTemplateWidth;
+              obj.Width = objtemplate.PDFTemplateHeight;
+          }
            return obj;
         }
         private TemplateObject returnLocalObject(GlobalTemplateDesigner.TemplateObjects tempObj)
@@ -1193,9 +1199,23 @@ namespace MPC.Implementation.WebStoreServices
                         {
                           //  if (objProductPage.Orientation == 1) //standard 
                           //  {
+                            if(objProductPage.Height.HasValue)
+                            {
+                                doc.MediaBox.Height = objProductPage.Height.Value;
+                            }else
+                            {
                                 doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                            }
+                            if(objProductPage.Width.HasValue)
+                            {
+                                doc.MediaBox.Width = objProductPage.Width.Value;
+                            }else
+                            {
                                 doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
-
+                            }
+                                
+                                
+                                
                             //}
                             //else
                             //{
@@ -1211,8 +1231,22 @@ namespace MPC.Implementation.WebStoreServices
 
                           //  if (objProductPage.Orientation == 1) //standard 
                           //  {
-                               doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                            if (objProductPage.Height.HasValue)
+                            {
+                                doc.MediaBox.Height = objProductPage.Height.Value;
+                            }
+                            else
+                            {
+                                doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                            }
+                            if (objProductPage.Width.HasValue)
+                            {
+                                doc.MediaBox.Width = objProductPage.Width.Value;
+                            }
+                            else
+                            {
                                 doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
+                            }
 
                             //}
                             //else
@@ -1229,8 +1263,22 @@ namespace MPC.Implementation.WebStoreServices
                     {
                         //if (objProductPage.Orientation == 1) //standard 
                         //{
+                        if (objProductPage.Height.HasValue)
+                        {
+                            doc.MediaBox.Height = objProductPage.Height.Value;
+                        }
+                        else
+                        {
                             doc.MediaBox.Height = objProduct.PDFTemplateHeight.Value;
+                        }
+                        if (objProductPage.Width.HasValue)
+                        {
+                            doc.MediaBox.Width = objProductPage.Width.Value;
+                        }
+                        else
+                        {
                             doc.MediaBox.Width = objProduct.PDFTemplateWidth.Value;
+                        }
 
                         //}
                         //else
@@ -2265,7 +2313,10 @@ namespace MPC.Implementation.WebStoreServices
                        
             foreach (var objPage in product.TemplatePages)
             {
-
+                if(objPage.Width.HasValue)
+                    objPage.Width = DesignerUtils.PointToPixel(objPage.Width.Value);
+                if (objPage.Height.HasValue)
+                    objPage.Height = DesignerUtils.PointToPixel(objPage.Height.Value);
                // targetFolder = System.Web.Hosting.HostingEnvironment.MapPath("~/Designer/Products/");
                 if (objPage.BackGroundType != 3)
                 {
@@ -2684,7 +2735,7 @@ namespace MPC.Implementation.WebStoreServices
                     List<TemplatePage> oTemplatePages = new List<TemplatePage>();
                     foreach(var obj in oTemplatePagesV2)
                     {
-                        oTemplatePages.Add(returnLocalPage(obj));
+                        oTemplatePages.Add(returnLocalPage(obj,oTemplate));
                     }
                     List<TemplateObject> oTemplateObjects = new List<TemplateObject>();
                     foreach(var oObj in oTemplateObjectsV2)

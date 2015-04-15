@@ -220,9 +220,12 @@ namespace MPC.Repository.Repositories
         {
             Expression<Func<Estimate, bool>> query =
                 item =>
-                    (string.IsNullOrEmpty(request.SearchString) || (item.Company != null && item.Company.Name.Contains(request.SearchString)) &&
-                    (item.isEstimate.HasValue && !item.isEstimate.Value) &&
-                    item.OrganisationId == OrganisationId);
+                    (string.IsNullOrEmpty(request.SearchString) || 
+                    (item.Company != null && item.Company.Name.Contains(request.SearchString)) ||
+                    (item.Order_Code.Contains(request.SearchString)))
+                    &&
+                    (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
+                    item.OrganisationId == OrganisationId;
 
             IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()
                 .ToList();
