@@ -244,11 +244,11 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       public long GetOrderIdByContactId(long contactId, long companyId)
        {
            try
            {
-               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
+               return _OrderRepository.GetCartOrderId(contactId, companyId);
            }
            catch (Exception ex)
            {
@@ -499,5 +499,12 @@ namespace MPC.Implementation.WebStoreServices
                 return 0;
             }
         }
+       /// <summary>
+       /// check cookie order is the real login customer order
+       /// </summary>
+       public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
+       {
+           return _OrderRepository.IsRealCustomerOrder(orderId,contactId,companyId);
+       }
     }
 }

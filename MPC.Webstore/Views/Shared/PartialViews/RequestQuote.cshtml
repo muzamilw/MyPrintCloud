@@ -319,7 +319,7 @@
 
             <div class="quote_send_button">
                
-                <input id="btnSend" class="start_creating_btn rounded_corners5" type="button" value="Send" onclick="Submit();"/>
+                <input id="btnSend" class="start_creating_btn rounded_corners5 background-green" type="button" value="Send" onclick="Submit();" />
             </div>
             <div class="quote_cancel_button">
                
@@ -379,7 +379,7 @@
         });
         function Remove(recNo) {
             //Remove the view and Show the add new button
-            var Areusureuwnt2remove = "Are You Sure You Want To Remove It";
+            var Areusureuwnt2remove = "Are you sure you want to remove this item?";
             if (confirm(Areusureuwnt2remove)) {
                 $('#' + recNo).css('display', 'none');
                 $('#divAddNew').css('display', 'block');
