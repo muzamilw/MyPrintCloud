@@ -180,7 +180,7 @@ namespace MPC.Implementation.MISServices
                        Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        StockCategories = stockCategoryRepository.GetAll(),
-                       ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                      // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        PaperSizes = paperSizeRepository.GetAll(),
                        InkPlateSides = inkPlateSideRepository.GetAll(),
                        Inks = stockItemRepository.GetStockItemOfCategoryInk(),

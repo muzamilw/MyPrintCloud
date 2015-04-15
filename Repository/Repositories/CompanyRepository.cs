@@ -5368,6 +5368,13 @@ namespace MPC.Repository.Repositories
                                     ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldGridPath = Path.GetFileName(item.GridImage);
                                 NewGridPath = OldGridPath.Replace(ItemID + "_", item.ItemId + "_");
