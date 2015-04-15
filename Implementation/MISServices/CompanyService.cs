@@ -64,6 +64,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRepository itemRepository;
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly IMarkupRepository markupRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
@@ -2529,6 +2530,7 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
                 fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
                 fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
+                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;  
                 if (fieldVariable.VariableOptions != null)
                 {
                     foreach (var item in fieldVariable.VariableOptions)
@@ -2595,6 +2597,7 @@ namespace MPC.Implementation.MISServices
             #region Update Smart Form
             smartFormDbVersion.Name = smartForm.Name;
             smartFormDbVersion.Heading = smartForm.Heading;
+            smartFormDbVersion.OrganisationId = smartFormRepository.OrganisationId;
             if (smartForm.SmartFormDetails != null)
             {
                 foreach (SmartFormDetail smartFormDetail in smartForm.SmartFormDetails)
@@ -2663,6 +2666,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private long AddSmartForm(SmartForm smartForm)
         {
+            smartForm.OrganisationId = smartFormRepository.OrganisationId;
             smartFormRepository.Add(smartForm);
             smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
@@ -2943,7 +2947,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3008,6 +3012,7 @@ namespace MPC.Implementation.MISServices
             this.scopeVariableRepository = scopeVariableRepository;
             this.templateService = templateService;
             this.templatefonts = templateFontRepository;
+            this.markupRepository = markupRepository;
 
         }
         #endregion
@@ -3678,6 +3683,7 @@ namespace MPC.Implementation.MISServices
             // get prefixes based on organisationID
             exOrg2.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
 
+            exOrg2.Markups = markupRepository.GetMarkupsByOrganisationId(OrganisationID);
             // get machines by organisation id
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 

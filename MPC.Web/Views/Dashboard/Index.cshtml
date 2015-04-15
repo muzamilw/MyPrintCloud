@@ -274,13 +274,16 @@
                                     <header class="main-box-header clearfix">
                                         <h2 class="pull-left">Last 5 orders</h2>
                                         <div class="filter-block pull-right">
-                                            <div class="form-group pull-left">
-                                                <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
-                                                <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
-                                            </div>
-                                            <a href="/mis/orders/home/" class="btn btn-primary pull-right">
-                                                <i class="fa fa-eye fa-lg"></i>View all orders
-                                            </a>
+                                            <form data-bind="submit:$root.getDashboardData">
+                                                <div class="form-group pull-left">
+                                                    <input type="text" class="form-control" data-bind="value: $root.orderSearchString" placeholder="Search...">
+                                                    <i data-bind="click: $root.getDashboardData" class="fa fa-search search-icon"></i>
+                                                </div>
+                                                <a href="/mis/orders/home/" class="btn btn-primary pull-right">
+                                                    <i class="fa fa-eye fa-lg"></i>View all orders
+                                                </a>
+                                            </form>
+
                                         </div>
                                     </header>
                                     <div class="main-box-body clearfix">

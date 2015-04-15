@@ -28,6 +28,7 @@ namespace MPC.Implementation.MISServices
         private CompanyContact Create(CompanyContact companyContact)
         {
             UpdateDefaultBehaviourOfContactCompany(companyContact);
+            companyContact.OrganisationId = companyContactRepository.OrganisationId;
             companyContactRepository.Add(companyContact);
             companyContactRepository.SaveChanges();
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
@@ -55,6 +56,7 @@ namespace MPC.Implementation.MISServices
             }
             UpdateDefaultBehaviourOfContactCompany(companyContact);
             companyContact.image = SaveCompanyContactProfileImage(companyContact);
+            companyContact.OrganisationId = companyContactRepository.OrganisationId;
             companyContactRepository.Update(companyContact);
             if (companyContact.ScopeVariables != null)
             {
@@ -94,6 +96,7 @@ namespace MPC.Implementation.MISServices
                     if (contact.IsDefaultContact == 1)
                     {
                         contact.IsDefaultContact = 0;
+                        contact.OrganisationId = companyContactRepository.OrganisationId;
                         companyContactRepository.Update(contact);
                     }
                 }

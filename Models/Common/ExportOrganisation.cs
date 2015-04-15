@@ -49,6 +49,8 @@ namespace MPC.Models.Common
 
         public List<Prefix> Prefixes { get; set; }
 
+        public List<Markup> Markups { get; set; }
+
         public List<Machine> Machines { get; set; }
 
         public List<LookupMethod> LookupMethods { get; set; }

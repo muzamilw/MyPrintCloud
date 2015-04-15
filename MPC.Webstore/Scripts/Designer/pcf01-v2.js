@@ -396,7 +396,7 @@ function c7(PageID) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
-                $("#loadingMsg").html("Loading Design Images, please wait..");
+                $("#loadingMsg").html("Loading Design Images");
                 d1(canvas, IT);
             }
             else if (IT.ObjectType == 6) {
@@ -805,7 +805,7 @@ function d5_sub(pageID, isloading) {
                 var bk = IT.BackgroundFileName + "?r=" + CzRnd;
                 if (IT.BackgroundFileName != "") {
                     if (!isloading) {
-                        StartLoader("Loading background files for your design, please wait....");
+                        StartLoader("Loading background files for your design");
                     }
                     canvas.setBackgroundImage(bk, canvas.renderAll.bind(canvas), {
                         left: 0,

@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
+using System.Net;
+using System.IO;
 
 namespace MPC.Webstore.Controllers
 {
@@ -93,6 +95,10 @@ namespace MPC.Webstore.Controllers
                 }
             }
             ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+      
+           
+            ViewBag.OrderId = OrderId;
+            ViewBag.StoreId = StoreBaseResopnse.Company.CompanyId;
             return View("PartialViews/Receipt", order);
         }
     }

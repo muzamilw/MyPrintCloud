@@ -785,9 +785,9 @@ namespace MPC.Repository.Repositories
                     }
 
                     // import prefixes
-                    if (Sets.ExportOrganisationSet2.Prefixes != null && Sets.ExportOrganisationSet2.Prefixes.Count > 0)
+                    if (Sets.ExportOrganisationSet3.Prefixes != null && Sets.ExportOrganisationSet3.Prefixes.Count > 0)
                     {
-                        foreach (var prefix in Sets.ExportOrganisationSet2.Prefixes)
+                        foreach (var prefix in Sets.ExportOrganisationSet3.Prefixes)
                         {
                             Prefix pref = new Prefix();
                             pref = prefix;
@@ -800,6 +800,26 @@ namespace MPC.Repository.Repositories
                     }
                     end = DateTime.Now;
                     timelog += "prefix insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
+                    st = DateTime.Now;
+
+                    // import markups
+                    if (Sets.ExportOrganisationSet3.Markups != null && Sets.ExportOrganisationSet3.Markups.Count > 0)
+                    {
+                        foreach (var markup in Sets.ExportOrganisationSet3.Markups)
+                        {
+                            long oldMarkupID = markup.MarkUpId;
+                            Markup mark = new Markup();
+                            mark = markup;
+                            mark.MarkUpId = 0;
+                            mark.OrganisationId = OrganisationID;
+                            mark.Prefixes = null;
+                            db.Markups.Add(mark);
+
+                        }
+                        db.SaveChanges();
+                    }
+                    end = DateTime.Now;
+                    timelog += "markup insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
 
 
@@ -2353,8 +2373,8 @@ namespace MPC.Repository.Repositories
 
                                     }
                                     int i = 0;
-                                     string s = "sdfs";
-                                     bool result = int.TryParse(s, out i);
+                                   // string s = "sdfs";
+                                    bool result = int.TryParse(ItemID, out i);
                                     if (!result)
                                     {
                                         ItemID = SplitMain[0];

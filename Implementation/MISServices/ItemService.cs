@@ -740,6 +740,12 @@ namespace MPC.Implementation.MISServices
                         // Save Template Pdf
                         var mapPath = SavePdfForPreBuiltTemplate(itemTarget);
 
+                        // Return if edit case and no changes made to template type
+                        if (string.IsNullOrEmpty(itemTarget.Template.FileSource))
+                        {
+                            return;
+                        }
+
                         // Genereates Template Pages from Pdf supplied
                         GenerateTemplatePagesFromPdf(itemTarget, mapPath, organisationId, templateTypeMode);
                     }
@@ -785,10 +791,10 @@ namespace MPC.Implementation.MISServices
                     1, template.TemplatePages.ToList(),
                     organisationId);
             }
-            catch (Exception)
+            catch (Exception exp)
             {
                 throw new MPCException(
-                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages,
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages + ". " + exp.Message,
                     organisationId);
             }
         }
