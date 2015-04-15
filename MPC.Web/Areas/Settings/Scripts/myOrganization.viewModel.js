@@ -257,13 +257,18 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     // Delete a Markup
                     onDeleteMarkup = function (markup) {
-                        filteredMarkups.remove(markup);
-                        _.each(markups(), function (item) {
-                            if ((item.id() === markup.id())) {
-                                markups.remove(item);
-                            }
-                        });
-                        selectedMyOrganization().flagForChanges("Changes occur");
+                        if (selectedMyOrganization().markupId() === markup.id()) {
+                            toastr.error("Default Markup cannot be deleted.");
+                        } else {
+                            filteredMarkups.remove(markup);
+                            _.each(markups(), function (item) {
+                                if ((item.id() === markup.id())) {
+                                    markups.remove(item);
+                                }
+                            });
+                            selectedMyOrganization().flagForChanges("Changes occur");
+                        }
+                       
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
@@ -335,6 +340,9 @@ define("myOrganization/myOrganization.viewModel",
                             selectedMyOrganization().errors.showAllMessages();
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
+                            }
+                            if (selectedMyOrganization().markupId.error != null) {
+                                errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
                             }
                             flag = false;
                         }
