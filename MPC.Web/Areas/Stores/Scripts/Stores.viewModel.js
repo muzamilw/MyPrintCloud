@@ -82,6 +82,10 @@ define("stores/stores.viewModel",
                     //#endregion
 
                     //#region ________ O B S E R V A B L E S   A R R A Y S___________
+                    //#region ________ Category Product Default Sort by___________
+                    defaultSortBy = [{ 'id': '0', 'name': 'Select' }, { 'id': '1', 'name': 'Price Low to High' }, { 'id': '2', 'name': 'Price Hight to Low' }, { 'id': '3', 'name': 'Most Popular' }, { 'id': '4', 'name': 'Title' },
+                        { 'id': '5', 'name': 'Manufacturer' }, { 'id': '6', 'name': 'Availabilty' }, { 'id': '7', 'name': 'Newest' }, { 'id': '8', 'name': 'Oldest' }],
+                    //#endregion
                     //stores List
                     stores = ko.observableArray([]),
                     //system Users
@@ -6411,7 +6415,8 @@ define("stores/stores.viewModel",
                     onDeletePermanent: onDeletePermanent,
                     selectTheme: selectTheme,
                     selectedThemeName: selectedThemeName,
-                    onDeleteMedia: onDeleteMedia
+                    onDeleteMedia: onDeleteMedia,
+                    defaultSortBy: defaultSortBy
                 };
                 //#endregion
             })()
