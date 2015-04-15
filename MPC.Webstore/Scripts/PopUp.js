@@ -632,7 +632,6 @@ function ViewOrderPopUp(Type, panelHtml) {
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    alert(bws.width);
     var left = parseInt((bws.width - 730) / 2);
 
     document.getElementById("innerLayer").innerHTML = container;
