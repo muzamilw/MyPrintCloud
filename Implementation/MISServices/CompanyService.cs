@@ -3391,7 +3391,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public void ApplyTheme(int themeId, string themeName, long companyId)
         {
-            DeleteMediaFiles();
+            DeleteMediaFiles(companyId);
             string directoryPath = HttpContext.Current.Server.MapPath("~/MPC_Content/Assets/" + companyRepository.OrganisationId + "/" + companyId);
             if (directoryPath != null && !Directory.Exists(directoryPath))
             {
@@ -3408,24 +3408,19 @@ namespace MPC.Implementation.MISServices
 
         }
 
-        private void DeleteMediaFiles()
+        private void DeleteMediaFiles(long companyId)
         {
-            IEnumerable<MediaLibrary> mediaLibraries = mediaLibraryRepository.GetAll();
+            IEnumerable<MediaLibrary> mediaLibraries = mediaLibraryRepository.GetMediaLibrariesByCompanyId(companyId);
             IEnumerable<CmsPage> cmsPages = cmsPageRepository.GetAll();
             IEnumerable<CompanyBanner> companyBanners = companyBannerRepository.GetAll();
 
             List<MediaLibrary> mediaLibrariesForDelete = new List<MediaLibrary>();
             foreach (var media in mediaLibraries)
             {
-                var flag = true;
+
                 CmsPage cmsPage = cmsPages.FirstOrDefault(cp => cp.PageBanner == media.FilePath);
-                if (cmsPage == null)
-                {
-                    mediaLibrariesForDelete.Add(media);
-                    flag = false;
-                }
                 CompanyBanner companyBanner = companyBanners.FirstOrDefault(cp => cp.ImageURL == media.FilePath);
-                if (companyBanner == null && flag)
+                if (cmsPage == null && companyBanner == null)
                 {
                     mediaLibrariesForDelete.Add(media);
                 }
