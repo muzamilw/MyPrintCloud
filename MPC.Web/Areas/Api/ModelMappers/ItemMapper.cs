@@ -537,7 +537,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsArchived = source.IsArchived,
                 IsEnabled = source.IsEnabled,
                 IsPublished = source.IsPublished,
-                MinPrice = source.MinPrice
+                MinPrice = source.MinPrice,
+                IsQtyRanged = source.IsQtyRanged
             };
 
             // Load Thumbnail Image

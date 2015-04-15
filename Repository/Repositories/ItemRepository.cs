@@ -3793,7 +3793,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return
-               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId)
+               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null)
                    .ToList();
             }
             catch (Exception ex)

@@ -1230,6 +1230,24 @@ define("order/order.viewModel",
                     },
                     //#region product From Retail Store
 
+                    //SelectedStockOption
+                    selectedStockOption = ko.observable(),
+
+                    //Selected Stock Option Sequence Number
+                    selectedStockOptionSequenceNumber = ko.observable(),
+
+                    //Selected Stock Option Name
+                    selectedStockOptionName = ko.observable(),
+
+                    //Selected Product Quanity 
+                    selectedProductQuanity = ko.observable(),
+
+                    //Total Product Price
+                    totalProductPrice = ko.observable(0),
+
+                    //Filtered Item Price matrix List
+                    filteredItemPriceMatrixList = ko.observableArray([]),
+
                     //Get Items By CompanyId
                     getItemsByCompanyId = function() {
                         dataservice.getItemsByCompanyId({
@@ -1253,6 +1271,7 @@ define("order/order.viewModel",
                                 }
                             });
                     },
+
                     //Update Items Data On Item Selection
                     //Get Item Stock Options and Items Price Matrix against this item's id(itemId)
                     updateItemsDataOnItemSelection = function(item) {
@@ -1284,17 +1303,11 @@ define("order/order.viewModel",
                                 }
                             });
                     },
+
                     onCloseProductFromRetailStore = function() {
                         view.hideProductFromRetailStoreModal();
                     },
-                    //Selected Stock Option Name
-                    selectedStockOptionName = ko.observable(),
-                    //Filtered Item Price matrix List
-                    filteredItemPriceMatrixList = ko.observableArray([]),
-                    //Selected Stock Option Sequence Number
-                    selectedStockOptionSequenceNumber = ko.observable(),
-                    //SelectedStockOption
-                    selectedStockOption = ko.observable(),
+                    
                     //On Product From Retail Store update Item price matrix table and Add on Table 
                     updateViewOnStockOptionChange = ko.computed(function() {
                         if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
@@ -1310,6 +1323,84 @@ define("order/order.viewModel",
                             }
                         });
                     }),
+                    getPrice = function(listElementNumber, count) {
+                        if (count == 1) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
+                        }
+                        else if (count == 2) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType2();
+                        }
+                        else if (count == 3) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType3();
+                        }
+                        else if (count == 4) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType4();
+                        }
+                        else if (count == 5) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType5();
+                        }
+                        else if (count == 6) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType6();
+                        }
+                        else if (count == 7) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType7();
+                        }
+                        else if (count == 8) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType8();
+                        }
+                        else if (count == 9) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType9();
+                        }
+                        else if (count == 10) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType10();
+                        }
+                        else if (count == 11) {
+                            return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
+                        }
+                    },
+                    //Calculate Total Price
+                    calculateTotalPrice = ko.computed(function () {
+                        //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
+                        //selectedStockOption().itemAddonCostCentres()
+                        var totalPrice = 0;
+                        var counter = 0;
+                        if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
+                            _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
+                                counter = counter + 1;
+                                if (priceMatrix.quantity() == selectedProductQuanity()) {
+                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                                }
+                            });
+                            if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                                _.each(selectedStockOption().itemAddonCostCentres(), function(stockOption) {
+                                    if (stockOption.isSelected()) {
+                                        totalPrice = totalPrice + stockOption.totalPrice();
+                                    }
+                                });
+                            }
+                            totalProductPrice(totalPrice);
+                        }
+                        else if (selecteditem() != undefined && selecteditem().isQtyRanged() == 1) {
+                            //totalPrice = parseInt(selectedProductQuanity());
+                            var qtyInLimit = false;
+                            counter = 0;
+                            _.each(selecteditem().itemPriceMatrices(), function (priceMatrix) {
+                                counter = counter + 1;
+                                if (priceMatrix.qtyRangedFrom() <= parseInt(selectedProductQuanity()) && priceMatrix.qtyRangedTo() >= parseInt(selectedProductQuanity())) {
+                                    totalPrice = getPrice(counter - 1, selectedStockOptionSequenceNumber());
+                                }
+                            });
+                            if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                                _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
+                                    if (stockOption.isSelected()) {
+                                        totalPrice = totalPrice + stockOption.totalPrice();
+                                    }
+                                });
+                            }
+                            totalProductPrice(totalPrice);
+                        } 
+                    }),
+
                     //#endregion
                     //Get Inventories
                     getInventoriesListItems = function() {
@@ -1333,6 +1424,8 @@ define("order/order.viewModel",
                                 }
                             });
                     },
+
+
                     //#endregion
                     //#region Pre Payment
                     showOrderPrePaymentModal = function() {
@@ -1908,6 +2001,8 @@ define("order/order.viewModel",
                     openSectionCostCenterDialog: openSectionCostCenterDialog,
                     selectedSectionCostCenter: selectedSectionCostCenter,
                     selectedQty: selectedQty,
+                    selectedProductQuanity: selectedProductQuanity,
+                    totalProductPrice: totalProductPrice,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,

@@ -1730,6 +1730,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }),
                 // Item Stock Option Id
                 itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+                //Is Selected 
+                isSelected = ko.observable(false),
+
                 // Errors
                 errors = ko.validation.group({
                     
@@ -1770,6 +1773,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 costCentreType: costCentreType,
                 totalPrice: totalPrice,
                 isMandatory: isMandatory,
+                isSelected: isSelected,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
