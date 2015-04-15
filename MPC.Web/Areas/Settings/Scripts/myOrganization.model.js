@@ -50,7 +50,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Tax Registration No
             taxRegistrationNo = ko.observable(),
             //Markup ID
-            markupId = ko.observable(),
+            markupId = ko.observable().extend({ required: true }),
             //markups In My Organization
             markupsInMyOrganization = ko.observableArray([]),
            //Chart Of Accounts In My Organization
@@ -61,7 +61,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             languageEditors = ko.observableArray([]),
              // Errors
              errors = ko.validation.group({
-                 email: email
+                 email: email,
+                 markupId: markupId
              }),
              // Is Valid
              isValid = ko.computed(function () {
