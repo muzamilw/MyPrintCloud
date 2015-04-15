@@ -54,6 +54,7 @@ namespace MPC.Implementation.MISServices
         /// <returns></returns>
         public PaperSize Update(PaperSize paperSize)
         {
+            paperSize.OrganisationId = organisationRepository.OrganisationId;
             paperSheetRepository.Update(paperSize);
             paperSheetRepository.SaveChanges();
             return paperSize;
