@@ -57,13 +57,10 @@ define("dashboard.viewModel",
                 },
                 // Map Orders 
                     mapOrders = function (data) {
-                        var ordersList = [];
+                        orders.removeAll();
                         _.each(data, function (order) {
-                            ordersList.push(model.Estimate.Create(order));
+                            orders.push(model.Estimate.Create(order));
                         });
-                        // Push to Original Array
-                        ko.utils.arrayPushAll(orders(), ordersList);
-                        orders.valueHasMutated();
                     },
                 // Sets Orders Statuses Count
                 setOrderStatusesCount = function(data) {
