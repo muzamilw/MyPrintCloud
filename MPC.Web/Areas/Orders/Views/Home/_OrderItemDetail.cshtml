@@ -297,7 +297,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    <div class="form-group">
+                                    @*<div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
                                                 <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Nominal Code" data-original-title="" title="">
@@ -313,7 +313,7 @@
                                             <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsId: 'Id', optionsCaption: 'Select...', value: nominalCodeId"></select>
                                         </div>
 
-                                    </div>
+                                    </div>*@
                                     <div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -524,36 +524,37 @@
 
                             <div class="tab-pane fade" id="tab-attachments">
                                 <div class="col-lg-12 form-horizontal">
-
-                                    <div class="form-group">
-                                        <div class="col-lg-3 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload Attachments" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
-
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="col-lg-4 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+                                                <label for="txtCompanyName" class="control-label text-right tooltip-float">Upload Attachment files</label>
                                             </div>
-                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Draft</label>
-
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <div id="dropzone1" class="dropzonepl">
-                                                <form id="demo-upload1" class="dropzone dz-clickable" style="min-height: 200px; width: 250px;" action="#">
-                                                    <div class="dz-default dz-message">
-                                                        <span>Drop file here to upload</span>
+                                            <div class="col-lg-6">
+                                                <div class="col-lg-1">
+                                                    <div class="fileUpload btn btn-primary">
+                                                        <span>....</span>
+                                                        <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.itemAttachmentFileLoadedCallback, fileFilter: 'image.*'}" />
                                                     </div>
-                                                </form>
+                                                </div>
                                             </div>
-                                            <span class="help-block text-right"></span>
                                         </div>
-
+                                        <div class="main-box-body">
+                                            <div id="gallery-photos-lightbox">
+                                                <ul class="clearfix gallery-photos">
+                                                    <!-- ko template: { name: 'orderItemAttachmentTemplate' , foreach: itemAttachments  } -->
+                                                    <!-- /ko -->
+                                                </ul>
+                                            </div>
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
-
+                          
                         </div>
                     </div>
                 </div>
@@ -561,6 +562,22 @@
         </div>
     </div>
 </div>
+
+
+
+
+<script id="orderItemAttachmentTemplate" type="text/html">
+    <li class="col-md-2 col-sm-3 col-xs-6" >
+        <div class="photo-box image-link" style="padding-top: 0; ">
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
+            <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />
+        </div>
+        <span class="thumb-meta-time"><i class="fa fa-clock-o"></i></span>
+    </li>
+</script>
+
+
+
 
 @* Item Section Template *@
 

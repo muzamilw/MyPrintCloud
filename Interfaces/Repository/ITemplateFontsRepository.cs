@@ -15,5 +15,7 @@ namespace MPC.Interfaces.Repository
         void InsertFontFile(TemplateFont objFont);
 
         List<TemplateFont> getTemplateFontsByCompanyID(long CustomerID);
+
+        List<TemplateFont> getTemplateFonts();
     }
 }

@@ -66,7 +66,9 @@
                         <div class="errorMesgLoginPage">
                             <div>@ViewBag.Message</div>
                             <div>@Html.ValidationMessageFor(u => u.Email, string.Empty, new { @style = "color:red;" })</div>
-
+                            <div>@Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })</div>
+                        <div>@Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })</div>
+                        <div>@Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })</div>
                         </div>
                         <br />
 
@@ -83,23 +85,22 @@
                         }
 
 
-                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "smallTxtBox cntRegisterFN", @placeholder = ViewData.ModelMetadata.DisplayName })
+                        @Html.TextBoxFor(model => model.FirstName, new { id = "txtFirstName", @class = "txtBoxLoginPage", @placeholder = "First Name" })
 
-                        @Html.ValidationMessageFor(u => u.FirstName, string.Empty, new { @style = "color:red" })
+                      
 
-                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "smallTxtBox cntRegisterLN", @placeholder = "Last Name" })
+                        @Html.TextBoxFor(model => model.LastName, new { id = "txtLastName", @class = "txtBoxLoginPage", @placeholder = "Last Name" })
 
-                        @Html.ValidationMessageFor(u => u.LastName, string.Empty, new { @style = "color:red" })
                         @Html.TextBoxFor(model => model.Phone, new { id = "txtPhone", @class = "txtBoxLoginPage", @placeholder = "Phone" })
 
-                        @Html.ValidationMessageFor(u => u.Phone, string.Empty, new { @style = "color:red" })
+                        
                         @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "txtBoxLoginPage", @placeholder = "Email" })
 
 
                         @Html.TextBoxFor(model => model.Password, new { id = "txtPassword", @class = "txtBoxLoginPage", @placeholder = "Password" }) <br />
 
                         @Html.ValidationMessageFor(u => u.Password, string.Empty, new { @style = "color:red;" })<br />
-                        <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" /><br />
+                        <input id="cmdRegister" type="submit" class="start_creating_btn_CretAcc registerAccountBtn rounded_corners5" value="CREATE ACCOUNT" onclick="ShowLoader();" /><br />
 
                         <div class="clear">
                             &nbsp;
@@ -117,7 +118,7 @@
                         <div>
                             &nbsp;
                         </div>
-                        <p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.WBStoreId))</p>
+                        @*<p id="lbl_ByRegisteringMessage" class="registering_label">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.WBStoreId))</p>*@
                         <div class="registering_item_register" id="divsaveurdeisgn">
                             <div class="tickImge">&nbsp;</div>
 

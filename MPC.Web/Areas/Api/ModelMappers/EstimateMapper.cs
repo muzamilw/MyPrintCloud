@@ -58,6 +58,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 OrderCode = source.Order_Code,
+                OrderReportSignedBy = source.OrderReportSignedBy,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
@@ -93,6 +94,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Status = source.Status.StatusName,
                 EstimateTotal = source.Estimate_Total,
                 IsDirectOrder = source.isDirectSale,
+                SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
 
             };
 
@@ -140,6 +142,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
+                OrderReportSignedBy = source.OrderReportSignedBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : null
 

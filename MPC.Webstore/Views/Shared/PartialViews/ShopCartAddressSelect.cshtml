@@ -220,8 +220,6 @@
                             <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Shipping Name</label>
                             @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = "Shipping Name e.g London Office HQ" })
 
-                            @*<label ID="Label7" class="tooltipCheckoutAvenior" >e.g. Office Address</label>*@
-
                         </div>
 
                         <div class="clearBoth">
@@ -307,10 +305,6 @@
                     <label id="lblCheckBox" for="chkBoxDeliverySameAsBilling" class="col-md-8 col-lg-7 col-xs-12 float-none" onclick="BillingSameAsDeliveryScriptCheckBox();">Bill items to the above shipping address</label>
 
                 </div>
-                @*<div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout center_align" onclick="BillingSameAsDeliveryScriptCheckBox();">
-                        <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">&nbsp;</label>
-
-                    </div>*@
                 <div class="clear">
                 </div>
                 <br />
@@ -436,8 +430,8 @@
 
 
                 </div>
-                <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 80%; text-align: left;">
-                    Please make sure your shipping and billing addresses are correct. Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
+                <div style="clear: both; font-size: 18px; color: rgb(179, 60, 18); font-family: 'Avenir Next LT W01 Demi', Helvetica, Arial, sans-serif; height: auto; width: 82%; text-align: left;">
+                    Please make sure your shipping and billing addresses are correct. <br />Addresses cannot be changed once an order is submitted and your order may be canceled if we cannot confirm either address.
                 </div>
                 <br />
                 <br />
@@ -977,7 +971,7 @@
                 $('#divBilling').css('display', 'none');
             }
             else {
-
+               
                 $('#isSameBillingAddress').val("False");
                 if ($("#hfIsDefaultBilling").val() != "1") {
                     EnableTextBoxes();
@@ -986,6 +980,23 @@
                 $('#BillTOShippTO').css('display', 'block');
                 $('#BillTOShippTOContainer').css('display', 'block');
 
+                
+
+
+                $('#divBilling').css('display', 'block');
+
+
+                HideAddressInBillingDropDown();
+                $('#ddlBilling option:first').attr('selected', 'selected');
+                $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+                $('#SelectedBillingState option:first').attr('selected', 'selected');
+                        
+                $('#txtBillingName').val("");
+                $('#txtAddressLine1').val("");
+                $('#txtAddressLine2').val("");
+                $('#txtCity').val("");
+                $('#txtZipPostCode').val("");
+                $('#txtContactNumber').val("");
                 //set labels
                 $("#ltrlShipTo").html(ShipTO + "");
                 $("#lblAddLine1BilSip").html($("#txtAddressLine1").val());
@@ -994,13 +1005,6 @@
                 $("#lblStateBilSip").html($("#ddBillingState option:selected").text());
                 $("#lblCountryBilSip").html($('#BillingCountryDropDown option:selected').text());
                 $("#lblPostCdeBilSip").html($("#txtZipPostCode").val());
-
-
-                $('#divBilling').css('display', 'block');
-
-
-                HideAddressInBillingDropDown();
-
             }
 
 
@@ -1370,6 +1374,11 @@
                     }
                     else
                     {
+                        $('#ddShippingCountry option:first').attr('selected', 'selected');
+                        $('#ddShippingState option:first').attr('selected', 'selected');
+                        
+                       
+                        $('#ddShippingCountry').click();
                         $('#txtShipAddressName').val("");
                         $('#txtShipAddLine1').val("");
                         $('#txtShipAddressLine2').val("");
@@ -1439,7 +1448,10 @@
                         break;
                     }
                     else // add new billing address
-                    {
+                    { 
+                        $('#BillingCountryDropDown option:first').attr('selected', 'selected');
+                        $('#SelectedBillingState option:first').attr('selected', 'selected');
+                        
                         $('#txtBillingName').val("");
                         $('#txtAddressLine1').val("");
                         $('#txtAddressLine2').val("");

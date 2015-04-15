@@ -1,4 +1,38 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
+    ko.bindingHandlers.autoNumeric = {
+        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              bindings = bindingsAccessor(),
+              settings = bindings.settings,
+              value = valueAccessor();
+
+            $el.autoNumeric(settings);
+            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
+            $el.change(function () {
+                value(parseFloat($el.autoNumeric('get'), 10));
+            });
+        },
+        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              newValue = ko.utils.unwrapObservable(valueAccessor()),
+              elementValue = $el.autoNumeric('get'),
+              valueHasChanged = (newValue != elementValue);
+
+            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
+                valueHasChanged = true;
+            }
+
+            if (valueHasChanged) {
+                if (newValue != undefined) {
+                    $el.autoNumeric('set', newValue);
+                }
+
+
+            }
+        }
+    };
+
+
     var CostCenter = function () {
 
         var
@@ -962,7 +996,7 @@
             VariableString = ko.computed(function () {
                 return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
             }, this),
-
+            row = ko.observableArray([]),
             MatrixDetailVariableList = ko.observableArray([])
             if (sourceMatrixDetail != null) {
                 _.each(sourceMatrixDetail, function (item) {
@@ -984,7 +1018,7 @@
             VariableString = ko.computed(function () {
                 return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
             }, this),
-
+            row = ko.observableArray([]),
             MatrixDetailVariableList = ko.observableArray([])
         }
 
@@ -1024,6 +1058,7 @@
             OrganisationId : OrganisationId,
             SystemSiteId : SystemSiteId,
             VariableString: VariableString,
+            row:row,
             MatrixDetailVariableList:MatrixDetailVariableList,
             errors: errors,
             isValid: isValid,
@@ -1083,6 +1118,185 @@
         return self;
 
     }
+    var MatrixDetailClientMapper = function (source) {
+        var oMatrixDetail = new MatrixDetail()
+        if (source != null) {
+            oMatrixDetail.Id(source.Id);
+            oMatrixDetail.MatrixId(source.MatrixId);
+            oMatrixDetail.Value(source.Value);
+        }
+        
+        return oMatrixDetail;
+    }
+    var MatrixVariableClientMapper = function (source, sourceMatrixDetail) {
+        var omatrixVariable = new matrixVariable();
+        if (source != undefined) {
+            omatrixVariable.MatrixId(source.MatrixId());
+            omatrixVariable.Name(source.Name());
+            omatrixVariable.Description(source.Description());
+            omatrixVariable.RowsCount(source.RowsCount());
+            omatrixVariable.ColumnsCount(source.ColumnsCount());
+            omatrixVariable.OrganisationId(source.OrganisationId());
+            omatrixVariable.SystemSiteId(source.SystemSiteId());
+        }
+
+        omatrixVariable.MatrixDetailVariableList.removeAll();
+        var MatrixDetailList = [];
+        if (sourceMatrixDetail != undefined) {
+            _.each(sourceMatrixDetail, function (item) {
+                MatrixDetailList.push(MatrixDetailClientMapper(item));
+            });
+            var k = 0 ;
+            omatrixVariable.row.removeAll();
+            for (var i = 0; i < source.RowsCount() ; i++) {
+                var rowsTem = ko.observableArray([]);
+                for (var j = 0; j < source.ColumnsCount() ; j++) {
+                    if (i == 0 && j == 0) {
+                        var row = MatrixDetailClientMapper();
+                        row.Id(-1);
+                        rowsTem.push(row);
+                    } else {
+                        rowsTem.push(MatrixDetailList[k]);
+                        k++;
+                    }
+                   
+                }
+                omatrixVariable.MatrixDetailVariableList.push(rowsTem);
+                
+            }
+
+        }
+        return omatrixVariable;
+
+
+    }
+    var MatrixDetailServerMapper = function (source) {
+        var oMatrixDetail = {}
+        if (source != undefined) {
+            oMatrixDetail.Id = source.Id();
+            oMatrixDetail.MatrixId = source.MatrixId();
+            oMatrixDetail.Value = source.Value();
+        }
+       
+
+        return oMatrixDetail;
+
+    }
+    var MatrixVariableServerMapper = function (source) {
+        var CostCentreMatrix = {};
+        if (source != undefined) {
+            MatrixDetailVariableList: MatrixDetailVariableList
+
+
+            CostCentreMatrix.MatrixId = source.MatrixId();
+            CostCentreMatrix.Name = source.Name();
+            CostCentreMatrix.Description = source.Description();
+            CostCentreMatrix.RowsCount = source.RowsCount();
+            CostCentreMatrix.ColumnsCount = source.ColumnsCount();
+            CostCentreMatrix.SystemSiteId = source.SystemSiteId();
+            CostCentreMatrix.VariableString = source.VariableString();
+        }
+        var MatrixDetailList = [];
+        if (source.MatrixDetailVariableList() != undefined) {
+            _.each(source.MatrixDetailVariableList(), function (item) {
+                _.each(item(), function (itemDetails) {
+                    if (itemDetails.Id() != -1) {
+                        var oItemDetails = MatrixDetailServerMapper(itemDetails);
+                        MatrixDetailList.push(oItemDetails);
+                    }
+                    
+                });
+                
+                
+            });
+
+
+        }
+        return {
+            CostCentreMatrix: CostCentreMatrix,
+            CostCentreMatrixDetail: MatrixDetailList
+        }
+
+
+    }
+
+    var StockItemVariable = function (item) {
+        var self
+            if (item != null && item != undefined) {
+                Id = ko.observable(item.id),
+                StockName = ko.observable(item.name)
+            } else {
+                Id = ko.observable(),
+                StockName = ko.observable()
+            }
+           
+            CostType = ko.observable(),
+            quantityValue = ko.observable(),
+            QuantityType = ko.observable(),
+            variableValue = ko.observable(),
+            questionValue = ko.observable(),
+            // SystemVariable = ko.observable(),
+           // QuantityQuestion = ko.observable(),
+          Value = ko.computed(function () {
+              if (QuantityType() == "qty") {
+                  return quantityValue();
+              }else if (QuantityType() == "variable") {
+                  return variableValue();
+              }else if (QuantityType() == "question") {
+                  return questionValue();
+              } else {
+                  return 0;
+              }
+               
+          }, this),
+            VariableString = ko.computed(function () {
+                return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
+            }, this),
+           
+   
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+         
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            StockName: StockName,
+            CostType: CostType,
+            quantityValue: quantityValue,
+            QuantityType: QuantityType,
+            variableValue: variableValue,
+            questionValue: questionValue,
+            Value: Value,
+            VariableString:VariableString,
+           // SystemVariable: SystemVariable,
+            //QuantityQuestion:QuantityQuestion,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+
+        };
+        return self;
+
+    }
+
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
@@ -1095,6 +1309,10 @@
         QuestionVariableServerMapper: QuestionVariableServerMapper,
         QuestionVariableClientMapper: QuestionVariableClientMapper,
         matrixVariable: matrixVariable,
-        MatrixDetail: MatrixDetail
+        MatrixDetail: MatrixDetail,
+        MatrixVariableClientMapper: MatrixVariableClientMapper,
+        MatrixDetailClientMapper: MatrixDetailClientMapper,
+        MatrixVariableServerMapper: MatrixVariableServerMapper,
+        StockItemVariable: StockItemVariable
     };
 });

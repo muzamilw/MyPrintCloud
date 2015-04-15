@@ -15,5 +15,6 @@ namespace MPC.Interfaces.Repository
         double ExecUserVariable(CostCentreVariable oVariable);
         bool VariableExists(int VariableID, string VariableName);
         List<CostCentreVariable> returnLoadVariableList();
+        IEnumerable<CostCentreVariable> GetVariableList();
     }
 }

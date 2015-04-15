@@ -2,7 +2,7 @@
     loaderLoading = true;
     var3 = 1;
     if (msg == null || msg == "") {
-        msg = "Loading design onto the canvas.";
+        msg = "Loading design on canvas";
     }
     $("#loaderTitleMsg").text(msg);
     $("#MainLoader").css("display", "block");
@@ -1558,11 +1558,12 @@ function fu05_svcCall(DT) {
         }
     } else
     {
+        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
         $.each(DT, function (i, IT) {
             fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
         });
-        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
-        $('.ColorOptionContainer').append(html);
+      
     }
 
 }
@@ -1820,7 +1821,7 @@ function fu09_1(DT) {
 function fu10(ca, gtID) {
     $(".templateListUL .on").removeClass("on");
     $(ca).parent().addClass("on");
-    StartLoader("Loading design onto the canvas...");
+    StartLoader("Loading design on canvas");
     TP = [];
     TO = [];
     isloadingNew = true;
@@ -2206,7 +2207,7 @@ function j9(e, url1, id) {
                         n = n.replace("%20", " ");
                     while (n.indexOf('./') != -1)
                         n = n.replace("./", "");
-                    StartLoader("Placing image on canvas, please wait....");
+                    StartLoader("Placing image on canvas");
                     var imgtype = 2;
                     if (isBKpnl) {
                         imgtype = 4;
@@ -2978,7 +2979,7 @@ function k16(TempImgType, ImC, Caller) {
                 }
                 if (DT.objsBackground == "") {
                     if (oldHtml.indexOf("allImgsLoadedMessage") == -1) {
-                        $("." + strName).append("<p class='allImgsLoadedMessage' style='margin-top:50px;  text-align: center; margin-bottom:50px;'>No image found. </p>");
+                        $("." + strName).append("<p class='allImgsLoadedMessage' style='margin-top:50px;  text-align: center; margin-bottom:50px;'>No images found. </p>");
                         $(".btn" + strName).css("display", "none");
                     } else {
                         if (TempImgType == 1) {
@@ -3556,7 +3557,7 @@ function k32(imID, Tid, eleID) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Placing image on canvas, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4(n, tID, imgtype);
     } else {
         var bkImgURL = eleID.split("./Designer/Products/");;

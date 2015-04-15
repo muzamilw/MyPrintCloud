@@ -68,17 +68,17 @@
                     <label id="lblAddLine2" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Address2</label><br />
                     <label id="lblTown" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.City</label>
                     <label id="lblState" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.State</label>
-                    <label id="lblZipCode" style="color: black;  font-style: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</label><br />
-                    <label id="lblCountry" style="color: black;  font-style: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</label><br />
+                    <label id="lblZipCode" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.ZipCode</label><br />
+                    <label id="lblCountry" style="color: black;  font-weight: normal;  font-size: 12px; line-height: 16px;">@ViewBag.oStoreDefaultAddress.Country</label><br />
       
-                    <label id="lblTel" style="color: black;font-style: normal; font-size: 14px; line-height: 16px; float: left; margin-top: 6px;">Tel: @ViewBag.oStoreDefaultAddress.Tel</label>
+                    <label id="lblTel" style="color: black;font-weight: normal; font-size: 14px; line-height: 16px; float: left; margin-top: 6px;">Tel: @ViewBag.oStoreDefaultAddress.Tel</label>
                 </div>
                 <div class=" col-md-8 col-lg-8 col-xs-12 receiptWhitelblRightcnt">
                     &nbsp;
                 </div>
                 <div id="trVatNumb" style="height: 30px;" class="col-md-4 col-lg-4 col-xs-12 receiptWhitelblleftcnt">
-                    <label id="lbl_VATRegisterationNumber" style="">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId))</label>
-                    <label id="lblVatNum" class="receiptVatNum" style="font-weight: bold;">@ViewBag.Company.VATRegNumber</label>
+                    <label id="lbl_VATRegisterationNumber" style="font-weight: normal;">@Html.Raw(Html.GetKeyValueFromResourceFile("VatResgNo", UserCookieManager.WBStoreId))</label>
+                    <label id="lblVatNum" class="receiptVatNum" style="font-weight: normal;">@ViewBag.Company.VATRegNumber</label>
                 </div>
                 <div class="clearBoth" style="border-top: 2px solid #f3f3f3;">
                 </div>
@@ -193,8 +193,8 @@
                 <label id="lblEstimatedDispatchDate" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px; margin-left: 0px;">@EstimatedDispatchDate</label>
             </div>
             <div class="trspclInstr col-md-4 col-lg-4 col-xs-12 receiptShippingDeliverycnt">
-                <span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.WBStoreId))</span><br />
-                <label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: normal; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label>
+                @*<span id="lbl_DelivaryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px;">@Html.Raw(Html.GetKeyValueFromResourceFile("spndilevry", UserCookieManager.WBStoreId))</span><br />*@
+                &nbsp;
             </div>
             <div class="clearBoth">
             </div>
@@ -319,7 +319,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td align="left"></td>
+                            <td align="left"><label id="lblEstimatedDeliveryMethod" style="color: #333333;  font-style: normal; font-weight: bold; font-size: 12px; line-height: 16px;">@Model.DeliveryMethod</label></td>
                             <td align="left">
                                 <span id="lbl_Delivery" style="  line-height: 2;font-size: 13px; color: Black;">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlDelivery", UserCookieManager.WBStoreId)):</span>
                             </td>

@@ -134,6 +134,13 @@ namespace MPC.Implementation.MISServices
         {
             return estimateRepository.GetOrders(request);
         }
+        /// <summary>
+        /// Get Orders For Estimates List View
+        /// </summary>
+        public GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request)
+        {
+            return estimateRepository.GetOrdersForEstimates(request);
+        }
 
         /// <summary>
         /// Get By Id
@@ -173,7 +180,7 @@ namespace MPC.Implementation.MISServices
                        Markups = _markupRepository.GetAll(),
                        Organisation = organisationRepository.Find(organisationRepository.OrganisationId),
                        StockCategories = stockCategoryRepository.GetAll(),
-                       ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                      // ChartOfAccounts = chartOfAccountRepository.GetAll(),
                        PaperSizes = paperSizeRepository.GetAll(),
                        InkPlateSides = inkPlateSideRepository.GetAll(),
                        Inks = stockItemRepository.GetStockItemOfCategoryInk(),
