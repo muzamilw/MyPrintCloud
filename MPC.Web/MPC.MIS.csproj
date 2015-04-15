@@ -1157,6 +1157,7 @@
     <Content Include="Content\themes\Centaurus\img\Machine_Guillotine.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_Lookups.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_SheetPress.png" />
+    <Content Include="Content\themes\Centaurus\img\mpc_beta.jpg" />
     <Content Include="Content\themes\Centaurus\img\pricing-star.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Inoice.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Job.png" />

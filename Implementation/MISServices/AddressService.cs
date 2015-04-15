@@ -16,6 +16,7 @@ namespace MPC.Implementation.MISServices
         {
             //check to maintain default properties of address
             CheckAddressDefault(address);
+            address.OrganisationId = addressRepository.OrganisationId;
             addressRepository.Add(address);
             addressRepository.SaveChanges();
             if (address.ScopeVariables != null)
@@ -33,6 +34,7 @@ namespace MPC.Implementation.MISServices
         {
             //check to maintain default properties of address
             CheckAddressDefault(address);
+            address.OrganisationId = addressRepository.OrganisationId;
             addressRepository.Update(address);
             if (address.ScopeVariables != null)
             {
@@ -68,6 +70,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.isDefaultTerrorityBilling = false;
+                    updatingAddress.OrganisationId = addressRepository.OrganisationId;
                     addressRepository.Update(updatingAddress);
                 }
             }
@@ -77,6 +80,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.isDefaultTerrorityShipping = false;
+                    updatingAddress.OrganisationId = addressRepository.OrganisationId;
                     addressRepository.Update(updatingAddress);
                 }
             }
@@ -86,6 +90,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.IsDefaultAddress = false;
+                    updatingAddress.OrganisationId = addressRepository.OrganisationId;
                     addressRepository.Update(updatingAddress);
                 }
             }
@@ -95,6 +100,7 @@ namespace MPC.Implementation.MISServices
                 foreach (var updatingAddress in addressesToUpdate)
                 {
                     updatingAddress.IsDefaultShippingAddress = false;
+                    updatingAddress.OrganisationId = addressRepository.OrganisationId;
                     addressRepository.Update(updatingAddress);
                 }
             }
