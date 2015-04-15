@@ -785,10 +785,10 @@ namespace MPC.Implementation.MISServices
                     1, template.TemplatePages.ToList(),
                     organisationId);
             }
-            catch (Exception)
+            catch (Exception exp)
             {
                 throw new MPCException(
-                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages,
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages + ". " + exp.Message,
                     organisationId);
             }
         }
