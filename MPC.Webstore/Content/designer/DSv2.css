@@ -64,7 +64,7 @@ input, select, table, textarea {
     z-index: 100;
     width: 33.333%;
     min-width: 300px;
-    max-width: 430px;
+    max-width: 363px;
     box-sizing: border-box;
     padding: 15px 30px 15px 100px;
     background-color: #272c33;
@@ -937,7 +937,7 @@ body:not(.compactHeader) #editorLogo {
     top: -9px;
     z-index: 100;
     width: 80px;
-    height: 79px;
+    height: 67px;
     overflow: visible;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -4759,8 +4759,8 @@ h2 + .gallery {
     z-index: 10000;
     width: 235px !important;
     display: none;
-    top: 10px;
-     left: 79px;
+  top: 76px;
+  left: 6px;
 }
 
 .closePanelButton {
@@ -4954,6 +4954,10 @@ h2 + .gallery {
     margin-left: 24px;
       border-color: grey;
   border-width: 2px;
+}
+.OpacityBtn  {
+    background-color:transparent;
+      border-width: 0px;  padding-top: 10px;
 }
 .closeBtnMenus
 {
@@ -5725,10 +5729,12 @@ margin-left:1px;
 }   
 #collapseDesignerMenu {
     margin-top: 0px;
-    left: 537px;
-    height: 53px;
+  left: 425px;
+  height: 53px;
   background: url('assets-v2/back.png');
-background-repeat: no-repeat;background-position-x: 14px;
+  background-repeat: no-repeat;
+  background-position-x: 14px;
+  top: 14px;
 }
 #collapseDesignerMenu a:hover {
         left: 0px;
@@ -6164,6 +6170,8 @@ right: -65px;
     color:white;
     padding-left: 5px;
     padding-right: 6px;
+      font-size: 9.80000019073486px;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 .textLabel{
     font-size: 11px;

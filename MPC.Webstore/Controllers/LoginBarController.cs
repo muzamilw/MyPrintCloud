@@ -54,13 +54,13 @@ namespace MPC.Webstore.Controllers
             {
                 ViewBag.isUserLoggedIn = true;
                 ViewBag.LoginUserName = UserCookieManager.WEBContactFirstName + " " + UserCookieManager.WEBContactLastName;
-                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0).ToString());
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(_webstoreclaimHelper.loginContactID(), 0, _webstoreclaimHelper.loginContactCompanyID()).ToString());
             }
             else
             {
                 ViewBag.isUserLoggedIn = false;
                 ViewBag.LoginUserName = "";
-                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId).ToString());
+                ViewBag.CartCount = string.Format("{0}", _itemService.GetCartItemsCount(0, UserCookieManager.TemporaryCompanyId, 0).ToString());
             }
             return PartialView("PartialViews/LoginBar");
         }

@@ -23,17 +23,19 @@
 <div class="container content_area">
     <div class="row left_right_padding">
         <div class="signin_heading_div textAlignLeft" style="padding-bottom: 0px !important;">
-            <table width="1000px">
+            <table style="  width: 100%;">
                 <tr>
-                    <td width="500px">
-                        <label id="lbl_ShoppingCart" class="sign_in_heading">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
+                    <td>
+                        <div class="contact_us_heading">
+                            <label id="lbl_ShoppingCart" class="">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTitleShopCart", UserCookieManager.WBStoreId))</label>
+                        </div>
+                        
                     </td>
-                    <td width="220px"></td>
-                    <td width="180px"></td>
+                   
                 </tr>
                 <tr style="height: 5px;"></tr>
-                <tr id="ErrorDisplyMes" style="display: none; width: 1000px;">
-                    <td colspan="3" width="1000px">
+                <tr id="ErrorDisplyMes" style="display: none; width: 100%;">
+                    <td  width="1000px">
                         <div style="background-color: red; border: 1px solid red; padding: 10px;" class="rounded_corners">
                             <label id="ErrorMEsSummry" style="color: White; font-size: 16px; font-weight: bold;"></label>
                         </div>
@@ -176,7 +178,7 @@
                                                 <span id="lblselectedAddOnList" class="ItemdetailDesc">@itemAddsOn</span>
                                                 <input type="hidden" id="numberOfDaysAddedTodelivery" name="numberOfDaysAddedTodelivery" value="@numberOfDaysAddedTodelivery">
                                                 <br>
-                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product  from cart">
+                                                <input type="submit" id="linkRemoveCartItem" class="silver_back_button_remove removeBtnForeColor" onclick="return ConfirmDeleteItem('@prod.ItemID','@ViewBag.OrderID');" value="Remove product from cart">
                                                 <br />
                                                 <input type="submit" id="btnCopyProduct" class="silver_back_button" onclick="CopyProduct('@prod.ItemID');" value="Make a copy of this product in cart">
                                             </td>

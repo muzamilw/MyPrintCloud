@@ -218,7 +218,7 @@
 
                         <div class="col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                             <label id="ltrlshippingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Shipping Name</label>
-                            @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = "Shipping Name e.g London Office HQ" })
+                            @Html.TextBoxFor(model => model.ShippingAddress.AddressName, new { id = "txtShipAddressName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, @Placeholder = "Shipping address name e.g. London Office HQ" })
 
                         </div>
 
@@ -357,7 +357,7 @@
 
                     <div class=" col-md-12 col-lg-12 col-xs-12 TTL_Checkout ckecoutWidthAvenior">
                         <label id="ltrlBillingname" class="smallCheckoutAvenior col-md-3 col-lg-3 col-xs-12">Billing Name</label>
-                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, @Placeholder = "Billing Name e.g London Office HQ" })
+                        @Html.TextBoxFor(model => model.BillingAddress.AddressName, new { id = "txtBillingName", @class = "AveniorTxtBoxCheckout col-md-8 col-lg-7 col-xs-12 float-none", maxlength = 100, disabled = IsDisable, @Placeholder = "Billing address name e.g. London Office HQ" })
 
                         @*<label ID="Label9"  class="tooltipCheckoutAvenior">e.g. Office Address</label>*@
                     </div>
