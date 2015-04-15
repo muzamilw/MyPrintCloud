@@ -123,6 +123,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 deliverySchedules = ko.observableArray([]),
                 // Status Id
                 statusId = ko.observable(undefined),
+                // Order signed by
+                orderReportSignedBy = ko.observable(undefined),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -153,6 +155,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     contactId: contactId,
                     addressId: addressId,
                     isDirectSale: isDirectSale,
+                    orderReportSignedBy:orderReportSignedBy,
                     isOfficialOrder: isOfficialOrder,
                     isCreditApproved: isCreditApproved,
                     orderDate: orderDate,
@@ -230,6 +233,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         CustomerPo: customerPo(),
                         OfficialOrderSetBy: officialOrderSetBy(),
                         OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
+                        OrderReportSignedBy: orderReportSignedBy(),
                         PrePayments: [],
                         ShippingInformations: [],
                         Items:[]
@@ -249,6 +253,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 companyId: companyId,
                 companyName: companyName,
                 estimateTotal: estimateTotal,
+                orderReportSignedBy: orderReportSignedBy,
                 contactId: contactId,
                 addressId: addressId,
                 sectionFlagId: sectionFlagId,

@@ -4643,7 +4643,7 @@ namespace MPC.Repository.Repositories
                 SectionCostcentre presscc = updateSection.SectionCostcentres.Where(c => c.CostCentreId == oPressCostCentre.CostCentreId).FirstOrDefault();
                 if (presscc != null)
                 {
-                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = presscc.Qty1NetTotal ?? 0, Qty1RunTime = presscc.Qty1EstimatedTime, Qty2Cost = presscc.Qty2NetTotal ?? 0, Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = presscc.Qty3NetTotal ?? 0, Qty3RunTime = presscc.Qty3EstimatedTime });
+                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = Math.Round(presscc.Qty1NetTotal ?? 0, 2), Qty1RunTime = presscc.Qty1EstimatedTime, Qty2Cost = Math.Round(presscc.Qty2NetTotal ?? 0, 2), Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = Math.Round(presscc.Qty3NetTotal ?? 0, 2), Qty3RunTime = presscc.Qty3EstimatedTime });
                     updateSection.SectionCostcentres.ToList().ForEach(a => updateSection.SectionCostcentres.Remove(a));
                 }
             }
