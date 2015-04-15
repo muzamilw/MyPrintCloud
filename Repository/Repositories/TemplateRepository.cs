@@ -896,7 +896,25 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        
+
+        public double getOrganisationBleedArea(long organisationID)
+        {
+            double bleedArea = 0;
+            try
+            {
+                if(organisationID !=0)
+                {
+                    var organisation = db.Organisations.Where(g => g.OrganisationId == organisationID).SingleOrDefault();
+                    if(organisation.BleedAreaSize.HasValue)
+                        bleedArea = organisation.BleedAreaSize.Value;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return bleedArea;
+        }
         #endregion
 
         
