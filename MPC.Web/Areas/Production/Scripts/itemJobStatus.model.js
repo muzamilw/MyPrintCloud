@@ -43,7 +43,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
      };
 
     Item.Create = function (source) {
-        return new Item(source.ItemId, source.EstimateId, source.Code, source.ComparnyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
+        return new Item(source.ItemId, source.EstimateId, source.Code, source.CompanyName, source.ProductName, source.Qty1, source.StatusId, source.JobEstimatedCompletionDateTime,
             source.Qty1NetTotal);
 
     };

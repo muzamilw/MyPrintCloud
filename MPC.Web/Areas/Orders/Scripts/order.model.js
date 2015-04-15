@@ -1123,7 +1123,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 //Payment Method Name
                 paymentMethodName = ko.observable(specifiedPaymentMethodName),
                 // Reference Code
-                referenceCode = ko.observable(specifiedReferenceCode),
+                referenceCode = ko.observable(specifiedReferenceCode).extend({ required: true }),
                 // Payment Description
                 paymentDescription = ko.observable(specifiedPaymentDescription),
 // ReSharper disable UnusedLocals
@@ -1137,7 +1137,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }),
                 // Errors
                 errors = ko.validation.group({
-                    amount: amount
+                    amount: amount,
+                    referenceCode: referenceCode
                 }),
                 // Is Valid
                 isValid = ko.computed(function() {

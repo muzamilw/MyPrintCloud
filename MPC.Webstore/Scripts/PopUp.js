@@ -96,7 +96,7 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
   
     var Path = "/ShopCart/RemoveProduct/" + ItemID + "/" + OrderID;
     var Type = "Alert!";
-    var Message = "Are you sure you want to remove this item from your shopping cart?"
+    var Message = "Are you sure you want to remove this item from your cart?"
     var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header"><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title">' + Type + '</h4></div><div class="modal-body">' + Message + '<div class="modal-footer" style="margin-left: -20px;margin-right: -20px;"><input type="submit" class="btn btn-primary" onclick=ConfirmRemove('+ItemID+','+OrderID+'); value="Yes" /><button type="button" onclick=HideMessagePopUp(); class="btn btn-primary">No</button></div></div></div>';
 
     var bws = getBrowserHeight();
@@ -632,7 +632,6 @@ function ViewOrderPopUp(Type, panelHtml) {
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    alert(bws.width);
     var left = parseInt((bws.width - 730) / 2);
 
     document.getElementById("innerLayer").innerHTML = container;
@@ -649,7 +648,7 @@ function ViewOrderPopUp(Type, panelHtml) {
 }
 function ShippingBillingDetails(Type, panelHtml) {
 
-    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" style="padding-left: 293px;" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
+    var container = '<div class="md-modal md-effect-7" id="modal-7"><div class="md-content"><div class="modal-header" ><button class="md-close close" onclick=HideMessagePopUp(); >&times;</button><h4 class="modal-title" >' + Type + '</h4></div><div class="modal-body">' + panelHtml + '</div></div>';
 
       var bws = getBrowserHeight();
 
