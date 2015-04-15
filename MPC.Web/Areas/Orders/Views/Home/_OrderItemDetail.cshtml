@@ -84,25 +84,28 @@
                                             &nbsp;
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-lg-4">
-                                            <label class="control-label tooltip-float" style="font-weight:bolder">Net Total with MarkUp Applied</label>
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotal" />
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotal" />
-                                        </div>
-                                        <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotal" />
-                                        </div>
-                                        <div class="col-xs-2">
-                                            &nbsp;
-                                        </div>
-                                        <div>
+                                    <div class="col-lg-12 form-horizontal" style="background-color:#d9d9d9;margin-top:20px;margin-bottom:20px;padding-top:20px;">
+                                        <div class="form-group">
+                                            <div class="col-lg-4">
+                                                <label class="control-label tooltip-float" style="font-weight:bolder">Net Total with MarkUp Applied</label>
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotal" />
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotal" />
+                                            </div>
+                                            <div class="col-xs-2">
+                                                <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotal" />
+                                            </div>
+                                            <div class="col-xs-2">
+                                                &nbsp;
+                                            </div>
+                                            <div>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="form-group">
                                         <div class="col-lg-2">
                                             <label class="control-label tooltip-float">Tax</label>
@@ -182,7 +185,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" />
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription1, click: $root.selectJobDescription" id="txtDescription1" placeholder="Enter Description 1" />
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P1" data-bind="visible: $root.selectedJobDescription() === 'txtDescription1', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -201,7 +204,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" />
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription2, click: $root.selectJobDescription" id="txtDescription2" placeholder="Enter Description 2" />
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P2" data-bind="visible: $root.selectedJobDescription() === 'txtDescription2', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -220,8 +223,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" >
-                                            </div>
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" />
+</div>
                                             <div class="col-lg-2">
                                                 <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -239,8 +242,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" >
-                                            </div>
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" />
+</div>
                                             <div class="col-lg-2">
                                                 <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -258,8 +261,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" >
-                                            </div>
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" />
+</div>
                                             <div class="col-lg-2">
                                                 <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -277,8 +280,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6">
-                                            </div>
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription6, click: $root.selectJobDescription" id="txtDescription6" placeholder="Enter Description 6" />
+</div>
                                             <div class="col-lg-2">
                                                 <a id="P6" data-bind="visible: $root.selectedJobDescription() === 'txtDescription6', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -296,8 +299,8 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" >
-                                            </div>
+                                                <textarea rows="1" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" />
+</div>
                                             <div class="col-lg-2">
                                                 <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
                                                     <i class="fa fa-lg"></i>&nbsp;....
@@ -325,7 +328,7 @@
                                     <div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
@@ -333,13 +336,13 @@
                                             <label class="control-label tooltip-float">Invoice Description</label>
                                         </div>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;" >
-                                        </div>
+                                            <textarea rows="1" class="form-control" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;" />
+</div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
+                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;"  data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Invoice Description" data-original-title="" title="">
                                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                                 </a>
                                             </div>
@@ -347,8 +350,8 @@
                                             <label class="control-label tooltip-float">User Notes</label>
                                         </div>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;">
-                                        </div>
+                                            <textarea rows="1" class="form-control" data-bind="value: itemNotes" id="txtNotes" placeholder="Enter Notes" style="background-color: #FCFBB6;" />
+</div>
                                     </div>
 
                                     <div class="col-lg-12 form-horizontal">
