@@ -17,11 +17,20 @@
 </div>
 <div class="container content_area">
     <div class="row left_right_padding">
-        <div class="signin_heading_div float_left_simple">
-            <label id="lblProductName" class="product_detail_main_heading">@ViewBag.Item.ProductName</label>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
+        <div class="BreadCrumbMenu left_align col-xs-12">
+            <h1>
+
+                <a id="aLinkItem" href="@ViewBag.CategoryHRef" class="crumb_notActive left_align">
+                    @ViewBag.CategoryName
+                </a>
+                <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
+                <a id="aLinkItem" href="#" class="crumb_Active left_align">
+                    @ViewBag.Item.ProductName
+                </a>
+
+
+            </h1>
+            <div class="clearBoth"></div>
         </div>
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
             <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
@@ -353,7 +362,7 @@
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
                         @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
-                        <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
+                        <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                     }
 
 
@@ -673,7 +682,7 @@
         <div class="float_left_simple UploadsGuidLineContainer">
 
             <input type="file" name="FileName" id="imageUploader" style="width:240px" />
-            <input type="button" value="Upload" class="Uplod_PCS rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" />
+            <input type="button" value="Upload" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.WBStoreId))
@@ -1317,43 +1326,7 @@
         ShowArtWorkPopup("Upload Artwork", panelHtml);
     }
 
-    function LoadCostCentersByStockId(StockId) {
-       
-        var noRefiningOpt = 1;
-        mandatoryRefiningOptIds = "";
-        $(".CostCenterItems").each(function(i, val) {
-            if (StockId == $(val).attr('data-StockId')) {
-                $(val).css("display", "block");
-                if($(val).attr('data-ismandatory') == 1){
-                   
-                    if(mandatoryRefiningOptIds == ""){
-                        mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
-                    }else{
-                        mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
-                    }
-                }
-               
-                noRefiningOpt = 0;
-            } else {
-
-                $(val).css("display", "none");
-
-                if ($(val).children().next().children().is(':checked')) {
-                    $(val).children().next().children().click();
-
-                }
-            }
-           
-        });
-       
-        if(noRefiningOpt == 1){
-            $("#lbl_RefiningOptions").css("display", "none");
-            mandatoryRefiningOptIds = "";
-        }else{
-            $("#lbl_RefiningOptions").css("display", "block");
-        }
-    }
-
+  
     function openDailog() {
         ShowLoader();
         var files = $("#imageUploader").get(0).files;
@@ -1550,5 +1523,43 @@
             }
         }
     }
+
+        function LoadCostCentersByStockId(StockId) {
+       
+            var noRefiningOpt = 1;
+            mandatoryRefiningOptIds = "";
+            $(".CostCenterItems").each(function(i, val) {
+                if (StockId == $(val).attr('data-StockId')) {
+                    $(val).css("display", "block");
+                    if($(val).attr('data-ismandatory') == 1){
+                   
+                        if(mandatoryRefiningOptIds == ""){
+                            mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
+                        }else{
+                            mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
+                        }
+                    }
+               
+                    noRefiningOpt = 0;
+                } else {
+
+                    $(val).css("display", "none");
+
+                    if ($(val).children().next().children().is(':checked')) {
+                        $(val).children().next().children().click();
+
+                    }
+                }
+           
+            });
+       
+            if(noRefiningOpt == 1){
+                $("#lbl_RefiningOptions").css("display", "none");
+                mandatoryRefiningOptIds = "";
+            }else{
+                $("#lbl_RefiningOptions").css("display", "block");
+            }
+        }
+
     </script>
 }

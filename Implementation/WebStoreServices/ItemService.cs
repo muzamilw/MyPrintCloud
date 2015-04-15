@@ -38,6 +38,7 @@ namespace MPC.Implementation.WebStoreServices
         private readonly IOrderService _orderService;
         private readonly ICompanyService _myCompanyService;
         private readonly ISmartFormService _smartFormService;
+        private readonly IProductCategoryItemRepository _ProductCategoryItemRepository;
         #region Constructor
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace MPC.Implementation.WebStoreServices
             , IItemStockControlRepository StockRepository, IItemAddOnCostCentreRepository AddOnRepository, IProductCategoryRepository ProductCategoryRepository
             , IItemAttachmentRepository itemAtachement, IFavoriteDesignRepository FavoriteDesign, ITemplateService templateService
             , IPaymentGatewayRepository paymentRepository, IInquiryRepository inquiryRepository, IInquiryAttachmentRepository inquiryAttachmentRepository,
-            IOrderService orderService,ICompanyService companyService,ISmartFormService smartformService)
+            IOrderService orderService, ICompanyService companyService, ISmartFormService smartformService, IProductCategoryItemRepository ProductCategoryItemRepository)
         {
             this._ItemRepository = ItemRepository;
             this._StockOptions = StockOptions;
@@ -65,6 +66,7 @@ namespace MPC.Implementation.WebStoreServices
             this._orderService = orderService;
             this._myCompanyService = companyService;
             this._smartFormService = smartformService;
+            this._ProductCategoryItemRepository = ProductCategoryItemRepository;
         }
 
         public List<ItemStockOption> GetStockList(long ItemId, long CompanyId)
@@ -747,11 +749,11 @@ namespace MPC.Implementation.WebStoreServices
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId)
         {
             try
             {
-                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId);
+                return _ItemRepository.GetCartItemsCount(ContactId, TemporaryCustomerId, CompanyId);
             }
             catch (Exception ex)
             {
@@ -1030,6 +1032,40 @@ namespace MPC.Implementation.WebStoreServices
             return ItemID + "_" + TemplateID + "_" + WEBOrderId + "_" + TemporaryCompanyId;
             //update temporary customer id (for case of retail) and order id 
         }
-   
+        /// <summary>
+        /// get category name
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public string GetCategoryNameById(long CategoryId, long ItemId)
+        {
+            if (CategoryId > 0)
+            {
+                return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
+            }
+            else 
+            {
+                CategoryId = _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
+                if (CategoryId > 0)
+                {
+                    return _ProductCategoryRepository.GetCategoryById(CategoryId).CategoryName;
+                }
+                else 
+                {
+                    return "";
+                }
+            }
+           
+        }
+        /// <summary>
+        /// get category id
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        public long GetCategoryIdByItemId(long ItemId)
+        {
+            return _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
+          
+        }
     }
 }
