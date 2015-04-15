@@ -1613,6 +1613,8 @@ define("crm/crm.viewModel",
                 onCreateNewStore = function () {
                     resetObservableArrays();
                     var store = new model.Store();
+                    var currentdate = new Date();
+                    store.accountOpenDate(currentdate);
                     selectedStore(store);
                     if (isProspectOrCustomerScreen()) {
                         selectedStore().type(0);

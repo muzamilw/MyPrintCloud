@@ -56,8 +56,8 @@
                                             <th class="col-lg-5">Quantity</th>
                                             <!--/ko-->
                                             <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
-                                            <th class="col-lg-2">Quantity From</th>
-                                            <th class="col-lg-2">Quantity To</th>
+                                            <th class="col-lg-3">Quantity From</th>
+                                            <th class="col-lg-3">Quantity To</th>
                                             <!--/ko-->
                                             <th class="col-lg-6" data-bind="text: $root.selectedStockOptionName"></th>
                                         </tr>
@@ -89,6 +89,19 @@
                         </div>
                         <!--/ko-->
                     </div>
+                    <div class="form-group col-lg-12">
+                        <!--ko if: $root.selecteditem()!=undefined -->
+                        <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Enter Quantity</label></div>
+                        <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div> 
+                        <!-- /ko -->
+                        <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Select Quantity</label></div>
+                        <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select></div>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float" >$ <span data-bind="text: $root.totalProductPrice"></span> </label></div>
+                    </div>
                 </div>
             </div>
 
@@ -108,7 +121,7 @@
 </script>
 <script id="addOnTemplate" type="text/html">
     <tr>
-        <td> <input type="checkbox"/></td>
+        <td> <input type="checkbox" data-bind="checked: isSelected" /></td>
         <td data-bind="text: costCentreName"></td>
         <td data-bind="text: totalPrice"></td>
     </tr>

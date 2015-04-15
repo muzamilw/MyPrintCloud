@@ -87,16 +87,18 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
         [HttpPost]
         public HttpResponseMessage Preview([FromBody]  DesignerPostSettings obj)
         {
-            double bleedAreaSize = 0;
-            MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromOrganisation();
-            if(response != null)
-            {
-                var org = response.Organisation;
-                if(org != null && org.BleedAreaSize != null)
-                {
-                    bleedAreaSize = org.BleedAreaSize.Value;
-                }
-            }
+            double bleedAreaSize = 0; // will be calculated in generate proof function 
+            //MyCompanyDomainBaseResponse response = _myCompanyService.GetStoreFromCache(UserCookieManager.WBStoreId).CreateFromOrganisation();
+            
+            //if(response != null)
+            //{
+            //    var org = response.Organisation;
+            //    if(org != null && org.BleedAreaSize != null)
+            //    {
+            //        bleedAreaSize = org.BleedAreaSize.Value;
+            //    }
+            //}
+            
             var result = templateService.GenerateProof(obj,bleedAreaSize);
             var formatter = new JsonMediaTypeFormatter();
             var json = formatter.SerializerSettings;

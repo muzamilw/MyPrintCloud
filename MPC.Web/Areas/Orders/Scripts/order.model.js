@@ -117,6 +117,26 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footNotes = ko.observable(specifiedFootNotes || undefined),
                 // Items
                 items = ko.observableArray([]),
+                // Delivery Items
+                deliveryItems = ko.computed(function() {
+                    if (items().length === 0) {
+                        return [];
+                    }
+
+                    return items.filter(function(item) {
+                        return item.itemType() === 2;
+                    });
+                }),
+                // Non Delivery Items
+                nonDeliveryItems = ko.computed(function () {
+                    if (items().length === 0) {
+                        return [];
+                    }
+
+                    return items.filter(function (item) {
+                        return item.itemType() !== 2;
+                    });
+                }),
                 // Pre Payments
                 prePayments = ko.observableArray([]),
                 // Deliver Schedule
@@ -286,6 +306,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetBy: officialOrderSetBy,
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 items: items,
+                deliveryItems: deliveryItems,
+                nonDeliveryItems: nonDeliveryItems,
                 prePayments: prePayments,
                 deliverySchedules: deliverySchedules,
                 errors: errors,
@@ -309,7 +331,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             specifiedJobActualCompletionDateTime, specifiedJobProgressedBy, specifiedJobSignedBy, specifiedNominalCodeId, specifiedJobStatusId,
             specifiedInvoiceDescription, specifiedQty1MarkUpId1, specifiedQty2MarkUpId2, specifiedQty3MarkUpId3, specifiedQty2NetTotal, specifiedQty3NetTotal,
             specifiedQty1Tax1Value, specifiedQty2Tax1Value, specifiedQty3Tax1Value, specifiedQty1GrossTotal, specifiedQty2GrossTotal, specifiedQty3GrossTotal,
-            specifiedTax1) {
+            specifiedTax1, specifiedItemType, specifiedEstimateId) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -421,6 +443,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty3GrossTotal = ko.observable(specifiedQty3GrossTotal || 0),
                 tax1 = ko.observable(specifiedTax1 || undefined),
                 taxRateIsDisabled = ko.observable(false),
+                // Item Type
+                itemType = ko.observable(specifiedItemType || undefined),
+                // Estimate Id
+                estimateId = ko.observable(specifiedEstimateId || 0),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -554,6 +580,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         IsQtyRanged: isQtyRanged() === 2 ? false : true,
                         DefaultItemTax: defaultItemTax(),
                         ItemNotes: itemNotes(),
+                        ItemType: itemType(),
+                        EstimateId: estimateId(),
                         JobCreationDateTime: jobCreationDateTime() ? moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData();
@@ -616,6 +644,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty2GrossTotal: qty2GrossTotal,
                 qty3GrossTotal: qty3GrossTotal,
                 tax1: tax1,
+                itemType: itemType,
+                estimateId: estimateId,
                 taxRateIsDisabled: taxRateIsDisabled,
                 itemStockOptions: itemStockOptions,
                 itemPriceMatrices: itemPriceMatrices,
@@ -1732,6 +1762,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }),
                 // Item Stock Option Id
                 itemStockOptionId = ko.observable(specifiedItemStockOptionId || 0),
+                //Is Selected 
+                isSelected = ko.observable(false),
+
                 // Errors
                 errors = ko.validation.group({
 
@@ -1772,6 +1805,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 costCentreType: costCentreType,
                 totalPrice: totalPrice,
                 isMandatory: isMandatory,
+                isSelected: isSelected,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,
@@ -2011,7 +2045,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemNotes, source.ProductCategories, source.JobCode, source.JobCreationDateTime, source.JobManagerId, source.JobActtualStartDateTime,
             source.JobActualCompletionDateTime, source.JobProgressedBy, source.JobCardPrintedBy, source.NominalCodeId, source.JobStatusId, source.InvoiceDescription,
             source.Qty1MarkUpId1, source.Qty2MarkUpId2, source.Qty3MarkUpId3, source.Qty2NetTotal, source.Qty3NetTotal, source.Qty1Tax1Value, source.Qty2Tax1Value,
-            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1);
+            source.Qty3Tax1Value, source.Qty1GrossTotal, source.Qty2GrossTotal, source.Qty3GrossTotal, source.Tax1, source.ItemType, source.EstimateId);
 
         // Map Item Sections if any
         if (source.ItemSections && source.ItemSections.length > 0) {
