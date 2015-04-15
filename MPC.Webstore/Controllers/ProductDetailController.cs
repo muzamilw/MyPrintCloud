@@ -104,7 +104,8 @@ namespace MPC.Webstore.Controllers
                     }
 
                     ViewBag.hfCategoryId = CategoryID;
-
+                    ViewBag.CategoryName = _IItemService.GetCategoryNameById(CategoryID, 0);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + CategoryID;
                    // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;

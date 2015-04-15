@@ -12,6 +12,13 @@
     $(".collapseDesignerMenu").css("display", "none");
 });
 $(".search").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage1");
 
@@ -19,22 +26,35 @@ $(".search").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject();
+    
     $(".collapseDesignerMenu").css("display", "list-item");
 
 });
 $(".layout").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage2");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject(); $(".collapseDesignerMenu").css("display", "list-item");
+    $(".collapseDesignerMenu").css("display", "list-item");
 });
 $(".QuickTxt").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
-    canvas.discardActiveObject();
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage3");
     if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
@@ -69,6 +89,13 @@ $("#btnAdd").click(function (event) {
     //if (D1AO) canvas.discardActiveObject();
 });
 $(".backgrounds").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = true;
     isBKpnl = true;
@@ -81,7 +108,7 @@ $(".backgrounds").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject(); $(".collapseDesignerMenu").css("display", "list-item");
+     $(".collapseDesignerMenu").css("display", "list-item");
 });
 $(".uploads").click(function (event) {
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
@@ -89,6 +116,13 @@ $(".uploads").click(function (event) {
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage6");
 });
 $(".layersPanel").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     m0();
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     isBkPnlUploads = true; $(".collapseDesignerMenu").css("display", "list-item");
@@ -97,9 +131,15 @@ $(".layersPanel").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject();
 });
 $(".layoutsPanel").click(function (event) {
+    var D1AO = canvas.getActiveObject();
+    var D1AG = canvas.getActiveGroup();
+    if (D1AG) {
+        canvas.discardActiveGroup(); canvas.renderAll();
+    } else if (D1AO) {
+        canvas.discardActiveObject(); canvas.renderAll();
+    }
     $(".stage6 #selectedTab").css("top", ""); pcL36('hide', '#DivColorPickerDraggable');
     $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage10");
     l2_temp(); $(".collapseDesignerMenu").css("display", "list-item");
@@ -107,7 +147,7 @@ $(".layoutsPanel").click(function (event) {
         $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
         $("#FrontBackOptionPanal").css("display", "none");
     }
-    canvas.discardActiveObject();
+    ;
 });
 $("#BtnCopyObjTxtRetail").click(function (event) {
     pcL10();
@@ -940,7 +980,7 @@ $('#btnReplaceImage').click(function () {
 });
 $('#editorLogo').click(function () {
     if (smartFormClicked) {
-        StartLoader("Generating artwork for your approval");
+        StartLoader("Generating artwork for approval");
         //   parent.Next(); // webstore caller function
         fu12("preview", $("#txtTemplateTitle").val());
         return false;
