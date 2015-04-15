@@ -495,7 +495,7 @@ namespace MPC.Webstore.Controllers
             }
         }
 
-        public ActionResult ReceiptPlain(string OrderId, string StoreId)
+        public ActionResult ReceiptPlain(string OrderId, string StoreId, string IsPrintReceipt)
         {
             
             string CacheKeyName = "CompanyBaseResponse";
@@ -557,6 +557,14 @@ namespace MPC.Webstore.Controllers
             }
             ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
             ViewBag.StoreId = StoreId;
+            if (IsPrintReceipt == "1")
+            {
+                ViewBag.Print = "<script type='text/javascript'>function MyPrint() {window.print();}</script>";
+            }
+            else 
+            {
+                ViewBag.Print = "";
+            }
             return View(order);
         }
 

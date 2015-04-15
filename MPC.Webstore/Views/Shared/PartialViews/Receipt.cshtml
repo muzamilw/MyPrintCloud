@@ -38,8 +38,8 @@
                     &nbsp;<label id="lblReceiptNumber" />
                 </div>
                 <div style="float: right; padding: 10px; padding-top: 14px; text-decoration: underline;">
-                    <a id="lbl_PrintReceipt" href="#" onclick="PrintReceipt();">
-                        @Html.Raw(Html.GetKeyValueFromResourceFile("lblPrintReceipt", UserCookieManager.WBStoreId))
+                    <a id="lbl_PrintReceipt" href="#" onclick="PrintReceipt();"  style="  font-size: 14px;color:black;">
+                        Print this receipt
                     </a>
                 </div>
                 <div class="clearBoth">
@@ -384,3 +384,31 @@
     <br />
     <br />
 </div>
+<iframe id="iframeReceiptPlain" src="/ReceiptPlain/@ViewBag.OrderId/@ViewBag.StoreId/1" style="display:none;">
+    
+</iframe>
+<script>
+    function PrintReceipt()
+    {
+        document.getElementById('iframeReceiptPlain').contentWindow.MyPrint();
+      
+        //var docprint = window.open("about:blank");
+        //var oTable = document.getElementById("page");
+        //docprint.document.open();
+        //docprint.document.write('<html><head><title>Ashley Mattresses</title>');
+        //docprint.document.write('</head><body><center>');
+        //docprint.document.write(oTable.innerHTML);
+        //docprint.document.write('</center></body></html>');
+        //docprint.document.close();
+        //docprint.print();
+        //docprint.close();
+        //$.ajax({
+        //    url: '/ReceiptPlain',
+        //    data: { OrderId: 46822, StoreId: 32844, IsPrintReceipt : 1},
+        //    success: function () {
+        //        alert('Added');
+        //    }
+        //});
+      
+    }
+</script>

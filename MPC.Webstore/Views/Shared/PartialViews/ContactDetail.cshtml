@@ -503,6 +503,9 @@
                     createCookie("WEBLastName", LastName);
                     HideLoader();
                     $("#lblUserName").text("Hi, " + FirstName + " " + LastName);
+                    $('html, body').animate({
+                        scrollTop: $("#MessgeToDisply").offset().top
+                    }, 500);
                 },
                 error: function (error) {
                     $("#MessgeToDisply").css('display', 'block');
