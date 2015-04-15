@@ -130,7 +130,7 @@ namespace MPC.Interfaces.Repository
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId);
 
         List<CmsSkinPageWidget> GetStoreWidgets();
 

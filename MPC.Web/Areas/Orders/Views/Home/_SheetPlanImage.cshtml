@@ -26,7 +26,7 @@
                         <!-- ko if : $root.showSide1Image -->
                         <div class="center-block"><img data-bind="attr:{src: $root.side1Image}" alt="" src=""></div>
                         <!-- /ko -->
-                        <!-- ko if : !$root.showSide1Image -->
+                        <!-- ko if : !$root.showSide1Image() -->
                         <div class="center-block"><img data-bind="attr:{src: $root.side2Image}" alt="" src=""></div>
                         <!-- /ko -->
                     </div>

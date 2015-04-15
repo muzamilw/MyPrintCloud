@@ -64,6 +64,7 @@ namespace MPC.Implementation.MISServices
         private readonly IItemRepository itemRepository;
         private readonly IItemStockOptionRepository itemStockOptionRepository;
         private readonly IPrefixRepository prefixRepository;
+        private readonly IMarkupRepository markupRepository;
         private readonly IItemVdpPriceRepository itemVdpPriceRepository;
         private readonly IItemVideoRepository itemVideoRepository;
         private readonly IItemRelatedItemRepository itemRelatedItemRepository;
@@ -2946,7 +2947,7 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository)
         {
             if (bannerSetRepository == null)
             {
@@ -3011,6 +3012,7 @@ namespace MPC.Implementation.MISServices
             this.scopeVariableRepository = scopeVariableRepository;
             this.templateService = templateService;
             this.templatefonts = templateFontRepository;
+            this.markupRepository = markupRepository;
 
         }
         #endregion
@@ -3681,6 +3683,7 @@ namespace MPC.Implementation.MISServices
             // get prefixes based on organisationID
             exOrg2.Prefixes = prefixRepository.GetPrefixesByOrganisationID(OrganisationID);
 
+            exOrg2.Markups = markupRepository.GetMarkupsByOrganisationId(OrganisationID);
             // get machines by organisation id
             exOrg2.Machines = MachineRepository.GetMachinesByOrganisationID(OrganisationID);
 

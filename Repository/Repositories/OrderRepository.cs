@@ -156,7 +156,7 @@ namespace MPC.Repository.Repositories
             {
                 long orderID = 0;
 
-                orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart);
+                orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart, CustomerId);
 
                 if (orderID == 0)
                 {
@@ -170,12 +170,12 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        private long GetOrderByContactID(long contactID, OrderStatus orderStatus)
+        private long GetOrderByContactID(long contactID, OrderStatus orderStatus, long CompanyId)
         {
             try
             {
                 int orderStatusID = (int)orderStatus;
-                List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
+                List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.CompanyId == CompanyId && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
                 if (ordesList.Count > 0)
                     return ordesList[0].EstimateId;
                 else
@@ -553,10 +553,10 @@ namespace MPC.Repository.Repositories
                             {
                                 AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
                                 {
-                                    AddOnName = sectCostCenter.CostCentre.Name,
+                                    AddOnName = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.Name : "",
                                     CostCenterID = (int)sectCostCenter.CostCentreId,
                                     ItemID = (int)tblItemFirstSection.ItemId,
-                                    EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
+                                    EstimateProductionTime = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.EstimateProductionTime ?? 0 : 0
                                 };
 
                                 itemAddOnsList.Add(addonCostCenter); // cost center of particular item
@@ -4480,6 +4480,28 @@ namespace MPC.Repository.Repositories
                     .ToList();
         }
 
+        /// <summary>
+        /// check cookie order is the real login customer order
+        /// </summary>
+        public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
+        {
+            Estimate order = db.Estimates.Where(e => e.EstimateId == orderId).FirstOrDefault();
+            if(order != null)
+            {
+                if (order.CompanyId == companyId && order.ContactId == contactId)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 
 
