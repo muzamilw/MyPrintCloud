@@ -2001,7 +2001,9 @@
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
-    <None Include="config\Web.connectionstrings.config" />
+    <None Include="config\Web.connectionstrings.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="config\Web.connectionstrings.default.config" />
     <Content Include="Content\less\Store.css.map">
       <DependentUpon>Store.css</DependentUpon>
