@@ -2184,5 +2184,35 @@ references SectionFlag (SectionFlagId)
 
 GO
 
+/* Execution Date: 16/04/2015 */
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER VIEW [dbo].[vw_SaveDesign]
+AS
+ SELECT  item.ItemID, ItemAttach.ItemID AS AttachmentItemId,ItemAttach.FileName AS AttachmentFileName, 
+ (case when est.StatusID = 6 or est.StatusID = 7 or est.StatusID = 10 or est.StatusID = 36 then 'MPC_Content/Attachments/' else ItemAttach.FolderPath  end) AS AttachmentFolderPath, 
+item.EstimateID, item.ProductName, --PCat.CategoryName AS ProductCategoryName, PCat.ProductCategoryID, PCat.ParentCategoryID, 
+                      ISNULL(dbo.funGetMiniumProductValue(item.RefItemID), 0.0) AS MinPrice,  
+                      item.IsEnabled, item.IsPublished,item.IsArchived, item.InvoiceID, contact.ContactID, contact.CompanyId, company.IsCustomer ,item.RefItemID, status_Check.StatusID, status_Check.StatusName,
+                       item.IsOrderedItem, item.ItemCreationDateTime,item.TemplateID
+FROM         Items AS item Inner JOIN
+				      dbo.ItemAttachment AS ItemAttach ON ItemAttach.ItemID = item.ItemID INNER JOIN
+                      dbo.Template AS temp ON temp.ProductID = item.TemplateID INNER JOIN
+                      dbo.Estimate AS est ON item.EstimateID = est.EstimateID INNER JOIN
+                      dbo.Status AS status_Check ON item.Status = status_Check.StatusID INNER JOIN
+                      dbo.CompanyContact AS contact ON contact.ContactID = est.ContactID INNER JOIN
+                      dbo.Company As company ON contact.CompanyId = company.CompanyId
+					 -- inner join dbo.ProductCategoryItem pc2 on item.ItemId = pc2.ItemId
+					--  inner join dbo.ProductCategory PCat on pc2.CategoryId = pcat.ProductCategoryId
+
+
+
+GO
+
 
 
