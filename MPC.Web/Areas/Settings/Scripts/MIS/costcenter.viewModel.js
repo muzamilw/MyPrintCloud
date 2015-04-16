@@ -227,7 +227,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                         }
                     },
                     error: function (response) {
-                        toastr.error("Failed to Load . Error: " + response);
+                        toastr.error("Failed to Load System Variables . Error: " + response);
                     }
 
                 });
@@ -827,11 +827,16 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             saveNewCostCenter = function (callback) {
                 dataservice.saveNewCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
                     success: function (data) {
-                        selectedCostCenter().costCentreId(data.CostCentreId);
-                        costCentersList.splice(0, 0, selectedCostCenter());
-                        selectedCostCenter().reset();
-                        getCostCenters();
-                        toastr.success("Successfully saved.");
+                        if (data.IsParsed) {
+                            selectedCostCenter().costCentreId(data.CostCentreId);
+                            costCentersList.splice(0, 0, model.costCenterListView(data.CostCentreId, data.Name, data.WebStoreDesc, data.TypeName, selectedCostCenter().calculationMethodType()));
+                            selectedCostCenter().reset();
+                            closeCostCenterDetail();
+                            //  getCostCenters();
+                            toastr.success("Successfully saved.");
+                        } else {
+                            toastr.error("Formula String is not valid.");
+                        }
                     },
                     error: function (response) {
                         toastr.error("Failed to save." + response);
@@ -842,12 +847,26 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             saveEdittedCostCenter = function (callback) {
                 dataservice.saveCostCenter(model.costCenterServerMapper(selectedCostCenter()), {
                     success: function (data) {
-                        if (callback && typeof callback === "function") {
-                            callback();
+                        if (data.IsParsed) {
+
+
+                            if (callback && typeof callback === "function") {
+                                callback();
+                            }
+
+                            selectedCostCenter().type(data.TypeName)
+                            selectedCostCenter().reset();
+                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].description(data.WebStoreDesc);
+                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].type(data.TypeName);
+                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].name(selectedCostCenter().name());
+                            costCentersList.filter(function (item) { return item.costCenterId() === selectedCostCenter().costCentreId() })[0].calculationMethodType(selectedCostCenter().calculationMethodType());
+                            closeCostCenterDetail();
+                            //  getCostCenters();
+                            toastr.success("Successfully saved.");
+                        }else
+                        {
+                            toastr.error("Formula String is not valid.");
                         }
-                        selectedCostCenter().reset();
-                        getCostCenters();
-                        toastr.success("Successfully saved.");
                     },
                     error: function (exceptionMessage, exceptionType) {
 
@@ -891,6 +910,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.unitQuantity('0');
                 newcostcenter.name('New Cost Center');
                 newcostcenter.pricePerUnitQuantity('0');
+                newcostcenter.perHourPrice('0');
                 newcostcenter.setupCost('0');
                 newcostcenter.setupSpoilage('0');
                 newcostcenter.setupTime('0');
@@ -903,11 +923,14 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 newcostcenter.isDisabled('0');
                 newcostcenter.isScheduleable('1');
                 newcostcenter.sequence('1');
+                newcostcenter.strPriceLabourUnParsed('QuotedLabourPrice = 0');
                 // newcostcenter.creationDate(moment().toDate().format(ist.utcFormat) + 'Z');
                 newcostcenter.costDefaultValue('0');
                 newcostcenter.priceDefaultValue('0');
                 newcostcenter.quantitySourceType('1');
                 newcostcenter.calculationMethodType('2');
+                newcostcenter.isQtyVariable('1');
+                newcostcenter.isTimeVariable('1');
             },
             createWorkInstruction = function () {
                 var wi = new model.NewCostCenterInstruction();
@@ -973,7 +996,7 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             // Show CostCenter Editor
             showCostCenterDetail = function () {
                 isEditorVisible(true);
-
+                view.initializeLabelPopovers();
             },
 
             //Get variables Tree
@@ -1121,15 +1144,13 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 }
                 view.hideCostCentreStockDialog();
             }
-
-
              openStockItemDialog = function (stockCategoryId) {
                  stockDialog.show(function (stockItem) {
                      SelectedStockVariable(model.StockItemVariable(stockItem));
                      getvariableListItem();
                      view.showCostCentreStockDialog();
                     
-                 }, 1, true);
+                 }, null, true);
              },
             // #region Observables
             // Initialize the view model

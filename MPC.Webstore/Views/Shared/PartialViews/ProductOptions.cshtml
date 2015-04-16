@@ -10,7 +10,8 @@
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
 }
-
+<script src="~/Scripts/Designer/p55.js"></script>
+<script src="~/Scripts/Designer/p55-ease.js"></script>
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
 
 <div id="FormulaMatrixLayer">
@@ -680,8 +681,7 @@
 
         </div>
         <div class="float_left_simple UploadsGuidLineContainer">
-
-            <input type="file" name="FileName" id="imageUploader" style="width:240px" />
+            <input type="file" name="imageUploader"  style="width:240px;" id="imageUploader"/>
             <input type="button" value="Upload" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
@@ -715,12 +715,17 @@
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
     <script>
+
     var isRanged = "@ViewBag.Item.IsQtyRanged.ToString()" == "False" ? 0 : 1;
-    var TotalItemPrice = 0;
+        var TotalItemPrice = 0;
+        var data = "";
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
+     
+    
     $(document).ready(function() {
-
+        
+     
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
@@ -1324,12 +1329,23 @@
     function ShowArtworkPanel() {
         var panelHtml = $("#pnlArtworkUploader").html();
         ShowArtWorkPopup("Upload Artwork", panelHtml);
+        $('#imageUploader').change(function () {
+            data = new FormData();
+            var files = $('#imageUploader')[0].files;
+            //alert(files.length);
+            if (files.length > 0) {
+            
+                for (i = 0; i < files.length; i++) {
+                    data.append("file" + i, files[i]);
+                }
+            }
+        });
+
     }
 
-  
     function openDailog() {
         ShowLoader();
-        var files = $("#imageUploader").get(0).files;
+        var files = $('#imageUploader')[0].files;//$("#imageUploader").get(0).files;
         var sideOFImage = $("#uploadedImageSide").val();
         if (sideOFImage == 0) {
             sideOFImage = 1;
@@ -1338,8 +1354,8 @@
             sideOFImage = parseInt(sideOFImage) + 1;
             $("#uploadedImageSide").val(sideOFImage);
         }
-        var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
-        var fileExtension = name1.replace(/^.*\./, '');
+        //var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+        //var fileExtension = name1.replace(/^.*\./, '');
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth(); //January is 0!
@@ -1358,12 +1374,11 @@
 
         while (FileName.indexOf('/') != -1)
             FileName = FileName.replace("/", "__")
-
-        if (files.length > 0) {
-            var data = new FormData();
-            for (i = 0; i < files.length; i++) {
-                data.append("file" + i, files[i]);
-            }
+        if (data != "") {
+            
+            //for (i = 0; i < files.length; i++) {
+            //    data.append("file" + i, files[i]);
+            //}
             
             $.ajax({
                 type: "POST",
@@ -1389,9 +1404,14 @@
                     HideLoader();
                 }
             });
+        }else 
+        {
+            HideLoader();
+            console.log(files);
+            alert(files.length);
         }
     }
-
+  
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
 
         ShowLoader();

@@ -70,7 +70,7 @@
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
-                                        <th align="center" scope="col">&nbsp;</th>
+                                        <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
                                         <th id="lblProductTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblProductTxt", UserCookieManager.WBStoreId))</th>
                                         <th id="lblQuantityHeaderTxt" align="left" scope="col">@Html.Raw(Html.GetKeyValueFromResourceFile("lblQuantityHeaderTxt", UserCookieManager.WBStoreId))</th>
                                         @if (ViewBag.IsShowPrices)
@@ -82,7 +82,7 @@
                                     @{ foreach (var prod in ViewData["ProductItemList"] as List<MPC.Models.Common.ProductItem>)
                                      {
                                         <tr class="gridViewRowStyle" align="top">
-                                            <td class="PadTop5 shopCartFirstCol">
+                                            <td class="PadTop5 shopCartFirstCol hidden-xs">
                                                 <div class="cart_grid_image_container gallery">
                                                     @{
                                          string pdfLinkBtn = string.Empty;

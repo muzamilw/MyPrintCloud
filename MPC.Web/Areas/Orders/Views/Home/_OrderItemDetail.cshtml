@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-lg-12 PaddingZero">
                 <div class="col-lg-12 PaddingZero">
-                    <div  style="text-align: right; ">
+                    <div style="text-align: right; ">
                         <button data-bind="click:$root.closeItemDetail," class="btn btn-default" style="margin-right: 8px;margin-bottom:23px; margin-top: -21px" id="cancelBtn">Close</button>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="tab-detail">
                                 <div class="col-lg-12 form-horizontal" style="margin-top: -17px">
-                                   
+
                                     @Html.Partial("_OrderSectionDetail")
 
                                     <div class="col-lg-12" style="margin-top: 5px">
@@ -220,7 +220,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3" >
+                                                <input type="text" class="form-control" data-bind="value: jobDescription3, click: $root.selectJobDescription" id="txtDescription3" placeholder="Enter Description 3">
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P3" data-bind="visible: $root.selectedJobDescription() === 'txtDescription3', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -239,7 +239,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4" >
+                                                <input type="text" class="form-control" data-bind="value: jobDescription4, click: $root.selectJobDescription" id="txtDescription4" placeholder="Enter Description 4">
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P4" data-bind="visible: $root.selectedJobDescription() === 'txtDescription4', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -258,7 +258,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5" >
+                                                <input type="text" class="form-control" data-bind="value: jobDescription5, click: $root.selectJobDescription" id="txtDescription5" placeholder="Enter Description 5">
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P5" data-bind="visible: $root.selectedJobDescription() === 'txtDescription5', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -296,7 +296,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="col-lg-8" style="padding-left: 0; padding-right: 0">
-                                                <input type="text" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7" >
+                                                <input type="text" class="form-control" data-bind="value: jobDescription7, click: $root.selectJobDescription" id="txtDescription7" placeholder="Enter Description 7">
                                             </div>
                                             <div class="col-lg-2">
                                                 <a id="P7" data-bind="visible: $root.selectedJobDescription() === 'txtDescription7', click: $root.openPhraseLibrary" style="display:none;" class="btn btn-primary pull-right">
@@ -306,22 +306,22 @@
                                         </div>
                                     </div>
                                     @*<div class="form-group">
-                                        <div class="col-lg-2 text-right">
-                                            <div class="bs-example-tooltips tooltip-float-width">
-                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Nominal Code" data-original-title="" title="">
-                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                </a>
+                                            <div class="col-lg-2 text-right">
+                                                <div class="bs-example-tooltips tooltip-float-width">
+                                                    <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Nominal Code" data-original-title="" title="">
+                                                        <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                                    </a>
+                                                </div>
+
+                                                <label class="control-label tooltip-float">
+                                                    Nominal Code
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsId: 'Id', optionsCaption: 'Select...', value: nominalCodeId"></select>
                                             </div>
 
-                                            <label class="control-label tooltip-float">
-                                                Nominal Code
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <select class="form-control" data-bind="options: $root.nominalCodes, optionsText: 'Name', optionsId: 'Id', optionsCaption: 'Select...', value: nominalCodeId"></select>
-                                        </div>
-
-                                    </div>*@
+                                        </div>*@
                                     <div class="form-group">
                                         <div class="col-lg-2 text-right">
                                             <div class="bs-example-tooltips tooltip-float-width">
@@ -333,7 +333,7 @@
                                             <label class="control-label tooltip-float">Invoice Description</label>
                                         </div>
                                         <div class="col-lg-8">
-                                            <input type="text" class="form-control" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;" >
+                                            <input type="text" class="form-control" data-bind="value: invoiceDescription" id="txtInvoiceDescription" placeholder="Enter Invoice Description" style="background-color:#FCFBB6;">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -562,7 +562,7 @@
                                     </div>
                                 </div>
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -575,7 +575,7 @@
 
 
 <script id="orderItemAttachmentTemplate" type="text/html">
-    <li class="col-md-2 col-sm-3 col-xs-6" >
+    <li class="col-md-2 col-sm-3 col-xs-6">
         <div class="photo-box image-link" style="padding-top: 0; ">
             <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()===undefined,attr: { src: '@Url.Content("~/")' + folderPath() }" alt="" />
             <img class="photo-box image-link" style="padding-top: 0;width: 169px !important;height:127px !important" data-bind="visible:fileSourcePath()!==undefined,attr: { src: fileSourcePath }" />

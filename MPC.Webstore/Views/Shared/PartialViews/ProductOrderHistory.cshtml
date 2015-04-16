@@ -9,7 +9,14 @@
 
     <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 </head>
+@{
+    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
+        .Where(b => b.Path == "~/pageSpecific")
+        .First();
 
+    bundle.Include(
+                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js");
+}
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
@@ -169,7 +176,7 @@
     <br />
 </div>
 
-<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; visibility:hidden">
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px;display:none;">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
@@ -253,7 +260,7 @@
     <table width="99%">
         <tbody>
             <tr id="PnalTotalBox">
-                <td align="left">
+                <td align="left" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140 margnLft">
                         <div class="product_detail_sup_padding" style="width:50%;float:left;">
                             <table border="0" cellpadding="2" cellspacing="0" width="100%">
@@ -429,6 +436,9 @@
                             </table>
 
                         </div>
+                        <div class="clearBoth">
+
+                        </div>
                     </div>
 
                     <div class="clearBoth">
@@ -438,7 +448,7 @@
                 <td>
                     &nbsp;
                 </td>
-                <td align="right">
+                <td align="right" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">

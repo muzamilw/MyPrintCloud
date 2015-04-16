@@ -36,6 +36,7 @@
                                             <thead>
                                             <tr>
                                                 <th>&nbsp;</th>
+                                                <th>&nbsp;</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -72,7 +73,7 @@
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Pack Qty '+ packageQty()"></span>
             <br/>
             <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Weight '+ itemWeight()"></span>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'$ 10' + '/' + perQtyQty()"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'$'+ price() + '/' + perQtyQty()"></span>
         </td>
     </tr>
 </script>

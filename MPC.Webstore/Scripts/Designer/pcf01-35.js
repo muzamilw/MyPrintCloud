@@ -2935,7 +2935,8 @@ function pcl42_UpdateTO() {
                 if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     while (IT.ContentString.indexOf(variableTag) != -1)
-                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                        updateTOWithStyles(IT, variableTag, obj.Value);
+                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
               //  }
             });
@@ -3059,7 +3060,8 @@ function updateTOWithStyles(obTO, vTag, vVal) {
     }
 
     obTO.ContentString = content;
-    obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
+    if (styles != null && styles != "")
+        obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
 }
 function pcl42_Validate() {
     var result = true;

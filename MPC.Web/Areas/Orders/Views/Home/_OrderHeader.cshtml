@@ -3,17 +3,17 @@
 <div>
     <div class="col-lg-12 form-horizontal">
         <h3 class="group-header">Order Detail</h3>
-        <center><div class="slider" style="margin-bottom:60px; width:600px"></div></center> 
+        <center><div class="slider" style="margin-bottom:60px; width:600px"></div></center>
         <div class="col-lg-6">
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     @* ReSharper disable UnknownCssClass *@
                     <label class="control-label tooltip-float">Customer</label>
-                    
+
                 </div>
                 <div class="col-lg-6">
                     <div>
-                        <label class="control-label" id="txtCompany" style="font-size: 18px;"  data-bind="text: companyName"></label>
+                        <label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName"></label>
                         <button data-bind="click: $root.openCompanyDialog, enable: companyName()===undefined " href="#" class="btn btn-primary pull-right">
                             <i class="fa fa-lg"></i>&nbsp;....
                         </button>
@@ -40,8 +40,8 @@
                     <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
                     <span class="help-block text-right"></span>
                 </div>
-                <div class="col-lg-1"> 
-                   
+                <div class="col-lg-1">
+
                     <a class="btn btn-primary pull-right" id="addresspull" onclick="addAddress()">
                         <i id="addresspullicon" class="fa fa-chevron-circle-right drop-icon"></i>
                     </a>
@@ -105,14 +105,14 @@
                 <div class="col-lg-5">
                     <div class="col-lg-8 text-left">
                         <div>
-                           
+
                         </div>
                     </div>
                 </div>
 
             </div>
-            
-           
+
+
             <div class="form-group">
                 <div class="col-lg-4 text-right">
                     <label class="control-label text-right tooltip-float">Order Flag</label>
@@ -150,7 +150,7 @@
                     </div>
                 </div>
             </div>
-           
+
             <div class="form-group" style="margin-top:-20px">
                 <div class="col-lg-4 text-right">
 
@@ -161,7 +161,7 @@
                     <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
                 </div>
             </div>
-            
+
             <div class="form-group" style="margin-top:-17px">
                 <div class="col-lg-4 text-right">
 
@@ -207,20 +207,20 @@
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
                                     <thead>
-                                    <tr>
-                                        <th class="col-lg-5"><a href="#"><span>Product Name</span></a></th>
-                                        <th class="col-lg-3"><span>Qty 1</span></th>
-                                        <th class="col-lg-3"><span>Gross Total</span></th>
-                                    </tr>
+                                        <tr>
+                                            <th class="col-lg-5"><span>Product Name</span></th>
+                                            <th class="col-lg-3"><span>Qty 1</span></th>
+                                            <th class="col-lg-3"><span>Gross Total</span></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
-                                    <!-- /ko -->
+                                        <!-- ko template: { name: 'itemTemplate', foreach: nonDeliveryItems } -->
+                                        <!-- /ko -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <div class=" btn-group" style="float:left;margin-top:10px">
+                        <div class="col-lg-3 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
                             <button type="button" class="btn btn-primary">Add Item Line</button>
                             <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span class="caret"></span>
@@ -253,8 +253,8 @@
                                 <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="col-lg-5"><span>Product Name</span></th>
-                                            <th class="col-lg-3">Qty 1</th>
+                                            <th class="col-lg-5"><span>Shipping Method</span></th>
+                                            <th class="col-lg-3"></th>
                                             <th class="col-lg-3"><span>Gross Total</span></th>
                                         </tr>
                                     </thead>
@@ -265,8 +265,19 @@
                                 </table>
                             </div>
                         </div>
-                        <div class=" btn-group" style="float:left;margin-top:10px">
-                            <button type="button" class="btn btn-primary">Add Shipping Charges</button>
+                    </div>
+                    <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
+                        <button type="button" class="btn btn-primary">Add Shipping Charges</button>
+                    </div>
+
+                    <div class="col-lg-4 form-group" style="margin-top:10px">
+                        <div class="col-lg-10 text-right" style=" margin-left: -5px;">
+
+                            <label class="control-label text-right tooltip-float">Gross Total:</label>
+                        </div>
+                        <div class="col-lg-2" style="margin-top:5px">
+
+                            <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="  font-weight: bold;"></span>
                         </div>
                     </div>
                 </div>
@@ -299,22 +310,22 @@
                 <span data-bind="text: qty1"></span>
             </td>
             <td>
-                <span data-bind="text: '$' + qty1NetTotal()"></span>
+                <span data-bind="text: $root.currencySymbol() + qty1NetTotal()"></span>
             </td>
             @*<td class="text-right">
-                <a href="#" class="table-link" data-bind="click: $root.editItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-                <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
-                    <span class="fa-stack">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
-                    </span>
-                </a>
-            </td>*@
+                    <a href="#" class="table-link" data-bind="click: $root.editItem">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                    <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
+                        <span class="fa-stack">
+                            <i class="fa fa-square fa-stack-2x"></i>
+                            <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                        </span>
+                    </a>
+                </td>*@
         </tr>
     </script>
     @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
@@ -324,26 +335,23 @@
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
 </div>
 
-<script type="text/javascript" >
-    
-    function addAddress()
-    {
+<script type="text/javascript">
+
+    function addAddress() {
         var e = document.getElementById("popoveraddress");
         var p = document.getElementById("addresspullicon");
 
-        if (e.style.display == "none")
-        {
+        if (e.style.display == "none") {
             p.className = "fa fa-chevron-circle-down drop-icon";
             e.style.display = "block";
         }
-        else if (e.style.display == "block")
-        {
+        else if (e.style.display == "block") {
             p.className = "fa fa-chevron-circle-right drop-icon";
             e.style.display = "none";
 
         }
     }
-        
-   
-    
+
+
+
 </script>
