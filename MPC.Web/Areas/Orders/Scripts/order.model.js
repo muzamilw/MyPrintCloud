@@ -2031,6 +2031,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             ko.utils.arrayPushAll(itemSection.sectionCostCentres(), sectionCostcentres);
             itemSection.sectionCostCentres.valueHasMutated();
         }
+            // Map Section Ink Coverage if Any
+            if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
+                var sectioninkcoverages = [];
+
+                _.each(source.SectionInkCoverages, function (sectionink) {
+                    sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
+                });
+
+                // Push to Original Item
+                ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
+                itemSection.sectionInkCoverageList.valueHasMutated();
+        }
 
         return itemSection;
     };

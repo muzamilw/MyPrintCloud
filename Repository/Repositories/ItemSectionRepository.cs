@@ -3609,7 +3609,7 @@ namespace MPC.Repository.Repositories
 
             //if paper is not supplied and we have to use it ourself then add the prices :)
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenter.Qty1Charge = OrderSheetPackQuantity[0] * PackPrice;
 
