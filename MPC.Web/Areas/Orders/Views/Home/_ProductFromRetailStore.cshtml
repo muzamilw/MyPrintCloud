@@ -93,14 +93,14 @@
                         <!--ko if: $root.selecteditem()!=undefined -->
                         <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
                         <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Enter Quantity</label></div>
-                        <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div> 
+                        <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div>
                         <!-- /ko -->
                         <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
                         <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Select Quantity</label></div>
                         <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select></div>
                         <!-- /ko -->
                         <!-- /ko -->
-                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float" >$ <span data-bind="text: $root.totalProductPrice"></span> </label></div>
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">$ <span data-bind="text: $root.totalProductPrice"></span> </label></div>
                     </div>
                 </div>
             </div>

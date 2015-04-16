@@ -267,8 +267,14 @@ define("myOrganization/myOrganization.viewModel",
                                 }
                             });
                             selectedMyOrganization().flagForChanges("Changes occur");
+                            var markupForDelete = _.find(markupsForDropDown(), function (item) {
+                                return item.MarkUpId === markup.id();
+                            });
+                            if (markupForDelete) {
+                                markupsForDropDown.remove(markupForDelete);
+                            }
                         }
-                       
+
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {

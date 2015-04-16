@@ -52,11 +52,11 @@ define("order/estimate.view",
                  // Hide Cost Centers the dialog
                 hideRCostCentersDialog = function () {
                     $("#costCenters").modal("hide");
-                },   
+                },
                 // Show Item Detail Dialog
                 showItemDetailDialog = function () {
                     $("#orderItemDetailDialog").modal('show');
-                   
+
                 },
                 // Hide Item Detail Dialog
                 hideItemDetailDialog = function () {
@@ -83,12 +83,12 @@ define("order/estimate.view",
                     $(function () {
                         // set up an array to hold the order Status
                         var orderStatusArray = ["Pending Order", "Confirmed Start", "In Production", "Shipped & Invoiced"];
-                        
+
                         // If Is Order is From Estimate then add Status "Revert to Estimate"
                         if (isFromEstimate) {
                             orderStatusArray.splice(0, 0, "Revert to Estimate");
                         }
-                        
+
                         $(".slider").slider().slider("pips");
                         $(".slider")
 
@@ -107,9 +107,9 @@ define("order/estimate.view",
 
                             // and whenever the slider changes, lets echo out the month
                             .on("slidechange", function (e, ui) {
-                            orderstate((ui.value) + 4);
+                                orderstate((ui.value) + 4);
                                 //alert("You selected " + orderStatusArray[ui.value] + " (" + ui.value + ")");
-                        });
+                            });
                     });
                 },
                 // Show Sheet Plan Image the dialog
@@ -180,7 +180,7 @@ define("order/estimate.view",
                 };
             initialize();
 
-          
+
 
             return {
                 bindingRoot: bindingRoot,

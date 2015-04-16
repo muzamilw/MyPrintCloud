@@ -2892,7 +2892,7 @@ input[type="radio"] {
     .social-box .social-action {
         float: left;
         display: block;
-        font-size: 1.2em;
+        font-size: 1.0em;
         margin-left: 5px;
         margin-top: 9px;
     }
