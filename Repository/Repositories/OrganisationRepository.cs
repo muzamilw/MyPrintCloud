@@ -1158,7 +1158,18 @@ namespace MPC.Repository.Repositories
                                 
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
-                                 item.SmartFormId = null;
+                                 if(comp != null)
+                                 {
+                                     if(comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                     {
+                                         item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                     }
+                                 }
+                                 else
+                                 {
+                                       item.SmartFormId = 0;
+                                 }
+                               
                                  if(item.ItemSections != null && item.ItemSections.Count > 0)
                                  {
                                      foreach(var itm in item.ItemSections)

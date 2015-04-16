@@ -2486,7 +2486,19 @@ namespace MPC.Repository.Repositories
                                   
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCID;
-                                    item.SmartFormId = null;
+
+                                    if (comp != null)
+                                    {
+                                        if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                        {
+                                            item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        item.SmartFormId = 0;
+                                    }
+                               
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -2840,7 +2852,18 @@ namespace MPC.Repository.Repositories
                                   
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCIDWOP;
-                                    item.SmartFormId = null;
+                                    if (comp != null)
+                                    {
+                                        if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                        {
+                                            item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        item.SmartFormId = 0;
+                                    }
+                               
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -3188,7 +3211,18 @@ namespace MPC.Repository.Repositories
                                  
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCID;
-                                    item.SmartFormId = null;
+                                    if (comp != null)
+                                    {
+                                        if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                        {
+                                            item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        item.SmartFormId = 0;
+                                    }
+                               
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -3554,7 +3588,18 @@ namespace MPC.Repository.Repositories
                                    
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCIDWOP;
-                                    item.SmartFormId = null;
+                                    if (comp != null)
+                                    {
+                                        if (comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                        {
+                                            item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        item.SmartFormId = 0;
+                                    }
+                               
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -5665,7 +5710,7 @@ namespace MPC.Repository.Repositories
                                         string DestinationItemImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId + "/" + name);
                                         DestinationsPath.Add(DestinationItemImagePath);
                                         string DestinationItemImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + NewOrgID + "/" + item.ItemId);
-                                        string ItemImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + NewOrgID + "/" + ItemID + "/" + name);
+                                        string ItemImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportStore/Products/" + oldOrgID + "/" + ItemID + "/" + name);
                                         if (!System.IO.Directory.Exists(DestinationItemImageDirectory))
                                         {
                                             Directory.CreateDirectory(DestinationItemImageDirectory);
