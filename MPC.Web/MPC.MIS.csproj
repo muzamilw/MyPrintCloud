@@ -826,6 +826,10 @@
     <Content Include="Areas\CRM\Views\Home\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStore.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStoreWizard.cshtml" />
+    <Content Include="Areas\Invoices\Scripts\invoice.dataservice.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.model.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.view.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
@@ -1157,6 +1161,7 @@
     <Content Include="Content\themes\Centaurus\img\Machine_Guillotine.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_Lookups.png" />
     <Content Include="Content\themes\Centaurus\img\Machine_SheetPress.png" />
+    <Content Include="Content\themes\Centaurus\img\mpc_beta.jpg" />
     <Content Include="Content\themes\Centaurus\img\pricing-star.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Inoice.png" />
     <Content Include="Content\themes\Centaurus\img\Print_Job.png" />
@@ -1659,6 +1664,7 @@
     <Content Include="Scripts\App\dashboard.viewModel.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.js" />
     <Content Include="Scripts\autoNumeric\autoNumeric-1.9.25.min.js" />
+    <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-ace.js" />
     <Content Include="Scripts\Ace\ace.js" />
     <Content Include="Scripts\Ace\colorpicker.js" />
@@ -2057,7 +2063,6 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\json2.min.js" />
-    <Content Include="Scripts\knockout-3.1.0.debug.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\knockout-sortable.js" />
     <Content Include="Scripts\knockout.mapping-latest.debug.js" />
@@ -3203,7 +3208,6 @@
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
-    <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />

@@ -2893,6 +2893,7 @@ namespace MPC.Implementation.WebStoreServices
 
           //  Settings objSettings = JsonConvert.DeserializeObject<Settings>(data);
             //List<TemplateObjects> lstTemplatesObjects = JsonConvert.DeserializeObject<List<TemplateObjects>>(res);
+            bleedAreaSize = _templateRepository.getOrganisationBleedArea(objSettings.organisationId);
             List<TemplateObject> lstTemplatesObjects = objSettings.objects;
             return SaveTemplate(lstTemplatesObjects, objSettings.objPages, objSettings.organisationId, objSettings.printCropMarks, objSettings.printWaterMarks, objSettings.isRoundCornerrs,bleedAreaSize,objSettings.isMultiPageProduct);
         }

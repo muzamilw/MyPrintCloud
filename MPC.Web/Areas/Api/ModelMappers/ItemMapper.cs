@@ -516,6 +516,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty2GrossTotal = source.Qty2GrossTotal,
                 Qty3GrossTotal = source.Qty3GrossTotal,
                 Tax1 = source.Tax1,
+                ItemType = source.ItemType,
+                EstimateId = source.EstimateId,
                 ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
             };
             return item;

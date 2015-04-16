@@ -2530,6 +2530,7 @@ namespace MPC.Implementation.MISServices
                 fieldVariableDbVersion.VariableTitle = fieldVariable.VariableTitle;
                 fieldVariableDbVersion.VariableType = fieldVariable.VariableType;
                 fieldVariableDbVersion.WaterMark = fieldVariable.WaterMark;
+                fieldVariableDbVersion.OrganisationId = fieldVariableRepository.OrganisationId;  
                 if (fieldVariable.VariableOptions != null)
                 {
                     foreach (var item in fieldVariable.VariableOptions)
@@ -2596,6 +2597,7 @@ namespace MPC.Implementation.MISServices
             #region Update Smart Form
             smartFormDbVersion.Name = smartForm.Name;
             smartFormDbVersion.Heading = smartForm.Heading;
+            smartFormDbVersion.OrganisationId = smartFormRepository.OrganisationId;
             if (smartForm.SmartFormDetails != null)
             {
                 foreach (SmartFormDetail smartFormDetail in smartForm.SmartFormDetails)
@@ -2664,6 +2666,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private long AddSmartForm(SmartForm smartForm)
         {
+            smartForm.OrganisationId = smartFormRepository.OrganisationId;
             smartFormRepository.Add(smartForm);
             smartFormRepository.SaveChanges();
             return smartForm.SmartFormId;
