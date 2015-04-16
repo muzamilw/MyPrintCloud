@@ -71,7 +71,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             StockCostAndPrice obj = null;
             if(source.StockCostAndPrices != null )
             {
-                obj= source.StockCostAndPrices.FirstOrDefault(item => item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now);
+                obj= source.StockCostAndPrices.FirstOrDefault(item => (item.FromDate <= DateTime.Now && item.ToDate >= DateTime.Now) && item.CostOrPriceIdentifier==-1);
             }
                
             return new ApiModels.StockItemForListView

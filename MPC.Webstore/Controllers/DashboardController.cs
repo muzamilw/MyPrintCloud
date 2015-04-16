@@ -144,7 +144,7 @@ namespace MPC.Webstore.Controllers
 
                         BCDetail.Description = "Description";// (string)GetGlobalResourceObject("MyResource", "ltrlviewrocompletedo");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        BCDetail.PageNavigateURl = "/Orders.aspx?OrderStatus=All";
+                        BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
                         //// Pending Approvals
@@ -161,7 +161,7 @@ namespace MPC.Webstore.Controllers
                             BCDetail.Name = "Orders Pending Approval" + CorpCustomerPendingOrdersCount(); // (string)GetGlobalResourceObject("MyResource", "lblPendingApprovalsBtn") + CorpCustomerPendingOrdersCount();
                         }
 
-                        BCDetail.PageNavigateURl = "#";
+                        BCDetail.PageNavigateURl = "/ProductPendingOrders";
 
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
@@ -170,19 +170,10 @@ namespace MPC.Webstore.Controllers
                         BCDetail.Name = "Products Order History" + UpdateOrdersInProductionCount(); // (string)GetGlobalResourceObject("MyResource", "lblOrderProductnBtn") + UpdateOrdersInProductionCount();
                         BCDetail.Description = "Description";//(string)GetGlobalResourceObject("MyResource", "lblViewCurOrderStatus");
                         BCDetail.ImageURL = "<i class='fa fa-file-text-o'></i>";
-                        BCDetail.PageNavigateURl = "/ProductsOrdersHistory.aspx?OrderStatus=In Production";
+                        BCDetail.PageNavigateURl = "/ProductOrderHistory";
                         BCDetail.IsChangePassword = false;
                         BCDashBordItems.Add(BCDetail);
-                        if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
-                        {
-                            BCDetail = new DashboardViewModel(4);
-                            // User manger
-                            BCDetail.Name = "User Manager";// (string)GetGlobalResourceObject("MyResource", "anchorUserMgr");
-                            BCDetail.Description = "Create and modify your webstore admin and manager users";
-                            BCDetail.ImageURL = "<i class='fa fa-users'></i>";
-                            BCDetail.PageNavigateURl = "/UserManager.aspx";
-                            BCDashBordItems.Add(BCDetail);
-                        }
+                        
                     }
 
                 }
@@ -266,16 +257,7 @@ namespace MPC.Webstore.Controllers
                             BCDetail = new DashboardViewModel(10);
                         }
 
-                        if (_webstoreclaimHelper.loginContactRoleID() == (int)Roles.Adminstrator || _webstoreclaimHelper.loginContactRoleID() == (int)Roles.Manager)
-                        {
-
-                            // User manger
-                            BCDetail.Name = "User Manager";// (string)GetGlobalResourceObject("MyResource", "anchorUserMgr");
-                            BCDetail.Description = "Create and modify your webstore admin and manager users";
-                            BCDetail.ImageURL = "<i class='fa fa-users'></i>";
-                            BCDetail.PageNavigateURl = "/UserManager.aspx";
-                            BCDashBordItems.Add(BCDetail);
-                        }
+                      
 
                     }
 

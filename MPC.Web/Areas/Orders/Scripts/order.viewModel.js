@@ -237,6 +237,19 @@ define("order/order.viewModel",
                     openOrderEditor = function () {
                         isOrderDetailsVisible(true);
                     },
+                     // Gross Total
+                    grossTotal = ko.computed(function () {
+                        var total = 0;
+                        if (selectedOrder() != undefined) {
+                            _.each(selectedOrder().nonDeliveryItems(), function (item) {
+                                total=  total  +  item.qty1NetTotal();
+                            });
+                            _.each(selectedOrder().deliveryItems(), function (item) {
+                                total = total + item.qty1NetTotal();
+                            });
+                        }
+                        return total;
+                    }),
                     // On Close Editor
                     onCloseOrderEditor = function () {
                         if (selectedOrder().hasChanges()) {
@@ -2235,6 +2248,7 @@ define("order/order.viewModel",
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    grossTotal: grossTotal
                 };
             })()
         };
