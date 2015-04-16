@@ -67,6 +67,39 @@ namespace MPC.Repository.Repositories
 			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1 && costcentre.IsDisabled != 1 && costcentre.Type != 11)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
+		/// <summary>
+		/// Get All Cost Centres that are not system defined
+		/// </summary>
+        public CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request)
+		{
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<CostCentre, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
+                     (s.HeaderCode.Contains(request.SearchString)) ||
+                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29));
+
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CostCentre> costCentres = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CostCentreResponse
+            {
+                RowCount = rowCount,
+                CostCentresForproducts = costCentres
+            };
+		}
 
 		public bool Delete(long CostCentreID)
 		{
@@ -504,22 +537,39 @@ namespace MPC.Repository.Repositories
                 {
                     foreach (var inst in oCostCentre.CostcentreInstructions)
                     {
-                        CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
-                        obj.Instruction = inst.Instruction;
-                    }
-                }
-                if (oCostCentre.CostcentreInstructions != null)
-                {
-                   foreach (var inst in oCostCentre.CostcentreInstructions)
-                    {
-                       if(inst.CostcentreWorkInstructionsChoices != null)
-                       {
-                           foreach (var ch in inst.CostcentreWorkInstructionsChoices)
-                           {
-                               CostcentreWorkInstructionsChoice obj = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
-                               obj.Choice = ch.Choice;
-                           }
-                       }
+                        if (inst.InstructionId > 0)
+                        {
+                            CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
+                            obj.Instruction = inst.Instruction;
+
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    CostcentreWorkInstructionsChoice objChoice = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                                    objChoice.Choice = ch.Choice;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            CostcentreInstruction obj = new CostcentreInstruction();
+                            obj.Instruction = inst.Instruction;
+                            obj.CostCentreId = oCostCentre.CostCentreId;
+                            db.CostcentreInstructions.Add(obj);
+                            db.SaveChanges();
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    CostcentreWorkInstructionsChoice objChoice = new CostcentreWorkInstructionsChoice();
+                                    objChoice.Choice = ch.Choice;
+                                    objChoice.InstructionId = obj.InstructionId;
+                                    db.CostcentreWorkInstructionsChoices.Add(objChoice);
+                                }
+                            }
+                        }
+                        
                     }
                 }
 

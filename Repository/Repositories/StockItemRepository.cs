@@ -127,6 +127,7 @@ namespace MPC.Repository.Repositories
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || stockItem.ItemName.Contains(request.SearchString)) &&
                     (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId) &&
+                      (!request.StockCategoryId.HasValue || request.StockCategoryId == stockItem.StockCategory.CategoryId) &&
                     stockItem.OrganisationId == OrganisationId;
 
             IEnumerable<StockItem> stockItems = request.IsAsc

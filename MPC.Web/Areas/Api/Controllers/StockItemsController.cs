@@ -56,10 +56,7 @@ namespace MPC.MIS.Areas.Api.Controllers
             }
 
             return itemService.GetStockItems(request).CreateFrom();
-        }
-       
-       
-        
+        }        
         #endregion
     }
 }

@@ -59,6 +59,20 @@ namespace MPC.Repository.Repositories
             return result;
         }
 
+        /// <summary>
+        /// Get Template Objects by Tempalte Pages list
+        /// </summary>
+        public IEnumerable<TemplateObject> GetByTemplatePages(IEnumerable<long?> templatePages)
+        {
+            if (templatePages == null)
+            {
+                return new List<TemplateObject>();
+            }
+
+            List<long?> templatePageList = templatePages.Where(tp => tp.HasValue && tp.Value > 0).ToList();
+            return DbSet.Where(tempObj => templatePageList.Contains(tempObj.ProductPageId)).ToList();
+        }
+
         #endregion
 
         

@@ -135,10 +135,12 @@ namespace MPC.Models.DomainModels
         public int? DeliveryType { get; set; }
         public string DeliveryServiceType { get; set; }
         public long? CarrierId { get; set; }
-
+        [NotMapped]
+        public bool IsParsed { get; set; }
         [NotMapped]
         public string ImageBytes { get; set; }
-
+        [NotMapped]
+        public string TypeName { get; set; }
         public virtual CostCentreType CostCentreType { get; set; }
         public virtual ICollection<SectionCostcentre> SectionCostcentres { get; set; }
         public virtual ICollection<ItemAddonCostCentre> ItemAddonCostCentres { get; set; }

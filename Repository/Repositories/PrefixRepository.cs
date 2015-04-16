@@ -46,9 +46,35 @@ namespace MPC.Repository.Repositories
         #region public
 
         /// <summary>
+        /// Returns Next Order Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextOrderCodePrefix()
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.OrderPrefix + "-001-" + prefix.OrderNext;
+
+                // Update Order Next
+                prefix.OrderNext += 1;
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Returns Next Item Code Prefix and increments the NextItem Value by 1
         /// </summary>
-        public string GetNextItemCodePrefix()
+        public string GetNextItemCodePrefix(bool shouldIncrementNextItem = true)
         {
             try
             {
@@ -62,6 +88,12 @@ namespace MPC.Repository.Repositories
 
                 // Update Item Next
                 prefix.ItemNext += 1;
+
+                // For Order Screen
+                if (!shouldIncrementNextItem)
+                {
+                    return nextPrefix;
+                }
 
                 // Save Changes
                 SaveChanges();

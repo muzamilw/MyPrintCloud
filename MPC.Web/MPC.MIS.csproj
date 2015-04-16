@@ -358,11 +358,13 @@
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductCostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\PTVCalculationController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
     <Compile Include="Areas\Api\Controllers\SmartFormController.cs" />
+    <Compile Include="Areas\Api\Controllers\StockCategoryController.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\ActivityTypeMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\BestPressMapper.cs" />
@@ -2001,6 +2003,7 @@
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
@@ -3203,9 +3206,11 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
+    <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
     <Folder Include="Areas\CRM\Models\" />
