@@ -97,10 +97,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -153,7 +153,7 @@ define("order/order.viewModel",
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -171,24 +171,24 @@ define("order/order.viewModel",
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
                         return addressResult || defaultAddress();
                     }),
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -198,12 +198,12 @@ define("order/order.viewModel",
                     selectedSection = ko.observable(),
                     sectionInkCoverage = ko.observableArray([]),
                     // Available Ink Plate Sides
-                    availableInkPlateSides = ko.computed(function () {
+                    availableInkPlateSides = ko.computed(function() {
                         if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
                             return inkPlateSides();
                         }
 
-                        return inkPlateSides.filter(function (inkPlateSide) {
+                        return inkPlateSides.filter(function(inkPlateSide) {
                             return inkPlateSide.isDoubleSided === selectedSection().isDoubleSided();
                         });
                     }),
@@ -219,7 +219,10 @@ define("order/order.viewModel",
                     selecteditem = ko.observable(),
                     //Selected Stock Item
                     selectedStockItem = ko.observable(),
+                    //Is Cost Center dialog open for shipping
+                    isCostCenterDialogForShipping = ko.observable(false),
                     // #endregion
+
                     // #region Utility Functions
                     // Create New Order
                     createOrder = function () {
@@ -869,6 +872,16 @@ define("order/order.viewModel",
                             }
                         }
                     }),
+                    //Opens Cost Center dialog for Shipping
+                    onShippingChargesClick = function() {
+                        isCostCenterDialogForShipping(true);
+                        onAddCostCenter();
+                    },
+                    //Opens Cost Center dialog for Cost Center
+                    onCostCenterClick = function() {
+                        isCostCenterDialogForShipping(false);
+                        onAddCostCenterForProduct();
+                    }, 
                     // #endregion
                     // #region ServiceCalls
                     // Get Base Data
@@ -1185,6 +1198,10 @@ define("order/order.viewModel",
                         getCostCenters();
                         view.showCostCentersDialog();
                     },
+                    onAddCostCenterForProduct = function () {
+                        getCostCentersForProduct();
+                        view.showCostCentersDialog();
+                    },
                     onAddInventoryItem = function () {
                         getInventoriesListItems();
                         view.showInventoryItemDialog();
@@ -1210,6 +1227,30 @@ define("order/order.viewModel",
                                 }
                             },
                             error: function (response) {
+                                costCentres.removeAll();
+                                toastr.error("Failed to Load Cost Centres. Error: " + response);
+                            }
+                        });
+                    },
+                    getCostCentersForProduct = function () {
+                        dataservice.getCostCentersForProduct({
+                            CompanyId: selectedOrder().companyId(),
+                            SearchString: costCentrefilterText(),
+                            PageSize: costCentrePager().pageSize(),
+                            PageNo: costCentrePager().currentPage(),
+                        }, {
+                            success: function (data) {
+                                if (data != null) {
+                                    costCentres.removeAll();
+                                    _.each(data.CostCentres, function (item) {
+                                        var costCentre = new model.costCentre.Create(item);
+                                        costCentres.push(costCentre);
+                                    });
+                                    costCentrePager().totalCount(data.RowCount);
+                                }
+                            },
+                            error: function (response) {
+                                costCentres.removeAll();
                                 toastr.error("Failed to Load Cost Centres. Error: " + response);
                             }
                         });
@@ -1228,7 +1269,29 @@ define("order/order.viewModel",
                     hideCostCentreDialog = function () {
                         view.hideRCostCentersDialog();
                     },
+                    createNewCostCenterProduct = function () {
+                        //var item = selecteditem().convertToServerData();
+                        //var newItem = model.Item.Create(item);
+                        //newItem.id(0);
+                        //newItem.qty1NetTotal(totalProductPrice());
+                        //if (newItem.itemSections().length > 0) {
+                        //    _.each(newItem.itemSections(), function(itemSection) {
+                        //        itemSection.id(0);
+                        //        _.each(itemSection.sectionCostCentres(), function(sectionCostCenter) {
+                        //            sectionCostCenter.id(0);
+                        //        });
+                        //    });
+                        //}
+                        
+                        //var item = new model.Item;
 
+                        //selectedOrder().items.splice(0, 0, newItem);
+                    },
+                    onSaveProductCostCenter = function () {
+
+                        hideCostCentreDialog();
+                        hideCostCentreQuantityDialog();
+                    },
                     //#region product From Retail Store
 
                     //SelectedStockOption
@@ -1355,6 +1418,7 @@ define("order/order.viewModel",
                         var item = selecteditem().convertToServerData();
                         var newItem = model.Item.Create(item);
                         newItem.id(0);
+                        newItem.qty1NetTotal(totalProductPrice());
                         //if (newItem.itemSections().length > 0) {
                         //    _.each(newItem.itemSections(), function(itemSection) {
                         //        itemSection.id(0);
@@ -1942,69 +2006,69 @@ define("order/order.viewModel",
                     },
                 //#endregion
                 //#endregion
-                //#region Estimate Screen
+                    //#region Estimate Screen
 
-                // Get Estimates
-                getEstimates = function (currentTab) {
-                    isLoadingOrders(true);
-                    currentScreen(currentTab);
-                    dataservice.getEstimates({
-                        SearchString: filterText(),
-                        PageSize: pager().pageSize(),
-                        PageNo: pager().currentPage(),
-                        Status: currentScreen(),
-                        FilterFlag: selectedFilterFlag(),
-                        OrderTypeFilter: orderTypeFilter(),
-                        SortBy: sortOn(),
-                        IsAsc: sortIsAsc()
-                    }, {
-                        success: function (data) {
-                            orders.removeAll();
-                            if (data && data.TotalCount > 0) {
-                                mapOrders(data.Orders);
-                                pager().totalCount(data.TotalCount);
+                    // Get Estimates
+                    getEstimates = function (currentTab) {
+                        isLoadingOrders(true);
+                        currentScreen(currentTab);
+                        dataservice.getEstimates({
+                            SearchString: filterText(),
+                            PageSize: pager().pageSize(),
+                            PageNo: pager().currentPage(),
+                            Status: currentScreen(),
+                            FilterFlag: selectedFilterFlag(),
+                            OrderTypeFilter: orderTypeFilter(),
+                            SortBy: sortOn(),
+                            IsAsc: sortIsAsc()
+                        }, {
+                            success: function (data) {
+                                orders.removeAll();
+                                if (data && data.TotalCount > 0) {
+                                    mapOrders(data.Orders);
+                                    pager().totalCount(data.TotalCount);
+                                }
+                                isLoadingOrders(false);
+                            },
+                            error: function (response) {
+                                isLoadingOrders(false);
+                                toastr.error("Failed to load orders" + response);
                             }
-                            isLoadingOrders(false);
-                        },
-                        error: function (response) {
-                            isLoadingOrders(false);
-                            toastr.error("Failed to load orders" + response);
-                        }
-                    });
-                },
-                //#endregion
-                //#region INITIALIZE
+                        });
+                    },
+                    //#endregion
+                    //#region INITIALIZE
 
-                //Initialize method to call in every screen
-                initializeScreen = function (specifiedView) {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
+                    //Initialize method to call in every screen
+                    initializeScreen = function (specifiedView) {
+                        view = specifiedView;
+                        ko.applyBindings(view.viewModel, view.bindingRoot);
 
 
-                    categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
-                    costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+                        categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
+                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
 
-                    // Get Base Data
-                    getBaseData();
+                        // Get Base Data
+                        getBaseData();
 
-                    // On Dropdown filter selection change get orders
-                    subscribeDropdownFilterChange();
-                },
-                // Initialize the view model
-                initialize = function (specifiedView) {
-                    initializeScreen(specifiedView);
-                    pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
-                    isEstimateScreen(false);
-                    getOrders();
-                },
-                //Initialize Estimate
-                initializeEstimate = function (specifiedView) {
-                    initializeScreen(specifiedView);
-                    pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
-                    isEstimateScreen(true);
-                    getEstimates();
-                };
-                //#endregion
+                        // On Dropdown filter selection change get orders
+                        subscribeDropdownFilterChange();
+                    },
+                    // Initialize the view model
+                    initialize = function (specifiedView) {
+                        initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
+                        isEstimateScreen(false);
+                        getOrders();
+                    },
+                    //Initialize Estimate
+                    initializeEstimate = function (specifiedView) {
+                        initializeScreen(specifiedView);
+                        pager(new pagination.Pagination({ PageSize: 5 }, orders, getEstimates));
+                        isEstimateScreen(true);
+                        getEstimates();
+                    };
+                    //#endregion
                 return {
                     // #region Observables
                     selectedOrder: selectedOrder,
@@ -2082,7 +2146,10 @@ define("order/order.viewModel",
                     selectedQty: selectedQty,
                     selectedProductQuanity: selectedProductQuanity,
                     totalProductPrice: totalProductPrice,
+                    onShippingChargesClick: onShippingChargesClick,
+                    onCostCenterClick: onCostCenterClick,
                     onSaveRetailStoreProduct: onSaveRetailStoreProduct,
+                    onSaveProductCostCenter: onSaveProductCostCenter,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,

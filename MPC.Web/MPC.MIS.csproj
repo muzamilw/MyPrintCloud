@@ -358,6 +358,7 @@
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreController.cs" />
     <Compile Include="Areas\Api\Controllers\OrderRetailStoreDetailController.cs" />
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
+    <Compile Include="Areas\Api\Controllers\ProductCostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\PTVCalculationController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
@@ -3203,6 +3204,7 @@
     <Folder Include="Areas\Api\Views\OrderRetailStore\" />
     <Folder Include="Areas\Api\Views\OrdersForCrm\" />
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
+    <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />

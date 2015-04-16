@@ -94,6 +94,10 @@ namespace MPC.Implementation.MISServices
         {
             return _costCenterRepository.GetAllNonSystemCostCentres();
         }
+        public CostCentreResponse GetAllForOrderProduct(GetCostCentresRequest requestModel)
+        {
+            return _costCenterRepository.GetAllNonSystemCostCentresForProduct(requestModel);
+        }
 
         public CostCentre Add(CostCentre costcenter)
         {
