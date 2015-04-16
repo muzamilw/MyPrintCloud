@@ -274,7 +274,6 @@ define("myOrganization/myOrganization.viewModel",
                                 markupsForDropDown.remove(markupForDelete);
                             }
                         }
-
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
