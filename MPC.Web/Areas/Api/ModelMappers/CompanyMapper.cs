@@ -426,7 +426,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             {
                 CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()),
                 Markups = source.Markups.Select(m => m.CreateFrom()),
-                NominalCodes = source.NominalCodes.Select(m => m.CreateFrom()),
+               // NominalCodes = source.NominalCodes.Select(m => m.CreateFrom()),
                 SystemUsers = source.SystemUsers.Select(m => m.CreateFrom()),
                 Flags = source.Flags.Select(f => f.CreateFromDropDown()),
                 PriceFlags = source.Flags.Select(pf => pf.CreateFromDropDown()),

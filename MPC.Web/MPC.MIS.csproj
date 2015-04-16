@@ -435,6 +435,7 @@
     <Compile Include="Areas\Api\ModelMappers\ProductCategoryItemMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseFieldMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PhraseMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\SectionInkCoverageMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SectionMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SmartFormDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
