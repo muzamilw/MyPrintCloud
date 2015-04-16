@@ -10,7 +10,7 @@
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
 }
-
+<script src="/Scripts/Designer/p55.js"></script>
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
 
 <div id="FormulaMatrixLayer">
@@ -1358,7 +1358,7 @@
 
         while (FileName.indexOf('/') != -1)
             FileName = FileName.replace("/", "__")
-
+        alert(files.length);
         if (files.length > 0) {
             var data = new FormData();
             for (i = 0; i < files.length; i++) {
