@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MPC.MIS.Areas.Api.Models;
+
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
     using DomainModels = MPC.Models.DomainModels;
@@ -139,8 +140,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrintViewLayoutPortrait = source.PrintViewLayoutPortrait,
                 Side1Inks = source.Side1Inks,
                 Side2Inks = source.Side2Inks,
-                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :
-                new List<SectionCostcentre>()
+                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(sc => sc.CreateFrom()) :  new List<SectionCostcentre>(),
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
         }
 

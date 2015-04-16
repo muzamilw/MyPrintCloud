@@ -424,13 +424,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SupplierBaseResponse
             {
-                CompanyTypes = source.CompanyTypes.Select(ct => ct.CreateFrom()),
-                Markups = source.Markups.Select(m => m.CreateFrom()),
-                NominalCodes = source.NominalCodes.Select(m => m.CreateFrom()),
-                SystemUsers = source.SystemUsers.Select(m => m.CreateFrom()),
-                Flags = source.Flags.Select(f => f.CreateFromDropDown()),
-                PriceFlags = source.Flags.Select(pf => pf.CreateFromDropDown()),
-                RegistrationQuestions = source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown())
+                CompanyTypes =source.CompanyTypes!=null ? source.CompanyTypes.Select(ct => ct.CreateFrom()):null,
+                Markups = source.Markups!=null ?source.Markups.Select(m => m.CreateFrom()):null,
+                NominalCodes =source.NominalCodes!=null ?  source.NominalCodes.Select(m => m.CreateFrom()) : null,
+                SystemUsers = source.SystemUsers!=null ?source.SystemUsers.Select(m => m.CreateFrom()):null,
+                Flags = source.Flags!=null ?source.Flags.Select(f => f.CreateFromDropDown()):null,
+                PriceFlags = source.Flags!=null ? source.Flags.Select(pf => pf.CreateFromDropDown()):null,
+                RegistrationQuestions = source.RegistrationQuestions!=null ?source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown()):null
             };
         }
 

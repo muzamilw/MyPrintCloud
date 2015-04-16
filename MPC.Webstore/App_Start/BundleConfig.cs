@@ -44,11 +44,14 @@ namespace MPC.Webstore
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-datepicker.js", "~/LightBox/Js/jquery-1.10.1.min.js","~/LightBox/Js/jquery.fancybox.pack.js","~/LightBox/Js/jquery.fancybox.js"));
+                      "~/Scripts/bootstrap-datepicker.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fancyBox").Include(
+                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/modalEffects").Include(
                      "~/Scripts/modalEffects.js"));
-
+            bundles.Add(new ScriptBundle("~/pageSpecific"));
 
             bundles.Add(new StyleBundle("~/Content/CSS").Include(
                       "~/Content/bootstrap.min.css"

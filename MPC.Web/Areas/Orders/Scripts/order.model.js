@@ -796,8 +796,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return;
                     }
 
-                    stockItemId(stockItem.id);
-                    stockItemName(stockItem.name);
+                    stockItemId(stockItem.stockItemId());
+                    stockItemName(stockItem.itemName());
                 },
                 // Select Press
                 selectPress = function (press) {
@@ -2274,8 +2274,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.ItemName,
             source.ItemWeight,
             source.PackageQty,
-            source.perQtyQty
-           // source.Price
+            source.perQtyQty || 0,
+            source.PackCostPrice === -9999 ? 0 : source.PackCostPrice
             );
         return inventory;
     };
