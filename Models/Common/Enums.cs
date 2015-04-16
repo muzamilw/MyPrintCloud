@@ -439,4 +439,9 @@ namespace MPC.Models.Common
         Flexo = 3,
         Continuous = 4
     }
+
+    public enum OrderSectionFlag : int
+    {
+        UrgentOrder = 54
+    }
 }

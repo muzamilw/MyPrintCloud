@@ -448,7 +448,7 @@
                                     <table class="width100p" cellspacing="0" cellpadding="15" id="MainContent_grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                         <tbody>
                                             <tr class="gridViewCheckoutHeaderStyle">
-                                                <th align="center" scope="col">&nbsp;</th>
+                                                <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
                                                 <th align="left" scope="col">Product</th>
                                                 <th align="left" scope="col">Quantity</th>
 
@@ -465,7 +465,7 @@
                                                 {
                                                     VatTotal += shopcart.Qty1Tax1Value ?? 0;
                                                     <tr class="gridViewCheckoutRowStyle" align="top">
-                                                        <td class="PadTop5 shopCartFirstCol">
+                                                        <td class="PadTop5 shopCartFirstCol hidden-xs">
                                                             <div class="cart_grid_image_container gallery">
                                                                 @{
                                                     string pdfLinkBtn = string.Empty;
@@ -559,10 +559,10 @@
                                                         <td width="30%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="50%">
+                                                        <td width="40%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tdSubtotal">
+                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13" id="tdSubtotal">
                                                             <span id="spnsubtotal" style="margin-right: 13px;">Sub Total:</span>
                                                         </td>
                                                         @{
@@ -580,10 +580,10 @@
                                                             <td width="30%" align="left">
                                                                 &nbsp;
                                                             </td>
-                                                            <td width="50%">
+                                                            <td width="40%">
                                                                 &nbsp;
                                                             </td>
-                                                            <td width="20%" align="left">
+                                                            <td width="30%" align="left">
                                                                 <label id="lblVoucherDiscPercentageDisplay" style="font-family: 'Lato', Calibri, Arial, sans-serif; font-style: normal; font-weight: bold; font-size: 14px; line-height: 13px; color: rgb(102,102,102); color: #FB8D00 !important;">Discount:</label>
                                                             </td>
                                                             <td align="right" width="20%">
@@ -618,8 +618,8 @@
                                                     </tr>
                                                     <tr id="rowVat">
                                                         <td width="30%" align="left"></td>
-                                                        <td width="50%"></td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13">
+                                                        <td width="40%"></td>
+                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13">
                                                             <span id="lblTaxLabel">@Model.TaxLabel</span>
                                                         </td>
                                                         <td align="right" width="20%">
@@ -642,10 +642,10 @@
                                                         <td width="30%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="50%">
+                                                        <td width="40%">
                                                             &nbsp;
                                                         </td>
-                                                        <td width="20%" align="left" class="fontWeightNormal Fsize13" id="tdgrandtotal">
+                                                        <td width="30%" align="left" class="fontWeightNormal Fsize13" id="tdgrandtotal">
                                                             <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
                                                         </td>
                                                         <td align="right" width="20%">

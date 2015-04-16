@@ -163,7 +163,7 @@
                             <table cellspacing="0" cellpadding="15" id="grdViewShopCart" style="width:100%;border-collapse:collapse;">
                                 <tbody>
                                     <tr class="gridViewHeaderStyle">
-                                        <th align="center" scope="col">&nbsp;</th>
+                                        <th align="center" scope="col" class="hidden-xs">&nbsp;</th>
                                         <th align="left" scope="col">Products</th>
                                         <th align="left" scope="col">Quantity</th>
                                         @if (ViewBag.IsShowPrices == true)
@@ -174,7 +174,7 @@
                                     @{ foreach (var prod in Model.CartItemsList as List<MPC.Models.Common.ProductItem>)
                                      {
                                         <tr class="gridViewRowStyle" valign="top">
-                                            <td class="PadTop5 shopCartFirstCol">
+                                            <td class="PadTop5 shopCartFirstCol hidden-xs">
                                                 <div class="cart_grid_image_container gallery">
                                                     @{
                                          string pdfLinkBtn = string.Empty;
@@ -301,7 +301,7 @@
                                             <td width="35%">
                                                 &nbsp;
                                             </td>
-                                            <td width="20%" align="left" class="fontWeightNormal Fsize15" id="td1">
+                                            <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td1">
                                                 <span id="spnsubtotal" class="CartFonts colorBlack">Sub Total:</span>
                                             </td>
                                             <td align="right" width="20%">
@@ -316,8 +316,8 @@
                                                 <td width="35%">
                                                     &nbsp;
                                                 </td>
-                                                <td width="20%" align="left" class="fontWeightNormal Fsize15" id="td2">
-                                                    <span id="spndelivery" class="CartFonts colorBlack">Delivery Cost:</span>
+                                                <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td2">
+                                                    <span id="spndelivery" class="CartFonts colorBlack">Delivery:</span>
                                                 </td>
                                                 <td align="right" width="20%">
                                                     <label id="lblDeliveryCostCenter" class="Fsize15 colorBlack"
@@ -327,7 +327,7 @@
                                                 <tr id="Tr2">
                                                     <td width="30%" align="left"></td>
                                                     <td width="35%"></td>
-                                                    <td width="20%" align="left" class="fontWeightNormal Fsize15">
+                                                    <td width="20%" align="left" class="fontWeightNormal Fsize13">
                                                         <span id="lblTaxLabel" class="CartFonts colorBlack">@ViewBag.TaxLabel:</span>
                                                     </td>
                                                     <td align="right" width="20%">
@@ -341,7 +341,7 @@
                                                     <td width="35%">
                                                         &nbsp;
                                                     </td>
-                                                    <td width="20%" align="left" class="fontWeightNormal Fsize15" id="td3">
+                                                    <td width="20%" align="left" class="fontWeightNormal Fsize13" id="td3">
                                                         <span class="CartFonts colorBlack" id="spngrandtotal">Total:</span>
                                                     </td>
                                                     <td align="right" width="20%">
