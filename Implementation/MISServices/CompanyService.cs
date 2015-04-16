@@ -4393,7 +4393,25 @@ namespace MPC.Implementation.MISServices
 
                                             }
                                         }
+                                        
+                                        if(item.ItemImages != null && item.ItemImages.Count > 0)
+                                        {
+                                            foreach(var img in item.ItemImages)
+                                            {
+                                                if (!string.IsNullOrEmpty(img.ImageURL))
+                                                {
+                                                    string FilePath = HttpContext.Current.Server.MapPath("~/" + img.ImageURL);
+                                                    DPath = "/Products/" + OrganisationID + "/" + item.ItemId;
+                                                    if (File.Exists(FilePath))
+                                                    {
+                                                        ZipEntry r = zip.AddFile(FilePath, DPath);
+                                                        r.Comment = "Items image for Store";
 
+                                                    }
+                                                }
+
+                                            }
+                                        }
                                         if (item.TemplateId != null && item.TemplateId > 0)
                                         {
                                             if (item.DesignerCategoryId == 0 || item.DesignerCategoryId == null)
