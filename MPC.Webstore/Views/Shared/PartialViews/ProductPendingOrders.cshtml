@@ -9,7 +9,7 @@
 @using MPC.Models.Common;
 @{
 
-    var grid = new WebGrid(source: ViewBag.OrderList,canSort:false ,rowsPerPage: 13);
+    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 13);
 
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
@@ -24,21 +24,29 @@
 }
 <div class="content_area container">
     <div class="left_right_padding row">
-        <div class="signin_heading_div float_left_simple dashboard_heading_signin">
+       
+        <div class="signin_heading_div float_left_simple ">
             <label class="sign_in_heading" id="HistryBtn">Pending Orders For Approval</label>
         </div>
-        <div class="dashBoardRetrunLink">
-
+        <div class="dashBoardRetrunLink dashboard_heading_signin">
+            <div class=" left_align">
+                <h1>
+                    <a href="/Dashboard" class="left_align" title="Back to my dashboard" onclick="ShowLoader();">
+                        Back to my dashboard
+                    </a>
+                </h1>
+                <div class="clearBoth"></div>
+            </div>
         </div>
         <div class="clearBoth">
         </div>
         <div>
             <div class="Width100Percent">
                 @*<div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
-                    <div class="heading_h8 cntFilteringCritariaLeft">
-                       
-                    </div>
-                </div>*@
+                        <div class="heading_h8 cntFilteringCritariaLeft">
+
+                        </div>
+                    </div>*@
             </div>
             <div class="white_back_div rounded_corners PddingForGridContent">
                 <div class="PadingTop textAlignLeft">
@@ -59,9 +67,9 @@
     htmlAttributes: new { id = "PendingOrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
-    headerStyle: "WebGridheaderForPendingOrder",
-    rowStyle: "gridViewRowStyleForWebGrid",
-    alternatingRowStyle: "gridViewRowStyleForWebGrid",
+    headerStyle: "WebGridheader",
+             rowStyle: "gridViewRowStyleForWebGrid",
+             alternatingRowStyle: "gridViewRowStyleForWebGrid",
     columns: new[] {
 
     grid.Column("OrderCode","OrderCode"),
@@ -70,12 +78,12 @@
     grid.Column("SOrderDeliveryDate","Estimated Delivery"),
     grid.Column("StatusName","Status",style:"GridStatusColumnColor"),
     grid.Column("CustomerName","Order Created By"),
-    grid.Column("Action(s)",format:@<text><input type="image" id="view" title="click to view order details" style="height: 28px; width: 28px;" src="Content/Images/View-Detail-icon.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="click to Approve Order " style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="click to Reject" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
-                </text>),
+    grid.Column("Action(s)",format:@<text><input type="image" id="view" title="click to view order details" style="height: 28px; width: 28px;" src="Content/Images/view-order.png" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" /><input type="image" id="view" title="click to Approve Order " style="height: 28px; width: 28px;" src="Content/Images/accept.png" class="rounded_corners" onclick="ConfirmApprove(@item.OrderID)" /><input id="view" type="image" src="Content/Images/reject.png" title="click to Reject" style="height: 28px; width: 28px;" class="rounded_corners" onclick="ConfirmReject(@item.OrderID)" />
+    </text>),
 
    }
 
-                    )
+                             )
                         @if (Convert.ToInt32(ViewBag.TotalOrders) > 13)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
@@ -174,7 +182,7 @@
                     <div class="cntPLOrderDetails">
 
                         <div id="GridTable"></div>
-                       
+
                     </div>
                 </td>
             </tr>
@@ -416,15 +424,15 @@
 
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
-           
+
             //else
             //{
             //    HideLoader();
             //}
         });
 
-     
-      
+
+
 
         function ViewOrder(orderId) {
             ShowLoader();
@@ -463,9 +471,9 @@
                     // if ((response.billingAddress.State) != null) {
 
                     if (response.BillingState != '')
-                    { ("#BillingAddressState").text(response.BillingState);}
+                    { ("#BillingAddressState").val(response.BillingState);}
                     //}
-                   // if (response.billingAddress.Country!= null)
+                    // if (response.billingAddress.Country!= null)
                     //{
                     if (response.BillingCountry!= '')
                     {
@@ -513,20 +521,20 @@
                     var GridItems = response.order.OrderDetails.CartItemsList;
                     var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     $.each(GridItems, function (i, IT) {
-                    {
-                        //InnerHtml += '<tr>';
+                        {
+                            //InnerHtml += '<tr>';
 
-                        InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + IT.ImagePath + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
-                                                    //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                                                    //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                                                    //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                                                    //  alert(IT.Qty1);
-                                                    // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                                                    //  alert(IT.Qty1BaseCharge1);
-                                                    // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                                                    // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                        //+'</tr>'
-                    }
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><img src="/Content/Images/art.png" class="imgArtWorkIcon" onclick="ShowImage(' + IT.ImagePath + ')" /></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + IT.Qty1BaseCharge1, '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + IT.Qty1Tax1Value, '</label></td><td><label id="Total">', response.CurrencySymbol + "" + IT.Qty1GrossTotal, '</label></td></tr>')
+                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
+                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
+                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
+                            //  alert(IT.Qty1);
+                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
+                            //  alert(IT.Qty1BaseCharge1);
+                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
+                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
+                            //+'</tr>'
+                        }
                     });
                     InnerHtml += '</table>';
                     $("#GridTable").html(InnerHtml);
@@ -567,11 +575,11 @@
             });
             HideLoader();
         }
-       
+
         //$("#ApproveOk").on('Click',function(){
-            
+
         //    SaveFlag=true;
-            
+
         //    ShowPopUpForConfirmApprove();
         //});
 
@@ -582,7 +590,7 @@
         function oKApproveOrder()
         {
             var Po = $("#MyPoNo").val();
-            
+
             OrderApprove(NewOrderID, Po);
         }
         function RejectOrder()

@@ -41,5 +41,10 @@ namespace MPC.Interfaces.MISServices
         /// <param name="id"></param>
         /// <returns></returns>
         StockCategory GetStockCategoryById(int id);
+
+        /// <summary>
+        /// Being used in Base Data as DD
+        /// </summary>
+        IEnumerable<StockCategory> GetAllStockCategories();
     }
 }

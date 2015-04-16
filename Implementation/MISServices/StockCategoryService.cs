@@ -116,5 +116,13 @@ namespace MPC.Implementation.MISServices
         {
             return stockCategoryRepository.Find(id);
         }
+
+        /// <summary>
+        /// Being used in Base Data as DD
+        /// </summary>
+        public IEnumerable<StockCategory> GetAllStockCategories()
+        {
+          return  stockCategoryRepository.GetAll();
+        }
     }
 }

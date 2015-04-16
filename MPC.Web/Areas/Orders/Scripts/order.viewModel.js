@@ -234,6 +234,19 @@ define("order/order.viewModel",
                     openOrderEditor = function () {
                         isOrderDetailsVisible(true);
                     },
+                     // Gross Total
+                    grossTotal = ko.computed(function () {
+                        var total = 0;
+                        if (selectedOrder() != undefined) {
+                            _.each(selectedOrder().nonDeliveryItems(), function (item) {
+                                total=  total  +  item.qty1NetTotal();
+                            });
+                            _.each(selectedOrder().deliveryItems(), function (item) {
+                                total = total + item.qty1NetTotal();
+                            });
+                        }
+                        return total;
+                    }),
                     // On Close Editor
                     onCloseOrderEditor = function () {
                         if (selectedOrder().hasChanges()) {
@@ -1228,6 +1241,7 @@ define("order/order.viewModel",
                     hideCostCentreDialog = function () {
                         view.hideRCostCentersDialog();
                     },
+
                     //#region product From Retail Store
 
                     //SelectedStockOption
@@ -1282,6 +1296,7 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     item.itemStockOptions.removeAll();
                                     item.itemPriceMatrices.removeAll();
+                                    item.itemSections.removeAll();
                                     productQuantitiesList.removeAll();
                                     _.each(data.ItemStockOptions, function (itemStockoption) {
                                         var itemToBePushed = new model.ItemStockOption.Create(itemStockoption);
@@ -1294,6 +1309,11 @@ define("order/order.viewModel",
                                             productQuantitiesList.push(itemToBePushed.quantity());
                                         }
                                     });
+                                    if (data.ItemSection != null) {
+                                        var itemSectionToBePushed = new model.ItemSection.Create(data.ItemSection);
+                                        item.itemSections.push(itemSectionToBePushed);
+                                    }
+                                    
 
                                     selecteditem(item);
                                 }
@@ -1308,21 +1328,6 @@ define("order/order.viewModel",
                         view.hideProductFromRetailStoreModal();
                     },
 
-                    //On Product From Retail Store update Item price matrix table and Add on Table 
-                    updateViewOnStockOptionChange = ko.computed(function () {
-                        if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
-                            return;
-                        }
-                        var count = 0;
-                        _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
-                            count = count + 1;
-                            if (itemStockOption.id() == selectedStockItem()) {
-                                selectedStockOptionName(itemStockOption.label());
-                                selectedStockOptionSequenceNumber(count);
-                                selectedStockOption(itemStockOption);
-                            }
-                        });
-                    }),
                     getPrice = function (listElementNumber, count) {
                         if (count == 1) {
                             return selecteditem().itemPriceMatrices()[listElementNumber].pricePaperType1();
@@ -1358,6 +1363,44 @@ define("order/order.viewModel",
                             return selecteditem().itemPriceMatrices()[listElementNumber].priceStockType11();
                         }
                     },
+
+                    createNewRetailStoreProduct = function() {
+                        var item = selecteditem().convertToServerData();
+                        var newItem = model.Item.Create(item);
+                        newItem.id(0);
+                        //if (newItem.itemSections().length > 0) {
+                        //    _.each(newItem.itemSections(), function(itemSection) {
+                        //        itemSection.id(0);
+                        //        _.each(itemSection.sectionCostCentres(), function(sectionCostCenter) {
+                        //            sectionCostCenter.id(0);
+                        //        });
+                        //    });
+                        //}
+                        // set section id 0 && sectioncost center id = 0
+                        selectedOrder().items.splice(0, 0, newItem);
+                    },
+
+                    onSaveRetailStoreProduct = function () {
+                        createNewRetailStoreProduct();
+                        onCloseProductFromRetailStore();
+                    },
+
+                    //On Product From Retail Store update Item price matrix table and Add on Table 
+                    updateViewOnStockOptionChange = ko.computed(function () {
+                        if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
+                            return;
+                        }
+                        var count = 0;
+                        _.each(selecteditem().itemStockOptions(), function (itemStockOption) {
+                            count = count + 1;
+                            if (itemStockOption.id() == selectedStockItem()) {
+                                selectedStockOptionName(itemStockOption.label());
+                                selectedStockOptionSequenceNumber(count);
+                                selectedStockOption(itemStockOption);
+                            }
+                        });
+                    }),
+
                     //Calculate Total Price
                     calculateTotalPrice = ko.computed(function () {
                         //selecteditem().itemStockOptions()[0].itemAddonCostCentres()
@@ -2052,6 +2095,7 @@ define("order/order.viewModel",
                     selectedQty: selectedQty,
                     selectedProductQuanity: selectedProductQuanity,
                     totalProductPrice: totalProductPrice,
+                    onSaveRetailStoreProduct: onSaveRetailStoreProduct,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,
@@ -2137,6 +2181,7 @@ define("order/order.viewModel",
                     downloadArtwork: downloadArtwork,
                     //#endregion
                     itemAttachmentFileLoadedCallback: itemAttachmentFileLoadedCallback,
+                    grossTotal: grossTotal
                 };
             })()
         };
