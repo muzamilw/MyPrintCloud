@@ -124,6 +124,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId=source.CarrierId,
                 ImageBytes = source.ImageBytes,
+                IsParsed = source.IsParsed,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null,
                 FixedVariables = CostCenterVariables(source)
