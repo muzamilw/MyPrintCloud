@@ -802,6 +802,7 @@ namespace MPC.Repository.Repositories
                     timelog += "prefix insert" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                     st = DateTime.Now;
 
+
                     // import markups
                     if (Sets.ExportOrganisationSet3.Markups != null && Sets.ExportOrganisationSet3.Markups.Count > 0)
                     {
@@ -1157,7 +1158,18 @@ namespace MPC.Repository.Repositories
                                 
                                  item.OrganisationId = OrganisationID;
                                  item.CompanyId = oCID;
-                                 item.SmartFormId = null;
+                                 if(comp != null)
+                                 {
+                                     if(comp.SmartForms != null && comp.SmartForms.Count > 0)
+                                     {
+                                         item.SmartFormId = comp.SmartForms.Select(c => c.SmartFormId).FirstOrDefault();
+                                     }
+                                 }
+                                 else
+                                 {
+                                       item.SmartFormId = 0;
+                                 }
+                               
                                  if(item.ItemSections != null && item.ItemSections.Count > 0)
                                  {
                                      foreach(var itm in item.ItemSections)
@@ -2534,11 +2546,18 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File1);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldF1Path = Path.GetFileName(item.File1);
                                 NewF1Path = OldF1Path.Replace(ItemID + "_", item.ItemId + "_");
@@ -2584,11 +2603,18 @@ namespace MPC.Repository.Repositories
                                 string name = Path.GetFileName(item.File2);
 
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldF2Path = Path.GetFileName(item.File2);
                                 NewF2Path = OldF2Path.Replace(ItemID + "_", item.ItemId + "_");
@@ -2632,11 +2658,19 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File3);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
+
 
                                 OldF3Path = Path.GetFileName(item.File3);
                                 NewF3Path = OldF3Path.Replace(ItemID + "_", item.ItemId + "_");
@@ -2680,11 +2714,18 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File4);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldF4Path = Path.GetFileName(item.File4);
                                 NewF4Path = OldF4Path.Replace(ItemID + "_", item.ItemId + "_");
@@ -2728,11 +2769,18 @@ namespace MPC.Repository.Repositories
 
                                 string name = Path.GetFileName(item.File5);
                                 string[] SplitMain = name.Split('_');
-                                if (SplitMain[1] != string.Empty)
+                                if (SplitMain[0] != string.Empty)
                                 {
-                                    ItemID = SplitMain[1];
+                                    ItemID = SplitMain[0];
 
                                 }
+                                //int i = 0;
+                                //// string s = "108";
+                                //bool result = int.TryParse(ItemID, out i);
+                                //if (!result)
+                                //{
+                                //    ItemID = SplitMain[0];
+                                //}
 
                                 OldF5Path = Path.GetFileName(item.File5);
                                 NewF5Path = OldF5Path.Replace(ItemID + "_", item.ItemId + "_");
@@ -2766,6 +2814,50 @@ namespace MPC.Repository.Repositories
 
                                 }
                                 item.File5 = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewF5Path;
+                            }
+                            if(item.ItemImages != null && item.ItemImages.Count > 0)
+                            {
+                                foreach(var img in item.ItemImages)
+                                {
+                                    if (!string.IsNullOrEmpty(img.ImageURL))
+                                    {
+                                        string OldImagePath = string.Empty;
+                                        string NewImagePath = string.Empty;
+
+                                        string name = Path.GetFileName(img.ImageURL);
+                                      
+                                        string DestinationItemImagePath = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + name);
+                                        DestinationsPath.Add(DestinationItemImagePath);
+                                        string DestinationItemImageDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId);
+                                        string ItemImageSourcePath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/Products/" + ImportIDs.OldOrganisationID + "/" + ItemID + "/" + name);
+                                        if (!System.IO.Directory.Exists(DestinationItemImageDirectory))
+                                        {
+                                            Directory.CreateDirectory(DestinationItemImageDirectory);
+                                            if (Directory.Exists(DestinationItemImageDirectory))
+                                            {
+                                                if (File.Exists(ItemImageSourcePath))
+                                                {
+                                                    if (!File.Exists(DestinationItemImagePath))
+                                                        File.Copy(ItemImageSourcePath, DestinationItemImagePath);
+                                                }
+
+
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            if (File.Exists(ItemImageSourcePath))
+                                            {
+                                                if (!File.Exists(DestinationItemImagePath))
+                                                    File.Copy(ItemImageSourcePath, DestinationItemImagePath);
+                                            }
+
+                                        }
+                                        img.ImageURL = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + name;
+                                       // item.ThumbnailPath = "MPC_Content/Products/" + ImportIDs.NewOrganisationID + "/" + item.ItemId + "/" + NewThumbnailPath;
+                                    }
+                                }
                             }
                             if(item.TemplateId != null && item.TemplateId > 0)
                             {
