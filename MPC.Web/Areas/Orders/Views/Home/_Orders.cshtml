@@ -67,7 +67,7 @@
         <div class="filter-body">
             <form data-bind="submit: $root.getOrdersOfCurrentScreen">
                 <div class="filter-block pull-right">
-                   
+
                     <div class="form-group pull-left">
                         <select class="form-control col-lg-4" data-bind="options:$root.orderType,optionsText:'name',optionsValue:'value', value: $root.orderTypeFilter"></select>
                     </div>
@@ -133,11 +133,11 @@
             <td>
                 <span class="label label-success" data-bind="style: { background: flagColor }"><i class="fa fa-flag"></i></span>
             </td>
-           
+
             <td>
                 <span data-bind="text:estimateTotal()!==undefined ? $root.currencySymbol() +estimateTotal():''"></span>
             </td>
-           
+
         </tr>
     </script>
 
