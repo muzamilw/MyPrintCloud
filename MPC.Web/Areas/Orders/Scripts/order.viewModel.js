@@ -1669,6 +1669,9 @@ define("order/order.viewModel",
                     itemPlan = ko.observable(),
                     showSide1Image = ko.observable(true),
                     getPtvPlan = function () {
+                        if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
+                            return;
+                        }
                         isLoadingOrders(true);
                         var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         dataservice.getPTV({
@@ -1686,9 +1689,9 @@ define("order/order.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: 0,
-                            horizentalGutter: 0,
-                            verticalGutter: 0
+                            printGutter: 5,
+                            horizentalGutter: 5,
+                            verticalGutter: 5
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1738,9 +1741,9 @@ define("order/order.viewModel",
                             grip: 1,
                             gripDepth: 0,
                             headDepth: 0,
-                            printGutter: selectedSection().includeGutter() ? 1 : 0,
-                            horizentalGutter: 0,
-                            verticalGutter: 0
+                            printGutter: 5,
+                            horizentalGutter: 5,
+                            verticalGutter: 5
                         }, {
                             success: function (data) {
                                 if (data != null) {
@@ -1906,7 +1909,7 @@ define("order/order.viewModel",
                     },
                     selectBestPressFromWizard = function (bestPress) {
                         selectedBestPressFromWizard(bestPress);
-                        selectedSection().pressId(bestPress.id());
+                        selectedSection().pressId(bestPress.id);
                     },
                     clickOnWizardOk = function () {
                         getSectionSystemCostCenters();
@@ -1936,7 +1939,7 @@ define("order/order.viewModel",
                     },
                     deleteDeliverySchedule = function () {
                         selectedOrder().deliverySchedules.remove(selectedDeliverySchedule());
-                    }
+                    },
                 //#endregion
                 //#endregion
                 //#region Estimate Screen

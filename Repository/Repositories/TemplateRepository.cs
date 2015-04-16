@@ -69,11 +69,7 @@ namespace MPC.Repository.Repositories
             {
                 template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
             }
-            // add default cutting margin if not available 
-            if (template.CuttingMargin.HasValue)
-                template.CuttingMargin = DesignerUtils.PointToPixel(template.CuttingMargin.Value);
-            else
-                template.CuttingMargin = DesignerUtils.PointToPixel(14.173228345);
+           
 
             return template;
 
