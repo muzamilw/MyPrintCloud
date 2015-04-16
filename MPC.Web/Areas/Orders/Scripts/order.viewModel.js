@@ -184,6 +184,7 @@ define("order/order.viewModel",
 
                         return addressResult || defaultAddress();
                     }),
+                   
                     // Selected Company Contact
                     selectedCompanyContact = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {

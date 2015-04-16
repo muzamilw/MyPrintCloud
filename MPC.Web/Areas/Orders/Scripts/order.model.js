@@ -96,6 +96,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sourceId = ko.observable(specifiedSourceId || undefined),
                 // Credit Limit For Job
                 creditLimitForJob = ko.observable(specifiedCreditLimitForJob || undefined),
+                // Credit Limit Computed 
+                 creditLimitComputed = ko.computed({
+                     read: function () {
+                         if (creditLimitForJob()) {
+                             var val = parseFloat(creditLimitForJob());
+                             if (!isNaN(val)) {
+                                 var calc=val.toFixed(2);
+                                 creditLimitForJob(calc);
+                                 return calc;
+                             } else {
+                                 return creditLimitForJob();
+                             }
+                         }
+                         else
+                         {
+                             return '';
+                         }
+                     },
+                     write: function (value) {
+                         creditLimitForJob(value);
+                     }
+                 }),
                 // Credit Limit Set By
                 creditLimitSetBy = ko.observable(specifiedCreditLimitSetBy || undefined),
                 // Credit Limit Set on Date Time
@@ -193,6 +215,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     salesPersonId: salesPersonId,
                     sourceId: sourceId,
                     creditLimitForJob: creditLimitForJob,
+                    creditLimitComputed:creditLimitComputed,
                     creditLimitSetBy: creditLimitSetBy,
                     creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                     isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,
@@ -297,6 +320,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 salesPersonId: salesPersonId,
                 sourceId: sourceId,
                 creditLimitForJob: creditLimitForJob,
+                creditLimitComputed:creditLimitComputed,
                 creditLimitSetBy: creditLimitSetBy,
                 creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                 isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,

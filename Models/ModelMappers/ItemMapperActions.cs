@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ModelMappers
@@ -129,6 +130,11 @@ namespace MPC.Models.ModelMappers
         /// Action to delete a Item Image
         /// </summary>
         public Action<ItemImage> DeleteItemImage { get; set; }
+
+        /// <summary>
+        /// Action to delete a Template Object
+        /// </summary>
+        public Action<List<TemplatePage>> DeleteTemplateObject { get; set; }
 
         #endregion
     }
