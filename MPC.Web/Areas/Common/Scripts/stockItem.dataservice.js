@@ -18,6 +18,13 @@ define("common/stockItem.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get stock Categories
+                    amplify.request.define('getStockCategories', 'ajax', {
+                        url: ist.siteUrl + '/Api/StockCategory',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     isInitialized = true;
                 }
             },
@@ -30,10 +37,21 @@ define("common/stockItem.dataservice", function () {
                     success: callbacks.success,
                     error: callbacks.error,
                 });
-            };
+            },
+        // Get Stock Categories
+        getStockCategories = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getStockCategories',
+                data: params,
+                success: callbacks.success,
+                error: callbacks.error,
+            });
+        };
         
         return {
-            getStockItems: getStockItems
+            getStockItems: getStockItems,
+            getStockCategories: getStockCategories
         };
     })();
 
