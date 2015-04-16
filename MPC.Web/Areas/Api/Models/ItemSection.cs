@@ -49,5 +49,6 @@ namespace MPC.MIS.Areas.Api.Models
         public int Side1Inks { get; set; }
         public int Side2Inks { get; set; }
         public IEnumerable<SectionCostcentre> SectionCostcentres { get; set; }
+        public IEnumerable<SectionInkCoverage> SectionInkCoverages { get; set; }
     }
 }

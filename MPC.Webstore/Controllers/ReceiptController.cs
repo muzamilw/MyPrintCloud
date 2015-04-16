@@ -70,7 +70,7 @@ namespace MPC.Webstore.Controllers
            
             AddressViewModel oStoreDefaultAddress = null;
 
-            if (StoreBaseResopnse.Company.isWhiteLabel == false)
+            if (StoreBaseResopnse.Company.isWhiteLabel == false || StoreBaseResopnse.Company.isWhiteLabel == null)
             {
                 oStoreDefaultAddress = null;
             }
