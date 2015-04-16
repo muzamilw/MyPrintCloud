@@ -504,22 +504,39 @@ namespace MPC.Repository.Repositories
                 {
                     foreach (var inst in oCostCentre.CostcentreInstructions)
                     {
-                        CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
-                        obj.Instruction = inst.Instruction;
-                    }
-                }
-                if (oCostCentre.CostcentreInstructions != null)
-                {
-                   foreach (var inst in oCostCentre.CostcentreInstructions)
-                    {
-                       if(inst.CostcentreWorkInstructionsChoices != null)
-                       {
-                           foreach (var ch in inst.CostcentreWorkInstructionsChoices)
-                           {
-                               CostcentreWorkInstructionsChoice obj = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
-                               obj.Choice = ch.Choice;
-                           }
-                       }
+                        if (inst.InstructionId > 0)
+                        {
+                            CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
+                            obj.Instruction = inst.Instruction;
+
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    CostcentreWorkInstructionsChoice objChoice = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                                    objChoice.Choice = ch.Choice;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            CostcentreInstruction obj = new CostcentreInstruction();
+                            obj.Instruction = inst.Instruction;
+                            obj.CostCentreId = oCostCentre.CostCentreId;
+                            db.CostcentreInstructions.Add(obj);
+                            db.SaveChanges();
+                            if (inst.CostcentreWorkInstructionsChoices != null)
+                            {
+                                foreach (var ch in inst.CostcentreWorkInstructionsChoices)
+                                {
+                                    CostcentreWorkInstructionsChoice objChoice = new CostcentreWorkInstructionsChoice();
+                                    objChoice.Choice = ch.Choice;
+                                    objChoice.InstructionId = obj.InstructionId;
+                                    db.CostcentreWorkInstructionsChoices.Add(objChoice);
+                                }
+                            }
+                        }
+                        
                     }
                 }
 

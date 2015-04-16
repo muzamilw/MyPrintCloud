@@ -83,6 +83,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ILengthConversionService, LengthConversionService>();
             unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
+             unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
+              
             
         }
     }
