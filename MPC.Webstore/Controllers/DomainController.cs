@@ -1,15 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.Practices.Unity;
 using MPC.Interfaces.WebStoreServices;
+using MPC.Webstore.Common;
 using MPC.Webstore.ModelMappers;
 using MPC.Webstore.ResponseModels;
-using MPC.Webstore.Common;
-using System.Web;
+using MPC.Webstore.Models;
+using DotNetOpenAuth.OAuth2;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using System.IO;
+using System.Text;
+using System.Security.Claims;
+using ICompanyService = MPC.Interfaces.WebStoreServices.ICompanyService;
+using MPC.Models.Common;
+using MPC.Interfaces.Common;
+using System.Reflection;
+using MPC.Models.DomainModels;
+using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
+using System.Web.Security;
+using WebSupergoo.ABCpdf8;
+
+using System.Globalization;
+
 namespace MPC.Webstore.Controllers
 {
     
@@ -22,7 +41,16 @@ namespace MPC.Webstore.Controllers
 
         #endregion
 
+        [Dependency]
+        public IWebstoreClaimsSecurityService ClaimsSecurityService { get; set; }
 
+
+
+
+        private IAuthenticationManager AuthenticationManager
+        {
+            get { return HttpContext.GetOwinContext().Authentication; }
+        }
         #region Constructor
         /// <summary>
         /// Constructor
@@ -79,7 +107,7 @@ namespace MPC.Webstore.Controllers
                     UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
                     UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
                     UserCookieManager.WEBOrganisationID = StoreBaseResopnse.Company.OrganisationId ?? 0;
-                   
+                    UserCookieManager.isRegisterClaims = 2;
                     // set global language of store
 
                     string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
@@ -95,7 +123,7 @@ namespace MPC.Webstore.Controllers
 
                     Thread.CurrentThread.CurrentUICulture = ci;
                     Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-
+                   
                     if (StoreBaseResopnse.Company.IsCustomer == 3)// corporate customer
                     {
                         Response.Redirect("/Login");
