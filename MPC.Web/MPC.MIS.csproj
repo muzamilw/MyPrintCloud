@@ -2003,6 +2003,7 @@
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
