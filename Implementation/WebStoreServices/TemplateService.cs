@@ -1995,10 +1995,10 @@ namespace MPC.Implementation.WebStoreServices
                             List<TemplatePage> listTpages = new List<TemplatePage>();
                             List<TemplatePage> listNewTemplatePages = new List<TemplatePage>();
                             double cuttingMargins = 0;
-                            pdfWidth = theDoc.MediaBox.Width;
-                            pdfHeight = theDoc.MediaBox.Height;
                             _templateRepository.DeleteTemplatePagesAndObjects(ProductID, out listTobjs,out listTpages);
                             theDoc.Read(physicalPath);
+                            pdfWidth = theDoc.MediaBox.Width;
+                            pdfHeight = theDoc.MediaBox.Height;
                             int srcPagesID = theDoc.GetInfoInt(theDoc.Root, "Pages");
                             int srcDocRot = theDoc.GetInfoInt(srcPagesID, "/Rotate");
                             // create template pages
@@ -2280,14 +2280,19 @@ namespace MPC.Implementation.WebStoreServices
         /// <returns></returns>
         public Template GetTemplate(long productID)
         {
-            var product= _templateRepository.GetTemplate(productID,true);
+            var template = _templateRepository.GetTemplate(productID, true);
+            // add default cutting margin if not available 
+            if (template.CuttingMargin.HasValue)
+                template.CuttingMargin = DesignerUtils.PointToPixel(template.CuttingMargin.Value);
+            else
+                template.CuttingMargin = DesignerUtils.PointToPixel(14.173228345);
             //if (product.Orientation == 2) //rotating the canvas in case of vert orientation
             //{
             //    double tmp = product.PDFTemplateHeight.Value;
             //    product.PDFTemplateHeight = product.PDFTemplateWidth;
             //    product.PDFTemplateWidth = tmp;
             //}
-            return product;
+            return template;
         }
 
         // called from designer, all the units are converted to pixel before sending  // added by saqib ali

@@ -754,7 +754,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-       //     pcl41_ApplyDimensions(IT);
+            pcl41_ApplyDimensions(IT);
           //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -4002,19 +4002,20 @@ function pcl41_ApplyDimensions(Tpage) {
     } 
     if (Tpage.Width != null && Tpage.Width != 0) {
         w= Tpage.Width ;
-    } 
+    }
+    
     h = h / 96 * 72;
     w = w / 96 * 72;
     h = h / 2.834645669;
     w = w / 2.834645669;
     w = w.toFixed(3);
-    h = h.toFixed(3);
+    h = h.toFixed(3); 
     h = h - 10;
-    w = w - 10;
+    w = w - 10; 
     if (item != null && item.ScaleFactor != null && item.ScaleFactor != 0) {
         w = w * item.ScaleFactor;
         h = h * item.ScaleFactor;
-    }
+    } 
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
     $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
 }
