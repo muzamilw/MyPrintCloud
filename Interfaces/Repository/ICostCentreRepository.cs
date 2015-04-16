@@ -67,5 +67,6 @@ namespace MPC.Interfaces.Repository
         CostCenterBaseResponse GetBaseData();
 
         List<CostCentreType> GetCostCentreTypeByOrganisationID(long OID);
+        CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request);
     }
 }

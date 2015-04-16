@@ -18,5 +18,9 @@ namespace MPC.Models.ResponseModels
         /// List of Company Cost Centres
         /// </summary>
         public IEnumerable<CompanyCostCentre> CostCentres { get; set; }
+        /// <summary>
+        /// List of Company Cost Centres
+        /// </summary>
+        public IEnumerable<CostCentre> CostCentresForproducts { get; set; }
     }
 }

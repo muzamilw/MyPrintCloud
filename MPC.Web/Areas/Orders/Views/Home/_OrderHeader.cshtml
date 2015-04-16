@@ -228,7 +228,7 @@
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
-                                <li><a href="#" data-bind="click: $root.onAddCostCenter">Cost Center</a></li>
+                                <li><a href="#" data-bind="click: $root.onCostCenterClick">Cost Center</a></li>
                                 <li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>
                             </ul>
                         </div>
@@ -267,23 +267,22 @@
                         </div>
                     </div>
                     <div class="col-lg-7 btn-group" style="float: left; margin-top: 10px; margin-left: -8px;">
-                        <button type="button" class="btn btn-primary">Add Shipping Charges</button>
+                        <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charges</button>
                     </div>
 
                     <div class="col-lg-4 form-group" style="margin-top:10px">
                         <div class="col-lg-10 text-right" style=" margin-left: -5px;">
-
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
                         <div class="col-lg-2" style="margin-top:5px">
-
                             <span data-bind="text: $root.currencySymbol() + $root.grossTotal()" style="  font-weight: bold;"></span>
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
         </div>
-    </div>
+    @*</div>*@
     <div class="col-lg-12 form-horizontal">
         <div class="col-lg-12">
             <div class="form-group">
@@ -332,6 +331,7 @@
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
+    @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
 </div>
 
 <script type="text/javascript">
