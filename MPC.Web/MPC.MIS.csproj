@@ -826,6 +826,10 @@
     <Content Include="Areas\CRM\Views\Home\AddEditSecondaryPage.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStore.cshtml" />
     <Content Include="Areas\CRM\Views\Home\AddStoreWizard.cshtml" />
+    <Content Include="Areas\Invoices\Scripts\invoice.dataservice.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.model.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.view.js" />
+    <Content Include="Areas\Invoices\Scripts\invoice.viewModel.js" />
     <Content Include="Areas\Orders\Scripts\order.dataservice.js" />
     <Content Include="Areas\Orders\Scripts\order.model.js" />
     <Content Include="Areas\Orders\Scripts\order.view.js" />
@@ -3204,7 +3208,6 @@
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
-    <Folder Include="Areas\Invoices\Scripts\" />
     <Folder Include="Areas\Orders\Models\" />
     <Folder Include="Areas\Production\Models\" />
     <Folder Include="Areas\Products\Models\" />
