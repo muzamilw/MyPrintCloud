@@ -1388,7 +1388,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     IsVdpProduct: isVdpProduct(),
                     IsStockControl: isStockControl(),
                     SortOrder: sortOrder(),
-                    ProductType: isFinishedGoodsUi() === '3' ? 0 : parseInt(isFinishedGoodsUi()),
+                    ProductType: parseInt(isFinishedGoodsUi()),
                     XeroAccessCode: xeroAccessCode(),
                     WebDescription: webDescription(),
                     ProductSpecification: productSpecification(),

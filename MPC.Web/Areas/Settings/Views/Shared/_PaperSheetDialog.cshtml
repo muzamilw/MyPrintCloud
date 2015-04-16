@@ -34,12 +34,12 @@
                                         <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                     </a>
                                 </div>
-                                <label class="control-label text-right tooltip-float">Is Default</label>
+                                <label class="control-label text-right tooltip-float">Archive</label>
                             </div>
 
                             <div class="col-lg-7">
                                 <div class="checkbox-nice">
-                                    <input type="checkbox" data-bind="checked: isArchived" id="isArchived">
+                                    <input type="checkbox" data-bind="checked: isArchived, enable: paperSizeId() > 0" id="isArchived">
                                     <label for="isArchived"></label>
                                 </div>
                             </div>

@@ -10,5 +10,7 @@ namespace MPC.Interfaces.Repository
     public interface ITemplateObjectRepository : IBaseRepository<TemplateObject, int>
     {
         List<TemplateObject> GetProductObjects(long productId);
+
+        IEnumerable<TemplateObject> GetByTemplatePages(IEnumerable<long?> templatePages);
     }
 }
