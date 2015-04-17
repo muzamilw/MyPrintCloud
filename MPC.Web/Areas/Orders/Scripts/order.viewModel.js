@@ -2050,7 +2050,7 @@ define("order/order.viewModel",
                         errorList.push({ name: "Sheet plan cannot be zero.", element: selectedSection().numberUp.domElement });
                         flag = false;
                     }
-                    if (selectedSection().stockItemName() == null) {
+                        if (selectedSection().stockItemId() == null) {
                         errorList.push({ name: "Please select stock.", element: selectedSection().stockItemName.domElement });
                         flag = false;
                     }
@@ -2114,8 +2114,8 @@ define("order/order.viewModel",
                     var currSec = selectedSection().convertToServerData();
                     dataservice.getUpdatedSystemCostCenters({
                         CurrentSection: currSec,
-                        PressId: currSec.PressId,
-                        AllSectionInks: currSec.SectionInkCoverages
+                            PressId: currSec.PressId
+                          //  AllSectionInks: currSec.SectionInkCoverages
                     }, {
                         success: function (data) {
                             if (data != null) {
