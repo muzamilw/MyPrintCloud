@@ -852,6 +852,40 @@ namespace MPC.Repository.BaseRepository
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrderByID", orderIdParameter);
         }
 
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_JobCardReport_Result> usp_JobCardReport(long? organisationId, long? orderId, long? itemId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            var itemIdParameter = itemId.HasValue ?
+                new ObjectParameter("ItemID", itemId) :
+                new ObjectParameter("ItemID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_JobCardReport_Result>("usp_JobCardReport", organisationIdParameter, orderIdParameter, itemIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_OrderReport_Result> usp_OrderReport(long? organisationId, long? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
+        }
+
         #endregion
     }
 }

@@ -34,9 +34,12 @@ namespace MPC.Repository.Repositories
         private readonly IPrefixService _PrefixService;
         //  public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixService _PrefixService)
         private readonly IItemAttachmentRepository _ItemAttachmentRepository;
+        private readonly IItemService _itemService;
         private readonly IOrganisationRepository _Organisationrepository;
+        private readonly ITemplateService _TemplateService;
+        private readonly ITemplatePageService _ITemplatePageService;
 
-        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService)
+        public OrderRepository(IUnityContainer container, IWebstoreClaimsHelperService myClaimHelper, IPrefixRepository _prefixrepository, IItemRepository _ItemRepository, IItemAttachmentRepository _ItemAttachmentRepository, IOrganisationRepository _Organisationrepository, IPrefixService _PrefixService, ITemplateService _templateService, ITemplatePageService _ITemplatePageService, IItemService _itemService)
             : base(container)
         {
             this._myClaimHelper = myClaimHelper;
@@ -45,6 +48,9 @@ namespace MPC.Repository.Repositories
             this._ItemRepository = _ItemRepository;
             this._ItemAttachmentRepository = _ItemAttachmentRepository;
             this._Organisationrepository = _Organisationrepository;
+            this._TemplateService = _templateService;
+            this._ITemplatePageService = _ITemplatePageService;
+            this._itemService = _itemService;
         }
 
         /// <summary>
@@ -2824,7 +2830,19 @@ namespace MPC.Repository.Repositories
                     MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
                 }
                 else
-                    return string.Empty;
+                {
+                    Company CorpStore = db.Companies.Where(c => c.CompanyId == oOrder.Company.CompanyId).FirstOrDefault();
+                    if (CorpStore != null)
+                    {
+                        IncludeOrderReport = CorpStore.includeEmailArtworkOrderReport ?? false;
+                        IncludeJobCardReport = CorpStore.includeEmailArtworkOrderJobCard ?? false;
+                        IncludeOrderXML = CorpStore.includeEmailArtworkOrderXML ?? false;
+                        MakeArtWorkProductionReady = CorpStore.makeEmailArtworkOrderProductionReady ?? false;
+                    }
+
+
+                }
+                    
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
@@ -2882,6 +2900,7 @@ namespace MPC.Repository.Repositories
                             ZipEntry d = zip.AddDirectory(sFolderPath, "");
 
                             // item attachments
+                            if(item.ItemAttachments != null && item.ItemAttachments.Count > 0)
                             foreach (var attach in item.ItemAttachments)
                             {
                                 //if artwork is production ready then pick the attachments from new location.
@@ -4407,34 +4426,21 @@ namespace MPC.Repository.Repositories
             try
             {
 
-                //string sServiceURl = string.Empty;
-                //string sServerPath = CurrentServerPath();
-                //if (sServerPath.Contains("mpcserver") || sServerPath.Contains("localhost"))
-                //    sServiceURl = "http://localhost/services/Webstore.svc";
-                //else
-                //    sServiceURl = CurrentServerPath() + "/services/Webstore.svc";
 
-                //string sOrderID = oOrder.EstimateId.ToString();
-                //string sProductionFolderPath = PathConstants.ProductImages + "Production/";
-                //string sCustomerID = oOrder.ContactCompanyID.ToString();
-                //Uri sParameterURl = new Uri(string.Format("{0}/RegenerateTemplateAttachments?estimateId={1}&customerID={2}&ProductionFolderPath={3}", sServiceURl, sOrderID, sCustomerID, sProductionFolderPath));
-                //WebClient clientserv = new WebClient();
-                ////clientserv.OpenReadCompleted += new OpenReadCompletedEventHandler(clientserv_OpenReadCompleted);
-                ////clientserv.OpenReadAsync(sParameterURl);
 
-                //Stream strm = clientserv.OpenRead(sParameterURl);
-                //StreamReader reader = new StreamReader(strm);
-                //string text = reader.ReadToEnd();
-                //if (text.Contains("true"))
-                //{
-                //    return true;
-                //}
-                //else
-                //{
 
-                //    return false;
-                //}
-                return true;//Return hardcoded to test
+                string sOrderID = oOrder.EstimateId.ToString();
+                string sProductionFolderPath = "Attachments/Production/" + OrganisationId;
+                string sCustomerID = oOrder.CompanyId.ToString();
+
+                return RegenerateTemplateAttachments(sOrderID, sCustomerID, sProductionFolderPath);
+
+
+          
+                //clientserv.OpenReadCompleted += new OpenReadCompletedEventHandler(clientserv_OpenReadCompleted);
+                //clientserv.OpenReadAsync(sParameterURl);
+
+            
             }
             catch (Exception ex)
             {
@@ -4488,13 +4494,20 @@ namespace MPC.Repository.Repositories
             Estimate order = db.Estimates.Where(e => e.EstimateId == orderId).FirstOrDefault();
             if(order != null)
             {
-                if (order.CompanyId == companyId && order.ContactId == contactId)
+                if (contactId > 0)
                 {
-                    return true;
+                    if (order.CompanyId == companyId && order.ContactId == contactId)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else 
                 {
-                    return false;
+                    return true; // me
                 }
             }
             else
@@ -4503,320 +4516,446 @@ namespace MPC.Repository.Repositories
             }
         }
 
-        //public bool RegenerateTemplateAttachments(string estimateId, string customerID, string productionFolderPath)
+        public bool RegenerateTemplateAttachments(string estimateId, string customerID, string productionFolderPath)
+        {
+            try
+            {
+              //  Web2Print.BLL.OrderManager orderManager = new Web2Print.BLL.OrderManager();
+              //  Web2Print.BLL.ProductManager oProdManager = new Web2Print.BLL.ProductManager();
+                long EstimateId = Convert.ToInt64(estimateId);
+                long CustomerId = Convert.ToInt64(customerID);
+                var Order = GetOrderByID(EstimateId);
+                bool isaddcropMark = GetCropMark(CustomerId);
+                double bleedsize = db.Organisations.Where(c => c.OrganisationId == OrganisationId).Select(c => c.BleedAreaSize ?? 0).FirstOrDefault();
+                bool drawBleedArea = false;
+                bool mutlipageMode = true;
+                bool hasOverlayPdf = false;
+                List<Item> OrderItems = GetOrderItems(EstimateId);
+                if (OrderItems != null)
+                {
+                    foreach (var i in OrderItems)
+                    {
+                        long TemplateID = i.TemplateId ?? 0;
+                        long ItemID = i.ItemId;
+                        long CustomerID = Convert.ToInt64(customerID);
+
+                        if (i.TemplateId > 0) // case of templates
+                        {
+                            var Item = GetItemById(ItemID);
+                            if (i.isMultipagePDF == true)
+                            {
+                                mutlipageMode = true;
+                            }
+                            if (i.drawBleedArea == true)
+                            {
+                                drawBleedArea = true;
+                            }
+                            if (i.printCropMarks == true)
+                            {
+                                isaddcropMark = true;
+                            }
+
+                            _TemplateService.regeneratePDFs(TemplateID,OrganisationId,isaddcropMark,mutlipageMode,drawBleedArea,bleedsize);
+                            //LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();b
+                            //oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
+
+
+
+                            List<TemplatePage> oPages = new List<TemplatePage>();
+
+                            oPages = _ITemplatePageService.GetTemplatePagesSP(TemplateID);
+                            //List<TemplateDesignerModelTypesV2.TemplatePages> oPages = null;
+                            //using (TemplateDesignerV2Entities db = new TemplateDesignerV2Entities())
+                            //{
+                            //    db.ContextOptions.LazyLoadingEnabled = false;
+                            //    oPages = db.TemplatePages.Where(g => g.ProductID == TemplateID).ToList();
+                            //}
+
+                            List<ArtWorkAttatchment> oLstAttachments = _ItemAttachmentRepository.GetItemAttactchmentsForRegenerateTemplateAttachments(ItemID, ".pdf", UploadFileTypes.Artwork);
+
+                            string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
+
+                            if (oLstAttachments.Count == 0)  //no attachments already exist, hence a new entry in attachments is required
+                            {
+
+                                //special working for attaching the PDF
+                                List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
+                                ArtWorkAttatchment attatcment = null;
+                                string folderPath =  "Attachments/" + OrganisationId;
+                                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
+                                string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
+
+
+                                if (!System.IO.Directory.Exists(virtualFolderPth))
+                                    System.IO.Directory.CreateDirectory(virtualFolderPth);
+
+                                if (!System.IO.Directory.Exists(VirtualFolderPath2))
+                                    System.IO.Directory.CreateDirectory(VirtualFolderPath2);
+
+                                if (Item.isMultipagePDF == true)
+                                {
+                                    string fileName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                                    string overlayName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                    string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+                                    string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+                                    string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+                                    //copying file from original location to attachments location
+                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
+                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
+                                    foreach (var page in oPages)
+                                    {
+                                        if (page.hasOverlayObjects == true)
+                                            hasOverlayPdf = true;
+                                    }
+                                    if (hasOverlayPdf)
+                                    {
+                                        System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
+                                        System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
+                                        attatcment = new ArtWorkAttatchment();
+                                        attatcment.FileName = overlayName;
+                                        attatcment.FileExtention = ".pdf";
+                                        attatcment.FolderPath = folderPath;
+                                        attatcment.FileTitle = "Side1overlay";
+                                        uplodedArtWorkList.Add(attatcment);
+                                    }
+
+                                    //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                    string ThumbnailPath = fileCompleteAddress;
+
+                                    attatcment = new ArtWorkAttatchment();
+                                    attatcment.FileName = fileName;
+                                    attatcment.FileExtention = ".pdf";
+                                    attatcment.FolderPath = folderPath;
+                                    attatcment.FileTitle = "Side1";
+                                    uplodedArtWorkList.Add(attatcment);
+                                }
+                                else
+                                {
+                                    if (Item.isMultipagePDF == true)
+                                    {
+                                        foreach (var page in oPages)
+                                        {
+                                            if (page.hasOverlayObjects == true)
+                                                hasOverlayPdf = true;
+                                        }
+                                        string fileName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                                        string overlayName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+                                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                        string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+                                        string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+                                        string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+                                        //copying file from original location to attachments location
+                                        System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
+                                        System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
+
+                                        if (hasOverlayPdf)
+                                        {
+                                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
+                                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
+                                            attatcment = new ArtWorkAttatchment();
+                                            attatcment.FileName = overlayName;
+                                            attatcment.FileExtention = ".pdf";
+                                            attatcment.FolderPath = folderPath;
+                                            attatcment.FileTitle = "Side1overlay";
+                                            uplodedArtWorkList.Add(attatcment);
+                                        }
+
+                                        //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                        string ThumbnailPath = fileCompleteAddress;
+
+                                        attatcment = new ArtWorkAttatchment();
+                                        attatcment.FileName = fileName;
+                                        attatcment.FileExtention = ".pdf";
+                                        attatcment.FolderPath = folderPath;
+                                        attatcment.FileTitle = "Side1";
+                                        uplodedArtWorkList.Add(attatcment);
+                                    }
+                                    else
+                                    {
+                                        foreach (var item in oPages)
+                                        {
+                                            //saving Page1  or Side 1 
+                                            //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
+
+                                            string fileName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+                                            string overlayName = GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+                                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+                                            string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+                                            string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+                                            //copying file from original location to attachments location
+                                            System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
+                                            System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress2, true);
+
+                                            if (item.hasOverlayObjects == true)
+                                            {
+                                                System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress, true);
+                                                System.IO.File.Copy(DesignerPath + item.ProductId.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress2, true);
+                                                attatcment = new ArtWorkAttatchment();
+                                                attatcment.FileName = overlayName;
+                                                attatcment.FileExtention = ".pdf";
+                                                attatcment.FolderPath = folderPath;
+                                                attatcment.FileTitle = "Side" + item.PageNo.ToString() + "overlay";
+                                                uplodedArtWorkList.Add(attatcment);
+                                            }
+
+                                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                            string ThumbnailPath = fileCompleteAddress;
+
+                                            attatcment = new ArtWorkAttatchment();
+                                            attatcment.FileName = fileName;
+                                            attatcment.FileExtention = ".pdf";
+                                            attatcment.FolderPath = folderPath;
+                                            attatcment.FileTitle = "Side" + item.PageNo.ToString();
+                                            uplodedArtWorkList.Add(attatcment);
+                                            //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                        }
+                                    }
+
+                                }
+                                //creating the attachment the attachment for the first time.
+                                bool result = CreateUploadYourArtWork(ItemID, CustomerID, uplodedArtWorkList);
+
+
+                                //updating the item with templateID /design
+                                _itemService.UpdateItem(ItemID, TemplateID);
+
+                            }
+                            else// attachment alredy exists hence we need to updat the existing artwork.
+                            {
+                                string folderPath = "Attachments/" + OrganisationId;
+                                string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
+                                string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
+
+
+                                if (!System.IO.Directory.Exists(VirtualFolderPath2))
+                                {
+                                    System.IO.Directory.CreateDirectory(VirtualFolderPath2);
+                                }
+
+                                int index = 0;
+                                foreach (var oPage in oPages)
+                                {
+                                    ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
+                                    index = index + 1;
+                                    //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+                                    if (oPage1Attachment != null)
+                                    {
+                                        string fileName = oPage1Attachment.FileName;
+                                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                        string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                        string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                        if (fileName.Contains("overlay"))
+                                        {
+                                            sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                        }
+
+                                        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                        System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+
+                                        if (oPage.hasOverlayObjects == true)
+                                        {
+                                            oPage1Attachment = oLstAttachments[index];
+                                            index = index + 1;
+                                            if (oPage1Attachment != null)
+                                            {
+                                                fileName = oPage1Attachment.FileName;
+                                                fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                                fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+                                                sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+                                                if (fileName.Contains("overlay"))
+                                                {
+                                                    sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+                                                }
+
+                                                //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+                                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+                                            }
+                                        }
+                                        //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+                                        //string ThumbnailPath = fileCompleteAddress;
+                                        //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+                                        //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+                                    }
+
+                                }
+                            }
+                        }
+                        else // case of uplaod images
+                        {
+                            List<ItemAttachment> ListOfAttachments = _itemService.GetItemAttactchments(ItemID);
+
+                            string folderPath = "Attachments/" + OrganisationId;// Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+                            string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("~/" + productionFolderPath);
+                            string fileSourcePath = System.Web.HttpContext.Current.Server.MapPath("~/" + folderPath);
+
+                            if (!System.IO.Directory.Exists(virtualFolderPth))
+                            {
+                                System.IO.Directory.CreateDirectory(virtualFolderPth);
+                            }
+                            if (!System.IO.Directory.Exists(fileSourcePath))
+                            {
+                                System.IO.Directory.CreateDirectory(fileSourcePath);
+                            }
+
+                            foreach (var oPage in ListOfAttachments)
+                            {
+                                string fileName = oPage.FileName;
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName);
+                                System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
+
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //return false;
+                throw ex;
+            }
+        }
+
+        public bool GetCropMark(long CustomerID)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            db.Configuration.ProxyCreationEnabled = false;
+            var Rec = db.Companies.Where(c => c.CompanyId == CustomerID).FirstOrDefault();
+
+                if (Rec != null)
+                {
+                    return Rec.isAddCropMarks ?? false;
+                }
+                else
+                {
+                    return false;
+                }
+            
+        }
+
+        public Item GetItemById(long itemID)
+        {
+           
+              return db.Items.Include("tbl_item_sections.tbl_section_costcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            
+        }
+
+        public bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList)
+        {
+            bool result = false;
+
+            //CustomerManager customerMgr = new CustomerManager();
+            Company customer = GetCustomer(customerID);
+            ItemAttachment tblAttatch = null;
+            long? contactID = null;
+            CompanyContact contact = null;
+
+            try
+            {
+                if (yourDesignList.Count > 0)
+                {
+                    if (customer != null && customer.CompanyContacts.Count > 0)
+                    {
+                        contact = customer.CompanyContacts.ToList()[0];
+                        contactID = contact.ContactId;
+                    }
+
+                   
+                        string folderPath = string.Empty;
+                        //Create Additional cost Centeres
+                        foreach (ArtWorkAttatchment attatchment in yourDesignList)
+                        {
+                            folderPath = attatchment.FolderPath.Replace("\\", "//").Replace("//", "/");
+
+                            tblAttatch = _itemService.PopulueTblItemAttachment(itemID, customerID, contactID, attatchment.FileTitle, attatchment.FileName, attatchment.UploadFileType, attatchment.FileExtention, folderPath);
+                            db.ItemAttachments.Add(tblAttatch);
+                        }
+
+                        db.SaveChanges();
+                        result = true;
+                    
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return result;
+        }
+
+
+        public Company GetCustomer(long CustomerID)
+        {
+            try
+            {
+                //Create Customer
+                db.Configuration.LazyLoadingEnabled = false;
+                db.Configuration.ProxyCreationEnabled = false;
+                return db.Companies.Include("addresses").Include("companycontacts").Where(customer => customer.CompanyId == CustomerID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        //public List<ArtWorkAttatchment> GetItemAttactchments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType)
         //{
-        //    try
-        //    {
-        //        Web2Print.BLL.OrderManager orderManager = new Web2Print.BLL.OrderManager();
-        //        Web2Print.BLL.ProductManager oProdManager = new Web2Print.BLL.ProductManager();
-        //        int EstimateId = Convert.ToInt32(estimateId);
-        //        var Order = OrderManager.GetOrderByID(Convert.ToInt64(estimateId));
-        //        bool isaddcropMark = orderManager.GetCropMark();
-        //        bool drawBleedArea = false;
-        //        bool mutlipageMode = true;
-        //        bool hasOverlayPdf = false;
-        //        List<tbl_items> OrderItems = orderManager.GetOrderItems(EstimateId);
-        //        if (OrderItems != null)
-        //        {
-        //            foreach (var i in OrderItems)
-        //            {
-        //                int TemplateID = i.TemplateID ?? 0;
-        //                int ItemID = i.ItemID;
-        //                int CustomerID = Convert.ToInt32(customerID);
 
-        //                if (i.TemplateID > 0) // case of templates
-        //                {
-        //                    var Item = ProductManager.GetItemById(ItemID);
-        //                    if (i.isMultipagePDF == true)
+        //    string uploadFiType = uploadedFileType.ToString();
+        //    List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
+
+            
+
+        //        var query = from Attachment in db.ItemAttachments
+        //                    where Attachment.ItemId == itemID &&
+        //                          string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
+        //                          string.Compare(Attachment.FileType, fileExtionsion, true) == 0
+        //                    select new ArtWorkAttatchment()
         //                    {
-        //                        mutlipageMode = true;
-        //                    }
-        //                    if (i.drawBleedArea == true)
-        //                    {
-        //                        drawBleedArea = true;
-        //                    }
-        //                    if (i.printCropMarks == true)
-        //                    {
-        //                        isaddcropMark = true;
-        //                    }
-        //                    LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();
-        //                    oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
+        //                        FileName = Attachment.FileName,
+        //                        FileTitle = Attachment.FileTitle,
+        //                        FileExtention = Attachment.FileType,
+        //                        FolderPath = Attachment.FolderPath,
+        //                    };
+
+        //        itemAttactchments = query.ToList<ArtWorkAttatchment>();
+            
 
 
-        //                    List<TemplateDesignerModelTypesV2.TemplatePages> oPages = null;
-        //                    using (TemplateDesignerV2Entities db = new TemplateDesignerV2Entities())
-        //                    {
-        //                        db.ContextOptions.LazyLoadingEnabled = false;
-        //                        oPages = db.TemplatePages.Where(g => g.ProductID == TemplateID).ToList();
-        //                    }
-
-        //                    List<ArtWorkAttatchment> oLstAttachments = oProdManager.GetItemAttactchments(ItemID, ".pdf", UploadFileTypes.Artwork);
-
-        //                    string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
-
-        //                    if (oLstAttachments.Count == 0)  //no attachments already exist, hence a new entry in attachments is required
-        //                    {
-
-        //                        //special working for attaching the PDF
-        //                        List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
-        //                        ArtWorkAttatchment attatcment = null;
-        //                        string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
-        //                        string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
-        //                        string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
+        //    if (itemAttactchments != null && itemAttactchments.Count > 0)
+        //        itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
 
 
-        //                        if (!System.IO.Directory.Exists(virtualFolderPth))
-        //                            System.IO.Directory.CreateDirectory(virtualFolderPth);
-
-        //                        if (!System.IO.Directory.Exists(VirtualFolderPath2))
-        //                            System.IO.Directory.CreateDirectory(VirtualFolderPath2);
-
-        //                        if (Item.isMultipagePDF == true)
-        //                        {
-        //                            string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-        //                            string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-
-        //                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-
-        //                            string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
-        //                            string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
-
-        //                            //copying file from original location to attachments location
-        //                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
-        //                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
-        //                            foreach (var page in oPages)
-        //                            {
-        //                                if (page.hasOverlayObjects == true)
-        //                                    hasOverlayPdf = true;
-        //                            }
-        //                            if (hasOverlayPdf)
-        //                            {
-        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
-        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
-        //                                attatcment = new ArtWorkAttatchment();
-        //                                attatcment.FileName = overlayName;
-        //                                attatcment.FileExtention = ".pdf";
-        //                                attatcment.FolderPath = folderPath;
-        //                                attatcment.FileTitle = "Side1overlay";
-        //                                uplodedArtWorkList.Add(attatcment);
-        //                            }
-
-        //                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-        //                            string ThumbnailPath = fileCompleteAddress;
-
-        //                            attatcment = new ArtWorkAttatchment();
-        //                            attatcment.FileName = fileName;
-        //                            attatcment.FileExtention = ".pdf";
-        //                            attatcment.FolderPath = folderPath;
-        //                            attatcment.FileTitle = "Side1";
-        //                            uplodedArtWorkList.Add(attatcment);
-        //                        }
-        //                        else
-        //                        {
-        //                            if (Item.isMultipagePDF == true)
-        //                            {
-        //                                foreach (var page in oPages)
-        //                                {
-        //                                    if (page.hasOverlayObjects == true)
-        //                                        hasOverlayPdf = true;
-        //                                }
-        //                                string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-        //                                string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-
-        //                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                                string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-
-        //                                string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
-        //                                string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
-
-        //                                //copying file from original location to attachments location
-        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
-        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
-
-        //                                if (hasOverlayPdf)
-        //                                {
-        //                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
-        //                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
-        //                                    attatcment = new ArtWorkAttatchment();
-        //                                    attatcment.FileName = overlayName;
-        //                                    attatcment.FileExtention = ".pdf";
-        //                                    attatcment.FolderPath = folderPath;
-        //                                    attatcment.FileTitle = "Side1overlay";
-        //                                    uplodedArtWorkList.Add(attatcment);
-        //                                }
-
-        //                                //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-        //                                string ThumbnailPath = fileCompleteAddress;
-
-        //                                attatcment = new ArtWorkAttatchment();
-        //                                attatcment.FileName = fileName;
-        //                                attatcment.FileExtention = ".pdf";
-        //                                attatcment.FolderPath = folderPath;
-        //                                attatcment.FileTitle = "Side1";
-        //                                uplodedArtWorkList.Add(attatcment);
-        //                            }
-        //                            else
-        //                            {
-        //                                foreach (var item in oPages)
-        //                                {
-        //                                    //saving Page1  or Side 1 
-        //                                    //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
-
-        //                                    string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-        //                                    string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
-
-        //                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                                    string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-
-        //                                    string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
-        //                                    string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
-
-        //                                    //copying file from original location to attachments location
-        //                                    System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
-        //                                    System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress2, true);
-
-        //                                    if (item.hasOverlayObjects == true)
-        //                                    {
-        //                                        System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress, true);
-        //                                        System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress2, true);
-        //                                        attatcment = new ArtWorkAttatchment();
-        //                                        attatcment.FileName = overlayName;
-        //                                        attatcment.FileExtention = ".pdf";
-        //                                        attatcment.FolderPath = folderPath;
-        //                                        attatcment.FileTitle = "Side" + item.PageNo.ToString() + "overlay";
-        //                                        uplodedArtWorkList.Add(attatcment);
-        //                                    }
-
-        //                                    //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-        //                                    string ThumbnailPath = fileCompleteAddress;
-
-        //                                    attatcment = new ArtWorkAttatchment();
-        //                                    attatcment.FileName = fileName;
-        //                                    attatcment.FileExtention = ".pdf";
-        //                                    attatcment.FolderPath = folderPath;
-        //                                    attatcment.FileTitle = "Side" + item.PageNo.ToString();
-        //                                    uplodedArtWorkList.Add(attatcment);
-        //                                    //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
-        //                                }
-        //                            }
-
-        //                        }
-        //                        //creating the attachment the attachment for the first time.
-        //                        bool result = oProdManager.CreateUploadYourArtWork(ItemID, CustomerID, uplodedArtWorkList);
-
-
-        //                        //updating the item with templateID /design
-        //                        oProdManager.UpdateItem(ItemID, TemplateID);
-
-        //                    }
-        //                    else// attachment alredy exists hence we need to updat the existing artwork.
-        //                    {
-        //                        string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
-        //                        string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
-        //                        string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
-
-
-        //                        if (!System.IO.Directory.Exists(VirtualFolderPath2))
-        //                        {
-        //                            System.IO.Directory.CreateDirectory(VirtualFolderPath2);
-        //                        }
-
-        //                        int index = 0;
-        //                        foreach (var oPage in oPages)
-        //                        {
-        //                            ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
-        //                            index = index + 1;
-        //                            //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
-        //                            if (oPage1Attachment != null)
-        //                            {
-        //                                string fileName = oPage1Attachment.FileName;
-        //                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                                string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-        //                                string sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-        //                                if (fileName.Contains("overlay"))
-        //                                {
-        //                                    sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-        //                                }
-
-        //                                //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-        //                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-        //                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-
-        //                                if (oPage.hasOverlayObjects == true)
-        //                                {
-        //                                    oPage1Attachment = oLstAttachments[index];
-        //                                    index = index + 1;
-        //                                    if (oPage1Attachment != null)
-        //                                    {
-        //                                        fileName = oPage1Attachment.FileName;
-        //                                        fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                                        fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
-        //                                        sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + ".pdf";
-
-        //                                        if (fileName.Contains("overlay"))
-        //                                        {
-        //                                            sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
-
-        //                                        }
-
-        //                                        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
-        //                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
-        //                                        System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
-        //                                    }
-        //                                }
-        //                                //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
-        //                                //string ThumbnailPath = fileCompleteAddress;
-        //                                //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
-        //                                //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
-        //                            }
-
-        //                        }
-        //                    }
-        //                }
-        //                else // case of uplaod images
-        //                {
-        //                    List<tbl_item_attachments> ListOfAttachments = Web2Print.BLL.ProductManager.GetItemAttactchments(ItemID);
-
-        //                    string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
-        //                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
-        //                    string fileSourcePath = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
-
-        //                    if (!System.IO.Directory.Exists(virtualFolderPth))
-        //                    {
-        //                        System.IO.Directory.CreateDirectory(virtualFolderPth);
-        //                    }
-        //                    if (!System.IO.Directory.Exists(fileSourcePath))
-        //                    {
-        //                        System.IO.Directory.CreateDirectory(fileSourcePath);
-        //                    }
-
-        //                    foreach (var oPage in ListOfAttachments)
-        //                    {
-        //                        string fileName = oPage.FileName;
-        //                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
-        //                        string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName);
-        //                        System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
-
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-
-        //        return true;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //return false;
-        //        throw ex;
-        //    }
+        //    return itemAttactchments;
         //}
+
     }
 
 
