@@ -1474,7 +1474,7 @@
                                                                     <div class="col-lg-12" style="padding:0px;">
                                                                         <div class="col-xs-6" style="padding:0px;">
                                                                             <a style="margin-top:5px;" class="btn btn-primary" data-bind="click: $root.onAddVideo">
-                                                                               Add Video
+                                                                                Add Video
                                                                             </a>
                                                                         </div>
                                                                     </div>
@@ -1752,8 +1752,9 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtProductName" class="control-label text-right tooltip-float">Default Width (Including Bleed)</label>
-
+                                                <div class="col-lg-9">
+                                                    <label for="txtProductName" class="control-label text-right tooltip-float">Default Width (Including Bleed)</label>
+                                                </div>
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtTempWidth" data-bind="value: pdfTemplateWidth" placeholder="Enter Width">
@@ -1772,8 +1773,9 @@
                                                     </a>
 
                                                 </div>
-                                                <label for="txtProductName" class="control-label text-right">Default Height (Including Bleed)</label>
-
+                                                <div class="col-lg-9">
+                                                    <label for="txtProductName" class="control-label text-right">Default Height (Including Bleed)</label>
+                                                </div>
                                             </div>
                                             <div class="col-lg-2">
                                                 <input type="text" class="form-control" id="txtHeight" data-bind="value: pdfTemplateHeight" placeholder="Enter Height">
@@ -1785,22 +1787,22 @@
                                         </div>
                                         @* Will work on this later *@
                                         @*<div class="form-group">
-                                            <div class="col-lg-3 text-right">
+                                                <div class="col-lg-3 text-right">
 
-                                                <label class="control-label text-right" for="switchSecondaryPages">Can end user customize template size</label>
+                                                    <label class="control-label text-right" for="switchSecondaryPages">Can end user customize template size</label>
 
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <div class="onoffswitch">
-                                                    <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchVDP" checked>
-                                                    <label class="onoffswitch-label" for="switchVDP">
-                                                        <div class="onoffswitch-inner"></div>
-                                                        <div class="onoffswitch-switch"></div>
-                                                    </label>
                                                 </div>
-                                                <span class="help-block text-right"></span>
-                                            </div>
-                                        </div>*@
+                                                <div class="col-lg-6">
+                                                    <div class="onoffswitch">
+                                                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="switchVDP" checked>
+                                                        <label class="onoffswitch-label" for="switchVDP">
+                                                            <div class="onoffswitch-inner"></div>
+                                                            <div class="onoffswitch-switch"></div>
+                                                        </label>
+                                                    </div>
+                                                    <span class="help-block text-right"></span>
+                                                </div>
+                                            </div>*@
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
 
@@ -1901,10 +1903,10 @@
                                                     <select class="form-control" data-bind="options: $root.availableCategoriesForTemplate, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: $root.selectedDesignerCategory"></select>
                                                 </div>
                                             </div>
-                                          
+
 
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <div class="col-lg-3 text-right">
                                                 <div class="bs-example-tooltips tooltip-float-width">
@@ -2526,7 +2528,7 @@
     @* Item Addon Cost Centre Template *@
     <script id="itemAddonCostCentreTemplate" type="text/html">
         <tr>
-            <td >
+            <td>
                 <a style="cursor: pointer;" data-bind="text: costCentreName, click: $parents[1].onEditItemCostCentre.bind($parent, $parent, $data)"></a>
             </td>
             <td data-bind="text: costCentreType"></td>
