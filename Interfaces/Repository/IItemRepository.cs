@@ -160,7 +160,5 @@ namespace MPC.Interfaces.Repository
         void DeleteItemBySP(long ItemID);
 
         long getParentTemplateID(long itemId);
-
-        bool UpdateItem(long itemID, long? templateID);
     }
 }

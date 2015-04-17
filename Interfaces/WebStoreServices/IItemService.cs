@@ -194,13 +194,5 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="itemID"></param>
         /// <returns></returns>
         long GetCategoryIdByItemId(long ItemId);
-
-        List<ArtWorkAttatchment> GetItemAttactchmentsForRegenerateTemplateAttachments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType);
-
-        ItemAttachment PopulueTblItemAttachment(long itemID, long customerID, long? contactId, string fileTitle, string fileName, UploadFileTypes type, string fileExtention, string folderPath);
-
-        bool UpdateItem(long itemID, long? templateID);
-
-        List<ItemAttachment> GetItemAttactchments(long itemID);
     }
 }

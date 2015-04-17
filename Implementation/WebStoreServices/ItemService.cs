@@ -1067,24 +1067,5 @@ namespace MPC.Implementation.WebStoreServices
             return _ProductCategoryItemRepository.GetCategoryId(ItemId) ?? 0;
           
         }
-        public List<ArtWorkAttatchment> GetItemAttactchmentsForRegenerateTemplateAttachments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType)
-        {
-            return _itemAtachement.GetItemAttactchmentsForRegenerateTemplateAttachments(itemID,fileExtionsion,uploadedFileType);
-        }
-
-        public ItemAttachment PopulueTblItemAttachment(long itemID, long customerID, long? contactId, string fileTitle, string fileName, UploadFileTypes type, string fileExtention, string folderPath)
-        {
-            return _itemAtachement.PopulueTblItemAttachment(itemID, customerID, contactId, fileTitle, fileName, type, fileExtention, folderPath);
-        }
-
-        public bool UpdateItem(long itemID, long? templateID)
-        {
-            return _ItemRepository.UpdateItem(itemID, templateID);
-        }
-
-        public List<ItemAttachment> GetItemAttactchments(long itemID)
-        {
-            return _itemAtachement.GetItemAttactchments(itemID);
-        }
     }
 }
