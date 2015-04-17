@@ -34,7 +34,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Type = source.Type,
                 Description = source.Description,
-                TypeName = source.CostCentreType != null ? source.CostCentreType.TypeName : string.Empty,
+                TypeName = source.TypeName!=null?source.TypeName:source.CostCentreType != null ? source.CostCentreType.TypeName : string.Empty,
                 CalculationMethodType = source.CalculationMethodType,
                 ItemDescription = source.ItemDescription,
                 CreatedBy = source.CreatedBy,
@@ -124,6 +124,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 DeliveryServiceType= source.DeliveryServiceType,
                 CarrierId=source.CarrierId,
                 ImageBytes = source.ImageBytes,
+                IsParsed = source.IsParsed,
                 CostcentreResources = source.CostcentreResources != null ? source.CostcentreResources.Select(x => x.CreateFrom()).ToList() : null,
                 CostcentreInstructions = source.CostcentreInstructions != null? source.CostcentreInstructions.Select(x => x.CreateFrom()).ToList() : null,
                 FixedVariables = CostCenterVariables(source)

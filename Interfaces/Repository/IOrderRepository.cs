@@ -103,5 +103,14 @@ namespace MPC.Interfaces.Repository
 
         string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
-       }
+        /// <summary>
+        /// Get Estimates For Item Job Status
+        /// </summary>
+        IEnumerable<Estimate> GetEstimatesForItemJobStatus();
+        /// <summary>
+        /// check cookie order is the real login customer order
+        /// </summary>
+        bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
+
+    }
 }

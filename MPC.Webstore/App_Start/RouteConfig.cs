@@ -330,8 +330,8 @@ namespace MPC.Webstore
            );
               routes.MapRoute(
             "ReceiptPlain",
-            "ReceiptPlain/{OrderId}/{StoreId}",
-            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional }
+            "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
          );
             routes.MapRoute(
                "Default", // Route name

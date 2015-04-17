@@ -1220,6 +1220,83 @@
 
     }
 
+    var StockItemVariable = function (item) {
+        var self
+            if (item != null && item != undefined) {
+                Id = ko.observable(item.id),
+                StockName = ko.observable(item.name)
+            } else {
+                Id = ko.observable(),
+                StockName = ko.observable()
+            }
+           
+            CostType = ko.observable(),
+            quantityValue = ko.observable(),
+            QuantityType = ko.observable(),
+            variableValue = ko.observable(),
+            questionValue = ko.observable(),
+            // SystemVariable = ko.observable(),
+           // QuantityQuestion = ko.observable(),
+          Value = ko.computed(function () {
+              if (QuantityType() == "qty") {
+                  return quantityValue();
+              }else if (QuantityType() == "variable") {
+                  return variableValue();
+              }else if (QuantityType() == "question") {
+                  return questionValue();
+              } else {
+                  return 0;
+              }
+               
+          }, this),
+            VariableString = ko.computed(function () {
+                return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
+            }, this),
+           
+   
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+         
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id: Id,
+            StockName: StockName,
+            CostType: CostType,
+            quantityValue: quantityValue,
+            QuantityType: QuantityType,
+            variableValue: variableValue,
+            questionValue: questionValue,
+            Value: Value,
+            VariableString:VariableString,
+           // SystemVariable: SystemVariable,
+            //QuantityQuestion:QuantityQuestion,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+
+        };
+        return self;
+
+    }
+
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
@@ -1235,6 +1312,7 @@
         MatrixDetail: MatrixDetail,
         MatrixVariableClientMapper: MatrixVariableClientMapper,
         MatrixDetailClientMapper: MatrixDetailClientMapper,
-        MatrixVariableServerMapper: MatrixVariableServerMapper
+        MatrixVariableServerMapper: MatrixVariableServerMapper,
+        StockItemVariable: StockItemVariable
     };
 });

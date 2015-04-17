@@ -3,30 +3,37 @@
     <link href="@Href("~/Content/NewBootstrapClass.css")" rel="stylesheet" type="text/css" />
     @*<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>*@
     @*<link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="screen" />
-    <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.pack.js"></script>
-    <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.js"></script>*@
+        <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.pack.js"></script>
+        <script type="text/javascript" src="/LightBox/Js/jquery.fancybox.js"></script>*@
 
-    
+
     <link href="/LightBox/Css/jquery.fancybox.css" rel="stylesheet" type="text/css" media="Screen" />
 </head>
+@{
+    var bundle = System.Web.Optimization.BundleTable.Bundles.GetRegisteredBundles()
+        .Where(b => b.Path == "~/pageSpecific")
+        .First();
 
+    bundle.Include(
+                   "~/LightBox/Js/jquery-1.10.1.min.js", "~/LightBox/Js/jquery.fancybox.pack.js", "~/LightBox/Js/jquery.fancybox.js");
+}
 @model MPC.Webstore.ViewModels.SearchOrderViewModel
 @using MPC.Webstore.WebGridExtension;
 @using MPC.Webstore.Common;
 @using MPC.Models.Common;
 @{
 
-    
-    var grid = new WebGrid(source: ViewBag.OrderList,canSort:false, rowsPerPage: 15);
-    
+
+    var grid = new WebGrid(source: ViewBag.OrderList, canSort: false, rowsPerPage: 15);
+
     grid.Pager(WebGridPagerModes.NextPrevious);
 }
 @{
-    
-    
-   // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
+
+
+    // bool PAgeheader=Convert.ToBoolean(TempData["HeaderStatus"]);
     string Result = ViewBag.res;
-    
+
 }
 
 <div class="content_area container">
@@ -49,83 +56,81 @@
         <div>
             <div class="Width100Percent">
                 <div class="divSearchBar paddingBottom10px normalTextStyle rounded_corners">
-                  
+
                     <div>
-@using (Html.BeginForm())
-{
-                        <table border="0" cellpadding="5" cellspacing="5" class="cntFilteringCritariaRight">
-                            <tr>
-                                <td>
-                                   
-                                </td>
-                                <td>
+                        @using (Html.BeginForm())
+                        {
+                            <div class="cntFilteringCritariaRight">
+                                <div class="col-lg-1 col-md-1 col-xs-1">
+
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
                                     <span id="spntdfromdate" class="heading_h8">From Date</span>
-                                </td>
-                                <td>
-                                    <span id="spntodate"class="heading_h8">To Date</span>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
+                                    <span id="spntodate" class="heading_h8">To Date</span>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
                                     <span id="spntdorderref" class="heading_h8">Order Ref</span>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
                                     <span id="spntdorderstatus" class="heading_h8">Status</span>
-                                </td>
-                                <td>
-                                    <span id="spcClientStatus"  class="heading_h8"  style="visibility:hidden;">Client Status</span>
-                                </td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
+                                    <span id="spcClientStatus" class="heading_h8" style="visibility:hidden;">Client Status</span>
+                                </div>
+                                <div class="col-lg-2 col-xs-2">
+                                    &nbsp;
+                                </div>
+                                <div class="clearBoth">
+
+                                </div>
+                                <div class="col-lg-1 col-md-1 col-xs-1">
                                     <span id="HistryBtn" class="ltrlSearchOrder">Search Orders</span>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
                                     @Html.TextBoxFor(model => model.FromData, new { id = "txtFromDate", @class = "text_box150 rounded_corners5", placeholder = "From Date", maxlength = 500, @readonly = "readonly" })
-                                </td>
-                                <td>
-                                  @Html.TextBoxFor(model=>model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = "To Date", maxlength = 500, @readonly = "readonly" })
-                                </td>
-                                <td>
-
-                                    @Html.TextBoxFor(model=>model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
-                              </td>
-                                <td>
-
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
+                                    @Html.TextBoxFor(model => model.ToDate, new { id = "txtToDate", @class = "text_box150 rounded_corners5", placeholder = "To Date", maxlength = 500, @readonly = "readonly" })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
+                                    @Html.TextBoxFor(model => model.poSearch, new { id = "txtOrderRefrence", @class = "text_box150 rounded_corners5", placeholder = "PO Search", maxlength = 500 })
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-xs-2">
                                     @Html.DropDownListFor(model => model.SelectedOrder, (IEnumerable<SelectListItem>)@Model.DDOderStatus, "All", new { @class = "dropdown rounded_corners5", @id = "DDOderStatus" })
+                                </div>
+                                <div class="search-order-Go" style="">
+                                    <input type="submit" value="Go" id="btnSearchOrders" class="order_history_btn rounded_corners5" />
+                                </div>
+                                <div class="search-order-clear" style="">
+                                    <input type="button" id="btnClear" class="order_history_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
+                                </div>
+                                <div class="clearBoth">
 
-                                </td>
-                                <td>
-                                    <input type="submit" value="Go" id="btnSearchOrders" class="start_creating_btn rounded_corners5" />
-                                </td>
-                                <td>
-                                 
-                                        <input type="button" id="btnClear" class="start_creating_btn rounded_corners5" onclick="ClearTextBoxes();" value="Clear" />
-                                   
-                                 
-                                </td>
-                            </tr>
-                        </table>
-}
+                                </div>
+                            </div>
+
+                        }
                     </div>
                 </div>
             </div>
             <div class="white_back_div rounded_corners">
                 <div class="PadingTop textAlignLeft">
-                    
+
                     <label id="lblTxtOfRest" class="matchingTxtclass"></label>
                 </div>
                 <div class="Pad1020">
                     <div class="Width100Percent">
                         <div class="paddingBottom10px normalTextStyle">
-                            <label id="lblMessage" >@TempData["Status"]</label>
+                            <label id="lblMessage">@TempData["Status"]</label>
                         </div>
                     </div>
-                    
-                    <div class="ProductOrderContainer">
-                       
 
-    @grid.Table(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
+                    <div class="ProductOrderContainer">
+
+
+                        @grid.Table(displayHeader: Convert.ToBoolean(TempData["HeaderStatus"]),
     htmlAttributes: new { id = "OrderGrid" },
     tableStyle: "WebGridTableStyle",
     fillEmptyRows: false,
@@ -144,17 +149,17 @@
 
       }</text>),
      grid.Column("View", format:@<text><button id="view" value="View" style="height: 23px; width: 23px;border:none; background: url('Content/Images/view-order.png');" class="rounded_corners" onclick="ViewOrder(@item.OrderID)" />
-     </text>),
-   
-   @*grid.Column("Download",format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp){*@
- 
-    
+    </text>),
+
+                        @*grid.Column("Download",format:@<text>@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp){*@
+
+
     grid.Column("Reorder", format:@<text><button id="view" value="Reorder" style="height: 23px; width: 24px; border:none; background: url('Content/Images/re-order.png');" class="rounded_corners" onclick="ReOrder(@item.OrderID)" />
-   </text>),
-    
+    </text>),
+
           }
-    
-    )
+
+                                )
                         @if (Convert.ToInt32(ViewBag.TotalOrder) > 15)
                         {
                             <div id="footerr" class="pagination pagination-small pagination-right">
@@ -171,70 +176,70 @@
     <br />
 </div>
 
-<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px; visibility:hidden">
+<div id="Vorder" class="popupInnerContainer rounded_corners" style="height: 530px; overflow-y:scroll; z-index:0; margin-top:10px;display:none;">
     <table border="0" width="100%" cellpadding="4" cellspacing="0" id="Mytable" style="background-color:#F6F6F7;">
         <tbody>
             <tr>
                 <td>
-                        <table border="0" cellpadding="3" cellspacing="0" width="100%">
-                            <tbody>
-                                <tr>
-                                    <td class="textAlignRight" style="width: 149px">
-                                        <span class="simpleTextBold" id="spnordernum">Order Number:</span>
-                                    </td>
-                                    <td class="textAlignLeft simpleText">
-                                       
-                                        <span id="OrderCode" class="txtBold"></span>
-                                    </td>
-                                    <td>
-                                        &nbsp;
-                                    </td>
-                                    <td class="textAlignRight">
-                                        <span class="simpleTextBold" id="spnorderstatus">Status:</span>
-                                 </td>
-                                    <td class="textAlignLeft simpleText" style="width: 200px">
-                                        
-                                        <span id="OrderStatus" class="txtBold clrOrderDetail"></span>
+                    <table border="0" cellpadding="3" cellspacing="0" width="100%">
+                        <tbody>
+                            <tr>
+                                <td class="textAlignRight" style="width: 149px">
+                                    <span class="simpleTextBold" id="spnordernum">Order Number:</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
 
-                                   </td>
-                                </tr>
-                                <tr>
-                                   <td class="textAlignRight">
-                                        <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
-                                    </td>
-                                    <td class="textAlignLeft simpleText">
-                                       
-                                        <span id="OrderDate" class="txtBold"></span>
-                                    </td>
-                                    <td>
-                                        &nbsp;
-                                    </td>
-                                    <td class="textAlignRight">
-                              <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
-                                 </td>
-                              <td class="textAlignLeft simpleText">
-                               @*<label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />*@
+                                    <span id="OrderCode" class="txtBold"></span>
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spnorderstatus">Status:</span>
+                                </td>
+                                <td class="textAlignLeft simpleText" style="width: 200px">
+
+                                    <span id="OrderStatus" class="txtBold clrOrderDetail"></span>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spnorderdate">Order Date:</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+
+                                    <span id="OrderDate" class="txtBold"></span>
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="spndileverydate">Delivery Date:</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+                                    @*<label id="lblOrderDeliveryStartDate" class="txtBold marginTopforDate" />*@
                                     <span id="OrderDeliveryDate" class="txtBold"></span>
-                                    </td>
+                                </td>
 
-                                   
-                                </tr>
-                                <tr>
-                                    <td class="textAlignRight">
-                                        <span class="simpleTextBold" id="Span1">Placed By:</span>
-                                    </td>
-                           <td class="textAlignLeft simpleText">
-                                        
-                                        <span id="OrderPlaceBy" class="txtBold"></span>
-                                    </td>
-                                    <td>
-                                        &nbsp;
-                                    </td>
-                                  
-                                </tr>
-                            </tbody>
-                        </table>
-                    
+
+                            </tr>
+                            <tr>
+                                <td class="textAlignRight">
+                                    <span class="simpleTextBold" id="Span1">Placed By:</span>
+                                </td>
+                                <td class="textAlignLeft simpleText">
+
+                                    <span id="OrderPlaceBy" class="txtBold"></span>
+                                </td>
+                                <td>
+                                    &nbsp;
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </td>
             </tr>
             <tr>
@@ -242,11 +247,11 @@
                     <div class="cntPLOrderDetails">
 
                         <div id="GridTable"></div>
-                     
+
                     </div>
                 </td>
             </tr>
-           
+
         </tbody>
     </table>
     <br />
@@ -255,13 +260,13 @@
     <table width="99%">
         <tbody>
             <tr id="PnalTotalBox">
-                <td align="left">
+                <td align="left" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140 margnLft">
                         <div class="product_detail_sup_padding" style="width:50%;float:left;">
                             <table border="0" cellpadding="2" cellspacing="0" width="100%">
                                 <thead>
                                     <tr>
-                                       
+
                                         <th>
                                             <label id="lblMainControlHeading" class="heading_small">Billing Address:</label>
                                         </th>
@@ -275,9 +280,7 @@
                                         <td style="width: 33%">
                                             <span id="BillingAddressName"></span>
                                         </td>
-                                        <td style="width: 67%">
-                                            
-                                        </td>
+                                        <td style="width: 67%"></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -320,9 +323,7 @@
                                             @*<span id="ltrlzipcodeP">Zip Code / Post Code:</span>*@
                                             <span id="BillingAddressPostCode"></span>
                                         </td>
-                                        <td>
-                                            
-                                        </td>
+                                        <td></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -435,8 +436,11 @@
                             </table>
 
                         </div>
+                        <div class="clearBoth">
+
+                        </div>
                     </div>
-                   
+
                     <div class="clearBoth">
 
                     </div>
@@ -444,7 +448,7 @@
                 <td>
                     &nbsp;
                 </td>
-                <td align="right">
+                <td align="right" valign="top">
                     <div class="whitebackground textAlignLeft rounded_corners BillShipAddressesControl simpleText height-140">
                         <div class="padding10">
                             <table border="0" cellpadding="3" cellspacing="0" width="200px">
@@ -491,44 +495,41 @@
         </tbody>
     </table>
 </div>
-  @section scripts{
+@section scripts{
     <script type="text/javascript">
         //var $=jQuery.noConflict();
-   
+
         $(document).ready(function () {
-           
+
             $("#txtFromDate").datepicker();
             $("#txtToDate").datepicker();
             $(".fancybox").fancybox();
         });
 
-   
-        function ClearTextBoxes()
-        {
+
+        function ClearTextBoxes() {
             $("#txtFromDate").val("");
             $("#txtToDate").val("");
             $("#txtOrderRefrence").val("");
 
         }
-        function ReOrder(orderId)
-        {
+        function ReOrder(orderId) {
             ShowLoader();
-            var d={ OrderId: orderId }
+            var d = { OrderId: orderId }
             $.ajax({
                 type: "POST",
                 url: "/ProductOrderHistory/OrderResult",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify(d),
                 success: function (response) {
-                 
+
                     createCookie("WEBOrderId", response);
                     window.location.href = "/ShopCart";
                 }
             });
         }
 
-        function DownLoad(orderId)
-        {
+        function DownLoad(orderId) {
             $.ajax({
                 type: "POST",
                 url: "/ProductOrderHistory/DownLoadArtWork",
@@ -538,8 +539,8 @@
                 success: function (response) {
                 }
             });
-        
-        
+
+
         }
 
         function ViewOrder(orderId) {
@@ -551,7 +552,7 @@
                 data: { orderID: orderId },
                 async: true,
                 success: function (response) {
-                    
+
                     $("#Grandtotal").text(response.GrossTotal);
                     $("#subtotal").text(response.SubTotal);
                     $("#Vat").text(response.VAT);
@@ -567,7 +568,7 @@
                         $("#BillingAddressline1").text(response.billingAddress.Address1);
                     }
                     if (response.billingAddress.Address2 == null) {
-                       
+
                         $("#BillingAddressline2").text('');
                     }
                     else { $("#BillingAddressline2").text(response.billingAddress.Address2); }
@@ -577,19 +578,17 @@
                     //}
                     $("#BillingAddressCity").text(response.billingAddress.City);
                     // if ((response.billingAddress.State) != null) {
-                  
-                    if (response.BillingState != '')
-                    { 
+
+                    if (response.BillingState != '') {
                         $("#BillingAddressState").text(response.BillingState);
                     }
                     //}
-                   // if (response.billingAddress.Country!= null)
+                    // if (response.billingAddress.Country!= null)
                     //{
-                    if (response.BillingCountry!= '')
-                    {
+                    if (response.BillingCountry != '') {
                         $("#BillingAddressCountryName").text(response.BillingCountry);
                     }
-                   
+
                     //}
                     $("#BillingAddressPostCode").text(response.billingAddress.PostCode);
 
@@ -597,69 +596,64 @@
 
                     $("#DeliveryAddressName").text(response.shippingAddress.AddressName);
 
-                    if (response.shippingAddress.Address1 == null)
-                    {
+                    if (response.shippingAddress.Address1 == null) {
                         $("#DeliveryAddressline1").text('');
                     }
-                    else
-                    {
+                    else {
                         $("#DeliveryAddressline1").text(response.shippingAddress.Address1);
                     }
-                    
-                    if (response.shippingAddress.Address2 == null)
-                    {
+
+                    if (response.shippingAddress.Address2 == null) {
                         $("#DeliveryAddressline2").text('');
                     }
-                    else
-                    {
+                    else {
                         $("#DeliveryAddressline2").text(response.shippingAddress.Address2);
                     }
-                    
+
                     $("#DeliveryAddressCity").text(response.shippingAddress.City);
                     //  if (response.shippingAddress.State != null) {
                     if (response.ShippingState != '') {
                         $("#DeliveryAddressState").text(response.ShippingState);
                     }
-                   
-                    
-                    
+
+
+
                     $("#DeliveryAddressPost").text(response.shippingAddress.PostCode)
                     if (response.ShippingCountry != '') {
                         $("#DeliveryAddressCountryName").text(response.ShippingCountry);
                     }
-                   
+
                     $("#DeliveryAddressContactNo").text(response.shippingAddress.ContactMobile)
                     var GridItems = response.order.OrderDetails.CartItemsList;
                     var InnerHtml = "<table cellspacing='10' cellpadding='7' style='width:100%;'><thead><tr class='gridViewRowStyleForViewOrderHeader'><th></th><th>Product Description</th><th>Quantity</th><th>Price</th><th>VAT</th><th>Total</th></tr></thead>";
                     $.each(GridItems, function (i, IT) {
-                    {
-                        //InnerHtml += '<tr>';
-                        
-                        InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href='+ IT.ImagePath +'><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
-                                                    //'<td><img src=' + IT.ImagePath + ' /></td>' +
-                                                    //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
-                                                    //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
-                                                    //  alert(IT.Qty1);
-                                                    // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
-                                                    //  alert(IT.Qty1BaseCharge1);
-                                                    // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
-                                                    // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
-                        //+'</tr>'
-                    } 
+                        {
+                            //InnerHtml += '<tr>';
+
+                            InnerHtml = InnerHtml.concat('<tr class="gridViewRowStyle"><td><div class="gallery"><a class="fancybox" rel="chimps" href=' + IT.ImagePath + '><img class="imgArtWorkIcon" src="/Content/Images/art.png"/></a></div></td> <td><label id="Productname">', IT.ProductName, '</label></td> <td><label id="Qty">', IT.Qty1, '</label></td> <td><label id="Price">', response.CurrencySymbol + "" + parseFloat(IT.Qty1BaseCharge1).toFixed(2), '</label></td> <td><label id="VAT">', response.CurrencySymbol + "" + parseFloat(IT.Qty1Tax1Value).toFixed(2), '</label></td><td><label id="Total">', response.CurrencySymbol + "" + parseFloat(IT.Qty1GrossTotal).toFixed(2), '</label></td></tr>')
+                            //'<td><img src=' + IT.ImagePath + ' /></td>' +
+                            //'<td><label id="Productname">' + IT.ProductName + '</label></td>' +
+                            //'<td><label id="Qty">' + IT.Qty1 + '</label></td>' +
+                            //  alert(IT.Qty1);
+                            // '<td><label id="Price">'+ IT.Qty1BaseCharge1+'</label></td>' +
+                            //  alert(IT.Qty1BaseCharge1);
+                            // '<td><label id="VAT">' + IT.Qty1Tax1Value + '</label></td>' +
+                            // '<td><label id="Total">' + IT.Qty1GrossTotal + '</label></td>'
+                            //+'</tr>'
+                        }
                     });
                     InnerHtml += '</table>';
                     $("#GridTable").html(InnerHtml);
                     var panelHtml = $("#Vorder").html();
-                    
+
                     ViewOrderPopUp("View Order", panelHtml);
                 }
 
             });
 
         }
-        function ShowImage(ImagePath)
-        {
-            alert('dssad');
+        function ShowImage(ImagePath) {
+           
         }
         function createCookie(name, value, days) {
             if (days) {
@@ -671,5 +665,5 @@
             document.cookie = name + "=" + value + expires + "; path=/";
         }
     </script>
-  }
-    
+}
+

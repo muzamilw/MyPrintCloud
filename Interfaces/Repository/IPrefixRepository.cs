@@ -8,10 +8,16 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IPrefixRepository : IBaseRepository<Prefix, long>
     {
+
+        /// <summary>
+        /// Get Prefixed Next Order Code
+        /// </summary>
+        string GetNextOrderCodePrefix();
+
         /// <summary>
         /// Get Prefixed Next Item Code
         /// </summary>
-        string GetNextItemCodePrefix();
+        string GetNextItemCodePrefix(bool shouldIncrementNextItem = true);
 
         Prefix GetDefaultPrefix();
 

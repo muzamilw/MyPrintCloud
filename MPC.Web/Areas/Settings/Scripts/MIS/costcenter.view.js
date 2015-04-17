@@ -10,6 +10,20 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#CostCentersBinding")[0],
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    $('.bs-example-tooltips a').click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide'); //all but this
+                    });
+                    $("a").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                    $("button").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+
+                },
                 productCategorySelectedEvent = function (category) {
                     $.event.trigger({
                         type: "ProductCategorySelected",
@@ -42,6 +56,15 @@
                         menuSelector: "#contextMenuMatrix"
                     });
                 },
+                showCostCentreStockDialog = function () {
+                    $("#CostCentreStockModal").modal("show");
+                    //   initializeLabelPopovers();
+                },
+                  hideCostCentreStockDialog = function () {
+                      $("#CostCentreStockModal").modal("hide");
+
+                  },
+                
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -62,7 +85,10 @@
                 showAddEditQuestionMenu: showAddEditQuestionMenu,
                 showCostCentreMatrixDialog: showCostCentreMatrixDialog,
                 hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
-                showAddEditMatrixMenu: showAddEditMatrixMenu
+                showAddEditMatrixMenu: showAddEditMatrixMenu,
+                showCostCentreStockDialog: showCostCentreStockDialog,
+                hideCostCentreStockDialog: hideCostCentreStockDialog,
+                initializeLabelPopovers: initializeLabelPopovers
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

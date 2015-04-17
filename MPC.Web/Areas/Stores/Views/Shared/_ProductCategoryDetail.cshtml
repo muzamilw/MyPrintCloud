@@ -460,22 +460,9 @@
                                                     <label class="control-label text-right tooltip-float">Default Sort By</label>
 
                                                 </div>
-                                                <div class="col-lg-6" data-bind="value: defaultSortBy">
-                                                    <select class="form-control">
-                                                        <option>Select</option>
-                                                        <option>Price Low to High</option>
-                                                        <option>Price Hight to Low</option>
-                                                        <option>Most Popular</option>
-                                                        <option>Title</option>
-                                                        <option>Manufacturer</option>
-                                                        <option>Availabilty</option>
-                                                        <option>Newest</option>
-                                                        <option>Oldest</option>
-                                                    </select>
-
-                                                    <span class="help-block text-right"></span>
+                                                <div class="col-lg-6">
+                                                    <select class="form-control" data-bind="options: $root.defaultSortBy, optionsText: 'name', optionsValue: 'id',value:defaultSortBy"></select>
                                                 </div>
-
                                             </div>
 
                                             <div class="form-group">

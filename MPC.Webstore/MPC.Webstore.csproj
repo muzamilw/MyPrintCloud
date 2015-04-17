@@ -390,6 +390,7 @@
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
     <Compile Include="Controllers\PromotionalProductController.cs" />
+    <Compile Include="Controllers\QuickCalculatorController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
@@ -895,6 +896,7 @@
     <Content Include="Views\Shared\PartialViews\PromotionalProduct.cshtml" />
     <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -906,6 +908,7 @@
     <Folder Include="Views\PopularProducts\" />
     <Folder Include="Views\PromotionalProduct\" />
     <Folder Include="Views\Promotional\" />
+    <Folder Include="Views\QuickCalculator\" />
     <Folder Include="Views\RSS\" />
     <Folder Include="Views\Twitter\" />
   </ItemGroup>

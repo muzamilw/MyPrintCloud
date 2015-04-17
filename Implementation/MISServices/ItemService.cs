@@ -58,6 +58,23 @@ namespace MPC.Implementation.MISServices
         private readonly IOrganisationRepository organizationRepository;
         private readonly ISmartFormRepository smartFormRepository;
         private readonly ILengthConversionService lengthConversionService;
+        private readonly ITemplateObjectRepository templateObjectRepository;
+
+        /// <summary>
+        /// Delete Template Object
+        /// </summary>
+        private void DeleteTemplateObject(List<TemplatePage> templatePages)
+        {
+            // Return if no template pages
+            if (templatePages.Count == 0)
+            {
+                return;
+            }
+
+            List<TemplateObject> templateObjects = 
+                templateObjectRepository.GetByTemplatePages(templatePages.Select(tp => (long?)tp.ProductPageId).ToList()).ToList();
+            templateObjects.ForEach(tempObj => templateObjectRepository.Delete(tempObj));
+        }
 
         /// <summary>
         /// Create Item Vdp Price
@@ -740,6 +757,12 @@ namespace MPC.Implementation.MISServices
                         // Save Template Pdf
                         var mapPath = SavePdfForPreBuiltTemplate(itemTarget);
 
+                        // Return if edit case and no changes made to template type
+                        if (string.IsNullOrEmpty(itemTarget.Template.FileSource))
+                        {
+                            return;
+                        }
+
                         // Genereates Template Pages from Pdf supplied
                         GenerateTemplatePagesFromPdf(itemTarget, mapPath, organisationId, templateTypeMode);
                     }
@@ -785,10 +808,10 @@ namespace MPC.Implementation.MISServices
                     1, template.TemplatePages.ToList(),
                     organisationId);
             }
-            catch (Exception)
+            catch (Exception exp)
             {
                 throw new MPCException(
-                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages,
+                    "Saved Successfully but " + LanguageResources.ItemService_FailedToGeneratePdfFromPages + ". " + exp.Message,
                     organisationId);
             }
         }
@@ -1669,7 +1692,7 @@ namespace MPC.Implementation.MISServices
             IProductCategoryRepository productCategoryRepository, ITemplatePageService templatePageService, ITemplateService templateService,
             IMachineRepository machineRepository, IPaperSizeRepository paperSizeRepository, IItemSectionRepository itemSectionRepository,
             IItemImageRepository itemImageRepository, IOrganisationRepository organizationRepository, ISmartFormRepository smartFormRepository,
-            ILengthConversionService lengthConversionService)
+            ILengthConversionService lengthConversionService, ITemplateObjectRepository templateObjectRepository)
         {
             if (itemRepository == null)
             {
@@ -1791,10 +1814,15 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("lengthConversionService");
             }
+            if (templateObjectRepository == null)
+            {
+                throw new ArgumentNullException("templateObjectRepository");
+            }
 
             this.organizationRepository = organizationRepository;
             this.smartFormRepository = smartFormRepository;
             this.lengthConversionService = lengthConversionService;
+            this.templateObjectRepository = templateObjectRepository;
             this.itemRepository = itemRepository;
             this.itemsListViewRepository = itemsListViewRepository;
             this.itemVdpPriceRepository = itemVdpPriceRepository;
@@ -1977,7 +2005,8 @@ namespace MPC.Implementation.MISServices
                 SetDefaultsForItemSection = SetNonPrintItemSection,
                 DeleteItemSection = DeleteItemSection,
                 CreateItemImage = CreateItemImage,
-                DeleteItemImage = DeleteItemImage
+                DeleteItemImage = DeleteItemImage,
+                DeleteTemplateObject = DeleteTemplateObject
             });
 
             // Save Changes

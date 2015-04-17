@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get Estimates
+                    amplify.request.define('getEstimates', 'ajax', {
+                        url: ist.siteUrl + '/Api/Estimate',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to delete Order
                     amplify.request.define('deleteOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
@@ -85,6 +92,12 @@ define("order/order.dataservice", function () {
                     // Define request to get cost centers By CompanyId
                     amplify.request.define('getCostCentersByCompanyId', 'ajax', {
                         url: ist.siteUrl + '/Api/CompanyCostCenters',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to get cost centers for product dialog
+                    amplify.request.define('getCostCentersForProduct', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCostCenter',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -161,6 +174,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrders',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
+            //get Estimates
+            getEstimates = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getEstimates',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error
@@ -292,11 +315,22 @@ define("order/order.dataservice", function () {
                 error: callbacks.error,
                 data: params
             });
+        },
+        // get Cost centres for company
+        getCostCentersForProduct = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersForProduct',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
         };
 
         return {
             getOrder: getOrder,
             getOrders: getOrders,
+            getEstimates: getEstimates,
             saveOrder: saveOrder,
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,
@@ -304,6 +338,7 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
+            getCostCentersForProduct: getCostCentersForProduct,
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,

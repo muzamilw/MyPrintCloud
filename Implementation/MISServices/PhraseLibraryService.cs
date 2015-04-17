@@ -83,6 +83,7 @@ namespace MPC.Implementation.MISServices
                                     if (phraseFieldItem != null)
                                     {
                                         phraseFieldDbItem.FieldName = phraseFieldItem.FieldName;
+                                        phraseFieldDbItem.OrganisationId = sectionRepository.OrganisationId;
                                     }
                                 }
                             }
@@ -115,6 +116,7 @@ namespace MPC.Implementation.MISServices
                                             //Update 
                                             if (phraseDbeVersionItem != null && !phraseItem.IsDeleted)
                                             {
+                                                phraseDbeVersionItem.OrganisationId = sectionRepository.OrganisationId;
                                                 phraseDbeVersionItem.Phrase1 = phraseItem.Phrase1;
                                             }
                                             else
@@ -131,13 +133,14 @@ namespace MPC.Implementation.MISServices
                         }
                     }
                 }
-                sectionRepository.SaveChanges();
+                
                 foreach (var missingItem in missingPhraseListItems)
                 {
                     Phrase phrase = phraseRespository.Find(missingItem.PhraseId);
                     phraseRespository.Delete(phrase);
-                    phraseRespository.SaveChanges();
                 }
+
+                sectionRepository.SaveChanges();
             }
         }
 

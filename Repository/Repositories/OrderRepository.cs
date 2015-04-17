@@ -113,7 +113,7 @@ namespace MPC.Repository.Repositories
 
                 orderObject.StatusId = (short)OrderStatus.ShoppingCart;
 
-                orderObject.SectionFlagId = 145;
+                orderObject.SectionFlagId = db.SectionFlags.Where(s => s.OrganisationId == OrganisationId && s.SectionId == (int)OrderSectionFlag.UrgentOrder).FirstOrDefault().SectionFlagId;
 
                 orderObject.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
 
@@ -156,7 +156,7 @@ namespace MPC.Repository.Repositories
             {
                 long orderID = 0;
 
-                orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart);
+                orderID = GetOrderByContactID(ContactId, OrderStatus.ShoppingCart, CustomerId);
 
                 if (orderID == 0)
                 {
@@ -170,12 +170,12 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        private long GetOrderByContactID(long contactID, OrderStatus orderStatus)
+        private long GetOrderByContactID(long contactID, OrderStatus orderStatus, long CompanyId)
         {
             try
             {
                 int orderStatusID = (int)orderStatus;
-                List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
+                List<Estimate> ordesList = db.Estimates.Include("Items").Where(order => order.ContactId == contactID && order.CompanyId == CompanyId && order.StatusId == orderStatusID && order.isEstimate == false).Take(1).ToList();
                 if (ordesList.Count > 0)
                     return ordesList[0].EstimateId;
                 else
@@ -263,7 +263,7 @@ namespace MPC.Repository.Repositories
                     else
                         shopCart.BillingAddressID = 0;
                     shopCart.ShippingAddressID = tblOrder.AddressId;
-                  
+
                 }
 
             }
@@ -313,7 +313,7 @@ namespace MPC.Repository.Repositories
                 shopCart.DiscountVoucherID = (tblEstimate.DiscountVoucherID.HasValue && tblEstimate.DiscountVoucherID.Value > 0) ? tblEstimate.DiscountVoucherID.Value : 0;
                 shopCart.VoucherDiscountRate = (tblEstimate.VoucherDiscountRate.HasValue && tblEstimate.VoucherDiscountRate.Value > 0) ? tblEstimate.VoucherDiscountRate.Value : 0;
                 shopCart.DeliveryCostCenterID = (tblEstimate.DeliveryCostCenterId.HasValue && tblEstimate.DeliveryCostCenterId.Value > 0) ? tblEstimate.DeliveryCostCenterId.Value : 0;
-               // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
+                // shopCart.DeliveryCost = (tblEstimate.DeliveryCost.HasValue && tblEstimate.DeliveryCost.Value > 0) ? tblEstimate.DeliveryCost.Value : 0;
                 //5. get delivery item 
                 Item DeliveryItemOfOrder = GetDeliveryOrderItem(tblEstimate.EstimateId);
                 if (DeliveryItemOfOrder != null)
@@ -477,7 +477,7 @@ namespace MPC.Repository.Repositories
             ArtWorkAttatchment artWorkAttatchment = null;
             ItemAttachment tblItemAttchment = null;
 
-          
+
 
             if (tblItem.ItemAttachments != null && tblItem.ItemAttachments.Count > 0)
             {
@@ -501,10 +501,10 @@ namespace MPC.Repository.Repositories
                 }
 
             }
-            else 
+            else
             {
                 List<ItemAttachment> newlistAttach = db.ItemAttachments.Where(attatchment => attatchment.ItemId == tblItem.ItemId && string.Compare(attatchment.Type, UploadFileTypes.Artwork.ToString(), true) == 0).ToList();
-                if (newlistAttach != null && newlistAttach.Count > 0) 
+                if (newlistAttach != null && newlistAttach.Count > 0)
                 {
                     tblItemAttchment = newlistAttach[0];
 
@@ -523,7 +523,7 @@ namespace MPC.Repository.Repositories
                         artWorkAttatchment.UploadFileType = (UploadFileTypes)Enum.Parse(typeof(UploadFileTypes), tblItemAttchment.Type); //Model.UploadFileTypes.Artwork.ToString();
                     }
                 }
-             
+
             }
 
             artWorkAttatchment = artWorkAttatchment ?? new ArtWorkAttatchment();
@@ -553,10 +553,10 @@ namespace MPC.Repository.Repositories
                             {
                                 AddOnCostsCenter addonCostCenter = new AddOnCostsCenter
                                 {
-                                    AddOnName = sectCostCenter.CostCentre.Name,
+                                    AddOnName = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.Name : "",
                                     CostCenterID = (int)sectCostCenter.CostCentreId,
                                     ItemID = (int)tblItemFirstSection.ItemId,
-                                    EstimateProductionTime = sectCostCenter.CostCentre.EstimateProductionTime ?? 0
+                                    EstimateProductionTime = sectCostCenter.CostCentre != null ? sectCostCenter.CostCentre.EstimateProductionTime ?? 0 : 0
                                 };
 
                                 itemAddOnsList.Add(addonCostCenter); // cost center of particular item
@@ -2066,99 +2066,99 @@ namespace MPC.Repository.Repositories
             long OrderIdOfReorderItems = 0;
             //using (var dbContextTransaction = db.Database.BeginTransaction())
             //{
-                try
-                {
-                    ExistingOrder = db.Estimates.Where(estm => estm.EstimateId == ExistingOrderId).FirstOrDefault();
-                    //    transaction = DALUtility.BeginTransactionWithOpenCon(dbContext);
+            try
+            {
+                ExistingOrder = db.Estimates.Where(estm => estm.EstimateId == ExistingOrderId).FirstOrDefault();
+                //    transaction = DALUtility.BeginTransactionWithOpenCon(dbContext);
 
-                    if (ExistingOrder != null)
+                if (ExistingOrder != null)
+                {
+                    //productManager = new ProductManager();
+                    //  shopCartOrder = OrderManager.GetShoppingCartOrderByContactID(dbContext, loggedInContactID, OrderManager.OrderStatus.ShoppingCart);
+                    shopCartOrder = GetShoppingCartOrderByContactID(loggedInContactID, OrderStatus.ShoppingCart);
+                    //create a new cart
+                    if (shopCartOrder == null)
                     {
-                        //productManager = new ProductManager();
-                        //  shopCartOrder = OrderManager.GetShoppingCartOrderByContactID(dbContext, loggedInContactID, OrderManager.OrderStatus.ShoppingCart);
-                        shopCartOrder = GetShoppingCartOrderByContactID(loggedInContactID, OrderStatus.ShoppingCart);
-                        //create a new cart
-                        if (shopCartOrder == null)
+                        // shopCartOrder = Clone<db.Estimates>(ExistingOrder); // copying order header
+                        shopCartOrder = ExistingOrder;
+                        // shopCartOrder.EstimateId = 0;
+                        // Order status will be shopping cart
+                        shopCartOrder.StatusId = (int)OrderStatus.ShoppingCart;
+                        shopCartOrder.DeliveryCompletionTime = 0;
+                        shopCartOrder.DeliveryCost = 0;
+                        shopCartOrder.DeliveryCostCenterId = 0;
+                        shopCartOrder.StartDeliveryDate = null;
+                        Prefix prefix = _prefixrepository.GetDefaultPrefix();
+                        if (prefix != null)
                         {
-                            // shopCartOrder = Clone<db.Estimates>(ExistingOrder); // copying order header
-                            shopCartOrder = ExistingOrder;
-                           // shopCartOrder.EstimateId = 0;
-                            // Order status will be shopping cart
-                            shopCartOrder.StatusId = (int)OrderStatus.ShoppingCart;
-                            shopCartOrder.DeliveryCompletionTime = 0;
-                            shopCartOrder.DeliveryCost = 0;
-                            shopCartOrder.DeliveryCostCenterId = 0;
-                            shopCartOrder.StartDeliveryDate = null;
-                            Prefix prefix = _prefixrepository.GetDefaultPrefix();
-                            if (prefix != null)
-                            {
-                                shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
-                                prefix.OrderNext = prefix.OrderNext + 1;
-                            }
-                            shopCartOrder.Order_CompletionDate = null;
-                            shopCartOrder.Order_ConfirmationDate = null;
-                            shopCartOrder.Order_CreationDateTime = DateTime.Now;
-                            shopCartOrder.CustomerPO = null;
-
-                            db.Estimates.Add(shopCartOrder); //dbcontext added
-
-                            
-
-                            OrderIdOfReorderItems = shopCartOrder.EstimateId;
+                            shopCartOrder.Order_Code = prefix.OrderPrefix + "-001-" + prefix.OrderNext.ToString();
+                            prefix.OrderNext = prefix.OrderNext + 1;
                         }
-                        else
-                        {
-                            OrderIdOfReorderItems = shopCartOrder.EstimateId;
-                        }
-                        List<Item> esxistingOrderItems = db.Items.Where(i => i.EstimateId == ExistingOrderId && i.IsOrderedItem == true).ToList();
-                        //Clone items related to this order
-                        esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
-                        {
-                            Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
-                            ClonedItems.Add(item);
-                            CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now);
+                        shopCartOrder.Order_CompletionDate = null;
+                        shopCartOrder.Order_ConfirmationDate = null;
+                        shopCartOrder.Order_CreationDateTime = DateTime.Now;
+                        shopCartOrder.CustomerPO = null;
 
-                        });
+                        db.Estimates.Add(shopCartOrder); //dbcontext added
 
-                        if (ExistingOrder.DiscountVoucherID.HasValue && ExistingOrder.VoucherDiscountRate > 0)
-                        {
-                            if (RollBackDiscountedItemsWithdbContext(ClonedItems, StatTaxVal))
-                            {
-                                ExistingOrder.VoucherDiscountRate = null;
-                                ExistingOrder.DiscountVoucherID = null;
-                                shopCartOrder.VoucherDiscountRate = null;
-                                shopCartOrder.DiscountVoucherID = null;
-                            }
-                        }
-                        else if (isIncludeTax)// apply the new state Tax Value to the cloned item 
-                        {
-                            ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
-                        }
-                        result = true;
-                        db.SaveChanges();
+
+
+                        OrderIdOfReorderItems = shopCartOrder.EstimateId;
                     }
+                    else
+                    {
+                        OrderIdOfReorderItems = shopCartOrder.EstimateId;
+                    }
+                    List<Item> esxistingOrderItems = db.Items.Where(i => i.EstimateId == ExistingOrderId && i.IsOrderedItem == true).ToList();
+                    //Clone items related to this order
+                    esxistingOrderItems.Where(i => i.ItemType != Convert.ToInt32(ItemTypes.Delivery)).ToList().ForEach(orderITem =>
+                    {
+                        Item item = _ItemRepository.CloneReOrderItem(OrderIdOfReorderItems, orderITem.ItemId, loggedInContactID, shopCartOrder.Order_Code, OrganisationId);
+                        ClonedItems.Add(item);
+                        CopyAttachments(orderITem.ItemId, item, shopCartOrder.Order_Code, false, shopCartOrder.CreationDate ?? DateTime.Now);
+
+                    });
+
+                    if (ExistingOrder.DiscountVoucherID.HasValue && ExistingOrder.VoucherDiscountRate > 0)
+                    {
+                        if (RollBackDiscountedItemsWithdbContext(ClonedItems, StatTaxVal))
+                        {
+                            ExistingOrder.VoucherDiscountRate = null;
+                            ExistingOrder.DiscountVoucherID = null;
+                            shopCartOrder.VoucherDiscountRate = null;
+                            shopCartOrder.DiscountVoucherID = null;
+                        }
+                    }
+                    else if (isIncludeTax)// apply the new state Tax Value to the cloned item 
+                    {
+                        ApplyCurrentTax(ClonedItems, StatTaxVal, TaxID);
+                    }
+                    result = true;
+                    db.SaveChanges();
                 }
-                catch (Exception ex)
-                {
-                    // RollBackTransaction(transaction);
-                    //dbContextTransaction.Rollback();
-                    throw ex;
-                }
-                //finally
-                //{
-                //    if (result)
-                //    {
-                //        //result = DALUtility.CommitTransaction(transaction, dbContext);
-                //    }
-                //    else
-                //    {
-                //      //  DALUtility.RollBackTransaction(transaction, dbContext);
-                //    }
+            }
+            catch (Exception ex)
+            {
+                // RollBackTransaction(transaction);
+                //dbContextTransaction.Rollback();
+                throw ex;
+            }
+            //finally
+            //{
+            //    if (result)
+            //    {
+            //        //result = DALUtility.CommitTransaction(transaction, dbContext);
+            //    }
+            //    else
+            //    {
+            //      //  DALUtility.RollBackTransaction(transaction, dbContext);
+            //    }
 
 
-                //   // dbContext.Dispose();
-                //   // dbContext = null;
-                //}
-                return shopCartOrder.EstimateId;
+            //   // dbContext.Dispose();
+            //   // dbContext = null;
+            //}
+            return shopCartOrder.EstimateId;
             //}
         }
         public string GetTemplateAttachmentFileName(string ProductCode, string OrderCode, string ItemCode, string SideCode, string VirtualFolderPath, string extension, DateTime CreationDate)
@@ -2659,44 +2659,44 @@ namespace MPC.Repository.Repositories
                 return 0;
             }
         }
-        public  List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
+        public List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover)
         {
             List<Order> ordersList = null;
             int orderStatusID = (int)OrderStatus.PendingCorporateApprovel;
-                var query = from tblOrd in db.Estimates
-                            join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
-                            join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
-                            join tblContactCompany in db.Companies on tblContacts.CompanyId equals tblContactCompany.CompanyId
-                            orderby tblOrd.Order_Date descending
-                            where tblOrd.ContactId == (isApprover ? tblOrd.ContactId : contactUserID)   // only that specifc user
-                            && tblOrd.isEstimate == false
-                            && tblStatuses.StatusType == 2 //The status type should be 2 only for orders                            
-                            && tblOrd.StatusId == orderStatusID // only pending approvel
-                            && tblContactCompany.IsCustomer == (int)CustomerTypes.Corporate
-                            select new Order()
-                            {
-                                OrderID = tblOrd.EstimateId,
-                                OrderCode = tblOrd.Order_Code,
-                                ProductName = tblOrd.Estimate_Name,
-                                StatusID = tblOrd.StatusId,
-                                StatusName = tblStatuses.StatusName,
-                                StatusTypeID = tblStatuses.StatusType,
-                                ContactUserID = tblOrd.ContactId,
-                                CustomerID = tblOrd.CompanyId,
-                                OrderDate = tblOrd.Order_Date,
-                                DeliveryDate = tblOrd.StartDeliveryDate,
-                                YourRef = tblOrd.CustomerPO,
-                                ContactTerritoryID = tblContacts.TerritoryId,
-                                CustomerName = tblContacts.FirstName + " " + tblContacts.LastName,
-                            };
-                ordersList = query.ToList<Order>();
-                ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
-                ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            var query = from tblOrd in db.Estimates
+                        join tblStatuses in db.Statuses on tblOrd.StatusId equals tblStatuses.StatusId
+                        join tblContacts in db.CompanyContacts on tblOrd.ContactId equals tblContacts.ContactId
+                        join tblContactCompany in db.Companies on tblContacts.CompanyId equals tblContactCompany.CompanyId
+                        orderby tblOrd.Order_Date descending
+                        where tblOrd.ContactId == (isApprover ? tblOrd.ContactId : contactUserID)   // only that specifc user
+                        && tblOrd.isEstimate == false
+                        && tblStatuses.StatusType == 2 //The status type should be 2 only for orders                            
+                        && tblOrd.StatusId == orderStatusID // only pending approvel
+                        && tblContactCompany.IsCustomer == (int)CustomerTypes.Corporate
+                        select new Order()
+                        {
+                            OrderID = tblOrd.EstimateId,
+                            OrderCode = tblOrd.Order_Code,
+                            ProductName = tblOrd.Estimate_Name,
+                            StatusID = tblOrd.StatusId,
+                            StatusName = tblStatuses.StatusName,
+                            StatusTypeID = tblStatuses.StatusType,
+                            ContactUserID = tblOrd.ContactId,
+                            CustomerID = tblOrd.CompanyId,
+                            OrderDate = tblOrd.Order_Date,
+                            DeliveryDate = tblOrd.StartDeliveryDate,
+                            YourRef = tblOrd.CustomerPO,
+                            ContactTerritoryID = tblContacts.TerritoryId,
+                            CustomerName = tblContacts.FirstName + " " + tblContacts.LastName,
+                        };
+            ordersList = query.ToList<Order>();
+            ordersList.ForEach(o => o.SOrderDate = o.DeliveryDate != null ? o.OrderDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
+            ordersList.ForEach(o => o.SOrderDeliveryDate = o.DeliveryDate != null ? o.DeliveryDate.Value.ToString("MMMM dd, yyyy") : string.Empty);
 
-                return ordersList;
+            return ordersList;
         }
 
-        public  long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus,Guid OrdermangerID, string BrokerPO = "")
+        public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
         {
             long result = 0;
             Estimate tblOrder = null;
@@ -2704,7 +2704,7 @@ namespace MPC.Repository.Repositories
             //ObjectCache cache = MemoryCache.Default;
 
             // MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.StoreId];
-          //  DbTransaction dbTrans = null;
+            //  DbTransaction dbTrans = null;
             try
             {
                 short orderStatusID = (short)orderStatus;
@@ -2719,7 +2719,7 @@ namespace MPC.Repository.Repositories
 
                     if (db.SaveChanges() > 0)
                     {
-                        result = tblOrder.ContactId??0;
+                        result = tblOrder.ContactId ?? 0;
                     }
                 }
             }
@@ -2744,15 +2744,15 @@ namespace MPC.Repository.Repositories
 
         public void DeleteOrderBySP(long OrderID)
         {
-          try
-          {
-              db.usp_DeleteOrderByID(OrderID);
+            try
+            {
+                db.usp_DeleteOrderByID(OrderID);
 
-          }
-          catch (Exception ex)
-          {
-              throw ex;
-          }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public void DeleteCart(long CompanyID)
         {
@@ -2768,14 +2768,14 @@ namespace MPC.Repository.Repositories
         }
         public Estimate GetOrderByOrderID(long OrderID)
         {
-          try
-          {
-              return db.Estimates.Where(o => o.EstimateId == OrderID).FirstOrDefault();
-          }
-          catch(Exception ex)
-          {
-              throw ex;
-          }
+            try
+            {
+                return db.Estimates.Where(o => o.EstimateId == OrderID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         public List<Estimate> GetCartOrdersByCompanyID(long CompanyID)
         {
@@ -2939,7 +2939,7 @@ namespace MPC.Repository.Repositories
                             zip.Save(sCreateDirectory + "\\" + sZipFileName);
                         }
 
-                       // DeleteFiles();
+                        // DeleteFiles();
                     }
                     ReturnRelativePath = sCreateDirectory;
                     ReturnPhysicalPath = sCreateDirectory + sZipFileName;
@@ -2969,14 +2969,14 @@ namespace MPC.Repository.Repositories
                     ms.Position = 0;
                     SectionReport currReport = new SectionReport();
                     string sFileName = iRecordID + "OrderReport.pdf";
-                   // FileNamesList.Add(sFileName);
+                    // FileNamesList.Add(sFileName);
                     currReport.LoadLayout(ms);
                     if (isItem)
                     {
                         sFileName = iRecordID + "JobCardReport.pdf";
                         //FileNamesList.Add(sFileName);
                         //var rptSource = db.vw_JobCardReport.Where(i => i.ItemID == (int)iRecordID).ToList();
-                       // currReport.DataSource = rptSource;
+                        // currReport.DataSource = rptSource;
                     }
                     else
                     {
@@ -2994,7 +2994,7 @@ namespace MPC.Repository.Repositories
                             Directory.CreateDirectory(Path);
                         }
                         // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks" + this.OrganisationId+"/") + sFileName;
+                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks" + this.OrganisationId + "/") + sFileName;
 
                         pdf.Export(currReport.Document, sFilePath);
                         ms.Close();
@@ -3023,7 +3023,7 @@ namespace MPC.Repository.Repositories
                 if (OrderCode != "")
                     orderEntity = db.Estimates.Where(e => e.Order_Code == OrderCode).FirstOrDefault();
                 Currency curr = _Organisationrepository.GetOrganizatiobByID().Currency;
-                string CurrencySymbol =  curr.CurrencySymbol;
+                string CurrencySymbol = curr.CurrencySymbol;
                 List<PrePayment> paymentsList = db.PrePayments.Where(p => p.OrderId == iRecordID).ToList();
                 if (orderEntity != null)
                 {
@@ -3064,7 +3064,7 @@ namespace MPC.Repository.Repositories
                     }
                     XTemp.SetAttributeNode(OrderSourceAttr);
 
-                   
+
                     DateTime dtCreation = new DateTime();
                     string CreationDate = string.Empty;
                     XmlAttribute OrderCreationAttr = XDoc.CreateAttribute("CreationDate");
@@ -3245,7 +3245,7 @@ namespace MPC.Repository.Repositories
                         WebUrlAttr.Value = string.Empty;
                     XCompanyTemp.SetAttributeNode(WebUrlAttr);
 
-                    
+
                     int nominalCode = 0;
                     XmlAttribute NominalAttr = XDoc.CreateAttribute("DefaultNominalCode");
                     if (orderEntity.Company != null)
@@ -3423,7 +3423,7 @@ namespace MPC.Repository.Repositories
 
                     //  orderEntity.tbl_contacts.tbl_addresses.pos
                     Address contAddress = orderEntity.CompanyContact.Address;
-                    
+
                     XmlAttribute CountAttr = XDoc.CreateAttribute("Country");
                     if (orderEntity.CompanyContact.Address != null)
                     {
@@ -3649,7 +3649,7 @@ namespace MPC.Repository.Repositories
 
 
                             string ProductFullName = items.ProductName;
-                                                           
+
 
                             XmlAttribute Prod = XDoc.CreateAttribute("ProductName");
                             Prod.Value = ProductFullName;
@@ -4343,7 +4343,7 @@ namespace MPC.Repository.Repositories
                     // att area payment
 
                     string sFileName = orderEntity.Order_Code + "_" + "OrderXML.xml";
-                   // FileNamesList.Add(sFileName);
+                    // FileNamesList.Add(sFileName);
                     string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks" + this.OrganisationId);
                     if (!Directory.Exists(Path))
                     {
@@ -4402,7 +4402,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public  bool MakeOrderArtworkProductionReady(Estimate oOrder)
+        public bool MakeOrderArtworkProductionReady(Estimate oOrder)
         {
             try
             {
@@ -4447,7 +4447,7 @@ namespace MPC.Repository.Repositories
         public static string GetArchiveFileName(string OrderCode, string CustomerName, Int64 OrderID)
         {
             string FileName = DateTime.Now.Year.ToString() + "-" + OrderID + "-" + OrderCode + "-" + CustomerName.Replace("&", "").Trim() + ".zip";
-            
+
             return FileName;
         }
         public static string MakeValidFileName(string name)
@@ -4464,10 +4464,359 @@ namespace MPC.Repository.Repositories
             return builder.ToString();
         }
 
-       
+
 
         #endregion
 
+
+        /// <summary>
+        /// Get Estimates For Item Job Status
+        /// </summary>
+        public IEnumerable<Estimate> GetEstimatesForItemJobStatus()
+        {
+            return
+                DbSet.Where(
+                    est => est.OrganisationId == OrganisationId && est.StatusId == (int)OrderStatus.InProduction)
+                    .ToList();
+        }
+
+        /// <summary>
+        /// check cookie order is the real login customer order
+        /// </summary>
+        public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
+        {
+            Estimate order = db.Estimates.Where(e => e.EstimateId == orderId).FirstOrDefault();
+            if(order != null)
+            {
+                if (order.CompanyId == companyId && order.ContactId == contactId)
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //public bool RegenerateTemplateAttachments(string estimateId, string customerID, string productionFolderPath)
+        //{
+        //    try
+        //    {
+        //        Web2Print.BLL.OrderManager orderManager = new Web2Print.BLL.OrderManager();
+        //        Web2Print.BLL.ProductManager oProdManager = new Web2Print.BLL.ProductManager();
+        //        int EstimateId = Convert.ToInt32(estimateId);
+        //        var Order = OrderManager.GetOrderByID(Convert.ToInt64(estimateId));
+        //        bool isaddcropMark = orderManager.GetCropMark();
+        //        bool drawBleedArea = false;
+        //        bool mutlipageMode = true;
+        //        bool hasOverlayPdf = false;
+        //        List<tbl_items> OrderItems = orderManager.GetOrderItems(EstimateId);
+        //        if (OrderItems != null)
+        //        {
+        //            foreach (var i in OrderItems)
+        //            {
+        //                int TemplateID = i.TemplateID ?? 0;
+        //                int ItemID = i.ItemID;
+        //                int CustomerID = Convert.ToInt32(customerID);
+
+        //                if (i.TemplateID > 0) // case of templates
+        //                {
+        //                    var Item = ProductManager.GetItemById(ItemID);
+        //                    if (i.isMultipagePDF == true)
+        //                    {
+        //                        mutlipageMode = true;
+        //                    }
+        //                    if (i.drawBleedArea == true)
+        //                    {
+        //                        drawBleedArea = true;
+        //                    }
+        //                    if (i.printCropMarks == true)
+        //                    {
+        //                        isaddcropMark = true;
+        //                    }
+        //                    LocalTemplateDesigner.TemplateSvcSPClient oLocSvc = new LocalTemplateDesigner.TemplateSvcSPClient();
+        //                    oLocSvc.regeneratePDFs(TemplateID, isaddcropMark, drawBleedArea, mutlipageMode);
+
+
+        //                    List<TemplateDesignerModelTypesV2.TemplatePages> oPages = null;
+        //                    using (TemplateDesignerV2Entities db = new TemplateDesignerV2Entities())
+        //                    {
+        //                        db.ContextOptions.LazyLoadingEnabled = false;
+        //                        oPages = db.TemplatePages.Where(g => g.ProductID == TemplateID).ToList();
+        //                    }
+
+        //                    List<ArtWorkAttatchment> oLstAttachments = oProdManager.GetItemAttactchments(ItemID, ".pdf", UploadFileTypes.Artwork);
+
+        //                    string DesignerPath = System.Web.HttpContext.Current.Server.MapPath("~/designengine/designer/products/");
+
+        //                    if (oLstAttachments.Count == 0)  //no attachments already exist, hence a new entry in attachments is required
+        //                    {
+
+        //                        //special working for attaching the PDF
+        //                        List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
+        //                        ArtWorkAttatchment attatcment = null;
+        //                        string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+        //                        string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
+        //                        string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
+
+
+        //                        if (!System.IO.Directory.Exists(virtualFolderPth))
+        //                            System.IO.Directory.CreateDirectory(virtualFolderPth);
+
+        //                        if (!System.IO.Directory.Exists(VirtualFolderPath2))
+        //                            System.IO.Directory.CreateDirectory(VirtualFolderPath2);
+
+        //                        if (Item.isMultipagePDF == true)
+        //                        {
+        //                            string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+        //                            string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+        //                            string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                            string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+        //                            string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+        //                            string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+        //                            //copying file from original location to attachments location
+        //                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
+        //                            System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
+        //                            foreach (var page in oPages)
+        //                            {
+        //                                if (page.hasOverlayObjects == true)
+        //                                    hasOverlayPdf = true;
+        //                            }
+        //                            if (hasOverlayPdf)
+        //                            {
+        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
+        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
+        //                                attatcment = new ArtWorkAttatchment();
+        //                                attatcment.FileName = overlayName;
+        //                                attatcment.FileExtention = ".pdf";
+        //                                attatcment.FolderPath = folderPath;
+        //                                attatcment.FileTitle = "Side1overlay";
+        //                                uplodedArtWorkList.Add(attatcment);
+        //                            }
+
+        //                            //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+        //                            string ThumbnailPath = fileCompleteAddress;
+
+        //                            attatcment = new ArtWorkAttatchment();
+        //                            attatcment.FileName = fileName;
+        //                            attatcment.FileExtention = ".pdf";
+        //                            attatcment.FolderPath = folderPath;
+        //                            attatcment.FileTitle = "Side1";
+        //                            uplodedArtWorkList.Add(attatcment);
+        //                        }
+        //                        else
+        //                        {
+        //                            if (Item.isMultipagePDF == true)
+        //                            {
+        //                                foreach (var page in oPages)
+        //                                {
+        //                                    if (page.hasOverlayObjects == true)
+        //                                        hasOverlayPdf = true;
+        //                                }
+        //                                string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+        //                                string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side1overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+        //                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                                string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+        //                                string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+        //                                string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+        //                                //copying file from original location to attachments location
+        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress, true);
+        //                                System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pages.pdf", fileCompleteAddress2, true);
+
+        //                                if (hasOverlayPdf)
+        //                                {
+        //                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress, true);
+        //                                    System.IO.File.Copy(DesignerPath + TemplateID.ToString() + "/pagesoverlay.pdf", overlayCompleteAddress2, true);
+        //                                    attatcment = new ArtWorkAttatchment();
+        //                                    attatcment.FileName = overlayName;
+        //                                    attatcment.FileExtention = ".pdf";
+        //                                    attatcment.FolderPath = folderPath;
+        //                                    attatcment.FileTitle = "Side1overlay";
+        //                                    uplodedArtWorkList.Add(attatcment);
+        //                                }
+
+        //                                //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+        //                                string ThumbnailPath = fileCompleteAddress;
+
+        //                                attatcment = new ArtWorkAttatchment();
+        //                                attatcment.FileName = fileName;
+        //                                attatcment.FileExtention = ".pdf";
+        //                                attatcment.FolderPath = folderPath;
+        //                                attatcment.FileTitle = "Side1";
+        //                                uplodedArtWorkList.Add(attatcment);
+        //                            }
+        //                            else
+        //                            {
+        //                                foreach (var item in oPages)
+        //                                {
+        //                                    //saving Page1  or Side 1 
+        //                                    //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
+
+        //                                    string fileName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString(), virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+        //                                    string overlayName = ProductManager.GetAttachmentFileName(i.ProductCode, Order.Order_Code, i.ItemCode, "Side" + item.PageNo.ToString() + "overlay", virtualFolderPth, ".pdf", Order.CreationDate ?? DateTime.Now);
+
+        //                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                                    string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+
+        //                                    string overlayCompleteAddress = System.IO.Path.Combine(virtualFolderPth, overlayName);
+        //                                    string overlayCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, overlayName);
+
+        //                                    //copying file from original location to attachments location
+        //                                    System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress, true);
+        //                                    System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + ".pdf", fileCompleteAddress2, true);
+
+        //                                    if (item.hasOverlayObjects == true)
+        //                                    {
+        //                                        System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress, true);
+        //                                        System.IO.File.Copy(DesignerPath + item.ProductID.ToString() + "/p" + item.PageNo + "overlay.pdf", overlayCompleteAddress2, true);
+        //                                        attatcment = new ArtWorkAttatchment();
+        //                                        attatcment.FileName = overlayName;
+        //                                        attatcment.FileExtention = ".pdf";
+        //                                        attatcment.FolderPath = folderPath;
+        //                                        attatcment.FileTitle = "Side" + item.PageNo.ToString() + "overlay";
+        //                                        uplodedArtWorkList.Add(attatcment);
+        //                                    }
+
+        //                                    //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+        //                                    string ThumbnailPath = fileCompleteAddress;
+
+        //                                    attatcment = new ArtWorkAttatchment();
+        //                                    attatcment.FileName = fileName;
+        //                                    attatcment.FileExtention = ".pdf";
+        //                                    attatcment.FolderPath = folderPath;
+        //                                    attatcment.FileTitle = "Side" + item.PageNo.ToString();
+        //                                    uplodedArtWorkList.Add(attatcment);
+        //                                    //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+        //                                }
+        //                            }
+
+        //                        }
+        //                        //creating the attachment the attachment for the first time.
+        //                        bool result = oProdManager.CreateUploadYourArtWork(ItemID, CustomerID, uplodedArtWorkList);
+
+
+        //                        //updating the item with templateID /design
+        //                        oProdManager.UpdateItem(ItemID, TemplateID);
+
+        //                    }
+        //                    else// attachment alredy exists hence we need to updat the existing artwork.
+        //                    {
+        //                        string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+        //                        string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
+        //                        string VirtualFolderPath2 = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
+
+
+        //                        if (!System.IO.Directory.Exists(VirtualFolderPath2))
+        //                        {
+        //                            System.IO.Directory.CreateDirectory(VirtualFolderPath2);
+        //                        }
+
+        //                        int index = 0;
+        //                        foreach (var oPage in oPages)
+        //                        {
+        //                            ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
+        //                            index = index + 1;
+        //                            //ArtWorkAttatchment oPage1Attachment = oLstAttachments.Where(g => g.FileTitle == oPage.PageName).Single();
+        //                            if (oPage1Attachment != null)
+        //                            {
+        //                                string fileName = oPage1Attachment.FileName;
+        //                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                                string fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+        //                                string sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+        //                                if (fileName.Contains("overlay"))
+        //                                {
+        //                                    sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+        //                                }
+
+        //                                //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+        //                                System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+        //                                System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+
+        //                                if (oPage.hasOverlayObjects == true)
+        //                                {
+        //                                    oPage1Attachment = oLstAttachments[index];
+        //                                    index = index + 1;
+        //                                    if (oPage1Attachment != null)
+        //                                    {
+        //                                        fileName = oPage1Attachment.FileName;
+        //                                        fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                                        fileCompleteAddress2 = System.IO.Path.Combine(VirtualFolderPath2, fileName);
+        //                                        sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + ".pdf";
+
+        //                                        if (fileName.Contains("overlay"))
+        //                                        {
+        //                                            sourcePath = DesignerPath + oPage.ProductID.ToString() + "/p" + oPage.PageNo + "overlay.pdf";
+
+        //                                        }
+
+        //                                        //System.IO.File.Copy(fileCompleteAddress, fileCompleteAddress2);
+        //                                        System.IO.File.Copy(sourcePath, fileCompleteAddress, true);
+        //                                        System.IO.File.Copy(sourcePath, fileCompleteAddress2, true);
+        //                                    }
+        //                                }
+        //                                //System.IO.File.WriteAllBytes(fileCompleteAddress, PDFSide1HighRes);
+        //                                //string ThumbnailPath = fileCompleteAddress;
+        //                                //System.IO.File.WriteAllBytes( System.Web.HttpContext.Current.Server.MapPath(  System.IO.Path.Combine(Web2Print.UI.Common.Utils.GetAppBasePath() +  oPage1Attachment.FolderPath, oPage1Attachment.FileName)), PDFSide1HighRes);
+        //                                //ProductManager.GenerateThumbnailForPdf(ThumbnailPath, true);
+        //                            }
+
+        //                        }
+        //                    }
+        //                }
+        //                else // case of uplaod images
+        //                {
+        //                    List<tbl_item_attachments> ListOfAttachments = Web2Print.BLL.ProductManager.GetItemAttactchments(ItemID);
+
+        //                    string folderPath = Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
+        //                    string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("../" + productionFolderPath);
+        //                    string fileSourcePath = System.Web.HttpContext.Current.Server.MapPath("../" + folderPath);
+
+        //                    if (!System.IO.Directory.Exists(virtualFolderPth))
+        //                    {
+        //                        System.IO.Directory.CreateDirectory(virtualFolderPth);
+        //                    }
+        //                    if (!System.IO.Directory.Exists(fileSourcePath))
+        //                    {
+        //                        System.IO.Directory.CreateDirectory(fileSourcePath);
+        //                    }
+
+        //                    foreach (var oPage in ListOfAttachments)
+        //                    {
+        //                        string fileName = oPage.FileName;
+        //                        string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+        //                        string sourceFileAdd = System.IO.Path.Combine(fileSourcePath, fileName);
+        //                        System.IO.File.Copy(sourceFileAdd, fileCompleteAddress, true);
+
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        //return false;
+        //        throw ex;
+        //    }
+        //}
     }
 
 

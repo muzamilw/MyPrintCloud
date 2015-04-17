@@ -52,11 +52,11 @@ namespace MPC.Repository.Repositories
             Expression<Func<Machine, bool>> query;
             if (request.isGuillotineList)
             {
-                query = machine => (machine.IsDisabled == false && machine.MachineCatId == 4);
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId == 4 && machine.OrganisationId == this.OrganisationId);
             }
             else
             {
-                query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4);
+                query = machine => (machine.IsDisabled == false && machine.MachineCatId != 4 && machine.OrganisationId == this.OrganisationId);
             }
 
 

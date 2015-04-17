@@ -7,6 +7,11 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ICompanyService
     {
+
+        /// <summary>
+        /// Delete Media Library Item By Id
+        /// </summary>
+        void DeleteMedia(long mediaId);
         /// <summary>
         /// Deletes a company permanently
         /// </summary>

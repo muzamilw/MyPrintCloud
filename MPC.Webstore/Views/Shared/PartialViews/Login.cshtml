@@ -3,6 +3,7 @@
 @using MPC.Models.Common;
 
 <div class="container content_area">
+
     <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
         <div class="sign_up_page_box NoPadding">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
@@ -48,11 +49,12 @@
                             -OR-
                         </div>
                     </div>
-               }
+    <div class="clear">
+        &nbsp;
+    </div>
+                }
                 
-                <div class="clear">
-                    &nbsp;
-                </div>
+               
                 <div class="custom_color_heading">
                     @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId)) @ViewBag.CompanyName
                 </div>
@@ -107,7 +109,7 @@
             if (ViewBag.AllowRegisteration == 1)
             {
                 <div class="hypNotRegistered">
-                    <label id="lblNotStoreUser" style="color: #a8a8a8;   font-size: 12px;">Not a @ViewBag.CompanyName user?</label>
+                    <label id="lblNotStoreUser" style="font-size: 12px;">Not a @ViewBag.CompanyName user?</label>
                     <a class="forgetPassLink" id="lnkregistration" href="/SignUp">Sign up here</a>
                 </div>
             }

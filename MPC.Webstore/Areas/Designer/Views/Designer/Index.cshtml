@@ -18,6 +18,7 @@
 }
 
 <section id="content" class="preparing ">
+    <section class="mainMenuBKLayer"></section>
     <section id="objectPanel" class="locked stage2" data-num-cols="4">
 
         <span id="selectedTab"><span></span><span></span></span>
@@ -28,9 +29,9 @@
             <li id="btnAdd" class="text btnAdd"><a>Add</a></li>
             <li id="backgrounds" class="backgrounds"><a>Canvas</a></li>
             <li id="uploads" class="uploads" style="display: none;"><a>Uploads</a></li>
-            <li id="layersPanel" class="layersPanel"><a>Layers</a></li>
+            <li id="layersPanel" class="layersPanel" style="width:72px;"><a>Layers</a></li>
             <li id="layoutsPanel" class="layoutsPanel" style="display: none;"><a>Layouts</a></li>
-            <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;"><a>Collapse</a></li>
+            <li id="collapseDesignerMenu" class="collapseDesignerMenu " style="position:absolute;bottom:10px;"><a></a></li>
         </menu>
 
         <section class="content mainContainer">
@@ -55,7 +56,7 @@
                 <section class="layer scrollPane">
                     <div class="innerDesigner" id="">
                         <ul class="textControls">
-                            <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading messageSmartForm" id="a1" style=" color: orange !important;">Please merge smart form details into template before you continue !</a></li>
+                            <li style=" margin-top:0px; margin-bottom:20px;"><a class=" QuickTextTitle ThemeColor templatesHeading messageSmartForm" id="a1" style="">Please merge smart form details into template before you continue !</a></li>
                         </ul>
                         <div class="smartFormHeading"><p class="ThemeColor smartFormFormHeading"></p></div>    
                         <div class="radioBtnContainer smartFormProfileContainer" style="display:none;">
@@ -1057,10 +1058,13 @@
 
         <div id="documentTitleAndMenu" class="">
             <menu id="mainTopMenu" class="documentMenu">
+                <li id="Li2" class="btnUploadYourDesign">
+                    <button class="buttonDesigner" id="btnGoToLandingPage" title="Upload your own Design">Upload your <br /> own Design</button>
+                </li>
                 <li id="Li2" class="zoomBtns">
                     <button class="buttonDesigner" id="zoomOut" title="Zoom out">-</button>
                 </li>
-                <li class="listText">Zoom</li>
+                <li class="listText">ZOOM</li>
                 <li id="Li1" class="zoomBtns" style="margin-right: 25px;">
                     <button class="buttonDesigner" id="zoomIn" title="Zoom In">+</button>
                 </li>
@@ -1077,11 +1081,11 @@
                 <li id="documentMenuRedo" class="mainMenuItem">
                     <button class="buttonDesigner" id="BtnRedo" title="Redo"></button>
                 </li>
-                <li id="documentMenuGuides" class="mainMenuItem">
+                <li id="documentMenuGuides" class="mainMenuItem" style="display:none;">
                     <button class="buttonDesigner" id="BtnGuides" title="Show / Hide Trim Line"></button>
                 </li>
             </menu>
-            <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important">
+            <menu id="documentMenu" class="documentMenu dark" style="top: 70px!important;">
                 <span class="marker" style="left: 0px; width: 72px;"></span>
             </menu>
 
@@ -1100,7 +1104,7 @@
 <section id="MainLoader" class="dialogContainer dialogProof">
     <div class="mask on"></div>
     <div class="dialog" style="top: 93.5px; /*height: 184px;*/  height: 135px;">
-        <h2 id="loaderTitleMsg">Loadinng design onto the canvas.</h2>
+        <h2 id="loaderTitleMsg">Loading design on canvas</h2>
         <div class="content">
             <div class="exporting">
                 <div class="progress"><span class="progressValue" style="width: 1%;"><span class="text">95%</span><span class="innerDesigner"></span></span></div>
