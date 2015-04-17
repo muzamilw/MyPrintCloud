@@ -1,0 +1,53 @@
+﻿
+<div class="content_area container left_right_padding PDM7-CS  QCMainContainer">
+    <div id="QuickCalcFrame" class=" QuickCalcFrame">
+        <div id="QuickCalcFrameLoader" class="QuickCalcFrameLoader">
+            <br />
+            <img src='<%=ResolveUrl("~/images/asdf.gif") %>' alt="" /><br />
+            Loading...
+        </div>
+        <h1 id="lblQuickCalcHead" class="QuickCalcHead" runat="server">
+            Quick Calculator
+        </h1>
+        <div class="QuickCalcBar">
+            <asp:DropDownList ID="ddlProducts" CssClass="QuickCalcProducts" runat="server" ClientIDMode="Static">
+            </asp:DropDownList>
+            <span id="lblQuickCalcQty" class="lblQuickCalcQty" runat="server" clientidmode="Static">
+                Qty
+            </span>
+            <asp:DropDownList ID="ddlQuantity" runat="server" CssClass="QuickCalcQty" ClientIDMode="Static">
+            </asp:DropDownList>
+            <div class="clear">
+            </div>
+        </div>
+        <div id="QuickQtyRanged">
+            <span>Enter Quantity</span>
+            <asp:TextBox ID="txtRangedQty" runat="server"></asp:TextBox>
+        </div>
+        <div id="QuickPriceBox" class="QuickCalcPriceBox">
+            <div id="QuickCalcOnlinePrice" class="QuickCalcPriceLbl">
+                Online price
+            </div>
+            <div id="QuickCalcFrom" class="QuickCalcPriceLbl" style="display:none;">
+                &nbsp;from&nbsp;
+            </div>
+            <div id="QuickPrice" class="QuickCalcPrice">
+            </div>
+            <div class="QuickCalcVat">
+                <asp:Label ID="lblVat" runat="server"></asp:Label>
+            </div>
+        </div>
+        <button id="AddtoBastkBtn" class="QuickPriceBtn" runat="server" clientidmode="Static" onclick="return GotoDetails()">
+            Add to Basket
+        </button>
+        <asp:HiddenField ID="hlProductData" runat="server" ClientIDMode="Static" />
+        <asp:HiddenField ID="hlPriceData" runat="server" ClientIDMode="Static" />
+    </div>
+    <div class="float_right Need_aPrice_CS">
+        <a href="../RequestQuote.aspx" id="hfReqQ" runat="server">Need a price? </a>
+    </div>
+    <div class="clearBoth">
+        &nbsp;
+    </div>
+
+</div>

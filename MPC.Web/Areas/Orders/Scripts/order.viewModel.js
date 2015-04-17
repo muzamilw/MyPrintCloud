@@ -2130,7 +2130,11 @@ define("order/order.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     selectedSection(model.ItemSection.Create(data));
-                                    hideEstimateRunWizard();
+                                hideEstimateRunWizard();                                
+                                baseCharge1Total(parseFloat(selectedSection().baseCharge1()));
+                                baseCharge2Total(parseFloat(selectedSection().baseCharge2()));
+                                baseCharge3Total(parseFloat(selectedSection().baseCharge3()));
+
                                 }
                                 isLoadingOrders(false);
                             },

@@ -651,6 +651,16 @@ namespace MPC.Repository.BaseRepository
         public DbSet<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         /// <summary>
+        /// Job Card Report View DbSet
+        /// </summary>
+        public DbSet<JobCardReportView> JobCardReportViews { get; set; }
+
+        /// <summary>
+        /// Order Report View DbSet
+        /// </summary>
+        public DbSet<OrderReportView> OrderReportViews { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
