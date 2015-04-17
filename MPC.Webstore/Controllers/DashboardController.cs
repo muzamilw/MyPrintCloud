@@ -83,7 +83,7 @@ namespace MPC.Webstore.Controllers
                     Detail.Name = "My Saved Designs";// (string)GetGlobalResourceObject("MyResource", "ltrlsavedesign") + UpdateSavedDesignCount();
                     Detail.Description = "View or reorder your saved designs"; //(string)GetGlobalResourceObject("MyResource", "ltrlmanagenviewsd");
                     Detail.ImageURL = "<i class='fa fa-pencil-square-o'></i>";
-                    Detail.PageNavigateURl = "/SavedDesigns";
+                    Detail.PageNavigateURl = "#";
                     Detail.IsChangePassword = false;
                     BCDashBordItems.Add(Detail);
 

@@ -42,6 +42,7 @@ namespace MPC.MIS.Areas.Api.Models
         public bool? IsPlateSupplied { get; set; }
         public bool? IsDoubleSided { get; set; }
         public bool? IsWorknTurn { get; set; }
+        public int? PrintViewLayout { get; set; }
         public int? PrintViewLayoutLandScape { get; set; }
         public int? PrintViewLayoutPortrait { get; set; }
         public int? SimilarSections { get; set; }
