@@ -1080,7 +1080,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     return errors().length === 0;
                 }),
                 // True if the Item Section has been changed
-            // ReSharper disable InconsistentNaming
+                // ReSharper disable InconsistentNaming
                 dirtyFlag = new ko.dirtyFlag({
 
                 }),
