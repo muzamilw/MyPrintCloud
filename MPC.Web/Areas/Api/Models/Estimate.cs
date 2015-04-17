@@ -84,7 +84,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? VoucherDiscountRate { get; set; }
         public Guid? ReportSignedBy { get; set; }
         public int? InvoiceId { get; set; }
-        public int? OrderReportSignedBy { get; set; }
+        public Guid? OrderReportSignedBy { get; set; }
         public DateTime? OrderReportLastPrinted { get; set; }
         public DateTime? EstimateReportLastPrinted { get; set; }
         public bool? IsEmailSent { get; set; }
