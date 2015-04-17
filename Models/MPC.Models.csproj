@@ -181,6 +181,7 @@
     <Compile Include="DomainModels\GoodsReceivedNote.cs" />
     <Compile Include="DomainModels\GoodsReceivedNoteDetail.cs" />
     <Compile Include="DomainModels\InkPlateSide.cs" />
+    <Compile Include="DomainModels\JobCardReportView.cs" />
     <Compile Include="DomainModels\JobPreference.cs" />
     <Compile Include="DomainModels\MachineClickChargeLookup.cs" />
     <Compile Include="DomainModels\MachineClickChargeZone.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="DomainModels\MachinePerHourLookup.cs" />
     <Compile Include="DomainModels\MachineSpeedWeightLookup.cs" />
     <Compile Include="DomainModels\NewsLetterSubscriber.cs" />
+    <Compile Include="DomainModels\OrderReportView.cs" />
     <Compile Include="DomainModels\Purchase.cs" />
     <Compile Include="DomainModels\PurchaseDetail.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
@@ -216,6 +218,8 @@
     <Compile Include="DomainModels\SectionInkCoverage.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
+    <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />

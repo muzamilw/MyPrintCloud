@@ -4328,6 +4328,37 @@ namespace MPC.Repository.Repositories
             return parentTemplateId;
         }
 
+
+        public bool UpdateItem(long itemID, long? templateID)
+        {
+            bool result = false;
+            Item tblItemProduct = null;
+
+            try
+            {
+              
+                    tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+
+                    if (tblItemProduct != null)
+                    {
+
+                        tblItemProduct.TemplateId = templateID.HasValue && templateID.Value > 0 ? templateID : tblItemProduct.TemplateId;
+
+                        result = db.SaveChanges() > 0 ? true : false;
+                    }
+               
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
+
+        }
+       
+
         #endregion
     }
 }

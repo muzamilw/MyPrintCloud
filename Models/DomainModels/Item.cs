@@ -830,6 +830,7 @@ namespace MPC.Models.DomainModels
             target.IsUploadImage = IsUploadImage;
             target.IsDigitalDownload = IsDigitalDownload;
             target.IsRealStateProduct = IsRealStateProduct;
+            target.SmartFormId = SmartFormId;
             
             // Copy Internal Descriptions
             CloneInternalDescriptions(target);

@@ -23,12 +23,9 @@
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-    @{
-        string currentController = ViewContext.RouteData.Values["controller"].ToString();
-    }
 
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     
     @Scripts.Render("~/pageSpecific")
     @Scripts.Render("~/bundles/bootstrap")
@@ -38,7 +35,7 @@
     @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-        ShowLoader();
+      
     $(document).ready(function () {
         $('.bxslider').bxSlider({
             auto:true

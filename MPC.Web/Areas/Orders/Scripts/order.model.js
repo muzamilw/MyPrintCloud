@@ -737,7 +737,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Qty3Profit Width
                 qty3Profit = ko.observable(specifiedQty3Profit || 0),
                 // Base Charge1
-                baseCharge1 = ko.observable(specifiedBaseCharge1 || 0),
+                baseCharge1 = ko.observable(specifiedBaseCharge1 != null ? specifiedBaseCharge1.toFixed(2): 0),
                 // Base Charge2
                 baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
                 // Base Charge3
@@ -816,12 +816,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList = ko.observableArray([]),
                 // Select Stock Item
                 selectStock = function (stockItem) {
-                    if (!stockItem || stockItemId() === stockItem.id()) {
+                    if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
 
-                    stockItemId(stockItem.id());
-                    stockItemName(stockItem.name());
+                    stockItemId(stockItem.id);
+                    stockItemName(stockItem.name);
                 },
                 // Select Press
                 selectPress = function (press) {
