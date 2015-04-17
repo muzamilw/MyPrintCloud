@@ -218,6 +218,8 @@
     <Compile Include="DomainModels\SectionInkCoverage.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
+    <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
+    <Compile Include="DomainModels\usp_OrderReport_Result.cs" />
     <Compile Include="DomainModels\VariableOption.cs" />
     <Compile Include="DomainModels\Group.cs" />
     <Compile Include="DomainModels\ImagePermission.cs" />
