@@ -282,16 +282,19 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                             <table class="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
-                                                        <th class="col-lg-1 text-left">
+                                                        <th class="col-lg-4 text-left">
                                                             <span>Cost Centers for this Component</span>
                                                         </th>
-                                                        <th class="col-lg-1 text-right">
+                                                        <th class="col-xs-2 text-right">
 
                                                         </th>
-                                                        <th class="col-lg-1 text-right">
+                                                        <th class="col-xs-2 text-right">
 
                                                         </th>
-                                                        <th class="col-lg-1 text-right">
+                                                        <th class="col-xs-2 text-right">
+
+                                                        </th>
+                                                        <th class="col-xs-2 text-right">
 
                                                         </th>
                                                     </tr>
@@ -354,17 +357,20 @@ However, the term “Up” is also sometimes used to designate impressions of di
 
     <script id="sectionCostCentreItemTemplate" type="text/html">
         <tr>
-            <td class="col-lg-1 text-left">
+            <td class="col-lg-4 text-left">
                 <a href="#" data-bind="text: name"></a>
             </td>
-            <td class="col-lg-1 text-right">
+            <td class="col-xs-2 text-right">
                 <a href="#" data-bind="text: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
-            <td class="col-lg-1 text-right">
+            <td class="col-xs-2 text-right">
                 <a href="#" data-bind="text: qty2NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 2)}"></a>
             </td>
-            <td class="col-lg-1 text-right">
+            <td class="col-xs-2 text-right">
                 <a href="#" data-bind="text: qty3NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 3)}"></a>
+            </td>
+            <td class="col-xs-2">
+                
             </td>
         </tr>
     </script>

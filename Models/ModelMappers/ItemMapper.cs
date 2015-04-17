@@ -294,6 +294,11 @@ namespace MPC.Models.ModelMappers
             List<TemplatePage> linesToBeRemoved = target.Template.TemplatePages.Where(
                 vdp => !IsNewTemplatePage(vdp) && source.Template.TemplatePages.All(sourceVdp => sourceVdp.ProductPageId != vdp.ProductPageId))
                   .ToList();
+            
+            // Remove Template Object related to Template Pages going to be deleted
+            actions.DeleteTemplateObject(linesToBeRemoved);
+            
+            // Remove Template Pages
             linesToBeRemoved.ForEach(line =>
             {
                 target.Template.TemplatePages.Remove(line);

@@ -16,6 +16,7 @@ namespace MPC.Interfaces.MISServices
         CostCenterBaseResponse GetBaseData();
         CostCenterVariablesResponseModel GetCostCenterVariablesTree(int id);
         IEnumerable<CostCentreVariable> GetVariableList();
-        
+        CostCentreResponse GetAllForOrderProduct(GetCostCentresRequest requestModel);
+
     }
 }
