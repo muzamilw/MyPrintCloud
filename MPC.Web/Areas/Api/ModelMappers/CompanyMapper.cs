@@ -132,9 +132,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCmykColors =
-                    source.CompanyCMYKColors != null
-                        ? source.CompanyCMYKColors.Select(x => x.CreateFrom()).ToList()
+                TemplateColorStyles =
+                    source.TemplateColorStyles != null
+                        ? source.TemplateColorStyles.Select(x => x.CreateFrom()).ToList()
                         : null,
                 CompanyTerritories =
                     source.CompanyTerritories != null
@@ -381,9 +381,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 StoreId = source.StoreId,
                 RaveReviews =
                     source.RaveReviews != null ? source.RaveReviews.Select(x => x.CreateFrom()).ToList() : null,
-                CompanyCMYKColors =
-                    source.CompanyCmykColors != null
-                        ? source.CompanyCmykColors.Select(x => x.CreateFrom()).ToList()
+                TemplateColorStyles =
+                    source.TemplateColorStyles != null
+                        ? source.TemplateColorStyles.Select(x => x.CreateFrom()).ToList()
                         : null,
                 CompanyBannerSets =
                     source.CompanyBannerSets != null
