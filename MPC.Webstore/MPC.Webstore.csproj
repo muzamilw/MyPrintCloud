@@ -58,6 +58,12 @@
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.45\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToTwitter.AspNet">
+      <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToTwitterPcl">
+      <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitterPcl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -109,6 +115,7 @@
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
@@ -118,6 +125,18 @@
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching">
       <Private>True</Private>
@@ -353,6 +372,7 @@
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
+    <Compile Include="Controllers\PopularProductsController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -369,6 +389,7 @@
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
+    <Compile Include="Controllers\PromotionalProductController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
@@ -380,6 +401,7 @@
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
+    <Compile Include="Controllers\RSSController.cs" />
     <Compile Include="Controllers\SavedDesignsController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
@@ -388,6 +410,7 @@
     <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
+    <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\ZoomSliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -399,6 +422,7 @@
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="ModelMappers\OrganisationMapper.cs" />
     <Compile Include="ModelMappers\PageCategoryMapper.cs" />
+    <Compile Include="Twitter\TwitterEx.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\CmsPageModel.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />
@@ -636,6 +660,7 @@
     <Content Include="LightBox\Js\jquery.fancybox.js" />
     <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
     <Content Include="Content\Images\Twitter.png" />
@@ -866,6 +891,10 @@
     <Content Include="Views\Shared\PartialViews\HomePageBannerS4.cshtml" />
     <Content Include="Views\Shared\PartialViews\RaveReview.cshtml" />
     <Content Include="Views\Home\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PopularProducts.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PromotionalProduct.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -874,6 +903,11 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\PopularProducts\" />
+    <Folder Include="Views\PromotionalProduct\" />
+    <Folder Include="Views\Promotional\" />
+    <Folder Include="Views\RSS\" />
+    <Folder Include="Views\Twitter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
