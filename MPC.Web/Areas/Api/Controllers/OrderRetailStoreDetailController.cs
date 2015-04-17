@@ -37,7 +37,8 @@ namespace MPC.MIS.Areas.Api.Controllers
             return new OrderRetailItemDetail
             {
                 ItemPriceMatrices = item.ItemPriceMatrices.Select(x => x.CreateFrom()),
-                ItemStockOptions = item.ItemStockOptions.Select(x => x.CreateFrom())
+                ItemStockOptions = item.ItemStockOptions.Select(x => x.CreateFrom()),
+                ItemSection = item.ItemSections.FirstOrDefault().CreateFrom()
             };
         }
     }

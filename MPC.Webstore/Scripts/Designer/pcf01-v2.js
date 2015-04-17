@@ -754,7 +754,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
-       //     pcl41_ApplyDimensions(IT);
+            pcl41_ApplyDimensions(IT);
           //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -3878,7 +3878,7 @@ function pcl40(xdata) {
     });
 }
 function pcl41(xdata) {
-
+    var tabIndex = 1;
     smartFormData = xdata;
     
     if (smartFormData.usersList != null)
@@ -3903,24 +3903,42 @@ function pcl41(xdata) {
         {
             if(IT.FieldVariable.IsSystem == true)
             {
-                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
             } else {
                 if(IT.FieldVariable.VariableType == 1 )
                 {
                     //dropDown 
-                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue);
+                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
 
                 } else if (IT.FieldVariable.VariableType == 2) {
-                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
                 }
             }
+            tabIndex++;
         }
     });
 
     $("#SmartFormContainer").html(html);
+    pcl40_InsertUserData(smartFormData.scopeVariables);
     pcl40_updateDropdownDefaultValues();
     pcl40_applyInputMask(smartFormData.smartFormObjs);
-    pcl40_InsertUserData(smartFormData.scopeVariables);
+    $('textarea.qTextInput').focus(function () {
+        $this = $(this);
+
+        $this.select();
+
+        window.setTimeout(function () {
+            $this.select();
+        }, 1);
+
+        // Work around WebKit's little problem
+        $this.mouseup(function () {
+            // Prevent further mouseup intervention
+            $this.unbind("mouseup");
+            return false;
+        });
+    });
+
 }
 function pcl40_updateDropdownDefaultValues() {
     $.each(smartFormData.smartFormObjs, function (i, IT) {
@@ -3945,11 +3963,11 @@ function pcl40_showUserList(userList)
     });
     $("#smartFormSelectUserProfile").html(html);
 }
-function pcl40_addDropDown(title, varId,options,def) {
+function pcl40_addDropDown(title, varId,options,def,tabindex) {
     var html = "";
 
     html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
-    + '<select id="txtSmart' + varId + '"  class="qTextInput" style="" >';
+    + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""  tabindex= "' + tabindex + '" >';
     $.each(options, function (i, IT) {
         var selected = "";
         html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" '+selected+' >' + IT.Value + '</option>';;
@@ -3958,14 +3976,18 @@ function pcl40_addDropDown(title, varId,options,def) {
     html+=    '</select></div>';
     return html;
 }
-function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask) {
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex) {
     var required = "";
     if (IsRequired == true)
     {
         required = "required";
     }
+   
+    if (Value == "undefined" || Value == undefined) {
+        Value = ""; 
+    }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
-        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" '+ required+'>' + Value + '</textarea></div>';
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="this.select();" >' + Value + '</textarea></div>';
     return html;
 }
 function pcl40_addCaption(caption) {
@@ -3977,11 +3999,14 @@ function pcl40_addLineSeperator() {
 }
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-        if (IT.Value != null && IT.value != "") {
-            $("#txtSmart" + IT.VariableId).val(IT.Value);
-        } else {
-            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
-        }
+            if (IT.Value != null && IT.value != "" && IT.value != undefined) {
+                $("#txtSmart" + IT.VariableId).val(IT.Value);
+            } else {
+                if (IT.DefaultValue != null && IT.DefaultValue != "" && IT.DefaultValue != "undefined" && IT.DefaultValue !=undefined)
+                    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+                else 
+                    $("#txtSmart" + IT.VariableId).val("");
+            }
     });
 }
 function pcl40_applyInputMask(sObjs) {
@@ -4002,19 +4027,20 @@ function pcl41_ApplyDimensions(Tpage) {
     } 
     if (Tpage.Width != null && Tpage.Width != 0) {
         w= Tpage.Width ;
-    } 
+    }
+    
     h = h / 96 * 72;
     w = w / 96 * 72;
     h = h / 2.834645669;
     w = w / 2.834645669;
     w = w.toFixed(3);
-    h = h.toFixed(3);
+    h = h.toFixed(3); 
     h = h - 10;
-    w = w - 10;
+    w = w - 10; 
     if (item != null && item.ScaleFactor != null && item.ScaleFactor != 0) {
         w = w * item.ScaleFactor;
         h = h * item.ScaleFactor;
-    }
+    } 
     //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
     $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
 }

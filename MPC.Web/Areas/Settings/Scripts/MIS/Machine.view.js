@@ -22,7 +22,7 @@
                     $("button").click(function () {
                         $('.bs-example-tooltips a').not(this).popover('hide');
                     });
-                   // ReSharper restore UnknownCssClass
+                   
                },
                 // Initialize
                 initialize = function () {

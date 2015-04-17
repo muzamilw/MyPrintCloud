@@ -3243,7 +3243,7 @@ define("stores/stores.viewModel",
                 selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
                 //Set Product category value for by default
-                productCategory.isShelfProductCategory(true);
+                productCategory.isShelfProductCategory(false);
                 productCategory.isEnabled(true);
                 productCategory.isPublished(true);
                 //Setting Product Category Editting
@@ -3406,11 +3406,21 @@ define("stores/stores.viewModel",
             },
             deleteCategory = function () {
                 dataservice.deleteProductCategoryById({
-                    ProductCategoryId: selectedProductCategory().productCategoryId()
+                    ProductCategoryId: selectedProductCategoryForEditting().productCategoryId()
                 }, {
                     success: function (data) {
                         if (data != null) {
-                            selectedProductCategory().isArchived(true);
+                            var obj = null;
+                            _.each(parentCategories(), function (item) {
+                                if (item.productCategoryId === selectedProductCategoryForEditting().productCategoryId()) {
+                                    obj = item;
+                                }
+                            });
+                            parentCategories.remove(obj);
+                            var val = '#' + selectedProductCategoryForEditting().productCategoryId();
+                            $(val).remove();
+                            onCloseProductCategory();
+                            toastr.success("Category deleted successfully!");
                         }
                     },
                     error: function (response) {
@@ -4064,99 +4074,106 @@ define("stores/stores.viewModel",
                 }, {
                     success: function (data) {
                         selectedStore(model.Store());
+                        emails.removeAll();
                         if (data != null) {
                             selectedStore(model.Store.Create(data.Company));
-
-                            //_.each(data.AddressResponse.Addresses, function (item) {
-                            //    selectedStore().addresses.push(model.Address.Create(item));
-                            //});
-                            //_.each(data.CompanyTerritoryResponse.CompanyTerritories, function (item) {
-                            //    selectedStore().companyTerritories.push(model.CompanyTerritory.Create(item));
-                            //});
-                            //_.each(data.CompanyContactResponse.CompanyContacts, function (item) {
-                            //    selectedStore().users.push(model.CompanyContact.Create(item));
-                            //});
-                            _.each(data.Company.Addresses, function (addressItem) {
-                                var address = new model.Address.Create(addressItem);
-                                selectedStore().addresses.push(address);
-                            });
-                            _.each(data.Company.CompanyContacts, function (companyContactItem) {
-                                var companyContact = new model.CompanyContact.Create(companyContactItem);
-                                selectedStore().users.push(companyContact);
-                            });
-                            orderCount(data.NewOrdersCount);
-                            userCount(data.NewUsersCount);
-                            _.each(data.Company.ColorPalletes, function (item) {
-                                selectedStore().colorPalette(model.ColorPalette.Create(item));
-                            });
-                            //cmsPagesForStoreLayout.removeAll();
-                            //if (data.Company.CmsPagesDropDownList !== null) {
-                            //    ko.utils.arrayPushAll(cmsPagesForStoreLayout(), data.Company.CmsPagesDropDownList);
-                            //    cmsPagesForStoreLayout.valueHasMutated();
-
-                            //    _.each(cmsPagesBaseData(), function (item) {
-                            //        cmsPagesForStoreLayout.push(item);
-                            //    });
-                            //}
-                            emails.removeAll();
-                            _.each(data.Company.Campaigns, function (item) {
-                                var campaign = model.Campaign.Create(item);
-                                _.each(item.CampaignImages, function (campaignImage) {
-                                    campaign.campaignImages.push(model.CampaignImage.Create(campaignImage));
-                                });
-                                emails.push(campaign);
-                            });
-
+                            orderCount(data.NewOrdersCount || 0);
+                            userCount(data.NewUsersCount || 0);
                             addressPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().addresses, searchAddress));
                             companyTerritoryPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().companyTerritories, searchCompanyTerritory));
                             contactCompanyPager(new pagination.Pagination({ PageSize: 5 }, selectedStore().users, searchCompanyContact));
-
-
                             //Seconday Page List And Pager
                             secondaryPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().secondaryPages, getSecondoryPages));
-
-                            _.each(data.SecondaryPageResponse.CmsPages, function (item) {
-                                selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(item));
-                            });
-                            secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount);
-                            // here
                             // System Page List And Pager
                             systemPagePager(new pagination.Pagination({ PageSize: 5 }, selectedStore().systemPages, getSystemPages));
-
-                            _.each(data.SecondaryPageResponse.SystemPages, function (item) {
-                                selectedStore().systemPages.push(model.SecondaryPageListView.Create(item));
-                            });
-                            systemPagePager().totalCount(data.SecondaryPageResponse.SystemPagesRowCount);
-                            storeImage(data.ImageSource);
                             companyBannerSetList.removeAll();
                             companyBanners.removeAll();
                             filteredCompanyBanners.removeAll();
-                            _.each(data.Company.CompanyBannerSets, function (item) {
-                                companyBannerSetList.push(model.CompanyBannerSet.Create(item));
-                                //Extract Company Banners from company banner set item
-                                _.each(item.CompanyBanners, function (bannerSet) {
-                                    var banner = model.CompanyBanner.Create(bannerSet);
-                                    banner.setName(item.SetName);
-                                    companyBanners.push(banner);
-                                });
-                            });
-                            ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
-                            filteredCompanyBanners.valueHasMutated();
-
                             //Cms Offers
                             selectedItemsForOfferList.removeAll();
-                            _.each(data.Company.CmsOffers, function (item) {
-                                selectedItemsForOfferList.push(model.CmsOffer.Create(item));
-                            });
 
-                            //Media Library
-                            _.each(data.Company.MediaLibraries, function (item) {
-                                selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
-                            });
-                            selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
-                            selectedStore().currentThemeId(data.Company.CurrentThemeId);
-                            selectedTheme(data.Company.CurrentThemeId);
+                            if (data.Company) {
+                                if (data.Company.Addresses) {
+                                    _.each(data.Company.Addresses, function (addressItem) {
+                                        var address = new model.Address.Create(addressItem);
+                                        selectedStore().addresses.push(address);
+                                    });
+                                }
+
+                                if (data.Company.CompanyContacts) {
+                                    _.each(data.Company.CompanyContacts, function (companyContactItem) {
+                                        var companyContact = new model.CompanyContact.Create(companyContactItem);
+                                        selectedStore().users.push(companyContact);
+                                    });
+                                }
+
+                                if (data.Company.ColorPalletes) {
+                                    _.each(data.Company.ColorPalletes, function (item) {
+                                        selectedStore().colorPalette(model.ColorPalette.Create(item));
+                                    });
+                                }
+
+                                if (data.Company.Campaigns) {
+                                    _.each(data.Company.Campaigns, function (item) {
+                                        var campaign = model.Campaign.Create(item);
+                                        _.each(item.CampaignImages, function (campaignImage) {
+                                            campaign.campaignImages.push(model.CampaignImage.Create(campaignImage));
+                                        });
+                                        emails.push(campaign);
+                                    });
+                                }
+                                
+                                if (data.Company.CompanyBannerSets) {
+                                    _.each(data.Company.CompanyBannerSets, function (item) {
+                                        companyBannerSetList.push(model.CompanyBannerSet.Create(item));
+                                        //Extract Company Banners from company banner set item
+                                        _.each(item.CompanyBanners, function (bannerSet) {
+                                            var banner = model.CompanyBanner.Create(bannerSet);
+                                            banner.setName(item.SetName);
+                                            companyBanners.push(banner);
+                                        });
+                                    });
+                                    ko.utils.arrayPushAll(filteredCompanyBanners(), companyBanners());
+                                    filteredCompanyBanners.valueHasMutated();
+                                }
+
+                                if (data.Company.CmsOffers) {
+                                    _.each(data.Company.CmsOffers, function (item) {
+                                        selectedItemsForOfferList.push(model.CmsOffer.Create(item));
+                                    });
+                                }
+
+                                if (data.Company.MediaLibraries) {
+                                    //Media Library
+                                    _.each(data.Company.MediaLibraries, function (item) {
+                                        selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
+                                    });
+                                }
+                                
+                                selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
+                                selectedStore().currentThemeId(data.Company.CurrentThemeId);
+                                selectedTheme(data.Company.CurrentThemeId);
+                            }
+                            
+                            if (data.SecondaryPageResponse) {
+                                if (data.SecondaryPageResponse.CmsPages) {
+                                    _.each(data.SecondaryPageResponse.CmsPages, function (item) {
+                                        selectedStore().secondaryPages.push(model.SecondaryPageListView.Create(item));
+                                    });
+                                    secondaryPagePager().totalCount(data.SecondaryPageResponse.RowCount || 0);
+                                }
+
+                                if (data.SecondaryPageResponse.SystemPages) {
+                                    _.each(data.SecondaryPageResponse.SystemPages, function (item) {
+                                        selectedStore().systemPages.push(model.SecondaryPageListView.Create(item));
+                                    });
+                                    systemPagePager().totalCount(data.SecondaryPageResponse.SystemPagesRowCount || 0);
+                                }
+                            }
+                            
+                            storeImage(data.ImageSource);
                         }
+                        
                         allPagesWidgets.removeAll();
                         pageSkinWidgets.removeAll();
                         selectedCurrentPageId(undefined);
@@ -5054,7 +5071,10 @@ define("stores/stores.viewModel",
                     selectedCostCenter = _.find(costCentersList(), function (costCenterItem) {
                         return costCenterItem.costCentreId() === costCenter.costCentreId();
                     });
-                    selectedCostCenter.isSelected(true);
+                    // Check for Null value // Added by khurram
+                    if (selectedCostCenter) {
+                        selectedCostCenter.isSelected(true);
+                    }
                 });
             },
             onClosePickupDialog = function () {

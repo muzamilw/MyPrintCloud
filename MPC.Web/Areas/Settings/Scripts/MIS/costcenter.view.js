@@ -10,6 +10,20 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#CostCentersBinding")[0],
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    $('.bs-example-tooltips a').click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide'); //all but this
+                    });
+                    $("a").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                    $("button").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+
+                },
                 productCategorySelectedEvent = function (category) {
                     $.event.trigger({
                         type: "ProductCategorySelected",
@@ -73,7 +87,8 @@
                 hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
                 showAddEditMatrixMenu: showAddEditMatrixMenu,
                 showCostCentreStockDialog: showCostCentreStockDialog,
-                hideCostCentreStockDialog: hideCostCentreStockDialog
+                hideCostCentreStockDialog: hideCostCentreStockDialog,
+                initializeLabelPopovers: initializeLabelPopovers
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

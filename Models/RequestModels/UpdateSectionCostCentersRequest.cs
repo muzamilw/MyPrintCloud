@@ -11,6 +11,6 @@ namespace MPC.Models.RequestModels
     {
         public ItemSection CurrentSection { get; set; }
         public int PressId { get; set; }
-        public List<SectionInkCoverage> AllSectionInks { get; set; }
+      //  public List<SectionInkCoverage> AllSectionInks { get; set; }
     }
 }

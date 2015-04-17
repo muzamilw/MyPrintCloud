@@ -39,8 +39,98 @@ namespace MPC.Implementation.MISServices
         private readonly IItemSectionRepository itemsectionRepository;
         private readonly IStockItemRepository stockItemRepository;
         private readonly ICompanyRepository companyRepository;
+        private readonly IPrefixRepository prefixRepository;
+        private readonly IPrePaymentRepository prePaymentRepository;
+        private readonly IItemAttachmentRepository itemAttachmentRepository;
         private readonly IInkCoverageGroupRepository inkCoverageGroupRepository;
-       
+
+
+        /// <summary>
+        /// Creates New Order and assigns new generated code
+        /// </summary>
+        private Estimate CreateNewOrder()
+        {
+            string orderCode = prefixRepository.GetNextOrderCodePrefix();
+            Estimate itemTarget = estimateRepository.Create();
+            estimateRepository.Add(itemTarget);
+            itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
+            itemTarget.Order_Code = orderCode;
+            itemTarget.OrganisationId = orderRepository.OrganisationId;
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Creates New Pre Payment
+        /// </summary>
+        private PrePayment CreateNewPrePayment()
+        {
+            PrePayment itemTarget = prePaymentRepository.Create();
+            prePaymentRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Pre Payment
+        /// </summary>
+        private void DeletePrePayment(PrePayment prePayment)
+        {
+            prePaymentRepository.Delete(prePayment);
+        }
+
+        /// <summary>
+        /// Creates New Delivery Note
+        /// </summary>
+        private DeliveryNote CreateNewDeliveryNote()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Delete Delivery Note
+        /// </summary>
+        private void DeleteDeliveryNote(DeliveryNote deliveryNote)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Creates New Item and assigns new generated code
+        /// </summary>
+        private Item CreateItem()
+        {
+            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
+            Item itemTarget = itemRepository.Create();
+            itemRepository.Add(itemTarget);
+            itemTarget.ItemCode = itemCode;
+            itemTarget.OrganisationId = orderRepository.OrganisationId;
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Item
+        /// </summary>
+        private void DeleteItem(Item item)
+        {
+            itemRepository.Delete(item);
+        }
+
+        /// <summary>
+        /// Creates New Item Attachment new generated code
+        /// </summary>
+        private ItemAttachment CreateItemAttachment()
+        {
+            ItemAttachment itemTarget = itemAttachmentRepository.Create();
+            itemAttachmentRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Item Attachment
+        /// </summary>
+        private void DeleteItemAttachment(Item item)
+        {
+            itemRepository.Delete(item);
+        }
 
         #endregion
         #region Constructor
@@ -52,7 +142,8 @@ namespace MPC.Implementation.MISServices
             IAddressRepository addressRepository, ISystemUserRepository systemUserRepository, IPipeLineSourceRepository pipeLineSourceRepository, IMarkupRepository markupRepository,
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
-            ICompanyRepository companyRepository)
+            ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository, 
+            IItemAttachmentRepository itemAttachmentRepository)
         {
             if (estimateRepository == null)
             {
@@ -102,8 +193,24 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("companyRepository");
             }
+            if (prefixRepository == null)
+            {
+                throw new ArgumentNullException("prefixRepository");
+            }
+            if (prePaymentRepository == null)
+            {
+                throw new ArgumentNullException("prePaymentRepository");
+            }
+            if (itemAttachmentRepository == null)
+            {
+                throw new ArgumentNullException("itemAttachmentRepository");
+            }
+
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
+            this.prefixRepository = prefixRepository;
+            this.prePaymentRepository = prePaymentRepository;
+            this.itemAttachmentRepository = itemAttachmentRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
@@ -163,7 +270,15 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         public Estimate SaveOrder(Estimate estimate)
         {
-            throw new NotImplementedException();
+            // Get Order if exists else create new
+            Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder();
+
+            // Update Order
+
+            // Save Changes
+
+            // Return 
+            return order;
         }
 
         /// <summary>
@@ -386,7 +501,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request)
         {
-            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.AllSectionInks);
+            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.CurrentSection.SectionInkCoverages.ToList());
         }
 
         public string DownloadOrderArtwork(int OrderID, string sZipName)

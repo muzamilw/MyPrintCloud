@@ -119,7 +119,7 @@ namespace MPC.Repository.Repositories
 
                 orderObject.StatusId = (short)OrderStatus.ShoppingCart;
 
-                orderObject.SectionFlagId = 145;
+                orderObject.SectionFlagId = db.SectionFlags.Where(s => s.OrganisationId == OrganisationId && s.SectionId == (int)OrderSectionFlag.UrgentOrder).FirstOrDefault().SectionFlagId;
 
                 orderObject.Estimate_Name = string.IsNullOrWhiteSpace(orderTitle) ? "WebStore New Order" : orderTitle;
 

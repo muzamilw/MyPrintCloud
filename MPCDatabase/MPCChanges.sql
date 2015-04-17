@@ -2324,6 +2324,9 @@ End
 
 
 
+
+
+
 ----------------------------------------------
 
 /****** Object:  StoredProcedure [dbo].[usp_OrderReport]    Script Date: 4/17/2015 3:32:48 PM ******/
@@ -2547,4 +2550,102 @@ END
 
 
 
+SELECT     dbo.estimate.EstimateId, dbo.items.ItemId, dbo.estimate.UserNotes, dbo.Items.ItemCode, dbo.CompanyContact.FirstName, dbo.Items.ProductCode,
+					
+					 dbo.Items.JobDescription1 as JobDescription1,dbo.Items.JobDescription2 as JobDescription2,dbo.Items.JobDescription3 as JobDescription3,dbo.Items.JobDescription4 as JobDescription4,dbo.Items.JobDescription5 as JobDescription5,
+					 dbo.Items.JobDescription6 as JobDescription6, dbo.Items.JobDescription7 as JobDescription7,
+					 
+					  CASE 
+						  WHEN dbo.Items.JobDescription1 is null then null
+						  WHEN dbo.Items.JobDescription1 is not null THEN  dbo.Items.JobDescriptionTitle1
+				       END As JobDescriptionTitle1,
+				        CASE 
+						  WHEN dbo.Items.JobDescription2 is null THEN Null
+						  WHEN dbo.Items.JobDescription2 is not null THEN  dbo.Items.JobDescriptionTitle2
+				       END As JobDescriptionTitle2,
+				        CASE 
+						  WHEN dbo.Items.JobDescription3 is null THEN Null
+						  WHEN dbo.Items.JobDescription3 is not null THEN  dbo.Items.JobDescriptionTitle3
+				       END As JobDescriptionTitle3,
+				        CASE 
+						  WHEN dbo.Items.JobDescription4 is null THEN Null
+						  WHEN dbo.Items.JobDescription4 is not null THEN  dbo.Items.JobDescriptionTitle4
+				       END As JobDescriptionTitle4,
+				        CASE 
+						  WHEN dbo.Items.JobDescription5 is null THEN Null
+						  WHEN dbo.Items.JobDescription5 is not null THEN  dbo.Items.JobDescriptionTitle5
+				       END As JobDescriptionTitle5,
+				        CASE 
+						  WHEN dbo.Items.JobDescription6 is null THEN Null
+						  WHEN dbo.Items.JobDescription6 is not null THEN  dbo.Items.JobDescriptionTitle6
+				       END As JobDescriptionTitle6,
+				        CASE 
+						  WHEN dbo.Items.JobDescription7 is null THEN Null
+						  WHEN dbo.Items.JobDescription7 is not null THEN  dbo.Items.JobDescriptionTitle7
+				       END As JobDescriptionTitle7,
+					 
+					 isnull(dbo.companycontact.FirstName,'') + ' ' + isnull(dbo.companycontact.LastName,'') As ContactFullName,
+                      dbo.companycontact.MiddleName, dbo.companycontact.LastName, dbo.companycontact.Mobile, dbo.Company.Name AS CompanyName, dbo.Address.Address1, dbo.Address.AddressName,
+                      dbo.Address.Address2, dbo.Address.Address3, dbo.Address.City, dbo.Address.StateId, dbo.Address.CountryId, 
+                      dbo.Address.PostCode, dbo.Address.Fax, dbo.Address.Email, dbo.Address.URL, dbo.Address.Tel1, dbo.Items.Qty1, 
+                      dbo.Items.ProductName, dbo.Items.WebDescription, dbo.Items.JobDescription, dbo.ItemSection.SectionName, dbo.ItemSection.SectionNo, 
+                      BAddress.Address1 AS BAddress1, BAddress.Address2 AS BAddress2, BAddress.City AS BCity, BAddress.StateId AS BState, BAddress.Email AS BEmail, 
+                      dbo.Estimate.FinishDeliveryDate, dbo.Estimate.CreationDate, dbo.Estimate.StartDeliveryDate, dbo.Estimate.CustomerPO, BAddress.AddressName AS BAddressName, 
+                      dbo.SystemUser.FullName, dbo.Estimate.Order_Date, dbo.SectionCostcentre.Qty1WorkInstructions,
+                      dbo.CostCentre.Name AS CostCenterName,dbo.Items.ItemNotes, dbo.Items.Qty1NetTotal, dbo.Items.Qty1Tax1Value,(dbo.Items.Qty1NetTotal + dbo.Items.Qty1Tax1Value) as GrossTotal,
+                      --(select top 1 CategoryName from tbl_productCategory where ProductCategoryID = tbl_items.ProductCategoryID)+ ' ' + dbo.items.ProductName as FullProductName,
+                       (select top 1 categoryname from productcategory p inner join dbo.ProductCategoryItem pc2 on p.productcategoryid = pc2.categoryid
+					   inner join dbo.items pcat on pc2.ItemId = pcat.ItemId) + ' ' + dbo.items.ProductName as FullProductName,
+					   
+					   (select ReportBanner from reportnote where ReportCategoryID=9) as BannerPath,dbo.Items.EstimateDescription,
 
+                       (select ISNULL(BannerAbsolutePath,'') + isnull(ReportBanner,'')  from reportnote where ReportCategoryID=9) as ReportBanner,
+
+                       dbo.fn_GetOrderItemsList(dbo.Estimate.EstimateID, dbo.Items.ItemID) As OtherItems, BAddress.PostCode as BPostCode, BAddress.Countryid as BCountry
+                       ,dbo.fn_GetItemAttachmentsList(dbo.Items.ItemID,0) As AttachmentsList ,
+                       isnull((select machinename from machine where machineid = dbo.ItemSection.pressid),'N/A')as PressName,
+                       isnull((select top 1 StockLabel from ItemStockOption where StockID = ItemSection.StockItemID1 and  ItemSection.SectionNo = 1  and itemID = dbo.Items.refItemID),'N/A')as StockName,
+                       case
+                       when Estimate.isDirectSale = 1 then 'Direct Order'
+                       when Estimate.isDirectSale = 0 then 'Web Order'
+                       end as DirectOrderLabel,
+                       isnull(Items.JobCode, Items.ItemCode) As JobCode, 
+                        case when p.paymentmethodid = 1 then 'Paid into Paypal ref:'
+							 when p.paymentmethodid = 2 or p.paymentmethodid is null then 'Payment on Account:'
+							 End as PaymentType
+                      , case when p.paymentmethodid = 1 then (select top 1 transactionid from PayPalResponse where orderid = Estimate.estimateid)
+							 when p.paymentmethodid = 2 then p.ReferenceCode
+							 End as PaymentRefNo,
+							 isnull((select top 1 Productname from Items where estimateid = estimate.estimateid and itemtype = 2),'N/A') as DeliveryMethod,
+							
+							(select currencysymbol from currency c inner join organisation o on o.CurrencyId = c.CurrencyId) as CurrencySymbol,
+						    (dbo.Company.TaxLabel) + ':' As StateTaxLabel  
+
+					  
+					   --(select CurrencySymbol from tbl_general_settings where companyid = 2)as CurrencySymbol,
+				-- (Select top 1 Tax1 from tbl_company_sites)+ ':' As StateTaxLabel 
+
+				
+
+FROM         dbo.estimate inner JOIN
+
+                      dbo.items ON dbo.estimate.EstimateId = dbo.items.EstimateID inner JOIN
+                      dbo.ItemSection ON dbo.items.ItemID = dbo.ItemSection.ItemID Inner JOIN
+                      dbo.company ON dbo.estimate.CompanyId = dbo.company.CompanyId Inner JOIN
+                      dbo.companycontact ON dbo.estimate.ContactID = dbo.CompanyContact.ContactID Inner JOIN
+                      dbo.Address ON dbo.Estimate.AddressID = dbo.Address.AddressID left JOIN
+                      dbo.Address AS BAddress ON dbo.Estimate.BillingAddressID = BAddress.AddressID Inner JOIN
+                      dbo.systemuser ON dbo.Estimate.SalesPersonID = dbo.systemuser.SystemUserID 
+                      Left JOIN dbo.SectionCostcentre ON dbo.ItemSection.ItemSectionID = dbo.SectionCostcentre.ItemSectionId 
+                      left join prepayment p on dbo.estimate.estimateid = p.orderid
+                      Left JOIN dbo.costcentre ON dbo.sectioncostcentre.CostCentreID = dbo.CostCentre.CostCentreID
+GO
+
+
+ALTER TABLE estimate
+ALTER COLUMN OrderReportSignedBy uniqueidentifier null
+
+ALTER TABLE templatecolorstyle
+add constraint FK_TemplateColorStyle_Company
+foreign key (CustomerId)
+references Company (CompanyId)

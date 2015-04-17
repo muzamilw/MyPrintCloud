@@ -191,6 +191,7 @@ namespace MPC.Models.DomainModels
         public virtual ICollection<SmartForm> SmartForms { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<FieldVariable> FieldVariables { get; set; }
+        public virtual ICollection<TemplateColorStyle> TemplateColorStyles { get; set; }
 
         #region Additional Properties
 

@@ -1,8 +1,5 @@
 ﻿using MPC.MIS.Areas.Api.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -23,13 +20,36 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PricePerUnitQuantity = costCentre.PricePerUnitQuantity
             };
         }
-
-        public static MPC.MIS.Areas.Api.Models.CostCentreResponseModel CreateFrom(this MPC.Models.ResponseModels.CostCentreResponse source)
+        /// <summary>
+        /// Company Cost Centre to Cost Centre [Domain to Web]
+        /// </summary>
+        public static CostCentre CreateFromServerForProduct(this MPC.Models.DomainModels.CostCentre source)
         {
-            return new MPC.MIS.Areas.Api.Models.CostCentreResponseModel
+            
+          return new CostCentre
+            {
+                Name = source.Name,
+                CostCentreId = source.CostCentreId,
+                Description = source.Description,
+                SetupCost = source.SetupCost,
+                PricePerUnitQuantity = source.PricePerUnitQuantity
+            };
+        }
+
+        public static CostCentreResponseModel CreateFrom(this MPC.Models.ResponseModels.CostCentreResponse source)
+        {
+            return new CostCentreResponseModel
             {
                 RowCount= source.RowCount,
                 CostCentres= source.CostCentres.Select(obj => obj.CreateFromServer())
+            };
+        }
+        public static CostCentreResponseModel CreateFromForProducts(this MPC.Models.ResponseModels.CostCentreResponse source)
+        {
+            return new CostCentreResponseModel
+            {
+                RowCount= source.RowCount,
+                CostCentres = source.CostCentresForproducts.Select(obj => obj.CreateFromServerForProduct())
             };
         }
     }

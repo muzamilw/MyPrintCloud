@@ -274,7 +274,6 @@ define("myOrganization/myOrganization.viewModel",
                                 markupsForDropDown.remove(markupForDelete);
                             }
                         }
-
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
@@ -455,6 +454,16 @@ define("myOrganization/myOrganization.viewModel",
                                             }
                                         });
                                     });
+
+                                    _.each(data.Markups, function (item) {
+                                        var markupItem = _.find(markupsForDropDown(), function (markupDropDownItem) {
+                                            return markupDropDownItem.MarkUpId === item.MarkUpId;
+                                        });
+                                        if (markupItem === undefined) {
+                                            markupsForDropDown.push(item);
+                                        }
+                                    });
+
 
                                 } else {
                                     selectedMyOrganization(), id(orgId);
