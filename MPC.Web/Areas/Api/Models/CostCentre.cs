@@ -138,6 +138,7 @@ namespace MPC.MIS.Areas.Api.Models
         public string DeliveryServiceType { get; set; }
         public long? CarrierId { get; set; }
         public string ImageBytes { get; set; }
+        public bool IsParsed { get; set; }
         public ICollection<CostcentreInstruction> CostcentreInstructions { get; set; }
         public ICollection<CostcentreResource> CostcentreResources { get; set; }
         public ICollection<CostCenterFixedVariable> FixedVariables { get; set; }
