@@ -4495,13 +4495,20 @@ namespace MPC.Repository.Repositories
             Estimate order = db.Estimates.Where(e => e.EstimateId == orderId).FirstOrDefault();
             if(order != null)
             {
-                if (order.CompanyId == companyId && order.ContactId == contactId)
+                if (contactId > 0)
                 {
-                    return true;
+                    if (order.CompanyId == companyId && order.ContactId == contactId)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else 
                 {
-                    return false;
+                    return true; // me
                 }
             }
             else

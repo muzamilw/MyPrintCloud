@@ -2,7 +2,19 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @{
+        string currentController = ViewContext.RouteData.Values["controller"].ToString();
+    }
+    @if (currentController != "Designer")
+    {
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    }
+    else
+    {
+      
+    }
+
+  
 
     <title>@ViewBag.Title </title>
 
@@ -23,15 +35,10 @@
     <div id="layer" class="opaqueLayer"></div>
     <div id="innerLayer">
     </div>
-    @{
-        string currentController = ViewContext.RouteData.Values["controller"].ToString();
-    }
-    @if (currentController != "Designer")
-    {
-       
-    }
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
+    
     @Scripts.Render("~/pageSpecific")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
@@ -39,6 +46,15 @@
     @Scripts.Render("~/bundles/modalEffects")
     @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
- 
+    <script type="text/javascript">
+      
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            auto:true
+        }
+        );
+    });
+    </script>
+
 </body>
 </html>

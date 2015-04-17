@@ -51,6 +51,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPaperSupplied = source.IsPaperSupplied,
                 IsWorknTurn = source.isWorknTurn,
                 PlateInkId = source.PlateInkId,
+                PrintViewLayout = source.PrintViewLayout,
                 SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
                 SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
@@ -91,6 +92,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Basecharge3 = source.Basecharge3,
                 IncludeGutter = source.IncludeGutter,
                 IsDoubleSided = source.IsDoubleSided,
+                PrintViewLayout = source.PrintViewLayout,
                 PrintViewLayoutLandScape = source.PrintViewLayoutLandScape,
                 PrintViewLayoutPortrait = source.PrintViewLayoutPortrait,
                 IsPaperSupplied = source.IsPaperSupplied,
@@ -145,6 +147,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IncludeGutter = source.IncludeGutter,
                 SimilarSections = source.SimilarSections,
                 PlateInkId = source.PlateInkId,
+                PrintViewLayout = source.PrintViewLayout,
                 PrintViewLayoutLandScape = source.PrintViewLayoutLandScape,
                 PrintViewLayoutPortrait = source.PrintViewLayoutPortrait,
                 Side1Inks = source.Side1Inks,
