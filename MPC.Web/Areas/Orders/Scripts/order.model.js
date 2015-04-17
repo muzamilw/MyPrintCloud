@@ -816,12 +816,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList = ko.observableArray([]),
                 // Select Stock Item
                 selectStock = function (stockItem) {
-                    if (!stockItem || stockItemId() === stockItem.id()) {
+                    if (!stockItem || stockItemId() === stockItem.id) {
                         return;
                     }
 
-                    stockItemId(stockItem.id());
-                    stockItemName(stockItem.name());
+                    stockItemId(stockItem.id);
+                    stockItemName(stockItem.name);
                 },
                 // Select Press
                 selectPress = function (press) {
