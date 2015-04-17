@@ -4643,7 +4643,7 @@ namespace MPC.Repository.Repositories
                 SectionCostcentre presscc = updateSection.SectionCostcentres.Where(c => c.CostCentreId == oPressCostCentre.CostCentreId).FirstOrDefault();
                 if (presscc != null)
                 {
-                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = Math.Round(presscc.Qty1NetTotal ?? 0, 2), Qty1RunTime = presscc.Qty1EstimatedTime, Qty2Cost = Math.Round(presscc.Qty2NetTotal ?? 0, 2), Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = Math.Round(presscc.Qty3NetTotal ?? 0, 2), Qty3RunTime = presscc.Qty3EstimatedTime });
+                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = Math.Round(presscc.Qty1NetTotal ?? 0, 2), Qty1RunTime = Math.Round(presscc.Qty1EstimatedTime, 2), Qty2Cost = Math.Round(presscc.Qty2NetTotal ?? 0, 2), Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = Math.Round(presscc.Qty3NetTotal ?? 0, 2), Qty3RunTime = presscc.Qty3EstimatedTime });
                     updateSection.SectionCostcentres.ToList().ForEach(a => updateSection.SectionCostcentres.Remove(a));
                 }
             }
@@ -4713,7 +4713,16 @@ namespace MPC.Repository.Repositories
             {
                 updatedSection = CalculateGuillotineCost(updatedSection, (int)updatedSection.PressId, false, false);
             }
-            
+
+            updatedSection.BaseCharge1 = updatedSection.SectionCostcentres.Sum(a => a.Qty1NetTotal);
+            updatedSection.BaseCharge2 = updatedSection.SectionCostcentres.Sum(a => a.Qty2NetTotal);
+            updatedSection.Basecharge3 = updatedSection.SectionCostcentres.Sum(a => a.Qty3NetTotal);
+            if(updatedSection.SimilarSections > 0)
+            {
+                updatedSection.BaseCharge1 = Math.Round((updatedSection.BaseCharge1??0 * updatedSection.SimilarSections?? 1), 2);
+                updatedSection.BaseCharge2 = Math.Round((updatedSection.BaseCharge2??0 * updatedSection.SimilarSections?? 1), 2);
+                updatedSection.Basecharge3 = Math.Round((updatedSection.Basecharge3??0 * updatedSection.SimilarSections?? 1), 2);
+            }
 
             return updatedSection;
 
