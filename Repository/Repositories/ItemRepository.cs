@@ -2563,10 +2563,11 @@ namespace MPC.Repository.Repositories
                                             HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
                                         attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
+                                        attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
-                                    attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
+                                    
                                     PageNo = PageNo + 1;
                                     
                                 });

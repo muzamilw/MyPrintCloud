@@ -26,11 +26,10 @@
     @{
         string currentController = ViewContext.RouteData.Values["controller"].ToString();
     }
-    @if (currentController != "Designer")
-    {
+
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-    }
+    
     @Scripts.Render("~/pageSpecific")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/Slider")
@@ -38,6 +37,15 @@
     @Scripts.Render("~/bundles/modalEffects")
     @Scripts.Render("~/bundles/PopUps")
     @RenderSection("scripts", required: false)
- 
+    <script type="text/javascript">
+        ShowLoader();
+    $(document).ready(function () {
+        $('.bxslider').bxSlider({
+            auto:true
+        }
+        );
+    });
+    </script>
+
 </body>
 </html>
