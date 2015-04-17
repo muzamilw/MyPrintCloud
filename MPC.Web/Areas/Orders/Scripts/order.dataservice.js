@@ -95,6 +95,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get cost centers for product dialog
+                    amplify.request.define('getCostCentersForProduct', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCostCenter',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Inventory Stock Items
                     amplify.request.define('getInventoriesList', 'ajax', {
                         url: ist.siteUrl + '/Api/Inventory',
@@ -309,6 +315,16 @@ define("order/order.dataservice", function () {
                 error: callbacks.error,
                 data: params
             });
+        },
+        // get Cost centres for company
+        getCostCentersForProduct = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersForProduct',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
         };
 
         return {
@@ -322,6 +338,7 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
+            getCostCentersForProduct: getCostCentersForProduct,
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,

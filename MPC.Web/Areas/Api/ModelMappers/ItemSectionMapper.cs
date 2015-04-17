@@ -26,6 +26,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PressName = source.Machine != null ? source.Machine.MachineName : string.Empty,
                 StockItemId1 = source.StockItemID1,
                 StockItem1Name = source.StockItem != null ? source.StockItem.ItemName : string.Empty,
+                StockItem = source.StockItem != null ? source.StockItem.CreateFromDetail() : null,
                 SectionSizeId = source.SectionSizeId,
                 ItemSizeId = source.ItemSizeId,
                 SectionSizeHeight = source.SectionSizeHeight,
@@ -50,7 +51,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 IsPaperSupplied = source.IsPaperSupplied,
                 IsWorknTurn = source.isWorknTurn,
                 PlateInkId = source.PlateInkId,
-                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null
+                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()) : new List<SectionInkCoverage>()
             };
         }
 
@@ -66,7 +68,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionName = source.SectionName,
                 ItemId = source.ItemId,
                 PressId = source.PressId,
+                Machine = source.Machine != null ? source.Machine.CreateFrom() : null,
                 StockItemID1 = source.StockItemId1,
+                StockItem = source.StockItem != null ? source.StockItem.CreateFrom() : null,
+                Item = source.Item != null ? source.Item.CreateFrom() : null,
                 SectionSizeId = source.SectionSizeId,
                 ItemSizeId = source.ItemSizeId,
                 SectionSizeHeight = source.SectionSizeHeight,
@@ -93,7 +98,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PlateInkId = source.PlateInkId,
                 Side1Inks = source.Side1Inks,
                 Side2Inks = source.Side2Inks,
-                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null
+                SectionCostcentres = source.SectionCostcentres != null ? source.SectionCostcentres.Select(c => c.CreateFrom()).ToList() : null,
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
 
             };
         }
@@ -110,9 +116,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 SectionName = source.SectionName,
                 ItemId = source.ItemId,
                 PressId = source.PressId,
+                Machine = source.Machine != null ? source.Machine.CreateFrom() : null,
                 PressName = source.Machine != null ? source.Machine.MachineName : string.Empty,
                 StockItemId1 = source.StockItemID1,
                 StockItem1Name = source.StockItem != null ? source.StockItem.ItemName : string.Empty,
+                StockItem = source.StockItem != null ? source.StockItem.CreateFromDetail() : null,
+                Item = source.Item != null ? source.Item.CreateFrom() : null,
                 SectionSizeId = source.SectionSizeId,
                 ItemSizeId = source.ItemSizeId,
                 SectionSizeHeight = source.SectionSizeHeight,

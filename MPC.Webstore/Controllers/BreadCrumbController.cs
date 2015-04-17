@@ -38,7 +38,7 @@ namespace MPC.Webstore.Controllers
         // GET: BreadCrumb
         public ActionResult Index()
         {
-            BreadCrumbFactory(BreadCrumbMode.CategoryBrowsing);
+            //BreadCrumbFactory(BreadCrumbMode.CategoryBrowsing);
 
             return PartialView("PartialViews/BreadCrumb", _filteredCats);
         }

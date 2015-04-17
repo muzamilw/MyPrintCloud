@@ -67,6 +67,39 @@ namespace MPC.Repository.Repositories
 			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1 && costcentre.IsDisabled != 1 && costcentre.Type != 11)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
+		/// <summary>
+		/// Get All Cost Centres that are not system defined
+		/// </summary>
+        public CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request)
+		{
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isSearchFilterSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<CostCentre, bool>> query =
+                s =>
+                    (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
+                     (s.HeaderCode.Contains(request.SearchString)) ||
+                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29));
+
+            int rowCount = DbSet.Count(query);
+            // ReSharper disable once ConditionalTernaryEqualBranch
+            IEnumerable<CostCentre> costCentres = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(x => x.Name)
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new CostCentreResponse
+            {
+                RowCount = rowCount,
+                CostCentresForproducts = costCentres
+            };
+		}
 
 		public bool Delete(long CostCentreID)
 		{
