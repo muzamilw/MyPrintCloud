@@ -2121,6 +2121,13 @@ define("order/order.viewModel",
                             if (data != null) {
                                 selectedSection(model.ItemSection.Create(data));
                                 hideEstimateRunWizard();
+                                baseCharge1Total(200);
+                                baseCharge2Total(300);
+                                baseCharge3Total(400);
+                                //baseCharge1Total(parseFloat(selectedSection().baseCharge1()));
+                                //baseCharge2Total(parseFloat(selectedSection().baseCharge2()));
+                                //baseCharge3Total(parseFloat(selectedSection().baseCharge3()));
+
                             }
                             isLoadingOrders(false);
                         },
