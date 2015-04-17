@@ -305,15 +305,21 @@
 
                                                         </div>
 
-                                                        <div class="col-lg-6">
-                                                            <div class="fileUpload btn btn-primary col-md-2">
-                                                                <span>....</span>
-                                                                <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
+                                                        <div class="col-lg-8">
+                                                            <div class="col-lg-6">
+                                                                <div >
+                                                                    <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: orgnizationImage }," />
+                                                                </div>
                                                             </div>
+                                                            <div class="col-lg-4 text-right">
+                                                                <div class="fileUpload btn btn-primary">
+                                                                    <span>....</span>
+                                                                    <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
+                                                                </div>
+                                                            </div>
+                                                            
 
-                                                            <div class="col-md-12" style="margin-top: 10px;">
-                                                                <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: orgnizationImage }," />
-                                                            </div>
+                                                            
                                                             <div class="col-md-12">
                                                                 <span class="help-block text-right">Company logo on MIS Dashboard</span>
                                                             </div>
