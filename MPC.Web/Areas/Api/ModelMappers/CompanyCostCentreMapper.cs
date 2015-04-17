@@ -52,13 +52,5 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CostCentres = source.CostCentresForproducts.Select(obj => obj.CreateFromServerForProduct())
             };
         }
-        public static CostCentreResponseModel CreateFromForProducts(this MPC.Models.ResponseModels.CostCentreResponse source)
-        {
-            return new CostCentreResponseModel
-            {
-                RowCount= source.RowCount,
-                CostCentres = source.CostCentresForproducts.Select(obj => obj.CreateFromServerForProduct())
-            };
-        }
     }
 }
