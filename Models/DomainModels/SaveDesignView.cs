@@ -13,9 +13,6 @@ namespace MPC.Models.DomainModels
         public string AttachmentFolderPath { get; set; }
         public long? EstimateID { get; set; }
         public string ProductName { get; set; }
-        public string ProductCategoryName { get; set; }
-        public long ProductCategoryID { get; set; }
-        public int? ParentCategoryID { get; set; }
         public double MinPrice { get; set; }
         public bool? IsEnabled { get; set; }
         public bool? IsPublished { get; set; }
