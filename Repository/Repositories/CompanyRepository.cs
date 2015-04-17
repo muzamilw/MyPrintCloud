@@ -681,7 +681,15 @@ namespace MPC.Repository.Repositories
                 int companyType = request.IsCustomer;
                 Expression<Func<Company, bool>> query =
                     s =>
-                    ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
+                    ((!isStringSpecified 
+                    || s.Name.Contains(request.SearchString)
+                    || (s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1) != null 
+                        &&(
+                            s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).FirstName.Contains(request.SearchString)) 
+                            || s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).Email.Contains(request.SearchString)
+                            )
+                       )
+                    && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
                     (s.OrganisationId == OrganisationId && s.isArchived != true)
                     && ((companyType != 2 && (s.IsCustomer == companyType)) || (companyType == 2 && (s.IsCustomer == 0 || s.IsCustomer == 1)));
 
@@ -726,7 +734,9 @@ namespace MPC.Repository.Repositories
                 long type = request.CustomerType ?? 0;
                 Expression<Func<Company, bool>> query =
                     s =>
-                    ((!isStringSpecified || s.Name.Contains(request.SearchString))) &&
+                    ((!isStringSpecified 
+                    || s.Name.Contains(request.SearchString) 
+                    ||  (s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).Email.Contains(request.SearchString)))) &&
                     (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 2);
 
                 int rowCount = DbSet.Count(query);
