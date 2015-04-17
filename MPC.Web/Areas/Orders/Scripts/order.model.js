@@ -816,12 +816,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList = ko.observableArray([]),
                 // Select Stock Item
                 selectStock = function (stockItem) {
-                    if (!stockItem || stockItemId() === stockItem.id) {
+                    if (!stockItem || stockItemId() === stockItem.id()) {
                         return;
                     }
 
-                    stockItemId(stockItem.stockItemId());
-                    stockItemName(stockItem.itemName());
+                    stockItemId(stockItem.id());
+                    stockItemName(stockItem.name());
                 },
                 // Select Press
                 selectPress = function (press) {
@@ -918,7 +918,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         IsPaperSupplied: isPaperSupplied(),
                         BaseCharge1: baseCharge1(),
                         BaseCharge2: baseCharge2(),
-                        BaseCharge3: baseCharge3(),
+                        Basecharge3: baseCharge3(),
                         Qty1Profit: qty1Profit(),
                         Qty2Profit: qty2Profit(),
                         Qty3Profit: qty3Profit(),
@@ -2040,7 +2040,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.IsSectionSizeCustom, source.SectionSizeHeight, source.SectionSizeWidth, source.IsItemSizeCustom, source.ItemSizeHeight,
             source.ItemSizeWidth, source.PressId, source.StockItemId1, source.StockItem1Name, source.PressName, source.GuillotineId, source.Qty1,
             source.Qty2, source.Qty3, source.Qty1Profit, source.Qty2Profit, source.Qty3Profit, source.BaseCharge1, source.BaseCharge2,
-            source.BaseCharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
+            source.Basecharge3, source.IncludeGutter, source.FilmId, source.IsPaperSupplied, source.Side1PlateQty, source.Side2PlateQty, source.IsPlateSupplied,
             source.ItemId, source.IsDoubleSided, source.IsWorknTurn, source.PrintViewLayoutPortrait, source.PrintViewLayoutLandscape, source.PlateInkId, source.SimilarSections, source.Side1Inks, source.Side2Inks);
 
         // Map Section Cost Centres if Any
@@ -2054,6 +2054,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(itemSection.sectionCostCentres(), sectionCostcentres);
             itemSection.sectionCostCentres.valueHasMutated();
+        }
+            // Map Section Ink Coverage if Any
+            if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
+                var sectioninkcoverages = [];
+
+                _.each(source.SectionInkCoverages, function (sectionink) {
+                    sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
+                });
+
+                // Push to Original Item
+                ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
+                itemSection.sectionInkCoverageList.valueHasMutated();
         }
 
         return itemSection;
@@ -2232,8 +2244,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice) {
 
         var self,
-            stockItemId = ko.observable(specifiedId),
-            itemName = ko.observable(specifiedname),
+            id = ko.observable(specifiedId),
+            name = ko.observable(specifiedname),
             itemWeight = ko.observable(specifiedWeight),
             packageQty = ko.observable(specifiedPackageQty),
             perQtyQty = ko.observable(specifiedPerQtyQty),
@@ -2249,8 +2261,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                stockItemId: stockItemId,
-                itemName: itemName,
+                id: id,
+                name: name,
                 itemWeight: itemWeight,
                 packageQty: packageQty,
                 perQtyQty: perQtyQty,
@@ -2263,8 +2275,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Convert To Server
             convertToServerData = function () {
                 return {
-                    StockItemId: stockItemId(),
-                    ItemName: itemName(),
+                    StockItemId: id(),
+                    ItemName: name(),
                     ItemWeight: itemWeight(),
                     PackageQty: packageQty(),
                     PerQtyQty: perQtyQty(),
@@ -2276,8 +2288,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 dirtyFlag.reset();
             };
         self = {
-            stockItemId: stockItemId,
-            itemName: itemName,
+            id: id,
+            name: name,
             itemWeight: itemWeight,
             packageQty: packageQty,
             perQtyQty: perQtyQty,

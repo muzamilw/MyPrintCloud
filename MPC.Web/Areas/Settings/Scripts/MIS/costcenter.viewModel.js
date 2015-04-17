@@ -803,6 +803,23 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     selectedCostCenter().errors.showAllMessages();
                     flag = false;
                 }
+                if (selectedCostCenter().calculationMethodType() == '2') {
+                    if (selectedCostCenter().isTimeVariable() == '2') {
+                        if (selectedCostCenter().timeQuestionString() == null || selectedCostCenter().timeQuestionString() == undefined || selectedCostCenter().timeQuestionString().length == 0) {
+                            toastr.error("Error: Enter a Valid Question for Number of Hours");
+                            flag = false;
+                        }
+                    }
+                }
+                if (selectedCostCenter().calculationMethodType() == '3') {
+                    if (selectedCostCenter().isQtyVariable() == '2') {
+                        if (selectedCostCenter().quantityQuestionString() == null || selectedCostCenter().quantityQuestionString() == undefined || selectedCostCenter().quantityQuestionString().length == 0) {
+                            toastr.error("Error: Enter a Valid Question for Number of Hours");
+                            flag = false;
+                        }
+                    }
+                }
+
                 return flag;
             },
             AddnewChildItem = function (Item) {
@@ -941,13 +958,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 instruction.workInstructionChoices.removeAll();
                 selectedCostCenter().costCenterInstructions.remove(instruction);
             },
-            createWorkInstructionChoice = function () {
+            createWorkInstructionChoice = function (oWorkInstruction) {
                 var wic = new model.NewInstructionChoice();
                 selectedChoice(wic);
-                selectedInstruction().workInstructionChoices.splice(0, 0, wic);
+                selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == oWorkInstruction.instructionId() })[0].workInstructionChoices.splice(0, 0, wic);
+               // selectedInstruction().workInstructionChoices.splice(0, 0, wic);
             },
             deleteWorkInstructionChoice = function (choice) {
-                selectedInstruction().workInstructionChoices.remove(choice);
+                selectedCostCenter().costCenterInstructions().filter(function (item) { return item.instructionId() == choice.instructionId() })[0].workInstructionChoices.remove(choice);
+                //selectedInstruction().workInstructionChoices.remove(choice);
             },
             //On Edit Click Of Cost Center
             onEditItem = function (oCostCenter) {

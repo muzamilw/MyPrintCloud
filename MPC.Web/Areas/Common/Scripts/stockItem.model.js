@@ -6,8 +6,8 @@
         specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice) {
 
         var self,
-            stockItemId = ko.observable(specifiedId),
-            itemName = ko.observable(specifiedname),
+            id = ko.observable(specifiedId),
+            name = ko.observable(specifiedname),
             itemWeight = ko.observable(specifiedWeight),
             packageQty = ko.observable(specifiedPackageQty),
             perQtyQty = ko.observable(specifiedPerQtyQty),
@@ -23,8 +23,8 @@
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                stockItemId: stockItemId,
-                itemName: itemName,
+                id: id,
+                name: name,
                 itemWeight: itemWeight,
                 packageQty: packageQty,
                 perQtyQty: perQtyQty,
@@ -37,8 +37,8 @@
             //Convert To Server
             convertToServerData = function () {
                 return {
-                    StockItemId: stockItemId(),
-                    ItemName: itemName(),
+                    StockItemId: id(),
+                    ItemName: name(),
                     ItemWeight: itemWeight(),
                     PackageQty: packageQty(),
                     PerQtyQty: perQtyQty(),
@@ -50,8 +50,8 @@
                 dirtyFlag.reset();
             };
         self = {
-            stockItemId: stockItemId,
-            itemName: itemName,
+            id: id,
+            name: name,
             itemWeight: itemWeight,
             packageQty: packageQty,
             perQtyQty: perQtyQty,

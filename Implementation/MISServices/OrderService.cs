@@ -501,7 +501,7 @@ namespace MPC.Implementation.MISServices
 
         public ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request)
         {
-            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.AllSectionInks);
+            return itemsectionRepository.GetUpdatedSectionWithSystemCostCenters(request.CurrentSection, request.PressId, request.CurrentSection.SectionInkCoverages.ToList());
         }
 
         public string DownloadOrderArtwork(int OrderID, string sZipName)
