@@ -1992,6 +1992,7 @@ define("order/order.viewModel",
                             if (data != null) {
                                 selectedSection().printViewLayoutLandscape(data.LandscapePTV || 0);
                                 selectedSection().printViewLayoutPortrait(data.PortraitPTV || 0);
+                               // selectedSection().printViewLayout = data.LandscapePTV > data.PortraitPTV ? 1 : 0;
                             }
                             isPtvCalculationInProgress(false);
                         },

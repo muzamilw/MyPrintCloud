@@ -789,7 +789,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         doubleOrWorknTurn(value);
                     }
                 }),
-                
+                printViewLayout = ko.observable(),
                 // PrintViewLayoutPortrait
                 printViewLayoutPortrait = ko.observable(specifiedPrintViewLayoutPortrait || 0),
                 // PrintViewLayoutLandscape
@@ -797,8 +797,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Number Up
                 numberUp = ko.computed(function () {
                     if (printViewLayoutPortrait() >= printViewLayoutLandscape()) {
+                        printViewLayout(0);
                         return printViewLayoutPortrait();
                     } else if (printViewLayoutPortrait() <= printViewLayoutLandscape()) {
+                        printViewLayout(1);
                         return printViewLayoutLandscape();
                     }
 
@@ -910,6 +912,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemSizeWidth: itemSizeWidth(),
                         IsDoubleSided: isDoubleSided(),
                         IsWorknTurn: isWorknTurn(),
+                        PrintViewLayout: printViewLayout(),
                         PrintViewLayoutPortrait: printViewLayoutPortrait(),
                         PrintViewLayoutLandscape: printViewLayoutLandscape(),
                         PlateInkId: plateInkId(),
@@ -974,6 +977,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
                 doubleWorknTurn: doubleWorknTurn,
+                printViewLayout:printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
                 numberUp: numberUp,
