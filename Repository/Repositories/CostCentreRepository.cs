@@ -499,13 +499,43 @@ namespace MPC.Repository.Repositories
                     result.ThumbnailImageURL = oCostCentre.ThumbnailImageURL;
                     result.ImageBytes = null;
                 }
-                    
+                List<CostcentreInstruction> oCostcentreInstructions = db.CostcentreInstructions.Where(g => g.CostCentreId == oCostCentre.CostCentreId).ToList();
+                
                 if(oCostCentre.CostcentreInstructions != null)
                 {
+                    foreach (var item in oCostcentreInstructions)
+                    {
+                        CostcentreInstruction oCCInstruction = oCostCentre.CostcentreInstructions.Where(g=>g.InstructionId==item.InstructionId).FirstOrDefault();
+                        if (oCCInstruction == null)
+                        {
+                            List<CostcentreWorkInstructionsChoice> choicesList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == item.InstructionId).ToList();
+                            db.CostcentreWorkInstructionsChoices.RemoveRange(choicesList);
+                            db.CostcentreInstructions.Remove(item);
+                        }
+                        
+                    }
+
                     foreach (var inst in oCostCentre.CostcentreInstructions)
                     {
                         if (inst.InstructionId > 0)
                         {
+                            List<CostcentreWorkInstructionsChoice> choList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == inst.InstructionId).ToList();
+                            if (inst.CostcentreWorkInstructionsChoices == null)
+                            {
+                                db.CostcentreWorkInstructionsChoices.RemoveRange(choList);
+                            }
+                            else
+                            {
+                                foreach(var ch in choList){
+                                    CostcentreWorkInstructionsChoice chi = inst.CostcentreWorkInstructionsChoices.Where(g => g.Id == ch.Id).FirstOrDefault();
+                                    if (chi == null)
+                                    {
+                                        db.CostcentreWorkInstructionsChoices.Remove(ch);
+                                    }
+                                }
+                                
+                            }
+
                             CostcentreInstruction obj = db.CostcentreInstructions.Where(i => i.InstructionId == inst.InstructionId).SingleOrDefault();
                             obj.Instruction = inst.Instruction;
 
@@ -513,8 +543,19 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ch in inst.CostcentreWorkInstructionsChoices)
                                 {
-                                    CostcentreWorkInstructionsChoice objChoice = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
-                                    objChoice.Choice = ch.Choice;
+                                    if (ch.Id > 0)
+                                    {
+                                        CostcentreWorkInstructionsChoice objChoice = db.CostcentreWorkInstructionsChoices.Where(i => i.Id == ch.Id).SingleOrDefault();
+                                        objChoice.Choice = ch.Choice;
+                                    }
+                                    else
+                                    {
+                                        CostcentreWorkInstructionsChoice objChoice = new CostcentreWorkInstructionsChoice();
+                                        objChoice.Choice = ch.Choice;
+                                        objChoice.InstructionId = obj.InstructionId;
+                                        db.CostcentreWorkInstructionsChoices.Add(objChoice);
+                                    }
+                                   
                                 }
                             }
                         }
@@ -537,6 +578,15 @@ namespace MPC.Repository.Repositories
                             }
                         }
                         
+                    }
+                }
+                else if (oCostcentreInstructions.Count > 0)
+                {
+                    foreach (var item in oCostcentreInstructions)
+                    {
+                        List<CostcentreWorkInstructionsChoice> choicesList = db.CostcentreWorkInstructionsChoices.Where(g => g.InstructionId == item.InstructionId).ToList();
+                        db.CostcentreWorkInstructionsChoices.RemoveRange(choicesList);
+                        db.CostcentreInstructions.Remove(item);
                     }
                 }
 

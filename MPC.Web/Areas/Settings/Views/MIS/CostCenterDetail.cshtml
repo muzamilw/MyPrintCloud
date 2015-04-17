@@ -74,7 +74,7 @@
                                                     </div>
                                                     <div class="col-lg-7">
 
-                                                        <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType"></select>
+                                                        <select id="ddlbCostCenterType" class="form-control" data-bind="options: $root.costCenterTypes, optionsText: 'TypeName', optionsValue: 'TypeId',value:calculationMethodType, enable:false"></select>
                                                         @*<span class="help-block text-right">Cost Center Type</span>*@
                                                     </div>
                                                 </div>
@@ -490,7 +490,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2}, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: minimumCost">
                                                         @*<span class="help-block text-right">minimum cost</span>*@
                                                     </div>
                                                 </div>
@@ -505,7 +505,7 @@
                                                     </div>
                                                     <div class="col-lg-3  input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2} , validationTooltip: setupCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2, wEmpty: 'zero'} , validationTooltip: setupCost">
                                                         @*<span class="help-block text-right"> setup time</span>*@
                                                     </div>
                                                 </div>
@@ -534,7 +534,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtPricePerUnitQty" placeholder="Enter Price" data-bind="autoNumeric:pricePerUnitQuantity, settings:{mDec:2} , validationTooltip: pricePerUnitQuantity">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitQty" placeholder="Enter Price" data-bind="autoNumeric:pricePerUnitQuantity, settings:{mDec:2, wEmpty: 'zero'} , validationTooltip: pricePerUnitQuantity">
                                                         @*<span class="help-block text-right">Price per unit quantity</span>*@
                                                     </div>
                                                 </div>
@@ -631,7 +631,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2}, validationTooltip: minimumCost">
+                                                        <input type="text" class="form-control" id="txtMinimumCost" placeholder="Enter minimum cost" data-bind="autoNumeric:minimumCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: minimumCost">
                                                         @*<span class="help-block text-right">minimum cost</span>*@
                                                     </div>
                                                 </div>
@@ -646,7 +646,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2}, validationTooltip: setupCost">
+                                                        <input type="text" class="form-control" id="txtSetupCost" placeholder="Enter setup cost" data-bind="autoNumeric:setupCost, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: setupCost">
                                                         @*<span class="help-block text-right"> setup time</span>*@
                                                     </div>
                                                 </div>
@@ -675,7 +675,7 @@
                                                     </div>
                                                     <div class="col-lg-3 input-group">
                                                         <span class="input-group-addon" data-bind="text:$root.CurrencySymbol"></span>
-                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{mDec:2}, validationTooltip: perHourPrice">
+                                                        <input type="text" class="form-control" id="txtPricePerUnitHr" placeholder="Enter Price" data-bind="autoNumeric:perHourPrice, settings:{mDec:2, wEmpty: 'zero'}, validationTooltip: perHourPrice">
                                                         @*<span class="help-block text-right">Per Hour Price</span>*@
                                                     </div>
                                                 </div>
