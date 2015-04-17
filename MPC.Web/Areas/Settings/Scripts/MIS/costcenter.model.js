@@ -1227,8 +1227,8 @@
     var StockItemVariable = function (item) {
         var self
             if (item != null && item != undefined) {
-                Id = ko.observable(item.id),
-                StockName = ko.observable(item.name)
+                Id = ko.observable(item.id()),
+                StockName = ko.observable(item.name())
             } else {
                 Id = ko.observable(),
                 StockName = ko.observable()
