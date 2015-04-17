@@ -3980,7 +3980,10 @@ function pcl40_InsertUserData(scope) {
         if (IT.Value != null && IT.value != "") {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
         } else {
-            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+            if (IT.DefaultValue != null && IT.DefaultValue != "")
+                $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+            else 
+                $("#txtSmart" + IT.VariableId).val("");
         }
     });
 }
