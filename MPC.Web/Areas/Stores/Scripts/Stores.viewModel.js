@@ -3243,7 +3243,7 @@ define("stores/stores.viewModel",
                 selectedProductCategory(undefined);
                 var productCategory = new model.ProductCategory();
                 //Set Product category value for by default
-                productCategory.isShelfProductCategory(true);
+                productCategory.isShelfProductCategory(false);
                 productCategory.isEnabled(true);
                 productCategory.isPublished(true);
                 //Setting Product Category Editting
@@ -3406,11 +3406,21 @@ define("stores/stores.viewModel",
             },
             deleteCategory = function () {
                 dataservice.deleteProductCategoryById({
-                    ProductCategoryId: selectedProductCategory().productCategoryId()
+                    ProductCategoryId: selectedProductCategoryForEditting().productCategoryId()
                 }, {
                     success: function (data) {
                         if (data != null) {
-                            selectedProductCategory().isArchived(true);
+                            var obj = null;
+                            _.each(parentCategories(), function (item) {
+                                if (item.productCategoryId === selectedProductCategoryForEditting().productCategoryId()) {
+                                    obj = item;
+                                }
+                            });
+                            parentCategories.remove(obj);
+                            var val = '#' + selectedProductCategoryForEditting().productCategoryId();
+                            $(val).remove();
+                            onCloseProductCategory();
+                            toastr.success("Category deleted successfully!");
                         }
                     },
                     error: function (response) {
