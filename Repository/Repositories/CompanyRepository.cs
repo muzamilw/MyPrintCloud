@@ -119,7 +119,7 @@ namespace MPC.Repository.Repositories
                 CompanyResponse companyResponse = new CompanyResponse();
                 var company = db.Companies.Include(c => c.CmsPages)
                     .Include(c => c.RaveReviews)
-                    .Include(c => c.CompanyCMYKColors)
+                    .Include(c => c.TemplateColorStyles)
                     .Include(c => c.CompanyBannerSets)
                     .Include(c => c.Campaigns)
                     .Include(c => c.PaymentGateways)
@@ -236,7 +236,7 @@ namespace MPC.Repository.Repositories
                             cms.PageCategory,
                             cms.PageBanner
                         }).ToList(),
-                        c.CompanyCMYKColors,
+                        c.TemplateColorStyles,
                         c.CompanyBannerSets,
                         Campaigns = c.Campaigns.Select(cam => new
                         {
@@ -364,7 +364,7 @@ namespace MPC.Repository.Repositories
                             PageCategory = cms.PageCategory,
                             PageBanner = cms.PageBanner
                         }).ToList(),
-                        CompanyCMYKColors = c.CompanyCMYKColors,
+                        TemplateColorStyles = c.TemplateColorStyles,
                         CompanyBannerSets = c.CompanyBannerSets,
                         Campaigns = c.Campaigns.Select(cam => new Campaign
                         {
