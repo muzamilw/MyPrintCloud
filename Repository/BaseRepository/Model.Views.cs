@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsB170A1252D46D3BBCE2860B73484070EC396262134FF2EA69AE5096E9E16B26F))]
+[assembly: System.Data.Mapping.EntityViewGenerationAttribute(typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets88C8AE671E56C5899DC063F7A3B843E81CB65CB9F5684E3CD081DE80744C17DA))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -17,19 +17,19 @@ namespace Edm_EntityMappingGeneratedViews
     /// <Summary>
     /// The type contains views for EntitySets and AssociationSets that were generated at design time.
     /// </Summary>
-    public sealed class ViewsForBaseEntitySetsB170A1252D46D3BBCE2860B73484070EC396262134FF2EA69AE5096E9E16B26F : System.Data.Mapping.EntityViewContainer
+    public sealed class ViewsForBaseEntitySets88C8AE671E56C5899DC063F7A3B843E81CB65CB9F5684E3CD081DE80744C17DA : System.Data.Mapping.EntityViewContainer
     {
         
         /// <Summary>
         /// The constructor stores the views for the extents and also the hash values generated based on the metadata and mapping closure and views.
         /// </Summary>
-        public ViewsForBaseEntitySetsB170A1252D46D3BBCE2860B73484070EC396262134FF2EA69AE5096E9E16B26F()
+        public ViewsForBaseEntitySets88C8AE671E56C5899DC063F7A3B843E81CB65CB9F5684E3CD081DE80744C17DA()
         {
             this.EdmEntityContainerName = "BaseDbContext";
             this.StoreEntityContainerName = "DomainModelsStoreContainer";
-            this.HashOverMappingClosure = "b18f8e6f17dcebb84cd653c9ff3c1703ac3473d62b5c4169f11b15906ccf6986";
-            this.HashOverAllExtentViews = "901816b368c61b69ed198ea768a7a8fb1a2f91a2c9ec4111f2c95765b85749b4";
-            this.ViewCount = 324;
+            this.HashOverMappingClosure = "bf7c81456f646358b04a68b2f85e2927f345e92e25695b878a2cba44b5e4f327";
+            this.HashOverAllExtentViews = "283e1680c5fb0b8e1aa59138546e86648ae2876c41f2982cf294ba6bda160a09";
+            this.ViewCount = 328;
         }
         
         /// <Summary>
@@ -1332,6 +1332,22 @@ namespace Edm_EntityMappingGeneratedViews
             if ((index == 323))
             {
                 return GetView323();
+            }
+            if ((index == 324))
+            {
+                return GetView324();
+            }
+            if ((index == 325))
+            {
+                return GetView325();
+            }
+            if ((index == 326))
+            {
+                return GetView326();
+            }
+            if ((index == 327))
+            {
+                return GetView327();
             }
             throw new System.IndexOutOfRangeException();
         }
@@ -11684,38 +11700,33 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView306()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2402);
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2069);
             viewString.Append("\r\n    SELECT VALUE -- Constructing vw_SaveDesign\r\n        [DomainModels.Store.vw");
             viewString.Append("_SaveDesign](T1.[vw_SaveDesign.ItemID], T1.[vw_SaveDesign.AttachmentItemId], T1.");
             viewString.Append("[vw_SaveDesign.AttachmentFileName], T1.[vw_SaveDesign.AttachmentFolderPath], T1.");
-            viewString.Append("[vw_SaveDesign.EstimateID], T1.[vw_SaveDesign.ProductName], T1.[vw_SaveDesign.Pr");
-            viewString.Append("oductCategoryName], T1.[vw_SaveDesign.ProductCategoryID], T1.[vw_SaveDesign.Pare");
-            viewString.Append("ntCategoryID], T1.[vw_SaveDesign.MinPrice], T1.[vw_SaveDesign.IsEnabled], T1.[vw");
-            viewString.Append("_SaveDesign.IsPublished], T1.[vw_SaveDesign.IsArchived], T1.[vw_SaveDesign.Invoi");
-            viewString.Append("ceID], T1.[vw_SaveDesign.ContactID], T1.[vw_SaveDesign.CompanyId], T1.[vw_SaveDe");
-            viewString.Append("sign.IsCustomer], T1.[vw_SaveDesign.RefItemID], T1.[vw_SaveDesign.StatusID], T1.");
-            viewString.Append("[vw_SaveDesign.StatusName], T1.[vw_SaveDesign.IsOrderedItem], T1.[vw_SaveDesign.");
-            viewString.Append("ItemCreationDateTime], T1.[vw_SaveDesign.TemplateID])\r\n    FROM (\r\n        SELEC");
-            viewString.Append("T \r\n            T.ItemID AS [vw_SaveDesign.ItemID], \r\n            T.AttachmentIt");
-            viewString.Append("emId AS [vw_SaveDesign.AttachmentItemId], \r\n            T.AttachmentFileName AS ");
-            viewString.Append("[vw_SaveDesign.AttachmentFileName], \r\n            T.AttachmentFolderPath AS [vw_");
-            viewString.Append("SaveDesign.AttachmentFolderPath], \r\n            T.EstimateID AS [vw_SaveDesign.E");
-            viewString.Append("stimateID], \r\n            T.ProductName AS [vw_SaveDesign.ProductName], \r\n      ");
-            viewString.Append("      T.ProductCategoryName AS [vw_SaveDesign.ProductCategoryName], \r\n          ");
-            viewString.Append("  T.ProductCategoryID AS [vw_SaveDesign.ProductCategoryID], \r\n            T.Pare");
-            viewString.Append("ntCategoryID AS [vw_SaveDesign.ParentCategoryID], \r\n            T.MinPrice AS [v");
-            viewString.Append("w_SaveDesign.MinPrice], \r\n            T.IsEnabled AS [vw_SaveDesign.IsEnabled], ");
-            viewString.Append("\r\n            T.IsPublished AS [vw_SaveDesign.IsPublished], \r\n            T.IsAr");
-            viewString.Append("chived AS [vw_SaveDesign.IsArchived], \r\n            T.InvoiceID AS [vw_SaveDesig");
-            viewString.Append("n.InvoiceID], \r\n            T.ContactID AS [vw_SaveDesign.ContactID], \r\n        ");
-            viewString.Append("    T.CompanyId AS [vw_SaveDesign.CompanyId], \r\n            T.IsCustomer AS [vw_");
-            viewString.Append("SaveDesign.IsCustomer], \r\n            T.RefItemID AS [vw_SaveDesign.RefItemID], ");
-            viewString.Append("\r\n            T.StatusID AS [vw_SaveDesign.StatusID], \r\n            T.StatusName");
-            viewString.Append(" AS [vw_SaveDesign.StatusName], \r\n            T.IsOrderedItem AS [vw_SaveDesign.");
-            viewString.Append("IsOrderedItem], \r\n            T.ItemCreationDateTime AS [vw_SaveDesign.ItemCreat");
-            viewString.Append("ionDateTime], \r\n            T.TemplateID AS [vw_SaveDesign.TemplateID], \r\n      ");
-            viewString.Append("      True AS _from0\r\n        FROM BaseDbContext.SaveDesignViews AS T\r\n    ) AS ");
-            viewString.Append("T1");
+            viewString.Append("[vw_SaveDesign.EstimateID], T1.[vw_SaveDesign.ProductName], T1.[vw_SaveDesign.Mi");
+            viewString.Append("nPrice], T1.[vw_SaveDesign.IsEnabled], T1.[vw_SaveDesign.IsPublished], T1.[vw_Sa");
+            viewString.Append("veDesign.IsArchived], T1.[vw_SaveDesign.InvoiceID], T1.[vw_SaveDesign.ContactID]");
+            viewString.Append(", T1.[vw_SaveDesign.CompanyId], T1.[vw_SaveDesign.IsCustomer], T1.[vw_SaveDesign");
+            viewString.Append(".RefItemID], T1.[vw_SaveDesign.StatusID], T1.[vw_SaveDesign.StatusName], T1.[vw_");
+            viewString.Append("SaveDesign.IsOrderedItem], T1.[vw_SaveDesign.ItemCreationDateTime], T1.[vw_SaveD");
+            viewString.Append("esign.TemplateID])\r\n    FROM (\r\n        SELECT \r\n            T.ItemID AS [vw_Sav");
+            viewString.Append("eDesign.ItemID], \r\n            T.AttachmentItemId AS [vw_SaveDesign.AttachmentIt");
+            viewString.Append("emId], \r\n            T.AttachmentFileName AS [vw_SaveDesign.AttachmentFileName],");
+            viewString.Append(" \r\n            T.AttachmentFolderPath AS [vw_SaveDesign.AttachmentFolderPath], \r");
+            viewString.Append("\n            T.EstimateID AS [vw_SaveDesign.EstimateID], \r\n            T.Product");
+            viewString.Append("Name AS [vw_SaveDesign.ProductName], \r\n            T.MinPrice AS [vw_SaveDesign.");
+            viewString.Append("MinPrice], \r\n            T.IsEnabled AS [vw_SaveDesign.IsEnabled], \r\n           ");
+            viewString.Append(" T.IsPublished AS [vw_SaveDesign.IsPublished], \r\n            T.IsArchived AS [vw");
+            viewString.Append("_SaveDesign.IsArchived], \r\n            T.InvoiceID AS [vw_SaveDesign.InvoiceID],");
+            viewString.Append(" \r\n            T.ContactID AS [vw_SaveDesign.ContactID], \r\n            T.Company");
+            viewString.Append("Id AS [vw_SaveDesign.CompanyId], \r\n            T.IsCustomer AS [vw_SaveDesign.Is");
+            viewString.Append("Customer], \r\n            T.RefItemID AS [vw_SaveDesign.RefItemID], \r\n           ");
+            viewString.Append(" T.StatusID AS [vw_SaveDesign.StatusID], \r\n            T.StatusName AS [vw_SaveD");
+            viewString.Append("esign.StatusName], \r\n            T.IsOrderedItem AS [vw_SaveDesign.IsOrderedItem");
+            viewString.Append("], \r\n            T.ItemCreationDateTime AS [vw_SaveDesign.ItemCreationDateTime],");
+            viewString.Append(" \r\n            T.TemplateID AS [vw_SaveDesign.TemplateID], \r\n            True AS");
+            viewString.Append(" _from0\r\n        FROM BaseDbContext.SaveDesignViews AS T\r\n    ) AS T1");
             return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_SaveDesign", viewString.ToString());
         }
         
@@ -11724,38 +11735,32 @@ namespace Edm_EntityMappingGeneratedViews
         /// </Summary>
         private System.Collections.Generic.KeyValuePair<string, string> GetView307()
         {
-            System.Text.StringBuilder viewString = new System.Text.StringBuilder(2364);
-            viewString.Append("\r\n    SELECT VALUE -- Constructing SaveDesignViews\r\n        [DomainModels.SaveDe");
-            viewString.Append("signView](T1.SaveDesignView_ItemID, T1.SaveDesignView_AttachmentItemId, T1.SaveD");
-            viewString.Append("esignView_AttachmentFileName, T1.SaveDesignView_AttachmentFolderPath, T1.SaveDes");
-            viewString.Append("ignView_EstimateID, T1.SaveDesignView_ProductName, T1.SaveDesignView_ProductCate");
-            viewString.Append("goryName, T1.SaveDesignView_ProductCategoryID, T1.SaveDesignView_ParentCategoryI");
-            viewString.Append("D, T1.SaveDesignView_MinPrice, T1.SaveDesignView_IsEnabled, T1.SaveDesignView_Is");
-            viewString.Append("Published, T1.SaveDesignView_IsArchived, T1.SaveDesignView_InvoiceID, T1.SaveDes");
-            viewString.Append("ignView_ContactID, T1.SaveDesignView_CompanyId, T1.SaveDesignView_IsCustomer, T1");
-            viewString.Append(".SaveDesignView_RefItemID, T1.SaveDesignView_StatusID, T1.SaveDesignView_StatusN");
-            viewString.Append("ame, T1.SaveDesignView_IsOrderedItem, T1.SaveDesignView_ItemCreationDateTime, T1");
-            viewString.Append(".SaveDesignView_TemplateID)\r\n    FROM (\r\n        SELECT \r\n            T.ItemID A");
-            viewString.Append("S SaveDesignView_ItemID, \r\n            T.AttachmentItemId AS SaveDesignView_Atta");
-            viewString.Append("chmentItemId, \r\n            T.AttachmentFileName AS SaveDesignView_AttachmentFil");
-            viewString.Append("eName, \r\n            T.AttachmentFolderPath AS SaveDesignView_AttachmentFolderPa");
-            viewString.Append("th, \r\n            T.EstimateID AS SaveDesignView_EstimateID, \r\n            T.Pro");
-            viewString.Append("ductName AS SaveDesignView_ProductName, \r\n            T.ProductCategoryName AS S");
-            viewString.Append("aveDesignView_ProductCategoryName, \r\n            T.ProductCategoryID AS SaveDesi");
-            viewString.Append("gnView_ProductCategoryID, \r\n            T.ParentCategoryID AS SaveDesignView_Par");
-            viewString.Append("entCategoryID, \r\n            T.MinPrice AS SaveDesignView_MinPrice, \r\n          ");
-            viewString.Append("  T.IsEnabled AS SaveDesignView_IsEnabled, \r\n            T.IsPublished AS SaveDe");
-            viewString.Append("signView_IsPublished, \r\n            T.IsArchived AS SaveDesignView_IsArchived, \r");
-            viewString.Append("\n            T.InvoiceID AS SaveDesignView_InvoiceID, \r\n            T.ContactID ");
-            viewString.Append("AS SaveDesignView_ContactID, \r\n            T.CompanyId AS SaveDesignView_Company");
-            viewString.Append("Id, \r\n            T.IsCustomer AS SaveDesignView_IsCustomer, \r\n            T.Ref");
-            viewString.Append("ItemID AS SaveDesignView_RefItemID, \r\n            T.StatusID AS SaveDesignView_S");
-            viewString.Append("tatusID, \r\n            T.StatusName AS SaveDesignView_StatusName, \r\n            ");
-            viewString.Append("T.IsOrderedItem AS SaveDesignView_IsOrderedItem, \r\n            T.ItemCreationDat");
-            viewString.Append("eTime AS SaveDesignView_ItemCreationDateTime, \r\n            T.TemplateID AS Save");
-            viewString.Append("DesignView_TemplateID, \r\n            True AS _from0\r\n        FROM DomainModelsSt");
-            viewString.Append("oreContainer.vw_SaveDesign AS T\r\n    ) AS T1");
-            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SaveDesignViews", viewString.ToString());
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.SaveDesignViews", "\r\n    SELECT VALUE -- Constructing SaveDesignViews\r\n        [DomainModels.SaveDes" +
+                    "ignView](T1.SaveDesignView_ItemID, T1.SaveDesignView_AttachmentItemId, T1.SaveDe" +
+                    "signView_AttachmentFileName, T1.SaveDesignView_AttachmentFolderPath, T1.SaveDesi" +
+                    "gnView_EstimateID, T1.SaveDesignView_ProductName, T1.SaveDesignView_MinPrice, T1" +
+                    ".SaveDesignView_IsEnabled, T1.SaveDesignView_IsPublished, T1.SaveDesignView_IsAr" +
+                    "chived, T1.SaveDesignView_InvoiceID, T1.SaveDesignView_ContactID, T1.SaveDesignV" +
+                    "iew_CompanyId, T1.SaveDesignView_IsCustomer, T1.SaveDesignView_RefItemID, T1.Sav" +
+                    "eDesignView_StatusID, T1.SaveDesignView_StatusName, T1.SaveDesignView_IsOrderedI" +
+                    "tem, T1.SaveDesignView_ItemCreationDateTime, T1.SaveDesignView_TemplateID)\r\n    " +
+                    "FROM (\r\n        SELECT \r\n            T.ItemID AS SaveDesignView_ItemID, \r\n      " +
+                    "      T.AttachmentItemId AS SaveDesignView_AttachmentItemId, \r\n            T.Att" +
+                    "achmentFileName AS SaveDesignView_AttachmentFileName, \r\n            T.Attachment" +
+                    "FolderPath AS SaveDesignView_AttachmentFolderPath, \r\n            T.EstimateID AS" +
+                    " SaveDesignView_EstimateID, \r\n            T.ProductName AS SaveDesignView_Produc" +
+                    "tName, \r\n            T.MinPrice AS SaveDesignView_MinPrice, \r\n            T.IsEn" +
+                    "abled AS SaveDesignView_IsEnabled, \r\n            T.IsPublished AS SaveDesignView" +
+                    "_IsPublished, \r\n            T.IsArchived AS SaveDesignView_IsArchived, \r\n       " +
+                    "     T.InvoiceID AS SaveDesignView_InvoiceID, \r\n            T.ContactID AS SaveD" +
+                    "esignView_ContactID, \r\n            T.CompanyId AS SaveDesignView_CompanyId, \r\n  " +
+                    "          T.IsCustomer AS SaveDesignView_IsCustomer, \r\n            T.RefItemID A" +
+                    "S SaveDesignView_RefItemID, \r\n            T.StatusID AS SaveDesignView_StatusID," +
+                    " \r\n            T.StatusName AS SaveDesignView_StatusName, \r\n            T.IsOrde" +
+                    "redItem AS SaveDesignView_IsOrderedItem, \r\n            T.ItemCreationDateTime AS" +
+                    " SaveDesignView_ItemCreationDateTime, \r\n            T.TemplateID AS SaveDesignVi" +
+                    "ew_TemplateID, \r\n            True AS _from0\r\n        FROM DomainModelsStoreConta" +
+                    "iner.vw_SaveDesign AS T\r\n    ) AS T1");
         }
         
         /// <Summary>
@@ -12305,6 +12310,414 @@ namespace Edm_EntityMappingGeneratedViews
             True AS _from0
         FROM DomainModelsStoreContainer.InkPlateSide AS T
     ) AS T1");
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.vw_JobCardReport
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView324()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7966);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing vw_JobCardReport\r\n        [DomainModels.Store");
+            viewString.Append(".vw_JobCardReport](T1.[vw_JobCardReport.EstimateId], T1.[vw_JobCardReport.ItemId");
+            viewString.Append("], T1.[vw_JobCardReport.UserNotes], T1.[vw_JobCardReport.ItemCode], T1.[vw_JobCa");
+            viewString.Append("rdReport.FirstName], T1.[vw_JobCardReport.ProductCode], T1.[vw_JobCardReport.Job");
+            viewString.Append("Description1], T1.[vw_JobCardReport.JobDescription2], T1.[vw_JobCardReport.JobDe");
+            viewString.Append("scription3], T1.[vw_JobCardReport.JobDescription4], T1.[vw_JobCardReport.JobDesc");
+            viewString.Append("ription5], T1.[vw_JobCardReport.JobDescription6], T1.[vw_JobCardReport.JobDescri");
+            viewString.Append("ption7], T1.[vw_JobCardReport.JobDescriptionTitle1], T1.[vw_JobCardReport.JobDes");
+            viewString.Append("criptionTitle2], T1.[vw_JobCardReport.JobDescriptionTitle3], T1.[vw_JobCardRepor");
+            viewString.Append("t.JobDescriptionTitle4], T1.[vw_JobCardReport.JobDescriptionTitle5], T1.[vw_JobC");
+            viewString.Append("ardReport.JobDescriptionTitle6], T1.[vw_JobCardReport.JobDescriptionTitle7], T1.");
+            viewString.Append("[vw_JobCardReport.ContactFullName], T1.[vw_JobCardReport.MiddleName], T1.[vw_Job");
+            viewString.Append("CardReport.LastName], T1.[vw_JobCardReport.Mobile], T1.[vw_JobCardReport.Company");
+            viewString.Append("Name], T1.[vw_JobCardReport.Address1], T1.[vw_JobCardReport.AddressName], T1.[vw");
+            viewString.Append("_JobCardReport.Address2], T1.[vw_JobCardReport.Address3], T1.[vw_JobCardReport.C");
+            viewString.Append("ity], T1.[vw_JobCardReport.StateId], T1.[vw_JobCardReport.CountryId], T1.[vw_Job");
+            viewString.Append("CardReport.PostCode], T1.[vw_JobCardReport.Fax], T1.[vw_JobCardReport.Email], T1");
+            viewString.Append(".[vw_JobCardReport.URL], T1.[vw_JobCardReport.Tel1], T1.[vw_JobCardReport.Qty1],");
+            viewString.Append(" T1.[vw_JobCardReport.ProductName], T1.[vw_JobCardReport.WebDescription], T1.[vw");
+            viewString.Append("_JobCardReport.JobDescription], T1.[vw_JobCardReport.SectionName], T1.[vw_JobCar");
+            viewString.Append("dReport.SectionNo], T1.[vw_JobCardReport.BAddress1], T1.[vw_JobCardReport.BAddre");
+            viewString.Append("ss2], T1.[vw_JobCardReport.BCity], T1.[vw_JobCardReport.BState], T1.[vw_JobCardR");
+            viewString.Append("eport.BEmail], T1.[vw_JobCardReport.FinishDeliveryDate], T1.[vw_JobCardReport.Cr");
+            viewString.Append("eationDate], T1.[vw_JobCardReport.StartDeliveryDate], T1.[vw_JobCardReport.Custo");
+            viewString.Append("merPO], T1.[vw_JobCardReport.BAddressName], T1.[vw_JobCardReport.FullName], T1.[");
+            viewString.Append("vw_JobCardReport.Order_Date], T1.[vw_JobCardReport.Qty1WorkInstructions], T1.[vw");
+            viewString.Append("_JobCardReport.CostCenterName], T1.[vw_JobCardReport.ItemNotes], T1.[vw_JobCardR");
+            viewString.Append("eport.Qty1NetTotal], T1.[vw_JobCardReport.Qty1Tax1Value], T1.[vw_JobCardReport.G");
+            viewString.Append("rossTotal], T1.[vw_JobCardReport.FullProductName], T1.[vw_JobCardReport.BannerPa");
+            viewString.Append("th], T1.[vw_JobCardReport.EstimateDescription], T1.[vw_JobCardReport.ReportBanne");
+            viewString.Append("r], T1.[vw_JobCardReport.OtherItems], T1.[vw_JobCardReport.BPostCode], T1.[vw_Jo");
+            viewString.Append("bCardReport.BCountry], T1.[vw_JobCardReport.AttachmentsList], T1.[vw_JobCardRepo");
+            viewString.Append("rt.PressName], T1.[vw_JobCardReport.StockName], T1.[vw_JobCardReport.DirectOrder");
+            viewString.Append("Label], T1.[vw_JobCardReport.JobCode], T1.[vw_JobCardReport.PaymentType], T1.[vw");
+            viewString.Append("_JobCardReport.PaymentRefNo], T1.[vw_JobCardReport.DeliveryMethod], T1.[vw_JobCa");
+            viewString.Append("rdReport.CurrencySymbol], T1.[vw_JobCardReport.StateTaxLabel])\r\n    FROM (\r\n    ");
+            viewString.Append("    SELECT \r\n            T.EstimateId AS [vw_JobCardReport.EstimateId], \r\n      ");
+            viewString.Append("      T.ItemId AS [vw_JobCardReport.ItemId], \r\n            T.UserNotes AS [vw_Jo");
+            viewString.Append("bCardReport.UserNotes], \r\n            T.ItemCode AS [vw_JobCardReport.ItemCode],");
+            viewString.Append(" \r\n            T.FirstName AS [vw_JobCardReport.FirstName], \r\n            T.Prod");
+            viewString.Append("uctCode AS [vw_JobCardReport.ProductCode], \r\n            T.JobDescription1 AS [v");
+            viewString.Append("w_JobCardReport.JobDescription1], \r\n            T.JobDescription2 AS [vw_JobCard");
+            viewString.Append("Report.JobDescription2], \r\n            T.JobDescription3 AS [vw_JobCardReport.Jo");
+            viewString.Append("bDescription3], \r\n            T.JobDescription4 AS [vw_JobCardReport.JobDescript");
+            viewString.Append("ion4], \r\n            T.JobDescription5 AS [vw_JobCardReport.JobDescription5], \r\n");
+            viewString.Append("            T.JobDescription6 AS [vw_JobCardReport.JobDescription6], \r\n         ");
+            viewString.Append("   T.JobDescription7 AS [vw_JobCardReport.JobDescription7], \r\n            T.JobD");
+            viewString.Append("escriptionTitle1 AS [vw_JobCardReport.JobDescriptionTitle1], \r\n            T.Job");
+            viewString.Append("DescriptionTitle2 AS [vw_JobCardReport.JobDescriptionTitle2], \r\n            T.Jo");
+            viewString.Append("bDescriptionTitle3 AS [vw_JobCardReport.JobDescriptionTitle3], \r\n            T.J");
+            viewString.Append("obDescriptionTitle4 AS [vw_JobCardReport.JobDescriptionTitle4], \r\n            T.");
+            viewString.Append("JobDescriptionTitle5 AS [vw_JobCardReport.JobDescriptionTitle5], \r\n            T");
+            viewString.Append(".JobDescriptionTitle6 AS [vw_JobCardReport.JobDescriptionTitle6], \r\n            ");
+            viewString.Append("T.JobDescriptionTitle7 AS [vw_JobCardReport.JobDescriptionTitle7], \r\n           ");
+            viewString.Append(" T.ContactFullName AS [vw_JobCardReport.ContactFullName], \r\n            T.Middle");
+            viewString.Append("Name AS [vw_JobCardReport.MiddleName], \r\n            T.LastName AS [vw_JobCardRe");
+            viewString.Append("port.LastName], \r\n            T.Mobile AS [vw_JobCardReport.Mobile], \r\n         ");
+            viewString.Append("   T.CompanyName AS [vw_JobCardReport.CompanyName], \r\n            T.Address1 AS ");
+            viewString.Append("[vw_JobCardReport.Address1], \r\n            T.AddressName AS [vw_JobCardReport.Ad");
+            viewString.Append("dressName], \r\n            T.Address2 AS [vw_JobCardReport.Address2], \r\n         ");
+            viewString.Append("   T.Address3 AS [vw_JobCardReport.Address3], \r\n            T.City AS [vw_JobCar");
+            viewString.Append("dReport.City], \r\n            T.StateId AS [vw_JobCardReport.StateId], \r\n        ");
+            viewString.Append("    T.CountryId AS [vw_JobCardReport.CountryId], \r\n            T.PostCode AS [vw");
+            viewString.Append("_JobCardReport.PostCode], \r\n            T.Fax AS [vw_JobCardReport.Fax], \r\n     ");
+            viewString.Append("       T.Email AS [vw_JobCardReport.Email], \r\n            T.URL AS [vw_JobCardRe");
+            viewString.Append("port.URL], \r\n            T.Tel1 AS [vw_JobCardReport.Tel1], \r\n            T.Qty1");
+            viewString.Append(" AS [vw_JobCardReport.Qty1], \r\n            T.ProductName AS [vw_JobCardReport.Pr");
+            viewString.Append("oductName], \r\n            T.WebDescription AS [vw_JobCardReport.WebDescription],");
+            viewString.Append(" \r\n            T.JobDescription AS [vw_JobCardReport.JobDescription], \r\n        ");
+            viewString.Append("    T.SectionName AS [vw_JobCardReport.SectionName], \r\n            T.SectionNo A");
+            viewString.Append("S [vw_JobCardReport.SectionNo], \r\n            T.BAddress1 AS [vw_JobCardReport.B");
+            viewString.Append("Address1], \r\n            T.BAddress2 AS [vw_JobCardReport.BAddress2], \r\n        ");
+            viewString.Append("    T.BCity AS [vw_JobCardReport.BCity], \r\n            T.BState AS [vw_JobCardRe");
+            viewString.Append("port.BState], \r\n            T.BEmail AS [vw_JobCardReport.BEmail], \r\n           ");
+            viewString.Append(" T.FinishDeliveryDate AS [vw_JobCardReport.FinishDeliveryDate], \r\n            T.");
+            viewString.Append("CreationDate AS [vw_JobCardReport.CreationDate], \r\n            T.StartDeliveryDa");
+            viewString.Append("te AS [vw_JobCardReport.StartDeliveryDate], \r\n            T.CustomerPO AS [vw_Jo");
+            viewString.Append("bCardReport.CustomerPO], \r\n            T.BAddressName AS [vw_JobCardReport.BAddr");
+            viewString.Append("essName], \r\n            T.FullName AS [vw_JobCardReport.FullName], \r\n           ");
+            viewString.Append(" T.Order_Date AS [vw_JobCardReport.Order_Date], \r\n            T.Qty1WorkInstruct");
+            viewString.Append("ions AS [vw_JobCardReport.Qty1WorkInstructions], \r\n            T.CostCenterName ");
+            viewString.Append("AS [vw_JobCardReport.CostCenterName], \r\n            T.ItemNotes AS [vw_JobCardRe");
+            viewString.Append("port.ItemNotes], \r\n            T.Qty1NetTotal AS [vw_JobCardReport.Qty1NetTotal]");
+            viewString.Append(", \r\n            T.Qty1Tax1Value AS [vw_JobCardReport.Qty1Tax1Value], \r\n         ");
+            viewString.Append("   T.GrossTotal AS [vw_JobCardReport.GrossTotal], \r\n            T.FullProductNam");
+            viewString.Append("e AS [vw_JobCardReport.FullProductName], \r\n            T.BannerPath AS [vw_JobCa");
+            viewString.Append("rdReport.BannerPath], \r\n            T.EstimateDescription AS [vw_JobCardReport.E");
+            viewString.Append("stimateDescription], \r\n            T.ReportBanner AS [vw_JobCardReport.ReportBan");
+            viewString.Append("ner], \r\n            T.OtherItems AS [vw_JobCardReport.OtherItems], \r\n           ");
+            viewString.Append(" T.BPostCode AS [vw_JobCardReport.BPostCode], \r\n            T.BCountry AS [vw_Jo");
+            viewString.Append("bCardReport.BCountry], \r\n            T.AttachmentsList AS [vw_JobCardReport.Atta");
+            viewString.Append("chmentsList], \r\n            T.PressName AS [vw_JobCardReport.PressName], \r\n     ");
+            viewString.Append("       T.StockName AS [vw_JobCardReport.StockName], \r\n            T.DirectOrderL");
+            viewString.Append("abel AS [vw_JobCardReport.DirectOrderLabel], \r\n            T.JobCode AS [vw_JobC");
+            viewString.Append("ardReport.JobCode], \r\n            T.PaymentType AS [vw_JobCardReport.PaymentType");
+            viewString.Append("], \r\n            T.PaymentRefNo AS [vw_JobCardReport.PaymentRefNo], \r\n          ");
+            viewString.Append("  T.DeliveryMethod AS [vw_JobCardReport.DeliveryMethod], \r\n            T.Currenc");
+            viewString.Append("ySymbol AS [vw_JobCardReport.CurrencySymbol], \r\n            T.StateTaxLabel AS [");
+            viewString.Append("vw_JobCardReport.StateTaxLabel], \r\n            True AS _from0\r\n        FROM Base");
+            viewString.Append("DbContext.JobCardReportViews AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_JobCardReport", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.JobCardReportViews
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView325()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(7822);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing JobCardReportViews\r\n        [DomainModels.Job");
+            viewString.Append("CardReportView](T1.JobCardReportView_EstimateId, T1.JobCardReportView_ItemId, T1");
+            viewString.Append(".JobCardReportView_UserNotes, T1.JobCardReportView_ItemCode, T1.JobCardReportVie");
+            viewString.Append("w_FirstName, T1.JobCardReportView_ProductCode, T1.JobCardReportView_JobDescripti");
+            viewString.Append("on1, T1.JobCardReportView_JobDescription2, T1.JobCardReportView_JobDescription3,");
+            viewString.Append(" T1.JobCardReportView_JobDescription4, T1.JobCardReportView_JobDescription5, T1.");
+            viewString.Append("JobCardReportView_JobDescription6, T1.JobCardReportView_JobDescription7, T1.JobC");
+            viewString.Append("ardReportView_JobDescriptionTitle1, T1.JobCardReportView_JobDescriptionTitle2, T");
+            viewString.Append("1.JobCardReportView_JobDescriptionTitle3, T1.JobCardReportView_JobDescriptionTit");
+            viewString.Append("le4, T1.JobCardReportView_JobDescriptionTitle5, T1.JobCardReportView_JobDescript");
+            viewString.Append("ionTitle6, T1.JobCardReportView_JobDescriptionTitle7, T1.JobCardReportView_Conta");
+            viewString.Append("ctFullName, T1.JobCardReportView_MiddleName, T1.JobCardReportView_LastName, T1.J");
+            viewString.Append("obCardReportView_Mobile, T1.JobCardReportView_CompanyName, T1.JobCardReportView_");
+            viewString.Append("Address1, T1.JobCardReportView_AddressName, T1.JobCardReportView_Address2, T1.Jo");
+            viewString.Append("bCardReportView_Address3, T1.JobCardReportView_City, T1.JobCardReportView_StateI");
+            viewString.Append("d, T1.JobCardReportView_CountryId, T1.JobCardReportView_PostCode, T1.JobCardRepo");
+            viewString.Append("rtView_Fax, T1.JobCardReportView_Email, T1.JobCardReportView_URL, T1.JobCardRepo");
+            viewString.Append("rtView_Tel1, T1.JobCardReportView_Qty1, T1.JobCardReportView_ProductName, T1.Job");
+            viewString.Append("CardReportView_WebDescription, T1.JobCardReportView_JobDescription, T1.JobCardRe");
+            viewString.Append("portView_SectionName, T1.JobCardReportView_SectionNo, T1.JobCardReportView_BAddr");
+            viewString.Append("ess1, T1.JobCardReportView_BAddress2, T1.JobCardReportView_BCity, T1.JobCardRepo");
+            viewString.Append("rtView_BState, T1.JobCardReportView_BEmail, T1.JobCardReportView_FinishDeliveryD");
+            viewString.Append("ate, T1.JobCardReportView_CreationDate, T1.JobCardReportView_StartDeliveryDate, ");
+            viewString.Append("T1.JobCardReportView_CustomerPO, T1.JobCardReportView_BAddressName, T1.JobCardRe");
+            viewString.Append("portView_FullName, T1.[JobCardReportView.Order_Date], T1.JobCardReportView_Qty1W");
+            viewString.Append("orkInstructions, T1.JobCardReportView_CostCenterName, T1.JobCardReportView_ItemN");
+            viewString.Append("otes, T1.JobCardReportView_Qty1NetTotal, T1.JobCardReportView_Qty1Tax1Value, T1.");
+            viewString.Append("JobCardReportView_GrossTotal, T1.JobCardReportView_FullProductName, T1.JobCardRe");
+            viewString.Append("portView_BannerPath, T1.JobCardReportView_EstimateDescription, T1.JobCardReportV");
+            viewString.Append("iew_ReportBanner, T1.JobCardReportView_OtherItems, T1.JobCardReportView_BPostCod");
+            viewString.Append("e, T1.JobCardReportView_BCountry, T1.JobCardReportView_AttachmentsList, T1.JobCa");
+            viewString.Append("rdReportView_PressName, T1.JobCardReportView_StockName, T1.JobCardReportView_Dir");
+            viewString.Append("ectOrderLabel, T1.JobCardReportView_JobCode, T1.JobCardReportView_PaymentType, T");
+            viewString.Append("1.JobCardReportView_PaymentRefNo, T1.JobCardReportView_DeliveryMethod, T1.JobCar");
+            viewString.Append("dReportView_CurrencySymbol, T1.JobCardReportView_StateTaxLabel)\r\n    FROM (\r\n   ");
+            viewString.Append("     SELECT \r\n            T.EstimateId AS JobCardReportView_EstimateId, \r\n      ");
+            viewString.Append("      T.ItemId AS JobCardReportView_ItemId, \r\n            T.UserNotes AS JobCard");
+            viewString.Append("ReportView_UserNotes, \r\n            T.ItemCode AS JobCardReportView_ItemCode, \r\n");
+            viewString.Append("            T.FirstName AS JobCardReportView_FirstName, \r\n            T.ProductC");
+            viewString.Append("ode AS JobCardReportView_ProductCode, \r\n            T.JobDescription1 AS JobCard");
+            viewString.Append("ReportView_JobDescription1, \r\n            T.JobDescription2 AS JobCardReportView");
+            viewString.Append("_JobDescription2, \r\n            T.JobDescription3 AS JobCardReportView_JobDescri");
+            viewString.Append("ption3, \r\n            T.JobDescription4 AS JobCardReportView_JobDescription4, \r\n");
+            viewString.Append("            T.JobDescription5 AS JobCardReportView_JobDescription5, \r\n          ");
+            viewString.Append("  T.JobDescription6 AS JobCardReportView_JobDescription6, \r\n            T.JobDes");
+            viewString.Append("cription7 AS JobCardReportView_JobDescription7, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle1 AS JobCardReportView_JobDescriptionTitle1, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle2 AS JobCardReportView_JobDescriptionTitle2, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle3 AS JobCardReportView_JobDescriptionTitle3, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle4 AS JobCardReportView_JobDescriptionTitle4, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle5 AS JobCardReportView_JobDescriptionTitle5, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle6 AS JobCardReportView_JobDescriptionTitle6, \r\n            T.JobDescriptionTi");
+            viewString.Append("tle7 AS JobCardReportView_JobDescriptionTitle7, \r\n            T.ContactFullName ");
+            viewString.Append("AS JobCardReportView_ContactFullName, \r\n            T.MiddleName AS JobCardRepor");
+            viewString.Append("tView_MiddleName, \r\n            T.LastName AS JobCardReportView_LastName, \r\n    ");
+            viewString.Append("        T.Mobile AS JobCardReportView_Mobile, \r\n            T.CompanyName AS Job");
+            viewString.Append("CardReportView_CompanyName, \r\n            T.Address1 AS JobCardReportView_Addres");
+            viewString.Append("s1, \r\n            T.AddressName AS JobCardReportView_AddressName, \r\n            ");
+            viewString.Append("T.Address2 AS JobCardReportView_Address2, \r\n            T.Address3 AS JobCardRep");
+            viewString.Append("ortView_Address3, \r\n            T.City AS JobCardReportView_City, \r\n            ");
+            viewString.Append("T.StateId AS JobCardReportView_StateId, \r\n            T.CountryId AS JobCardRepo");
+            viewString.Append("rtView_CountryId, \r\n            T.PostCode AS JobCardReportView_PostCode, \r\n    ");
+            viewString.Append("        T.Fax AS JobCardReportView_Fax, \r\n            T.Email AS JobCardReportVi");
+            viewString.Append("ew_Email, \r\n            T.URL AS JobCardReportView_URL, \r\n            T.Tel1 AS ");
+            viewString.Append("JobCardReportView_Tel1, \r\n            T.Qty1 AS JobCardReportView_Qty1, \r\n      ");
+            viewString.Append("      T.ProductName AS JobCardReportView_ProductName, \r\n            T.WebDescrip");
+            viewString.Append("tion AS JobCardReportView_WebDescription, \r\n            T.JobDescription AS JobC");
+            viewString.Append("ardReportView_JobDescription, \r\n            T.SectionName AS JobCardReportView_S");
+            viewString.Append("ectionName, \r\n            T.SectionNo AS JobCardReportView_SectionNo, \r\n        ");
+            viewString.Append("    T.BAddress1 AS JobCardReportView_BAddress1, \r\n            T.BAddress2 AS Job");
+            viewString.Append("CardReportView_BAddress2, \r\n            T.BCity AS JobCardReportView_BCity, \r\n  ");
+            viewString.Append("          T.BState AS JobCardReportView_BState, \r\n            T.BEmail AS JobCar");
+            viewString.Append("dReportView_BEmail, \r\n            T.FinishDeliveryDate AS JobCardReportView_Fini");
+            viewString.Append("shDeliveryDate, \r\n            T.CreationDate AS JobCardReportView_CreationDate, ");
+            viewString.Append("\r\n            T.StartDeliveryDate AS JobCardReportView_StartDeliveryDate, \r\n    ");
+            viewString.Append("        T.CustomerPO AS JobCardReportView_CustomerPO, \r\n            T.BAddressNa");
+            viewString.Append("me AS JobCardReportView_BAddressName, \r\n            T.FullName AS JobCardReportV");
+            viewString.Append("iew_FullName, \r\n            T.Order_Date AS [JobCardReportView.Order_Date], \r\n  ");
+            viewString.Append("          T.Qty1WorkInstructions AS JobCardReportView_Qty1WorkInstructions, \r\n  ");
+            viewString.Append("          T.CostCenterName AS JobCardReportView_CostCenterName, \r\n            T.");
+            viewString.Append("ItemNotes AS JobCardReportView_ItemNotes, \r\n            T.Qty1NetTotal AS JobCar");
+            viewString.Append("dReportView_Qty1NetTotal, \r\n            T.Qty1Tax1Value AS JobCardReportView_Qty");
+            viewString.Append("1Tax1Value, \r\n            T.GrossTotal AS JobCardReportView_GrossTotal, \r\n      ");
+            viewString.Append("      T.FullProductName AS JobCardReportView_FullProductName, \r\n            T.Ba");
+            viewString.Append("nnerPath AS JobCardReportView_BannerPath, \r\n            T.EstimateDescription AS");
+            viewString.Append(" JobCardReportView_EstimateDescription, \r\n            T.ReportBanner AS JobCardR");
+            viewString.Append("eportView_ReportBanner, \r\n            T.OtherItems AS JobCardReportView_OtherIte");
+            viewString.Append("ms, \r\n            T.BPostCode AS JobCardReportView_BPostCode, \r\n            T.BC");
+            viewString.Append("ountry AS JobCardReportView_BCountry, \r\n            T.AttachmentsList AS JobCard");
+            viewString.Append("ReportView_AttachmentsList, \r\n            T.PressName AS JobCardReportView_Press");
+            viewString.Append("Name, \r\n            T.StockName AS JobCardReportView_StockName, \r\n            T.");
+            viewString.Append("DirectOrderLabel AS JobCardReportView_DirectOrderLabel, \r\n            T.JobCode ");
+            viewString.Append("AS JobCardReportView_JobCode, \r\n            T.PaymentType AS JobCardReportView_P");
+            viewString.Append("aymentType, \r\n            T.PaymentRefNo AS JobCardReportView_PaymentRefNo, \r\n  ");
+            viewString.Append("          T.DeliveryMethod AS JobCardReportView_DeliveryMethod, \r\n            T.");
+            viewString.Append("CurrencySymbol AS JobCardReportView_CurrencySymbol, \r\n            T.StateTaxLabe");
+            viewString.Append("l AS JobCardReportView_StateTaxLabel, \r\n            True AS _from0\r\n        FROM");
+            viewString.Append(" DomainModelsStoreContainer.vw_JobCardReport AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.JobCardReportViews", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for DomainModelsStoreContainer.vw_OrderReport
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView326()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(6991);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing vw_OrderReport\r\n        [DomainModels.Store.v");
+            viewString.Append("w_OrderReport](T1.[vw_OrderReport.ItemID], T1.[vw_OrderReport.Title], T1.[vw_Ord");
+            viewString.Append("erReport.Qty1], T1.[vw_OrderReport.Qty2], T1.[vw_OrderReport.Qty3], T1.[vw_Order");
+            viewString.Append("Report.Qty1NetTotal], T1.[vw_OrderReport.Qty2NetTotal], T1.[vw_OrderReport.Qty3N");
+            viewString.Append("etTotal], T1.[vw_OrderReport.ProductCode], T1.[vw_OrderReport.JobDescription1], ");
+            viewString.Append("T1.[vw_OrderReport.JobDescription2], T1.[vw_OrderReport.JobDescription3], T1.[vw");
+            viewString.Append("_OrderReport.JobDescription4], T1.[vw_OrderReport.JobDescription5], T1.[vw_Order");
+            viewString.Append("Report.JobDescription6], T1.[vw_OrderReport.JobDescription7], T1.[vw_OrderReport");
+            viewString.Append(".JobDescriptionTitle1], T1.[vw_OrderReport.JobDescriptionTitle2], T1.[vw_OrderRe");
+            viewString.Append("port.JobDescriptionTitle3], T1.[vw_OrderReport.JobDescriptionTitle4], T1.[vw_Ord");
+            viewString.Append("erReport.JobDescriptionTitle5], T1.[vw_OrderReport.JobDescriptionTitle6], T1.[vw");
+            viewString.Append("_OrderReport.JobDescriptionTitle7], T1.[vw_OrderReport.JobDescription], T1.[vw_O");
+            viewString.Append("rderReport.Estimate_Name], T1.[vw_OrderReport.Order_Code], T1.[vw_OrderReport.Es");
+            viewString.Append("timate_Total], T1.[vw_OrderReport.FootNotes], T1.[vw_OrderReport.HeadNotes], T1.");
+            viewString.Append("[vw_OrderReport.Order_Date], T1.[vw_OrderReport.Greeting], T1.[vw_OrderReport.Cu");
+            viewString.Append("stomerPO], T1.[vw_OrderReport.AddressName], T1.[vw_OrderReport.Address1], T1.[vw");
+            viewString.Append("_OrderReport.Address2], T1.[vw_OrderReport.Address3], T1.[vw_OrderReport.Email],");
+            viewString.Append(" T1.[vw_OrderReport.Fax], T1.[vw_OrderReport.Stateid], T1.[vw_OrderReport.City],");
+            viewString.Append(" T1.[vw_OrderReport.URL], T1.[vw_OrderReport.Tel1], T1.[vw_OrderReport.AccountNu");
+            viewString.Append("mber], T1.[vw_OrderReport.PostCode], T1.[vw_OrderReport.Countryid], T1.[vw_Order");
+            viewString.Append("Report.CustomerName], T1.[vw_OrderReport.CustomerURL], T1.[vw_OrderReport.Estima");
+            viewString.Append("teID], T1.[vw_OrderReport.ProductName], T1.[vw_OrderReport.ContactName], T1.[vw_");
+            viewString.Append("OrderReport.ReportTitle], T1.[vw_OrderReport.ReportBanner], T1.[vw_OrderReport.G");
+            viewString.Append("reetings], T1.[vw_OrderReport.FullProductName], T1.[vw_OrderReport.StockName], T");
+            viewString.Append("1.[vw_OrderReport.AttachmentsList], T1.[vw_OrderReport.PaymentDate], T1.[vw_Orde");
+            viewString.Append("rReport.paymentType], T1.[vw_OrderReport.paymentRefNo], T1.[vw_OrderReport.TaxLa");
+            viewString.Append("bel], T1.[vw_OrderReport.BAddressName], T1.[vw_OrderReport.BPostCode], T1.[vw_Or");
+            viewString.Append("derReport.BCountry], T1.[vw_OrderReport.BAddress1], T1.[vw_OrderReport.BAddress2");
+            viewString.Append("], T1.[vw_OrderReport.BCity], T1.[vw_OrderReport.BState], T1.[vw_OrderReport.Qty");
+            viewString.Append("1Tax1Value], T1.[vw_OrderReport.CurrencySymbol], T1.[vw_OrderReport.EstimateCode");
+            viewString.Append("Label], T1.[vw_OrderReport.Estimate_Code], T1.[vw_OrderReport.UserNotes])\r\n    F");
+            viewString.Append("ROM (\r\n        SELECT \r\n            T.ItemID AS [vw_OrderReport.ItemID], \r\n     ");
+            viewString.Append("       T.Title AS [vw_OrderReport.Title], \r\n            T.Qty1 AS [vw_OrderRepor");
+            viewString.Append("t.Qty1], \r\n            T.Qty2 AS [vw_OrderReport.Qty2], \r\n            T.Qty3 AS ");
+            viewString.Append("[vw_OrderReport.Qty3], \r\n            T.Qty1NetTotal AS [vw_OrderReport.Qty1NetTo");
+            viewString.Append("tal], \r\n            T.Qty2NetTotal AS [vw_OrderReport.Qty2NetTotal], \r\n         ");
+            viewString.Append("   T.Qty3NetTotal AS [vw_OrderReport.Qty3NetTotal], \r\n            T.ProductCode ");
+            viewString.Append("AS [vw_OrderReport.ProductCode], \r\n            T.JobDescription1 AS [vw_OrderRep");
+            viewString.Append("ort.JobDescription1], \r\n            T.JobDescription2 AS [vw_OrderReport.JobDesc");
+            viewString.Append("ription2], \r\n            T.JobDescription3 AS [vw_OrderReport.JobDescription3], ");
+            viewString.Append("\r\n            T.JobDescription4 AS [vw_OrderReport.JobDescription4], \r\n         ");
+            viewString.Append("   T.JobDescription5 AS [vw_OrderReport.JobDescription5], \r\n            T.JobDes");
+            viewString.Append("cription6 AS [vw_OrderReport.JobDescription6], \r\n            T.JobDescription7 A");
+            viewString.Append("S [vw_OrderReport.JobDescription7], \r\n            T.JobDescriptionTitle1 AS [vw_");
+            viewString.Append("OrderReport.JobDescriptionTitle1], \r\n            T.JobDescriptionTitle2 AS [vw_O");
+            viewString.Append("rderReport.JobDescriptionTitle2], \r\n            T.JobDescriptionTitle3 AS [vw_Or");
+            viewString.Append("derReport.JobDescriptionTitle3], \r\n            T.JobDescriptionTitle4 AS [vw_Ord");
+            viewString.Append("erReport.JobDescriptionTitle4], \r\n            T.JobDescriptionTitle5 AS [vw_Orde");
+            viewString.Append("rReport.JobDescriptionTitle5], \r\n            T.JobDescriptionTitle6 AS [vw_Order");
+            viewString.Append("Report.JobDescriptionTitle6], \r\n            T.JobDescriptionTitle7 AS [vw_OrderR");
+            viewString.Append("eport.JobDescriptionTitle7], \r\n            T.JobDescription AS [vw_OrderReport.J");
+            viewString.Append("obDescription], \r\n            T.Estimate_Name AS [vw_OrderReport.Estimate_Name],");
+            viewString.Append(" \r\n            T.Order_Code AS [vw_OrderReport.Order_Code], \r\n            T.Esti");
+            viewString.Append("mate_Total AS [vw_OrderReport.Estimate_Total], \r\n            T.FootNotes AS [vw_");
+            viewString.Append("OrderReport.FootNotes], \r\n            T.HeadNotes AS [vw_OrderReport.HeadNotes],");
+            viewString.Append(" \r\n            T.Order_Date AS [vw_OrderReport.Order_Date], \r\n            T.Gree");
+            viewString.Append("ting AS [vw_OrderReport.Greeting], \r\n            T.CustomerPO AS [vw_OrderReport");
+            viewString.Append(".CustomerPO], \r\n            T.AddressName AS [vw_OrderReport.AddressName], \r\n   ");
+            viewString.Append("         T.Address1 AS [vw_OrderReport.Address1], \r\n            T.Address2 AS [v");
+            viewString.Append("w_OrderReport.Address2], \r\n            T.Address3 AS [vw_OrderReport.Address3], ");
+            viewString.Append("\r\n            T.Email AS [vw_OrderReport.Email], \r\n            T.Fax AS [vw_Orde");
+            viewString.Append("rReport.Fax], \r\n            T.Stateid AS [vw_OrderReport.Stateid], \r\n           ");
+            viewString.Append(" T.City AS [vw_OrderReport.City], \r\n            T.URL AS [vw_OrderReport.URL], \r");
+            viewString.Append("\n            T.Tel1 AS [vw_OrderReport.Tel1], \r\n            T.AccountNumber AS [");
+            viewString.Append("vw_OrderReport.AccountNumber], \r\n            T.PostCode AS [vw_OrderReport.PostC");
+            viewString.Append("ode], \r\n            T.Countryid AS [vw_OrderReport.Countryid], \r\n            T.C");
+            viewString.Append("ustomerName AS [vw_OrderReport.CustomerName], \r\n            T.CustomerURL AS [vw");
+            viewString.Append("_OrderReport.CustomerURL], \r\n            T.EstimateID AS [vw_OrderReport.Estimat");
+            viewString.Append("eID], \r\n            T.ProductName AS [vw_OrderReport.ProductName], \r\n           ");
+            viewString.Append(" T.ContactName AS [vw_OrderReport.ContactName], \r\n            T.ReportTitle AS [");
+            viewString.Append("vw_OrderReport.ReportTitle], \r\n            T.ReportBanner AS [vw_OrderReport.Rep");
+            viewString.Append("ortBanner], \r\n            T.Greetings AS [vw_OrderReport.Greetings], \r\n         ");
+            viewString.Append("   T.FullProductName AS [vw_OrderReport.FullProductName], \r\n            T.StockN");
+            viewString.Append("ame AS [vw_OrderReport.StockName], \r\n            T.AttachmentsList AS [vw_OrderR");
+            viewString.Append("eport.AttachmentsList], \r\n            T.PaymentDate AS [vw_OrderReport.PaymentDa");
+            viewString.Append("te], \r\n            T.paymentType AS [vw_OrderReport.paymentType], \r\n            ");
+            viewString.Append("T.paymentRefNo AS [vw_OrderReport.paymentRefNo], \r\n            T.TaxLabel AS [vw");
+            viewString.Append("_OrderReport.TaxLabel], \r\n            T.BAddressName AS [vw_OrderReport.BAddress");
+            viewString.Append("Name], \r\n            T.BPostCode AS [vw_OrderReport.BPostCode], \r\n            T.");
+            viewString.Append("BCountry AS [vw_OrderReport.BCountry], \r\n            T.BAddress1 AS [vw_OrderRep");
+            viewString.Append("ort.BAddress1], \r\n            T.BAddress2 AS [vw_OrderReport.BAddress2], \r\n     ");
+            viewString.Append("       T.BCity AS [vw_OrderReport.BCity], \r\n            T.BState AS [vw_OrderRep");
+            viewString.Append("ort.BState], \r\n            T.Qty1Tax1Value AS [vw_OrderReport.Qty1Tax1Value], \r\n");
+            viewString.Append("            T.CurrencySymbol AS [vw_OrderReport.CurrencySymbol], \r\n            T");
+            viewString.Append(".EstimateCodeLabel AS [vw_OrderReport.EstimateCodeLabel], \r\n            T.Estima");
+            viewString.Append("te_Code AS [vw_OrderReport.Estimate_Code], \r\n            T.UserNotes AS [vw_Orde");
+            viewString.Append("rReport.UserNotes], \r\n            True AS _from0\r\n        FROM BaseDbContext.Ord");
+            viewString.Append("erReportViews AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("DomainModelsStoreContainer.vw_OrderReport", viewString.ToString());
+        }
+        
+        /// <Summary>
+        /// return view for BaseDbContext.OrderReportViews
+        /// </Summary>
+        private System.Collections.Generic.KeyValuePair<string, string> GetView327()
+        {
+            System.Text.StringBuilder viewString = new System.Text.StringBuilder(6875);
+            viewString.Append("\r\n    SELECT VALUE -- Constructing OrderReportViews\r\n        [DomainModels.Order");
+            viewString.Append("ReportView](T1.OrderReportView_ItemID, T1.OrderReportView_Title, T1.OrderReportV");
+            viewString.Append("iew_Qty1, T1.OrderReportView_Qty2, T1.OrderReportView_Qty3, T1.OrderReportView_Q");
+            viewString.Append("ty1NetTotal, T1.OrderReportView_Qty2NetTotal, T1.OrderReportView_Qty3NetTotal, T");
+            viewString.Append("1.OrderReportView_ProductCode, T1.OrderReportView_JobDescription1, T1.OrderRepor");
+            viewString.Append("tView_JobDescription2, T1.OrderReportView_JobDescription3, T1.OrderReportView_Jo");
+            viewString.Append("bDescription4, T1.OrderReportView_JobDescription5, T1.OrderReportView_JobDescrip");
+            viewString.Append("tion6, T1.OrderReportView_JobDescription7, T1.OrderReportView_JobDescriptionTitl");
+            viewString.Append("e1, T1.OrderReportView_JobDescriptionTitle2, T1.OrderReportView_JobDescriptionTi");
+            viewString.Append("tle3, T1.OrderReportView_JobDescriptionTitle4, T1.OrderReportView_JobDescription");
+            viewString.Append("Title5, T1.OrderReportView_JobDescriptionTitle6, T1.OrderReportView_JobDescripti");
+            viewString.Append("onTitle7, T1.OrderReportView_JobDescription, T1.[OrderReportView.Estimate_Name],");
+            viewString.Append(" T1.[OrderReportView.Order_Code], T1.[OrderReportView.Estimate_Total], T1.OrderR");
+            viewString.Append("eportView_FootNotes, T1.OrderReportView_HeadNotes, T1.[OrderReportView.Order_Dat");
+            viewString.Append("e], T1.OrderReportView_Greeting, T1.OrderReportView_CustomerPO, T1.OrderReportVi");
+            viewString.Append("ew_AddressName, T1.OrderReportView_Address1, T1.OrderReportView_Address2, T1.Ord");
+            viewString.Append("erReportView_Address3, T1.OrderReportView_Email, T1.OrderReportView_Fax, T1.Orde");
+            viewString.Append("rReportView_Stateid, T1.OrderReportView_City, T1.OrderReportView_URL, T1.OrderRe");
+            viewString.Append("portView_Tel1, T1.OrderReportView_AccountNumber, T1.OrderReportView_PostCode, T1");
+            viewString.Append(".OrderReportView_Countryid, T1.OrderReportView_CustomerName, T1.OrderReportView_");
+            viewString.Append("CustomerURL, T1.OrderReportView_EstimateID, T1.OrderReportView_ProductName, T1.O");
+            viewString.Append("rderReportView_ContactName, T1.OrderReportView_ReportTitle, T1.OrderReportView_R");
+            viewString.Append("eportBanner, T1.OrderReportView_Greetings, T1.OrderReportView_FullProductName, T");
+            viewString.Append("1.OrderReportView_StockName, T1.OrderReportView_AttachmentsList, T1.OrderReportV");
+            viewString.Append("iew_PaymentDate, T1.OrderReportView_paymentType, T1.OrderReportView_paymentRefNo");
+            viewString.Append(", T1.OrderReportView_TaxLabel, T1.OrderReportView_BAddressName, T1.OrderReportVi");
+            viewString.Append("ew_BPostCode, T1.OrderReportView_BCountry, T1.OrderReportView_BAddress1, T1.Orde");
+            viewString.Append("rReportView_BAddress2, T1.OrderReportView_BCity, T1.OrderReportView_BState, T1.O");
+            viewString.Append("rderReportView_Qty1Tax1Value, T1.OrderReportView_CurrencySymbol, T1.OrderReportV");
+            viewString.Append("iew_EstimateCodeLabel, T1.[OrderReportView.Estimate_Code], T1.OrderReportView_Us");
+            viewString.Append("erNotes)\r\n    FROM (\r\n        SELECT \r\n            T.ItemID AS OrderReportView_I");
+            viewString.Append("temID, \r\n            T.Title AS OrderReportView_Title, \r\n            T.Qty1 AS O");
+            viewString.Append("rderReportView_Qty1, \r\n            T.Qty2 AS OrderReportView_Qty2, \r\n           ");
+            viewString.Append(" T.Qty3 AS OrderReportView_Qty3, \r\n            T.Qty1NetTotal AS OrderReportView");
+            viewString.Append("_Qty1NetTotal, \r\n            T.Qty2NetTotal AS OrderReportView_Qty2NetTotal, \r\n ");
+            viewString.Append("           T.Qty3NetTotal AS OrderReportView_Qty3NetTotal, \r\n            T.Produ");
+            viewString.Append("ctCode AS OrderReportView_ProductCode, \r\n            T.JobDescription1 AS OrderR");
+            viewString.Append("eportView_JobDescription1, \r\n            T.JobDescription2 AS OrderReportView_Jo");
+            viewString.Append("bDescription2, \r\n            T.JobDescription3 AS OrderReportView_JobDescription");
+            viewString.Append("3, \r\n            T.JobDescription4 AS OrderReportView_JobDescription4, \r\n       ");
+            viewString.Append("     T.JobDescription5 AS OrderReportView_JobDescription5, \r\n            T.JobDe");
+            viewString.Append("scription6 AS OrderReportView_JobDescription6, \r\n            T.JobDescription7 A");
+            viewString.Append("S OrderReportView_JobDescription7, \r\n            T.JobDescriptionTitle1 AS Order");
+            viewString.Append("ReportView_JobDescriptionTitle1, \r\n            T.JobDescriptionTitle2 AS OrderRe");
+            viewString.Append("portView_JobDescriptionTitle2, \r\n            T.JobDescriptionTitle3 AS OrderRepo");
+            viewString.Append("rtView_JobDescriptionTitle3, \r\n            T.JobDescriptionTitle4 AS OrderReport");
+            viewString.Append("View_JobDescriptionTitle4, \r\n            T.JobDescriptionTitle5 AS OrderReportVi");
+            viewString.Append("ew_JobDescriptionTitle5, \r\n            T.JobDescriptionTitle6 AS OrderReportView");
+            viewString.Append("_JobDescriptionTitle6, \r\n            T.JobDescriptionTitle7 AS OrderReportView_J");
+            viewString.Append("obDescriptionTitle7, \r\n            T.JobDescription AS OrderReportView_JobDescri");
+            viewString.Append("ption, \r\n            T.Estimate_Name AS [OrderReportView.Estimate_Name], \r\n     ");
+            viewString.Append("       T.Order_Code AS [OrderReportView.Order_Code], \r\n            T.Estimate_To");
+            viewString.Append("tal AS [OrderReportView.Estimate_Total], \r\n            T.FootNotes AS OrderRepor");
+            viewString.Append("tView_FootNotes, \r\n            T.HeadNotes AS OrderReportView_HeadNotes, \r\n     ");
+            viewString.Append("       T.Order_Date AS [OrderReportView.Order_Date], \r\n            T.Greeting AS");
+            viewString.Append(" OrderReportView_Greeting, \r\n            T.CustomerPO AS OrderReportView_Custome");
+            viewString.Append("rPO, \r\n            T.AddressName AS OrderReportView_AddressName, \r\n            T");
+            viewString.Append(".Address1 AS OrderReportView_Address1, \r\n            T.Address2 AS OrderReportVi");
+            viewString.Append("ew_Address2, \r\n            T.Address3 AS OrderReportView_Address3, \r\n           ");
+            viewString.Append(" T.Email AS OrderReportView_Email, \r\n            T.Fax AS OrderReportView_Fax, \r");
+            viewString.Append("\n            T.Stateid AS OrderReportView_Stateid, \r\n            T.City AS Order");
+            viewString.Append("ReportView_City, \r\n            T.URL AS OrderReportView_URL, \r\n            T.Tel");
+            viewString.Append("1 AS OrderReportView_Tel1, \r\n            T.AccountNumber AS OrderReportView_Acco");
+            viewString.Append("untNumber, \r\n            T.PostCode AS OrderReportView_PostCode, \r\n            T");
+            viewString.Append(".Countryid AS OrderReportView_Countryid, \r\n            T.CustomerName AS OrderRe");
+            viewString.Append("portView_CustomerName, \r\n            T.CustomerURL AS OrderReportView_CustomerUR");
+            viewString.Append("L, \r\n            T.EstimateID AS OrderReportView_EstimateID, \r\n            T.Pro");
+            viewString.Append("ductName AS OrderReportView_ProductName, \r\n            T.ContactName AS OrderRep");
+            viewString.Append("ortView_ContactName, \r\n            T.ReportTitle AS OrderReportView_ReportTitle,");
+            viewString.Append(" \r\n            T.ReportBanner AS OrderReportView_ReportBanner, \r\n            T.G");
+            viewString.Append("reetings AS OrderReportView_Greetings, \r\n            T.FullProductName AS OrderR");
+            viewString.Append("eportView_FullProductName, \r\n            T.StockName AS OrderReportView_StockNam");
+            viewString.Append("e, \r\n            T.AttachmentsList AS OrderReportView_AttachmentsList, \r\n       ");
+            viewString.Append("     T.PaymentDate AS OrderReportView_PaymentDate, \r\n            T.paymentType A");
+            viewString.Append("S OrderReportView_paymentType, \r\n            T.paymentRefNo AS OrderReportView_p");
+            viewString.Append("aymentRefNo, \r\n            T.TaxLabel AS OrderReportView_TaxLabel, \r\n           ");
+            viewString.Append(" T.BAddressName AS OrderReportView_BAddressName, \r\n            T.BPostCode AS Or");
+            viewString.Append("derReportView_BPostCode, \r\n            T.BCountry AS OrderReportView_BCountry, \r");
+            viewString.Append("\n            T.BAddress1 AS OrderReportView_BAddress1, \r\n            T.BAddress2");
+            viewString.Append(" AS OrderReportView_BAddress2, \r\n            T.BCity AS OrderReportView_BCity, \r");
+            viewString.Append("\n            T.BState AS OrderReportView_BState, \r\n            T.Qty1Tax1Value A");
+            viewString.Append("S OrderReportView_Qty1Tax1Value, \r\n            T.CurrencySymbol AS OrderReportVi");
+            viewString.Append("ew_CurrencySymbol, \r\n            T.EstimateCodeLabel AS OrderReportView_Estimate");
+            viewString.Append("CodeLabel, \r\n            T.Estimate_Code AS [OrderReportView.Estimate_Code], \r\n ");
+            viewString.Append("           T.UserNotes AS OrderReportView_UserNotes, \r\n            True AS _from");
+            viewString.Append("0\r\n        FROM DomainModelsStoreContainer.vw_OrderReport AS T\r\n    ) AS T1");
+            return new System.Collections.Generic.KeyValuePair<string, string>("BaseDbContext.OrderReportViews", viewString.ToString());
         }
     }
 }
