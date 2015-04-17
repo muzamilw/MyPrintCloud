@@ -3918,9 +3918,10 @@ function pcl41(xdata) {
     });
 
     $("#SmartFormContainer").html(html);
+    pcl40_InsertUserData(smartFormData.scopeVariables);
     pcl40_updateDropdownDefaultValues();
     pcl40_applyInputMask(smartFormData.smartFormObjs);
-    pcl40_InsertUserData(smartFormData.scopeVariables);
+   
 }
 function pcl40_updateDropdownDefaultValues() {
     $.each(smartFormData.smartFormObjs, function (i, IT) {
@@ -3964,6 +3965,10 @@ function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, Input
     {
         required = "required";
     }
+   
+    if (Value == "undefined" || Value == undefined) {
+        Value = ""; 
+    }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
         '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" '+ required+'>' + Value + '</textarea></div>';
     return html;
@@ -3977,11 +3982,14 @@ function pcl40_addLineSeperator() {
 }
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-        if (IT.Value != null && IT.value != "") {
-            $("#txtSmart" + IT.VariableId).val(IT.Value);
-        } else {
-            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
-        }
+            if (IT.Value != null && IT.value != "" && IT.value != undefined) {
+                $("#txtSmart" + IT.VariableId).val(IT.Value);
+            } else {
+                if (IT.DefaultValue != null && IT.DefaultValue != "" && IT.DefaultValue != "undefined" && IT.DefaultValue !=undefined)
+                    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+                else 
+                    $("#txtSmart" + IT.VariableId).val("");
+            }
     });
 }
 function pcl40_applyInputMask(sObjs) {

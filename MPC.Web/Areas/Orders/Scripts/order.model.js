@@ -820,8 +820,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return;
                     }
 
-                    stockItemId(stockItem.stockItemId());
-                    stockItemName(stockItem.itemName());
+                    stockItemId(stockItem.id);
+                    stockItemName(stockItem.name);
                 },
                 // Select Press
                 selectPress = function (press) {
@@ -2244,8 +2244,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice) {
 
         var self,
-            stockItemId = ko.observable(specifiedId),
-            itemName = ko.observable(specifiedname),
+            id = ko.observable(specifiedId),
+            name = ko.observable(specifiedname),
             itemWeight = ko.observable(specifiedWeight),
             packageQty = ko.observable(specifiedPackageQty),
             perQtyQty = ko.observable(specifiedPerQtyQty),
@@ -2261,8 +2261,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
             // ReSharper disable InconsistentNaming
             dirtyFlag = new ko.dirtyFlag({
-                stockItemId: stockItemId,
-                itemName: itemName,
+                id: id,
+                name: name,
                 itemWeight: itemWeight,
                 packageQty: packageQty,
                 perQtyQty: perQtyQty,
@@ -2275,8 +2275,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             //Convert To Server
             convertToServerData = function () {
                 return {
-                    StockItemId: stockItemId(),
-                    ItemName: itemName(),
+                    StockItemId: id(),
+                    ItemName: name(),
                     ItemWeight: itemWeight(),
                     PackageQty: packageQty(),
                     PerQtyQty: perQtyQty(),
@@ -2288,8 +2288,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 dirtyFlag.reset();
             };
         self = {
-            stockItemId: stockItemId,
-            itemName: itemName,
+            id: id,
+            name: name,
             itemWeight: itemWeight,
             packageQty: packageQty,
             perQtyQty: perQtyQty,
