@@ -137,8 +137,8 @@ namespace MPC.Webstore.Controllers
                     //In Cart - Added to Cart but not ordered/Check out
                     //(Go Landing Page and Edit/Update)
 
-                    string URL = "/ProductOptions/"  + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
-                        //"/ProductOptions/" + ExistingProduct.ProductCategoryID + "/" + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
+                    string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
+                        //
                    
                     Response.Redirect(URL);
                     
@@ -150,8 +150,8 @@ namespace MPC.Webstore.Controllers
                     //(Go Landing Page and Add it to Cart)
 
 
-                    string URL = "/ProductOptions/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
-                        //"/ProductOptions/" + ExistingProduct.ProductCategoryID + "/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                       
 
                     Response.Redirect(URL);
                     
@@ -191,9 +191,8 @@ namespace MPC.Webstore.Controllers
 
                     _ItemService.CopyAttachments((int)ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 
-                    string URL = "/ProductOptions/"  + ExistingProduct.ItemID + "/SaveOrder/" + ExistingProduct.TemplateID;
-                        //"/ProductOptions/" + ExistingProduct.ProductCategoryID + "/" + ExistingProduct.ItemID + "/SaveOrder/" + ExistingProduct.TemplateID;
-
+                    string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/SaveOrder/" + ExistingProduct.TemplateID;
+        
                     Response.Redirect(URL);
                     
                 }
