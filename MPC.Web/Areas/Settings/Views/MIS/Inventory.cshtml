@@ -74,7 +74,7 @@
 
                         <div class="form-group pull-left">
                             <input type="text" class="form-control" placeholder="Search..." data-bind="value: $root.searchFilter">
-                            <i class="fa fa-search search-icon"></i>
+                            <i data-bind="click:$root.filterInventories" class="fa fa-search search-icon"></i>
                         </div>
 
                         @*<div class="pull-right">
@@ -131,7 +131,7 @@
             </td>*@
         <td class="col-lg-3" data-bind="text: fullCategoryName"></td>
         <td class="col-lg-3">
-            <span data-bind="text: packCostPrice()!=='' ?$root.currencySymbol()+' '+ packCostPrice():''"></span>
+            <span data-bind="text: packCostPrice()!=='' ?($root.currencySymbol()+' '+ packCostPrice()):''"></span>
         </td>
         <td class="col-lg-2" id="actionColumn">
             @*<!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->

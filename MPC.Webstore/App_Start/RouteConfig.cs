@@ -301,7 +301,7 @@ namespace MPC.Webstore
               routes.MapRoute(
             "RemoveSaveDesign",
             "RemoveSaveDesign/{ItemID}",
-            new { controller = "SavedDesigns", action = "SavedDesigns", ItemID = UrlParameter.Optional}
+            new { controller = "SavedDesigns", action = "RemoveSaveDesign", ItemID = UrlParameter.Optional }
               );
 
               routes.MapRoute(
@@ -333,6 +333,7 @@ namespace MPC.Webstore
             "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
             new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
          );
+       
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

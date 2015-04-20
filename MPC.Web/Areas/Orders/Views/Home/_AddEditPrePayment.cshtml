@@ -75,7 +75,11 @@
                         <label for="amount" class="control-label text-right tooltip-float">Amount <span data-bind="text:$root.currencySymbol"></span></label>
                     </div>
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="amount" data-bind="value:amount,validationTooltip:amount">
+                        <div class="input-group">
+                            <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="value:amountComputed,validationTooltip:amount">
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="form-group">
