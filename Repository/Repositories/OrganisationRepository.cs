@@ -207,7 +207,7 @@ namespace MPC.Repository.Repositories
 
                     db.Configuration.LazyLoadingEnabled = false;
                     db.Configuration.ProxyCreationEnabled = false;
-                    CostCentreType oType = db.CostCentreTypes.Where(c => c.OrganisationId == OrganisationID).FirstOrDefault();
+                    List<CostCentreType> oType = db.CostCentreTypes.Where(c => c.OrganisationId == null).ToList();
                     db.Configuration.LazyLoadingEnabled = true;
                     db.Configuration.ProxyCreationEnabled = true;
                     // save cost centres and its child objects
@@ -223,21 +223,25 @@ namespace MPC.Repository.Repositories
 
                             cc = cost;
                             cc.CostCentreId = 0;
-                            if (OlDCCT != null && OlDCCT.Count > 0)
+                            if (oType != null && oType.Count > 0)
                             {
-                                foreach(var id in OlDCCT)
+                                var type = oType.Where(c => c.TypeId == oldTypeID).FirstOrDefault();
+                                if(type == null)
                                 {
-                                    if(id.Key == oldTypeID)
+                                    if (OlDCCT != null && OlDCCT.Count > 0)
                                     {
-                                        cc.Type = (int)id.Value;
-                                    }
-                                    else
-                                    {
-                                        if (oType != null)
-                                            cc.Type = oType.TypeId;
+                                        foreach (var id in OlDCCT)
+                                        {
+                                            if (id.Key == oldTypeID)
+                                            {
+                                                cc.Type = (int)id.Value;
+                                            }
+                                            
+                                        }
                                     }
                                 }
                             }
+                           
                           //  cc.Type = 
                             cc.CCIDOption3 = oldCostId;
                             cc.OrganisationId = OrganisationID;
