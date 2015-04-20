@@ -4,11 +4,14 @@
         var
             self,
             carrierId = ko.observable(),
-            carrierName = ko.observable(),
-            url = ko.observable(),
-            apiKey = ko.observable(),
-            apiPassword = ko.observable(),
-            isenable = ko.observable()
+            carrierName = ko.observable().extend({ required: true }),
+            url = ko.observable().extend({ required: true }),
+            apiKey = ko.observable().extend({ required: true }),
+            apiPassword = ko.observable().extend({ required: true }),
+            isenable = ko.observable(),
+            showErrors = ko.observable(false),
+            
+            
             
             errors = ko.validation.group({
                 carrierId: carrierId,
@@ -16,11 +19,12 @@
                 url: url,
                 apiKey: apiKey,
                 apiPassword: apiPassword,
-                isenable: isenable
+                isenable: isenable,
+                showErrors: showErrors
                 
             }),
             isValid = ko.computed(function () {
-                return errors().length === 0 ? true : false;;
+                return errors().length === 0 ? true : false;
             }),
             dirtyFlag = new ko.dirtyFlag({
                 carrierId: carrierId,
@@ -47,7 +51,12 @@
                 url: url,
                 apiKey: apiKey,
                 apiPassword: apiPassword,
-                isenable: isenable
+                isenable: isenable,
+                isValid: isValid,
+                showErrors:showErrors,
+                hasChanges: hasChanges,
+                
+
             };
         return self;
     };
@@ -103,7 +112,8 @@
         DeliveryCarrier: DeliveryCarrier,
         deliverycarrierClientMapper: deliverycarrierClientMapper,
         deliverycarrierServermapper: deliverycarrierServermapper,
-        deliverycarrierServertoClientMapper: deliverycarrierServertoClientMapper
+        deliverycarrierServertoClientMapper: deliverycarrierServertoClientMapper,
+        
         
 
     };

@@ -12,15 +12,14 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     // Active
                     deliverycarrierlist = ko.observableArray([]),
                     errorList = ko.observableArray([]),
-                    ////pagervariables
-                    //pager = ko.obervable(),
-                    //sortOn = ko.observable(1),
-                    //sortOnAsc = ko.observable(true),
                     // #region Busy Indicators
+                    isLoadingdeliverycarrier = ko.observable(false),
                     editorViewModel = new ist.ViewModel(model.DeliveryCarrier),
                     //Selected Paper Sheet
                     selectedCarrier = editorViewModel.itemForEditing,
-                    isLoadingdeliverycarrier = ko.observable(false),
+                    isErrors = ko.observable(false)
+                  
+
 
                 createNewDeliveryDialog = function ()
                 {
@@ -32,24 +31,18 @@ define("deliverycarrier/deliverycarrier.viewModel",
                 {
                     view.showDeliveryCarrierDialog();
                 },
-                // #endregion Busy Indicators
-                // #region Observables
-                // Initialize the view model
-                initialize = function (specifiedView)
-                {
-                    view = specifiedView;
-                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                    //pager(pagination.Pagination({ PageSize: 10 }, deliverycarrierlist, getPaperSheets));
-                    getBase();
-                },
+
                 //Get DeliveryCarrier
                 getBase = function (callBack) {
+                    getDeliveryCarrierDetail();
+                },
+                getDeliveryCarrierDetail = function (callback) {
                     isLoadingdeliverycarrier(true);
-                    dataservice.getDeliveryCarrierDetail({
-                        success: function (data)
-                        {
-                            if (data != null)
-                            {
+                    dataservice.getDeliveryCarrierDetail
+                    ({
+                       success: function (data) {
+                           if (data != null)
+                           {
                                 deliverycarrierlist.removeAll();
                                 _.each(data, function (item)
                                 {
@@ -57,7 +50,6 @@ define("deliverycarrier/deliverycarrier.viewModel",
                                     deliverycarrierlist.push(module);
                                 });
                             }
-
                             isLoadingdeliverycarrier(false);
                         },
                         error: function () {
@@ -65,30 +57,34 @@ define("deliverycarrier/deliverycarrier.viewModel",
                         }
                     });
                 },
-               
-                openEditDialog = function (item)
-                {
+                openEditDialog = function (item) {
                     if (item != null)
                     {
                         editorViewModel.selectItem(item);
                         openDialog();
                     }
+                    
                 },
-                onsaveDeliveryCarrier = function (item)
+                onsaveDeliveryCarrier = function ()
                 {
-                   saveDeliveryCarrier(item);
+                    if (selectedCarrier() != undefined && doBeforeSave())
+                    { 
+                        saveDeliveryCarrier();
+                        view.hideDeliveryCarrierDialog();
+                    }
+                    
+                    
                 },
-                saveDeliveryCarrier = function (item) {
-                    dataservice.saveDeliveryCarrier(model.deliverycarrierServermapper(item), {
+                saveDeliveryCarrier = function () {
+                    dataservice.saveDeliveryCarrier(model.deliverycarrierServermapper(selectedCarrier()),
+                    {
                         success: function (data)
                         {
                             getBase();
                             toastr.success("Successfully save.");
                         },
-                        error: function (exceptionMessage, exceptionType)
-                        {
-                            if (exceptionType === ist.exceptionType.MPCGeneralException)
-                            {
+                        error: function (exceptionMessage, exceptionType) {
+                            if (exceptionType === ist.exceptionType.MPCGeneralException) {
                                 toastr.error(exceptionMessage);
                             }
                             else
@@ -98,16 +94,54 @@ define("deliverycarrier/deliverycarrier.viewModel",
 
                         }
                     });
-                };
-                
-                    
-                // #endregion Service Calls
+                },
+                 doBeforeSave = function () {
+                     var flag = true;
+                     if (!selectedCarrier().isValid())
+                     {
+                         selectedCarrier().showErrors(true);
+                         flag = false;
+                     }
+                     return flag;
+                 },
+                  onCloseDeliveryCarrier = function () {
+                      if (selectedCarrier().hasChanges())
+                      {
+                          confirmation.messageText("Do you want to save changes?");
+                          confirmation.afterProceed(function(){
+
+                              if (selectedCarrier().isValid())
+                              {
+                                  saveDeliveryCarrier();
+                                  view.hideDeliveryCarrierDialog();
+                              }
+                             
+                          });
+                          confirmation.afterCancel(function (){
+                              view.hideDeliveryCarrierDialog();
+                          });
+                          confirmation.show();
+                          return;
+                      }
+                      view.hideDeliveryCarrierDialog();
+                  },
+
+                  initialize = function (specifiedView)
+                  {
+                      view = specifiedView;
+                      ko.applyBindings(view.viewModel, view.bindingRoot);
+                      getBase();
+                  };
                 return {
                     // Observables
+                    
                     deliverycarrierlist: deliverycarrierlist,
                     selectedCarrier: selectedCarrier,
                     createNewDeliveryDialog: createNewDeliveryDialog,
-                    openEditDialog:openEditDialog,
+                    isErrors:isErrors,
+                    //Dialog Boxes
+                    openEditDialog: openEditDialog,
+                    onCloseDeliveryCarrier:onCloseDeliveryCarrier,
                     errorList: errorList,
                     onsaveDeliveryCarrier: onsaveDeliveryCarrier,
                     // Utility Methods
