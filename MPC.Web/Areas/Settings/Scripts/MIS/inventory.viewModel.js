@@ -174,13 +174,10 @@ define("inventory/inventory.viewModel",
                         }, {
                             success: function (data) {
                                 inventories.removeAll();
-                                var inventoryList = [];
                                 _.each(data.StockItems, function (item) {
                                     var inventory = new model.InventoryListView.Create(item);
-                                    inventoryList.push(inventory);
+                                    inventories.push(inventory);
                                 });
-                                ko.utils.arrayPushAll(inventories(), inventoryList);
-                                inventories.valueHasMutated();
                                 isLoadingInventory(false);
                                 pager().totalCount(data.TotalCount);
                             },
@@ -416,6 +413,11 @@ define("inventory/inventory.viewModel",
 
                             dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
                                 success: function (data) {
+                                    if (data && data.PackCostPrice) {
+                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice);
+                                    } else {
+                                        selectedInventoryCopy().packCostPrice('');
+                                    }
                                     //For Add New
                                     if (selectedInventory().itemId() === 0) {
                                         var inventoryResponse = new model.InventoryListView.Create(data);

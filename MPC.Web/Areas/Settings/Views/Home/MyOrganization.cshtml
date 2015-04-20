@@ -290,47 +290,60 @@
                                                         </div>
 
                                                     </div>
+                                                </div>
+                                                <div class="col-md-12 form-horizontal">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                                <div class="col-lg-4 text-right">
+                            <div class="bs-example-tooltips tooltip-float-width">
 
-                                                    <div class="form-group">
-                                                        <div class="col-lg-4 text-right">
-                                                            <div class="bs-example-tooltips tooltip-float-width">
+                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
+                                    <span style="margin-left: -2px"class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
+                                </a>
 
-                                                                <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" border 0" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload your company Logo, It will appear on Documents as well as web site, etc., Use a PNG file to maintain transparency across the websore." data-original-title="" title="">
-                                                                    <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
-                                                                </a>
+                            </div>
+
+                            <label style="margin-left: -2px" for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
+
+                        </div>
+                                                            <div class="col-lg-6">
+                                                                <div>
+                                                                    <div>
+                                                                        <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 242px; margin-left: -2px;" data-bind="attr:{ src: orgnizationImage }," />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-lg-4 text-right">
+
+                                                                <div class="bs-example-tooltips tooltip-float-width">
+
+                                                                    &nbsp;
+
+                                                                </div>
 
                                                             </div>
 
-                                                            <label for="txtCompanyName" class="control-label text-right tooltip-float">Company Logo</label>
+                                                            <div class="col-lg-6">
+                                                                <span class="help-block text-center" style="margin-top: -14px">Company logo on MIS Dashboard</span>
+                                                            </div>
+                                                            <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
 
                                                         </div>
-
-                                                        <div class="col-lg-8">
-                                                            <div class="col-lg-6">
-                                                                <div >
-                                                                    <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: orgnizationImage }," />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-4 text-right">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-lg-2" style="margin-left:-60px">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>....</span>
                                                                     <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
                                                             </div>
-                                                            
-
-                                                            
-                                                            <div class="col-md-12">
-                                                                <span class="help-block text-right">Company logo on MIS Dashboard</span>
-                                                            </div>
-                                                            <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                                                         </div>
-
                                                     </div>
-
-
                                                 </div>
-                                            </div>
 
                                         </div>
                                     </div>

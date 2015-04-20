@@ -106,7 +106,8 @@ namespace MPC.Webstore.Controllers
 
                   
                 }
-                return View("PartialViews/SavedDesigns");
+                Response.Redirect("/SavedDesigns");
+                return null;
             }
             catch (Exception ex)
             {
