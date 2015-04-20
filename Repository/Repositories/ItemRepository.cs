@@ -3155,7 +3155,7 @@ namespace MPC.Repository.Repositories
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
                    
-                   // if (Item.isMultipagePDF == true)
+                    if (Item.isMultipagePDF == true)
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
