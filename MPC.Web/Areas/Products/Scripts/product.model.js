@@ -453,12 +453,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
 
                 var categories = "";
-                productCategoryItems.each(function(pci, index) {
-                    var pcname = pci.categoryName();
-                    if (index < productCategoryItems().length - 1) {
-                        pcname = pcname + " || ";
+                productCategoryItems.each(function (pci, index) {
+                    if (pci.isSelected()) {
+                        var pcname = pci.categoryName();
+                        if (index < productCategoryItems().length - 1) {
+                            pcname = pcname + " || ";
+                        }
+                        categories += pcname;
                     }
-                    categories += pcname;
                 });
 
                 return categories;
@@ -996,7 +998,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id;
                             });
 
                             // Exists Already

@@ -354,6 +354,7 @@
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\SectionCostCentreMapper.cs" />
     <Compile Include="ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="ModelMappers\OrderMapperActions.cs" />
     <Compile Include="ModelMappers\OrderMapper.cs" />
