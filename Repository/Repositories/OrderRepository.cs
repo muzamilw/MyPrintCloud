@@ -1903,7 +1903,10 @@ namespace MPC.Repository.Repositories
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
-
+            if (ManagerIds != null && ManagerIds.Count > 0) 
+            {
+                tblOrder.SalesPersonId = ManagerIds[0];
+            }
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 
@@ -2901,7 +2904,7 @@ namespace MPC.Repository.Repositories
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportOrderReportPDF(165, item.ItemId, true);
+                                string sJCReportPath = ExportOrderReportPDF(165, item.ItemId, true,OrderID);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -2916,7 +2919,7 @@ namespace MPC.Repository.Repositories
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportOrderReportPDF(103, Convert.ToInt64(OrderID), false);
+                            string sOrderReportPath = ExportOrderReportPDF(103, Convert.ToInt64(OrderID), false,OrderID);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -2953,7 +2956,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        private string ExportOrderReportPDF(int iReportID, long iRecordID, bool isItem)
+        private string ExportOrderReportPDF(int iReportID, long iRecordID, bool isItem,long OrderID)
         {
             string sFilePath = string.Empty;
             try
@@ -2974,14 +2977,15 @@ namespace MPC.Repository.Repositories
                     if (isItem)
                     {
                         sFileName = iRecordID + "JobCardReport.pdf";
-                        //FileNamesList.Add(sFileName);
-                        //var rptSource = db.vw_JobCardReport.Where(i => i.ItemID == (int)iRecordID).ToList();
-                        // currReport.DataSource = rptSource;
+                      //  FileNamesList.Add(sFileName);
+                        var rptSource = db.usp_JobCardReport(OrganisationId, OrderID, iRecordID);
+                        currReport.DataSource = rptSource;
                     }
                     else
                     {
-                        //var rptOrderSource = ObjectContext.vw_OrderReport.Where(i => i.EstimateID == iRecordID).ToList();
-                        //currReport.DataSource = rptOrderSource;
+
+                        var rptOrderSource = db.usp_OrderReport(OrganisationId, OrderID);
+                        currReport.DataSource = rptOrderSource;
                     }
 
                     if (currReport != null)

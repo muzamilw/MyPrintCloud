@@ -17,7 +17,6 @@ define("deliverycarrier/deliverycarrier.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     }),
-
                     // Define request to Save DeliveryCarrier
                     amplify.request.define('saveDeliveryCarrier', 'ajax', {
                         url: ist.siteUrl + '/Api/Deliverycarrier',
@@ -29,18 +28,20 @@ define("deliverycarrier/deliverycarrier.dataservice", function () {
                     isInitialized = true;
                 }
             },
-            // GetAll DeliveryCarrier 
+            // GetAll DeliveryCarrier By Page
             getDeliveryCarrierDetail = function (callbacks) {
                 initialize();
-                return amplify.request({
+                return amplify.request
+                ({
                     resourceId: 'getDeliveryCarrierDetail',
                     success: callbacks.success,
-                    error: callbacks.error,
+                    error: callbacks.error
+                    
                 });
 
             },
-
-	        // Save Delivery Carrier
+            
+            // Save Delivery Carrier
 	        saveDeliveryCarrier = function (param, callbacks) {
 	            initialize();
 	            return amplify.request({
@@ -56,7 +57,8 @@ define("deliverycarrier/deliverycarrier.dataservice", function () {
 
 		return {
 		    getDeliveryCarrierDetail: getDeliveryCarrierDetail,
-		    saveDeliveryCarrier: saveDeliveryCarrier
+		    saveDeliveryCarrier: saveDeliveryCarrier,
+		    
 		    
 		};
 	})();

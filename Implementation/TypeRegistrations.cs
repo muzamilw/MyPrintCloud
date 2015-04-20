@@ -84,7 +84,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
              unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
-              
+             unityContainer.RegisterType<ISystemUserService, SystemUserService>();
             
         }
     }

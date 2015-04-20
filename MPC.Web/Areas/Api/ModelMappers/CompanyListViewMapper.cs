@@ -1,4 +1,6 @@
-﻿using ApiModels = MPC.MIS.Areas.Api.Models;
+using System.Linq;
+﻿using System.Linq;
+using ApiModels = MPC.MIS.Areas.Api.Models;
 using DomainResponseModel = MPC.Models.ResponseModels;
 using DomainModels = MPC.Models.DomainModels;
 namespace MPC.MIS.Areas.Api.ModelMappers
@@ -16,7 +18,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 Status = source.Status,
                 URL = source.URL,
-                ImageBytes = source.Image
+                ImageBytes = source.Image,
+                DefaultDomain = source.CompanyDomains != null ? source.CompanyDomains.FirstOrDefault().Domain: string.Empty
             };
         }
     }
