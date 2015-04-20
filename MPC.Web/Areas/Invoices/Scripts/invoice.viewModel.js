@@ -279,7 +279,6 @@ define("invoice/invoice.viewModel",
                                  systemUsers.removeAll();
                                  ko.utils.arrayPushAll(systemUsers(), data.SystemUsers);
                                  systemUsers.valueHasMutated();
-
                                  currencySymbol(data.CurrencySymbol);
                                  // view.initializeLabelPopovers();
                                 
