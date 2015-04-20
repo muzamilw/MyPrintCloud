@@ -151,7 +151,7 @@ namespace MPC.Webstore.Controllers
 
                     string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
 
-                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                   
                        
 
                     Response.Redirect(URL);
