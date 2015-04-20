@@ -546,6 +546,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,
+                IsCustomer = source.IsCustomer,
             };
         }
 
