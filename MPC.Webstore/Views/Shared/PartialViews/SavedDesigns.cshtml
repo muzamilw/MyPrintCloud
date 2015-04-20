@@ -42,6 +42,7 @@
                                     @*<asp:ImageButton ID="ImageButton1" runat="server" CssClass=" btnReorderSavedDesigns"
                                                      ImageUrl="~/content/images/repeat.png"
                                                      ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />*@
+                                                     ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />*@
                                 </div>
                                 <div id="SavedDiv" class=" btnDeleteSavedDesignsContainer">
                                     @if (saveDesign.StatusID == 3)
@@ -54,6 +55,23 @@
 
                                     @*<asp:ImageButton ID="DeleteSavedDesgn" runat="server" CssClass="btnReorderSavedDesigns btnDeleteSavedDesigns"
                                                      ImageUrl="~/content/images/delete.png" Visible="false" OnClientClick="return confirm('Are you sure you want to delete this Saved design?');"
+                                                     ToolTip="Delete saved design" CommandName="DeleteSavedDesgn" CommandArgument='<%# Eval("ItemID") %>' />*@
+                                    @*<asp:ImageButton ID="ImageButton1" runat="server" CssClass=" btnReorderSavedDesigns"
+                                                     ImageUrl="~/content/images/repeat.png"
+                                                     ToolTip="Reorder saved design" CommandName="ProcessSaveDesign" CommandArgument='<%# Eval("ItemID") %>' />*@
+                                </div>
+                                <div id="SavedDiv" class=" btnDeleteSavedDesignsContainer">
+                                    @if (saveDesign.StatusID == 3)
+                                    {
+                                        <a href="#" onclick="ConfirmDeleteSaveDesignPopup('@saveDesign.ItemID');" id="DeleteSavedDesgn" class="btnReorderSavedDesigns btnDeleteSavedDesigns">
+                                            <img src="~/content/images/delete.png" tooltip="Delete saved design" width="48px"/>
+                                        </a>
+                                    }
+
+
+                                    @*<asp:ImageButton ID="DeleteSavedDesgn" runat="server" CssClass="btnReorderSavedDesigns btnDeleteSavedDesigns"
+                                                     ImageUrl="~/content/images/delete.png" Visible="false" OnClientClick="return confirm('Are you sure you want to delete this Saved design?');"
+>>>>>>> 4bbf856bb2f5794dc565ba81eca50aaaafe86ad7
                                                      ToolTip="Delete saved design" CommandName="DeleteSavedDesgn" CommandArgument='<%# Eval("ItemID") %>' />*@
                                 </div>
                             </div>
@@ -79,7 +97,7 @@
 {
 
     <script type="text/javascript">
-        function ReOrder(ItemID)
+        function ReOrderSaveDesign(ItemID)
         {
             window.location.href = "/ReOrder/" + ItemID;
         }
