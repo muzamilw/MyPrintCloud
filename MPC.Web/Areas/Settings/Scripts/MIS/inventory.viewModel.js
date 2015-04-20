@@ -85,7 +85,15 @@ define("inventory/inventory.viewModel",
                     // #endregion Arrays
 
                     // #region Utility Functions
+                     // Inventory Has Changes
+            inventoryHasChanges = new ko.dirtyFlag({
+                costPriceList: costPriceList,
 
+            }),
+                 // Has Changes
+            hasChangesOnInventory = ko.computed(function () {
+                return ((selectedInventory() && selectedInventory().hasChanges()) || inventoryHasChanges.isDirty());
+            }),
                       // Delete a Inventory
                     onDeleteInventory = function (inventory) {
                         if (!inventory.itemId()) {
@@ -111,7 +119,7 @@ define("inventory/inventory.viewModel",
                         dataservice.deleteInventory(inventory.convertToServerData(), {
                             success: function () {
                                 inventories.remove(inventory);
-                                toastr.success("Stock Item Successfully remove.");
+                                toastr.success("Stock item successfully removed.");
                             },
                             error: function () {
                                 toastr.error("Failed to remove stock item.");
@@ -140,6 +148,8 @@ define("inventory/inventory.viewModel",
                                         selectedInventory().paperType("Roll Paper");
                                     }
                                     selectedInventory().reset();
+                                   
+                                    inventoryHasChanges.reset();
                                     showInventoryEditor();
                                     sharedNavigationVM.initialize(selectedInventory, function (saveCallback) { onSaveInventory(saveCallback); });
                                 }
@@ -667,7 +677,8 @@ define("inventory/inventory.viewModel",
                     onAddSupplier: onAddSupplier,
                     gotoElement: gotoElement,
                     currencySymbol: currencySymbol,
-                    orgRegion: orgRegion
+                    orgRegion: orgRegion,
+                    hasChangesOnInventory: hasChangesOnInventory
                 };
             })()
         };

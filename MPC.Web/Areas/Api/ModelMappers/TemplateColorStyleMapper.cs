@@ -12,15 +12,42 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new TemplateColorStyle
             {
-            ColorC =source.ColorC,
-            //obj.ColorM = M;
-            //obj.ColorY = Y;
-            //obj.ColorK = K;
-            //obj.IsSpotColor = true;
-            //obj.SpotColor = Name;
-            //obj.IsColorActive = true;
-            //obj.CustomerId = CustomerID;
+                PelleteId = source.PelleteId,
+                ColorC = source.ColorC,
+                ColorM = source.ColorM,
+                ColorY = source.ColorY,
+                ColorK = source.ColorK,
+                CustomerId = source.CustomerId,
+                IsColorActive = source.IsColorActive,
+                Name = source.Name,
+                IsSpotColor = source.IsSpotColor,
+                SpotColor = source.SpotColor
             };
+        }
+
+        /// <summary>
+        /// Crete From Web Model
+        /// </summary>
+        public static MPC.Models.DomainModels.TemplateColorStyle CreateFrom(this TemplateColorStyle source)
+        {
+
+            // ReSharper disable InconsistentNaming
+            var companyCMYKColor = new MPC.Models.DomainModels.TemplateColorStyle
+            // ReSharper restore InconsistentNaming
+            {
+                PelleteId = source.PelleteId,
+                ColorC = source.ColorC,
+                ColorM = source.ColorM,
+                ColorY = source.ColorY,
+                ColorK = source.ColorK,
+                CustomerId = source.CustomerId,
+                IsColorActive = source.IsColorActive,
+                Name = source.Name,
+                IsSpotColor = source.IsSpotColor,
+                SpotColor = source.SpotColor
+            };
+
+            return companyCMYKColor;
         }
     }
 }
