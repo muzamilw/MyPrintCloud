@@ -99,8 +99,8 @@
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                             {
                                     <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockId" style="display:none; margin:10px;">
-                                        <div class="float_left_simple spacerbottom" style="width: 120px;">
-                                            <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
+                                        <div class="float_left_simple spacerbottom">
+                                            <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                                         </div>
                                         <div class="extra_item float_left_simple">
 
@@ -190,7 +190,7 @@
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
 
-                                                <img class="full_img_ThumbnailPath_LP" src="@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
                                             </div>
                                         </a>
                                         <div class="confirm_design LGBC height40_LP ">
@@ -1366,7 +1366,7 @@
         ];
         var FileName = yyyy + monthNames[mm] + dd;
         FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
-        var url = "/mpc_content/Attachments/";
+        var url = "mpc_content/Attachments/";
         url = url.concat('@UserCookieManager.WEBOrganisationID', "/", '@UserCookieManager.WBStoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
         while (url.indexOf('/') != -1)

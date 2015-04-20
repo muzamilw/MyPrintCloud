@@ -90,6 +90,7 @@
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
+    <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
