@@ -2991,6 +2991,14 @@ warning 6002: The table/view 'MPC.dbo.CompanyVariableIcon' does not have a prima
           <Property Name="SubReportDataSource" Type="text" />
           <Property Name="OrganisationId" Type="bigint" />
         </EntityType>
+        <EntityType Name="ReportCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ReportNote">
           <Key>
             <PropertyRef Name="Id" />
@@ -5336,6 +5344,30 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_report_notes_tbl_reportcategory">
+          <End Role="ReportCategory" Type="Self.ReportCategory" Multiplicity="0..1" />
+          <End Role="ReportNote" Type="Self.ReportNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ReportNote">
+              <PropertyRef Name="ReportCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_reports_tbl_reportcategory">
+          <End Role="ReportCategory" Type="Self.ReportCategory" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres">
           <End Role="SectionCostcentre" Type="Self.SectionCostcentre" Multiplicity="0..1" />
           <End Role="SectionCostCentreDetail" Type="Self.SectionCostCentreDetail" Multiplicity="*" />
@@ -5743,6 +5775,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <EntitySet Name="RaveReview" EntityType="Self.RaveReview" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegistrationQuestion" EntityType="Self.RegistrationQuestion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportCategory" EntityType="Self.ReportCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportNote" EntityType="Self.ReportNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScopeVariable" EntityType="Self.ScopeVariable" Schema="dbo" store:Type="Tables" />
@@ -6511,6 +6544,14 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <AssociationSet Name="FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions" Association="Self.FK_tbl_ProductMarketBriefAnswers_tbl_ProductMarketBriefQuestions">
             <End Role="ProductMarketBriefQuestion" EntitySet="ProductMarketBriefQuestion" />
             <End Role="ProductMarketBriefAnswer" EntitySet="ProductMarketBriefAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_report_notes_tbl_reportcategory" Association="Self.FK_tbl_report_notes_tbl_reportcategory">
+            <End Role="ReportCategory" EntitySet="ReportCategory" />
+            <End Role="ReportNote" EntitySet="ReportNote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_reports_tbl_reportcategory" Association="Self.FK_tbl_reports_tbl_reportcategory">
+            <End Role="ReportCategory" EntitySet="ReportCategory" />
+            <End Role="Report" EntitySet="Report" />
           </AssociationSet>
           <AssociationSet Name="FK_tbl_section_costcentre_detail_tbl_section_costcentres" Association="Self.FK_tbl_section_costcentre_detail_tbl_section_costcentres">
             <End Role="SectionCostcentre" EntitySet="SectionCostcentre" />
@@ -7367,6 +7408,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
             <Parameter Name="organisationId" Mode="In" Type="Int64" />
             <Parameter Name="OrderID" Mode="In" Type="Int64" />
           </FunctionImport>
+          <EntitySet Name="ReportCategories" EntityType="DomainModels.ReportCategory" />
+          <AssociationSet Name="FK_tbl_reports_tbl_reportcategory" Association="DomainModels.FK_tbl_reports_tbl_reportcategory">
+            <End Role="ReportCategory" EntitySet="ReportCategories" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_report_notes_tbl_reportcategory" Association="DomainModels.FK_tbl_report_notes_tbl_reportcategory">
+            <End Role="ReportCategory" EntitySet="ReportCategories" />
+            <End Role="ReportNote" EntitySet="ReportNotes" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Company">
           <Key>
@@ -12092,6 +12142,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="SubReportTemplate" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="SubReportDataSource" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="ReportCategory" Relationship="DomainModels.FK_tbl_reports_tbl_reportcategory" FromRole="Report" ToRole="ReportCategory" />
         </EntityType>
         <EntityType Name="ReportNote">
           <Key>
@@ -12109,6 +12160,7 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Name="BannerAbsolutePath" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
           <Property Name="isDefault" Type="Boolean" />
           <Property Name="OrganisationId" Type="Int64" />
+          <NavigationProperty Name="ReportCategory" Relationship="DomainModels.FK_tbl_report_notes_tbl_reportcategory" FromRole="ReportNote" ToRole="ReportCategory" />
         </EntityType>
         <EntityType Name="PipeLineProduct">
           <Key>
@@ -13376,6 +13428,40 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
           <Property Type="String" Name="Estimate_Code" Nullable="true" MaxLength="100" />
           <Property Type="String" Name="UserNotes" Nullable="true" MaxLength="Max" />
         </ComplexType>
+        <EntityType Name="ReportCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Reports" Relationship="DomainModels.FK_tbl_reports_tbl_reportcategory" FromRole="ReportCategory" ToRole="Report" />
+          <NavigationProperty Name="ReportNotes" Relationship="DomainModels.FK_tbl_report_notes_tbl_reportcategory" FromRole="ReportCategory" ToRole="ReportNote" />
+        </EntityType>
+        <Association Name="FK_tbl_reports_tbl_reportcategory">
+          <End Type="DomainModels.ReportCategory" Role="ReportCategory" Multiplicity="1" />
+          <End Type="DomainModels.Report" Role="Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_report_notes_tbl_reportcategory">
+          <End Type="DomainModels.ReportCategory" Role="ReportCategory" Multiplicity="0..1" />
+          <End Type="DomainModels.ReportNote" Role="ReportNote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReportCategory">
+              <PropertyRef Name="CategoryId" />
+            </Principal>
+            <Dependent Role="ReportNote">
+              <PropertyRef Name="ReportCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -17659,6 +17745,15 @@ warning 6002: The table/view 'MPC.dbo.vw_SaveDesign' does not have a primary key
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="ReportCategories">
+            <EntityTypeMapping TypeName="DomainModels.ReportCategory">
+              <MappingFragment StoreEntitySet="ReportCategory">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
