@@ -5,7 +5,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
-        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary) {
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain) {
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -16,6 +16,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 isCustomer = ko.observable(specifiedIsCustomer),
                 storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
                 type = ko.observable(),
+                defaultDomain = ko.observable(specifiedDefaultDomain),
                 // Errors
                 errors = ko.validation.group({
 
@@ -62,6 +63,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 url: url,
                 type: type,
                 isCustomer: isCustomer,
+                domain: defaultDomain,
                 storeImageFileBinary: storeImageFileBinary,
                 isValid: isValid,
                 errors: errors,
@@ -79,7 +81,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.status,
             source.image,
             source.url,
-            source.isCustomer
+            source.isCustomer,
+            source.defaultDomain
         );
         return result;
     };
@@ -91,7 +94,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Image,
             source.URL,
             source.IsCustomer,
-            source.ImageBytes
+            source.ImageBytes,
+            source.DefaultDomain
         );
 
         //if (source.IsCustomer == 0) {
@@ -447,9 +451,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             _.each(source.companyTerritories(), function (item) {
                 result.CompanyTerritories.push(item.convertToServerData());
             });
-            result.CompanyCmykColors = [];
+            result.TemplateColorStyles = [];
             _.each(source.companyCMYKColors(), function (item) {
-                result.CompanyCmykColors.push(item.convertToServerData());
+                result.TemplateColorStyles.push(item.convertToServerData());
             });
             result.CompanyDomains = [];
             _.each(source.companyDomains(), function (item) {
@@ -787,53 +791,64 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             store.type("3");
         }
         //isFinishedGoods = ko.observable(specifiedIsFinishedGoods !== undefined && specifiedIsFinishedGoods != null ?(specifiedIsFinishedGoods === 0 ? 0 : specifiedIsFinishedGoods) : undefined),
-        _.each(source.RaveReviews, function (item) {
-            store.raveReviews.push(RaveReview.Create(item));
-        });
-        _.each(source.CompanyTerritories, function (item) {
-            store.companyTerritories.push(CompanyTerritory.Create(item));
-        });
-        _.each(source.Addresses, function (item) {
-            store.addresses.push(Address.Create(item));
-        });
-        _.each(source.CompanyCmykColors, function (item) {
-            store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
-        });
-        var temp = [];
-        _.each(source.CompanyDomains, function (item) {
-            temp.push(CompanyDomain.Create(item));
-            //If first item is pushing then it is the mandatory one
-            if (temp.length == 1) {
-                temp[0].isMandatoryDomain(true);
-                store.defaultCompanyDomainCopy(CompanyDomain.Create(item));
-            }
-        });
-        store.companyDomains(temp.reverse());
-        //store.defaultCompanyDomainCopy(temp.reverse()[0]);
-        //_.each(source.ContactCompanies, function (item) {
-        _.each(source.CompanyContacts, function (item) {
-            store.users.push(CompanyContact.Create(item));
-        });
-        _.each(source.PaymentGateways, function (item) {
-            store.paymentGateway.push(PaymentGateway.Create(item));
-        });
-        _.each(source.PaymentMethods, function (item) {
-            store.paymentMethod.push(PaymentMethod.Create(item));
-        });
-        //_.each(source.ProductCategoriesListView, function (item) {
-        //    store.productCategories.push(ProductCategoryListView.Create(item));
-        //});
-        _.each(source.ProductCategoriesListView, function (item) {
-            store.productCategories.push(ProductCategory.Create(item));
-        });
-        _.each(source.CompanyCostCentres, function (item) {
-            store.companyCostCenters.push(CostCenter.Create(item));
-        });
-        ////Add Store Products/Items in store product model
-        //var mapper = new storeProductModel.Item();
-        //_.each(source.ItemsResponse.Items, function (item) {
-        //    ist.stores.viewModel.products.push(mapper.Create(item));
-        //});
+        if (source.RaveReviews) {
+            _.each(source.RaveReviews, function (item) {
+                store.raveReviews.push(RaveReview.Create(item));
+            });
+        }
+        if (source.CompanyTerritories) {
+            _.each(source.CompanyTerritories, function (item) {
+                store.companyTerritories.push(CompanyTerritory.Create(item));
+            });
+        }
+        if (source.Addresses) {
+            _.each(source.Addresses, function (item) {
+                store.addresses.push(Address.Create(item));
+            });
+        }
+        if (source.TemplateColorStyles) {
+            _.each(source.TemplateColorStyles, function (item) {
+                store.companyCMYKColors.push(CompanyCMYKColor.Create(item));
+            });
+        }
+        if (source.CompanyDomains) {
+            var temp = [];
+            _.each(source.CompanyDomains, function (item) {
+                temp.push(CompanyDomain.Create(item));
+                //If first item is pushing then it is the mandatory one
+                if (temp.length == 1) {
+                    temp[0].isMandatoryDomain(true);
+                    store.defaultCompanyDomainCopy(CompanyDomain.Create(item));
+                }
+            });
+            store.companyDomains(temp.reverse());
+        }
+        if (source.CompanyContacts) {
+            _.each(source.CompanyContacts, function (item) {
+                store.users.push(CompanyContact.Create(item));
+            });
+        }
+        if (source.PaymentGateways) {
+            _.each(source.PaymentGateways, function (item) {
+                store.paymentGateway.push(PaymentGateway.Create(item));
+            });
+        }
+        if (source.PaymentMethods) {
+            _.each(source.PaymentMethods, function (item) {
+                store.paymentMethod.push(PaymentMethod.Create(item));
+            });
+        }
+        if (source.ProductCategoriesListView) {
+            _.each(source.ProductCategoriesListView, function (item) {
+                store.productCategories.push(ProductCategory.Create(item));
+            });
+        }
+        if (source.CompanyCostCentres) {
+            _.each(source.CompanyCostCentres, function (item) {
+                store.companyCostCenters.push(CostCenter.Create(item));
+            });
+        }
+        
         //#endregion
         return store;
     };
@@ -1079,7 +1094,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ______________  C O M P A N Y    C M Y K    C O L O R   _________________
 
     // ReSharper disable once InconsistentNaming    
-    var CompanyCMYKColor = function (specifiedColorId, specifiedCompanyId, specifiedColorName, specifiedColorC, specifiedColorM, specifiedColorY, specifiedColorK) {
+    var CompanyCMYKColor = function (specifiedColorId, specifiedCompanyId, specifiedColorName, specifiedColorC, specifiedColorM, specifiedColorY, specifiedColorK,
+    specifiedIsSpotColor, specifiedSpotColor, specifiedIsActive) {
         var self,
             colorId = ko.observable(specifiedColorId),
             companyId = ko.observable(specifiedCompanyId),
@@ -1088,6 +1104,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorM = ko.observable(specifiedColorM).extend({ required: true, number: true, min: 0, max: 200 }),
             colorY = ko.observable(specifiedColorY).extend({ required: true, number: true, min: 0, max: 200 }),
             colorK = ko.observable(specifiedColorK).extend({ required: true, number: true, min: 0, max: 200 }),
+            isActive = ko.observable(specifiedIsActive || true),
+            isSpotColor = ko.observable(specifiedIsSpotColor || true),
+            spotColor = ko.observable(specifiedSpotColor || undefined),
             // Errors
             errors = ko.validation.group({
                 colorName: colorName,
@@ -1111,7 +1130,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 colorC: colorC,
                 colorM: colorM,
                 colorY: colorY,
-                colorK: colorK
+                colorK: colorK,
+                isActive: isActive
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -1120,23 +1140,17 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             //Convert To Server
             convertToServerData = function () {
                 return {
-                    ColorId: colorId(),
-                    CompanyId: companyId(),
-                    ColorName: colorName(),
+                    PelleteId: colorId(),
+                    CustomerId: companyId(),
+                    Name: colorName(),
                     ColorC: colorC(),
                     ColorM: colorM(),
                     ColorY: colorY(),
-                    ColorK: colorK()
-                }
-                //var result = {};//ColorId CompanyId ColorName ColorC ColorM ColorY ColorK
-                //result.ColorId = source.colorId();
-                //result.CompanyId = source.companyId();
-                //result.ColorName = source.colorName();
-                //result.ColorC = source.colorC();
-                //result.ColorM = source.colorM();
-                //result.ColorY = source.colorY();
-                //result.ColorK = source.colorK();
-                //return result;
+                    ColorK: colorK(),
+                    SpotColor: !spotColor() ? colorName() : spotColor(),
+                    IsSpotColor: isSpotColor(),
+                    IsColorActive: isActive()
+                };
             },
             // Reset
             reset = function () {
@@ -1150,6 +1164,9 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             colorM: colorM,
             colorY: colorY,
             colorK: colorK,
+            isSpotColor: isSpotColor,
+            spotColor: spotColor,
+            isActive: isActive,
             isValid: isValid,
             errors: errors,
             dirtyFlag: dirtyFlag,
@@ -1167,18 +1184,24 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.colorC,
             source.colorM,
             source.colorY,
-            source.colorK
+            source.colorK,
+            source.isSpotColor,
+            source.spotColor,
+            source.isActive
         );
     };
     CompanyCMYKColor.Create = function (source) {
         var companyCMYKColor = new CompanyCMYKColor(
-            source.ColorId,
-            source.CompanyId,
-            source.ColorName,
+            source.PelleteId,
+            source.CustomerId,
+            source.Name,
             source.ColorC,
             source.ColorM,
             source.ColorY,
-            source.ColorK
+            source.ColorK,
+            source.IsSpotColor,
+            source.SpotColor,
+            source.IsColorActive
         );
         return companyCMYKColor;
     };

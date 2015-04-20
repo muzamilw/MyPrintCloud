@@ -301,6 +301,9 @@
         <EntityTypeShape EntityType="DomainModels.SectionInkCoverage" Width="1.5" PointX="40.375" PointY="3.75" />
         <AssociationConnector Association="DomainModels.FK_Estimate_SectionFlag" />
         <AssociationConnector Association="DomainModels.FK_SectionInkCoverage_ItemSection" />
+        <EntityTypeShape EntityType="DomainModels.JobCardReportView" Width="1.5" PointX="41.375" PointY="41.875" />
+        <EntityTypeShape EntityType="DomainModels.OrderReportView" Width="1.5" PointX="38.375" PointY="43.875" />
+        <AssociationConnector Association="DomainModels.FK_TemplateColorStyle_Company" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

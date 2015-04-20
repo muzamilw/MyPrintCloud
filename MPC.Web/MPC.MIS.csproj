@@ -443,6 +443,7 @@
     <Compile Include="Areas\Api\ModelMappers\SmartFormDetailMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\SmartFormMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\StockItemForDropDownMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\TemplateColorStyleMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\VariableOptionMapper.cs" />
     <Compile Include="Areas\Api\Models\Activity.cs" />
     <Compile Include="Areas\Api\Models\ActivityListView.cs" />
@@ -711,6 +712,7 @@
     <Compile Include="Areas\Api\Models\PaperBasisAreaDropDown.cs" />
     <Compile Include="Areas\Api\Models\RegistrationQuestionDropDown.cs" />
     <Compile Include="Areas\Api\Models\Template.cs" />
+    <Compile Include="Areas\Api\Models\TemplateColorStyle.cs" />
     <Compile Include="Areas\Api\Models\TemplatePage.cs" />
     <Compile Include="Areas\Api\Models\VariableOption.cs" />
     <Compile Include="Areas\Api\Models\Widget.cs" />

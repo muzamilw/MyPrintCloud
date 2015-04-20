@@ -395,6 +395,16 @@
                                     <a class=" SampleBtn btntxt  bkTextBoxes" id="clearBackground">Clear <br />Backgrounds</a>
                                 </li>
                                 <p class="uploadBkLbl">Recommended 300 dpi CMYK JPeg or PDF files.</p>
+                                <div id="FontUploadingMsgDiv" class="panelItemsLeftAligned leftalignTxt largeText" style="text-align:left;">
+                                    <br>
+                                    <div class="titletxt">
+                                        Uploading your PDF Background.
+                                    </div>
+                                    <br>
+                                    When uploading a PDF as a canvas background (single or multiple page pdf file), the uploaded PDF will replace the canvas backgrounds on all template canvas (pages) in the same order of the multi page PDF uploaded, thus replacing the existing canvas backgrounds.
+                                    <br /> <br />
+                                    <span class="titletxt">Important Note : </span>  The PDF page sizes will replace the template canvas sizes.  If the number of PDF page is less than the Template pages, then the remaining canvas will be blank..
+                                </div>
                                 @*<li style="width: 109px; left: 0px; top: 0px;" class="bkr1c1">
                                     <a title="Free Backgrounds" class="freeBackgrounds">
                                         <span class="pageIMLoader on"></span><span class="pageIMLoader on"></span>
@@ -652,7 +662,7 @@
 
 
 
-                                    <div class="propertyPanelControlDiv">
+                                    <div class="propertyPanelControlDiv positioningControls">
                                         <div class="PostionPanelLabel">
                                             <span class="lblcheckbox adminControl">Position</span>
                                         </div>
@@ -663,17 +673,17 @@
                                             <div class="lblcheckbox" id="">Lock Position </div>
                                         </div>
                                     </div>
-                                    <div class="propertyPanelControlDiv">
+                                    <div class="propertyPanelControlDiv positioningControls">
                                         <div class="margin10" style="padding-bottom: 10px">
                                             <div class="lbltextButtonControl">
 
                                                 <span class="paddingright5" style="padding-right: 8px;">X</span>
-                                                <input name="inputPositionXTxt" id="inputPositionX" class="width28 zindex100" />
+                                                <input name="inputPositionX" id="inputPositionX" class="width28 zindex100" />
 
                                             </div>
                                             <div class="lbltextButtonControl">
                                                 <span class="paddingright5" style="padding-right: 8px;">Y </span>
-                                                <input name="inputPositionYTxt" id="inputPositionY" class="width28 zindex100" />
+                                                <input name="inputPositionY" id="inputPositionY" class="width28 zindex100" />
 
                                             </div>
                                         </div>
@@ -681,12 +691,12 @@
                                             <div class="lbltextButtonControl" style="float: left;">
 
                                                 <span class="paddingright5">W</span>
-                                                <input name="inputObjectWidthTxt" id="inputObjectWidth" class="width28 zindex100" />
+                                                <input name="inputObjectWidth" id="inputObjectWidth" class="width28 zindex100" />
                                             </div>
                                             <div class="lbltextButtonControl" style="float: left;">
 
                                                 <span class="paddingright5" style="padding-left: 4px;">H</span>
-                                                <input name="inputObjectHeightTxt" id="inputObjectHeight" class="width28 zindex100" />
+                                                <input name="inputObjectHeight" id="inputObjectHeight" class="width28 zindex100" />
 
 
                                             </div>
@@ -705,7 +715,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="DivBlockWithNoHeight vertLine"></div>
+                                    <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                         <div class="lblchckboxControl" id=""><p class="paraLblChkBox"> Make Object appear on Overlay Layer</p>  </div>
@@ -731,7 +741,7 @@
                                     <div class="DivBlockWithNoHeight vertLine adminControl"></div>
 
                                     <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
-                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Allow End User to CHANGE Formatting </p></div>
+                                        <div class="lblchckboxControl" id=""><p class="paraLblChkBox">Lock Formatting for End User </p></div>
                                         <div class="onoffswitch"  >
                                             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="LockImgProperties" checked="">
                                             <label class="onoffswitch-label" for="LockImgProperties" id="lblLockImgProperties">
@@ -849,7 +859,7 @@
                                         <div class="lblcheckbox adminControl" id="">Lock Position </div>
                                     </div>
                                 </div>
-                                <div class="propertyPanelControlDiv">
+                                <div class="propertyPanelControlDiv positioningControls">
                                     <div class="margin10" style="padding-bottom: 10px">
                                         <div class="lbltextButtonControl">
 
@@ -889,7 +899,7 @@
 
                                     </div>
                                 </div>
-                                <div class="DivBlockWithNoHeight vertLine"></div>
+                                <div class="DivBlockWithNoHeight vertLine positioningControls"></div>
                                 <div class="propertyPanelControlDiv adminControl" style="padding-bottom: 5px">
                                     <div class="lblchckboxControl" id=""> <p class="paraLblChkBox">Make Object appear on Overlay Layer </p> </div>
                                     <div class="onoffswitch" >

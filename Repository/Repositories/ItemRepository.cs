@@ -2563,10 +2563,11 @@ namespace MPC.Repository.Repositories
                                             HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
                                         attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
+                                        attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
-                                    attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
+                                    
                                     PageNo = PageNo + 1;
                                     
                                 });
@@ -3153,8 +3154,8 @@ namespace MPC.Repository.Repositories
 
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
-                    // if (Item.isMultipagePDF == true)
-                    if (false)
+                    if (Item.isMultipagePDF == true)
+                    if (Item.isMultipagePDF == true)
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
