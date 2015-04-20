@@ -15,6 +15,7 @@ namespace MPC.MIS.Areas.Api.Models
         public short IsCustomer { get; set; }
         public byte[] Image { get; set; }
         public string ImageBytes { get; set; }
+        public string DefaultDomain { get; set; }
         /// <summary>
         /// Image Source
         /// </summary>
