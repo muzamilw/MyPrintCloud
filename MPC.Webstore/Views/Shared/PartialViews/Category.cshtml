@@ -152,14 +152,14 @@
                                             @if (isUploadImage == false)
                                             {
                                                  //href="@Url.Action("CloneItem", "Category", new { id = item.ItemId })" onclick="ShowLoader();"
-                                                <a id="hlProductDetail" href="#">
+                                                @*<a id="hlProductDetail" href="#">*@
                                                     <div class="PDTC_CatProd FI_CatProd">
                                                         @{
                                                             <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
 
                                                         }
                                                     </div>
-                                                </a>
+                                                @*</a>*@
                                             }
                                             else
                                             {
@@ -168,7 +168,7 @@
                                                 {
                                                     if (ViewBag.IsUserLogin == true) // check if user login or not ??
                                                     {
-                                                        <a id="hlProductDetail" href="#">
+                                                        @*<a id="hlProductDetail" href="#">*@
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -176,14 +176,14 @@
                                                                     <img id="imgProduct" src="/@item.ThumbnailPath" class="full_img_ThumbnailPath_CatPro" />
                                                                 }
                                                             </div>
-                                                        </a>
+                                                        @*</a>*@
                                                     }
                                                     else // if not login then open set onclick event of anchor tab for login
                                                     {
                                                         string ProductName = "'" + item.ProductName + "'";
                                                         string itemID = "'" + item.ItemId + "'";
 
-                                                        <a id="hlProductDetail" href="#" >
+                                                        @*<a id="hlProductDetail" href="#" >*@
 
                                                             <div class="PDTC_CatProd FI_CatProd">
                                                                 @{
@@ -193,12 +193,12 @@
 
                                                                 }
                                                             </div>
-                                                        </a>
+                                                        @*</a>*@
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    <a id="hlProductDetail" >@*href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp"*@
+                                                    @*<a id="hlProductDetail" >*@@*href="@RedirectURL" onclick="ShowLoader(); @SkipDesignerPopUp"*@
 
                                                         <div class="PDTC_CatProd FI_CatProd">
                                                             @{
@@ -207,7 +207,7 @@
 
                                                             }
                                                         </div>
-                                                    </a>
+                                                    @*</a>*@
                                                 }
                                             }
                                         </div>

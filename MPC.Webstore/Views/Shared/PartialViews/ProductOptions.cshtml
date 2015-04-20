@@ -568,7 +568,7 @@
         @if (!string.IsNullOrEmpty(ViewBag.Item.File1) || !string.IsNullOrEmpty(ViewBag.Item.File2) || !string.IsNullOrEmpty(ViewBag.Item.File3) || !string.IsNullOrEmpty(ViewBag.Item.File4))
         {
             <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDownloadTemplate", UserCookieManager.WBStoreId))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("downloadExmp", UserCookieManager.WBStoreId))
             </div>
             <div id="lbl_CreateUploadTemplates" class="DExmlbl">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple", UserCookieManager.WBStoreId))

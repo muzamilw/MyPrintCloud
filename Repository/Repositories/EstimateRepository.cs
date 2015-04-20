@@ -87,8 +87,8 @@ namespace MPC.Repository.Repositories
                     )) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
-                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) && 
-                    item.OrganisationId == OrganisationId);
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    item.OrganisationId == OrganisationId && item.StatusId != (int)OrderStatus.ShoppingCart);
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
