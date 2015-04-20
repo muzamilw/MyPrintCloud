@@ -217,7 +217,8 @@ function ConfirmRemove(ItemID,OrderID)
 function ConfirmRemoveSaveDesign(ItemID) {
 
     ShowLoader();
-    window.location.href = "/RemoveProduct/" + ItemID;
+
+    window.location.href = "/RemoveSaveDesign/" + ItemID;
 }
 function DesignNow(callFrom,EditType,ItemID,TemplateID)
 {
