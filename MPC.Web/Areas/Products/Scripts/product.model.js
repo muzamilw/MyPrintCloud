@@ -1180,6 +1180,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         var templateFileElement = template().fileSource.domElement;
                         validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
                     }
+                    if (template().pdfTemplateWidth.error) {
+                        var templatePdfWidthElement = template().pdfTemplateWidth.domElement;
+                        validationSummaryList.push({ name: "Width is required in case of Blank Template", element: templatePdfWidthElement });
+                    }
+                    if (template().pdfTemplateHeight.error) {
+                        var templatePdfHeightElement = template().pdfTemplateHeight.domElement;
+                        validationSummaryList.push({ name: "Height is required in case of Blank Template", element: templatePdfHeightElement });
+                    }
                 }
                 // If Print Item and don't has Template Pages for Blank Template
                 if (!hasTemplatePagesForManual()) {
@@ -1843,10 +1851,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
-            // Pdf Template Width
-            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
-            // Pdf Template Height
-            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
                 (!specifiedId ? true : undefined)),
@@ -1863,6 +1867,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     isCreatedManual(value);
                     if (specifiedIsCreatedManual === false) {
                         specifiedIsCreatedManual = value;
+                    }
+                }
+            }),
+            // Pdf Template Width
+            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
+                    }
+                }
+            }),
+            // Pdf Template Height
+            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
                     }
                 }
             }),
@@ -1916,7 +1936,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
-                fileSource: fileSource
+                fileSource: fileSource,
+                pdfTemplateWidth: pdfTemplateWidth,
+                pdfTemplateHeight: pdfTemplateHeight
             }),
             // Is Valid
             isValid = ko.computed(function () {

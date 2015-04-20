@@ -44,6 +44,41 @@ namespace MPC.Repository.Repositories
             return db.SystemUsers.FirstOrDefault();
             //db.SystemUsers.Where(s => s.SystemUserId == SytemUserId).FirstOrDefault();
         }
+        public bool Add(System.Guid Id, string Email, string FullName, int OrganizationId)
+        {
+            SystemUser user = new SystemUser();
+            user.Email = Email;
+            user.SystemUserId = Id;
+            user.FullName = FullName;
+            user.UserName = Email;
+            user.OrganizationId = OrganizationId;
+            user.IsAccountDisabled = 0;
+            db.SystemUsers.Add(user);
+            if (db.SaveChanges() > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public bool Update(System.Guid Id, string Email, string FullName)
+        {
+            //System.Guid SystemId = Id;
+
+            SystemUser user = db.SystemUsers.Where(g => g.SystemUserId == Id).FirstOrDefault();
+            user.Email = Email;
+            user.FullName = FullName;
+            user.UserName = Email;
+                if(db.SaveChanges()>0){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            
+        }
         public List<SystemUser> GetSystemUSersByOrganisationID(long OrganisationID)
         {
             return db.SystemUsers.Where(s => s.OrganizationId == OrganisationID).ToList();
