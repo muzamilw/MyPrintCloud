@@ -43,6 +43,8 @@ define("order/order.viewModel",
                     inkPlateSides = ko.observableArray([]),
                     //
                     selectedCompanyTaxRate = ko.observable(),
+                    // selected Company
+                    selectedCompany = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
                     // Best PressL ist
@@ -287,7 +289,7 @@ define("order/order.viewModel",
                     },
                     // Open Company Dialog
                     openCompanyDialog = function () {
-                        companySelector.show(onSelectCompany, [0, 1], true);
+                        companySelector.show(onSelectCompany, [0, 1, 3], true);
                     },
                     // On Select Company
                     onSelectCompany = function (company) {
@@ -301,6 +303,7 @@ define("order/order.viewModel",
 
                         selectedOrder().companyId(company.id);
                         selectedOrder().companyName(company.name);
+                        selectedCompany(company);
 
                         // Get Company Address and Contacts
                         getBaseForCompany(company.id, company.storeId);
@@ -1395,8 +1398,14 @@ define("order/order.viewModel",
                         view.hideRCostCentersDialog();
                     },
                     getCostCenters = function () {
+                        var companyId = 0;
+                        if (selectedCompany() !== undefined && selectedCompany().isCustomer!==undefined && selectedCompany().isCustomer !== 3) {
+                            companyId = selectedCompany().storeId;
+                        } else {
+                            companyId = selectedOrder().companyId();
+                        }
                         dataservice.getCostCenters({
-                            CompanyId: selectedOrder().companyId(),
+                            CompanyId: companyId,
                             SearchString: costCentrefilterText(),
                             PageSize: costCentrePager().pageSize(),
                             PageNo: costCentrePager().currentPage(),
@@ -1509,8 +1518,15 @@ define("order/order.viewModel",
 
                     //Get Items By CompanyId
                     getItemsByCompanyId = function () {
+
+                        var companyId = 0;
+                        if (selectedCompany() !== undefined && selectedCompany().isCustomer !== undefined && selectedCompany().isCustomer !== 3) {
+                            companyId = selectedCompany().storeId;
+                        } else {
+                            companyId = selectedOrder().companyId();
+                        }
                         dataservice.getItemsByCompanyId({
-                            CompanyId: selectedOrder().companyId()
+                            CompanyId: companyId
                         }, {
                             success: function (data) {
                                 if (data != null) {
