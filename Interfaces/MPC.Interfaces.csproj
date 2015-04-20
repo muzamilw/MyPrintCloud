@@ -97,6 +97,7 @@
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\ISectionCostCentreRepository.cs" />
     <Compile Include="Repository\ILookupMethodRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />
