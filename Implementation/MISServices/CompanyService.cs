@@ -45,6 +45,7 @@ namespace MPC.Implementation.MISServices
         private readonly ISystemUserRepository systemUserRepository;
         private readonly IRaveReviewRepository raveReviewRepository;
         private readonly ICompanyCMYKColorRepository companyCmykColorRepository;
+        private readonly ITemplateColorStylesRepository templateColorStylesRepository;
         private readonly ICompanyTerritoryRepository companyTerritoryRepository;
         private readonly ICompanyBannerRepository companyBannerRepository;
         private readonly IAddressRepository addressRepository;
@@ -263,51 +264,53 @@ namespace MPC.Implementation.MISServices
             //var companyDbVersion = companyRepository.Find(company.CompanyId);
             #region CMYK Colors Items
             //Add  CMYK Colors
-            if (company.CompanyCMYKColors != null)
+            if (company.TemplateColorStyles != null)
             {
-                foreach (var item in company.CompanyCMYKColors)
+                foreach (var item in company.TemplateColorStyles)
                 {
-                    if (companyDbVersion.CompanyCMYKColors.All(x => x.ColorId != item.ColorId && x.CompanyId != item.CompanyId))
+                    if (companyDbVersion.TemplateColorStyles.All(x => x.PelleteId != item.PelleteId && x.CustomerId != item.CustomerId))
                     {
-                        item.CompanyId = company.CompanyId;
-                        companyDbVersion.CompanyCMYKColors.Add(item);
+                        item.CustomerId = company.CompanyId;
+                        companyDbVersion.TemplateColorStyles.Add(item);
                     }
                 }
             }
             //find missing items
 
-            List<CompanyCMYKColor> missingCompanyCMYKColors = new List<CompanyCMYKColor>();
+            List<TemplateColorStyle> missingTemplateColorStyles = new List<TemplateColorStyle>();
             // ReSharper disable once LoopCanBeConvertedToQuery
-            if (companyDbVersion.CompanyCMYKColors != null)
+            if (companyDbVersion.TemplateColorStyles != null)
             {
 
 
-                foreach (CompanyCMYKColor dbversionCompanyCMYKColors in companyDbVersion.CompanyCMYKColors)
+                foreach (TemplateColorStyle dbversionTemplateColorStyles in companyDbVersion.TemplateColorStyles)
                 {
-                    if (company.CompanyCMYKColors != null && company.CompanyCMYKColors.All(x => x.ColorId != dbversionCompanyCMYKColors.ColorId && x.CompanyId != dbversionCompanyCMYKColors.ColorId))
+                    if (company.TemplateColorStyles != null && company.TemplateColorStyles.All(x => x.PelleteId != dbversionTemplateColorStyles.PelleteId &&
+                        x.CustomerId != dbversionTemplateColorStyles.CustomerId))
                     {
-                        missingCompanyCMYKColors.Add(dbversionCompanyCMYKColors);
+                        missingTemplateColorStyles.Add(dbversionTemplateColorStyles);
                     }
                 }
 
                 //remove missing items
-                foreach (CompanyCMYKColor missingCompanyCMYKColor in missingCompanyCMYKColors)
+                foreach (TemplateColorStyle missingTemplateColorStyle in missingTemplateColorStyles)
                 {
 
-                    CompanyCMYKColor dbVersionMissingItem = companyDbVersion.CompanyCMYKColors.First(x => x.ColorId == missingCompanyCMYKColor.ColorId && x.CompanyId == missingCompanyCMYKColor.CompanyId);
-                    //if (dbVersionMissingItem.ColorId > 0)
+                    TemplateColorStyle dbVersionMissingItem = companyDbVersion.TemplateColorStyles.First(x => x.PelleteId == missingTemplateColorStyle.PelleteId &&
+                        x.CustomerId == missingTemplateColorStyle.CustomerId);
+                    //if (dbVersionMissingItem.PelleteId > 0)
                     //{
-                    companyDbVersion.CompanyCMYKColors.Remove(dbVersionMissingItem);
-                    companyCmykColorRepository.Delete(dbVersionMissingItem);
+                    companyDbVersion.TemplateColorStyles.Remove(dbVersionMissingItem);
+                    templateColorStylesRepository.Delete(dbVersionMissingItem);
                     //}
                 }
             }
-            if (company.CompanyCMYKColors != null)
+            if (company.TemplateColorStyles != null)
             {
                 //updating Company CMYK Colors
-                foreach (var companyCMYKColorsItem in company.CompanyCMYKColors)
+                foreach (var TemplateColorStylesItem in company.TemplateColorStyles)
                 {
-                    companyCmykColorRepository.Update(companyCMYKColorsItem);
+                    templateColorStylesRepository.Update(TemplateColorStylesItem);
                 }
             }
             #endregion
@@ -2947,11 +2950,17 @@ namespace MPC.Implementation.MISServices
             IReportRepository ReportRepository, IFieldVariableRepository fieldVariableRepository, IVariableOptionRepository variableOptionRepository,
             IScopeVariableRepository scopeVariableRepository, ISmartFormRepository smartFormRepository, ISmartFormDetailRepository smartFormDetailRepository,
             IEstimateRepository estimateRepository, IMediaLibraryRepository mediaLibraryRepository, ICompanyCostCenterRepository companyCostCenterRepository,
-            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository)
+            ICmsTagReporistory cmsTagReporistory, ICompanyBannerSetRepository bannerSetRepository, ICampaignRepository campaignRepository, 
+            MPC.Interfaces.WebStoreServices.ITemplateService templateService, ITemplateFontsRepository templateFontRepository, IMarkupRepository markupRepository,
+            ITemplateColorStylesRepository templateColorStylesRepository)
         {
             if (bannerSetRepository == null)
             {
                 throw new ArgumentNullException("bannerSetRepository");
+            }
+            if (templateColorStylesRepository == null)
+            {
+                throw new ArgumentNullException("templateColorStylesRepository");
             }
             this.companyRepository = companyRepository;
             this.campaignRepository = campaignRepository;
@@ -3013,6 +3022,7 @@ namespace MPC.Implementation.MISServices
             this.templateService = templateService;
             this.templatefonts = templateFontRepository;
             this.markupRepository = markupRepository;
+            this.templateColorStylesRepository = templateColorStylesRepository;
 
         }
         #endregion

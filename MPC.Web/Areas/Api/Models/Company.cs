@@ -149,7 +149,7 @@ namespace MPC.MIS.Areas.Api.Models
         #region Public List Properties
 
         public List<RaveReview> RaveReviews { get; set; }
-        public List<CompanyCMYKColor> CompanyCmykColors { get; set; }
+        public List<TemplateColorStyle> TemplateColorStyles { get; set; }
         public ICollection<PaymentGateway> PaymentGateways { get; set; }
         public virtual CompanyType CompanyType { get; set; }
         public List<CompanyContact> CompanyContacts { get; set; }
