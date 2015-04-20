@@ -872,6 +872,18 @@ define("order/order.viewModel",
                         }
                     });
                 },
+                availableInkPalteChange=function() {
+                    if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+                        var count = 0;
+                        _.each(availableInkPlateSides(), function (item) {
+                            if (item.id == selectedSection().plateInkId()) {
+                                updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                                selectedSection().side1Inks(item.plateInkSide1);
+                                selectedSection().side2Inks(item.plateInkSide2);
+                            }
+                        });
+                    }
+                },
                 openInkDialog = function () {
                     if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
                         var count = 0;
@@ -2123,6 +2135,7 @@ define("order/order.viewModel",
                         });
 
                         var currSec = selectedSection().convertToServerData();
+                    currSec.PressId = selectedBestPressFromWizard().id;
                         dataservice.getUpdatedSystemCostCenters({
                             CurrentSection: currSec,
                             PressId: currSec.PressId
@@ -2434,7 +2447,8 @@ define("order/order.viewModel",
                     grossTotal: grossTotal,
                     onOrderStatusChange: onOrderStatusChange,
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,
-                    clickOnJobToProgressWizard: clickOnJobToProgressWizard
+                    clickOnJobToProgressWizard: clickOnJobToProgressWizard,
+                    availableInkPalteChange: availableInkPalteChange
                 };
             })()
         };

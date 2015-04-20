@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="pull-right top-page-ui">
-                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: hasChanges, css: { 'btn-warning': hasChanges }">Save</button>
+                            <button class="btn  btn-info" id="saveBtn" data-bind="click:$root.onSaveInventory, enable: $root.hasChangesOnInventory, css: { 'btn-warning': $root.hasChangesOnInventory }">Save</button>
                             <button class="btn btn-default" id="saveBtn" data-bind="click: $root.closeInventoryEditor">Close</button>
                         </div>
                         <div id="detailArea">
