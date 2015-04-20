@@ -153,7 +153,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-        long GetCartItemsCount(long ContactId, long TemporaryCustomerId);
+        long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId);
 
         List<CmsSkinPageWidget> GetStoreWidgets();
 
@@ -182,6 +182,17 @@ namespace MPC.Interfaces.WebStoreServices
         long getParentTemplateID(long itemId);
 
         string ProcessCorpOrderSkipDesignerMode(long WEBOrderId, int WEBStoreMode, long TemporaryCompanyId, long OrganisationId, long CompanyID, long ContactID, long itemID);
-       
+        /// <summary>
+        /// get category name
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        string GetCategoryNameById(long CategoryId, long ItemId);
+        /// <summary>
+        /// get category ID
+        /// </summary>
+        /// <param name="itemID"></param>
+        /// <returns></returns>
+        long GetCategoryIdByItemId(long ItemId);
     }
 }

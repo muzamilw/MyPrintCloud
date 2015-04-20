@@ -1,9 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using Microsoft.Practices.Unity;
 using MPC.Interfaces.Repository;
 using MPC.Models.DomainModels;
 using MPC.Repository.BaseRepository;
-
+using System;
 namespace MPC.Repository.Repositories
 {
     /// <summary>
@@ -39,7 +41,13 @@ namespace MPC.Repository.Repositories
         #endregion
 
         #region public
-        
+        public long? GetCategoryId(long ItemId)
+        {
+
+            return db.ProductCategoryItems.Where(i => i.ItemId == ItemId).Select(c => c.CategoryId).FirstOrDefault();
+
+
+        }
         #endregion
     }
 }

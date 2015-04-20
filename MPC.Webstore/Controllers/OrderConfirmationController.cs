@@ -110,6 +110,15 @@ namespace MPC.Webstore.Controllers
             cep.EstimateId = Convert.ToInt32(OrderId);
             cep.ItemId = _ItemService.GetFirstItemIdByOrderId(OrderId);
             Campaign OnlineOrderCampaign = _myCampaignService.GetCampaignRecordByEmailEvent((int)Events.OnlineOrder, baseResponse.Company.OrganisationId ?? 0, UserCookieManager.WBStoreId);
+            List<Guid> StockManagerIds = new List<Guid>();
+            if(baseResponse.Company.StockNotificationManagerId1 != null)
+            {
+                StockManagerIds.Add((Guid)baseResponse.Company.StockNotificationManagerId1);
+            }
+            if(baseResponse.Company.StockNotificationManagerId2 != null)
+            {
+                StockManagerIds.Add((Guid)baseResponse.Company.StockNotificationManagerId2);
+            }
             if (user != null)
             {
 
@@ -121,8 +130,7 @@ namespace MPC.Webstore.Controllers
                     {
                         try
                         {
-                            // Only for demo mode.
-                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail);
+                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Retail, baseResponse.Organisation, StockManagerIds);
                             Estimate updatedOrder = _OrderService.GetOrderByID(OrderId);
 
                             string AttachmentPath = OrderConfirmationPDF(OrderId, UserCookieManager.WBStoreId);
@@ -227,7 +235,7 @@ namespace MPC.Webstore.Controllers
                     {
                         try
                         {
-                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp);
+                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingOrder, StoreMode.Corp, baseResponse.Organisation, StockManagerIds);
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager); //ContactManager.GetBrokerByRole(SessionParameters.BrokerContactCompany.ContactCompanyID, Convert.ToInt32(Roles.Adminstrator));
                             cep.CorporateManagerID = ManagerID;
@@ -252,7 +260,7 @@ namespace MPC.Webstore.Controllers
                         // and prices are hidden
                         try
                         {
-                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp);
+                            result = _OrderService.UpdateOrderAndCartStatus(OrderId, OrderStatus.PendingCorporateApprovel, StoreMode.Corp, baseResponse.Organisation, StockManagerIds);
 
                             long ManagerID = _myCompanyService.GetContactIdByRole(_myClaimHelper.loginContactCompanyID(), (int)Roles.Manager);
                             cep.CorporateManagerID = ManagerID;
@@ -345,7 +353,7 @@ namespace MPC.Webstore.Controllers
         {
             try
             {
-                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId;
+                string URl = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/ReceiptPlain?OrderId=" + OrderId + "&StoreId=" + StoreId + "&IsPrintReceipt=0";
 
                 string FileName = OrderId + "_OrderReceipt.pdf";
                 string FilePath = System.Web.HttpContext.Current.Server.MapPath("~/mpc_content/EmailAttachments/" + FileName);

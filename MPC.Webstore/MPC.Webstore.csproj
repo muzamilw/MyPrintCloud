@@ -58,6 +58,12 @@
     <Reference Include="FluentScheduler">
       <HintPath>..\packages\FluentScheduler.3.1.45\lib\net40\FluentScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToTwitter.AspNet">
+      <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqToTwitterPcl">
+      <HintPath>..\packages\linqtotwitter.3.1.2\lib\net45\LinqToTwitterPcl.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp">
       <Private>True</Private>
     </Reference>
@@ -109,6 +115,7 @@
     <Reference Include="System.Drawing">
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Extensions">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Extensions.dll</HintPath>
     </Reference>
@@ -118,6 +125,18 @@
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core">
+      <HintPath>..\packages\Rx-Core.2.2.5\lib\net45\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>..\packages\Rx-Linq.2.2.5\lib\net45\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>..\packages\Rx-PlatformServices.2.2.5\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching">
       <Private>True</Private>
@@ -353,6 +372,7 @@
     <Compile Include="Controllers\OrderPolicySaveController.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\PersonalDetailAndOrderPolicyController.cs" />
+    <Compile Include="Controllers\PopularProductsController.cs" />
     <Compile Include="Controllers\ProductDetailController.cs" />
     <Compile Include="Controllers\DomainController.cs" />
     <Compile Include="Controllers\AllProductsController.cs" />
@@ -369,6 +389,8 @@
     <Compile Include="Controllers\ProductOrderHistoryController.cs" />
     <Compile Include="Controllers\ProductParentCategoriesController.cs" />
     <Compile Include="Controllers\ProductPendingOrdersController.cs" />
+    <Compile Include="Controllers\PromotionalProductController.cs" />
+    <Compile Include="Controllers\QuickCalculatorController.cs" />
     <Compile Include="Controllers\RaveReviewController.cs" />
     <Compile Include="Controllers\RealEstateBannerController.cs" />
     <Compile Include="Controllers\RealEstateFooterController.cs" />
@@ -380,6 +402,7 @@
     <Compile Include="Controllers\ReceiptController.cs" />
     <Compile Include="Controllers\pagesController.cs" />
     <Compile Include="Controllers\RequestQuoteController.cs" />
+    <Compile Include="Controllers\RSSController.cs" />
     <Compile Include="Controllers\SavedDesignsController.cs" />
     <Compile Include="Controllers\ShopCartAddressSelectController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
@@ -388,6 +411,7 @@
     <Compile Include="Controllers\SlidingBannerController.cs" />
     <Compile Include="Controllers\SubscribeAndContactController.cs" />
     <Compile Include="Controllers\SubscribeAndTestimonialsController.cs" />
+    <Compile Include="Controllers\TwitterController.cs" />
     <Compile Include="Controllers\ZoomSliderController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -399,6 +423,7 @@
     <Compile Include="ModelMappers\MyCompanyDomainMappers.cs" />
     <Compile Include="ModelMappers\OrganisationMapper.cs" />
     <Compile Include="ModelMappers\PageCategoryMapper.cs" />
+    <Compile Include="Twitter\TwitterEx.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\CmsPageModel.cs" />
     <Compile Include="Models\CmsSkinPageWidget.cs" />
@@ -444,7 +469,9 @@
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
+    <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
@@ -604,17 +631,38 @@
     <Content Include="Content\Images\SmartFormCart.png" />
     <Content Include="Content\Images\SocialSprite.png" />
     <Content Include="Content\Images\sprite.png" />
+    <Content Include="Content\Images\tiger.jpg" />
     <Content Include="Content\Images\view-order.png" />
     <Content Include="Content\Images\visa_49x31.jpg" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\Images\upload_your_picture.png" />
     <Content Include="Content\jquery.fancybox-1.3.4.css" />
+    <Content Include="Content\jquery.fancybox-1.3.4.js" />
+    <Content Include="Content\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="Content\jquery.fancybox.css" />
+    <Content Include="Content\jquery.lightbox-0.5.css" />
+    <Content Include="Content\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="Content\Slider.css" />
     <Content Include="Content\smoothslide.css" />
     <Content Include="Content\smoothslides.theme.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\zoomslider.css" />
+    <Content Include="LightBox\Css\jquery.fancybox.css" />
+    <Content Include="LightBox\Images\blank.gif" />
+    <Content Include="LightBox\Images\fancybox_buttons.png" />
+    <Content Include="LightBox\Images\fancybox_loading%402x.gif" />
+    <Content Include="LightBox\Images\fancybox_loading.gif" />
+    <Content Include="LightBox\Images\fancybox_overlay.png" />
+    <Content Include="LightBox\Images\fancybox_sprite%402x.png" />
+    <Content Include="LightBox\Images\fancybox_sprite.png" />
+    <Content Include="LightBox\Js\jquery-1.10.1.min.js" />
+    <Content Include="LightBox\Js\jquery.fancybox-buttons.js" />
+    <Content Include="LightBox\Js\jquery.fancybox-media.js" />
+    <Content Include="LightBox\Js\jquery.fancybox-thumbs.js" />
+    <Content Include="LightBox\Js\jquery.fancybox.js" />
+    <Content Include="LightBox\Js\jquery.fancybox.pack.js" />
     <Content Include="Scripts\Designer\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\FeedEk.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Content\Images\star.gif" />
     <Content Include="Content\Images\Twitter.png" />
@@ -703,16 +751,24 @@
     <Content Include="Scripts\Designer\XMLWriter.js" />
     <Content Include="Scripts\input.watermark.js" />
     <Content Include="Scripts\JavaScript1.js" />
+    <Content Include="Scripts\jquery-1.10.1.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-1.2.6.js" />
     <Content Include="Scripts\jquery-1.2.6.pack.js" />
+    <Content Include="Scripts\jquery-1.4.3.min.js" />
     <Content Include="Scripts\jquery-1.4.4.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.fancybox-1.3.4.js" />
     <Content Include="Scripts\jquery.fancybox-1.3.4.pack.js" />
+    <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.jcarousel.lite.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.min.js" />
+    <Content Include="Scripts\jquery.lightbox-0.5.pack.js" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.mousewheel-3.0.4.pack.js" />
     <Content Include="Scripts\jquery.MultiFile.js" />
     <Content Include="Scripts\jquery.rating.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
@@ -837,6 +893,11 @@
     <Content Include="Views\Shared\PartialViews\HomePageBannerS4.cshtml" />
     <Content Include="Views\Shared\PartialViews\RaveReview.cshtml" />
     <Content Include="Views\Home\ReceiptPlain.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PopularProducts.cshtml" />
+    <Content Include="Views\Shared\PartialViews\PromotionalProduct.cshtml" />
+    <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
+    <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
+    <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -845,6 +906,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\Twitter\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

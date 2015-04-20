@@ -1,4 +1,38 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function (ko) {
+    ko.bindingHandlers.autoNumeric = {
+        init: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              bindings = bindingsAccessor(),
+              settings = bindings.settings,
+              value = valueAccessor();
+
+            $el.autoNumeric(settings);
+            $el.autoNumeric('set', parseFloat(ko.utils.unwrapObservable(value()), 10));
+            $el.change(function () {
+                value(parseFloat($el.autoNumeric('get'), 10));
+            });
+        },
+        update: function (el, valueAccessor, bindingsAccessor, viewModel) {
+            var $el = $(el),
+              newValue = ko.utils.unwrapObservable(valueAccessor()),
+              elementValue = $el.autoNumeric('get'),
+              valueHasChanged = (newValue != elementValue);
+
+            if ((newValue === 0) && (elementValue !== 0) && (elementValue !== "0")) {
+                valueHasChanged = true;
+            }
+
+            if (valueHasChanged) {
+                if (newValue != undefined) {
+                    $el.autoNumeric('set', newValue);
+                }
+
+
+            }
+        }
+    };
+
+
     var CostCenter = function () {
 
         var
@@ -11,7 +45,7 @@
             createdBy = ko.observable(),
             lockedBy = ko.observable(),
             lastModifiedBy = ko.observable(),
-            minimumCost = ko.observable(),
+            minimumCost = ko.observable().extend({ required: true }),
             setupCost = ko.observable().extend({ required: true }),
             setupTime = ko.observable(),
             defaultVa = ko.observable(),
@@ -63,7 +97,7 @@
             quantityQuestionDefaultValue = ko.observable(),
             quantityCalculationString = ko.observable(),
             costPerUnitQuantity = ko.observable(),
-            pricePerUnitQuantity = ko.observable(),
+            pricePerUnitQuantity = ko.observable().extend({ required: true }),
             timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
             timeNoOfPasses = ko.observable(1),
@@ -119,7 +153,10 @@
         errors = ko.validation.group({
             name: name,
             type: type,
-            setupCost: setupCost
+            setupCost: setupCost,
+            pricePerUnitQuantity: pricePerUnitQuantity,
+            minimumCost: minimumCost,
+            perHourPrice: perHourPrice
         }),
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;;
@@ -135,6 +172,7 @@
             costDefaultValue: costDefaultValue,
             priceQuestionString: priceQuestionString,
             priceDefaultValue: priceDefaultValue,
+            timeQuestionString:timeQuestionString,
             estimatedTimeQuestionString: estimatedTimeQuestionString,
             estimatedTimeDefaultValue: estimatedTimeDefaultValue,
             minimumCost: minimumCost,
@@ -797,37 +835,25 @@
         return self;
 
     }
-
-
-    var QuestionVariableMapper = function (source, Data) {
+    var QuestionVariable = function (source, sourceMCQsAnswer) {
         var self
         if (source != undefined) {
-            if (source.length > 1) {
-                Id = ko.observable(source[0]),
-                QuestionString = ko.observable(source[1]),
-                Type = ko.observable(source[2]),
-                Answer = ko.observable(source[3]),
-                AnswerList = ko.observableArray([])
-                if (Data != undefined) {
-                    AnswerList.removeAll();
-                    _.each(Data, function (item) {
-                        AnswerList.push(MCQsAnswer(item));
-                    });
+            Id = ko.observable(source.Id),
+            QuestionString = ko.observable(source.QuestionString),
+            Type = ko.observable(source.Type),
+            DefaultAnswer = ko.observable(source.DefaultAnswer),
+            CompanyId = ko.observable(source.CompanyId),
+            SystemSiteId = ko.observable(source.SystemSiteId),
+            VariableString = ko.computed(function () {
+                return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+                
+            }, this),
+            QuestionVariableMCQsAnswer = ko.observableArray([])
+            if (sourceMCQsAnswer != null) {
+                _.each(sourceMCQsAnswer, function (item) {
+                    QuestionVariableMCQsAnswer.push(MCQsAnswer(item));
+                });
 
-                }
-            } else {
-                Id = ko.observable(source.Id || source[0].Id),
-                QuestionString = ko.observable(source.QuestionString || source[0].QuestionString),
-                Type = ko.observable(source.Type || source[0].Type),
-                Answer = ko.observable(source.DefaultAnswer || source[0].DefaultAnswer),
-                AnswerList = ko.observableArray([])
-                if (Data != undefined) {
-                    AnswerList.removeAll();
-                    _.each(Data, function (item) {
-                        AnswerList.push(MCQsAnswer(item));
-                    });
-
-                }
             }
 
 
@@ -835,8 +861,14 @@
             Id = ko.observable(),
             QuestionString = ko.observable(),
             Type = ko.observable(),
-            Answer = ko.observable(),
-            AnswerList = ko.observableArray([])
+            DefaultAnswer = ko.observable(),
+            CompanyId = ko.observable(),
+            SystemSiteId = ko.observable(),
+            VariableString = ko.computed(function () {
+                   return "{question, ID=&quot;" + Id() + "&quot;,caption=&quot;" + QuestionString() + "&quot;}";
+
+               }, this),
+            QuestionVariableMCQsAnswer = ko.observableArray([])
         }
 
         errors = ko.validation.group({
@@ -846,11 +878,395 @@
            return errors().length === 0;
        }),
        dirtyFlag = new ko.dirtyFlag({
-           Id: Id,
-           QuestionString: QuestionString,
-           Type: Type,
-           Answer: Answer,
-           AnswerList: AnswerList
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id :Id,
+            QuestionString :QuestionString,
+            Type :Type,
+            DefaultAnswer :DefaultAnswer,
+            CompanyId :CompanyId,
+            SystemSiteId :SystemSiteId,
+            VariableString :VariableString,
+            QuestionVariableMCQsAnswer:QuestionVariableMCQsAnswer,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+           
+
+        };
+        return self;
+
+    }
+    var MCQsAnswerServerMapper = function (source) {
+        var MCQsAnswer= {}
+        MCQsAnswer.Id = source.Id();
+        MCQsAnswer.QuestionId = source.QuestionId();
+        MCQsAnswer.AnswerString = source.AnswerString();
+       
+        return MCQsAnswer;
+
+    }
+    var MCQsAnswerClientMapper = function (source) {
+        var oMCQsAnswer = new MCQsAnswer()
+        oMCQsAnswer.Id(source.Id);
+        oMCQsAnswer.QuestionId(source.QuestionId);
+        oMCQsAnswer.AnswerString(source.AnswerString);
+
+        return oMCQsAnswer;
+
+    }
+    var QuestionVariableServerMapper = function (source) {
+        var QuestionVariable = {};
+        if (source != undefined) {
+            QuestionVariable.Id = source.Id();
+            QuestionVariable.QuestionString = source.QuestionString();
+            QuestionVariable.Type = source.Type();
+            QuestionVariable.DefaultAnswer = source.DefaultAnswer();
+            QuestionVariable.CompanyId = source.CompanyId();
+            QuestionVariable.SystemSiteId = source.SystemSiteId();
+            QuestionVariable.VariableString = source.VariableString();
+         }
+        var QuestionVariableMCQs = [];
+        if (source.QuestionVariableMCQsAnswer() != undefined) {
+            _.each(source.QuestionVariableMCQsAnswer(), function (item) {
+                var MCQsAnswer = MCQsAnswerServerMapper(item);
+                QuestionVariableMCQs.push(MCQsAnswer);
+            });
+
+
+        }
+        return {
+            Question: QuestionVariable,
+            Answer: QuestionVariableMCQs
+        }
+      
+
+    }
+    var QuestionVariableClientMapper = function (source, oQuestionVariableMCQsAnswer) {
+        var oQuestionVariable = new QuestionVariable();
+        if (source != undefined) {
+            oQuestionVariable.Id(source.Id());
+            oQuestionVariable.QuestionString(source.QuestionString());
+            oQuestionVariable.Type(source.Type());
+            oQuestionVariable.DefaultAnswer(source.DefaultAnswer());
+            oQuestionVariable.CompanyId(source.CompanyId());
+            oQuestionVariable.SystemSiteId(source.SystemSiteId());
+        
+        }
+       
+        oQuestionVariable.QuestionVariableMCQsAnswer.removeAll();
+        if (oQuestionVariableMCQsAnswer != undefined) {
+            _.each(oQuestionVariableMCQsAnswer, function (item) {
+                var MCQsAnswer = MCQsAnswerClientMapper(item);
+                oQuestionVariable.QuestionVariableMCQsAnswer.push(MCQsAnswer);
+            });
+
+
+        }
+        return oQuestionVariable;
+
+
+    }
+    var matrixVariable = function (source, sourceMatrixDetail) {
+        var self
+        if (source != undefined) {
+            MatrixId = ko.observable(source.MatrixId),
+            Name = ko.observable(source.Name),
+            Description = ko.observable(source.Description),
+            RowsCount = ko.observable(source.RowsCount),
+            ColumnsCount = ko.observable(source.ColumnsCount),
+            OrganisationId = ko.observable(source.OrganisationId),
+            SystemSiteId = ko.observable(source.SystemSiteId),
+            VariableString = ko.computed(function () {
+                return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
+            }, this),
+            row = ko.observableArray([]),
+            MatrixDetailVariableList = ko.observableArray([])
+            if (sourceMatrixDetail != null) {
+                _.each(sourceMatrixDetail, function (item) {
+                    MatrixDetailVariableList.push(MatrixDetail(item)); // write MatrixDetail
+                });
+
+            }
+
+
+        } else {
+            MatrixId = ko.observable(),
+            Name = ko.observable(),
+            Description = ko.observable(),
+            RowsCount = ko.observable(),
+            ColumnsCount = ko.observable(),
+            OrganisationId = ko.observable(),
+            SystemSiteId = ko.observable(),
+            
+            VariableString = ko.computed(function () {
+                return "{matrix, ID=&quot;" + MatrixId() + "&quot;,Name=&quot;" + Name() + "&quot;}";
+            }, this),
+            row = ko.observableArray([]),
+            MatrixDetailVariableList = ko.observableArray([])
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+           MatrixId : MatrixId,
+           Name : Name,
+           Description : Description,
+           RowsCount : RowsCount,
+           ColumnsCount : ColumnsCount,
+           OrganisationId : OrganisationId,
+           SystemSiteId : SystemSiteId,
+           VariableString: VariableString,
+           MatrixDetailVariableList: MatrixDetailVariableList
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            MatrixId : MatrixId,
+            Name : Name,
+            Description : Description,
+            RowsCount : RowsCount,
+            ColumnsCount : ColumnsCount,
+            OrganisationId : OrganisationId,
+            SystemSiteId : SystemSiteId,
+            VariableString: VariableString,
+            row:row,
+            MatrixDetailVariableList:MatrixDetailVariableList,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+
+        };
+        return self;
+
+    }
+    var MatrixDetail = function (source) {
+        var self
+        if (source != undefined) {
+            Id = ko.observable(source.Id),
+            MatrixId = ko.observable(source.MatrixId),
+            Value = ko.observable(source.Value)
+        } else {
+            Id = ko.observable(),
+            MatrixId = ko.observable(),
+            Value = ko.observable()
+        }
+
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+            Id : Id,
+            MatrixId: MatrixId,
+            Value: Value
+
+       }),
+        // Has Changes
+       hasChanges = ko.computed(function () {
+           return dirtyFlag.isDirty();
+       }),
+        // Reset
+       reset = function () {
+           dirtyFlag.reset();
+       };
+
+        self = {
+            Id : Id,
+            MatrixId: MatrixId,
+            Value: Value,
+            errors: errors,
+            isValid: isValid,
+            dirtyFlag: dirtyFlag,
+            hasChanges: hasChanges,
+            reset: reset,
+
+        };
+        return self;
+
+    }
+    var MatrixDetailClientMapper = function (source) {
+        var oMatrixDetail = new MatrixDetail()
+        if (source != null) {
+            oMatrixDetail.Id(source.Id);
+            oMatrixDetail.MatrixId(source.MatrixId);
+            oMatrixDetail.Value(source.Value);
+        }
+        
+        return oMatrixDetail;
+    }
+    var MatrixVariableClientMapper = function (source, sourceMatrixDetail) {
+        var omatrixVariable = new matrixVariable();
+        if (source != undefined) {
+            omatrixVariable.MatrixId(source.MatrixId());
+            omatrixVariable.Name(source.Name());
+            omatrixVariable.Description(source.Description());
+            omatrixVariable.RowsCount(source.RowsCount());
+            omatrixVariable.ColumnsCount(source.ColumnsCount());
+            omatrixVariable.OrganisationId(source.OrganisationId());
+            omatrixVariable.SystemSiteId(source.SystemSiteId());
+        }
+
+        omatrixVariable.MatrixDetailVariableList.removeAll();
+        var MatrixDetailList = [];
+        if (sourceMatrixDetail != undefined) {
+            _.each(sourceMatrixDetail, function (item) {
+                MatrixDetailList.push(MatrixDetailClientMapper(item));
+            });
+            var k = 0 ;
+            omatrixVariable.row.removeAll();
+            for (var i = 0; i < source.RowsCount() ; i++) {
+                var rowsTem = ko.observableArray([]);
+                for (var j = 0; j < source.ColumnsCount() ; j++) {
+                    if (i == 0 && j == 0) {
+                        var row = MatrixDetailClientMapper();
+                        row.Id(-1);
+                        rowsTem.push(row);
+                    } else {
+                        rowsTem.push(MatrixDetailList[k]);
+                        k++;
+                    }
+                   
+                }
+                omatrixVariable.MatrixDetailVariableList.push(rowsTem);
+                
+            }
+
+        }
+        return omatrixVariable;
+
+
+    }
+    var MatrixDetailServerMapper = function (source) {
+        var oMatrixDetail = {}
+        if (source != undefined) {
+            oMatrixDetail.Id = source.Id();
+            oMatrixDetail.MatrixId = source.MatrixId();
+            oMatrixDetail.Value = source.Value();
+        }
+       
+
+        return oMatrixDetail;
+
+    }
+    var MatrixVariableServerMapper = function (source) {
+        var CostCentreMatrix = {};
+        if (source != undefined) {
+            MatrixDetailVariableList: MatrixDetailVariableList
+
+
+            CostCentreMatrix.MatrixId = source.MatrixId();
+            CostCentreMatrix.Name = source.Name();
+            CostCentreMatrix.Description = source.Description();
+            CostCentreMatrix.RowsCount = source.RowsCount();
+            CostCentreMatrix.ColumnsCount = source.ColumnsCount();
+            CostCentreMatrix.SystemSiteId = source.SystemSiteId();
+            CostCentreMatrix.VariableString = source.VariableString();
+        }
+        var MatrixDetailList = [];
+        if (source.MatrixDetailVariableList() != undefined) {
+            _.each(source.MatrixDetailVariableList(), function (item) {
+                _.each(item(), function (itemDetails) {
+                    if (itemDetails.Id() != -1) {
+                        var oItemDetails = MatrixDetailServerMapper(itemDetails);
+                        MatrixDetailList.push(oItemDetails);
+                    }
+                    
+                });
+                
+                
+            });
+
+
+        }
+        return {
+            CostCentreMatrix: CostCentreMatrix,
+            CostCentreMatrixDetail: MatrixDetailList
+        }
+
+
+    }
+
+    var StockItemVariable = function (item) {
+        var self
+            if (item != null && item != undefined) {
+                Id = ko.observable(item.id()),
+                StockName = ko.observable(item.name())
+            } else {
+                Id = ko.observable(),
+                StockName = ko.observable()
+            }
+           
+            CostType = ko.observable(),
+            quantityValue = ko.observable(),
+            QuantityType = ko.observable(),
+            variableValue = ko.observable(),
+            questionValue = ko.observable(),
+            // SystemVariable = ko.observable(),
+           // QuantityQuestion = ko.observable(),
+          Value = ko.computed(function () {
+              if (QuantityType() == "qty") {
+                  return quantityValue();
+              }else if (QuantityType() == "variable") {
+                  return variableValue();
+              }else if (QuantityType() == "question") {
+                  return questionValue();
+              } else {
+                  return 0;
+              }
+               
+          }, this),
+            VariableString = ko.computed(function () {
+                return "{stock, ID=&quot;" + Id() + "&quot;,name=&quot;" + StockName() + "&quot;,type=&quot;" + CostType() + "&quot;,qtytype=&quot;" + QuantityType() + "&quot;,value=&quot;" + Value() + "&quot;}";
+            }, this),
+           
+   
+        errors = ko.validation.group({
+        }),
+        // Is Valid
+       isValid = ko.computed(function () {
+           return errors().length === 0;
+       }),
+       dirtyFlag = new ko.dirtyFlag({
+         
+
        }),
         // Has Changes
        hasChanges = ko.computed(function () {
@@ -863,20 +1279,28 @@
 
         self = {
             Id: Id,
-            QuestionString: QuestionString,
-            Type: Type,
-            Answer: Answer,
-            AnswerList: AnswerList,
+            StockName: StockName,
+            CostType: CostType,
+            quantityValue: quantityValue,
+            QuantityType: QuantityType,
+            variableValue: variableValue,
+            questionValue: questionValue,
+            Value: Value,
+            VariableString:VariableString,
+           // SystemVariable: SystemVariable,
+            //QuantityQuestion:QuantityQuestion,
             errors: errors,
             isValid: isValid,
             dirtyFlag: dirtyFlag,
             hasChanges: hasChanges,
             reset: reset,
 
+
         };
         return self;
 
     }
+
     return {
         CostCenter: CostCenter,
         costCenterClientMapper: costCenterClientMapper,
@@ -884,7 +1308,15 @@
         costCenterListView: costCenterListView,
         NewCostCenterInstruction: NewCostCenterInstruction,
         NewInstructionChoice: NewInstructionChoice,
-        QuestionVariableMapper: QuestionVariableMapper,
-        MCQsAnswer: MCQsAnswer
+        MCQsAnswer: MCQsAnswer,
+        QuestionVariable: QuestionVariable,
+        QuestionVariableServerMapper: QuestionVariableServerMapper,
+        QuestionVariableClientMapper: QuestionVariableClientMapper,
+        matrixVariable: matrixVariable,
+        MatrixDetail: MatrixDetail,
+        MatrixVariableClientMapper: MatrixVariableClientMapper,
+        MatrixDetailClientMapper: MatrixDetailClientMapper,
+        MatrixVariableServerMapper: MatrixVariableServerMapper,
+        StockItemVariable: StockItemVariable
     };
 });

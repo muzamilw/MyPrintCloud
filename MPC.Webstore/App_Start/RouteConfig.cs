@@ -39,6 +39,16 @@ namespace MPC.Webstore
            new { controller = "BillingShippingAddressManager", action = "FillAddresses", id = UrlParameter.Optional }
            );
 
+            routes.MapRoute(
+       "BillingShippingIntellisenceData",
+       "BillingShippingAddressManager/IntellisenceData",
+       new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
+       );
+            routes.MapRoute(
+              "BillingShippingDisplaySearchedData",
+              "BillingShippingAddressManager/DisplaySearchedData",
+              new { controller = "BillingShippingAddressManager", action = "DisplaySearchedData", id = UrlParameter.Optional }
+              );
             routes.MapRoute("store"
                  , "store/{name}"
                  , new { controller = "Domain", action = "Index", name = "" });
@@ -291,7 +301,7 @@ namespace MPC.Webstore
               routes.MapRoute(
             "RemoveSaveDesign",
             "RemoveSaveDesign/{ItemID}",
-            new { controller = "SavedDesigns", action = "SavedDesigns", ItemID = UrlParameter.Optional}
+            new { controller = "SavedDesigns", action = "RemoveSaveDesign", ItemID = UrlParameter.Optional }
               );
 
               routes.MapRoute(
@@ -320,9 +330,10 @@ namespace MPC.Webstore
            );
               routes.MapRoute(
             "ReceiptPlain",
-            "ReceiptPlain/{OrderId}/{StoreId}",
-            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional }
+            "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
          );
+       
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters

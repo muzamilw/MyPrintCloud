@@ -7,6 +7,11 @@ namespace MPC.Interfaces.MISServices
 {
     public interface ICompanyService
     {
+
+        /// <summary>
+        /// Delete Media Library Item By Id
+        /// </summary>
+        void DeleteMedia(long mediaId);
         /// <summary>
         /// Deletes a company permanently
         /// </summary>
@@ -123,7 +128,7 @@ namespace MPC.Interfaces.MISServices
 
         bool ExportOrganisation(long OrganisationID, string RetailName, string RetailNameWOP, string CorporateName, string CorporateNameWOP);
 
-        string ImportOrganisation(long OrganisationId,string SubDomain, bool isCorpStore);
+        bool ImportOrganisation(long OrganisationId, string SubDomain, bool isCorpStore);
 
 
         bool ImportStore(long OrganisationId, string StoreName,string SubDomain);

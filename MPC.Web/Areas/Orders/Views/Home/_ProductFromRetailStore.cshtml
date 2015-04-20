@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <div class="col-lg-4 text-right">
                             <div class="bs-example-tooltips tooltip-float-width">
-                                <a class="input-group-addon" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Store" data-original-title="" title="">
+                                <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Store" data-original-title="" title="">
                                     <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                                 </a>
                             </div>
@@ -56,8 +56,8 @@
                                             <th class="col-lg-5">Quantity</th>
                                             <!--/ko-->
                                             <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
-                                            <th class="col-lg-2">Quantity From</th>
-                                            <th class="col-lg-2">Quantity To</th>
+                                            <th class="col-lg-3">Quantity From</th>
+                                            <th class="col-lg-3">Quantity To</th>
                                             <!--/ko-->
                                             <th class="col-lg-6" data-bind="text: $root.selectedStockOptionName"></th>
                                         </tr>
@@ -89,13 +89,26 @@
                         </div>
                         <!--/ko-->
                     </div>
+                    <div class="form-group col-lg-12">
+                        <!--ko if: $root.selecteditem()!=undefined -->
+                        <!-- ko if: $root.selecteditem().isQtyRanged() == 1 -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Enter Quantity</label></div>
+                        <div class=" col-lg-5"><input type="text" class="form-control" data-bind="value: $root.selectedProductQuanity" /></div>
+                        <!-- /ko -->
+                        <!-- ko if: $root.selecteditem().isQtyRanged() == 2 -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">Select Quantity</label></div>
+                        <div class=" col-lg-5"><select class="form-control" data-bind="options: $root.productQuantitiesList, value: $root.selectedProductQuanity"></select></div>
+                        <!-- /ko -->
+                        <!-- /ko -->
+                        <div class=" col-lg-3 text-right "><label class="control-label tooltip-float">$ <span data-bind="text: $root.totalProductPrice"></span> </label></div>
+                    </div>
                 </div>
             </div>
 
             <div class="modal-footer">
                 <hr />
-                <button type="button" class="btn btn-primary">Save</button>    @*data-bind="click: $root.onSaveCompanyTerritory"*@
-                <button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductFromRetailStore" style="margin-left: 0px;">Close</button>
+                <button type="button" class="btn btn-primary" data-bind="click: $root.onSaveRetailStoreProduct">Add</button>    @*data-bind="click: $root.onSaveCompanyTerritory"*@
+                @*<button type="button" class="btn btn-default" data-bind="click: $root.onCloseProductFromRetailStore" style="margin-left: 0px;">Close</button>*@
             </div>
         </div>
     </div>
@@ -108,7 +121,7 @@
 </script>
 <script id="addOnTemplate" type="text/html">
     <tr>
-        <td> <input type="checkbox"/></td>
+        <td> <input type="checkbox" data-bind="checked: isSelected" /></td>
         <td data-bind="text: costCentreName"></td>
         <td data-bind="text: totalPrice"></td>
     </tr>

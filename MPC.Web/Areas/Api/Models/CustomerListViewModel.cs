@@ -28,6 +28,11 @@ namespace MPC.MIS.Areas.Api.Models
         public string Status { get; set; }
 
         /// <summary>
+        /// Customer TYpe 
+        /// </summary>
+        public short CustomerType { get; set; }
+
+        /// <summary>
         /// Default Contact Name
         /// </summary>
         public string DefaultContactName { get; set; }

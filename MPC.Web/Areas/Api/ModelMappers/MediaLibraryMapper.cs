@@ -28,7 +28,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             //    //    mediaFileBytes = File.ReadAllBytes(path);
             //    //}
             //}
-            return new MediaLibrary
+            var v = new MediaLibrary
             {
                 MediaId = source.MediaId,
                 FileName = source.FileName,
@@ -37,6 +37,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CompanyId = source.CompanyId,
                 FileType = source.FileType
             };
+            return v;
         }
 
         /// <summary>

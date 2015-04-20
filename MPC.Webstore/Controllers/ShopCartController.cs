@@ -62,6 +62,19 @@ namespace MPC.Webstore.Controllers
                 else
                 {
                     OrderId = UserCookieManager.WEBOrderId;
+                    if (UserCookieManager.WEBOrderId > 0 && _myClaimHelper.loginContactID() > 0 && _myClaimHelper.loginContactCompanyID() > 0)
+                    {
+                        if (_OrderService.IsRealCustomerOrder(UserCookieManager.WEBOrderId, _myClaimHelper.loginContactID(), _myClaimHelper.loginContactCompanyID()) == true)
+                        {
+                            OrderId = UserCookieManager.WEBOrderId;
+                        }
+                        else 
+                        {
+                            OrderId = 0;
+                            UserCookieManager.WEBOrderId = 0;
+                        }
+                    }
+                    
                 }
 
             }
@@ -342,7 +355,7 @@ namespace MPC.Webstore.Controllers
             // if store is not corp then related items
             if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
             {
-               // LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
+            //    LoadRelatedItems(itemsList, baseResponse, IsShowPrices);
 
             }
             #endregion
@@ -387,6 +400,7 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.WEBStoreMode != (int)StoreMode.Corp)
                 SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
+            ViewBag.OrderID = OrderID;
             StoreBaseResopnse = null;
             return shopCart;
           //  return View("PartialViews/ShopCart", shopCart);
@@ -432,7 +446,7 @@ namespace MPC.Webstore.Controllers
             //    SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
             //StoreBaseResopnse = null;
-            
+            ViewBag.OrderID = OrderID;
             Response.Redirect("/ShopCart/" + OrderID);
             return null;
            // return View("PartialViews/ShopCart", shopCart);

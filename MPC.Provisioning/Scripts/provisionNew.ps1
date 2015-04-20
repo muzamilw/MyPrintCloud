@@ -49,7 +49,7 @@ else
 #navigate to the sites root
 cd IIS:\Sites\ | out-null
 
-$virtualDirectoryName = "mpc-content"
+$virtualDirectoryName = "mpc_content"
 $virtualDirectoryPath = "IIS:\Sites\$siteName\$virtualDirectoryName"
 $resourceFileDirectory = "$mpcContentFolder\Resources"
 $OrganisationName = $siteOrganisationId

@@ -27,7 +27,7 @@ function d1ToCanvas(src, x, y, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -83,7 +83,7 @@ function d1SvgToCCC(src, IW, IH) {
         var imgtype = 2;
         if (isBKpnl) {
             imgtype = 4;
-        } StartLoader("Downloading image to your design, please wait....");
+        } StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
     } else {
         D1NIO = fabric.util.object.clone(TO[0]);
@@ -136,7 +136,7 @@ function d1ToCanvasCC(src, IW, IH) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4_img(n, tID, imgtype);
   
     } else {
@@ -346,7 +346,7 @@ function d8(mode, dheight, title) {
 
         StopLoader();
         if (IsCalledFrom == 3 || IsCalledFrom == 4) {
-            $(".previewerTitle").html('  <span class="lightGray">Proof :</span> " ' + title + ' "');
+            $(".previewerTitle").html('  <span class="lightGray">Approval for :</span>  ' + title + ' ');
         } else {
             $(".previewerTitle").html('  <span class="lightGray">Preview :</span> " ' + Template.ProductName + ' "');
         }
@@ -355,7 +355,7 @@ function d8(mode, dheight, title) {
         pcL36('show', "#PreviewerContainerDesigner");
 
 
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
     else if (mode == "continue") {
         parent.SaveAttachments();
@@ -363,7 +363,7 @@ function d8(mode, dheight, title) {
     else if (returnText != '"true"') {
         alert("error z : " + returnText);
         StopLoader();
-        $("#loadingMsg").html("Saving Content, Please wait..");
+        $("#loadingMsg").html("Saving Content");
     }
 }
 function d8_chk(Pid) {
@@ -533,6 +533,7 @@ function f2(c, m, y, k, ColorHex, Sname) {
                 }
             });
         }
+        $(".BtnChngeClr").css("background-color", ColorHex);
 
     } else {
         canvas.backgroundColor = ColorHex;
@@ -561,12 +562,16 @@ function f4() {
 }
 function f5(c, m, y, k) {
     var Color = getColorHex(c, m, y, k);
-    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPallet btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
+    var html = "<label for='ColorPalle' id ='LblCollarPalet'> Click on button to apply </label><div class ='ColorPalletr btnClrPallet' style='background-color:" + Color + "' onclick='f6(" + c + "," + m + "," + y + "," + k + ",&quot;" + Color + "&quot;);'" + "></div>";
     $('#LblDivColorC').html(c + "%");
     $('#LblDivColorM').html(m + "%");
     $('#LblDivColorY').html(y + "%");
     $('#LblDivColorK').html(k + "%");
     $('#ColorPickerPalletContainer').html(html);
+    $("#LblCollarPalet").click(function () {
+
+        $(".btnClrPallet").click();
+    });
 }
 function f6(c, m, y, k, Color) {
     var Sname = "";
@@ -598,7 +603,9 @@ function f9() {
         ISG1 = true;
         //  $("#BtnGuidesBC").find('span').text(" Hide Bleed and Trim lines");
     }
-    d5(SP);
+   // $("#loaderTitleMsg").text('Refreshing Canvas');
+    StartLoader('Refreshing Canvas');
+    d5(SP,true);
 }
 function fu11() {
     QuickTxtName = $("#txtQName").val();
@@ -983,6 +990,13 @@ function g2(e) {
         pcL13();
         pcL36('hide', '#textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText, #addImage , #addText , #DivToolTip');
         pcL36('show', '#DivAlignObjs');
+        $("#objectPanel").removeClass("stage0").removeClass("stage1").removeClass("stage2").removeClass("stage3").removeClass("stage4").removeClass("stage5").removeClass("stage6").removeClass("stage7").removeClass("stage8").removeClass("stage9").removeClass("stage10").addClass("stage0");
+        if ($("#FrontBackOptionPanalSection").hasClass("showRightPropertyPanel")) {
+            $("#FrontBackOptionPanalSection").removeClass("showRightPropertyPanel");
+            //  $("#FrontBackOptionPanalSection").addClass("hideRightPropertyPanel");
+            $("#FrontBackOptionPanal").css("display", "none");
+        }
+        $(".collapseDesignerMenu").css("display", "none");
     }
 
     if (D1AO && D1AO.type === 'text' || D1AO && D1AO.type === 'i-text') {
@@ -1251,7 +1265,8 @@ function g2_1(e) {
             $(".CaseModeSlider").slider("option", "value", '1');
             //val=100
         }
-
+        var clr =  D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
         $("#textPropertyPanel").css("display", "block");
         $("#objPropertyPanel").css("display", "none");
         $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
@@ -1336,6 +1351,11 @@ function g2_1(e) {
             $("#inputObjectHeightTxt").spinner("option", "disabled", false);
             $("#inputPositionXTxt").spinner("option", "disabled", false);
             $("#inputPositionYTxt").spinner("option", "disabled", false);
+            if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $(".positioningControls").css("display", "none");
+            } else {
+                $(".positioningControls").css("display", "block");
+            }
         }
         else {
             $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1381,18 +1401,22 @@ function g2_1(e) {
             $("#inputPositionXTxt").spinner("option", "disabled", true);
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
+            $(".positioningControls").css("display", "block");
         }
 
     }
     else if (D1AO && D1AO.type === 'image') {
         g2_22(1);
     } else if (D1AO && D1AO.type === 'rect') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     } else if (D1AO && D1AO.type === 'ellipse') {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
 
     } else if (D1AO && (D1AO.type === 'path-group' || D1AO.type === 'path')) {
-        g2_22(2);
+        g2_22(2); var clr = D1AO.fill + " !important";
+        $(".BtnChngeClr").css("background-color", clr);
     }
 
     k4();
@@ -1408,12 +1432,11 @@ function g2_22(mode) {
     $("#textPropertyPanel").css("display", "none");
     $("#objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
-    if (!D1AO.IsEditable) {
+    if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
     } else {
         $("#LockImgProperties").prop('checked', false);
     }
-
     if (D1AO.IsHidden) {
         $("#BtnPrintImage").prop('checked', true);
     } else {
@@ -1430,8 +1453,8 @@ function g2_22(mode) {
         $("#LockPositionImg").prop('checked', false);
     }
     if (mode == 1) {
-        if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
-        } else {
+      //  if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
+      //  } else {
             $("#imgThumbPreview").attr("src", D1AO.getSrc());
             $(".imgthumbPreviewSlider").css("display", "block");
             $("#BtnCropImg2").css("display", "inline-block");
@@ -1448,7 +1471,7 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
-        }
+       // }
     } else {
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
@@ -1472,6 +1495,7 @@ function g2_22(mode) {
             }
         }
     }
+    g1_(D1AO);
 }
 function g5(e) {
     IsDesignModified = true;
@@ -1513,17 +1537,18 @@ function g5_new(e) {
         pcL36('show', '#DivAlignObjs');
 
     }
-    else if (D1AO && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)) {
+    else if (D1AO) { // && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)
         $("#textPropertyPanel, #objPropertyPanel").css("display", "none");
         g2_1(e);
-
-    } else {
-        if (D1AO) {
-            pcL13();
-            pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
-            $(".layersPanel").click();
-        }
     }
+    //} else {
+    //    if (D1AO) {
+           
+    //        pcL13();
+    //        pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
+    //        $(".layersPanel").click();
+    //    }
+    //}
 
 }
 function g5_1(e) {
@@ -1670,6 +1695,7 @@ function h1(left, top) {
     ROL.K = "100";
     canvas.renderAll();
     TO.push(D1NTO);
+    canvas.setActiveObject(ROL);
 }
 function h2(left, top) {
     var NewCircleObejct = {};
@@ -1736,6 +1762,7 @@ function h2(left, top) {
     COL.K = "100";
     canvas.renderAll();
     TO.push(NewCircleObejct);
+    canvas.setActiveObject(COL);
 }
 function i7() {
     var OBS = canvas.getObjects();
@@ -1960,6 +1987,12 @@ function l2_temp() {
     });
 
 }
+
+$('input, textarea, select').focus(function () {
+    IsInputSelected = true;
+}).blur(function () {
+    IsInputSelected = false;
+});
 function l3(e) {
     if (e.keyCode == ctrlKey) D1CD = true;
     if (e.keyCode == D1SK) D1SD = true;
@@ -2456,6 +2489,13 @@ function pcL20_new() {
                     var h = $("#canvas").offset().top + D1AO.top - D1AO.getHeight() / 2;
                     // l = l - 430 + 128;
                     // h -= 30;
+                    if (h < 0)
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, "+(h*-1) +"px, 0px)");
+                    } else
+                    {
+                        $(".CroptoolBar").css("transform", "translate3d(-3px, -47px, 0px)");
+                    }
                     $(".CropControls").css("left", (l) + "px");
                     $(".CropControls").css("top", (h) + "px");
                     image.cropbox({ width: D1AO.getWidth(), height: D1AO.getHeight(), showControls: 'auto', xml: D1AO.ImageClippedInfo })
@@ -2649,6 +2689,7 @@ function pcL29(fontSize, isBold, ContentString) {
     uiTextObject.setCoords();
     TO.push(D1NTO);
     lAObj = D1NTO.ObjectID;
+    canvas.setActiveObject(uiTextObject);
 }
 var listToPass = [];
 function save_rrs_se_se(obj) {
@@ -2842,7 +2883,7 @@ function pcL29_pcRestore(type) {
 
 }
 function pcl42() {
-    StartLoader("Processing template variables.");
+    StartLoader("Applying smart form variables to canvas.");
     if (pcl42_Validate()) {
         c2_v2(); c2_v2();// update template objects 
         if ($("#optionRadioOtherProfile").is(':checked')) {
@@ -2872,15 +2913,20 @@ function pcl42_updateVariables(data) {
     });
 }
 function pcl42_UpdateTO() {
+
     $.each(TO, function (i, IT) {
         $.each(smartFormData.smartFormObjs, function (i, obj) {
             if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
             {
                 var variableTag = obj.FieldVariable.VariableTag;
-                if (IT.originalContentString.indexOf(variableTag) != -1)
-                {
-                    IT.ContentString = IT.originalContentString;
-                    IT.textStyles = IT.originalTextStyles;
+                if (IT.originalContentString != null) {
+                    if (IT.originalContentString.indexOf(variableTag) != -1) {
+                        IT.ContentString = IT.originalContentString;
+                        IT.textStyles = IT.originalTextStyles;
+                        if (IT.originalTextStyles != null) {
+                            IT.textStyles = IT.originalTextStyles;
+                        }
+                    }
                 }
             }
         });
@@ -2890,10 +2936,14 @@ function pcl42_UpdateTO() {
             $.each(smartFormData.AllUserScopeVariables[$("#smartFormSelectUserProfile").val()], function (i, obj) {
               //  if (obj.ObjectType == 3)  // replacing variables
                 //    {
-                if (obj.Value != null && obj.Value != "") {
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
                     while (IT.ContentString.indexOf(variableTag) != -1)
-                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                        updateTOWithStyles(IT, variableTag, obj.Value);
+                        // IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
               //  }
             });
@@ -2903,9 +2953,14 @@ function pcl42_UpdateTO() {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
-                if (obj.Value != null && obj.Value != "") {
-                    while (IT.ContentString.indexOf(variableTag) != -1)
-                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
+                if (obj.Value == null) {
+                    obj.Value = "";
+                }
+                if (obj.Value != null) {
+                    while (IT.ContentString.indexOf(variableTag) != -1) {
+                        updateTOWithStyles(IT, variableTag,obj.Value);
+                    }
+//                        IT.ContentString = IT.ContentString.replace(variableTag, obj.Value)
                 }
             });
         }); 
@@ -2913,7 +2968,108 @@ function pcl42_UpdateTO() {
   
 
 }
+function pcl42_updateTemplate(DT) {
+    if (userVariableData != null) {
+        $.each(userVariableData, function (i, vari) {
+            if (vari.Value != null) {
+                var variableTag = vari.FieldVariable.VariableTag;
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, vari.Value);
+                });
+            }
+        });
+    }
+}
+function getObjectToRemove(stylesCopy,objStyle){
+    var result = null;
+    $.each(stylesCopy, function (i, objDT) {
+        if(objDT.characterIndex == objStyle.characterIndex)
+        {
+            result =objDT;
+        }
+    });
+    return result;
+}
+function isEmptyStyles(customStyles) {
+    if (!customStyles) return true;
+    var obj = customStyles;
 
+    for (var p1 in obj) {
+        for (var p2 in obj[p1]) {
+            return false;
+        }
+    }
+    return true;
+}
+function updateTOWithStyles(obTO, vTag, vVal) {
+    // obTO.ContentString = obTO.ContentString.replace(vTag, vVal);
+    var objs = obTO.ContentString.split(vTag);
+    var variableLength = vTag.length;
+    var lengthCount = 0;
+    var content = "";
+    var styles = JSON.parse( obTO.textStyles);
+    var stylesCopy =JSON.parse( obTO.textStyles);
+    for (var i = 0; i < objs.length; i++) {
+        content += objs[i];
+        if ((i + 1) != objs.length) {
+            content += vVal;
+        }
+        lengthCount += objs[i].length;
+        var toMove = (i + 1) * variableLength;
+        var toCopy = lengthCount;
+        var styleExist = false;
+        var stylesRemoved = 0;
+        var StyleToCopy = null;
+        if (styles != null && styles != "") {
+
+            $.each(styles, function (i, objStyle) {
+
+                if (parseInt(objStyle.characterIndex) == toCopy) {
+                    styleExist = true;
+                    StyleToCopy = objStyle;
+                }
+                if (parseInt(objStyle.characterIndex) <= (lengthCount + variableLength) && parseInt(objStyle.characterIndex) >= lengthCount) {
+                    var objToRemove = getObjectToRemove(stylesCopy, objStyle);
+                    if (objToRemove != null) {
+                        stylesCopy = $.grep(stylesCopy, function (n, i) {
+                            return (n.characterIndex != objToRemove.characterIndex);
+                        });
+                        stylesRemoved++;
+                    }
+                }
+            });
+
+            var diff = vVal.length - (variableLength);
+            $.each(stylesCopy, function (i, objStyle) {
+                if (parseInt(objStyle.characterIndex) > (lengthCount + vTag.length)) {
+                    objStyle.characterIndex = ((parseInt(objStyle.characterIndex) + diff)).toString();
+                }
+            });
+            if (styleExist) {
+                for (var z = 0; z < vVal.length; z++) {
+                    var objToAdd = {
+                        fontName: StyleToCopy.fontName,
+                        fontSize: StyleToCopy.fontSize,
+                        fontStyle: StyleToCopy.fontStyle,
+                        fontWeight: StyleToCopy.fontWeight,
+                        textColor: StyleToCopy.textColor,
+                        textCMYK: StyleToCopy.textCMYK,
+                        characterIndex: (lengthCount + z).toString()
+
+                    }
+                    stylesCopy.push(objToAdd);
+                }
+            }
+        }
+      //  styles = new List < InlineTextStyles > (stylesCopy);
+        lengthCount += vVal.length;
+    }
+
+    obTO.ContentString = content;
+    if (styles != null && styles != "")
+        obTO.textStyles = JSON.stringify(stylesCopy, null, 2);;
+}
 function pcl42_Validate() {
     var result = true;
     $(".requiredSFObj").removeClass("requiredSFObj");

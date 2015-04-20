@@ -20,5 +20,6 @@
         public long? CustomerId { get; set; }
 
         public virtual Template Template { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace MPC.Interfaces.Repository
         bool SetOrderCreationDateAndCode(long orderId);
         bool IsVoucherValid(string voucherCode);
         bool UpdateOrderStatusAfterPrePayment(Estimate tblOrder, OrderStatus orderStatus, StoreMode mode);
-        void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<long> MgrIds, Organisation org);
+        void updateStockAndSendNotification(long itemID, StoreMode Mode, long companyId, int orderedQty, long contactId, long orderedItemid, long OrderId, List<Guid> MgrIds, Organisation org);
         Estimate CheckDiscountApplied(int orderId);
 
         bool RollBackDiscountedItems(int orderId, double StateTax, StoreMode Mode);
@@ -66,7 +66,7 @@ namespace MPC.Interfaces.Repository
         void updateTaxInCloneItemForServic(long orderId, double TaxValue, StoreMode Mode);
         void DeleteCart(long CompanyID);
         void DeleteOrderBySP(long OrderID);
-        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode);
+        bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds);
         bool UpdateOrderWithDetailsToConfirmOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Address billingAdd, Address deliveryAdd, double grandOrderTotal,
                                              string yourReferenceNumber, string specialInsTel, string specialInsNotes, bool isCorpFlow, StoreMode CurrntStoreMde, Estimate order, Prefix prefix);
 
@@ -101,7 +101,16 @@ namespace MPC.Interfaces.Repository
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
         void DeleteOrder(long orderId);
 
+        string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
+        /// <summary>
+        /// Get Estimates For Item Job Status
+        /// </summary>
+        IEnumerable<Estimate> GetEstimatesForItemJobStatus();
+        /// <summary>
+        /// check cookie order is the real login customer order
+        /// </summary>
+        bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
 
-       }
+    }
 }

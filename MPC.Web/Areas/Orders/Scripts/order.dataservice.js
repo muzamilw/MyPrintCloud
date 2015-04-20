@@ -25,6 +25,13 @@ define("order/order.dataservice", function () {
                         type: 'GET'
                     });
 
+                    // Define request to get Estimates
+                    amplify.request.define('getEstimates', 'ajax', {
+                        url: ist.siteUrl + '/Api/Estimate',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+
                     // Define request to delete Order
                     amplify.request.define('deleteOrder', 'ajax', {
                         url: ist.siteUrl + '/Api/Order',
@@ -88,6 +95,12 @@ define("order/order.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to get cost centers for product dialog
+                    amplify.request.define('getCostCentersForProduct', 'ajax', {
+                        url: ist.siteUrl + '/Api/ProductCostCenter',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     // Define request to get Inventory Stock Items
                     amplify.request.define('getInventoriesList', 'ajax', {
                         url: ist.siteUrl + '/Api/Inventory',
@@ -115,6 +128,12 @@ define("order/order.dataservice", function () {
                     // Define request to update system cost centers for current section screen with wizard finish button
                     amplify.request.define('getUpdatedSystemCostCenters', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemSection',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
+                    // Define request to Download Artwork of the order
+                    amplify.request.define('downloadOrderArtwork', 'ajax', {
+                        url: ist.siteUrl + '/Api/DownloadArtwork',
                         dataType: 'json',
                         type: 'GET'
                     });
@@ -155,6 +174,16 @@ define("order/order.dataservice", function () {
                 initialize();
                 return amplify.request({
                     resourceId: 'getOrders',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error
+                });
+            },
+            //get Estimates
+            getEstimates = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getEstimates',
                     data: params,
                     success: callbacks.success,
                     error: callbacks.error
@@ -268,6 +297,15 @@ define("order/order.dataservice", function () {
                     data: params
                 });
             },
+            downloadOrderArtwork = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'downloadOrderArtwork',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: params
+                });
+            },
         // get Cost centres for company
         getCostCenters = function (params, callbacks) {
             initialize();
@@ -277,11 +315,22 @@ define("order/order.dataservice", function () {
                 error: callbacks.error,
                 data: params
             });
+        },
+        // get Cost centres for company
+        getCostCentersForProduct = function (params, callbacks) {
+            initialize();
+            return amplify.request({
+                resourceId: 'getCostCentersForProduct',
+                success: callbacks.success,
+                error: callbacks.error,
+                data: params
+            });
         };
 
         return {
             getOrder: getOrder,
             getOrders: getOrders,
+            getEstimates: getEstimates,
             saveOrder: saveOrder,
             archiveOrder: archiveOrder,
             getBaseData: getBaseData,
@@ -289,13 +338,15 @@ define("order/order.dataservice", function () {
             getBaseDataForCompany: getBaseDataForCompany,
             getItemsByCompanyId: getItemsByCompanyId,
             getCostCenters: getCostCenters,
+            getCostCentersForProduct: getCostCentersForProduct,
             getInventoriesList: getInventoriesList,          
             getItemsDetailsByItemId: getItemsDetailsByItemId,
             deleteOrder: deleteOrder,
             getPTV: getPTV,
             getBestPress: getBestPress,
             getPTVCalculation: getPTVCalculation,
-            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters
+            getUpdatedSystemCostCenters: getUpdatedSystemCostCenters,
+            downloadOrderArtwork: downloadOrderArtwork
         };
     })();
 

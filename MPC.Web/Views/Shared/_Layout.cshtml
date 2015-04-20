@@ -9,31 +9,32 @@
         try { if (!window.CloudFlare) { var CloudFlare = [{ verbose: 0, p: 0, byc: 0, owlid: "cf", bag2: 1, mirage2: 0, oracle: 0, paths: { cloudflare: "/cdn-cgi/nexp/dokv=88e434a982/" }, atok: "dd9c6b9d970c21043597a4fadd80e4dd", petok: "522fd99e7c7ba64b5097694a33e1b12f448f8fe0-1408352612-1800", zone: "adbee.technology", rocket: "0", apps: { "ga_key": { "ua": "UA-49262924-2", "ga_bs": "2" } } }]; !function (a, b) { a = document.createElement("script"), b = document.getElementsByTagName("script")[0], a.async = !0, a.src = "//ajax.cloudflare.com/cdn-cgi/nexp/dokv=97fb4d042e/cloudflare.min.js", b.parentNode.insertBefore(a, b) }() } } catch (e) { };
         //]]>
     </script>
+    <script src="~/Scripts/jquery-2.1.0.min.js"></script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+    <script>
+        $(window).load(function () {
+            // Animate loader off screen
+            $.blockUI({ message: "" });
+            $("div#spinner").fadeIn("fast");
+        });
+    </script>
 
-    <link href="~/Content/themes/Centaurus/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/themes/Centaurus/css/libs/font-awesome.css" type="text/css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/nanoscroller.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/datepicker.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/layout.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/elements.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/magnific-popup.css">
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.css" type="text/css" />
     <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/fullcalendar.print.css" type="text/css" media="print" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/compiled/calendar.css" type="text/css" media="screen" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/morris.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/daterangepicker.css" type="text/css" />
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/jquery-jvectormap-1.2.2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/compiled/wizard.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/bootstrap-wizard.css">
-    <link rel="stylesheet" href="~/Content/themes/Centaurus/css/libs/select2.css" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Content/themes/Centaurus/css/libs/dropzone.css">
-    <link type="text/css" href="~/Content/themes/Centaurus/css/libs/jquery.nouislider.css" rel="stylesheet" />
-    <link type="text/css" href="~/Content/CSS/jquery-Slider.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="~/Content/less/MainSite.css">
+    @Styles.Render("~/Content/themes/Centaurus/css/bundleCentaurus/css")
+
+    @* If Debuggin is Enabled then pick css *@
+    @if (HttpContext.Current.IsDebuggingEnabled)
+    {
+    <link href="~/Content/less/MainSite.css" rel="stylesheet" />
+    }
+    else
+    {
+    @Styles.Render("~/Bundle/AppLess")
+    }
+
     @Styles.Render("~/Bundles/BaseCss")
     @Styles.Render("~/Content/themes/base/css")
-    <link href="~/Content/CSS/custom.css" rel="stylesheet" />
     <link type="image/x-icon" href="favicon.png" rel="shortcut icon" />
     <link href='//fonts.googleapis.com/css?family=Open+Sans:400,600,700,300|Titillium+Web:200,300,400' rel='stylesheet' type='text/css'>
     <!--[if lt IE 9]>
@@ -56,21 +57,18 @@
         /* ]]> */
     </script>
 
-
-
-
-
 </head>
 <body class="theme-blue-gradient">
 
-<header class="navbar" id="header-navbar">
+    <header class="navbar" id="header-navbar">
 
 
         <div class="container">
 
             <a href="~/Dashboard/Index" id="header" class="my-navigator navbar-brand">
 
-                <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25"  style="margin-top:5px;" />
+                <img src="~/Content/themes/Centaurus/img/logo.png" id="header-logo" alt="" class="normal-logo logo-white" height="25" style="margin-top:5px;" />
+                <img src="~/Content/themes/Centaurus/img/mpc_beta.jpg" id="header-logo-beta" alt="" class="normal-logo logo-white" height="18" style="margin-top:5px;margin-left:10px;" />
             </a>
 
             <div class="clearfix">
@@ -88,152 +86,153 @@
                         </li>
                     </ul>
                 </div>
-                
+
 
                 <div class="nav-no-collapse pull-right" id="header-nav">
                     <ul class="nav navbar-nav pull-right">
-                        @*<li class="mobile-search">
-                                <a class="btn">
-                                    <i class="fa fa-search"></i>
-                                </a>
-                                <div class="drowdown-search">
-                                    <form role="search">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" placeholder="Search...">
-                                            <i class="fa fa-search nav-search-icon"></i>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-                            <li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-warning"></i>
-                                    <span class="count">8</span>
-                                </a>
-                                <ul class="dropdown-menu notifications-list">
-                                    <li class="pointer">
-                                        <div class="pointer-inner">
-                                            <div class="arrow"></div>
-                                        </div>
-                                    </li>
-                                    <li class="item-header">You have 6 new notifications</li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-comment"></i>
-                                            <span class="content">New comment on ‘Awesome P...</span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-plus"></i>
-                                            <span class="content">New user registration</span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-envelope"></i>
-                                            <span class="content">New Message from George</span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-shopping-cart"></i>
-                                            <span class="content">New purchase</span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <i class="fa fa-eye"></i>
-                                            <span class="content">New order</span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item-footer">
-                                        <a href="#">
-                                            View all notifications
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown hidden-xs">
-                                <a class="btn dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span class="count">16</span>
-                                </a>
-                                <ul class="dropdown-menu notifications-list messages-list">
-                                    <li class="pointer">
-                                        <div class="pointer-inner">
-                                            <div class="arrow"></div>
-                                        </div>
-                                    </li>
-                                    <li class="item first-item">
-                                        <a href="#">
-                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-1.png" alt="" />
-                                            <span class="content">
-                                                <span class="content-headline">
-                                                    George Clooney
-                                                </span>
-                                                <span class="content-text">
-                                                    Look, just because I don't be givin' no man a foot massage don't make it
-                                                    right for Marsellus to throw...
-                                                </span>
+                        @*
+                        <li class="mobile-search">
+                            <a class="btn">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <div class="drowdown-search">
+                                <form role="search">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Search...">
+                                        <i class="fa fa-search nav-search-icon"></i>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="dropdown hidden-xs">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-warning"></i>
+                                <span class="count">8</span>
+                            </a>
+                            <ul class="dropdown-menu notifications-list">
+                                <li class="pointer">
+                                    <div class="pointer-inner">
+                                        <div class="arrow"></div>
+                                    </div>
+                                </li>
+                                <li class="item-header">You have 6 new notifications</li>
+                                <li class="item">
+                                    <a href="#">
+                                        <i class="fa fa-comment"></i>
+                                        <span class="content">New comment on ‘Awesome P...</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <i class="fa fa-plus"></i>
+                                        <span class="content">New user registration</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <i class="fa fa-envelope"></i>
+                                        <span class="content">New Message from George</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <i class="fa fa-shopping-cart"></i>
+                                        <span class="content">New purchase</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <i class="fa fa-eye"></i>
+                                        <span class="content">New order</span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item-footer">
+                                    <a href="#">
+                                        View all notifications
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown hidden-xs">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="count">16</span>
+                            </a>
+                            <ul class="dropdown-menu notifications-list messages-list">
+                                <li class="pointer">
+                                    <div class="pointer-inner">
+                                        <div class="arrow"></div>
+                                    </div>
+                                </li>
+                                <li class="item first-item">
+                                    <a href="#">
+                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-1.png" alt="" />
+                                        <span class="content">
+                                            <span class="content-headline">
+                                                George Clooney
                                             </span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-2.png" alt="" />
-                                            <span class="content">
-                                                <span class="content-headline">
-                                                    Emma Watson
-                                                </span>
-                                                <span class="content-text">
-                                                    Look, just because I don't be givin' no man a foot massage don't make it
-                                                    right for Marsellus to throw...
-                                                </span>
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
                                             </span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item">
-                                        <a href="#">
-                                            <img src="~/Content/themes/Centaurus/img/samples/messages-photo-3.png" alt="" />
-                                            <span class="content">
-                                                <span class="content-headline">
-                                                    Robert Downey Jr.
-                                                </span>
-                                                <span class="content-text">
-                                                    Look, just because I don't be givin' no man a foot massage don't make it
-                                                    right for Marsellus to throw...
-                                                </span>
+                                        </span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-2.png" alt="" />
+                                        <span class="content">
+                                            <span class="content-headline">
+                                                Emma Watson
                                             </span>
-                                            <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
-                                        </a>
-                                    </li>
-                                    <li class="item-footer">
-                                        <a href="#">
-                                            View all messages
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="hidden-xs">
-                                <a class="btn">
-                                    <i class="fa fa-cog"></i>
-                                </a>
-                            </li>*@
-                       
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
+                                            </span>
+                                        </span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item">
+                                    <a href="#">
+                                        <img src="~/Content/themes/Centaurus/img/samples/messages-photo-3.png" alt="" />
+                                        <span class="content">
+                                            <span class="content-headline">
+                                                Robert Downey Jr.
+                                            </span>
+                                            <span class="content-text">
+                                                Look, just because I don't be givin' no man a foot massage don't make it
+                                                right for Marsellus to throw...
+                                            </span>
+                                        </span>
+                                        <span class="time"><i class="fa fa-clock-o"></i>13 min.</span>
+                                    </a>
+                                </li>
+                                <li class="item-footer">
+                                    <a href="#">
+                                        View all messages
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="hidden-xs">
+                            <a class="btn">
+                                <i class="fa fa-cog"></i>
+                            </a>
+                        </li>*@
+
                         <li class="dropdown profile-dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <span class="hidden-xs">
                                     @if (User != null && User.Identity != null)
                                     {
-                                        @User.Identity.Name
+                                    @User.Identity.Name
                                     }
                                 </span> <b class="caret"></b>
                                 <div class="user-positioner" style="position:fixed;">
@@ -241,7 +240,7 @@
                                 </div>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a id="btnTakeATour" >Take a Tour </a></li>
+                                <li><a id="btnTakeATour">Take a Tour </a></li>
                                 <li><a href="http://blog.myprintcloud.com/tutorials-quickstart/" target="_blank">Self Paced Tutorials</a></li>
                                 <li><a href="https://attendee.gotowebinar.com/rt/3456325062173650689" target="_blank">Attend Webinar</a></li>
                                 <li><a href="http://www.youtube.com/user/myprintcloud" target="_blank">How To Videos</a></li>
@@ -250,7 +249,7 @@
                                 <li><a href="https://myprintcloud.zendesk.com/hc/en-us/requests/new" target="_blank">Log a support Ticket</a></li>
                                 <li><a href="https://myprintcloud.com/dashboard">Change your Plan</a></li>
                                 <li><a href="https://myprintcloud.com/Dashboard/EditProfile"><i class="fa fa-user"></i>Profile</a></li>
-                                
+
                                 <li><a href="~/Home/Logout"><i class="fa fa-power-off"></i>Logout</a></li>
                             </ul>
                         </li>
@@ -276,7 +275,7 @@
                     <div id="col-left-inner" class="col-left-nano-content">
 
                         @RenderSection("leftmenue", required: false)
-                        
+
                         @* Test left menue starts here*@
                         <div class="collapse navbar-collapse navbar-ex1-collapse" id="sidebar-nav">
                             <ul class="nav nav-pills nav-stacked" id="Navigation-bar">
@@ -285,13 +284,7 @@
                                         <i class="fa fa-dashboard"></i>
                                         <span>Dashboard</span>
                                     </a>
-                                   
-                                </li>
-                                <li id="listores">
-                                    <a href="~/Stores/Stores/Index" class="my-navigator">
-                                        <i class="fa fa-th-large"></i>
-                                        <span>Stores</span>
-                                    </a>
+
                                 </li>
                                 <li id="licrm">
                                     <a href="~/CRM/Home/Calendar" class="my-navigator">
@@ -299,30 +292,43 @@
                                         <span>CRM</span>
                                     </a>
                                 </li>
+                                <li id="licrm">
+                                    <a href="~/CRM/Home/Calendar" class="my-navigator">
+                                        <i class="fa fa-users"></i>
+                                        <span>E-Marketing</span>
+                                    </a>
+                                </li>
+                                <li id="listores">
+                                    <a href="~/Stores/Stores/Index" class="my-navigator">
+                                        <i class="fa fa-th-large"></i>
+                                        <span>Stores</span>
+                                    </a>
+                                </li>
+
                                 <li id="liestimating">
-                                    <a href="~/Estimate/EstimatesList" class="my-navigator">
+                                    <a href="~/Orders/Home/EstimatesList" class="my-navigator">
                                         <i class="fa  fa-fax"></i>
                                         <span>Estimates</span>
                                     </a>
-                                   
+
                                 </li>
                                 <li id="liorderprocessing">
                                     <a href="~/Orders/Home" class="my-navigator">
                                         <i class="fa  fa-cubes"></i>
                                         <span>Orders Processing</span>
                                     </a>
-                                    
+
                                     @*@Html.Action("OrderMenuItems", "Home", new { area = "" })*@
-                                    
+
                                 </li>
                                 <li id="liproduction">
                                     <a href="~/Home/PageUnAvailable" class="my-navigator">
                                         <i class="glyphicon glyphicon-list-alt" style="margin-top:14px;"></i>
-                                        <span>Production Board</span>
+                                        <span>Production Boards</span>
                                     </a>
                                 </li>
                                 <li id="libilling">
-                                    <a href="~/Billing/InvoicesList" class="my-navigator">
+                                    <a href="~/Invoices/Home/Index" class="my-navigator">
                                         <i class="glyphicon glyphicon-file" style="margin-top:14px;"></i>
                                         <span>Invoicing</span>
                                     </a>
@@ -431,7 +437,7 @@
                                     </ul>*@
                                 </li>
 
-                               
+
                                 <li id="liinventory">
                                     <a href="~/Settings/MIS/Inventory" class="my-navigator">
                                         <i class="fa fa-tasks"></i>
@@ -481,80 +487,80 @@
                                                 <span>Delivery Carriers</span>
                                             </a>
                                         </li>
-                                      
-                                                
-                                                <li>
-                                                    <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
-                                                        <i class="fa fa-clipboard"></i>
-                                                        <span>Paper Sizes</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
-                                                        <i class="fa fa-cubes"></i>
-                                                        <span>Inventory Categories</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SalesPipeLine" class="my-navigator">
-                                                        <i class="fa fa-pagelines"></i>
-                                                        <span>Sales & Pipeline</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="~/Settings/MIS/SectionFlags" class="my-navigator">
-                                                        <i class="fa fa-flag-checkered"></i>
-                                                        <span>Section Flags</span>
-                                                    </a>
-                                                </li>
-                                                <li id="liprefixes">
-                                                    <a href="~/Settings/MIS/Prefixes" class="my-navigator">
-                                                        <i class="fa fa-sort-numeric-asc"></i>
-                                                        <span>Start Numbers</span>
-                                                    </a>
-                                                </li>
-                                                <li id="liPhrases">
-                                                    <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
-                                                        <i class="fa fa-paw"></i>
-                                                        <span>Phrase Library</span>
-                                                    </a>
-                                                </li>
-                                                <li id="liImportExport">
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        <i class="fa fa-download"></i>
-                                                        <span>Import Export</span>
-                                                    </a>
-                                                </li>
-                                                <li id="liArchived">
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        <i class="fa fa-archive"></i>
-                                                        <span>Archived</span>
-                                                    </a>
-                                                </li>
-                                               
-                                                <li id="liMyReports">
-                                                    <a href="~/Home/PageUnAvailable" class="my-navigator">
-                                                        <i class="fa fa-file-text"></i>
-                                                        <span>My Reports</span>
-                                                    </a>
-                                                </li>
-                                                
-                                           
-                                       
-                                        
+
+
+                                        <li>
+                                            <a href="~/Settings/MIS/PaperSheet" class="my-navigator">
+                                                <i class="fa fa-clipboard"></i>
+                                                <span>Paper Sizes</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/InventoryCategory" class="my-navigator">
+                                                <i class="fa fa-cubes"></i>
+                                                <span>Inventory Categories</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/SalesPipeLine" class="my-navigator">
+                                                <i class="fa fa-pagelines"></i>
+                                                <span>Sales & Pipeline</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="~/Settings/MIS/SectionFlags" class="my-navigator">
+                                                <i class="fa fa-flag-checkered"></i>
+                                                <span>Section Flags</span>
+                                            </a>
+                                        </li>
+                                        <li id="liprefixes">
+                                            <a href="~/Settings/MIS/Prefixes" class="my-navigator">
+                                                <i class="fa fa-sort-numeric-asc"></i>
+                                                <span>Start Numbers</span>
+                                            </a>
+                                        </li>
+                                        <li id="liPhrases">
+                                            <a href="~/Settings/Home/PhraseLibrary" class="my-navigator">
+                                                <i class="fa fa-paw"></i>
+                                                <span>Phrase Library</span>
+                                            </a>
+                                        </li>
+                                        <li id="liImportExport">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-download"></i>
+                                                <span>Import Export</span>
+                                            </a>
+                                        </li>
+                                        <li id="liArchived">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-archive"></i>
+                                                <span>Archived</span>
+                                            </a>
+                                        </li>
+
+                                        <li id="liMyReports">
+                                            <a href="~/Home/PageUnAvailable" class="my-navigator">
+                                                <i class="fa fa-file-text"></i>
+                                                <span>My Reports</span>
+                                            </a>
+                                        </li>
+
+
+
+
                                     </ul>
                                 </li>
                             </ul>
                         </div>
                         @* Test Left menue ends here*@
                     </div>
-                    
+
                 </section>
             </div>
             @*content wrapper goes here*@
             <div id="content-wrapper">
                 @RenderBody()
-                <div id="spinner">
+                <div id="spinner" style="display: none">
                 </div>
                 <div id="siteUrl">
                 </div>
@@ -571,48 +577,22 @@
     @Scripts.Render("~/bundles/jquery")
 
     <script>
+        
         (function ($) {
             $("#siteUrl").val("@(Request.ApplicationPath == " / " ? " / " : Request.ApplicationPath)");
         })($);
 
     </script>
 
-
-
     @Scripts.Render("~/Bundle/BaseLibs")
-    @*@Scripts.Render("~/bundles/dropzonescripts")*@
-    <script src="~/Content/themes/Centaurus/js/demo-skin-changer.js"></script>
-    <script src="~/Content/themes/Centaurus/js/bootstrap.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nanoscroller.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/demo.js"></script>
     <script src="~/Content/themes/Centaurus/js/fullcalendar.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.slimscroll.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/raphael-min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/morris.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/daterangepicker.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-1.2.2.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery-jvectormap-world-merc-en.js"></script>
-    <script src="~/Content/themes/Centaurus/js/gdp-data.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.pie.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.stack.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.resize.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.time.min.js"></script>
-    <script src="~/Content/themes/Centaurus/js/flot/jquery.flot.threshold.js"></script>
-    <script src="~/Content/themes/Centaurus/js/scripts.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nestable.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquery.nouislider.js"></script>
-    <script src="~/Content/themes/Centaurus/js/jquerySlider.js"></script>
+    @Scripts.Render("~/Bundle/CentaurusLibs")
     <script>
         $(document).ready(function () {
-
-         //   $("#header-logo").hide();
             $("#make-small-nav").click(function () {
                 $("#header-logo").toggle();
                 $("#menu-logo").toggle();
             });
-
         });
     </script>
 

@@ -1,23 +1,32 @@
 ﻿define(["ko", "underscore", "underscore-ko"], function () {
-    var
-    // Stock Item Entity        
-// ReSharper disable InconsistentNaming
-    StockItem = function(specifiedId, specifiedName, specifiedCategoryName, specifiedLocation, specifiedWeight, specifiedDescription) {
-// ReSharper restore InconsistentNaming
+   // #region __________________  I N V E N T O R Y   ______________________
+
+    // ReSharper disable once InconsistentNaming
+    var StockItem = function (specifiedId, specifiedname,
+        specifiedWeight, specifiedPackageQty, specifiedPerQtyQty, specifiedPrice) {
+
         return {
             id: specifiedId,
-            name: specifiedName,
-            category: specifiedCategoryName,
-            location: specifiedLocation,
-            weight: specifiedWeight,
-            description: specifiedDescription
+            name: specifiedname,
+            itemWeight: specifiedWeight,
+            packageQty: specifiedPackageQty,
+            perQtyQty: specifiedPerQtyQty,
+            price: specifiedPrice
         };
     };
-    
-    // Stock Item Factory
+
     StockItem.Create = function (source) {
-        return new StockItem(source.StockItemId, source.ItemName, source.CategoryName, source.StockLocation, source.ItemWeight, source.ItemDescription);
+        var stockItem = new StockItem(
+            source.StockItemId,
+            source.ItemName,
+            source.ItemWeight,
+            source.PackageQty,
+            source.perQtyQty || 0,
+            source.PackCostPrice === -9999 ? 0 : source.PackCostPrice
+            );
+        return stockItem;
     };
+    // #endregion __________________   I N V E N T O R Y    ______________________
 
     return {
         // StockItem Constructor

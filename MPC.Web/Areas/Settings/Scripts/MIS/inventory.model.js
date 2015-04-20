@@ -25,6 +25,8 @@
             weightUnitName = ko.observable(specifiedWeightUnitName),
             //category + Sub Category Name
             fullCategoryName = ko.observable(specifiedFullCategoryName),
+            // Per pack Cost within current date
+            packCostPrice = ko.observable(specifiedFullCategoryName),
             ///Supplier Company Name
             supplierCompanyName = ko.observable(specifiedSupplierCompanyName),
             convertToServerData = function () {
@@ -41,6 +43,7 @@
             categoryName: categoryName,
             subCategoryName: subCategoryName,
             weightUnitName: weightUnitName,
+            packCostPrice:packCostPrice,
             fullCategoryName: fullCategoryName,
             supplierCompanyName: supplierCompanyName,
             convertToServerData: convertToServerData,
@@ -415,8 +418,10 @@
     };
     //Create Factory 
     InventoryListView.Create = function (source) {
-        return new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
+        var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
+        obj.packCostPrice(source.PackCostPrice === null ? '' : source.PackCostPrice);
+        return obj;
     };
 
     return {

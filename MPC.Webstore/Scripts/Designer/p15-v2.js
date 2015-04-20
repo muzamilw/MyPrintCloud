@@ -5,8 +5,11 @@
        opacity: 1
    },1500)
    $("#content").addClass("on");
-   
-    StartLoader();
+   if (IsCalledFrom == 3) {
+       StartLoader("Select a design to start customizing");
+   } else {
+       StartLoader();
+   }
     fu02UI();
     fu02();
 });
@@ -125,9 +128,10 @@ function fu04_1GetItem(DT)
              //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
              $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
              productDimensionUpdated = true;
-
+           //
              item = result;
              if (item.SmartFormId != null) {
+               
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
@@ -140,7 +144,6 @@ function fu04_1GetItem(DT)
                  fu04_TempCbkGen(DT);
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
-                 
                  $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
                       function (userData) {
                           userVariableData = userData;
@@ -150,6 +153,7 @@ function fu04_1GetItem(DT)
                           }
                       });
              }
+           
              if (item.allowPdfDownload == true) {
                  $(".previewBtnContainer").css("display", "block");
                  $(".PreviewerDownloadPDF").css("display", "block");
@@ -185,7 +189,9 @@ function fu04_TempCbkGen(DT) {
 function fu04_1(DT) {
     if (IsCalledFrom == 2) {
         c4_RS();
-        $(".QuickTxt").css("visibility", "hidden");
+        $(".QuickTxt").css("visibility", "hidden"); 
+        $("#btnGoToLandingPage").css("visibility", "hidden");
+        
         fu04_TempCbkGen(DT);
     } else {
         fu04_1GetItem(DT);
@@ -219,19 +225,7 @@ function fu04_01() {
               }
           });
  
-          if (userVariableData != null)
-          {
-              $.each(userVariableData, function (i, vari) {
-                  if(vari.Value != null)
-                  {
-                      var variableTag = vari.FieldVariable.VariableTag;
-                      $.each(DT, function (i, objDT) {
-                          while (objDT.ContentString.indexOf(variableTag) != -1)
-                              objDT.ContentString = objDT.ContentString.replace(variableTag, vari.Value);
-                      });
-                  }
-              });
-          }
+          pcl42_updateTemplate(DT);
           TO = DT;
           fu07();
           fu06();
@@ -397,6 +391,7 @@ function SvcLoad2ndTemplate() {
             });
             TO = DT;
             fu06();
+            fu07();
         });
      });
 

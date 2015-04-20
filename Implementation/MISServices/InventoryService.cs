@@ -108,7 +108,7 @@ namespace MPC.Implementation.MISServices
             {
                 CompanyTypes = companyTypeRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
-                NominalCodes = chartOfAccountRepository.GetAll(),
+                //NominalCodes = chartOfAccountRepository.GetAll(),
                 SystemUsers = systemUserRepository.GetAll(),
                 Flags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.Suppliers)),
                 PriceFlags = sectionFlagRepository.GetSectionFlagBySectionId(Convert.ToInt64(SectionIds.CustomerPriceMatrix)),
@@ -316,7 +316,6 @@ namespace MPC.Implementation.MISServices
                     {
                         item.ItemId = stockItem.StockItemId;
                         stockCostAndPriceRepository.Add(item);
-                        stockCostAndPriceRepository.SaveChanges();
                     }
                     else
                     {
@@ -333,12 +332,13 @@ namespace MPC.Implementation.MISServices
                                 dbStockCostAndPriceItem.CostPrice = item.CostPrice;
                                 dbStockCostAndPriceItem.FromDate = item.FromDate;
                                 dbStockCostAndPriceItem.ToDate = item.ToDate;
+                                dbStockCostAndPriceItem.PackCostPrice = item.PackCostPrice;
                             }
                         }
                     }
                 }
             }
-            stockItemRepository.SaveChanges();
+            
             //find missing items
             List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
             foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
@@ -360,9 +360,10 @@ namespace MPC.Implementation.MISServices
                 if (dbVersionMissingItem.CostPriceId > 0)
                 {
                     stockCostAndPriceRepository.Delete(dbVersionMissingItem);
-                    stockCostAndPriceRepository.SaveChanges();
                 }
             }
+
+            stockItemRepository.SaveChanges();
         }
         /// <summary>
         /// After Add/Edit return stock item detail contents for list view
@@ -418,6 +419,7 @@ namespace MPC.Implementation.MISServices
         {
             company.CreationDate = DateTime.Now;
             company.OrganisationId = companyRepository.OrganisationId;
+            company.IsCustomer = (short) CustomerTypes.Suppliers;
 
             if (company.Addresses != null)
             {

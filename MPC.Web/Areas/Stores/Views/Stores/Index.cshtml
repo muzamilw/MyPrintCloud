@@ -22,7 +22,7 @@
                 </div>*@
                 <div class="btn-group pull-right top-page-ui">
                     <button class="btn btn-primary" >
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;Add Store
+                        Add Store
                     </button>
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <span class="caret"></span>
@@ -98,10 +98,14 @@
                 </td>
                 <td>
                     <a href="#" class="store-user-link" data-bind="text: name,click : $root.onEditItem"></a>
-                    <a href="#" class="store-user-link storeSubText" data-bind="text: url"><i class="fa fa-external-link-square"></i></a>
+                    <a href="#" class="store-user-link storeSubText" data-bind="text: url,click : $root.onEditItem"><i class="fa fa-external-link-square"></i></a>
                 </td>
 
                 <td data-bind="text: type"></td>
+                
+                <td>
+                    <a class="btn btn-success" data-bind="text: 'Preview', attr: {href: domain }, click: function(){$root.openDomainInTab($data, event);}" target="_new"></a> 
+                </td>
                 @*<td id="actionColumn">
                         <!-- ko template: { name: "actionsTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                         <!-- /ko -->

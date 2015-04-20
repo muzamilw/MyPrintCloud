@@ -8,6 +8,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using MPC.MIS.Areas.Api.ModelMappers;
 using System.Net;
+using MPC.WebBase.Mvc;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -32,6 +33,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         #endregion
 
         #region Public
+        [CompressFilter]
         public IEnumerable<DeliveryCarrier> Get()
         {
 

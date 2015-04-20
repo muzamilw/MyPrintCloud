@@ -72,7 +72,7 @@ namespace MPC.Implementation.MISServices
         {
             return new MyOrganizationBaseResponse
             {
-                ChartOfAccounts = chartOfAccountRepository.GetAll(),
+                //ChartOfAccounts = chartOfAccountRepository.GetAll(),
                 Markups = markupRepository.GetAll(),
                 Countries = countryRepository.GetAll(),
                 States = stateRepository.GetAll(),
@@ -92,7 +92,11 @@ namespace MPC.Implementation.MISServices
             IEnumerable<Markup> markups = markupRepository.GetAll();
             if (markups != null && markups.Count() > 0)
             {
-                organization.MarkupId = markupRepository.GetAll().First(x => x.IsDefault != null).MarkUpId;
+                Markup markup = markups.FirstOrDefault(x => x.IsDefault != null);
+                if (markup != null)
+                {
+                    organization.MarkupId = markup.MarkUpId;
+                }
             }
             return SetLanguageEditor(organization);
         }
@@ -191,20 +195,48 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private MyOrganizationSaveResponse Update(Organisation organisation, Organisation organisationDbVersion)
         {
-            organisation.OrganisationId = organisationRepository.OrganisationId;
+
             IEnumerable<Markup> markupsDbVersion = markupRepository.GetAll();
             IEnumerable<ChartOfAccount> chartOfAccountsDbVersion = chartOfAccountRepository.GetAll();
+            organisationDbVersion.OrganisationId = organisationRepository.OrganisationId;
+            organisationDbVersion.OrganisationName = organisation.OrganisationName;
+            organisationDbVersion.SmtpServer = organisation.SmtpServer;
+            organisationDbVersion.SmtpUserName = organisation.SmtpUserName;
+            organisationDbVersion.SmtpPassword = organisation.SmtpPassword;
+            organisationDbVersion.Address1 = organisation.Address1;
+            organisationDbVersion.Address2 = organisation.Address2;
+            organisationDbVersion.City = organisation.City;
+            organisationDbVersion.StateId = organisation.StateId;
+            organisationDbVersion.CountryId = organisation.CountryId;
+            organisationDbVersion.ZipCode = organisation.ZipCode;
+            organisationDbVersion.Tel = organisation.Tel;
+            organisationDbVersion.Email = organisation.Email;
+            organisationDbVersion.Fax = organisation.Fax;
+            organisationDbVersion.VATRegNumber = organisation.VATRegNumber;
+            organisationDbVersion.BleedAreaSize = organisation.BleedAreaSize;
+            organisationDbVersion.ShowBleedArea = organisation.ShowBleedArea;
+
             #region Markup
 
             if (organisation.MarkupId != null)
             {
-                if (organisation.MarkupId != markupsDbVersion.First(x => x.IsDefault != null).MarkUpId)
+
+                Markup oldDefaultMarkup = markupsDbVersion.FirstOrDefault(x => x.IsDefault != null);
+                // Set Default Markup
+                if (oldDefaultMarkup != null)
                 {
-                    Markup markup = markupsDbVersion.First(x => x.MarkUpId == organisation.MarkupId);
-                    markup.IsDefault = true;
-                    Markup markupOld = markupsDbVersion.First(x => x.IsDefault != null);
-                    markupOld.IsDefault = null;
+                    // Reset Old Default Markup
+                    oldDefaultMarkup.IsDefault = null;
                 }
+
+                Markup markup = markupsDbVersion.FirstOrDefault(x => x.MarkUpId == organisation.MarkupId);
+                if (markup != null)
+                {
+                    // Set New Default
+                    markup.IsDefault = true;
+                }
+
+
             }
 
             if (organisation.Markups != null)
@@ -270,15 +302,8 @@ namespace MPC.Implementation.MISServices
             //remove missing items
             foreach (Markup missingMarkupItem in missingMarkupListItems)
             {
-                Markup dbVersionMissingItem = markupsDbVersion.First(x => x.MarkUpId == missingMarkupItem.MarkUpId);
-                if (dbVersionMissingItem.MarkUpId > 0)
-                {
-                    markupRepository.Delete(dbVersionMissingItem);
-                    if (organisation.Markups != null)
-                    {
-                        organisation.Markups.Remove(dbVersionMissingItem);
-                    }
-                }
+                // Markup dbVersionMissingItem = markupsDbVersion.First(x => x.MarkUpId == missingMarkupItem.MarkUpId);
+                markupRepository.Delete(missingMarkupItem);
             }
             #endregion
 
@@ -344,7 +369,7 @@ namespace MPC.Implementation.MISServices
             #endregion
 
             organisation.MISLogo = SaveMiSLogo(organisation);
-            organisationRepository.Update(organisation);
+            //organisationRepository.Update(organisation);
             organisationRepository.SaveChanges();
             UpdateLanguageResource(organisation);
             return new MyOrganizationSaveResponse
@@ -424,7 +449,7 @@ namespace MPC.Implementation.MISServices
             {
                 //Get existing resources
                 ResXResourceReader reader = new ResXResourceReader(sResxPath);
-               
+
                 foreach (DictionaryEntry d in reader)
                 {
                     LanguageEditor languageEditor = new LanguageEditor();
@@ -546,12 +571,12 @@ namespace MPC.Implementation.MISServices
             return organisation;
         }
 
-        
+
         public bool DeleteOrganisation(long OrganisationID)
         {
             try
             {
-                
+
 
                 // delete organisation files
 
@@ -561,7 +586,7 @@ namespace MPC.Implementation.MISServices
                 // delete entities by sp
                 organisationRepository.DeleteOrganisationBySP(OrganisationID);
 
-                if(organisaton != null)
+                if (organisaton != null)
                 {
                     string SourceDelAssests = HttpContext.Current.Server.MapPath("/MPC_Content/assets/" + OrganisationID);
 
@@ -594,7 +619,7 @@ namespace MPC.Implementation.MISServices
                     if (Directory.Exists(SourceDelOrganisation))
                     {
                         Directory.Delete(SourceDelOrganisation, true);
-                    
+
                     }
 
                     string SourceDelProducts = HttpContext.Current.Server.MapPath("/MPC_Content/Products/" + OrganisationID);
@@ -616,13 +641,13 @@ namespace MPC.Implementation.MISServices
                 return true;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
         #endregion
 
-    
+
     }
 }

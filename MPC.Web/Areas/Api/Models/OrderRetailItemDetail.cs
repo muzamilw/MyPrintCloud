@@ -14,5 +14,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// </summary>
         public IEnumerable<ItemPriceMatrix> ItemPriceMatrices { get; set; }
 
+
+        /// <summary>
+        /// Items Section
+        /// </summary>
+        public ItemSection ItemSection { get; set; }
+
     }
 }

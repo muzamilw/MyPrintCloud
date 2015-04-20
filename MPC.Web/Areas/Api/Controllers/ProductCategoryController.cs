@@ -46,6 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [ApiException]
+        [CompressFilterAttribute]
         public ProductCategoryResultModel Get(int id)
         {
             if (id <= 0)
@@ -62,6 +63,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiException]
+        [CompressFilterAttribute]
         public ProductCategory Get([FromUri]ProductCategoryRequestModel requestModel)
         {
             if (requestModel.IsProductCategoryEditting)
@@ -75,6 +77,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         [ApiException]
         [HttpPost]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public ProductCategory Post(ProductCategory productCategory)
         {
             if (!ModelState.IsValid)

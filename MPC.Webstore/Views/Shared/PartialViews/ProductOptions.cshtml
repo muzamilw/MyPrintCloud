@@ -10,18 +10,28 @@
     string priceMatrixBackground = "";
     string imagePath = "Thumb.png";
 }
-
+<script src="~/Scripts/Designer/p55.js"></script>
+<script src="~/Scripts/Designer/p55-ease.js"></script>
 <link href="~/Scripts/Designer/a12/a66.css" rel="stylesheet" />
 
 <div id="FormulaMatrixLayer">
 </div>
 <div class="container content_area">
     <div class="row left_right_padding">
-        <div class="signin_heading_div float_left_simple">
-            <label id="lblProductName" class="product_detail_main_heading">@ViewBag.Item.ProductName</label>
-        </div>
-        <div class="clearBoth">
-            &nbsp;
+        <div class="BreadCrumbMenu left_align col-xs-12">
+            <h1>
+
+                <a id="aLinkItem" href="@ViewBag.CategoryHRef" class="crumb_notActive left_align">
+                    @ViewBag.CategoryName
+                </a>
+                <label id="lblVerticalLine" class="crumb_notActive">&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</label>
+                <a id="aLinkItem" href="#" class="crumb_Active left_align">
+                    @ViewBag.Item.ProductName
+                </a>
+
+
+            </h1>
+            <div class="clearBoth"></div>
         </div>
         <div class="StocksDelivryContainer col-md-8 col-lg-8 col-xs-12 col-sm-12">
             <div id="divStockOptions" class="float_left_simple LGBC rounded_corners width730" style="padding: 5px;">
@@ -80,7 +90,7 @@
                         <br />
                        @if (ViewData["CostCenters"] != null)
                        {
-                        <div class="marginLeft Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
+                        <div class="Fsize19 template_designing margnTop10 LandPage-Heading-Cs">
                             <label id="lbl_RefiningOptions">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRefinngOpt", UserCookieManager.WBStoreId))</label>
                         </div>
                        
@@ -89,8 +99,8 @@
                             @foreach (var costcenter in ViewData["CostCenters"] as List<MPC.Models.Common.AddOnCostsCenter>)
                             {
                                     <div class="CostCenterItems" data-ismandatory="@costcenter.IsMandatory" data-stockid="@costcenter.ItemStockId" style="display:none; margin:10px;">
-                                        <div class="float_left_simple spacerbottom" style="width: 120px;">
-                                            <img class="RfgImgCs" src=@Html.GetAppBasePath()@costcenter.AddOnImage />
+                                        <div class="float_left_simple spacerbottom">
+                                            <img class="RfgImgCs" src=/@costcenter.AddOnImage />
                                         </div>
                                         <div class="extra_item float_left_simple">
 
@@ -131,7 +141,7 @@
             <label id="lbl_UploadArtWork" class="textAlignLeft float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblUploadArtWork", UserCookieManager.WBStoreId))</label>
             @if (ViewData["Templates"] == null)
             {
-                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork design</label>
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Upload artwork</label>
                 <div class="FormatContainer">
                     <div id="lbl_PremittedFormat" class="float_left_simple Fsize12 lbFormat">
                         @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.WBStoreId))
@@ -146,7 +156,7 @@
             }
             else
             {
-                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Proof</label>
+                <label id="ltrlUpFlH" class="textAlignLeft float_left_simple Fsize19">Your approved design(s)</label>
             }
             <div class="float_left_simple LGBC rounded_corners paddingLeft5px H4B
                      UplodArkworkContainer">
@@ -180,7 +190,7 @@
                                         <a id="hlSide1">
                                             <div class="PDTC_LP FI_PCS">
 
-                                                <img class="full_img_ThumbnailPath_LP" src="@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
+                                                <img class="full_img_ThumbnailPath_LP" src="/@artworkFile.FolderPath/@artworkFile.FileName@imagePath@randonNumber" />
                                             </div>
                                         </a>
                                         <div class="confirm_design LGBC height40_LP ">
@@ -308,7 +318,7 @@
                 <div class="float_left_simple grossTotaldiv">
                     <label id="lbl_Total" class="float_left_simple">@Html.Raw(Html.GetKeyValueFromResourceFile("lblTotalHeadingText", UserCookieManager.WBStoreId))</label>
                     
-                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:5px;">@ViewBag.VATLabel</label>
+                    <label id="lblTaxLabel" class="Fsize13 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
                     
                     <label id="lblGrossTotal" class="float_right"> 0.00</label>
                     <label class="float_right">@ViewBag.Currency</label>
@@ -353,7 +363,7 @@
                         @Html.HiddenFor(m => m.StockId, new { id = "VMStockId" })
                         @Html.HiddenFor(m => m.QuantityOrdered, new { id = "VMQuantityOrdered" })
                         @Html.HiddenFor(m => m.ModifiedQueueItem, new { id = "ModifiedQueueItem" })
-                        <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10" onclick="return ConfirmCart();" />
+                        <input type="submit" value="Add to cart" class="add_to_cart_btn rounded_corners5 MTopM10 background-green" onclick="return ConfirmCart();" />
                     }
 
 
@@ -366,8 +376,8 @@
                     &nbsp;
                 </div>
                 <div id="priceToggle" onclick="MatrixToggle();" style="cursor: pointer; color: black;
-                            font-size: 13px; float: left; margin-top: 15px; margin-bottom: 10px;">
-                    <label id="lbl_ShowPriceTable">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId))</label>
+                            font-size: 12px; float: left; margin-top: 15px; margin-bottom: 10px;">
+                    <label id="lbl_ShowPriceTable" style="cursor: pointer;">@Html.Raw(Html.GetKeyValueFromResourceFile("ShowPriceMatrix", UserCookieManager.WBStoreId))</label>
                 </div>
                 <div class="clearBoth">
                     &nbsp;
@@ -383,7 +393,7 @@
                     <div class="width50p">
                         @if (ViewBag.Item.IsQtyRanged == true)
                         {
-                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -49px;">
+                            <div class="Fsize13 divtxtalgn float_left_simple ddwidth50 marginRight" style="margin-left: -46px;">
                                 <label id="lbl_From">@Html.Raw(Html.GetKeyValueFromResourceFile("ltrlfrom", UserCookieManager.WBStoreId))</label>
                             </div>
                             <div class="Fsize13 divtxtalgn float_left_simple">
@@ -516,6 +526,12 @@
                         PriceBackgroundCount++;
                     }
             </div>
+                <div>
+                    <label id="lblTaxLabel" class="Fsize10 float_right marginLeft" style="margin-top:8px;">@ViewBag.VATLabel</label>
+                    <div class="clearBoth">
+                        &nbsp;
+                    </div>
+                </div>
         </div>
     </div>
     <div class=" ProductDetailGrayBoxLeftLP rounded_corners float_right ">
@@ -552,7 +568,7 @@
         @if (!string.IsNullOrEmpty(ViewBag.Item.File1) || !string.IsNullOrEmpty(ViewBag.Item.File2) || !string.IsNullOrEmpty(ViewBag.Item.File3) || !string.IsNullOrEmpty(ViewBag.Item.File4))
         {
             <div id="lbl_DownloadTemplates" class="DownloadExmContainer">
-                @Html.Raw(Html.GetKeyValueFromResourceFile("lblDownloadTemplate", UserCookieManager.WBStoreId))
+                @Html.Raw(Html.GetKeyValueFromResourceFile("downloadExmp", UserCookieManager.WBStoreId))
             </div>
             <div id="lbl_CreateUploadTemplates" class="DExmlbl">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lblDEmple", UserCookieManager.WBStoreId))
@@ -591,7 +607,7 @@
         {
             <div id="formatDesignContainer">
                 <div class="DesgnFormatelbl">
-                    <label id="lbl_DesignSize_Format" class="Fsize13">@Html.Raw(Html.GetKeyValueFromResourceFile("lblDesignSizeFormat", UserCookieManager.WBStoreId))</label>
+                    <label id="lbl_DesignSize_Format" class="Fsize13">Design sizes & format</label>
                 </div>
                 <div class="white_background rounded_corners left_align">
                     <img id="designFormateimg" src="@ViewBag.Item.GridImage" />
@@ -665,9 +681,8 @@
 
         </div>
         <div class="float_left_simple UploadsGuidLineContainer">
-
-            <input type="file" name="FileName" id="imageUploader" style="width:240px" />
-            <input type="button" value="Upload" class="Uplod_PCS rounded_corners5" id="btnOpenUploadDailog" onclick="openDailog();" />
+            <input type="file" name="imageUploader"  style="width:240px;" id="imageUploader"/>
+            <input type="button" value="Upload" class="Uplod_PCS rounded_corners5 background-green" id="btnOpenUploadDailog" onclick="openDailog();" />
 
             <div id="lbl_PremittedFormat" class="float_left_simple Fsize12" style="width: 175px; text-align: left; margin-bottom: 5px; margin-top: 10px;">
                 @Html.Raw(Html.GetKeyValueFromResourceFile("lbl_PremittedFormat", UserCookieManager.WBStoreId))
@@ -700,12 +715,17 @@
 @section scripts {
     <script src="~/Scripts/PopUp.js"></script>
     <script>
+
     var isRanged = "@ViewBag.Item.IsQtyRanged.ToString()" == "False" ? 0 : 1;
-    var TotalItemPrice = 0;
+        var TotalItemPrice = 0;
+        var data = "";
     var isPriceSelected = 0;
     var mandatoryRefiningOptIds = "";
+     
+    
     $(document).ready(function() {
-
+        
+     
         $('input:radio[name=StockPaper]:checked').next().removeClass('grayRadiantbtn').addClass('OrangeGradiantbtn');
         $('input:radio[name=StockPaper]:checked').next().css("background-color", "white");
 
@@ -1308,46 +1328,24 @@
 
     function ShowArtworkPanel() {
         var panelHtml = $("#pnlArtworkUploader").html();
-        ShowArtWorkPopup("Upload Your Artwork", panelHtml);
-    }
-
-    function LoadCostCentersByStockId(StockId) {
-        var noRefiningOpt = 1;
-        $(".CostCenterItems").each(function(i, val) {
-            if (StockId == $(val).attr('data-StockId')) {
-                $(val).css("display", "block");
-                if($(val).attr('data-ismandatory') == 1){
-                   
-                    if(mandatoryRefiningOptIds == ""){
-                        mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
-                    }else{
-                        mandatoryRefiningOptIds = "," + $(val).children().next().children().attr('id');
-                    }
-                }
-                noRefiningOpt = 0;
-            } else {
-
-                $(val).css("display", "none");
-
-                if ($(val).children().next().children().is(':checked')) {
-                    $(val).children().next().children().click();
-
+        ShowArtWorkPopup("Upload Artwork", panelHtml);
+        $('#imageUploader').change(function () {
+            data = new FormData();
+            var files = $('#imageUploader')[0].files;
+            //alert(files.length);
+            if (files.length > 0) {
+            
+                for (i = 0; i < files.length; i++) {
+                    data.append("file" + i, files[i]);
                 }
             }
-
         });
 
-        if(noRefiningOpt == 1){
-            $("#lbl_RefiningOptions").css("display", "none");
-            mandatoryRefiningOptIds = "";
-        }else{
-            $("#lbl_RefiningOptions").css("display", "block");
-        }
     }
 
     function openDailog() {
-
-        var files = $("#imageUploader").get(0).files;
+        ShowLoader();
+        var files = $('#imageUploader')[0].files;//$("#imageUploader").get(0).files;
         var sideOFImage = $("#uploadedImageSide").val();
         if (sideOFImage == 0) {
             sideOFImage = 1;
@@ -1356,8 +1354,8 @@
             sideOFImage = parseInt(sideOFImage) + 1;
             $("#uploadedImageSide").val(sideOFImage);
         }
-        var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
-        var fileExtension = name1.replace(/^.*\./, '');
+        //var name1 = files[0].name.replace(/C:\\fakepath\\/i, '');
+        //var fileExtension = name1.replace(/^.*\./, '');
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth(); //January is 0!
@@ -1368,7 +1366,7 @@
         ];
         var FileName = yyyy + monthNames[mm] + dd;
         FileName = FileName.concat("-", '@ViewBag.ClonedItem.ProductCode', "-", '@ViewBag.Order.Order_Code', "-", '@ViewBag.ClonedItem.ItemCode', "-", '' + sideOFImage);
-        var url = "/mpc_content/Attachments/";
+        var url = "mpc_content/Attachments/";
         url = url.concat('@UserCookieManager.WEBOrganisationID', "/", '@UserCookieManager.WBStoreId', "/Products/", @ViewBag.ClonedItem.ItemId);
 
         while (url.indexOf('/') != -1)
@@ -1376,12 +1374,11 @@
 
         while (FileName.indexOf('/') != -1)
             FileName = FileName.replace("/", "__")
-
-        if (files.length > 0) {
-            var data = new FormData();
-            for (i = 0; i < files.length; i++) {
-                data.append("file" + i, files[i]);
-            }
+        if (data != "") {
+            
+            //for (i = 0; i < files.length; i++) {
+            //    data.append("file" + i, files[i]);
+            //}
             
             $.ajax({
                 type: "POST",
@@ -1404,11 +1401,17 @@
                 error: function(xhr, ajaxOptions, thrownError) {
                     //alert("Error while invoking the Web API");
                     alert(thrownError);
+                    HideLoader();
                 }
             });
+        }else 
+        {
+            HideLoader();
+            console.log(files);
+            alert(files.length);
         }
     }
-
+  
     function RediredToDesigner(ProductName, TemplateID, ItemID, CompanyID, ContactID, isCalledFrom, OrganisationID, printCropMarks, printWaterMark, isEmbedded, TempDesignerID) {
 
         ShowLoader();
@@ -1540,5 +1543,43 @@
             }
         }
     }
+
+        function LoadCostCentersByStockId(StockId) {
+       
+            var noRefiningOpt = 1;
+            mandatoryRefiningOptIds = "";
+            $(".CostCenterItems").each(function(i, val) {
+                if (StockId == $(val).attr('data-StockId')) {
+                    $(val).css("display", "block");
+                    if($(val).attr('data-ismandatory') == 1){
+                   
+                        if(mandatoryRefiningOptIds == ""){
+                            mandatoryRefiningOptIds = $(val).children().next().children().attr('id');
+                        }else{
+                            mandatoryRefiningOptIds = mandatoryRefiningOptIds + "," + $(val).children().next().children().attr('id');
+                        }
+                    }
+               
+                    noRefiningOpt = 0;
+                } else {
+
+                    $(val).css("display", "none");
+
+                    if ($(val).children().next().children().is(':checked')) {
+                        $(val).children().next().children().click();
+
+                    }
+                }
+           
+            });
+       
+            if(noRefiningOpt == 1){
+                $("#lbl_RefiningOptions").css("display", "none");
+                mandatoryRefiningOptIds = "";
+            }else{
+                $("#lbl_RefiningOptions").css("display", "block");
+            }
+        }
+
     </script>
 }

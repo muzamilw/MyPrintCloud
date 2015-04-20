@@ -47,6 +47,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Get All Items
         /// </summary>
+        [CompressFilterAttribute]
         public ItemSearchResponse Get([FromUri] CompanyProductSearchRequestModel request)
         {
             if (request == null || !ModelState.IsValid)

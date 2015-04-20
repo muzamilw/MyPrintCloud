@@ -555,7 +555,7 @@ namespace MPC.Repository.Repositories
 
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
+                                                            tagValue = "";// "mis/Services/OrderSvc.svc/DownloadOrderXMLByID?OrderID=" + orderid + "&Format=1";
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
 
@@ -567,7 +567,7 @@ namespace MPC.Repository.Repositories
                                                         int orderid = Convert.ToInt32(propertyInfo.GetValue(variablValues, null));
                                                         if (orderid > 0)
                                                         {
-                                                            tagValue = "mis/Services/OrderSvc.svc/GenerateOrderArtworkArchive?OrderID=" + orderid;
+                                                            tagValue = "";// "mis/Services/OrderSvc.svc/GenerateOrderArtworkArchive?OrderID=" + orderid;
 
                                                             tagValue = oContext.Request.Url.Scheme + "://" + oContext.Request.Url.Authority + "/" + tagValue;
                                                         }

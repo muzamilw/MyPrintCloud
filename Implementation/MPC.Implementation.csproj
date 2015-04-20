@@ -158,12 +158,14 @@
     <Compile Include="MISServices\CompanyContactService.cs" />
     <Compile Include="MISServices\CompanyService.cs" />
     <Compile Include="MISServices\CompanyTerritoryService.cs" />
+    <Compile Include="MISServices\CostCentreMatrixServices.cs" />
     <Compile Include="MISServices\CostCentreQuestionService.cs" />
     <Compile Include="MISServices\CrmSupplierService.cs" />
     <Compile Include="MISServices\CustomerService.cs" />
     <Compile Include="MISServices\DashboardService.cs" />
     <Compile Include="MISServices\DeliveryCarrierService.cs" />
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
+    <Compile Include="MISServices\ItemJobStatusService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="MISServices\PurchaseService.cs" />
     <Compile Include="MISServices\SectionService.cs" />
     <Compile Include="MISServices\StockCategoryService.cs" />
+    <Compile Include="MISServices\SystemUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\GlobalTemplateDesigner\Reference.cs">
       <AutoGen>True</AutoGen>

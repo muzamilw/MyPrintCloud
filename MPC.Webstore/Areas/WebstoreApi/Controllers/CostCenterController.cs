@@ -248,10 +248,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
              CalculateProductDescription(order,out GrandTotal,out Subtotal,out vat);
              JasonResponseObject obj=new JasonResponseObject();
              obj.order=order;
-             obj.SubTotal=Math.Round(Subtotal,2);
-             obj.GrossTotal=Math.Round(GrandTotal,2);
-             obj.VAT=Math.Round(vat,2);
-             obj.DeliveryCostCharges=order.DeliveryCost;
+             obj.SubTotal =  @Utils.FormatDecimalValueToTwoDecimal(Subtotal.ToString(), StoreBaseResopnse.Currency);
+             obj.GrossTotal = @Utils.FormatDecimalValueToTwoDecimal(GrandTotal.ToString(), StoreBaseResopnse.Currency);
+             obj.VAT = @Utils.FormatDecimalValueToTwoDecimal(vat.ToString(), StoreBaseResopnse.Currency);
+             obj.DeliveryCostCharges=@Utils.FormatDecimalValueToTwoDecimal(order.DeliveryCost.ToString(), StoreBaseResopnse.Currency);
              obj.billingAddress= BillingAddress;
              obj.shippingAddress=ShippingAddress;
              if (BillingAddress.CountryId!= null && BillingAddress.CountryId >0)
@@ -323,7 +323,7 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                     }
                     else
                     {
-
+                        
                         Subtotal = Subtotal + Convert.ToDouble(item.Qty1NetTotal);
                         TotalVat = Convert.ToDouble(item.Qty1GrossTotal) - Convert.ToDouble(item.Qty1NetTotal);
                         calculate = calculate + TotalVat;
@@ -531,7 +531,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
         {
             int count = HttpContext.Current.Request.Files.Count;
             int Contentlength = HttpContext.Current.Request.ContentLength;
-           
+            string CacheKeyName = "CompanyBaseResponse";
+            ObjectCache cache = MemoryCache.Default;
+
+            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse1 = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
             Inquiry NewInqury = new Inquiry();
 
             NewInqury.Title = Title;
@@ -556,7 +559,8 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 Contact.Password = "password";
                 Campaign RegistrationCampaign = _campaignService.GetCampaignRecordByEmailEvent((int)Events.Registration, UserCookieManager.WEBOrganisationID, UserCookieManager.WBStoreId);
 
-                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, Contact);
+
+                long Customer = _companyService.CreateCustomer(FirstName, false, false, CompanyTypes.SalesCustomer, string.Empty, 0, StoreBaseResopnse1.Company.CompanyId, Contact);
 
                 if (Customer > 0)
                 {
@@ -620,9 +624,9 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
                 cep.SalesManagerContactID = _webstoreAuthorizationChecker.loginContactID();
                 cep.StoreId = UserCookieManager.WBStoreId;
                 Company GetCompany = _companyService.GetCompanyByCompanyID(UserCookieManager.WBStoreId);
-                string CacheKeyName = "CompanyBaseResponse";
-                ObjectCache cache = MemoryCache.Default;
-                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
+                string CacheKeyName1 = "CompanyBaseResponse";
+                ObjectCache cache1 = MemoryCache.Default;
+                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache1.Get(CacheKeyName1) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
                 SystemUser EmailOFSM = _usermanagerService.GetSalesManagerDataByID(StoreBaseResopnse.Company.SalesAndOrderManagerId1.Value);
 
                 if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
@@ -785,10 +789,10 @@ namespace MPC.Webstore.Areas.WebstoreApi.Controllers
           public Order order;
           public Address billingAddress;
           public Address shippingAddress;
-          public double GrossTotal;
-          public double SubTotal;
-          public double VAT;
-          public double DeliveryCostCharges;
+          public string GrossTotal;
+          public string SubTotal;
+          public string VAT;
+          public string DeliveryCostCharges;
           public string CurrencySymbol;
           public string OrderDateValue;
           public string DeliveryDateValue;

@@ -39,6 +39,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public List<ItemForWidgets> Get()
         {
             return companyService.GetItemsForWidgets().Select(i => i.CreateFromForWidgets()).ToList();

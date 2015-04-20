@@ -29,5 +29,7 @@ namespace MPC.Interfaces.Repository
         void SaveTemplate(long productID, List<TemplatePage> listPages, List<TemplateObject> listObjects);
         Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId);
 
+        double getOrganisationBleedArea(long organisationID);
+      
     }
 }

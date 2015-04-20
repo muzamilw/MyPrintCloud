@@ -38,6 +38,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <returns></returns>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyResponse Get([FromUri] CompanyRequestModel request)
         {
             var result = companyService.GetAllCompaniesOfOrganisation(request);
@@ -53,6 +54,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public CompanyResponse Get([FromUri]int companyId)
         {
             CompanyResponse companyResponse = companyService.GetCompanyById(companyId).CreateFrom();
@@ -65,6 +67,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         [ApiException]
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public Company Post(Company company)
         {
             if (!ModelState.IsValid)
@@ -157,6 +160,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         }
 
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewStore })]
+        [CompressFilterAttribute]
         public Company Delete(CompanyRequestModel model)
         {
             return companyService.DeleteCompany(model.CompanyId).CreateFrom();

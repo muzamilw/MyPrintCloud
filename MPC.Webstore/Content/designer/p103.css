@@ -99,7 +99,7 @@ div.navBulletsWrapper  {
 {
     float: left;
     margin-right:8px;
-    width: 168px;
+    width: 162px;
     font: normal 11px/13px Arial;
    /* border-top: 1px solid #CCC;*/
     border-top: 1px solid White;
@@ -260,7 +260,7 @@ font-size: 18px;
 }
 
 .divTxtProofingDesigner {
-    width: 812px;
+    width: 736px;
     height: 42px;
     font-size: 14px;
     margin-left: 10px;
@@ -353,9 +353,10 @@ font-size: 18px;
     margin-top: 13px !important;
     float: right;
     margin-right: 10px;
-    width: 108px;
+    width: 196px;
     font-family: 'Lato';
     height: 36px;
+      font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
     .btnBlueProofing:hover {

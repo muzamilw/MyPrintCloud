@@ -69,11 +69,7 @@ namespace MPC.Repository.Repositories
             {
                 template = db.Templates.Where(g => g.ProductId == productID).SingleOrDefault();
             }
-            // add default cutting margin if not available 
-            if (template.CuttingMargin.HasValue)
-                template.CuttingMargin = DesignerUtils.PointToPixel(template.CuttingMargin.Value);
-            else
-                template.CuttingMargin = DesignerUtils.PointToPixel(14.173228345);
+           
 
             return template;
 
@@ -896,7 +892,25 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        
+
+        public double getOrganisationBleedArea(long organisationID)
+        {
+            double bleedArea = 0;
+            try
+            {
+                if(organisationID !=0)
+                {
+                    var organisation = db.Organisations.Where(g => g.OrganisationId == organisationID).SingleOrDefault();
+                    if(organisation.BleedAreaSize.HasValue)
+                        bleedArea = organisation.BleedAreaSize.Value;
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return bleedArea;
+        }
         #endregion
 
         

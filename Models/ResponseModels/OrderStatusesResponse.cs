@@ -1,5 +1,7 @@
-﻿
-namespace MPC.MIS.Areas.Api.Models
+﻿using System.Collections.Generic;
+using MPC.Models.DomainModels;
+
+namespace MPC.Models.ResponseModels
 {
     /// <summary>
     /// Order Statuses Response Model
@@ -40,6 +42,11 @@ namespace MPC.MIS.Areas.Api.Models
         /// Estimate Total
         /// </summary>
         public double? TotalEarnings { get; set; }
+
+        /// <summary>
+        /// Estimates / Orders list
+        /// </summary>
+        public IEnumerable<Estimate> Estimates { get; set; }
 
         
     }

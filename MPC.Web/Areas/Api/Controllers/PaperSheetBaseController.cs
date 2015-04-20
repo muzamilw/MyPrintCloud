@@ -36,6 +36,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// Get Item Base Data
         /// </summary>
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewPaperSheet })]
+        [CompressFilterAttribute]
         public PaperSheetBaseResponse Get()
         {
             if (!ModelState.IsValid)

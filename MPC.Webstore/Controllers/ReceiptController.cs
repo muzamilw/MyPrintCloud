@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using MPC.Webstore.ModelMappers;
 using System.Runtime.Caching;
 using MPC.Webstore.Models;
+using System.Net;
+using System.IO;
 
 namespace MPC.Webstore.Controllers
 {
@@ -68,15 +70,16 @@ namespace MPC.Webstore.Controllers
            
             AddressViewModel oStoreDefaultAddress = null;
 
-            if (StoreBaseResopnse.Company.isWhiteLabel == false)
+            if (StoreBaseResopnse.Company.isWhiteLabel == false || StoreBaseResopnse.Company.isWhiteLabel == null)
             {
                 oStoreDefaultAddress = null;
             }
             else 
             {
+                oStoreDefaultAddress = new AddressViewModel();
                 if (StoreBaseResopnse.StoreDetaultAddress != null)
                 {
-                    oStoreDefaultAddress = new AddressViewModel();
+                    
                     oStoreDefaultAddress.Address1 = StoreBaseResopnse.StoreDetaultAddress.Address1;
                     oStoreDefaultAddress.Address2 = StoreBaseResopnse.StoreDetaultAddress.Address2;
 
@@ -92,6 +95,10 @@ namespace MPC.Webstore.Controllers
                 }
             }
             ViewBag.oStoreDefaultAddress = oStoreDefaultAddress;
+      
+           
+            ViewBag.OrderId = OrderId;
+            ViewBag.StoreId = StoreBaseResopnse.Company.CompanyId;
             return View("PartialViews/Receipt", order);
         }
     }

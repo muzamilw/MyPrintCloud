@@ -195,18 +195,18 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                if (CompanyId > 0)
-                {
+                //if (CompanyId > 0)
+                //{
+                //    return
+                //        db.ItemStockOptions.Where(
+                //            i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
+                //}
+                //else
+                //{
                     return
-                        db.ItemStockOptions.Where(
-                            i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1).FirstOrDefault();
-                }
-                else
-                {
-                    return
-                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.CompanyId == CompanyId && i.OptionSequence == 1)
+                        db.ItemStockOptions.Where(i => i.ItemId == ItemId && i.OptionSequence == 1)
                             .FirstOrDefault();
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -296,6 +296,7 @@ namespace MPC.Repository.Repositories
 
                     newItem.Qty1GrossTotal = ActualItem.Qty1GrossTotal;
                     newItem.ProductType = ActualItem.ProductType;
+                    newItem.ProductName = ActualItem.ProductName + "- Copy";
                 }
                 else
                 {
@@ -594,16 +595,19 @@ namespace MPC.Repository.Repositories
 
                             }
                         }
-
-                        File.Copy(drURL + oTemplatePage.BackgroundFileName,
-                            drURL + result.ToString() + "/" +
-                            oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
-                        oTemplatePage.BackgroundFileName = result.ToString() + "/" +
-                                                           oTemplatePage.BackgroundFileName.Substring(
-                                                               oTemplatePage.BackgroundFileName.IndexOf("/"),
-                                                               oTemplatePage.BackgroundFileName.Length -
-                                                               oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        if (File.Exists(drURL + oTemplatePage.BackgroundFileName))
+                        {
+                            File.Copy(drURL + oTemplatePage.BackgroundFileName,
+                                drURL + result.ToString() + "/" +
+                                oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                    oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/")));
+                            oTemplatePage.BackgroundFileName = result.ToString() + "/" +
+                                                               oTemplatePage.BackgroundFileName.Substring(
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"),
+                                                                   oTemplatePage.BackgroundFileName.Length -
+                                                                   oTemplatePage.BackgroundFileName.IndexOf("/"));
+                        }
+                        
 
                     }
                 }
@@ -2006,16 +2010,15 @@ namespace MPC.Repository.Repositories
             {
                 var query = from productsList in db.GetCategoryProducts
                             join tblRelItems in db.ItemRelatedItems on productsList.ItemId
-                                equals tblRelItems.ItemId into tblRelatedGroupJoin
+                                equals tblRelItems.ItemId 
                             where
                                 productsList.IsPublished == true && productsList.EstimateId == null &&
                                 productsList.IsEnabled == true
 
-                            from JTble in tblRelatedGroupJoin.DefaultIfEmpty()
                             select new ProductItem
                             {
                                 ItemID = productsList.ItemId,
-                                RelatedItemID = JTble.RelatedItemId.HasValue ? JTble.RelatedItemId.Value : 0,
+                                RelatedItemID = tblRelItems.RelatedItemId ?? 0,
                                 EstimateID = productsList.EstimateId,
                                 ProductName = productsList.ProductName,
                                 ProductCategoryName = productsList.ProductCategoryName,
@@ -2560,10 +2563,11 @@ namespace MPC.Repository.Repositories
                                             HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
                                         attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
+                                        attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
-                                    attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
+                                    
                                     PageNo = PageNo + 1;
                                     
                                 });
@@ -3150,8 +3154,8 @@ namespace MPC.Repository.Repositories
 
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
-                    // if (Item.isMultipagePDF == true)
-                    if (false)
+                   
+                    if (Item.isMultipagePDF == true)
                     {
                         //saving Page1  or Side 1 
                         //string fileName = ItemID.ToString() + " Side" + item.PageNo + ".pdf";
@@ -3270,7 +3274,7 @@ namespace MPC.Repository.Repositories
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
                     int index = 0;
-                    if (false) //Item.isMultipagePDF == true
+                    if (Item.isMultipagePDF == true) //
                     {
                         ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
                         index = index + 1;
@@ -3790,7 +3794,7 @@ namespace MPC.Repository.Repositories
             try
             {
                 return
-               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId)
+               DbSet.Where(i => i.CompanyId.HasValue && i.CompanyId == companyId && i.OrganisationId == OrganisationId && i.IsPublished == true && i.EstimateId == null)
                    .ToList();
             }
             catch (Exception ex)
@@ -3804,7 +3808,7 @@ namespace MPC.Repository.Repositories
         /// get cart items count 
         /// </summary>
         /// <returns></returns>
-        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId)
+        public long GetCartItemsCount(long ContactId, long TemporaryCustomerId, long CompanyId)
         {
             try
             {
@@ -3816,7 +3820,7 @@ namespace MPC.Repository.Repositories
                         db.Estimates.Include("Items")
                             .Where(
                                 order =>
-                                    order.ContactId == ContactId && order.StatusId == orderStatusID &&
+                                    order.ContactId == ContactId && order.CompanyId == CompanyId && order.StatusId == orderStatusID &&
                                     order.isEstimate == false)
                             .FirstOrDefault();
                     if (Order != null)

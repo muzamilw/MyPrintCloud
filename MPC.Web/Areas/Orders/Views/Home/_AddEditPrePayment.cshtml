@@ -4,13 +4,14 @@
         <div class="modal-content" data-bind="with:$root.selectedPrePayment">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Add Pre Payment</h4>
+                <h4 class="modal-title" data-bind="visible:$root.flagForToShowAddTitle()">Add Pre Payment</h4>
+                <h4 class="modal-title" data-bind="visible:!$root.flagForToShowAddTitle()">Edit Pre Payment</h4>
             </div>
             <div class="col-lg-12 form-horizontal outerDiv-Padding">
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Customer" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -24,7 +25,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Address" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -38,7 +39,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Date" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Date" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -52,7 +53,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Reference # " data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Reference # " data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -66,7 +67,7 @@
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Amount" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -74,14 +75,18 @@
                         <label for="amount" class="control-label text-right tooltip-float">Amount <span data-bind="text:$root.currencySymbol"></span></label>
                     </div>
                     <div class="col-lg-5">
-                        <input type="text" class="form-control" id="amount" data-bind="value:amount,validationTooltip:amount">
+                        <div class="input-group">
+                            <span class="input-group-addon" data-bind="text:$root.currencySymbol"></span>
+                            <input type="text" class="form-control  text-right" id="amount" data-bind="value:amountComputed,validationTooltip:amount">
+                        </div>
+                       
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
 
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Payment Method" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Select Payment Method" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
 
@@ -96,7 +101,7 @@
                     <div class="col-lg-5 text-right">
                         <div class="bs-example-tooltips tooltip-float-width">
 
-                            <a class="input-group-addon" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Description" data-original-title="" title="">
+                            <a class="input-group-addon" tabindex="-1" href="#" data-bind="click: function(){}" data-trigger="focus" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Enter Description" data-original-title="" title="">
                                 <span class="label label-circle-question">&nbsp;&nbsp;?&nbsp;&nbsp;</span>
                             </a>
                         </div>

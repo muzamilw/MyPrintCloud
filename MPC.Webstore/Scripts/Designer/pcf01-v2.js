@@ -2,9 +2,9 @@
     loaderLoading = true;
     var3 = 1;
     if (msg == null || msg == "") {
-        msg = "You can add different layouts to your design, you can also add images, text content,  background colour and image to your design.";
+        msg = "Loading design on canvas";
     }
-    $("#paraLoaderMsg").text(msg);
+    $("#loaderTitleMsg").text(msg);
     $("#MainLoader").css("display", "block");
     $(".progressValue").css("width", "1%");
     $(".dialog").css("top", ($(window).height() - $(".dialog").height()) / 2 + "px");
@@ -130,7 +130,7 @@ function b4(imgSrc) {
 function b8(imageID, productID) {
 
     if (confirm("Delete this image from all instances on canvas on all pages! Do you still wish to delete this image now?")) {
-        StartLoader("Deleting the image from your design, please wait....");
+        StartLoader("Deleting image from all pages and image library....");
         b8_svc(imageID, productID);
     }
 }
@@ -396,7 +396,7 @@ function c7(PageID) {
                 c0(canvas, IT);
             }
             else if (IT.ObjectType == 3) {
-                $("#loadingMsg").html("Loading Design Images, please wait..");
+                $("#loadingMsg").html("Loading Design Images");
                 d1(canvas, IT);
             }
             else if (IT.ObjectType == 6) {
@@ -754,6 +754,7 @@ function d5_sub(pageID, isloading) {
                 canvas.renderAll(); //StopLoader();
             });
             canvas.backgroundColor = "#ffffff";
+            pcl41_ApplyDimensions(IT);
           //  if (IT.Orientation == 1) {
                 if (IT.Height != null && IT.Height != 0) {
                     canvas.setHeight(IT.Height * dfZ1l);
@@ -805,7 +806,7 @@ function d5_sub(pageID, isloading) {
                 var bk = IT.BackgroundFileName + "?r=" + CzRnd;
                 if (IT.BackgroundFileName != "") {
                     if (!isloading) {
-                        StartLoader("Loading background files for your design, please wait....");
+                        StartLoader("Loading background files for your design");
                     }
                     canvas.setBackgroundImage(bk, canvas.renderAll.bind(canvas), {
                         left: 0,
@@ -1464,7 +1465,8 @@ function fu02() {
     canvas.on('object:out', function (e) {
         if (e.TG.IsQuickText == true && e.TG.type == 'image') {
             $("#placeHolderTxt").css("visibility", "hidden");
-        } 
+        }
+
     });
 
     //    canvas.observe('mouse:down', onMouseDown);
@@ -1487,8 +1489,10 @@ function fu02() {
     canvas.observe('selection:cleared', function (e) {
         pcL36('hide', '#divImgPropPanelRetail , #divTxtPropPanelRetail ,#DivColorPickerDraggable, #divVariableContainer  ');
         $("#sortableLayers li").removeClass("selectedItemLayers");
-
-
+        if ($('#selectedTab').css('top') == "280px")
+        {
+            $("#btnAdd").click();
+        }
     });
 }
 
@@ -1515,6 +1519,9 @@ function fu04_callBack(DT) {
     }
     
 }
+function p36_22() {
+    $("#DivColorPickerDraggable").css("display", "none");
+}
 function b3_lDimensions() {
     var w = Template.PDFTemplateWidth;
     var h = Template.PDFTemplateHeight;
@@ -1537,20 +1544,27 @@ function b3_lDimensions() {
 function fu05_svcCall(DT) {
     if (IsCalledFrom == 2 || IsCalledFrom == 4)
     {
-        var html = "<div id='tabs'><ul class='tabsList'><li><a href='#tabsActiveColors'>Active</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
-        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        var html = "<div class='closePanelButton closeBtnMenus' onclick='p36_22();'><br></div><div id='tabs' style='margin-top:22px;'><ul class='tabsList'><li><a href='#tabsActiveColors'>Available<br /> Colors</a></li><li class='inactiveTabs'><a href='#tabsInActiveColors'>Disabled <br />Colors</a></li></ul><div id='tabsActiveColors' class='ColorTabsContainer'></div><div id='tabsInActiveColors' class='ColorTabsContainer'></div></div>";
+        html += '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a title="Add new Color to pallet">Add a color</a></li>';
         $('.ColorOptionContainer').append(html);
         $.each(DT, function (i, IT) {
             fu05_svca7(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
         });
         $("#tabs").tabs();
+        if(IsCalledFrom ==4)
+        {
+            $(".tabsList").css("display", "none");
+            $(".btnDeactiveColor").css("display", "none");
+            $("#BtnAdvanceColorPicker").css("display", "none");
+        }
     } else
     {
+        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
+        $('.ColorOptionContainer').append(html);
         $.each(DT, function (i, IT) {
             fu05_ClHtml(IT.ColorC, IT.ColorM, IT.ColorY, IT.ColorK, IT.SpotColor, IT.IsColorActive, IT.PelleteId);
         });
-        var html = '<li class="picker" id="BtnAdvanceColorPicker" style="display: list-item;" onclick="return f6_1(); "><a>Add a color</a></li>';
-        $('.ColorOptionContainer').append(html);
+      
     }
 
 }
@@ -1808,7 +1822,7 @@ function fu09_1(DT) {
 function fu10(ca, gtID) {
     $(".templateListUL .on").removeClass("on");
     $(ca).parent().addClass("on");
-    StartLoader("Downloading images and text objects for your design., please wait....");
+    StartLoader("Loading design on canvas");
     TP = [];
     TO = [];
     isloadingNew = true;
@@ -2081,7 +2095,7 @@ function i2(cs) {
 function i4(coords, ObjectID, color, cutMargin) {
     var line = new fabric.Line(coords,
         {
-            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.2, border: 'none'
+            fill: color, strokeWidth: cutMargin, selectable: false, opacity: 0.85, border: 'none'
         });
 
     line.ObjectID = ObjectID;
@@ -2194,7 +2208,7 @@ function j9(e, url1, id) {
                         n = n.replace("%20", " ");
                     while (n.indexOf('./') != -1)
                         n = n.replace("./", "");
-                    StartLoader("Downloading image to your design, please wait....");
+                    StartLoader("Placing image on canvas");
                     var imgtype = 2;
                     if (isBKpnl) {
                         imgtype = 4;
@@ -2966,7 +2980,7 @@ function k16(TempImgType, ImC, Caller) {
                 }
                 if (DT.objsBackground == "") {
                     if (oldHtml.indexOf("allImgsLoadedMessage") == -1) {
-                        $("." + strName).append("<p class='allImgsLoadedMessage'>No more images matches your search criteria. </p>");
+                        $("." + strName).append("<p class='allImgsLoadedMessage' style='margin-top:50px;  text-align: center; margin-bottom:50px;'>No images found. </p>");
                         $(".btn" + strName).css("display", "none");
                     } else {
                         if (TempImgType == 1) {
@@ -3544,7 +3558,7 @@ function k32(imID, Tid, eleID) {
         if (isBKpnl) {
             imgtype = 4;
         }
-        StartLoader("Downloading image to your design, please wait....");
+        StartLoader("Placing image on canvas");
         svcCall4(n, tID, imgtype);
     } else {
         var bkImgURL = eleID.split("./Designer/Products/");;
@@ -3742,18 +3756,18 @@ function m0_i9(oId, oName, OType, iURL, index1) {
     if (sObj) {
         cid = sObj.ObjectID;
     }
-    var btnHtml = ' <button class="btnMoveLayerUp" ></button><button class="btnMoveLayerDown" ></button>';
+    var btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up"></button><button class="btnMoveLayerDown" title="Move layer down"></button>';
     if (index1 == 0) {
-        btnHtml = '<button class="btnMoveLayerDown" ></button>';
+        btnHtml = '<button class="btnMoveLayerDown" title="Move layer down"></button>';
     } else if (index1 == -1) {
-        btnHtml = ' <button class="btnMoveLayerUp" ></button>';
+        btnHtml = ' <button class="btnMoveLayerUp" title="Move layer up" ></button>';
     }
     btnHtml += ' <button class="buttonDesigner editTxtBtn" >Edit</button>'
     if (cid == oId) {
         var innerHtml = "";
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + ' <br /></li>';;//'<li id="selobj_' + oId + '" class="ui-state-default"></li>';
     } else {
-        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
+        html = '<li id="selobj_' + oId + '" class="ui-state-default uiOldSmothness" style="padding:5px;"><span class="selectedObjectID">' + oId + '</span>  <img class="layerImg" src="' + iURL + '" alt="Image" title="Select Object" onclick="j1(' + oId + ')" /> <span class="spanLyrObjTxtContainer" onclick="j1(' + oId + ')">' + oName + '</span>' + btnHtml + '</li>';
 
     }
     return html;
@@ -3864,7 +3878,7 @@ function pcl40(xdata) {
     });
 }
 function pcl41(xdata) {
-
+    var tabIndex = 1;
     smartFormData = xdata;
     
     if (smartFormData.usersList != null)
@@ -3889,23 +3903,57 @@ function pcl41(xdata) {
         {
             if(IT.FieldVariable.IsSystem == true)
             {
-                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
             } else {
                 if(IT.FieldVariable.VariableType == 1 )
                 {
-                    //dropDown
-                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions);
+                    //dropDown 
+                    html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
 
                 } else if (IT.FieldVariable.VariableType == 2) {
-                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask);
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
                 }
             }
+            tabIndex++;
         }
     });
 
     $("#SmartFormContainer").html(html);
-    pcl40_applyInputMask(smartFormData.smartFormObjs);
     pcl40_InsertUserData(smartFormData.scopeVariables);
+    pcl40_updateDropdownDefaultValues();
+    pcl40_applyInputMask(smartFormData.smartFormObjs);
+    $('textarea.qTextInput').focus(function () {
+        $this = $(this);
+
+        $this.select();
+
+        window.setTimeout(function () {
+            $this.select();
+        }, 1);
+
+        // Work around WebKit's little problem
+        $this.mouseup(function () {
+            // Prevent further mouseup intervention
+            $this.unbind("mouseup");
+            return false;
+        });
+    });
+
+}
+function pcl40_updateDropdownDefaultValues() {
+    $.each(smartFormData.smartFormObjs, function (i, IT) {
+      
+        if (IT.ObjectType == 3) {
+            if (IT.FieldVariable.IsSystem == true) {
+            } else {
+                if (IT.FieldVariable.VariableType == 1) {
+                    $("#txtSmart" + IT.FieldVariable.VariableId).val(IT.FieldVariable.DefaultValue);
+                   // alert($("#txtSmart" + IT.FieldVariable.VariableId).val());
+
+                } 
+            }
+        }
+    });
 }
 function pcl40_showUserList(userList)
 {
@@ -3915,29 +3963,31 @@ function pcl40_showUserList(userList)
     });
     $("#smartFormSelectUserProfile").html(html);
 }
-function pcl40_addDropDown(title, varId,options) {
+function pcl40_addDropDown(title, varId,options,def,tabindex) {
     var html = "";
+
     html += '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>'
-    + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""';
+    + '<select id="txtSmart' + varId + '"  class="qTextInput" style=""  tabindex= "' + tabindex + '" >';
     $.each(options, function (i, IT) {
-        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" >' + IT.Value + '</option>';;
+        var selected = "";
+        html += '<option  id = "option' + IT.VariableOptionId + '" value="' + IT.Value + '" '+selected+' >' + IT.Value + '</option>';;
     });
 
     html+=    '</select></div>';
-
+    return html;
 }
-function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask) {
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex) {
     var required = "";
     if (IsRequired == true)
     {
         required = "required";
     }
-    //if (InputMask != "" && InputMask != null)
-    //{
-    //    required += ' onkeydown="pcl40_ValidateInputMask(this,"' + InputMask + '")"';
-    //}
+   
+    if (Value == "undefined" || Value == undefined) {
+        Value = ""; 
+    }
     var html = '<div class="QtextData"><label class="lblQData" id="lblQName">' + title + '</label><br>' +
-        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" '+ required+'>' + Value + '</textarea></div>';
+        '<textarea id="txtSmart' + varId + '" maxlength="500" class="qTextInput" style="" placeholder="' + placeHolder + '" ' + required + ' tabindex= "' + tabindex + '" onClick="this.select();" >' + Value + '</textarea></div>';
     return html;
 }
 function pcl40_addCaption(caption) {
@@ -3949,17 +3999,16 @@ function pcl40_addLineSeperator() {
 }
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-        if (IT.Value != null && IT.value != "") {
-            $("#txtSmart" + IT.VariableId).val(IT.Value);
-        } else {
-            $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
-        }
+            if (IT.Value != null && IT.value != "" && IT.value != undefined) {
+                $("#txtSmart" + IT.VariableId).val(IT.Value);
+            } else {
+                if (IT.DefaultValue != null && IT.DefaultValue != "" && IT.DefaultValue != "undefined" && IT.DefaultValue !=undefined)
+                    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+                else 
+                    $("#txtSmart" + IT.VariableId).val("");
+            }
     });
 }
-//function pcl40_ValidateInputMask(e, mask) {
-//    alert(mask);
-//}
-
 function pcl40_applyInputMask(sObjs) {
     $.each(sObjs, function (i, IT) {
         if (IT.ObjectType == 3) {
@@ -3968,4 +4017,30 @@ function pcl40_applyInputMask(sObjs) {
             }
         }
     });
+}
+
+function pcl41_ApplyDimensions(Tpage) {
+    var w = Template.PDFTemplateWidth;
+    var h = Template.PDFTemplateHeight;
+    if (Tpage.Height != null && Tpage.Height != 0) {
+         h = Tpage.Height ;
+    } 
+    if (Tpage.Width != null && Tpage.Width != 0) {
+        w= Tpage.Width ;
+    }
+    
+    h = h / 96 * 72;
+    w = w / 96 * 72;
+    h = h / 2.834645669;
+    w = w / 2.834645669;
+    w = w.toFixed(3);
+    h = h.toFixed(3); 
+    h = h - 10;
+    w = w - 10; 
+    if (item != null && item.ScaleFactor != null && item.ScaleFactor != 0) {
+        w = w * item.ScaleFactor;
+        h = h * item.ScaleFactor;
+    } 
+    //document.getElementById("DivDimentions").innerHTML = "Product Size <br /><br /><br />" + w + " (w) *  " + h + " (h) mm";
+    $(".dimentionsBC").html("Trim size -" + " " + w + " *  " + h + " mm");
 }

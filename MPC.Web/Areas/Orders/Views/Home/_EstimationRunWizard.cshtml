@@ -13,7 +13,7 @@
                 <div class="col-lg-12 col-md-8 col-sm-8">
                     <div class="main-box clearfix">
                         <div class="tabs-wrapper profile-tabs">
-                            <ul class="nav nav-tabs">
+                            <ul class="nav nav-tabs" id="myTab">
                                 <li class="active"><a href="#tab-recomendation" data-toggle="tab">Best Press Recomendation</a></li>
                                 <li><a href="#tab-Sections" data-toggle="tab">Section Cost Centers</a></li>
                             </ul>
@@ -38,7 +38,7 @@
                                                 <label class="control-label tooltip-float">Quantities</label>
                                             </div>
                                             <div class="col-lg-9">
-                                                <!-- ko if:selectedSection()!==undefined -->
+                                                <!-- ko if: $root.selectedSection()!==undefined  -->   @*&& selectedSection()!==undefined*@
                                                 <div class="col-xs-4">
                                                     <input type="text" disabled="disabled" class="form-control" data-bind="value:$root.selectedSection().qty1" id="qty1" />
                                                 </div>
@@ -58,18 +58,16 @@
                                         @*<div class="col-lg-9">*@
                                         <div class="clearfix">
                                             <div class="table-responsive" style="border:groove;border-width:1px;">
-                                                <table class="table-run-wizard table-striped table-hover">
+                                                <table class="table-run-wizard table-hover">
                                                     <thead>
-
                                                         <tr>
-
-                                                            <th style="width:45%; text-align:center"><span>Machine Name</span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:18%"><span>Run Time </span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:21%"><span>Run Time </span></th>
-                                                            <th><span>Cost</span></th>
-                                                            <th style="width:26%"><span>Run Time </span></th>
+                                                            <th class="col-lg-3 "><span>Machine Name</span></th>
+                                                            <th class="col-lg-1"><span>Cost</span></th>
+                                                            <th class="col-lg-2"><span>Run Time </span></th>
+                                                            <th class="col-lg-1"><span>Cost</span></th>
+                                                            <th class="col-lg-2"><span>Run Time </span></th>
+                                                            <th class="col-lg-1"><span>Cost</span></th>
+                                                            <th class="col-lg-2"><span>Run Time </span></th>
                                                             <th style="width:55px;">&nbsp;</th>
                                                         </tr>
                                                     </thead>
@@ -83,6 +81,19 @@
                                         @*</div>*@
                                         @*</div>*@
 
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label">Pre Trim</label>
+                                                <input type="checkbox" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-lg-3 text-right">
+                                                <label class="control-label">Trim</label>
+                                                <input type="checkbox" />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade " id="tab-Sections">
@@ -159,7 +170,6 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-bind="click:$root.clickOnWizardOk">OK</button>
                 </div>
             </div>
@@ -170,10 +180,10 @@
 
 <script id="bestPressItemtemplate" type="text/html">
     <tr data-bind="click:$root.selectBestPressFromWizard, css: { selectedBestPressFromWizard: $root.selectedBestPressFromWizard() === $data }">
-        <td style="width:31%">
+        <td>
             @*<div style="width:87px;">*@
             <div class="col-xs-4" style="width: 66%;">
-                <label class="control-label tooltip-float " data-bind="text:machineName"></label>
+                <label class="control-label text-left" data-bind="text:machineName"></label>
             </div>
         </td>
         <td>

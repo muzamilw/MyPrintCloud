@@ -9,5 +9,8 @@ namespace MPC.Interfaces.Repository
         SystemUser GetSalesManagerById(long SytemUserId);
 
         List<SystemUser> GetSystemUSersByOrganisationID(long OrganisationID);
+        bool Update(System.Guid Id, string Email, string FullName);
+        bool Add(System.Guid Id, string Email, string FullName, int OrganizationId);
+        
     }
 }

@@ -9,6 +9,8 @@ define("dashboard.viewModel",
             viewModel: (function () {
                 var //View
                 view,
+                // orders
+                orders = ko.observableArray([]),
                 // Search filter 
                 searchFilter = ko.observable(),
                 // Pager for pagging
@@ -29,15 +31,20 @@ define("dashboard.viewModel",
                 totalEarning = ko.observable(undefined),
                  // Live Stores
                 liveStoresCount = ko.observable(0),
+                //Order Search String
+                orderSearchString = ko.observable(),
                   // current Month Orders Count
                 currentMonthOrdersCount = ko.observable(0),
-                // Get Orders Statuses
-                getOrderStatusCount = function () {
-                    dataservice.getOrderStauses({},
+                // Get Orders Statuses / dashboard data  getOrderStatusCount
+                getDashboardData = function () {
+                    dataservice.getOrderStauses({
+                        SearchString: orderSearchString()
+                    },
                     {
                         success: function (data) {
                             if (data != null) {
                                 setOrderStatusesCount(data);
+                                mapOrders(data.Estimates);
                             }
                             //load the tour
                             openTourInit();
@@ -48,6 +55,13 @@ define("dashboard.viewModel",
                         }
                     });
                 },
+                // Map Orders 
+                    mapOrders = function (data) {
+                        orders.removeAll();
+                        _.each(data, function (order) {
+                            orders.push(model.Estimate.Create(order));
+                        });
+                    },
                 // Sets Orders Statuses Count
                 setOrderStatusesCount = function(data) {
                     pendingOrdersCount(data.PendingOrdersCount);
@@ -62,7 +76,7 @@ define("dashboard.viewModel",
                 initialize = function (specifiedView) {
                    view = specifiedView;
                    ko.applyBindings(view.viewModel, view.bindingRoot);
-                   getOrderStatusCount();
+                   getDashboardData();
                    //  pager(new pagination.Pagination({ PageSize: 5 }, companyContactsForListView, getCompanyContacts));
                };
                 return {
@@ -73,7 +87,10 @@ define("dashboard.viewModel",
                     canceledOrdersCount: canceledOrdersCount,
                     totalEarning: totalEarning,
                     liveStoresCount: liveStoresCount,
-                    currentMonthOrdersCount: currentMonthOrdersCount
+                    currentMonthOrdersCount: currentMonthOrdersCount,
+                    orderSearchString: orderSearchString,
+                    getDashboardData: getDashboardData,
+                    orders: orders
                 };
             })()
         };

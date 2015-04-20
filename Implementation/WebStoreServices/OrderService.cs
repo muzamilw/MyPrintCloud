@@ -59,7 +59,7 @@ namespace MPC.Implementation.WebStoreServices
                 {
                     if (storeMode ==  StoreMode.Retail) // retail
                     {
-                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId, CompanyId);
                         long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
                         orderID = _OrderRepository.CreateNewOrder(TemporaryRetailCompanyId, TemporaryContactId, OrganisationId, orderTitle);
                     }
@@ -70,7 +70,7 @@ namespace MPC.Implementation.WebStoreServices
                     Company temporaryCompany = _myCompanyService.GetCompanyByCompanyID(TemporaryRetailCompanyId);
                     if (temporaryCompany == null)
                     {
-                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId);
+                        TemporaryRetailCompanyId = CreateTemporaryCustomer(OrganisationId, CompanyId);
                     }
 
                     long TemporaryContactId = _myCompanyContact.GetContactIdByCustomrID(TemporaryRetailCompanyId);
@@ -101,9 +101,9 @@ namespace MPC.Implementation.WebStoreServices
             }
         }
      
-        private long CreateTemporaryCustomer(long OrganisationId)
+        private long CreateTemporaryCustomer(long OrganisationId, long StoreId)
         {
-            return _myCompanyService.CreateCustomer("Web Store Customer", true, false, CompanyTypes.TemporaryCustomer, "", OrganisationId);
+            return _myCompanyService.CreateCustomer("Web Store Customer", true, false, CompanyTypes.TemporaryCustomer, "", OrganisationId, StoreId);
         }
         public long GetUserShopCartOrderID(int status)
         {
@@ -244,11 +244,11 @@ namespace MPC.Implementation.WebStoreServices
         /// </summary>
         /// <param name="orderId"></param>
         /// <returns></returns>
-       public long GetOrderIdByContactId(long contactId, long CompanyId)
+       public long GetOrderIdByContactId(long contactId, long companyId)
        {
            try
            {
-               return _OrderRepository.GetCartOrderId(contactId, CompanyId);
+               return _OrderRepository.GetCartOrderId(contactId, companyId);
            }
            catch (Exception ex)
            {
@@ -396,9 +396,9 @@ namespace MPC.Implementation.WebStoreServices
                 throw ex;
             }
         }
-        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode)
+        public bool UpdateOrderAndCartStatus(long OrderID, OrderStatus orderStatus, StoreMode currentStoreMode, Organisation Org, List<Guid> ManagerIds)
         {
-             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode);
+             return _OrderRepository.UpdateOrderAndCartStatus(OrderID, orderStatus, currentStoreMode, Org, ManagerIds);
         }
         public double UpdateORderGrandTotal(long OrderID)
         {
@@ -499,5 +499,12 @@ namespace MPC.Implementation.WebStoreServices
                 return 0;
             }
         }
+       /// <summary>
+       /// check cookie order is the real login customer order
+       /// </summary>
+       public bool IsRealCustomerOrder(long orderId, long contactId, long companyId)
+       {
+           return _OrderRepository.IsRealCustomerOrder(orderId,contactId,companyId);
+       }
     }
 }

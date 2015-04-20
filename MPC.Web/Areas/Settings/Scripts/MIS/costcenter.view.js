@@ -10,6 +10,20 @@
                 viewModel = specifiedViewModel,
                 // Binding root used with knockout
                 bindingRoot = $("#CostCentersBinding")[0],
+                initializeLabelPopovers = function () {
+                    // ReSharper disable UnknownCssClass
+                    $('.bs-example-tooltips a').popover();
+                    $('.bs-example-tooltips a').click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide'); //all but this
+                    });
+                    $("a").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+                    $("button").click(function () {
+                        $('.bs-example-tooltips a').not(this).popover('hide');
+                    });
+
+                },
                 productCategorySelectedEvent = function (category) {
                     $.event.trigger({
                         type: "ProductCategorySelected",
@@ -20,17 +34,37 @@
                      $("#CostCentreQuestionModal").modal("show");
                   //   initializeLabelPopovers();
                  },
+                  hideCostCentreQuestionDialog = function () {
+                      $("#CostCentreQuestionModal").modal("hide");
+                      
+                  },
+                  showAddEditQuestionMenu = function () {
+                      $(".AddEditQuestion").contextMenu({
+                          menuSelector: "#contextMenu"
+                      });
+                  },
+                   showCostCentreMatrixDialog = function () {
+                       $("#CostCentreMatrixModal").modal("show");
+                       //   initializeLabelPopovers();
+                   },
+                  hideCostCentreMatrixDialog = function () {
+                      $("#CostCentreMatrixModal").modal("hide");
 
-                showAddEditQuestionMenu = function () {
-                    $(".AddEditQuestion").contextMenu({
-                        menuSelector: "#contextMenu"
-                        //menuSelected: function (invokedOn, selectedMenu) {
-                        //    var msg = "You selected the menu item '" + selectedMenu.text() +
-                        //        "' on the value '" + invokedOn.text() + "'";
-                        //    alert(msg);
-                        //}
+                  },
+                showAddEditMatrixMenu = function () {
+                    $(".AddEditMatrix").contextMenu({
+                        menuSelector: "#contextMenuMatrix"
                     });
                 },
+                showCostCentreStockDialog = function () {
+                    $("#CostCentreStockModal").modal("show");
+                    //   initializeLabelPopovers();
+                },
+                  hideCostCentreStockDialog = function () {
+                      $("#CostCentreStockModal").modal("hide");
+
+                  },
+                
                 //// Hide Activity the dialog
                 //hideCostCenterDialog = function () {
                 //    $("#CostCenterDialog").modal("hide");
@@ -47,7 +81,14 @@
                 viewModel: viewModel,
                 productCategorySelectedEvent: productCategorySelectedEvent,
                 showCostCentreQuestionDialog: showCostCentreQuestionDialog,
-                showAddEditQuestionMenu: showAddEditQuestionMenu
+                hideCostCentreQuestionDialog:hideCostCentreQuestionDialog,
+                showAddEditQuestionMenu: showAddEditQuestionMenu,
+                showCostCentreMatrixDialog: showCostCentreMatrixDialog,
+                hideCostCentreMatrixDialog: hideCostCentreMatrixDialog,
+                showAddEditMatrixMenu: showAddEditMatrixMenu,
+                showCostCentreStockDialog: showCostCentreStockDialog,
+                hideCostCentreStockDialog: hideCostCentreStockDialog,
+                initializeLabelPopovers: initializeLabelPopovers
                 //showCostCenterDialog: showCostCenterDialog,
                 //hideCostCenterDialog: hideCostCenterDialog
             };

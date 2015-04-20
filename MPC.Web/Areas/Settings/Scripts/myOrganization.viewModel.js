@@ -257,13 +257,23 @@ define("myOrganization/myOrganization.viewModel",
                     },
                     // Delete a Markup
                     onDeleteMarkup = function (markup) {
-                        filteredMarkups.remove(markup);
-                        _.each(markups(), function (item) {
-                            if ((item.id() === markup.id())) {
-                                markups.remove(item);
+                        if (selectedMyOrganization().markupId() === markup.id()) {
+                            toastr.error("Default Markup cannot be deleted.");
+                        } else {
+                            filteredMarkups.remove(markup);
+                            _.each(markups(), function (item) {
+                                if ((item.id() === markup.id())) {
+                                    markups.remove(item);
+                                }
+                            });
+                            selectedMyOrganization().flagForChanges("Changes occur");
+                            var markupForDelete = _.find(markupsForDropDown(), function (item) {
+                                return item.MarkUpId === markup.id();
+                            });
+                            if (markupForDelete) {
+                                markupsForDropDown.remove(markupForDelete);
                             }
-                        });
-                        selectedMyOrganization().flagForChanges("Changes occur");
+                        }
                     },
                     //Get Organization By Id
                     getMyOrganizationById = function () {
@@ -335,6 +345,9 @@ define("myOrganization/myOrganization.viewModel",
                             selectedMyOrganization().errors.showAllMessages();
                             if (selectedMyOrganization().email.error != null) {
                                 errorList.push({ name: selectedMyOrganization().email.domElement.name, element: selectedMyOrganization().email.domElement });
+                            }
+                            if (selectedMyOrganization().markupId.error != null) {
+                                errorList.push({ name: "Markup", element: selectedMyOrganization().markupId.domElement });
                             }
                             flag = false;
                         }
@@ -441,6 +454,16 @@ define("myOrganization/myOrganization.viewModel",
                                             }
                                         });
                                     });
+
+                                    _.each(data.Markups, function (item) {
+                                        var markupItem = _.find(markupsForDropDown(), function (markupDropDownItem) {
+                                            return markupDropDownItem.MarkUpId === item.MarkUpId;
+                                        });
+                                        if (markupItem === undefined) {
+                                            markupsForDropDown.push(item);
+                                        }
+                                    });
+
 
                                 } else {
                                     selectedMyOrganization(), id(orgId);

@@ -3,6 +3,7 @@
 @using MPC.Models.Common;
 
 <div class="container content_area">
+
     <div id="loginpage" class="white-container-lightgrey-border  rounded_corners">
         <div class="sign_up_page_box NoPadding">
             <div class="col-md-6 col-lg-6 col-sm-12 col-xs-12">
@@ -48,14 +49,12 @@
                             -OR-
                         </div>
                     </div>
-                    <div id="cntOrRight" class="visible-lg visible-md hidden-sm hidden-xs">
-                        -OR-
-                    </div>
+    <div class="clear">
+        &nbsp;
+    </div>
                 }
                 
-                <div class="clear">
-                    &nbsp;
-                </div>
+               
                 <div class="custom_color_heading">
                     @Html.Raw(Html.GetKeyValueFromResourceFile("lblSignIntoComapny", UserCookieManager.WBStoreId)) @ViewBag.CompanyName
                 </div>
@@ -82,24 +81,36 @@
 
                     <div id="divBtnContainer" style="margin-top: 10px;">
                         <div class="divwidth">
-                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId))</a>
+                           &nbsp;
                         </div>
                         <div class="divwidthset">
                             <input id="cmdLogin" type="submit" class="start_creating_btn_Login rounded_corners5" value="Login" onclick="ShowLoader();" /><br />
                         </div>
-                        <div class="clear">
-                            &nbsp;
+                        <br />
+                        <div class="clear divwidthset">
+                            <a class="forgetPassLink" id="lnkForgotPassword" href="/ForgotPassword">@Html.Raw(Html.GetKeyValueFromResourceFile("lnkForgotPassword", UserCookieManager.WBStoreId))</a>
                         </div>
+@if (UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+{
+    <div class="clear divwidthset">
+        <a class="forgetPassLink" id="lnkForgotPassword" href="/SignUp">Sign Up?</a>
+    </div>
+}
+                      
+                     
                     </div>
                     <input type="hidden" name="hfReturnURL" id="hfReturnURL" value="@ViewBag.ReturnURL" />
+    <div class="clear">
+        &nbsp;
+    </div>
                 }
            @if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
            {
             if (ViewBag.AllowRegisteration == 1)
             {
                 <div class="hypNotRegistered">
-                    <label id="lblNotStoreUser" style="color: #a8a8a8;   font-size: 12px;">Not a @ViewBag.CompanyName user?</label>
-                    <a class="forgetPassLink" id="lnkregistration" href="/SignUp">Sign up</a>
+                    <label id="lblNotStoreUser" style="font-size: 12px;">Not a @ViewBag.CompanyName user?</label>
+                    <a class="forgetPassLink" id="lnkregistration" href="/SignUp">Sign up here</a>
                 </div>
             }
 
@@ -110,12 +121,9 @@
         {
             <div class="col-md-6 col-lg-6 col-xs-12 col-sm-12">
                 
-                    <div class="containerRegisternow">
-                        <input type="button" class="SignUpButton rounded_corners5" id="SignUpWithEmail" onclick="location.href='/SignUp'" />
-                    </div>
-                
+                   
                 <div class="divDontHaveAccont rounded_corners5">
-                    <p id="lblRegistering" class="custom_color_heading" style="font-size: 19px !important; margin-bottom: 0px !important;">@Html.Raw(Html.GetKeyValueFromResourceFile("lblRegistering", UserCookieManager.WBStoreId))</p>
+                    @*<p id="lblRegistering" class="custom_color_heading" style="font-size: 19px !important; margin-bottom: 0px !important;">Sign in to:</p>*@
                     <div class="registering_item">
                         <div class="tickImge">
                             &nbsp;

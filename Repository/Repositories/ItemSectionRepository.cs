@@ -3609,7 +3609,7 @@ namespace MPC.Repository.Repositories
 
             //if paper is not supplied and we have to use it ourself then add the prices :)
 
-            if (oItemSection.IsPaperSupplied == false)
+            if (oItemSection.IsPaperSupplied != true)
             {
                 oItemSectionCostCenter.Qty1Charge = OrderSheetPackQuantity[0] * PackPrice;
 
@@ -4643,7 +4643,8 @@ namespace MPC.Repository.Repositories
                 SectionCostcentre presscc = updateSection.SectionCostcentres.Where(c => c.CostCentreId == oPressCostCentre.CostCentreId).FirstOrDefault();
                 if (presscc != null)
                 {
-                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = presscc.Qty1NetTotal ?? 0, Qty1RunTime = presscc.Qty1EstimatedTime, Qty2Cost = presscc.Qty2NetTotal ?? 0, Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = presscc.Qty3NetTotal ?? 0, Qty3RunTime = presscc.Qty3EstimatedTime });
+                    bestpress.Add(new BestPress { MachineID = press.MachineId, MachineName = press.MachineName, Qty1Cost = Math.Round(presscc.Qty1NetTotal ?? 0, 2), Qty1RunTime = Math.Round(presscc.Qty1EstimatedTime, 2), Qty2Cost = Math.Round(presscc.Qty2NetTotal ?? 0, 2), Qty2RunTime = presscc.Qty2EstimatedTime, Qty3Cost = Math.Round(presscc.Qty3NetTotal ?? 0, 2), Qty3RunTime = presscc.Qty3EstimatedTime });
+                    updateSection.SectionCostcentres.ToList().ForEach(a => updateSection.SectionCostcentres.Remove(a));
                 }
             }
             return bestpress.OrderBy(p => p.Qty1Cost).ToList();
@@ -4652,10 +4653,11 @@ namespace MPC.Repository.Repositories
 
         public BestPressResponse GetBestPressResponse(ItemSection section)
         {
+            var uCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList();
             return new BestPressResponse
             {
                 PressList = GetBestPresses(section),
-                UserCostCenters = db.CostCentres.Where(c => c.IsDisabled != 1 && c.SystemTypeId == null && c.Type != 11 && c.Type != 29 && c.Type != 135 && c.OrganisationId == this.OrganisationId).ToList()
+                UserCostCenters = uCostCenters
             };
         }
 
@@ -4711,7 +4713,16 @@ namespace MPC.Repository.Repositories
             {
                 updatedSection = CalculateGuillotineCost(updatedSection, (int)updatedSection.PressId, false, false);
             }
-            
+
+            updatedSection.BaseCharge1 = updatedSection.SectionCostcentres.Sum(a => a.Qty1NetTotal);
+            updatedSection.BaseCharge2 = updatedSection.SectionCostcentres.Sum(a => a.Qty2NetTotal);
+            updatedSection.Basecharge3 = updatedSection.SectionCostcentres.Sum(a => a.Qty3NetTotal);
+            if(updatedSection.SimilarSections > 0)
+            {
+                updatedSection.BaseCharge1 = Math.Round((updatedSection.BaseCharge1??0 * updatedSection.SimilarSections?? 1), 2);
+                updatedSection.BaseCharge2 = Math.Round((updatedSection.BaseCharge2??0 * updatedSection.SimilarSections?? 1), 2);
+                updatedSection.Basecharge3 = Math.Round((updatedSection.Basecharge3??0 * updatedSection.SimilarSections?? 1), 2);
+            }
 
             return updatedSection;
 

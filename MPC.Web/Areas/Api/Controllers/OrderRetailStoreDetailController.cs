@@ -30,14 +30,15 @@ namespace MPC.MIS.Areas.Api.Controllers
 
         #endregion
 
-
+        [CompressFilterAttribute]
         public OrderRetailItemDetail Get([FromUri] int itemId)
         {
             Item item = itemService.GetById(itemId);
             return new OrderRetailItemDetail
             {
                 ItemPriceMatrices = item.ItemPriceMatrices.Select(x => x.CreateFrom()),
-                ItemStockOptions = item.ItemStockOptions.Select(x => x.CreateFrom())
+                ItemStockOptions = item.ItemStockOptions.Select(x => x.CreateFrom()),
+                ItemSection = item.ItemSections.FirstOrDefault().CreateFrom()
             };
         }
     }

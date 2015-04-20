@@ -104,7 +104,8 @@ namespace MPC.Webstore.Controllers
                     }
 
                     ViewBag.hfCategoryId = CategoryID;
-
+                    ViewBag.CategoryName = _IItemService.GetCategoryNameById(CategoryID, 0);
+                    ViewBag.CategoryHRef = "/Category/" + Utils.specialCharactersEncoder(ViewBag.CategoryName) + "/" + CategoryID;
                    // SetPageMEtaTitle(ItemRecord.ProductName, ItemRecord.MetaDescription, ItemRecord.MetaKeywords, ItemRecord.MetaTitle,StoreBaseResopnse);
 
                     string CurrentProductCategoryName = string.Empty;
@@ -208,6 +209,17 @@ namespace MPC.Webstore.Controllers
                     Response.Redirect("/Error");
                     // redirect to error page
                 }
+                if (StoreBaseResopnse.Company.isIncludeVAT == true)
+                {
+                    ViewBag.VATLabel = "inc. " + StoreBaseResopnse.Company.TaxLabel;
+                }
+                else
+                {
+                    ViewBag.VATLabel = "ex. " + StoreBaseResopnse.Company.TaxLabel;
+                    
+
+                }
+                ViewBag.Currency = StoreBaseResopnse.Currency;
                 return View("PartialViews/ProductDetail", ItemRecord);
             }
             catch(Exception ex)
@@ -353,7 +365,7 @@ namespace MPC.Webstore.Controllers
                     TempName = ObjTemp.ProductName;
                     ViewBag.hfTemplateName = Server.UrlEncode(ObjTemp.ProductName);
                     ViewBag.TemplateName = ObjTemp.ProductName;
-                    ViewBag.ratingControlUserSelectedIndex = Convert.ToInt32(ObjTemp.MPCRating.Value);
+                    ViewBag.ratingControlUserSelectedIndex = ObjTemp.MPCRating == null ? 0 : Convert.ToInt32(ObjTemp.MPCRating);
                 }
 
                 ViewBag.txtNoOfPages = count.ToString();
@@ -653,7 +665,7 @@ namespace MPC.Webstore.Controllers
                 //This is required to dynamiacally build header 
                 List<ItemStockOption> Stocks = null;
 
-                Stocks = _vwItemSect_StockItems.OrderBy(o => o.OptionSequence).ToList();
+                Stocks = _IItemService.GetStockList(itemID, UserCookieManager.WBStoreId);// _vwItemSect_StockItems.OrderBy(o => o.OptionSequence).ToList();
                 
                 if (Stocks != null)
                 {
