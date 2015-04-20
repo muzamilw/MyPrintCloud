@@ -1175,6 +1175,27 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 orderId = ko.observable(specifiedOrderId),
                 //Amount
                 amount = ko.observable(specifiedAmount).extend({ number: true }),
+                 // Amount Computed 
+                 amountComputed = ko.computed({
+                     read: function () {
+                         if (amount()) {
+                             var val = parseFloat(amount());
+                             if (!isNaN(val)) {
+                                 var calc = val.toFixed(2);
+                                 amount(calc);
+                                 return calc;
+                             } else {
+                                 return amount();
+                             }
+                         }
+                         else {
+                             return '';
+                         }
+                     },
+                     write: function (value) {
+                         amount(value);
+                     }
+                 }),
                 //Payment Date
                 paymentDate = ko.observable(specifiedPaymentDate ? moment(specifiedPaymentDate).toDate() : undefined),
                 // Payment Method Id
@@ -1241,6 +1262,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 customerId: customerId,
                 orderId: orderId,
                 amount: amount,
+                amountComputed:amountComputed,
                 paymentDate: paymentDate,
                 paymentMethodId: paymentMethodId,
                 paymentMethodName: paymentMethodName,
