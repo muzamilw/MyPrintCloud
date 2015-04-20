@@ -2004,6 +2004,7 @@ define("order/order.viewModel",
                             if (data != null) {
                                 selectedSection().printViewLayoutLandscape(data.LandscapePTV || 0);
                                 selectedSection().printViewLayoutPortrait(data.PortraitPTV || 0);
+                               // selectedSection().printViewLayout = data.LandscapePTV > data.PortraitPTV ? 1 : 0;
                             }
                             isPtvCalculationInProgress(false);
                         },
@@ -2133,13 +2134,10 @@ define("order/order.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 selectedSection(model.ItemSection.Create(data));
-                                hideEstimateRunWizard();
-                                //baseCharge1Total(200);
-                               // baseCharge2Total(300);
-                               // baseCharge3Total(400);
-                                //baseCharge1Total(parseFloat(selectedSection().baseCharge1()));
-                                //baseCharge2Total(parseFloat(selectedSection().baseCharge2()));
-                                //baseCharge3Total(parseFloat(selectedSection().baseCharge3()));
+                                hideEstimateRunWizard();                                
+                                baseCharge1Total(parseFloat(selectedSection().baseCharge1()));
+                                baseCharge2Total(parseFloat(selectedSection().baseCharge2()));
+                                baseCharge3Total(parseFloat(selectedSection().baseCharge3()));
 
                             }
                             isLoadingOrders(false);

@@ -153,6 +153,7 @@ function fu04_1GetItem(DT)
                           }
                       });
              }
+           
              if (item.allowPdfDownload == true) {
                  $(".previewBtnContainer").css("display", "block");
                  $(".PreviewerDownloadPDF").css("display", "block");
@@ -188,7 +189,9 @@ function fu04_TempCbkGen(DT) {
 function fu04_1(DT) {
     if (IsCalledFrom == 2) {
         c4_RS();
-        $(".QuickTxt").css("visibility", "hidden");
+        $(".QuickTxt").css("visibility", "hidden"); 
+        $("#btnGoToLandingPage").css("visibility", "hidden");
+        
         fu04_TempCbkGen(DT);
     } else {
         fu04_1GetItem(DT);
