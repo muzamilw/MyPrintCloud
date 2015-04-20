@@ -135,7 +135,6 @@ namespace MPC.Webstore.Controllers
                 if (ExistingProduct.StatusID == 3 && ExistingProduct.IsOrderedItem == true)
                 {
                     //In Cart - Added to Cart but not ordered/Check out
-                    //(Go Landing Page and Edit/Update)
 
                     string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
                         //
@@ -147,10 +146,12 @@ namespace MPC.Webstore.Controllers
                 else if (ExistingProduct.IsOrderedItem == false)
                 {
                     //In Progress - Template Selected designed and saved template but not added to the cart.
+
                     //(Go Landing Page and Add it to Cart)
 
-
                     string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+
+                   
                        
 
                     Response.Redirect(URL);
