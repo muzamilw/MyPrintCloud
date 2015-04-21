@@ -2305,7 +2305,7 @@ define("order/order.viewModel",
                         });
                     },
                     openReportsOrder = function () {
-                        reportManager.show();
+                        reportManager.show(12);
                     },
                     //#endregion
                     //#region INITIALIZE

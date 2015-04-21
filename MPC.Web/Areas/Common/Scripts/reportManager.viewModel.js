@@ -13,7 +13,7 @@
                     
                     // Show the dialog
                     show = function (CategoryId) {
-
+                        reportcategoriesList.removeAll();
                         if (CategoryId != undefined && CategoryId != null && CategoryId != 0) {
                             dataservice.getreportcategories({
                                 CategoryId: CategoryId,

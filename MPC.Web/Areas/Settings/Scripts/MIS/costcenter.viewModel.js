@@ -799,14 +799,12 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
             //Do Before Save
             doBeforeSave = function () {
                 var flag = true;
-                if (!selectedCostCenter().isValid()) {
-                    selectedCostCenter().errors.showAllMessages();
-                    flag = false;
-                }
+                
                 if (selectedCostCenter().calculationMethodType() == '2') {
                     if (selectedCostCenter().isTimeVariable() == '2') {
                         if (selectedCostCenter().timeQuestionString() == null || selectedCostCenter().timeQuestionString() == undefined || selectedCostCenter().timeQuestionString().length == 0) {
-                            toastr.error("Error: Enter a Valid Question for Number of Hours");
+                            errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().timeQuestionString.domElement });
+                           
                             flag = false;
                         }
                     }
@@ -814,12 +812,15 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 if (selectedCostCenter().calculationMethodType() == '3') {
                     if (selectedCostCenter().isQtyVariable() == '2') {
                         if (selectedCostCenter().quantityQuestionString() == null || selectedCostCenter().quantityQuestionString() == undefined || selectedCostCenter().quantityQuestionString().length == 0) {
-                            toastr.error("Error: Enter a Valid Question for Number of Hours");
+                            errorList.push({ name: "Enter a Valid Question for Number of Hours.", element: selectedCostCenter().quantityQuestionString().domElement });
                             flag = false;
                         }
                     }
                 }
-
+                if (!selectedCostCenter().isValid() || errorList().length > 0) {
+                    selectedCostCenter().errors.showAllMessages();
+                    flag = false;
+                }
                 return flag;
             },
             AddnewChildItem = function (Item) {
@@ -1155,6 +1156,9 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                     selectedCostCenter().strTimeUnParsed(selectedCostCenter().strTimeUnParsed() + icoVal);
                 }
             },
+             gotoElement = function (validation) {
+                 view.gotoElement(validation.element);
+             },
             AddtoInputControl = function () {
                 if (selectedCostCenter().isEditLabourQuote()) {
                     var t = $("#txtQuotedLabourCost").val() + SelectedStockVariable().VariableString().replace(/&quot;/g, '"');
@@ -1190,8 +1194,10 @@ function ($, amplify, ko, dataservice, model, confirmation, pagination, sharedNa
                 deleteCostCenter: deleteCostCenter,
                 onDeleteCostCenter: onDeleteCostCenter,
                 sortOn: sortOn,
+                gotoElement:gotoElement,
                 sortIsAsc: sortIsAsc,
                 pager: pager,
+                errorList:errorList,
                 templateToUse: templateToUse,
                 makeEditable: makeEditable,
                 getCostCenters: getCostCenters,
