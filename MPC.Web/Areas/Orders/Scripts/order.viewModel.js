@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -2244,6 +2244,9 @@ define("order/order.viewModel",
                             }
                         });
                     },
+                    openReportsOrder = function () {
+                        reportManager.show();
+                    },
                     //#endregion
                     //#region INITIALIZE
 
@@ -2448,7 +2451,8 @@ define("order/order.viewModel",
                     onOrderStatusChange: onOrderStatusChange,
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,
                     clickOnJobToProgressWizard: clickOnJobToProgressWizard,
-                    availableInkPalteChange: availableInkPalteChange
+                    availableInkPalteChange: availableInkPalteChange,
+                    openReportsOrder: openReportsOrder
                 };
             })()
         };

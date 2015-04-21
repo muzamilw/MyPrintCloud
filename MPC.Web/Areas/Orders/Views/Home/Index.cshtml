@@ -33,12 +33,12 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 
 @section Scripts{
     
     <script>
-        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view", "common/reportManager.view"]);
 
         $(function () {
             $('#liorderprocessing').addClass('active');

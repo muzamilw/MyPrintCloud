@@ -360,6 +360,7 @@
     <Compile Include="Areas\Api\Controllers\OrdersForCrmController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductCostCenterController.cs" />
     <Compile Include="Areas\Api\Controllers\PTVCalculationController.cs" />
+    <Compile Include="Areas\Api\Controllers\ReportManagerController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionController.cs" />
     <Compile Include="Areas\Api\Controllers\SectionsForPhraseLibraryController.cs" />
     <Compile Include="Areas\Api\Controllers\ProductMachinesController.cs" />
@@ -501,6 +502,7 @@
     <Compile Include="Areas\Api\Models\PTVRequestModel.cs" />
     <Compile Include="Areas\Api\Models\PurchaseListView.cs" />
     <Compile Include="Areas\Api\Models\PurchaseResponseModel.cs" />
+    <Compile Include="Areas\Api\Models\Report.cs" />
     <Compile Include="Areas\Api\Models\ScopeVariable.cs" />
     <Compile Include="Areas\Api\Models\CompanyCostCentre.cs" />
     <Compile Include="Areas\Api\Models\CompanyDomain.cs" />
@@ -796,6 +798,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Common\Scripts\companySelector.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.model.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.view.js" />
+    <Content Include="Areas\Common\Scripts\reportManager.viewModel.js" />
     <Content Include="Areas\Common\Scripts\stockItem.dataservice.js" />
     <Content Include="Areas\Common\Scripts\phraseLibrary.dataservice.js" />
     <Content Include="Areas\Common\Scripts\companySelector.model.js" />
@@ -3211,6 +3217,7 @@
     <Folder Include="Areas\Api\Views\PaperSheetBaseApi\" />
     <Folder Include="Areas\Api\Views\ProductCostCenter\" />
     <Folder Include="Areas\Api\Views\PTVCalculation\" />
+    <Folder Include="Areas\Api\Views\ReportManager\" />
     <Folder Include="Areas\Api\Views\SectionFlags\" />
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
