@@ -605,8 +605,8 @@
             <span data-bind="text: ' '"></span>
             <span data-bind="text: costPrice"></span>
         </td>
-        <td data-bind="dateString: fromDate"></td>
-        <td data-bind="dateString: toDate"></td>
+        <td data-bind="dateString: fromDate, datePattern: 'DD/MM/YYYY'"></td>
+        <td data-bind="dateString: toDate,datePattern: 'DD/MM/YYYY'"></td>
         <td>
             <span class="control-label" data-bind="text:$root.currencySymbol"></span>
             <span data-bind="text: ' '"></span>
@@ -663,8 +663,8 @@
             <span data-bind="text: ' '"></span>
             <span data-bind="text: costPrice"></span>
         </td>
-        <td data-bind="dateString: fromDate"></td>
-        <td data-bind="dateString: toDate"></td>
+        <td data-bind="dateString: fromDate, datePattern: 'DD/MM/YYYY'"></td>
+        <td data-bind="dateString: toDate, datePattern: 'DD/MM/YYYY'"></td>
         <td>
             <span class="control-label" data-bind="text:$root.currencySymbol"></span>
             <span data-bind="text: ' '"></span>
