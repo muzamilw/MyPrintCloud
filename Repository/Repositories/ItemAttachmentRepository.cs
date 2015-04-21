@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using MPC.Models.Common;
 
 namespace MPC.Repository.Repositories
 {
@@ -79,5 +80,65 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public List<ArtWorkAttatchment> GetItemAttactchmentsForRegenerateTemplateAttachments(long itemID, string fileExtionsion, UploadFileTypes uploadedFileType)
+        {
+
+            string uploadFiType = uploadedFileType.ToString();
+            List<ArtWorkAttatchment> itemAttactchments = new List<ArtWorkAttatchment>();
+
+
+
+            var query = from Attachment in db.ItemAttachments
+                        where Attachment.ItemId == itemID &&
+                              string.Compare(Attachment.Type, uploadFiType, true) == 0 &&
+                              string.Compare(Attachment.FileType, fileExtionsion, true) == 0
+                        select new ArtWorkAttatchment()
+                        {
+                            FileName = Attachment.FileName,
+                            FileTitle = Attachment.FileTitle,
+                            FileExtention = Attachment.FileType,
+                            FolderPath = Attachment.FolderPath,
+                        };
+
+            itemAttactchments = query.ToList<ArtWorkAttatchment>();
+
+
+
+            if (itemAttactchments != null && itemAttactchments.Count > 0)
+                itemAttactchments.ForEach(att => att.UploadFileType = uploadedFileType);
+
+
+            return itemAttactchments;
+        }
+
+
+
+        public ItemAttachment PopulueTblItemAttachment(long itemID, long customerID, long? contactId, string fileTitle, string fileName, UploadFileTypes type, string fileExtention, string folderPath)
+        {
+            ItemAttachment attchment = new ItemAttachment
+            {
+                ItemId = itemID,
+                FileTitle = fileTitle,
+                FileType = fileExtention,
+                Type = type.ToString(),
+                FileName = fileName,
+                FolderPath = folderPath,
+                CompanyId = customerID,
+                ContactId = contactId,
+                IsApproved = 1,
+                UploadDate = DateTime.Now,
+                UploadTime = DateTime.Now,
+                isFromCustomer = 1
+
+            };
+
+            return attchment;
+
+        }
+
+
+
+
     }
 }

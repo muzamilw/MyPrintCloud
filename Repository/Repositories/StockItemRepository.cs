@@ -190,7 +190,11 @@ namespace MPC.Repository.Repositories
             var stockItems = db.StockItems.Where(x => x.StockCategory.CategoryId == 2 && x.OrganisationId == OrganisationId).ToList();
             return stockItems;
         }
-
+       
+        public string GetStockName (long StockID)
+        {
+            return db.StockItems.Where(f => f.StockItemId == StockID).Select(i => i.ItemName).FirstOrDefault();
+        }
         #endregion
     }
 }

@@ -22,6 +22,10 @@ namespace MPC.Interfaces.Repository
         List<Machine> GetMachinesByOrganisationID(long OID);
 
         List<LookupMethod> getLookupmethodsbyOrganisationID(long OID);
+
+        string GetInkPlatesSidesByInkID(long InkID);
+
+        string GetMachineByID(int MachineID);
     }
 }
 

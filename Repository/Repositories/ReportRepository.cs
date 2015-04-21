@@ -57,6 +57,46 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public Report GetReportByReportID(long iReportID)
+        {
+            try
+            {
+
+
+                return db.Reports.Where(c => c.ReportId == iReportID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID,long OrderID,long ItemID)
+        {
+            try
+            {
+                return db.usp_JobCardReport(OrganisationId, OrderID, ItemID).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_OrderReport_Result> getOrderReportResult(long OrganisationID, long OrderID)
+        {
+            try
+            {
+                return db.usp_OrderReport(OrganisationId, OrderID).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
        // GetReportsByOrganisationID
     }
 }

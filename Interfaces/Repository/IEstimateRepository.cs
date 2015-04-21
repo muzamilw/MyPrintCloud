@@ -47,5 +47,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="request"></param>
         /// <returns></returns>
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
+
+        Estimate GetEstimateWithCompanyByOrderID(long OrderID);
     }
 }

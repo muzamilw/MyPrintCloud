@@ -7,5 +7,6 @@ namespace MPC.Interfaces.Repository
     /// </summary>
     public interface IPipeLineSourceRepository : IBaseRepository<PipeLineSource,long>
     {
+        string GetSourceNameByID(long ID);
     }
 }

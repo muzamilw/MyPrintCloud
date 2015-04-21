@@ -981,6 +981,9 @@ namespace MPC.Repository.Repositories
                     .ForMember(x => x.SmartFormDetails, opt => opt.Ignore())
                   .ForMember(x => x.Company, opt => opt.Ignore());
 
+                Mapper.CreateMap<TemplateColorStyle, TemplateColorStyle>()
+                   .ForMember(x => x.Company, opt => opt.Ignore())
+                 .ForMember(x => x.Template, opt => opt.Ignore());
 
                 db.Database.CommandTimeout = 1080;
 
@@ -1002,146 +1005,34 @@ namespace MPC.Repository.Repositories
                 {
                     ObjCompany.CmsPages = pages;
                 }
+                //  template color style
+                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
+                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
+                {
+                    ObjCompany.TemplateColorStyles = lstTemplateColorStyle;
+
+                }
+
+
 
                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
 
                 ObjExportOrg.RetailCompany = omappedCompany;
 
-                //  ObjExportOrg.RetailCompany = db.Companies.Where(c => c.CompanyId == CompanyId).FirstOrDefault();
-
-
-
-                //  // set Company Domain
-
-                //  ObjExportOrg.RetailCompanyDomain = db.CompanyDomains.Where(c => c.CompanyId == CompanyId).ToList();
-
-                //  // set cms offers
-
-                //  ObjExportOrg.RetailCmsOffer = db.CmsOffers.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                //  ObjExportOrg.RetailMediaLibrary = db.MediaLibraries.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                //  List<CompanyBannerSet> bannerSets = new List<CompanyBannerSet>();
-                //  bannerSets = db.CompanyBannerSets.Include("CompanyBanners").Where(c => c.CompanyId == CompanyId).ToList();
-
-                //  List<CompanyBanner> Lstbanner = new List<CompanyBanner>();
-                //  // company banners
-                //  if (bannerSets != null)
-                //  {
-                //      List<CompanyBannerSet> CompanyBannerSet = bannerSets;
-                //      ObjExportOrg.RetailCompanyBannerSet = CompanyBannerSet;
-                //      if (CompanyBannerSet != null && CompanyBannerSet.Count > 0)
-                //      {
-                //          foreach (var banner in CompanyBannerSet)
-                //          {
-                //              if (banner.CompanyBanners != null)
-                //              {
-                //                  if (banner.CompanyBanners.Count > 0)
-                //                  {
-                //                      foreach (var bann in banner.CompanyBanners)
-                //                      {
-                //                          Lstbanner.Add(bann);
-                //                      }
-                //                  }
-                //              }
-                //          }
-
-                //      }
-                //      ObjExportOrg.RetailCompanyBanner = Lstbanner.ToList();
-                //  }
-
-                //  //// Secondary Pages
-
-                //  //List<CmsPage> pages = db.CmsPages.Where(c => c.CompanyId == CompanyId).ToList();
-
-                //  //pages.ToList().ForEach(s => s.CmsSkinPageWidgets = null);
-                //  //pages.ToList().ForEach(s => s.PageCategory = null);
-
-                //  //pages.ToList().ForEach(s => s.Company = null);
-
-
-                //  //ObjExportOrg.RetailSecondaryPages = pages;
-
-
-                //  //Rave Reviews
-
-                //  ObjExportOrg.RetailRaveReview = db.RaveReviews.Where(r => r.CompanyId == CompanyId).ToList();
-
-
-
-                //  //  CompanyTerritories
-
-
-                //  ObjExportOrg.RetailCompanyTerritory = db.CompanyTerritories.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                //  //  Addresses
-
-
-                //  ObjExportOrg.RetailAddress = db.Addesses.Where(a => a.CompanyId == CompanyId).ToList();
-
-
-                //  //  contacts
-
-
-                //  ObjExportOrg.RetailCompanyContact = db.CompanyContacts.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-
-                //  List<Campaign> campaigns = db.Campaigns.Where(c => c.CompanyId == CompanyId).ToList();
-                //  campaigns.ToList().ForEach(s => s.Company = null);
-                //  campaigns.ToList().ForEach(s => s.CampaignImages = null);
-
-                //  ObjExportOrg.RetailCampaigns = campaigns;
-
-                //  //   payment gateways
-
-                //  ObjExportOrg.RetailPaymentGateways = db.PaymentGateways.Where(c => c.CompanyId == CompanyId).ToList();
-
-                //  // cms skin page widgets
-
-                //  List<CmsSkinPageWidget> widgets = db.PageWidgets.Where(c => c.CompanyId == CompanyId).ToList();
-
-                //  widgets.ToList().ForEach(w => w.Company = null);
-                //  widgets.ToList().ForEach(w => w.Organisation = null);
-                //  widgets.ToList().ForEach(w => w.Widget = null);
-
-                //  //  company cost centre
-
-                //  ObjExportOrg.RetailCompanyCostCentre = db.CompanyCostCentres.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                //  // company cmyk colors
-                //  ObjExportOrg.RetailCompanyCMYKColor = db.CompanyCmykColors.Where(c => c.CompanyId == CompanyId).ToList();
-
-
-                // List<SmartForm> smartForms = db.SmartForms.Where(c => c.CompanyId == CompanyId).ToList();
-                // ObjExportOrg.RetailSmartForms = smartForms;
-
-
-                //  List<FieldVariable> variables = db.FieldVariables.Where(c => c.CompanyId == CompanyId).ToList();
-                // // variables.ToList().ForEach(s => s.ScopeVariables = null);
-                //  variables.ToList().ForEach(s => s.Company = null);
-                // // variables.ToList().ForEach(s => s.SmartFormDetails = null);
-                ////  variables.ToList().ForEach(s => s.VariableOptions = null);
-
-                //  ObjExportOrg.RetailFieldVariables = variables;
 
 
                 //  template color style
-                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
-                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
-                {
-                    foreach (var tempStyle in lstTemplateColorStyle)
-                    {
-                        TemplateColorStyle.Add(tempStyle);
-                    }
+                //List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
+                //if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
+                //{
+                //    foreach (var tempStyle in lstTemplateColorStyle)
+                //    {
+                //        TemplateColorStyle.Add(tempStyle);
+                //    }
 
-                }
+                //}
 
-                ObjExportOrg.RetailTemplateColorStyle = TemplateColorStyle;
+                //ObjExportOrg.RetailTemplateColorStyle = TemplateColorStyle;
 
                 List<TemplateFont> templateFonts = new List<TemplateFont>();
                 List<TemplateFont> lstTemplateFonts = db.TemplateFonts.Where(c => c.CustomerId == CompanyId).ToList();
@@ -1614,6 +1505,9 @@ namespace MPC.Repository.Repositories
                     .ForMember(x => x.SmartFormDetails, opt => opt.Ignore())
                   .ForMember(x => x.Company, opt => opt.Ignore());
 
+                Mapper.CreateMap<TemplateColorStyle, TemplateColorStyle>()
+             .ForMember(x => x.Template, opt => opt.Ignore())
+             .ForMember(x => x.Company, opt => opt.Ignore());
 
                 db.Database.CommandTimeout = 1080;
 
@@ -1632,6 +1526,12 @@ namespace MPC.Repository.Repositories
                 {
                     ObjCompany.CmsPages = pages;
                 }
+                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
+                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
+                {
+                    ObjCompany.TemplateColorStyles = lstTemplateColorStyle;
+
+                }
 
                 var omappedCompany = Mapper.Map<Company, Company>(ObjCompany);
 
@@ -1639,17 +1539,9 @@ namespace MPC.Repository.Repositories
 
                 
                 //  template color style
-                List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
-                if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
-                {
-                    foreach (var tempStyle in lstTemplateColorStyle)
-                    {
-                        TemplateColorStyle.Add(tempStyle);
-                    }
 
-                }
 
-                ObjExportOrg.TemplateColorStyle = TemplateColorStyle;
+               // ObjExportOrg.TemplateColorStyle = lstTemplateColorStyle;
                 List<TemplateFont> templateFonts = new List<TemplateFont>();
                 List<TemplateFont> lstTemplateFonts = db.TemplateFonts.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateFonts != null && lstTemplateFonts.Count > 0)
@@ -2342,6 +2234,8 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                            if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                                comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
 
                             db.Configuration.LazyLoadingEnabled = false;
                             db.Configuration.ProxyCreationEnabled = false;
@@ -2640,16 +2534,16 @@ namespace MPC.Repository.Repositories
                             //
 
                             status += "items done";
-                            if (objExpRetail.RetailTemplateColorStyle != null && objExpRetail.RetailTemplateColorStyle.Count > 0)
-                            {
-                                foreach (var color in objExpRetail.RetailTemplateColorStyle)
-                                {
-                                    TemplateColorStyle objColor = new TemplateColorStyle();
-                                    objColor.CustomerId = (int)oRetailCID;
-                                    db.TemplateColorStyles.Add(objColor);
-                                }
-                                db.SaveChanges();
-                            }
+                            //if (objExpRetail.RetailTemplateColorStyle != null && objExpRetail.RetailTemplateColorStyle.Count > 0)
+                            //{
+                            //    foreach (var color in objExpRetail.RetailTemplateColorStyle)
+                            //    {
+                            //        TemplateColorStyle objColor = new TemplateColorStyle();
+                            //        objColor.CustomerId = (int)oRetailCID;
+                            //        db.TemplateColorStyles.Add(objColor);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             if (objExpRetail.RetailTemplateFonts != null && objExpRetail.RetailTemplateFonts.Count > 0)
                             {
                                 foreach (var color in objExpRetail.RetailTemplateFonts)
@@ -2716,6 +2610,8 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                            if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                                comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
 
 
                             if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
@@ -3006,16 +2902,16 @@ namespace MPC.Repository.Repositories
                             //
 
 
-                            if (objExpRetailWOP.RetailTemplateColorStyle != null && objExpRetailWOP.RetailTemplateColorStyle.Count > 0)
-                            {
-                                foreach (var color in objExpRetailWOP.RetailTemplateColorStyle)
-                                {
-                                    TemplateColorStyle objColor = new TemplateColorStyle();
-                                    objColor.CustomerId = (int)oRetailCIDWOP;
-                                    db.TemplateColorStyles.Add(objColor);
-                                }
-                                db.SaveChanges();
-                            }
+                            //if (objExpRetailWOP.RetailTemplateColorStyle != null && objExpRetailWOP.RetailTemplateColorStyle.Count > 0)
+                            //{
+                            //    foreach (var color in objExpRetailWOP.RetailTemplateColorStyle)
+                            //    {
+                            //        TemplateColorStyle objColor = new TemplateColorStyle();
+                            //        objColor.CustomerId = (int)oRetailCIDWOP;
+                            //        db.TemplateColorStyles.Add(objColor);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             if (objExpRetailWOP.RetailTemplateFonts != null && objExpRetailWOP.RetailTemplateFonts.Count > 0)
                             {
                                 foreach (var color in objExpRetailWOP.RetailTemplateFonts)
@@ -3077,6 +2973,11 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                            if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                                comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
+                            if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                                comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
+
 
                             if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
                             {
@@ -3378,16 +3279,16 @@ namespace MPC.Repository.Repositories
 
                           
                             //
-                            if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
-                            {
-                                foreach (var color in objExpCorporate.TemplateColorStyle)
-                                {
-                                    TemplateColorStyle objColor = new TemplateColorStyle();
-                                    objColor.CustomerId = (int)oCID;
-                                    db.TemplateColorStyles.Add(objColor);
-                                }
-                                db.SaveChanges();
-                            }
+                            //if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
+                            //{
+                            //    foreach (var color in objExpCorporate.TemplateColorStyle)
+                            //    {
+                            //        TemplateColorStyle objColor = new TemplateColorStyle();
+                            //        objColor.CustomerId = (int)oCID;
+                            //        db.TemplateColorStyles.Add(objColor);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
                             if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
                             {
                                 foreach (var color in objExpCorporate.TemplateFonts)
@@ -3450,6 +3351,8 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
                             if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                                 comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
+                            if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                                comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
 
 
                             if (comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
@@ -3741,16 +3644,16 @@ namespace MPC.Repository.Repositories
                             //// product categories
 
                           
-                            if (objExpCorporateWOP.TemplateColorStyle != null && objExpCorporateWOP.TemplateColorStyle.Count > 0)
-                            {
-                                foreach (var color in objExpCorporateWOP.TemplateColorStyle)
-                                {
-                                    TemplateColorStyle objColor = new TemplateColorStyle();
-                                    objColor.CustomerId = (int)oCIDWOP;
-                                    db.TemplateColorStyles.Add(objColor);
-                                }
-                                db.SaveChanges();
-                            }
+                            //if (objExpCorporateWOP.TemplateColorStyle != null && objExpCorporateWOP.TemplateColorStyle.Count > 0)
+                            //{
+                            //    foreach (var color in objExpCorporateWOP.TemplateColorStyle)
+                            //    {
+                            //        TemplateColorStyle objColor = new TemplateColorStyle();
+                            //        objColor.CustomerId = (int)oCIDWOP;
+                            //        db.TemplateColorStyles.Add(objColor);
+                            //    }
+                            //    db.SaveChanges();
+                            //}
 
                             if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
                             {
@@ -6364,6 +6267,24 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         
+        }
+
+        public Company GetCompanyByCompanyIDforArtwork(long CompanyID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                return db.Companies.Where(c => c.CompanyId == CompanyID).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string GetSupplierNameByID(int CID)
+        {
+          return  db.Companies.Where(c => c.CompanyId == CID).Select(x => x.Name).FirstOrDefault();
         }
     }
 }

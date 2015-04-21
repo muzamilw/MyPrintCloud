@@ -35,5 +35,7 @@ namespace MPC.Interfaces.Repository
         List<StockItem> GetStockItemsByOrganisationID(long OrganisationID);
 
         List<StockItem> GetStockItemOfCategoryInk();
+
+        string GetStockName(long StockID);
     }
 }

@@ -2152,7 +2152,9 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
                                 }
                                 isLoadingOrders(false);
                             },

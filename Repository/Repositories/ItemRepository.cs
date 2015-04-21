@@ -4328,6 +4328,64 @@ namespace MPC.Repository.Repositories
             return parentTemplateId;
         }
 
+
+        public bool UpdateItem(long itemID, long? templateID)
+        {
+            bool result = false;
+            Item tblItemProduct = null;
+
+            try
+            {
+
+                tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+
+                if (tblItemProduct != null)
+                {
+
+                    tblItemProduct.TemplateId = templateID.HasValue && templateID.Value > 0 ? templateID : tblItemProduct.TemplateId;
+
+                    result = db.SaveChanges() > 0 ? true : false;
+                }
+
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
+
+        }
+
+        public List<Item> GetItemsWithAttachmentsByOrderID(long OrderID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                //filter the items which are of type delivery i.e. itemtype = 2
+                return  db.Items.Include("ItemAttachments").Where(i => i.EstimateId == OrderID && (i.ItemType == null || i.ItemType != 2)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+             
+        }
+
+
+        public Item GetItemWithSections(long itemID)
+        {
+            try
+            {
+                return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }
