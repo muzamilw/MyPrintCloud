@@ -1,16 +1,18 @@
-﻿using MPC.Interfaces.MISServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
-namespace MPC.Implementation.WebStoreServices
+namespace MPC.Implementation.MISServices
 {
-    /// <summary>
-    /// Invoice Service
-    /// </summary>
-    public class InvoiceService 
+    public class InvoicesService : IInvoiceService
     {
-        #region Private
+         #region Private
 
         private readonly IInvoiceRepository invoiceRepository;
 
@@ -20,7 +22,7 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoiceService(IInvoiceRepository invoiceRepository)
+        public InvoicesService(IInvoiceRepository invoiceRepository)
         {
             this.invoiceRepository = invoiceRepository;
         }
@@ -29,9 +31,18 @@ namespace MPC.Implementation.WebStoreServices
         /// <summary>
         /// Get Invoices list
         /// </summary>
+        public InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request)
+        {
+            return invoiceRepository.GetInvoicesList(request);
+        }
+
         public InvoiceRequestResponseModel SearchInvoices(GetInvoicesRequestModel request)
         {
             return invoiceRepository.SearchInvoices(request);
+        }
+        public InvoiceBaseResponse GetInvoiceBaseResponse ()
+        {
+            return invoiceRepository.GetInvoiceBaseResponse();
         }
         #endregion
     }

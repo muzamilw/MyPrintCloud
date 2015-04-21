@@ -398,6 +398,7 @@
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
+    <Compile Include="RequestModels\InvoicesRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -434,6 +435,7 @@
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />
