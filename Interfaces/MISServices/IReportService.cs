@@ -5,13 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MPC.Interfaces.Repository
+namespace MPC.Interfaces.MISServices
 {
-    public interface IReportRepository
+    public interface IReportService
     {
-        List<Report> GetReportsByOrganisationID(long OrganisationID);
-
-        List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID);
         List<ReportCategory> GetReportCategories();
         ReportCategory GetReportCategory(long CategoryId);
     }

@@ -95,8 +95,8 @@ define("common/companySelector.viewModel",
                             success: function (data) {
                                 companies.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    companyDialogPager().totalCount(data.TotalCount);
                                     mapCompanies(data.Companies);
+                                    companyDialogPager().totalCount(data.TotalCount);
                                 }
                             },
                             error: function (response) {
