@@ -812,7 +812,7 @@ namespace MPC.Repository.Repositories
                     (contact.LastName.Contains(request.SearchFilter)) ||
                     (contact.Email.Contains(request.SearchFilter))) &&
                     (contact.Company.IsCustomer == 0 || contact.Company.IsCustomer == 1) &&
-                    (contact.isArchived == false || contact.isArchived == null);
+                    (contact.isArchived == false || contact.isArchived == null) && contact.OrganisationId==OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<CompanyContact> companyContacts = request.IsAsc
