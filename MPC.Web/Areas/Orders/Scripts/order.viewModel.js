@@ -556,6 +556,14 @@ define("order/order.viewModel",
                             createNewInventoryProduct(stockItem);
                         }, stockCategory.paper, false);
                     },
+                    // Open Stock Item Dialog For Adding Stock
+                    openStockItemDialogForAddingStock = function () {
+                        isAddProductFromInventory(false);
+                        stockDialog.show(function (stockItem) {
+                            onSaveStockItem(stockItem);
+                        }, stockCategory.paper, false);
+                    },
+                    
                     // Get Paper Size by id
                     getPaperSizeById = function (id) {
                         return paperSizes.find(function (paperSize) {
@@ -1525,7 +1533,6 @@ define("order/order.viewModel",
 
                     },
                     createNewInventoryProduct = function (stockItem) {
-
                         var costCenter = model.costCentre.Create({});
                         selectedCostCentre(costCenter);
 
@@ -1534,11 +1541,15 @@ define("order/order.viewModel",
                         inventoryStockItemToCreate(stockItem);
                         //item.qty1(selectedCostCentre().quantity1());
                         //item.qty1NetTotal(selectedCostCentre().setupCost());
-
-
-
-
-
+                    },
+                    //On Save Stock Item From Item Edit Dialog
+                    onSaveStockItem = function (stockItem) {
+                       
+                        var sectionCostCenter = model.SectionCostCentre.Create({});
+                        sectionCostCenter.name(stockItem.name);
+                        sectionCostCenter.qty1NetTotal(stockItem.price);
+                        sectionCostCenter.costCentreType('139');
+                        selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
                     },
                     onSaveProductInventory = function () {
                         var item = model.Item.Create({});
@@ -2505,6 +2516,7 @@ define("order/order.viewModel",
                     getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
                     getOrdersOnTabChange: getOrdersOnTabChange,
                     openStockItemDialogForAddingProduct: openStockItemDialogForAddingProduct,
+                    openStockItemDialogForAddingStock: openStockItemDialogForAddingStock,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
