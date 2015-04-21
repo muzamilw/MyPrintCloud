@@ -30,6 +30,8 @@ namespace MPC.Interfaces.Repository
         Template CreateTemplate(long productID, long categoryIdv2, double height, double width, long itemId);
 
         double getOrganisationBleedArea(long organisationID);
+
+        void regeneratePDFs(long productID, long OrganisationID, bool printCuttingMargins, bool isMultipageProduct, bool drawBleedArea, double bleedAreaSize);
       
     }
 }

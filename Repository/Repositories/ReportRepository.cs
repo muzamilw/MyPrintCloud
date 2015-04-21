@@ -43,7 +43,43 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public List<ReportCategory> GetReportCategories()
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                List<ReportCategory> list = db.ReportCategories.ToList();
+                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId).ToList();
 
+                //foreach (var item in list)
+                //{
+                //    item.Reports = db.Reports.Where(g=>g.CategoryId==)
+                //}
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ReportCategory GetReportCategory(long CategoryId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                ReportCategory oReportCategory = db.ReportCategories.Where(g => g.CategoryId == CategoryId).SingleOrDefault();
+                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId).ToList();
+
+              
+
+                return oReportCategory;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID)
         {
             try
@@ -51,6 +87,46 @@ namespace MPC.Repository.Repositories
                
 
                 return db.ReportNotes.Where(c => c.OrganisationId == OrganisationID).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Report GetReportByReportID(long iReportID)
+        {
+            try
+            {
+
+
+                return db.Reports.Where(c => c.ReportId == iReportID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID,long OrderID,long ItemID)
+        {
+            try
+            {
+                return db.usp_JobCardReport(OrganisationId, OrderID, ItemID).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<usp_OrderReport_Result> getOrderReportResult(long OrganisationID, long OrderID)
+        {
+            try
+            {
+                return db.usp_OrderReport(OrganisationId, OrderID).ToList();
+
             }
             catch (Exception ex)
             {

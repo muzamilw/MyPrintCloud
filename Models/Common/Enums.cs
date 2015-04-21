@@ -444,4 +444,16 @@ namespace MPC.Models.Common
     {
         UrgentOrder = 54
     }
+
+    public enum ReportType : int
+    {
+        JobCard = 1,
+        Order = 2,
+        Estimate = 3,
+        Invoice = 4,
+        DeliveryNotes = 5,
+        PurchaseOrders = 6,
+        Customer = 7
+
+    }
 }

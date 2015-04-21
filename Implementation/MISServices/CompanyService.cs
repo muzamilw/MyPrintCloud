@@ -4129,7 +4129,7 @@ namespace MPC.Implementation.MISServices
                             {
 
                                 string FilePath = HttpContext.Current.Server.MapPath("~/" + objCost.ThumbnailImageURL);
-                                DPath = "/CostCentres/" + OrganisationID;
+                                DPath = "/CostCentres/" + OrganisationID + "/" + objCost.CostCentreId;
                                 if (File.Exists(FilePath))
                                 {
                                     ZipEntry r = zip.AddFile(FilePath, DPath);
@@ -4140,7 +4140,7 @@ namespace MPC.Implementation.MISServices
                             if (objCost.MainImageURL != null)
                             {
                                 string FilePath = HttpContext.Current.Server.MapPath("~/" + objCost.MainImageURL);
-                                DPath = "/CostCentres/" + OrganisationID;
+                                DPath = "/CostCentres/" + OrganisationID + "/" + objCost.CostCentreId;
                                 if (File.Exists(FilePath))
                                 {
                                     ZipEntry r = zip.AddFile(FilePath, DPath);

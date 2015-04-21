@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -557,6 +557,14 @@ define("order/order.viewModel",
                             createNewInventoryProduct(stockItem);
                         }, stockCategory.paper, false);
                     },
+                    // Open Stock Item Dialog For Adding Stock
+                    openStockItemDialogForAddingStock = function () {
+                        isAddProductFromInventory(false);
+                        stockDialog.show(function (stockItem) {
+                            onSaveStockItem(stockItem);
+                        }, stockCategory.paper, false);
+                    },
+                    
                     // Get Paper Size by id
                     getPaperSizeById = function (id) {
                         return paperSizes.find(function (paperSize) {
@@ -1527,7 +1535,6 @@ define("order/order.viewModel",
 
                     },
                     createNewInventoryProduct = function (stockItem) {
-
                         var costCenter = model.costCentre.Create({});
                         selectedCostCentre(costCenter);
 
@@ -1536,11 +1543,15 @@ define("order/order.viewModel",
                         inventoryStockItemToCreate(stockItem);
                         //item.qty1(selectedCostCentre().quantity1());
                         //item.qty1NetTotal(selectedCostCentre().setupCost());
-
-
-
-
-
+                    },
+                    //On Save Stock Item From Item Edit Dialog
+                    onSaveStockItem = function (stockItem) {
+                       
+                        var sectionCostCenter = model.SectionCostCentre.Create({});
+                        sectionCostCenter.name(stockItem.name);
+                        sectionCostCenter.qty1NetTotal(stockItem.price);
+                        sectionCostCenter.costCentreType('139');
+                        selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
                     },
                     onSaveProductInventory = function () {
                         var item = model.Item.Create({});
@@ -2296,7 +2307,9 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
                                 }
                                 isLoadingOrders(false);
                             },
@@ -2375,6 +2388,9 @@ define("order/order.viewModel",
                                 toastr.error("Failed to load orders" + response);
                             }
                         });
+                    },
+                    openReportsOrder = function () {
+                        reportManager.show(12);
                     },
                     //#endregion
                     //#region INITIALIZE
@@ -2507,6 +2523,7 @@ define("order/order.viewModel",
                     getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
                     getOrdersOnTabChange: getOrdersOnTabChange,
                     openStockItemDialogForAddingProduct: openStockItemDialogForAddingProduct,
+                    openStockItemDialogForAddingStock: openStockItemDialogForAddingStock,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
@@ -2588,7 +2605,8 @@ define("order/order.viewModel",
                     onOrderStatusChange: onOrderStatusChange,
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,
                     clickOnJobToProgressWizard: clickOnJobToProgressWizard,
-                    availableInkPalteChange: availableInkPalteChange
+                    availableInkPalteChange: availableInkPalteChange,
+                    openReportsOrder: openReportsOrder
                 };
             })()
         };

@@ -82,5 +82,18 @@ namespace MPC.Repository.Repositories
             }
             
         }
+        public List<PrePayment> GetPrePaymentsByOrganisatioID(long OrderID)
+       {
+            try
+            {
+                return db.PrePayments.Where(p => p.OrderId == OrderID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+       }
+            
     }
 }

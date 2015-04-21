@@ -156,11 +156,17 @@
             setupCost: setupCost,
             pricePerUnitQuantity: pricePerUnitQuantity,
             minimumCost: minimumCost,
-            perHourPrice: perHourPrice
+            perHourPrice: perHourPrice,
+            timeQuestionString: timeQuestionString,
+            quantityQuestionString: quantityQuestionString
         }),
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;;
         }),
+         showAllErrors = function () {
+             // Show Item Errors
+             errors.showAllMessages();
+         },
         dirtyFlag = new ko.dirtyFlag({
             name: name,
             description: description,
@@ -340,6 +346,7 @@
             isTimeVariable: isTimeVariable,
             //isTimePrompt: isTimePrompt,
             isQtyVariable: isQtyVariable,
+            showAllErrors: showAllErrors
             //isQtyPrompt: isQtyPrompt
         };
         return self;
