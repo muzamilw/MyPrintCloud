@@ -120,6 +120,14 @@ namespace MPC.Repository.Repositories
 
             }
         }
+        public SectionFlag GetSectionFlag(long id)
+        {
+                    
+                    
+             return  db.SectionFlags.Where(a => a.SectionFlagId == id).FirstOrDefault();
+          
+        }
+
 
         #endregion
     }

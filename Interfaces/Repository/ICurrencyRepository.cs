@@ -12,5 +12,7 @@ namespace MPC.Interfaces.Repository
        string GetCurrencyCodeById(long currencyId);
 
        string GetCurrencySymbolById(long currencyId);
+
+       Currency GetCurrencySymbolByOrganisationId(long OrganisationID);
     }
 }

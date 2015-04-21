@@ -11,5 +11,7 @@ namespace MPC.Interfaces.Repository
     public interface IPrePaymentRepository : IBaseRepository<PrePayment, long>
     {
         void CreatePrePayment(PaymentMethods payMethod, long orderID, int? customerID, long payPalResponseID, string transactionID, double amountReceived, StoreMode Mode, string responsecodeNab = "");
+
+        List<PrePayment> GetPrePaymentsByOrganisatioID(long OrderID);
     }
 }
