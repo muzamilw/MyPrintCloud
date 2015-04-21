@@ -307,21 +307,21 @@
 
                                                         <div class="col-lg-8">
                                                             <div class="col-lg-6">
-                                                                <div >
+                                                                <div>
                                                                     <img id="orgImage" src="#" alt="" style="min-height: 200px; width: 250px;" data-bind="attr:{ src: orgnizationImage }," />
                                                                 </div>
                                                             </div>
-                                                            <div class="col-lg-4 text-right">
+                                                            <div class="col-lg-6 text-right" style="margin-top: 82px">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>....</span>
                                                                     <input type="file" class="upload" id="orgLogo" name="file" data-bind=" files: { onLoaded: $root.orgImageLoadedCallback, fileFilter: 'image.*'}" />
                                                                 </div>
                                                             </div>
-                                                            
 
-                                                            
-                                                            <div class="col-md-12">
-                                                                <span class="help-block text-right">Company logo on MIS Dashboard</span>
+
+
+                                                            <div class="col-md-10">
+                                                                <span class="help-block text-center">Company logo on MIS Dashboard</span>
                                                             </div>
                                                             <input type="hidden" id="organizationId" name="organizationId" data-bind="value:id" />
                                                         </div>
@@ -666,12 +666,6 @@
 
     <script src="~/Scripts/jquery.form.js"></script>
     <script>
-        $(document).ready(function () {
-
-            $('.bs-example-tooltips a').popover();
-
-        });
-
         require(["myOrganization/myOrganization.view", "common/confirmation.view"]);
         $(function () {
             $('#lisettings').addClass('active');

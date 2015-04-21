@@ -106,7 +106,8 @@ namespace MPC.Webstore.Controllers
 
                   
                 }
-                return View("PartialViews/SavedDesigns");
+                Response.Redirect("/SavedDesigns");
+                return null;
             }
             catch (Exception ex)
             {
@@ -135,7 +136,6 @@ namespace MPC.Webstore.Controllers
                 if (ExistingProduct.StatusID == 3 && ExistingProduct.IsOrderedItem == true)
                 {
                     //In Cart - Added to Cart but not ordered/Check out
-                    //(Go Landing Page and Edit/Update)
 
                     string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/Modify/" + ExistingProduct.TemplateID;
                         //
@@ -147,10 +147,12 @@ namespace MPC.Webstore.Controllers
                 else if (ExistingProduct.IsOrderedItem == false)
                 {
                     //In Progress - Template Selected designed and saved template but not added to the cart.
+
                     //(Go Landing Page and Add it to Cart)
 
-
                     string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+
+                   
                        
 
                     Response.Redirect(URL);
@@ -182,7 +184,7 @@ namespace MPC.Webstore.Controllers
 
                     Item clonedItem = null;
      
-                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,false,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
+                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,true,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
                     // Code to copy item attachments ..
                     Estimate objOrder = _IOrderService.GetOrderByID(UserCookieManager.WEBOrderId);
@@ -191,7 +193,7 @@ namespace MPC.Webstore.Controllers
 
                     _ItemService.CopyAttachments((int)ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 
-                    string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/SaveOrder/" + ExistingProduct.TemplateID;
+                    string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;
         
                     Response.Redirect(URL);
                     

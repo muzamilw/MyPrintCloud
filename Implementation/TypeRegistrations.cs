@@ -66,7 +66,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICustomerService, CustomerService>();
             unityContainer.RegisterType<IDashboardService, DashboardService>();
             unityContainer.RegisterType<IOrderForCrmService, OrderForCrmService>();
-            unityContainer.RegisterType<IInvoiceService, InvoiceService>();
+            unityContainer.RegisterType<IInvoiceService, MISImplementation.InvoicesService>();
             unityContainer.RegisterType<MISInterfaces.IOrderService, MISImplementation.OrderService>();
             unityContainer.RegisterType<IStatusService, StatusService>();
             unityContainer.RegisterType<ISmartFormService, SmartFormService>();
@@ -84,7 +84,8 @@ namespace MPC.Implementation
             unityContainer.RegisterType<IItemJobStatusService, ItemJobStatusService>();
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
              unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
-              
+             unityContainer.RegisterType<ISystemUserService, SystemUserService>();
+             unityContainer.RegisterType<IReportService, ReportService>();
             
         }
     }

@@ -1907,7 +1907,10 @@ namespace MPC.Repository.Repositories
             Estimate tblOrder = db.Estimates.Where(estm => estm.EstimateId == OrderID).FirstOrDefault();
 
             tblOrder.StatusId = (short)orderStatus;
-
+            if (ManagerIds != null && ManagerIds.Count > 0) 
+            {
+                tblOrder.SalesPersonId = ManagerIds[0];
+            }
             UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode, Org, ManagerIds);
            // UpdateOrderedItems(orderStatus, tblOrder, ItemStatuses.NotProgressedToJob, currentStoreMode); // and Delete the items which are not of part
 

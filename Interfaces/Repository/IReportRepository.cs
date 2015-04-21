@@ -14,6 +14,8 @@ namespace MPC.Interfaces.Repository
         List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID);
 
         Report GetReportByReportID(long iReportID);
+        List<ReportCategory> GetReportCategories();
+        ReportCategory GetReportCategory(long CategoryId);
 
         List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID, long OrderID, long ItemID);
 

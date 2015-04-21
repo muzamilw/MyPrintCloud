@@ -1,4 +1,4 @@
-﻿<div class="row" data-bind="visible: isOrderDetailsVisible() && !isItemDetailVisible()" style="display: none">
+﻿<div class="row" data-bind="visible: isDetailsVisible() && !isItemDetailVisible()" style="display: none">
     <div class="row">
         <div class="col-lg-12 PaddingZero">
             <div class="col-lg-12 PaddingZero">
@@ -10,16 +10,16 @@
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Print Order</a></li>
-                            <li><a href="#">Print Invoice</a></li>
-                            <li><a href="#" data-bind="click: $root.downloadArtwork">Download Artwork</a></li>
+                            <li><a href="#">Print</a></li>
+                            <li><a href="#">Cancel</a></li>
+                            <li><a href="#">Archive</a></li>
+                           
                         </ul>
                     </div>
                 </div>
-                <div data-bind="with: selectedOrder" style="text-align: right; padding-right: 16px">
-                    <button class="btn btn-danger" id="delButton" data-bind="click: $root.deleteOrderButtonHandler">Delete</button>
-                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveOrder, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
-                    <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseOrderEditor">Cancel</button>
+                <div data-bind="with: selectedInvoice" style="text-align: right; padding-right: 16px">                    
+                    <button class="btn btn-primary" id="saveBtn" data-bind="click: $root.onSaveInvoice, css: { 'btn-warning': hasChanges }, enable: hasChanges">Save</button>
+                    <button class="btn btn-default" id="cancelBtn" data-bind="click: $root.onCloseInvoiceEditor">Cancel</button>
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col-lg-12">
-            <div class="row" data-bind="with: selectedOrder">
+            <div class="row" data-bind="with: selectedInvoice">
                 <div class="col-lg-12">
                     <div class="clearfix">
                         <div class="pull-left validationSummaryContainer">
@@ -70,17 +70,13 @@
             <div class="main-box clearfix my-tabsHeader">
                 <div class="tabs-wrapper profile-tabs">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Order Header</a></li>
-                        <li><a href="#tab-schedule" data-toggle="tab">Order Schedule</a></li>
-                        <li><a href="#tab-creditApproval" data-toggle="tab">Credit Approval</a></li>
-                        <li><a href="#tab-prePayments" data-toggle="tab">Pre Payments</a></li>
-                        <li><a href="#tab-delivery" data-toggle="tab">Delivery Schedule</a></li>
+                        <li class="active"><a href="#tab-EstimateHeader" data-toggle="tab">Invoice Detail</a></li>                        
                     </ul>
                     <div class="tab-content">
-                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedOrder">
+                        <div class="tab-pane fade in active" id="tab-EstimateHeader" data-bind="with: selectedInvoice">
                             <div>
                                 <div class="col-lg-12 form-horizontal">
-                                    <h3 class="group-header">Order Detail</h3>
+                                    <h3 class="group-header">Invoice Detail</h3>
                                     @*<center><div class="slider" style="margin-bottom:60px; width:600px"></div></center>*@
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -174,10 +170,10 @@
                                         <div class="form-group">
                                             <div class="col-lg-7 text-right">
                                                 <div class="col-lg-7">
-                                                    <label class="control-label" id="orderType" data-bind="text: isDirectSaleUi"></label>
+                                                    <label class="control-label" id="orderType"></label>
                                                 </div>
                                                 <div class="col-lg-5 text-left">
-                                                    <label class="control-label" style="border:none" id="code" data-bind="text: orderCode"></label>
+                                                    <label class="control-label" style="border:none" id="code"></label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-5">
@@ -197,7 +193,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
+                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select...', value: sectionFlagId"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -209,7 +205,7 @@
                                                 </div>
                                                 <div class="col-lg-5 text-left">
                                                     <ul style="list-style: none; border:none" class="form-control">
-                                                        <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isCreditApproved, 'product-has-nofeature' : !isCreditApproved() }">
+                                                        <li class="product-has-nofeature">
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -221,7 +217,7 @@
                                                 </div>
                                                 <div class="col-lg-5 text-left">
                                                     <ul style="list-style: none; border:none" class="form-control">
-                                                        <li class="product-has-nofeature" data-bind="css: { 'product-has-feature' : isOfficialOrder, 'product-has-nofeature' : !isOfficialOrder() }">
+                                                        <li class="product-has-nofeature" >
                                                         </li>
 
                                                     </ul>
@@ -236,7 +232,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <input type="text" class="form-control" id="orderDate" data-bind="datepicker: orderDate">
+                                                <input type="text" class="form-control" id="orderDate">
                                             </div>
                                         </div>
 
@@ -247,7 +243,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <input type="text" class="form-control" id="datepickerFinishDDate" data-bind="datepicker: finishDeliveryDate">
+                                                <input type="text" class="form-control" id="datepickerFinishDDate">
 
                                             </div>
                                         </div>
@@ -264,7 +260,7 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" ></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -293,8 +289,8 @@
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
-                                                                    <!-- ko template: { name: 'itemTemplate', foreach: items } -->
-                                                                    <!-- /ko -->
+                                                                    @*<!-- ko template: { name: 'itemTemplate', foreach: items } -->
+                                                                    <!-- /ko -->*@
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -347,13 +343,13 @@
                                                                         </td>
 
                                                                         <td class="text-right">
-                                                                            <a class="table-link" data-bind="click: $root.editItem">
+                                                                            <a class="table-link" >
                                                                                 <span class="fa-stack">
                                                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                                                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                                                 </span>
                                                                             </a>
-                                                                            <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
+                                                                            <a href="#" class="table-link danger" >
                                                                                 <span class="fa-stack">
                                                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                                                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -394,22 +390,22 @@
                                 <script id="itemTemplate" type="text/html">
                                     <tr>
                                         <td>
-                                            <a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>
+                                            @*<a href="#" data-bind="text: productName, click: $root.editItem"><span></span></a>*@
                                         </td>
                                         <td>
-                                            <span data-bind="text: qty1"></span>
+                                            @*<span data-bind="text: qty1"></span>*@
                                         </td>
                                         <td>
-                                            <span data-bind="text: '$' + qty1NetTotal()"></span>
+                                            @*<span data-bind="text: '$' + qty1NetTotal()"></span>*@
                                         </td>
                                         <td class="text-right">
-                                            <a href="#" class="table-link" data-bind="click: $root.editItem">
+                                            <a href="#" class="table-link">
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
                                                 </span>
                                             </a>
-                                            <a href="#" class="table-link danger" data-bind="click: $root.deleteItem">
+                                            <a href="#" class="table-link danger">
                                                 <span class="fa-stack">
                                                     <i class="fa fa-square fa-stack-2x"></i>
                                                     <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
@@ -421,32 +417,40 @@
 
                                 </script>
 
-                                @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
+                                @*@Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
                                 @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
                                 @Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")
-                                @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
+                                @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")*@
 
 
 
                             </div>
                         </div>
-                        <div class="tab-pane fade" id="tab-schedule" data-bind="with: selectedOrder">
-                            @*@Html.Partial("_OrderSchedule")*@
-                        </div>
-                        <div class="tab-pane fade" id="tab-creditApproval" data-bind="with: selectedOrder">
-                            @*@Html.Partial("_OrderCreditApproval")*@
-                        </div>
-                        <div class="tab-pane fade" id="tab-prePayments" data-bind="with: selectedOrder">
-                            @*@Html.Partial("_OrderPrePayments")*@
-                        </div>
-                        <div class="tab-pane fade" id="tab-delivery" data-bind="with: selectedOrder">
-                            @*@Html.Partial("_OrderDeliverySchedule")*@
-                        </div>
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
 
+    function addAddress() {
+        var e = document.getElementById("popoveraddress");
+        var p = document.getElementById("addresspullicon");
+
+        if (e.style.display == "none") {
+            p.className = "fa fa-chevron-circle-down drop-icon";
+            e.style.display = "block";
+        }
+        else if (e.style.display == "block") {
+            p.className = "fa fa-chevron-circle-right drop-icon";
+            e.style.display = "none";
+
+        }
+    }
+
+
+
+</script>
 

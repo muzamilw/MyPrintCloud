@@ -484,9 +484,13 @@
                     </div>
         </div>
     </div>
-    <script id="itemOrderTemplate" type="text/html">
-        <tr>
-            <td data-bind="text: companyName"></td>
+        <script id="itemOrderTemplate" type="text/html">
+            <tr>
+
+                <td >  @*data-bind="attr: {href:'/mis/orders/home/'+id }"*@
+                    @*<span class="store-user-link" data-bind="text: companyName"></span>*@
+                    <a class="store-user-link" data-bind="text: companyName, attr: {href:'/mis/orders/home?id='+id() }"></a>
+                </td>
             <td data-bind="text: orderCode"></td>
             <td> <span data-bind="dateString: creationDate, datePattern: 'DD/MM/YYYY'"></span></td>
             <td> <span class="label label-success" data-bind="text: status, style: { background: flagColor }"></span></td>  @*fields mapping required*@

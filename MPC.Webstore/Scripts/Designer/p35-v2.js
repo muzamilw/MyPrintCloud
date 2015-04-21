@@ -334,8 +334,8 @@ $("#LockImgProperties").click(function () {
     var D1AO = canvas.getActiveObject();
     if (thisCheck.is(':checked')) {
         D1AO.IsTextEditable = true;
-        D1AO.IsPositionLocked = true;
-        $("#LockPositionImg").prop('checked', true);
+      //  D1AO.IsPositionLocked = true;
+     //   $("#LockPositionImg").prop('checked', true);
     }
     else {
         D1AO.IsTextEditable = false;
@@ -346,16 +346,7 @@ $("#LockImgProperties").click(function () {
 
 function g1_(D1AO) {
     $("#BtnSearchTxt").removeAttr("disabled");
-    //if (IsCalledFrom == 3) {
-    //    $("#BtnSelectFontsRetail").fontSelector('option', 'font', D1AO.get('fontFamily'));
-    //} else {
-    //    $("#BtnSelectFonts").fontSelector('option', 'font', D1AO.get('fontFamily'));
-    //}
-    //$("#BtnFontSize").val(k13(D1AO.get('fontSize')));
-    //$("#BtnFontSizeRetail").val(k13(D1AO.get('fontSize')));
-    //$("#txtLineHeight").val(D1AO.get('lineHeight'));
-    //$("#inputcharSpacing").val(k13(D1AO.get('charSpacing')));
-    //  $("#txtAreaUpdateTxtPropPanel").val(D1AO.text);
+
     if (D1AO.IsPositionLocked) {
         $("#LockPositionImg").prop('checked', true);
     }
@@ -367,7 +358,7 @@ function g1_(D1AO) {
     }
     else {
         $("#BtnPrintImage").prop('checked', false);
-    } //alert(IsEmbedded + " " +  IT.IsTextEditable);
+    } 
     if (D1AO.IsTextEditable) {
         $("#LockImgProperties").prop('checked', true);
     }
@@ -400,6 +391,30 @@ function g1_(D1AO) {
         $("#inputObjectHeight").spinner("option", "disabled", false);
         $("#inputPositionX").spinner("option", "disabled", false);
         $("#inputPositionY").spinner("option", "disabled", false);
+        $('.inputObjectAlphaSlider').slider('enable');
+        if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom ==4) ) {
+            $("#BtnTxtarrangeOrder1").removeAttr("disabled");
+            $("#BtnTxtarrangeOrder2").removeAttr("disabled");
+            $("#BtnTxtarrangeOrder3").removeAttr("disabled");
+            $("#BtnTxtarrangeOrder4").removeAttr("disabled");
+            $("#AddColorShape").removeAttr("disabled");
+            $("#BtnDeleteTxtObj").removeAttr("disabled");
+            $("#BtnImgRotateLeft").removeAttr("disabled");
+            $("#BtnImgRotateRight").removeAttr("disabled");
+            $(".rotateSlider").removeAttr("disabled");
+            $("#LockPositionImg").removeAttr("disabled");
+            $("#BtnPrintImage").removeAttr("disabled");
+            $("#btnImgCanvasAlignLeft").removeAttr("disabled");
+            $("#BtnImgCanvasAlignCenter").removeAttr("disabled");
+            $("#BtnImgCanvasAlignMiddle").removeAttr("disabled");
+            $("#BtnImgCanvasAlignRight").removeAttr("disabled");
+            $('.inputObjectAlphaSlider').slider('enable');
+            
+            $(".positioningControls").css("display","none");
+
+        } else {
+            $(".positioningControls").css("display", "block");
+        }
     }
     else {
         $("#BtnTxtarrangeOrder1").attr("disabled", "disabled");
@@ -421,21 +436,9 @@ function g1_(D1AO) {
         $("#inputObjectHeight").spinner("option", "disabled", true);
         $("#inputPositionX").spinner("option", "disabled", true);
         $("#inputPositionY").spinner("option", "disabled", true);
-
-        //=============
-
+        $('.inputObjectAlphaSlider').slider('disable');
+        $(".positioningControls").css("display", "block");
     }
-
-    //if ((IsEmbedded && (IsCalledFrom == 4)) || (IsEmbedded && (IsCalledFrom == 3))) {
-    //    $("#LockPositionImg").css("visibility", "hidden");
-    //    $("#lblLockPositionImg").css("visibility", "hidden");
-    //    $("#LockImgProperties").css("visibility", "hidden");
-    //    $("#lblLockImgProperties").css("visibility", "hidden");
-    //    $("#BtnPrintImage").css("display", "none");
-    //    $("#lblBtnPrintImage").css("display", "none");
-    //    $("#objPropertyPanel").css("height", "330px");
-
-    //}
 }
 
 function g1(D1AO) {

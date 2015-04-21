@@ -43,7 +43,43 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+        public List<ReportCategory> GetReportCategories()
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                List<ReportCategory> list = db.ReportCategories.ToList();
+                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId).ToList();
 
+                //foreach (var item in list)
+                //{
+                //    item.Reports = db.Reports.Where(g=>g.CategoryId==)
+                //}
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ReportCategory GetReportCategory(long CategoryId)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                ReportCategory oReportCategory = db.ReportCategories.Where(g => g.CategoryId == CategoryId).SingleOrDefault();
+                List<Report> ReportList = db.Reports.Where(g => g.OrganisationId == OrganisationId).ToList();
+
+              
+
+                return oReportCategory;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public List<ReportNote> GetReportNotesByOrganisationID(long OrganisationID)
         {
             try

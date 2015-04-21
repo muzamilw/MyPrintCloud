@@ -453,12 +453,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 }
 
                 var categories = "";
-                productCategoryItems.each(function(pci, index) {
-                    var pcname = pci.categoryName();
-                    if (index < productCategoryItems().length - 1) {
-                        pcname = pcname + " || ";
+                productCategoryItems.each(function (pci, index) {
+                    if (pci.isSelected()) {
+                        var pcname = pci.categoryName();
+                        if (index < productCategoryItems().length - 1) {
+                            pcname = pcname + " || ";
+                        }
+                        categories += pcname;
                     }
-                    categories += pcname;
                 });
 
                 return categories;
@@ -996,7 +998,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (unselectedCategories.length > 0) {
                         _.each(unselectedCategories, function (productCategory) {
                             var productCategoryItemObj = productCategoryItems.find(function (productCategoryItem) {
-                                return productCategoryItem.categoryId() === productCategory.id && productCategoryItem.isSelected();
+                                return productCategoryItem.categoryId() === productCategory.id;
                             });
 
                             // Exists Already
@@ -1179,6 +1181,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (template().fileSource.error) {
                         var templateFileElement = template().fileSource.domElement;
                         validationSummaryList.push({ name: "Pre-Built Template", element: templateFileElement });
+                    }
+                    if (template().pdfTemplateWidth.error) {
+                        var templatePdfWidthElement = template().pdfTemplateWidth.domElement;
+                        validationSummaryList.push({ name: "Width is required in case of Blank Template", element: templatePdfWidthElement });
+                    }
+                    if (template().pdfTemplateHeight.error) {
+                        var templatePdfHeightElement = template().pdfTemplateHeight.domElement;
+                        validationSummaryList.push({ name: "Height is required in case of Blank Template", element: templatePdfHeightElement });
                     }
                 }
                 // If Print Item and don't has Template Pages for Blank Template
@@ -1843,10 +1853,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // ReSharper restore InconsistentNaming
         var // Unique key
             id = ko.observable(specifiedId),
-            // Pdf Template Width
-            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined),
-            // Pdf Template Height
-            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined),
             // Is Created Manual
             isCreatedManual = ko.observable(specifiedIsCreatedManual !== null && specifiedIsCreatedManual !== undefined ? specifiedIsCreatedManual :
                 (!specifiedId ? true : undefined)),
@@ -1863,6 +1869,22 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     isCreatedManual(value);
                     if (specifiedIsCreatedManual === false) {
                         specifiedIsCreatedManual = value;
+                    }
+                }
+            }),
+            // Pdf Template Width
+            pdfTemplateWidth = ko.observable(specifiedPdfTemplateWidth || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
+                    }
+                }
+            }),
+            // Pdf Template Height
+            pdfTemplateHeight = ko.observable(specifiedPdfTemplateHeight || undefined).extend({
+                required: {
+                    onlyIf: function () {
+                        return isCreatedManual() === true;
                     }
                 }
             }),
@@ -1916,7 +1938,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             },
             // Errors
             errors = ko.validation.group({
-                fileSource: fileSource
+                fileSource: fileSource,
+                pdfTemplateWidth: pdfTemplateWidth,
+                pdfTemplateHeight: pdfTemplateHeight
             }),
             // Is Valid
             isValid = ko.computed(function () {

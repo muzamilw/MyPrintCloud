@@ -5,7 +5,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
     // #region ____________ S T O R E   L I S T    V I E W____________________
 
         // ReSharper disable once InconsistentNaming
-        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary) {
+        StoreListView = function (specifiedCompanyId, specifiedName, specifiedStatus, specifiedImage, specifiedUrl, specifiedIsCustomer, specifiedStoreImageFileBinary, specifiedDefaultDomain) {
             var
                 self,
                 companyId = ko.observable(specifiedCompanyId).extend({ required: true }),
@@ -16,6 +16,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 isCustomer = ko.observable(specifiedIsCustomer),
                 storeImageFileBinary = ko.observable(specifiedStoreImageFileBinary),
                 type = ko.observable(),
+                defaultDomain = ko.observable(specifiedDefaultDomain),
                 // Errors
                 errors = ko.validation.group({
 
@@ -62,6 +63,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
                 url: url,
                 type: type,
                 isCustomer: isCustomer,
+                domain: defaultDomain,
                 storeImageFileBinary: storeImageFileBinary,
                 isValid: isValid,
                 errors: errors,
@@ -79,7 +81,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.status,
             source.image,
             source.url,
-            source.isCustomer
+            source.isCustomer,
+            source.defaultDomain
         );
         return result;
     };
@@ -91,7 +94,8 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             source.Image,
             source.URL,
             source.IsCustomer,
-            source.ImageBytes
+            source.ImageBytes,
+            source.DefaultDomain
         );
 
         //if (source.IsCustomer == 0) {
@@ -4258,7 +4262,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
-            waterMark = ko.observable(specifiedWaterMark),
+            waterMark = ko.observable(specifiedWaterMark).extend({ required: true }),
             defaultValue = ko.observable(specifiedDefaultValue),
             defaultValueForInput = ko.observable(specifiedDefaultValue),
             inputMask = ko.observable(specifiedInputMask),
@@ -4272,7 +4276,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // Errors
             errors = ko.validation.group({
                 variableName: variableName,
-
+                waterMark: waterMark
             }),
             // Is Valid 
             isValid = ko.computed(function () {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -424,13 +425,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         {
             return new SupplierBaseResponse
             {
-                CompanyTypes =source.CompanyTypes!=null ? source.CompanyTypes.Select(ct => ct.CreateFrom()):null,
-                Markups = source.Markups!=null ?source.Markups.Select(m => m.CreateFrom()):null,
-                NominalCodes =source.NominalCodes!=null ?  source.NominalCodes.Select(m => m.CreateFrom()) : null,
-                SystemUsers = source.SystemUsers!=null ?source.SystemUsers.Select(m => m.CreateFrom()):null,
-                Flags = source.Flags!=null ?source.Flags.Select(f => f.CreateFromDropDown()):null,
-                PriceFlags = source.Flags!=null ? source.Flags.Select(pf => pf.CreateFromDropDown()):null,
-                RegistrationQuestions = source.RegistrationQuestions!=null ?source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown()):null
+                CompanyTypes =source.CompanyTypes!=null ? source.CompanyTypes.Select(ct => ct.CreateFrom()):new List<CompanyType>(),
+                Markups = source.Markups != null ? source.Markups.Select(m => m.CreateFrom()) : new List<Markup>(),
+                NominalCodes =source.NominalCodes!=null ?  source.NominalCodes.Select(m => m.CreateFrom()) : new List<ChartOfAccount>(),
+                SystemUsers = source.SystemUsers != null ? source.SystemUsers.Select(m => m.CreateFrom()) : new List<SystemUserDropDown>(),
+                Flags = source.Flags != null ? source.Flags.Select(f => f.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                PriceFlags = source.Flags != null ? source.Flags.Select(pf => pf.CreateFromDropDown()) : new List<SectionFlagDropDown>(),
+                RegistrationQuestions = source.RegistrationQuestions != null ? source.RegistrationQuestions.Select(pf => pf.CreateFromDropDown()) : new List<RegistrationQuestionDropDown>()
             };
         }
 
@@ -545,6 +546,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Name = source.Name,
                 CreationDate = source.CreationDate,
                 URL = source.URL,
+                IsCustomer = source.IsCustomer,
             };
         }
 

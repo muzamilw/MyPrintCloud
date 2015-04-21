@@ -87,8 +87,8 @@ namespace MPC.Repository.Repositories
                     )) &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value) && ((!isStatusSpecified && item.StatusId == request.Status || isStatusSpecified)) &&
                     ((!filterFlagSpecified && item.SectionFlagId == request.FilterFlag || filterFlagSpecified)) &&
-                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) && 
-                    item.OrganisationId == OrganisationId);
+                    ((!orderTypeFilterSpecified && item.isDirectSale == (request.OrderTypeFilter == 0) || orderTypeFilterSpecified)) &&
+                    item.OrganisationId == OrganisationId && item.StatusId != (int)OrderStatus.ShoppingCart);
 
             IEnumerable<Estimate> items = request.IsAsc
                ? DbSet.Where(query)
@@ -225,6 +225,7 @@ namespace MPC.Repository.Repositories
                     (item.Order_Code.Contains(request.SearchString)))
                     &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
+                    item.StatusId != (int)OrderStatus.ShoppingCart &&
                     item.OrganisationId == OrganisationId;
 
             IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()

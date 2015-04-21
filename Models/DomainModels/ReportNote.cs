@@ -17,5 +17,6 @@
         public string BannerAbsolutePath { get; set; }
         public bool? isDefault { get; set; }
         public long OrganisationId { get; set; }
+        public virtual ReportCategory ReportCategory { get; set; }
     }
 }
