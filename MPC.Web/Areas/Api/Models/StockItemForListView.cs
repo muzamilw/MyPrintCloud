@@ -80,7 +80,7 @@ namespace MPC.MIS.Areas.Api.Models
         /// <summary>
         /// Pack Cost Price
         /// </summary>
-        public double PackCostPrice { get; set; }
+        public double? PackCostPrice { get; set; }
 
         /// <summary>
         /// 

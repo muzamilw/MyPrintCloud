@@ -11,6 +11,7 @@ namespace MPC.MIS.Areas.Api.Models
         public long? StoreId { get; set; }
         public string Name { get; set; }
         public string URL { get; set; }
+        public short IsCustomer { get; set; }
         public DateTime? CreationDate { get; set; }
     }
 }
