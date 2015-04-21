@@ -643,7 +643,9 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                     ((!isStringSpecified || s.Name.Contains(request.SearchString)) && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
-                    (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 3 || s.IsCustomer == 4);
+                    s.OrganisationId == OrganisationId && 
+                    (!s.isArchived.HasValue || !s.isArchived.Value) && 
+                    (s.IsCustomer == 3 || s.IsCustomer == 4);
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies = request.IsAsc
@@ -2053,7 +2055,9 @@ namespace MPC.Repository.Repositories
         {
             try
             {
-                return DbSet.Count(company => !company.isArchived.HasValue && company.OrganisationId == OrganisationId);
+                return DbSet.Count(company => (!company.isArchived.HasValue || !company.isArchived.Value) && 
+                    company.OrganisationId == OrganisationId &&
+                    (company.IsCustomer == 3 || company.IsCustomer == 4));
             }
             catch (Exception ex)
             {
