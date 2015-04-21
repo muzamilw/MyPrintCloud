@@ -609,8 +609,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         EstimateId: estimateId(),
                         JobCreationDateTime: jobCreationDateTime() ? moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData();
+                            var section = itemSection.convertToServerData(id() > 0);
                             section.SectionNo = index + 1;
+                            if (!id()) {
+                                section.ItemSectionId = 0;
+                                section.ItemId = 0;
+                            }
                             return section;
                         }),
                         ItemAttachment: itemAttachments()
@@ -895,7 +899,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function () {
+                convertToServerData = function (isNewSection) {
                     return {
                         ItemSectionId: id(),
                         SectionName: name(),
@@ -932,11 +936,18 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Side1Inks: side1Inks(),
                         Side2Inks: side2Inks(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
-                            return scc.convertToServerData();
+                            var sectionCc = scc.convertToServerData();
+                            if (isNewSection) {
+                                sectionCc.ItemSectionId = 0;
+                            }
+                            return sectionCc;
                         }),
                         SectionInkCoverages: sectionInkCoverageList.map(function (sic) {
-                            return sic.convertToServerData();
-
+                            var inkCoverage = sic.convertToServerData();
+                            if (isNewSection) {
+                                inkCoverage.SectionId = 0;
+                            }
+                            return inkCoverage;
                         })
                     };
                 };
@@ -1972,7 +1983,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         ItemAttachment = function (specifiedId, specifiedfileTitle, specifiedcompanyId, specifiedfileName, specifiedfolderPath) {
             // ReSharper restore InconsistentNaming
             var // Unique key
-                id = ko.observable(specifiedId),
+                id = ko.observable(specifiedId || 0),
                 //File Title
                 fileTitle = ko.observable(specifiedfileTitle),
                 //Company Id
@@ -1983,6 +1994,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 folderPath = ko.observable(specifiedfolderPath),
                 // File path when new file is loaded 
                 fileSourcePath = ko.observable(undefined),
+                // Item Id
+                itemId = ko.observable(),
                 // Errors
                 errors = ko.validation.group({
 
@@ -2016,7 +2029,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         FileTitle: fileTitle(),
                         CompanyId: companyId(),
                         FileName: fileName(),
-                        FolderPath: fileSourcePath()
+                        FolderPath: fileSourcePath(),
+                        ItemId: itemId()
                     };
                 };
 
@@ -2027,6 +2041,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 fileName: fileName,
                 folderPath: folderPath,
                 fileSourcePath: fileSourcePath,
+                itemId: itemId,
                 errors: errors,
                 isValid: isValid,
                 dirtyFlag: dirtyFlag,

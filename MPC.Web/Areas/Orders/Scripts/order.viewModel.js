@@ -237,6 +237,7 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
+                        view.setOrderState(4); // Pending Order
                         openOrderEditor();
                     },
                     // Edit Order
@@ -1283,11 +1284,12 @@ define("order/order.viewModel",
                         });
 
                         if (flag) {
-                            var attachment = model.ItemAttachment();
+                            var attachment = model.ItemAttachment.Create({ });
                             attachment.id(undefined);
                             attachment.fileSourcePath(data);
                             attachment.fileName(file.name);
                             attachment.companyId(selectedOrder().companyId());
+                            attachment.itemId(selectedProduct().id());
                             selectedProduct().itemAttachments.push(attachment);
 
                         }
