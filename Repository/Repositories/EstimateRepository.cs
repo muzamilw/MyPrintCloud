@@ -225,6 +225,7 @@ namespace MPC.Repository.Repositories
                     (item.Order_Code.Contains(request.SearchString)))
                     &&
                     (item.isEstimate.HasValue && !item.isEstimate.Value)  &&
+                    item.StatusId != (int)OrderStatus.ShoppingCart &&
                     item.OrganisationId == OrganisationId;
 
             IEnumerable<Estimate> items = DbSet.Where(query).OrderByDescending(x=> x.EstimateId).Take(5).ToList()

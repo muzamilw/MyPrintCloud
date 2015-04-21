@@ -20,9 +20,10 @@ namespace MPC.MIS.Areas.Orders.Controllers
 
         // GET: Orders/Home
         [SiteAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
             ViewBag.CallingMethod = (string) TempData["CallingMethod"] != "" ? TempData["CallingMethod"] : "0";
+            ViewBag.OrderId = id ?? 0;
             return View();
         }
 

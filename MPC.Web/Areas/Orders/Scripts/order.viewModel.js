@@ -273,10 +273,15 @@ define("order/order.viewModel",
                                 itemCodeHeader('');
                                 isSectionDetailVisible(false);
                                 isItemDetailVisible(false);
+                                var orderIdFromDashboard = $('#OrderId').val();
+                                if (orderIdFromDashboard != 0) {
+                                    getOrders();
+                                }
                             });
                             confirmation.show();
                             return;
                         }
+                        
                         closeOrderEditor();
                     },
                     // Close Editor
@@ -1088,7 +1093,7 @@ define("order/order.viewModel",
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
                     },
-                // #endregion
+                    // #endregion
                     // #region ServiceCalls
                     // Get Base Data
                     getBaseData = function () {
@@ -1221,6 +1226,10 @@ define("order/order.viewModel",
                                     navigateCallback();
                                 }
                                 orderCodeHeader('');
+                                var orderIdFromDashboard = $('#OrderId').val();
+                                if (orderIdFromDashboard != 0) {
+                                    getOrders();
+                                }
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -1545,6 +1554,7 @@ define("order/order.viewModel",
                         sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
                         sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
                         sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                        sectionCostCenter.costCentreType('139');
 
                         itemSection.sectionCostCentres.push(sectionCostCenter);
                         item.itemSections.push(itemSection);
@@ -2387,7 +2397,12 @@ define("order/order.viewModel",
                         initializeScreen(specifiedView);
                         pager(new pagination.Pagination({ PageSize: 5 }, orders, getOrders));
                         isEstimateScreen(false);
-                        getOrders();
+                        var orderIdFromDashboard = $('#OrderId').val();
+                        if (orderIdFromDashboard != 0) {
+                            editOrder({ id: function () { return orderIdFromDashboard; }});
+                        } else {
+                            getOrders();
+                        }
                     },
                     //Initialize Estimate
                     initializeEstimate = function (specifiedView) {
