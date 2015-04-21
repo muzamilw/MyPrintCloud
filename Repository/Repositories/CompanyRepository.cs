@@ -2129,6 +2129,7 @@ namespace MPC.Repository.Repositories
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
                          !isStringSpecified) && request.CustomerTypes.Contains(s.IsCustomer) &&
+                        ((s.IsCustomer != 0 && s.IsCustomer != 1) || (s.StoreId.HasValue && s.StoreId.Value > 0)) &&
                         s.OrganisationId == OrganisationId;
 
 
