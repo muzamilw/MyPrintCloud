@@ -85,6 +85,7 @@ namespace MPC.Implementation
             unityContainer.RegisterType<ICostCentreMatrixServices, CostCentreMatrixServices>();
              unityContainer.RegisterType<ICostCentreQuestionService, CostCentreQuestionService>();
              unityContainer.RegisterType<ISystemUserService, SystemUserService>();
+             unityContainer.RegisterType<IReportService, ReportService>();
             
         }
     }

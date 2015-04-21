@@ -1015,6 +1015,8 @@ namespace MPC.Repository.Repositories
                          if (comp.FieldVariables != null && comp.FieldVariables.Count > 0)
                              comp.FieldVariables.ToList().ForEach(c => c.OrganisationId = OrganisationID);
 
+                         if (comp.TemplateColorStyles != null && comp.TemplateColorStyles.Count > 0)
+                             comp.TemplateColorStyles.ToList().ForEach(c => c.ProductId = null);
                          db.Configuration.LazyLoadingEnabled = false;
                          db.Configuration.ProxyCreationEnabled = false;
                          if(comp.CompanyCostCentres != null && comp.CompanyCostCentres.Count > 0)
@@ -1329,16 +1331,16 @@ namespace MPC.Repository.Repositories
                          end = DateTime.Now;
                          timelog += "product category add" + DateTime.Now.ToLongTimeString() + " Total Seconds " + end.Subtract(st).TotalSeconds.ToString() + Environment.NewLine;
                          st = DateTime.Now;
-                         if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
-                         {
-                             foreach(var color in objExpCorporate.TemplateColorStyle)
-                             {
-                                 TemplateColorStyle objColor = new TemplateColorStyle();
-                                 objColor.CustomerId = (int)oCID;
-                                 db.TemplateColorStyles.Add(objColor);
-                             }
-                             db.SaveChanges();
-                         }
+                         //if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
+                         //{
+                         //    foreach(var color in objExpCorporate.TemplateColorStyle)
+                         //    {
+                         //        TemplateColorStyle objColor = new TemplateColorStyle();
+                         //        objColor.CustomerId = (int)oCID;
+                         //        db.TemplateColorStyles.Add(objColor);
+                         //    }
+                         //    db.SaveChanges();
+                         //}
 
                          if (objExpCorporate.TemplateFonts != null && objExpCorporate.TemplateFonts.Count > 0)
                          {
@@ -1699,10 +1701,10 @@ namespace MPC.Repository.Repositories
 
                                      NewThumbnailURL = OldThumbnailURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
 
-                                     DestinationThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL);
+                                     DestinationThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + cos.CostCentreId + "/" + NewThumbnailURL);
                                      DestinationsPath.Add(DestinationThumbPath);
-                                     string SourceThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldThumbnailURL);
-                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
+                                     string SourceThumbPath = HttpContext.Current.Server.MapPath("/MPC_Content/Artworks/ImportOrganisation/CostCentres/" + ImportIDs.OldOrganisationID + "/" + cos.CCIDOption3 + "/" + OldThumbnailURL);
+                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + cos.CostCentreId);
                                      if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
                                      {
                                          Directory.CreateDirectory(DestinationCostCentreDirectory);
@@ -1728,7 +1730,7 @@ namespace MPC.Repository.Repositories
                                          }
 
                                      }
-                                     cos.ThumbnailImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewThumbnailURL;
+                                     cos.ThumbnailImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + cos.CostCentreId + "/" + NewThumbnailURL;
                                  }
 
                                  // copy image URLs
@@ -1746,12 +1748,12 @@ namespace MPC.Repository.Repositories
 
                                      OldMainImageURL = Path.GetFileName(cos.MainImageURL);
                                      NewMainImageURL = OldMainImageURL.Replace(OldCostCentreID + "_", cos.CostCentreId + "_");
-                                     DestinationMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL);
+                                     DestinationMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + cos.CostCentreId + "/" + NewMainImageURL);
                                      DestinationsPath.Add(DestinationMainPath);
 
 
-                                     string SourceMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + OldMainImageURL);
-                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID);
+                                     string SourceMainPath = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.OldOrganisationID + "/" + cos.CCIDOption3 + "/" + OldMainImageURL);
+                                     string DestinationCostCentreDirectory = HttpContext.Current.Server.MapPath("/MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + cos.CostCentreId);
                                      if (!System.IO.Directory.Exists(DestinationCostCentreDirectory))
                                      {
                                          Directory.CreateDirectory(DestinationCostCentreDirectory);
@@ -1777,7 +1779,7 @@ namespace MPC.Repository.Repositories
                                          }
 
                                      }
-                                     cos.MainImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" + NewMainImageURL;
+                                     cos.MainImageURL = "MPC_Content/CostCentres/" + ImportIDs.NewOrganisationID + "/" +  + cos.CostCentreId + "/" +NewMainImageURL;
                                  }
 
 
@@ -4634,6 +4636,20 @@ namespace MPC.Repository.Repositories
                 throw ex;
 
             }
+        }
+
+        public double GetBleedSize(long OrganisationID)
+        {
+            try
+            {
+                return db.Organisations.Where(c => c.OrganisationId == OrganisationID).Select(c => c.BleedAreaSize ?? 0).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+
         }
     }
 }

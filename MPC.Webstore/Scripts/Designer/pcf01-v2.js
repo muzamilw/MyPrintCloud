@@ -2044,12 +2044,38 @@ function h8(FN, FF, FP) {
 
 }
 function h9() {
+  
     WebFontConfig = {
         custom: {
             families: T0FN,
             urls: T0FU
         },
         active: function () {
+            // stop loading and  load page
+        },
+        inactive: function () {
+            alert("error while loading fonts");
+        }
+    };
+    var wf = document.createElement('script');
+    // wf.src = "js/webfont.js"
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+} 
+function h9_newFont() {
+    console.log(T0FN);
+    console.log(T0FU);
+    WebFontConfig = {
+        custom: {
+            families: T0FN,
+            urls: T0FU
+        },
+        active: function () {
+            StopLoader();
             // stop loading and  load page
         },
         inactive: function () {
