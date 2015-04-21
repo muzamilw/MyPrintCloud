@@ -2508,7 +2508,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <!-- ko if: campaignType() === 3 -->
     <tr>
         <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
-        <td data-bind="dateString:startDateTime"></td>
+        <td data-bind="dateString:startDateTime,datePattern: 'DD/MM/YYYY'"></td>
         <!-- ko if: isEnabled -->
         <td class="text-center">
             <span class="label label-success">Active</span>

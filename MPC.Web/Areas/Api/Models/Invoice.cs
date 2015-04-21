@@ -35,7 +35,7 @@ namespace MPC.MIS.Areas.Api.Models
         public Guid? ReportSignedBy { get; set; }
         public string HeadNotes { get; set; }
         public string FootNotes { get; set; }
-       // public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+        public ICollection<InvoiceDetail> InvoiceDetails { get; set; }
 
     }
 }
