@@ -13,5 +13,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Invoices list
         /// </summary>
         InvoiceRequestResponseModel SearchInvoices(GetInvoicesRequestModel request);
+        InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request);
+        InvoiceBaseResponse GetInvoiceBaseResponse();
     }
 }

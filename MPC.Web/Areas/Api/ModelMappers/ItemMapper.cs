@@ -523,6 +523,71 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return item;
         }
 
+        /// <summary>
+        /// Crete From Domain Model
+        /// </summary>
+        public static DomainModels.Item CreateFromForOrder(this OrderItem source)
+        {
+            // ReSharper disable SuggestUseVarKeywordEvident
+            DomainModels.Item item = new DomainModels.Item
+            // ReSharper restore SuggestUseVarKeywordEvident
+            {
+                ItemId = source.ItemId,
+                ItemCode = source.ItemCode,
+                ProductCode = source.ProductCode,
+                ProductName = source.ProductName,
+                JobDescriptionTitle1 = source.JobDescriptionTitle1,
+                JobDescription1 = source.JobDescription1,
+                JobDescriptionTitle2 = source.JobDescriptionTitle2,
+                JobDescription2 = source.JobDescription2,
+                JobDescriptionTitle3 = source.JobDescriptionTitle3,
+                JobDescription3 = source.JobDescription3,
+                JobDescriptionTitle4 = source.JobDescriptionTitle4,
+                JobDescription4 = source.JobDescription4,
+                JobDescriptionTitle5 = source.JobDescriptionTitle5,
+                JobDescription5 = source.JobDescription5,
+                JobDescriptionTitle6 = source.JobDescriptionTitle6,
+                JobDescription6 = source.JobDescription6,
+                JobDescriptionTitle7 = source.JobDescriptionTitle7,
+                JobDescription7 = source.JobDescription7,
+                IsQtyRanged = source.IsQtyRanged,
+                DefaultItemTax = source.DefaultItemTax,
+                Qty1 = source.Qty1,
+                Qty1NetTotal = source.Qty1NetTotal,
+                StatusId = source.StatusId,
+                ItemNotes = source.ItemNotes,
+                JobCode = source.JobCode,
+                JobStatusId = source.JobStatusId,
+                JobManagerId = source.JobManagerId,
+                JobCreationDateTime = source.JobCreationDateTime,
+                JobActualStartDateTime = source.JobActualStartDateTime,
+                JobActualCompletionDateTime = source.JobActualCompletionDateTime,
+                JobProgressedBy = source.JobProgressedBy,
+                JobCardPrintedBy = source.JobCardPrintedBy,
+                InvoiceDescription = source.InvoiceDescription,
+                NominalCodeId = source.NominalCodeId,
+                ItemSections = source.ItemSections != null ? source.ItemSections.Select(pci => pci.CreateFromForOrder()).ToList() :
+                new List<DomainModels.ItemSection>(),
+                Qty1MarkUpId1 = source.Qty1MarkUpId1,
+                Qty2MarkUpId2 = source.Qty2MarkUpId2,
+                Qty3MarkUpId3 = source.Qty3MarkUpId3,
+                Qty2NetTotal = source.Qty2NetTotal,
+                Qty3NetTotal = source.Qty3NetTotal,
+                Qty1Tax1Value = source.Qty1Tax1Value,
+                Qty2Tax1Value = source.Qty2Tax1Value,
+                Qty3Tax1Value = source.Qty3Tax1Value,
+                Qty1GrossTotal = source.Qty1GrossTotal,
+                Qty2GrossTotal = source.Qty2GrossTotal,
+                Qty3GrossTotal = source.Qty3GrossTotal,
+                Tax1 = source.Tax1,
+                ItemType = source.ItemType,
+                EstimateId = source.EstimateId,
+                ItemAttachments = source.ItemAttachments != null ? source.ItemAttachments.Select(attachment => attachment.CreateFrom()).ToList() : null
+            };
+            return item;
+        }
+
+
         public static ItemListView CreateFromForOrderAddProduct(this DomainModels.Item source)
         {
             // ReSharper disable SuggestUseVarKeywordEvident

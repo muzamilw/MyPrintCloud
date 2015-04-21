@@ -337,5 +337,58 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return invDetail;
     };
 
-    
+    InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo) {
+        var
+            self,
+            //Unique ID
+            id = ko.observable(specifiedId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Type
+            type = ko.observable(specifiedType),
+            code = ko.observable(specifiedCode),
+            companyName = ko.observable(specifiedCompanyName),
+            invoiceDate = ko.observable(specifiedInvoiceDate),
+            itemsCount = ko.observable(specifiedItemsCount),
+            flagColor = ko.observable(specifiedFlagColor),
+            invoiceTotal = ko.observable(specifiedInvoiceTotal),
+            isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),            
+                // Number of Items UI
+                noOfItemsUi = ko.computed(function () {
+                    return "( " + itemsCount() + " ) Items";
+                }),
+            convertToServerData = function () {
+                return {
+                    InvoiceId: id(),
+                }
+            };
+        self = {
+            id:id,
+            name: name,
+            type: type,
+            code: code,
+            companyName: companyName,
+            invoiceDate: invoiceDate,
+            itemsCount: itemsCount,
+            flagColor: flagColor,
+            invoiceTotal: invoiceTotal,
+            convertToServerData: convertToServerData,
+            isDirectSale: isDirectSale,
+            noOfItemsUi: noOfItemsUi
+        };
+        return self;
+    };
+
+    InvoicesListView.Create = function (source) {
+        return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.GrandTotal, source.OrderNo);
+    };
+
+    return {
+        
+        Invoice: Invoice,        
+        InvoicesListView: InvoicesListView
+       
+    };
 });

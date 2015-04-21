@@ -39,5 +39,32 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             };
         }
 
+        private static Models.InvoicesListModel CreateForList(this Invoice source)
+        {
+            return new Models.InvoicesListModel
+            {
+                InvoiceId = source.InvoiceId,
+                CompanyName = source.Company != null ? source.Company.Name : "",
+                InvoiceCode = source.InvoiceCode,
+                InvoiceName = source.InvoiceName,
+                InvoiceDate = source.InvoiceDate,
+                GrandTotal = Math.Round((double)source.GrandTotal, 2),
+                StatusId = source.Status != null ? source.Status.StatusId : 0,
+                FlagId = source.FlagID,
+                OrderNo = source.OrderNo,
+                ItemsCount = source.InvoiceDetails != null ? source.InvoiceDetails.Count() : 0
+            };
+        }
+
+        public static InvoiceListResponseModel CreateFromList(this MPC.Models.ResponseModels.InvoiceRequestResponseModel source)
+        {
+            return new  InvoiceListResponseModel
+            {
+                RowCount = source.RowCount,
+                Invoices = source.Invoices.Select(invoice => invoice.CreateForList())
+            };
+            
+        }
+
     }
 }

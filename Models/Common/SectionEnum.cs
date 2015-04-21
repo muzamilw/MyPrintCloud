@@ -30,6 +30,10 @@
         /// <summary>
         /// Order
         /// </summary>
-        Order = 54
+        Order = 54,
+        /// <summary>
+        /// Invoices
+        /// </summary>
+        Invoices = 13
     }
 }

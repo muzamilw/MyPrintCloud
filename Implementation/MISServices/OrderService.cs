@@ -4,6 +4,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
 using MPC.Models.DomainModels;
+using MPC.Models.ModelMappers;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 using System.Web;
@@ -42,6 +43,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPrefixRepository prefixRepository;
         private readonly IPrePaymentRepository prePaymentRepository;
         private readonly IItemAttachmentRepository itemAttachmentRepository;
+        private readonly ISectionCostCentreRepository sectionCostCentreRepository;
         private readonly IInkCoverageGroupRepository inkCoverageGroupRepository;
 
 
@@ -56,6 +58,7 @@ namespace MPC.Implementation.MISServices
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
             itemTarget.Order_Code = orderCode;
             itemTarget.OrganisationId = orderRepository.OrganisationId;
+            itemTarget.isEstimate = false;
             return itemTarget;
         }
 
@@ -98,9 +101,9 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private Item CreateItem()
         {
-            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
             Item itemTarget = itemRepository.Create();
             itemRepository.Add(itemTarget);
+            string itemCode = prefixRepository.GetNextItemCodePrefix(false);
             itemTarget.ItemCode = itemCode;
             itemTarget.OrganisationId = orderRepository.OrganisationId;
             return itemTarget;
@@ -127,9 +130,45 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         /// Delete Item Attachment
         /// </summary>
-        private void DeleteItemAttachment(Item item)
+        private void DeleteItemAttachment(ItemAttachment item)
         {
-            itemRepository.Delete(item);
+            itemAttachmentRepository.Delete(item);
+        }
+
+        /// <summary>
+        /// Creates New Item Section new generated code
+        /// </summary>
+        private ItemSection CreateItemSection()
+        {
+            ItemSection itemTarget = itemsectionRepository.Create();
+            itemsectionRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Item Section
+        /// </summary>
+        private void DeleteItemSection(ItemSection item)
+        {
+            itemsectionRepository.Delete(item);
+        }
+
+        /// <summary>
+        /// Creates New Section Cost Centre
+        /// </summary>
+        private SectionCostcentre CreateSectionCostCentre()
+        {
+            SectionCostcentre itemTarget = sectionCostCentreRepository.Create();
+            sectionCostCentreRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Cost Centre
+        /// </summary>
+        private void DeleteSectionCostCentre(SectionCostcentre item)
+        {
+            sectionCostCentreRepository.Delete(item);
         }
 
         #endregion
@@ -143,7 +182,7 @@ namespace MPC.Implementation.MISServices
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
             ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository, 
-            IItemAttachmentRepository itemAttachmentRepository)
+            IItemAttachmentRepository itemAttachmentRepository, ISectionCostCentreRepository sectionCostCentreRepository)
         {
             if (estimateRepository == null)
             {
@@ -205,12 +244,17 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("itemAttachmentRepository");
             }
+            if (sectionCostCentreRepository == null)
+            {
+                throw new ArgumentNullException("sectionCostCentreRepository");
+            }
 
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
             this.prefixRepository = prefixRepository;
             this.prePaymentRepository = prePaymentRepository;
             this.itemAttachmentRepository = itemAttachmentRepository;
+            this.sectionCostCentreRepository = sectionCostCentreRepository;
             this.sectionFlagRepository = sectionFlagRepository;
             this.companyContactRepository = companyContactRepository;
             this.addressRepository = addressRepository;
@@ -274,8 +318,22 @@ namespace MPC.Implementation.MISServices
             Estimate order = GetById(estimate.EstimateId) ?? CreateNewOrder();
 
             // Update Order
-
+            estimate.UpdateTo(order, new OrderMapperActions
+                                     {
+                                         CreateNewOrder = CreateNewOrder,
+                                         CreatePrePayment = CreateNewPrePayment,
+                                         DeletePrePayment = DeletePrePayment,
+                                         CreateDeliveryNote = CreateNewDeliveryNote,
+                                         CreateItem = CreateItem,
+                                         DeleteItem = DeleteItem,
+                                         CreateItemSection = CreateItemSection,
+                                         CreateSectionCostCentre = CreateSectionCostCentre,
+                                         DeleteSectionCostCenter = DeleteSectionCostCentre,
+                                         CreateItemAttachment = CreateItemAttachment,
+                                         DeleteItemAttachment = DeleteItemAttachment
+                                     });
             // Save Changes
+            estimateRepository.SaveChanges();
 
             // Return 
             return order;

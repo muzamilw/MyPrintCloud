@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -144,8 +143,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OrderReportSignedBy = source.OrderReportSignedBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
-                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : null
-
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
+                new List<DomainModels.Item>(),
             };
         }
 
