@@ -102,7 +102,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                          if (creditLimitForJob()) {
                              var val = parseFloat(creditLimitForJob());
                              if (!isNaN(val)) {
-                                 var calc=val.toFixed(2);
+                                 var calc = (val.toFixed(2));
                                  creditLimitForJob(calc);
                                  return calc;
                              } else {
@@ -407,6 +407,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty1 = ko.observable(specifiedQty1 || 0),
                 // Qty 1 Net Total
                 qty1NetTotal = ko.observable(specifiedQty1NetTotal || 0),
+                 // Qty1 NetTotal Computed 
+                 qty1NetTotalComputed = ko.computed({
+                     read: function () {
+                         if (qty1NetTotal()) {
+                             var val = parseFloat(qty1NetTotal());
+                             if (!isNaN(val)) {
+                                 var calc = (val.toFixed(2));
+                                 qty1NetTotal(calc);
+                                 return calc;
+                             } else {
+                                 qty1NetTotal(0.00);
+                                 return qty1NetTotal();
+                             }
+                         }
+                         else {
+                             return 0.00;
+                         }
+                     },
+                     write: function (value) {
+                         qty1NetTotal(value);
+                     }
+                 }),
                 // Item Notes
                 itemNotes = ko.observable(specifiedItemNotes || undefined),
                 // Job Code
@@ -458,7 +480,51 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty2MarkUpId2 = ko.observable(specifiedQty2MarkUpId2 || undefined),
                 qty3MarkUpId3 = ko.observable(specifiedQty3MarkUpId3 || undefined),
                 qty2NetTotal = ko.observable(specifiedQty2NetTotal || 0),
+                 // Qty2 NetTotal Computed 
+                 qty2NetTotalComputed = ko.computed({
+                     read: function () {
+                         if (qty2NetTotal()) {
+                             var val = parseFloat(qty2NetTotal());
+                             if (!isNaN(val)) {
+                                 var calc = (val.toFixed(2));
+                                 qty2NetTotal(calc);
+                                 return calc;
+                             } else {
+                                 qty2NetTotal(0.00);
+                                 return qty2NetTotal();
+                             }
+                         }
+                         else {
+                             return 0.00;
+                         }
+                     },
+                     write: function (value) {
+                         qty2NetTotal(value);
+                     }
+                 }),
                 qty3NetTotal = ko.observable(specifiedQty3NetTotal || 0),
+                // Qty3 NetTotal Computed 
+                 qty3NetTotalComputed = ko.computed({
+                     read: function () {
+                         if (qty3NetTotal()) {
+                             var val = parseFloat(qty3NetTotal());
+                             if (!isNaN(val)) {
+                                 var calc =( val.toFixed(2));
+                                 qty3NetTotal(calc);
+                                 return calc;
+                             } else {
+                                 qty3NetTotal(0.00);
+                                 return qty3NetTotal();
+                             }
+                         }
+                         else {
+                             return 0.00;
+                         }
+                     },
+                     write: function (value) {
+                         qty3NetTotal(value);
+                     }
+                 }),
                 qty1Tax1Value = ko.observable(specifiedQty1Tax1Value || 0),
                 qty2Tax1Value = ko.observable(specifiedQty2Tax1Value || 0),
                 qty3Tax1Value = ko.observable(specifiedQty3Tax1Value || 0),
@@ -642,6 +708,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 statusId: statusId,
                 statusName: statusName,
                 qty1NetTotal: qty1NetTotal,
+                qty1NetTotalComputed:qty1NetTotalComputed,
                 qty1: qty1,
                 productCategoriesUi: productCategoriesUi,
                 jobCode: jobCode,
@@ -660,6 +727,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty2MarkUpId2: qty2MarkUpId2,
                 qty3MarkUpId3: qty3MarkUpId3,
                 qty2NetTotal: qty2NetTotal,
+                qty2NetTotalComputed: qty2NetTotalComputed,
+                qty3NetTotalComputed:qty3NetTotalComputed,
                 qty3NetTotal: qty3NetTotal,
                 qty1Tax1Value: qty1Tax1Value,
                 qty2Tax1Value: qty2Tax1Value,
@@ -1181,7 +1250,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                          if (amount()) {
                              var val = parseFloat(amount());
                              if (!isNaN(val)) {
-                                 var calc = val.toFixed(2);
+                                 var calc = (val.toFixed(2));
                                  amount(calc);
                                  return calc;
                              } else {

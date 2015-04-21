@@ -100,7 +100,8 @@ namespace MPC.Repository.Repositories
             Expression<Func<StockItem, bool>> query =
                 stockItem =>
                     (string.IsNullOrEmpty(request.SearchString) || (stockItem.ItemName.Contains(request.SearchString)) ||
-                     (stockItem.AlternateName.Contains(request.SearchString))) && (
+                     (stockItem.AlternateName.Contains(request.SearchString)) || (stockItem.StockCategory.Name.Contains(request.SearchString))
+                     || (stockItem.StockSubCategory.Name.Contains(request.SearchString)) || (stockItem.Company.Name.Contains(request.SearchString))) && (
                          (!request.CategoryId.HasValue || request.CategoryId == stockItem.CategoryId)) && stockItem.OrganisationId == OrganisationId ;
 
             IEnumerable<StockItem> stockItems = request.IsAsc
