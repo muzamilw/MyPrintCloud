@@ -681,12 +681,12 @@ namespace MPC.Repository.Repositories
                 int companyType = request.IsCustomer;
                 Expression<Func<Company, bool>> query =
                     s =>
-                    ((!isStringSpecified 
+                    ((!isStringSpecified
                     || s.Name.Contains(request.SearchString)
-                    || (s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1) != null 
-                        &&(
-                            s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).FirstName.Contains(request.SearchString)) 
-                            || s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).Email.Contains(request.SearchString)
+                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null
+                        && (
+                            s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).FirstName.Contains(request.SearchString))
+                            || s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString)
                             )
                        )
                     && (isTypeSpecified && s.TypeId == type || !isTypeSpecified)) &&
@@ -734,9 +734,9 @@ namespace MPC.Repository.Repositories
                 long type = request.CustomerType ?? 0;
                 Expression<Func<Company, bool>> query =
                     s =>
-                    ((!isStringSpecified 
-                    || s.Name.Contains(request.SearchString) 
-                    ||  (s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x=>x.IsDefaultContact == 1).Email.Contains(request.SearchString)))) &&
+                    ((!isStringSpecified
+                    || s.Name.Contains(request.SearchString)
+                    || (s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1) != null && s.CompanyContacts.FirstOrDefault(x => x.IsDefaultContact == 1).Email.Contains(request.SearchString)))) &&
                     (s.OrganisationId == OrganisationId && s.isArchived != true) && (s.IsCustomer == 2);
 
                 int rowCount = DbSet.Count(query);
@@ -1637,7 +1637,7 @@ namespace MPC.Repository.Repositories
 
                 ObjExportOrg.Company = omappedCompany;
 
-                
+
                 //  template color style
                 List<TemplateColorStyle> lstTemplateColorStyle = db.TemplateColorStyles.Where(c => c.CustomerId == CompanyId).ToList();
                 if (lstTemplateColorStyle != null && lstTemplateColorStyle.Count > 0)
@@ -2128,8 +2128,9 @@ namespace MPC.Repository.Repositories
                 Expression<Func<Company, bool>> query =
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                         !isStringSpecified) && s.IsCustomer == request.IsCustomerType && s.OrganisationId == OrganisationId &&
-                         (!request.ForOrder || (s.StoreId.HasValue && s.StoreId.Value > 0));
+                         !isStringSpecified) && request.CustomerTypes.Contains(s.IsCustomer) &&
+                        s.OrganisationId == OrganisationId;
+
 
                 int rowCount = DbSet.Count(query);
                 IEnumerable<Company> companies =
@@ -2202,7 +2203,7 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
-        public bool InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP, ExportOrganisation objExpRetailWOP, string StoreName, ExportSets Sets, string SubDomain,string status)
+        public bool InsertStore(long OID, ExportOrganisation objExpCorporate, ExportOrganisation objExpRetail, ExportOrganisation objExpCorporateWOP, ExportOrganisation objExpRetailWOP, string StoreName, ExportSets Sets, string SubDomain, string status)
         {
             try
             {
@@ -2316,7 +2317,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                
+
                             }
 
 
@@ -2326,7 +2327,7 @@ namespace MPC.Repository.Repositories
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
                             {
                                 comp.CompanyBannerSets.ToList().ForEach(c => c.OrganisationId = OrganisationID);
-                               // comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
+                                // comp.ActiveBannerSetId = comp.CompanyBannerSets.Select(c => c.CompanySetId).FirstOrDefault();
                             }
                             if (comp.RaveReviews != null && comp.RaveReviews.Count > 0)
                                 comp.RaveReviews.ToList().ForEach(c => c.OrganisationId = OrganisationID);
@@ -2349,7 +2350,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var ccc in comp.CompanyCostCentres)
                                 {
-                                    if(CostCentres != null && CostCentres.Count > 0)
+                                    if (CostCentres != null && CostCentres.Count > 0)
                                     {
                                         long id = CostCentres.Where(c => c.OrganisationId == OrganisationID && c.CCIDOption3 == ccc.CostCentreId).Select(c => c.CostCentreId).FirstOrDefault();
 
@@ -2364,8 +2365,8 @@ namespace MPC.Repository.Repositories
 
                                         }
                                     }
-                                   
-                                  
+
+
                                 }
                             }
 
@@ -2393,7 +2394,7 @@ namespace MPC.Repository.Repositories
                             long OldCatIds = 0;
                             long TerritoryId = 0;
                             // product categories
-                            
+
                             if (comp != null)
                             {
                                 if (comp.CompanyTerritories != null)
@@ -2493,7 +2494,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-                                  
+
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCID;
 
@@ -2508,7 +2509,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         item.SmartFormId = 0;
                                     }
-                               
+
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -2636,7 +2637,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
 
                             }
-                          
+
                             //
 
                             status += "items done";
@@ -2690,7 +2691,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                                
+
                             }
 
 
@@ -2859,7 +2860,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-                                  
+
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oRetailCIDWOP;
                                     if (comp != null)
@@ -2873,7 +2874,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         item.SmartFormId = 0;
                                     }
-                               
+
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -3002,7 +3003,7 @@ namespace MPC.Repository.Repositories
                                 db.SaveChanges();
 
                             }
-                           
+
                             //
 
 
@@ -3055,7 +3056,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                               
+
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
@@ -3218,7 +3219,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-                                 
+
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCID;
                                     if (comp != null)
@@ -3232,7 +3233,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         item.SmartFormId = 0;
                                     }
-                               
+
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -3376,7 +3377,7 @@ namespace MPC.Repository.Repositories
                             //    db.SaveChanges();
                             //}
 
-                          
+
                             //
                             if (objExpCorporate.TemplateColorStyle != null && objExpCorporate.TemplateColorStyle.Count > 0)
                             {
@@ -3409,7 +3410,7 @@ namespace MPC.Repository.Repositories
                             comp.OrganisationId = OrganisationID;
                             comp.Name = objExpCorporateWOP.Company.Name + "- Copy";
                             comp.IsDisabled = 0;
-                           comp.PriceFlagId = FlagID;
+                            comp.PriceFlagId = FlagID;
                             comp.CompanyDomains = null;
                             comp.CompanyContacts.ToList().ForEach(c => c.Address = null);
                             comp.CompanyContacts.ToList().ForEach(c => c.CompanyTerritory = null);
@@ -3428,7 +3429,7 @@ namespace MPC.Repository.Repositories
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.CmsPage = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Company = null);
                                 comp.CmsSkinPageWidgets.ToList().ForEach(x => x.Organisation = null);
-                              
+
                             }
 
                             if (comp.CompanyBannerSets != null && comp.CompanyBannerSets.Count > 0)
@@ -3595,7 +3596,7 @@ namespace MPC.Repository.Repositories
                             {
                                 foreach (var item in items)
                                 {
-                                   
+
                                     item.OrganisationId = OrganisationID;
                                     item.CompanyId = oCIDWOP;
                                     if (comp != null)
@@ -3609,7 +3610,7 @@ namespace MPC.Repository.Repositories
                                     {
                                         item.SmartFormId = 0;
                                     }
-                               
+
                                     if (item.ItemSections != null && item.ItemSections.Count > 0)
                                     {
                                         foreach (var itm in item.ItemSections)
@@ -3740,7 +3741,7 @@ namespace MPC.Repository.Repositories
 
                             //// product categories
 
-                          
+
                             if (objExpCorporateWOP.TemplateColorStyle != null && objExpCorporateWOP.TemplateColorStyle.Count > 0)
                             {
                                 foreach (var color in objExpCorporateWOP.TemplateColorStyle)
@@ -3818,7 +3819,7 @@ namespace MPC.Repository.Repositories
                     }
                     catch (Exception ex)
                     {
-                       // return status += "error";
+                        // return status += "error";
 
                         dbContextTransaction.Rollback();
 
@@ -3831,7 +3832,7 @@ namespace MPC.Repository.Repositories
                             }
                         }
 
-                       
+
                         throw ex;
                     }
                 }
@@ -4885,7 +4886,7 @@ namespace MPC.Repository.Repositories
 
         //}
 
-        public string CopyCompanyFiles(long oCID, List<string> DestinationsPath, long oldOrgID, long NewOrgID, long OldCompanyID,string status)
+        public string CopyCompanyFiles(long oCID, List<string> DestinationsPath, long oldOrgID, long NewOrgID, long OldCompanyID, string status)
         {
             try
             {
@@ -5074,7 +5075,7 @@ namespace MPC.Repository.Repositories
                                 if (media.MediaId > 0)
                                     NewMediaID = Convert.ToString(media.MediaId);
 
-                                
+
 
                                 dictionaryMediaIds.Add(OldMediaID, NewMediaID);
 
@@ -5134,7 +5135,7 @@ namespace MPC.Repository.Repositories
                                         string name = Path.GetFileName(bann.ImageURL);
                                         string[] SplitMain = name.Split('_');
                                         status += "loop start";
-                                        if(SplitMain != null)
+                                        if (SplitMain != null)
                                         {
                                             if (SplitMain[0] != string.Empty)
                                             {
@@ -5147,12 +5148,12 @@ namespace MPC.Repository.Repositories
                                         if (dictionaryMediaIds != null && dictionaryMediaIds.Count > 0)
                                         {
                                             var dec = dictionaryMediaIds.Where(s => s.Key == OldMediaID).Select(s => s.Value).FirstOrDefault();
-                                            if(dec != null)
+                                            if (dec != null)
                                             {
                                                 newMediaID = dec.ToString();
                                             }
                                         }
-                                            
+
 
                                         string NewBannerPath = name.Replace(OldMediaID + "_", newMediaID + "_");
 
@@ -5756,7 +5757,7 @@ namespace MPC.Repository.Repositories
                                 {
                                     if (item.Template != null)
                                     {
-                                        
+
                                         // template background images
                                         if (item.Template.TemplateBackgroundImages != null && item.Template.TemplateBackgroundImages.Count > 0)
                                         {
@@ -5954,157 +5955,157 @@ namespace MPC.Repository.Repositories
                     {
                         foreach (var fonts in templatefonts)
                         {
-                             string DestinationFontDirectory = string.Empty;
+                            string DestinationFontDirectory = string.Empty;
                             string companyoid = string.Empty;
-                                                string FontSourcePath = string.Empty;
-                                                string FontSourcePath1 = string.Empty;
-                                                string FontSourcePath2 = string.Empty;
-                                                string NewFilePath = string.Empty;
-                                                if (!string.IsNullOrEmpty(fonts.FontPath))
-                                                {
+                            string FontSourcePath = string.Empty;
+                            string FontSourcePath1 = string.Empty;
+                            string FontSourcePath2 = string.Empty;
+                            string NewFilePath = string.Empty;
+                            if (!string.IsNullOrEmpty(fonts.FontPath))
+                            {
 
-                                                    string NewPath = "Organisation" + NewOrgID + "/WebFonts/" + fonts.CustomerId;
-                                                  
+                                string NewPath = "Organisation" + NewOrgID + "/WebFonts/" + fonts.CustomerId;
 
-                                                    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".eot");
 
-                                                    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".ttf");
+                                DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".eot");
 
-                                                    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".woff");
+                                DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".ttf");
 
-                                                    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
+                                DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath + fonts.FontFile + ".woff");
 
-                                                    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
+                                DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/" + NewPath);
 
-                                                    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
+                                FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".eot");
 
-                                                    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
+                                FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".ttf");
 
-                                                    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                    {
-                                                        Directory.CreateDirectory(DestinationFontDirectory);
-                                                        if (Directory.Exists(DestinationFontDirectory))
-                                                        {
-                                                            if (File.Exists(FontSourcePath))
-                                                            {
-                                                                if (!File.Exists(DestinationFont1))
-                                                                    File.Copy(FontSourcePath, DestinationFont1);
-                                                            }
+                                FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontPath + fonts.FontFile + ".woff");
 
-                                                            if (File.Exists(FontSourcePath1))
-                                                            {
-                                                                if (!File.Exists(DestinationFont2))
-                                                                    File.Copy(FontSourcePath1, DestinationFont2);
+                                if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                                {
+                                    Directory.CreateDirectory(DestinationFontDirectory);
+                                    if (Directory.Exists(DestinationFontDirectory))
+                                    {
+                                        if (File.Exists(FontSourcePath))
+                                        {
+                                            if (!File.Exists(DestinationFont1))
+                                                File.Copy(FontSourcePath, DestinationFont1);
+                                        }
 
-                                                            }
+                                        if (File.Exists(FontSourcePath1))
+                                        {
+                                            if (!File.Exists(DestinationFont2))
+                                                File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                            if (File.Exists(FontSourcePath2))
-                                                            {
-                                                                if (!File.Exists(DestinationFont3))
-                                                                    File.Copy(FontSourcePath2, DestinationFont3);
+                                        }
 
-                                                            }
+                                        if (File.Exists(FontSourcePath2))
+                                        {
+                                            if (!File.Exists(DestinationFont3))
+                                                File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                        }
+                                        }
 
-                                                    }
-                                                    else
-                                                    {
-                                                        if (File.Exists(FontSourcePath))
-                                                        {
-                                                            if (!File.Exists(DestinationFont1))
-                                                                File.Copy(FontSourcePath, DestinationFont1);
-                                                        }
+                                    }
 
-                                                        if (File.Exists(FontSourcePath1))
-                                                        {
-                                                            if (!File.Exists(DestinationFont2))
-                                                                File.Copy(FontSourcePath1, DestinationFont2);
+                                }
+                                else
+                                {
+                                    if (File.Exists(FontSourcePath))
+                                    {
+                                        if (!File.Exists(DestinationFont1))
+                                            File.Copy(FontSourcePath, DestinationFont1);
+                                    }
 
-                                                        }
+                                    if (File.Exists(FontSourcePath1))
+                                    {
+                                        if (!File.Exists(DestinationFont2))
+                                            File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                        if (File.Exists(FontSourcePath2))
-                                                        {
-                                                            if (!File.Exists(DestinationFont3))
-                                                                File.Copy(FontSourcePath2, DestinationFont3);
+                                    }
 
-                                                        }
+                                    if (File.Exists(FontSourcePath2))
+                                    {
+                                        if (!File.Exists(DestinationFont3))
+                                            File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                    }
-                                                     fonts.FontPath = NewPath;
-                                                }
-                                                //else
-                                                //{
-                                                //    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
-                                                //    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
-                                                //    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+                                    }
 
-                                                //    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts");
+                                }
+                                fonts.FontPath = NewPath;
+                            }
+                            //else
+                            //{
+                            //    DestinationFont1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+                            //    DestinationFont2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                            //    DestinationFont3 = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
 
-                                                //    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
+                            //    DestinationFontDirectory = HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + NewOrgID + "/WebFonts");
 
-                                                //    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
+                            //    FontSourcePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".eot");
 
-                                                //    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
+                            //    FontSourcePath1 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".ttf");
 
-                                                //    if (!System.IO.Directory.Exists(DestinationFontDirectory))
-                                                //    {
-                                                //        Directory.CreateDirectory(DestinationFontDirectory);
-                                                //        if (Directory.Exists(DestinationFontDirectory))
-                                                //        {
-                                                //            if (File.Exists(FontSourcePath))
-                                                //            {
-                                                //                if (!File.Exists(DestinationFont1))
-                                                //                    File.Copy(FontSourcePath, DestinationFont1);
-                                                //            }
+                            //    FontSourcePath2 = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/ImportStore/Designer/" + oldOrgID + "/WebFonts/" + fonts.FontFile + ".woff");
 
-                                                //            if (File.Exists(FontSourcePath1))
-                                                //            {
-                                                //                if (!File.Exists(DestinationFont2))
-                                                //                    File.Copy(FontSourcePath1, DestinationFont2);
+                            //    if (!System.IO.Directory.Exists(DestinationFontDirectory))
+                            //    {
+                            //        Directory.CreateDirectory(DestinationFontDirectory);
+                            //        if (Directory.Exists(DestinationFontDirectory))
+                            //        {
+                            //            if (File.Exists(FontSourcePath))
+                            //            {
+                            //                if (!File.Exists(DestinationFont1))
+                            //                    File.Copy(FontSourcePath, DestinationFont1);
+                            //            }
 
-                                                //            }
+                            //            if (File.Exists(FontSourcePath1))
+                            //            {
+                            //                if (!File.Exists(DestinationFont2))
+                            //                    File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                //            if (File.Exists(FontSourcePath2))
-                                                //            {
-                                                //                if (!File.Exists(DestinationFont3))
-                                                //                    File.Copy(FontSourcePath2, DestinationFont3);
+                            //            }
 
-                                                //            }
+                            //            if (File.Exists(FontSourcePath2))
+                            //            {
+                            //                if (!File.Exists(DestinationFont3))
+                            //                    File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                //        }
+                            //            }
 
-                                                //    }
-                                                //    else
-                                                //    {
-                                                //        if (File.Exists(FontSourcePath))
-                                                //        {
-                                                //            if (!File.Exists(DestinationFont1))
-                                                //                File.Copy(FontSourcePath, DestinationFont1);
-                                                //        }
+                            //        }
 
-                                                //        if (File.Exists(FontSourcePath1))
-                                                //        {
-                                                //            if (!File.Exists(DestinationFont2))
-                                                //                File.Copy(FontSourcePath1, DestinationFont2);
+                            //    }
+                            //    else
+                            //    {
+                            //        if (File.Exists(FontSourcePath))
+                            //        {
+                            //            if (!File.Exists(DestinationFont1))
+                            //                File.Copy(FontSourcePath, DestinationFont1);
+                            //        }
 
-                                                //        }
+                            //        if (File.Exists(FontSourcePath1))
+                            //        {
+                            //            if (!File.Exists(DestinationFont2))
+                            //                File.Copy(FontSourcePath1, DestinationFont2);
 
-                                                //        if (File.Exists(FontSourcePath2))
-                                                //        {
-                                                //            if (!File.Exists(DestinationFont3))
-                                                //                File.Copy(FontSourcePath2, DestinationFont3);
+                            //        }
 
-                                                //        }
+                            //        if (File.Exists(FontSourcePath2))
+                            //        {
+                            //            if (!File.Exists(DestinationFont3))
+                            //                File.Copy(FontSourcePath2, DestinationFont3);
 
-                                                //    }
+                            //        }
 
-                                                //}
+                            //    }
 
-                                                DestinationsPath.Add(DestinationFont1);
-                                                DestinationsPath.Add(DestinationFont2);
-                                                DestinationsPath.Add(DestinationFont3);
-                                            
+                            //}
+
+                            DestinationsPath.Add(DestinationFont1);
+                            DestinationsPath.Add(DestinationFont2);
+                            DestinationsPath.Add(DestinationFont3);
+
 
 
                         }
@@ -6215,6 +6216,10 @@ namespace MPC.Repository.Repositories
 
         public double? GetTaxRateByStoreId(long storeId)
         {
+            if (storeId == 0)
+            {
+                return null;
+            }
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
             return company != null ? company.TaxRate : null;
         }
@@ -6345,7 +6350,7 @@ namespace MPC.Repository.Repositories
                 List<Company> suppliersList = new List<Company>();
                 if (ObjCompany != null && ObjCompany.Count > 0)
                 {
-                    foreach(var comp in ObjCompany)
+                    foreach (var comp in ObjCompany)
                     {
                         var omappedCompany = Mapper.Map<Company, Company>(comp);
                         suppliersList.Add(omappedCompany);
@@ -6363,7 +6368,7 @@ namespace MPC.Repository.Repositories
             {
                 throw ex;
             }
-        
+
         }
     }
 }
