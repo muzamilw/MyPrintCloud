@@ -228,7 +228,7 @@
                                                 <label for="datepickerDate" class="control-label text-right tooltip-float">Account Opened</label>
                                             </div>
                                             <div class="col-lg-6">
-                                                <label class="control-label" data-bind="dateString: accountOpenDate, datePattern: 'DD/MM/YYYY HH:mm'"></label>
+                                                <label class="control-label" data-bind="dateString: accountOpenDate, datePattern: 'DD/MM/YYYY'"></label>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -873,7 +873,7 @@
             <td><span data-bind="style: { 'background-color':flagColor }" class=" label label-success"></span>x</td>
             <td>
                 <b><span data-bind="text:companyName"></span></b> <br />
-                <span data-bind="dateString:invoiceDate"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
+                <span data-bind="dateString:invoiceDate, datePattern: 'DD/MM/YYYY'"></span> &emsp; &emsp;&emsp; &emsp;&emsp;  <span data-bind="text:invoiceName"></span>(<span data-bind="text:invoiceCode"></span>)
             </td>
             <td>
                 <span data-bind="text:status"></span><br />
