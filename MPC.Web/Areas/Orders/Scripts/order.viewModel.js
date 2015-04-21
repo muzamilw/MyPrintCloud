@@ -2307,13 +2307,13 @@ define("order/order.viewModel",
                         }, {
                             success: function (data) {
                                 if (data != null) {
-<<<<<<< HEAD
-                                    
-=======
                                     var host = window.location.host;
                                     var uri = encodeURI("http://" + host + data);
                                     window.open(uri, "_blank");
->>>>>>> c14217ea24d3c5287fd6ec95f9e66951ac93b9bf
+                                    var host = window.location.host;
+                                    var uri = encodeURI("http://" + host + data);
+                                    window.open(uri, "_blank");
+
                                 }
                                 isLoadingOrders(false);
                             },
