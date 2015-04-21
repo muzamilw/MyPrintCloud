@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Http;
 using MPC.WebBase.Mvc;
+using MPC.Interfaces.Data;
 
 namespace MPC.MIS.Areas.Api.Controllers
 {
@@ -44,6 +45,19 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
             return invoiceService.SearchInvoices(request).CreateFrom();
+        }
+
+        [ApiException]
+        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
+        [CompressFilterAttribute]
+        public Invoice Get(long id)
+        {
+            if (id <= 0)
+            {
+                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
+            }
+
+            return invoiceService.GetInvoiceById(id).CreateFrom();
         }
         #endregion
     }

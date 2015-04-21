@@ -7,6 +7,7 @@ using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
+using MPC.Models.DomainModels;
 
 namespace MPC.Implementation.MISServices
 {
@@ -43,6 +44,11 @@ namespace MPC.Implementation.MISServices
         public InvoiceBaseResponse GetInvoiceBaseResponse ()
         {
             return invoiceRepository.GetInvoiceBaseResponse();
+        }
+
+        public Invoice GetInvoiceById(long Id)
+        {
+            return invoiceRepository.GetInvoiceById(Id);
         }
         #endregion
     }

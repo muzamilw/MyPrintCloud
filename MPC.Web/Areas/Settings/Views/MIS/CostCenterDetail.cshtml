@@ -218,10 +218,10 @@
                                                         </div>
                                                         <label class="control-label text-right tooltip-float">Thumbnail</label>
                                                     </div>
-                                                    <div class="col-md-5">
-                                                        <div class="main-box-body clearfix">
-                                                            <img width="150" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
-                                                            <img width="150" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                    <div class="col-md-6">
+                                                        <div class="clearfix">
+                                                            <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                            <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
                                                             <div class="pull-right">
                                                                 <div class="fileUpload btn btn-primary">
                                                                     <span>....</span>
