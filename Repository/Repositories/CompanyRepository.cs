@@ -2058,6 +2058,7 @@ namespace MPC.Repository.Repositories
                 return DbSet.Count(company => (!company.isArchived.HasValue || !company.isArchived.Value) && 
                     company.OrganisationId == OrganisationId &&
                     (company.IsCustomer == 3 || company.IsCustomer == 4));
+
             }
             catch (Exception ex)
             {
