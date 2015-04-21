@@ -99,10 +99,10 @@ define("order/order.viewModel",
                         { name: "Direct  Order", value: "0" },
                         { name: "Online Order", value: "1" }
                     ]),
-                    flagItem = function (state) {
+                    flagItem = function(state) {
                         return "<div style=\"height:20px;margin-right:10px;width:25px;float:left;background-color:" + $(state.element).data("color") + "\"></div><div>" + state.text + "</div>";
                     },
-                    flagSelection = function (state) {
+                    flagSelection = function(state) {
                         return "<span style=\"height:20px;width:25px;float:left;margin-right:10px;margin-top:5px;background-color:" + $(state.element).data("color") + "\"></span><span>" + state.text + "</span>";
                     },
                     orderTypeFilter = ko.observable(),
@@ -157,7 +157,7 @@ define("order/order.viewModel",
                     // Active Order
                     selectedOrder = ko.observable(model.Estimate.Create({})),
                     // Page Header 
-                    pageHeader = ko.computed(function () {
+                    pageHeader = ko.computed(function() {
                         return selectedOrder() && selectedOrder().name() ? selectedOrder().name() : 'Orders';
                     }),
                     // Sort On
@@ -174,13 +174,15 @@ define("order/order.viewModel",
                     defaultAddress = ko.observable(model.Address.Create({})),
                     // Default Company Contact
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
+                    //Inventory Stock Item To Create
+                    inventoryStockItemToCreate = ko.observable(),
                     // Selected Address
-                    selectedAddress = ko.computed(function () {
+                    selectedAddress = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
                             return defaultAddress();
                         }
 
-                        var addressResult = companyAddresses.find(function (address) {
+                        var addressResult = companyAddresses.find(function(address) {
                             return address.id === selectedOrder().addressId();
                         });
 
@@ -188,12 +190,12 @@ define("order/order.viewModel",
                     }),
 
                     // Selected Company Contact
-                    selectedCompanyContact = ko.computed(function () {
+                    selectedCompanyContact = ko.computed(function() {
                         if (!selectedOrder() || !selectedOrder().contactId() || companyContacts().length === 0) {
                             return defaultCompanyContact();
                         }
 
-                        var contactResult = companyContacts.find(function (contact) {
+                        var contactResult = companyContacts.find(function(contact) {
                             return contact.id === selectedOrder().contactId();
                         });
 
@@ -203,12 +205,12 @@ define("order/order.viewModel",
                     selectedSection = ko.observable(),
                     sectionInkCoverage = ko.observableArray([]),
                     // Available Ink Plate Sides
-                    availableInkPlateSides = ko.computed(function () {
+                    availableInkPlateSides = ko.computed(function() {
                         if (!selectedSection() || (selectedSection().isDoubleSided() === null || selectedSection().isDoubleSided() === undefined)) {
                             return inkPlateSides();
                         }
 
-                        return inkPlateSides.filter(function (inkPlateSide) {
+                        return inkPlateSides.filter(function(inkPlateSide) {
                             return inkPlateSide.isDoubleSided === selectedSection().isDoubleSided();
                         });
                     }),
@@ -226,6 +228,9 @@ define("order/order.viewModel",
                     selectedStockItem = ko.observable(),
                     //Is Cost Center dialog open for shipping
                     isCostCenterDialogForShipping = ko.observable(false),
+                    //Is Inventory Dialog is opening from Order Dialog's add Product From Inventory
+                    isAddProductFromInventory = ko.observable(false),
+                   
                     // #endregion
 
                     // #region Utility Functions
@@ -537,6 +542,13 @@ define("order/order.viewModel",
                     openStockItemDialog = function () {
                         stockDialog.show(function (stockItem) {
                             selectedSection().selectStock(stockItem);
+                        }, stockCategory.paper, false);
+                    },
+                    // Open Stock Item Dialog For Adding product
+                    openStockItemDialogForAddingProduct = function () {
+                        isAddProductFromInventory(true);
+                        stockDialog.show(function (stockItem) {
+                            createNewInventoryProduct(stockItem);
                         }, stockCategory.paper, false);
                     },
                     // Get Paper Size by id
@@ -1067,6 +1079,7 @@ define("order/order.viewModel",
                     },
                     //Opens Cost Center dialog for Cost Center
                     onCostCenterClick = function () {
+                        isAddProductFromInventory(false);
                         isCostCenterDialogForShipping(false);
                         onAddCostCenterForProduct();
                     },
@@ -1391,8 +1404,9 @@ define("order/order.viewModel",
                         view.showCostCentersDialog();
                     },
                     onAddInventoryItem = function () {
-                        getInventoriesListItems();
-                        view.showInventoryItemDialog();
+                        
+                        isAddProductFromInventory(true);
+                        openStockItemDialog();
                     },
                     closeCostCenterDialog = function () {
                         view.hideRCostCentersDialog();
@@ -1457,6 +1471,7 @@ define("order/order.viewModel",
                         selectedCostCentre(costCentre);
                         view.showCostCentersQuantityDialog();
                     },
+                    
                     hideCostCentreQuantityDialog = function () {
                         view.hideCostCentersQuantityDialog();
                     },
@@ -1490,6 +1505,42 @@ define("order/order.viewModel",
                             selectedOrder().items.splice(0, 0, item);
                         }
 
+                    },
+                    createNewInventoryProduct = function (stockItem) {
+                        
+                        var costCenter = model.costCentre.Create({});
+                        selectedCostCentre(costCenter);
+
+                        view.showCostCentersQuantityDialog();
+                        
+                        inventoryStockItemToCreate(stockItem);
+                        //item.qty1(selectedCostCentre().quantity1());
+                        //item.qty1NetTotal(selectedCostCentre().setupCost());
+
+                        
+                        
+                        
+
+                    },
+                    onSaveProductInventory = function () {
+                        var item = model.Item.Create({});
+                        item.productName(inventoryStockItemToCreate().name);
+                        var itemSection = model.ItemSection.Create({});
+                        var sectionCostCenter = model.SectionCostCentre.Create({});
+                        sectionCostCenter.qty1(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                        sectionCostCenter.costCentreId(selectedCostCentre().id());
+                        sectionCostCenter.costCentreName(selectedCostCentre().name());
+                        sectionCostCenter.name('Stock');
+                        sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+
+                        itemSection.sectionCostCentres.push(sectionCostCenter);
+                        item.itemSections.push(itemSection);
+                        view.hideCostCentersQuantityDialog();
+                        selectedOrder().items.splice(0, 0, item);
                     },
                     onSaveProductCostCenter = function () {
                         createNewCostCenterProduct();
@@ -1780,7 +1831,6 @@ define("order/order.viewModel",
                         }
                         selectedProduct().invoiceDescription(conCatJobCards);
                     },
-
                     //#endregion
                     //#region Pre Payment
                     // Flag for to show Add Title In Pre Payment Dialog
@@ -2418,6 +2468,7 @@ define("order/order.viewModel",
                     onCostCenterClick: onCostCenterClick,
                     onSaveRetailStoreProduct: onSaveRetailStoreProduct,
                     onSaveProductCostCenter: onSaveProductCostCenter,
+                    isAddProductFromInventory: isAddProductFromInventory,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,
@@ -2428,6 +2479,7 @@ define("order/order.viewModel",
                     getOrders: getOrders,
                     getOrdersOfCurrentScreen: getOrdersOfCurrentScreen,
                     getOrdersOnTabChange: getOrdersOnTabChange,
+                    openStockItemDialogForAddingProduct: openStockItemDialogForAddingProduct,
                     //#region Product From Retail Store
                     updateItemsDataOnItemSelection: updateItemsDataOnItemSelection,
                     onCreateNewProductFromRetailStore: onCreateNewProductFromRetailStore,
@@ -2477,6 +2529,7 @@ define("order/order.viewModel",
                     side2ButtonClick: side2ButtonClick,
                     getPtvCalculation: getPtvCalculation,
                     openInkDialog: openInkDialog,
+                    onSaveProductInventory: onSaveProductInventory,
                     //#endregion
                     //#region Delivery Schedule
                     selectDeliverySchedule: selectDeliverySchedule,
