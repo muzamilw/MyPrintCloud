@@ -6217,6 +6217,10 @@ namespace MPC.Repository.Repositories
 
         public double? GetTaxRateByStoreId(long storeId)
         {
+            if (storeId == 0)
+            {
+                return null;
+            }
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
             return company != null ? company.TaxRate : null;
         }
