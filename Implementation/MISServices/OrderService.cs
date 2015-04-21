@@ -58,7 +58,6 @@ namespace MPC.Implementation.MISServices
             itemTarget.CreationDate = itemTarget.CreationTime = DateTime.Now;
             itemTarget.Order_Code = orderCode;
             itemTarget.OrganisationId = orderRepository.OrganisationId;
-            itemTarget.isEstimate = false;
             return itemTarget;
         }
 

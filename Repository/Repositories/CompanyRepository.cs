@@ -2129,6 +2129,7 @@ namespace MPC.Repository.Repositories
                     s =>
                         (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
                          !isStringSpecified) && request.CustomerTypes.Contains(s.IsCustomer) &&
+                        ((s.IsCustomer != 0 && s.IsCustomer != 1) || (s.StoreId.HasValue && s.StoreId.Value > 0)) &&
                         s.OrganisationId == OrganisationId;
 
 
@@ -6216,6 +6217,10 @@ namespace MPC.Repository.Repositories
 
         public double? GetTaxRateByStoreId(long storeId)
         {
+            if (storeId == 0)
+            {
+                return null;
+            }
             Company company = DbSet.FirstOrDefault(x => x.CompanyId == storeId);
             return company != null ? company.TaxRate : null;
         }

@@ -191,7 +191,6 @@ define("order/order.view",
                     if (!bindingRoot) {
                         return;
                     }
-
                 };
             initialize();
 
