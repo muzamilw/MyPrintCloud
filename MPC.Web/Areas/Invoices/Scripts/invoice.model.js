@@ -11,7 +11,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         // Invoice Entity
     // ReSharper disable InconsistentNaming
-        Invoice = function (specifiedId, specifiedCode, specifiedType, specifiedName, specifiedCompanyId, specifiedContactId, specifiedOrderNo,
+        Invoice = function (specifiedId, specifiedCode, specifiedType, specifiedName, specifiedCompanyId, specifiedCompanyName, specifiedContactId, specifiedOrderNo,
             specifiedStatus, specifiedTotal, specifiedInvoiceDate, specifiedAccountNo, specifiedTerms, specifiedAddressId, specifiedIsArchive,
             specifiedTaxValue, specifiedGrandTotal, specifiedFlagId, specifiedNotes, specifiedEstimateId,
             specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode) {
@@ -26,7 +26,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Company Id
                 companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
                 // Company Name
-                companyName = ko.observable(),
+                companyName = ko.observable(specifiedCompanyName),
                 // Number Of items
                 numberOfItems = ko.observable(),
                 // Number of Items UI
@@ -301,10 +301,28 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
         
      
-
+    // Address Entity
+    Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            address1: specifiedAddress1 || "",
+            address2: specifiedAddress2 || "",
+            telephone1: specifiedTelephone1 || ""
+        };
+    },
+    // Company Contact Entity
+        CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
+            // ReSharper restore InconsistentNaming
+            return {
+                id: specifiedId,
+                name: specifiedName,
+                email: specifiedEmail || ""
+            };
+        },
     // Item Section Factory
     Invoice.Create = function (source) {
-        var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.ContactId, source.OrderNo,
+        var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.CompanyName, source.ContactId, source.OrderNo,
             source.InvoiceStatus, source.InvoiceTotal, source.InvoiceDate, source.AccountNumber,
             source.Terms, source.AddressId, source.IsArchive,
             source.TaxValue, source.GrandTotal, source.FlagID, source.UserNotes, source.EstimateId,
@@ -337,5 +355,59 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         return invDetail;
     };
 
-    
+    InvoicesListView = function (specifiedId, specifiedName, specifiedType, specifiedCode, specifiedCompanyName, specifiedInvoiceDate, specifiedItemsCount,
+                            specifiedFlagColor, specifiedInvoiceTotal, specifiedOrderNo) {
+        var
+            self,
+            //Unique ID
+            id = ko.observable(specifiedId),
+            //Name
+            name = ko.observable(specifiedName),
+            //Type
+            type = ko.observable(specifiedType),
+            code = ko.observable(specifiedCode),
+            companyName = ko.observable(specifiedCompanyName),
+            invoiceDate = ko.observable(specifiedInvoiceDate),
+            itemsCount = ko.observable(specifiedItemsCount),
+            flagColor = ko.observable(specifiedFlagColor),
+            invoiceTotal = ko.observable(specifiedInvoiceTotal),
+            isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),            
+                // Number of Items UI
+                noOfItemsUi = ko.computed(function () {
+                    return "( " + itemsCount() + " ) Items";
+                }),
+            convertToServerData = function () {
+                return {
+                    InvoiceId: id(),
+                }
+            };
+        self = {
+            id:id,
+            name: name,
+            type: type,
+            code: code,
+            companyName: companyName,
+            invoiceDate: invoiceDate,
+            itemsCount: itemsCount,
+            flagColor: flagColor,
+            invoiceTotal: invoiceTotal,
+            convertToServerData: convertToServerData,
+            isDirectSale: isDirectSale,
+            noOfItemsUi: noOfItemsUi
+        };
+        return self;
+    };
+
+    InvoicesListView.Create = function (source) {
+        return new InvoicesListView(source.InvoiceId, source.InvoiceName, source.InvoiceType, source.InvoiceCode,
+            source.CompanyName, source.InvoiceDate, source.ItemsCount, source.FlagColor, source.GrandTotal, source.OrderNo);
+    };
+
+    return {
+        
+        Invoice: Invoice,        
+        InvoicesListView: InvoicesListView,
+        Address: Address,
+        CompanyContact: CompanyContact
+    };
 });

@@ -13,7 +13,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     /// <summary>
     /// Invoice Controller 
     /// </summary>
-    public class InvoiceController : ApiController
+    public class InvoiceListController : ApiController
     {
        #region Private
 
@@ -25,7 +25,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public InvoiceController(IInvoiceService invoiceService)
+        public InvoiceListController(IInvoiceService invoiceService)
         {
             this.invoiceService = invoiceService;
         }
@@ -34,31 +34,21 @@ namespace MPC.MIS.Areas.Api.Controllers
        #region Public
 
         
+
         /// <summary>
-        /// Get All Orders
+        /// Get All Invoices
         /// </summary>
         [CompressFilter]
-        public InvoiceRequestResponseModel Get([FromUri] GetInvoicesRequestModel request)
+        public InvoiceListResponseModel GetInvoiceResponse([FromUri] InvoicesRequestModel request)
         {
             if (request == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
-            return invoiceService.SearchInvoices(request).CreateFrom();
+            return invoiceService.GetInvoicesList(request).CreateFromList();
         }
 
-        [ApiException]
-        [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
-        [CompressFilterAttribute]
-        public Invoice Get(long id)
-        {
-            if (id <= 0)
-            {
-                throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
-            }
-
-            return invoiceService.GetInvoiceById(id).CreateFrom();
-        }
+        
         #endregion
     }
 }

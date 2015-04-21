@@ -78,7 +78,7 @@ define("invoice/invoice.view",
 
         // Initialize the view model
         if (ist.invoice.view.bindingRoot) {
-            orderViewModel.initialize(ist.invoice.view);
+            invoiceViewModel.initialize(ist.invoice.view);
         }
         return ist.invoice.view;
     });
