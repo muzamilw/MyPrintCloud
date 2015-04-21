@@ -37,9 +37,9 @@ define("order/order.view",
                     }, 1000);
                 },
                 // Show inventory dialog
-                showInventoryItemDialog = function () {
-                    $("#inventoryItem").modal("show");
-                },
+                //showInventoryItemDialog = function () {
+                //    $("#inventoryItem").modal("show");
+                //},
                 // Hide inventory dialog
                 hideInventoryItemDialog = function () {
                     $("#inventoryItem").modal("hide");
@@ -218,7 +218,7 @@ define("order/order.view",
                 orderstate: orderstate,
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
-                showInventoryItemDialog: showInventoryItemDialog,
+                //showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,
