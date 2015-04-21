@@ -952,13 +952,14 @@ define("stores/stores.viewModel",
             onSaveCompanyTerritory = function () {
                 if (doBeforeSaveCompanyTerritory()) {
                     //#region If Store is Editting, CompanyId > 0
+                    var territory = selectedCompanyTerritory().convertToServerData();
+                    _.each(selectedCompanyTerritory().scopeVariables(), function (item) {
+                        territory.ScopeVariables.push(item.convertToServerData(item));
+                    });
+
 
                     if (selectedStore().companyId() > 0) {
                         selectedCompanyTerritory().companyId(selectedStore().companyId());
-                        var territory = selectedCompanyTerritory().convertToServerData();
-                        _.each(selectedCompanyTerritory().scopeVariables(), function (item) {
-                            territory.ScopeVariables.push(item.convertToServerData(item));
-                        });
                         dataservice.saveCompanyTerritory(
                             territory,
                             {
@@ -4121,7 +4122,7 @@ define("stores/stores.viewModel",
                                         emails.push(campaign);
                                     });
                                 }
-
+                                
                                 if (data.Company.CompanyBannerSets) {
                                     _.each(data.Company.CompanyBannerSets, function (item) {
                                         companyBannerSetList.push(model.CompanyBannerSet.Create(item));
@@ -4148,12 +4149,12 @@ define("stores/stores.viewModel",
                                         selectedStore().mediaLibraries.push(model.MediaLibrary.Create(item));
                                     });
                                 }
-
+                                
                                 selectedStore().activeBannerSetId(data.Company.ActiveBannerSetId);
                                 selectedStore().currentThemeId(data.Company.CurrentThemeId);
                                 selectedTheme(data.Company.CurrentThemeId);
                             }
-
+                            
                             if (data.SecondaryPageResponse) {
                                 if (data.SecondaryPageResponse.CmsPages) {
                                     _.each(data.SecondaryPageResponse.CmsPages, function (item) {
@@ -4169,10 +4170,10 @@ define("stores/stores.viewModel",
                                     systemPagePager().totalCount(data.SecondaryPageResponse.SystemPagesRowCount || 0);
                                 }
                             }
-
+                            
                             storeImage(data.ImageSource);
                         }
-
+                        
                         allPagesWidgets.removeAll();
                         pageSkinWidgets.removeAll();
                         selectedCurrentPageId(undefined);
