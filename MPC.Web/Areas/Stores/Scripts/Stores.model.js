@@ -4262,7 +4262,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             variableName = ko.observable(specifiedVariableName).extend({ required: true }),
             variableType = ko.observable(specifiedVariableType),
             scope = ko.observable(specifiedScope),
-            waterMark = ko.observable(specifiedWaterMark),
+            waterMark = ko.observable(specifiedWaterMark).extend({ required: true }),
             defaultValue = ko.observable(specifiedDefaultValue),
             defaultValueForInput = ko.observable(specifiedDefaultValue),
             inputMask = ko.observable(specifiedInputMask),
@@ -4276,7 +4276,7 @@ define("stores/stores.model", ["ko", "underscore", "underscore-ko"], function (k
             // Errors
             errors = ko.validation.group({
                 variableName: variableName,
-
+                waterMark: waterMark
             }),
             // Is Valid 
             isValid = ko.computed(function () {

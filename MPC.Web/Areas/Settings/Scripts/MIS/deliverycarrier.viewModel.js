@@ -115,6 +115,10 @@ define("deliverycarrier/deliverycarrier.viewModel",
                                   saveDeliveryCarrier();
                                   view.hideDeliveryCarrierDialog();
                               }
+                              else if(!selectedCarrier().isValid()) 
+                              {
+                                  doBeforeSave();
+                              }
                              
                           });
                           confirmation.afterCancel(function (){

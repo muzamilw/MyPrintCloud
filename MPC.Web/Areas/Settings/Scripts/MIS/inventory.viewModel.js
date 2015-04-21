@@ -173,13 +173,15 @@ define("inventory/inventory.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                inventories.removeAll();
-                                _.each(data.StockItems, function (item) {
-                                    var inventory = new model.InventoryListView.Create(item);
-                                    inventories.push(inventory);
-                                });
+                                if (data) {
+                                    pager().totalCount(data.TotalCount);
+                                    inventories.removeAll();
+                                    _.each(data.StockItems, function(item) {
+                                        inventories.push( new model.InventoryListView.Create(item));
+                                    });
+                                }
                                 isLoadingInventory(false);
-                                pager().totalCount(data.TotalCount);
+                                    
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -621,7 +623,12 @@ define("inventory/inventory.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
                         pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
-
+                        categoryFilter.subscribe(function() {
+                            filterInventories();
+                        });
+                        subCategoryFilter.subscribe(function () {
+                            filterInventories();
+                        });
                     };
                 // #endregion Arrays
 

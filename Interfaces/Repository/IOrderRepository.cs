@@ -101,7 +101,7 @@ namespace MPC.Interfaces.Repository
         List<Estimate> GetCartOrdersByCompanyID(long CompanyID);
         void DeleteOrder(long orderId);
 
-        string GenerateOrderArtworkArchive(int OrderID, string sZipName);
+      //  string GenerateOrderArtworkArchive(int OrderID, string sZipName);
 
         /// <summary>
         /// Get Estimates For Item Job Status
@@ -111,6 +111,14 @@ namespace MPC.Interfaces.Repository
         /// check cookie order is the real login customer order
         /// </summary>
         bool IsRealCustomerOrder(long orderId, long contactId, long companyId);
+
+        List<Item> GetOrderItems(long OrderId);
+        bool CreateUploadYourArtWork(long itemID, long customerID, List<ArtWorkAttatchment> yourDesignList);
+
+        Estimate GetOrderByOrderCode(string Code);
+
+        Estimate GetOrderByIdforXml(long RecordID);
+
 
     }
 }

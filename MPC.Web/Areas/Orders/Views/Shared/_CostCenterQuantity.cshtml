@@ -51,7 +51,12 @@
                                         </div>
                                     </div>
                                     <div class="pull-right">
+                                        <!--ko if: !$root.isAddProductFromInventory() -->
                                         <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductCostCenter">Ok</button>
+                                        <!-- /ko -->
+                                        <!--ko if: $root.isAddProductFromInventory() -->
+                                        <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductInventory">Ok</button>
+                                        <!-- /ko -->
                                     </div>
                                 </div>
                              </div> <!--12-->
