@@ -490,7 +490,15 @@
                                                             //  string completeImgPath = ResolveUrl(GetSideThumbnail(FolderPathOfAttachment, model.Attatchment.FileName));
 
                                                             pdfLinkBtn = "";// completeImgPath;//ImageDisplayScript(completeImgPath);
-                                                            imgToShowURL = FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                            if (FolderPathOfAttachment[0] == '/')
+                                                            {
+                                                                imgToShowURL =  FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                            }
+                                                            else 
+                                                            {
+                                                                imgToShowURL = "/" + FolderPathOfAttachment + "/" + shopcart.Attatchment.FileName + ThumnbString;// completeImgPath;
+                                                            }
+                                                            
                                                         }
                                                     }
                                                     else

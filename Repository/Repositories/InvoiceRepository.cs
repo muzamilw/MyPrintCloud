@@ -38,6 +38,11 @@ namespace MPC.Repository.Repositories
                     {
                         {InvoiceByColumn.CompanyName, d => d.Company.Name}
                     };
+
+        private readonly Dictionary<InvoiceByColumn, Func<Invoice, object>> invoiceOrderByName = new Dictionary<InvoiceByColumn, Func<Invoice, object>>
+                    {
+                        {InvoiceByColumn.InvoiceName, d => d.InvoiceName}
+                    };
         #endregion
         #region Constructor
         public InvoiceRepository(IUnityContainer container)
@@ -75,6 +80,48 @@ namespace MPC.Repository.Repositories
                 RowCount = rowCount,
                 Invoices = invoices
             };
+        }
+
+        public InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request)
+        {
+            int fromRow = (request.PageNo - 1) * request.PageSize;
+            int toRow = request.PageSize;
+            bool isStringSpecified = !string.IsNullOrEmpty(request.SearchString);
+            Expression<Func<Invoice, bool>> query =
+                invoice => invoice.OrganisationId == this.OrganisationId && invoice.IsArchive != true;
+            int rowCount = DbSet.Count(query);
+            IEnumerable<Invoice> invoices = request.IsAsc
+                ? DbSet.Where(query)
+                    .OrderBy(invoiceOrderByName[request.ItemOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList()
+                : DbSet.Where(query)
+                    .OrderByDescending(invoiceOrderByName[request.ItemOrderBy])
+                    .Skip(fromRow)
+                    .Take(toRow)
+                    .ToList();
+            return new InvoiceRequestResponseModel
+            {
+                RowCount = rowCount,
+                Invoices = invoices
+            };
+        }
+
+        public InvoiceBaseResponse GetInvoiceBaseResponse()
+        {
+            Organisation org = db.Organisations.Where(o => o.OrganisationId == this.OrganisationId).FirstOrDefault();
+            return new InvoiceBaseResponse
+            {
+                SystemUsers = db.SystemUsers.Where(o => o.OrganizationId == this.OrganisationId && o.IsAccountDisabled != 1).ToList(),
+                SectionFlags = db.SectionFlags.Where(o => o.OrganisationId == this.OrganisationId && o.SectionId == (int)SectionEnum.Invoices),
+                CurrencySymbol = org.Currency != null ? org.Currency.CurrencySymbol : "$"
+            };
+        }
+
+        public Invoice GetInvoiceById(long Id)
+        {
+            return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
         }
 
         #endregion

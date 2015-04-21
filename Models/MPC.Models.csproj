@@ -194,6 +194,7 @@
     <Compile Include="DomainModels\OrderReportView.cs" />
     <Compile Include="DomainModels\Purchase.cs" />
     <Compile Include="DomainModels\PurchaseDetail.cs" />
+    <Compile Include="DomainModels\ReportCategory.cs" />
     <Compile Include="DomainModels\SaveDesignView.cs" />
     <Compile Include="DomainModels\ScopeVariable.cs" />
     <Compile Include="DomainModels\CompanyVariableIcon.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\SectionCostCentreMapper.cs" />
     <Compile Include="ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="ModelMappers\OrderMapperActions.cs" />
     <Compile Include="ModelMappers\OrderMapper.cs" />
@@ -396,6 +398,7 @@
     <Compile Include="RequestModels\GetPagedListRequest.cs" />
     <Compile Include="RequestModels\GetOrdersRequest.cs" />
     <Compile Include="RequestModels\GoodsReceivedNoteRequestModel.cs" />
+    <Compile Include="RequestModels\InvoicesRequestModel.cs" />
     <Compile Include="RequestModels\MachineSearchRequestModel.cs" />
     <Compile Include="RequestModels\ItemSearchRequestModel.cs" />
     <Compile Include="RequestModels\InventorySearchRequestModel.cs" />
@@ -432,6 +435,7 @@
     <Compile Include="ResponseModels\FieldVariableResponse.cs" />
     <Compile Include="ResponseModels\GetOrdersResponse.cs" />
     <Compile Include="ResponseModels\GoodsReceivedNoteResponseModel.cs" />
+    <Compile Include="ResponseModels\InvoiceBaseResponse.cs" />
     <Compile Include="ResponseModels\InvoiceRequestResponseModel.cs" />
     <Compile Include="ResponseModels\ItemForItemJobStatus.cs" />
     <Compile Include="ResponseModels\LookupMethodListResponse.cs" />

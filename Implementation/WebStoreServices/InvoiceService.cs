@@ -8,7 +8,7 @@ namespace MPC.Implementation.WebStoreServices
     /// <summary>
     /// Invoice Service
     /// </summary>
-    public class InvoiceService : IInvoiceService
+    public class InvoiceService 
     {
         #region Private
 
