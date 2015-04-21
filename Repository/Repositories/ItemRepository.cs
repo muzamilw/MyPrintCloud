@@ -301,8 +301,10 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     newItem.IsOrderedItem = false;
-
-                    newItem.RefItemId = (int)itemID;
+                    if (!isSavedDesign)  // in case of save designs ref item 
+                        newItem.RefItemId = (int)itemID;
+                    else
+                        newItem.RefItemId = ActualItem.RefItemId;
                 }
 
 
@@ -353,7 +355,7 @@ namespace MPC.Repository.Repositories
                 if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
                 {
                     clonedTemplate = new Template();
-                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
                     {
                         long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
 
@@ -384,7 +386,7 @@ namespace MPC.Repository.Repositories
 
 
                 db.SaveChanges();
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
                 {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
@@ -1530,13 +1532,13 @@ namespace MPC.Repository.Repositories
                     if (NewItem.TemplateId > 0)
                     {
                         obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            "Side" + sideNumber.ToString(), attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     else
                     {
                         obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            sideNumber.ToString() + "Copy", attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     sideNumber += 1;
@@ -1552,12 +1554,12 @@ namespace MPC.Repository.Repositories
                             HttpContext.Current.Server.MapPath(attachment.FolderPath +
                                                                System.IO.Path.GetFileNameWithoutExtension(
                                                                    attachment.FileName) + "Thumb.png");
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + "Thumb.png");
                     }
                     else
                     {
-                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName + attachment.FileType);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + obj.FileType);
                     }
 
                     if (File.Exists(sourceFileName))

@@ -12,8 +12,8 @@
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
-                        <li style="cursor:pointer"><span>Invoices</span></li>
-                        <li data-bind="css: $root.invoiceCodeHeader() != '' &&  $root.invoiceCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.invoiceCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.invoiceCodeHeader"></span></li>
+                        <li data-bind="css: $root.invoiceCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseInvoiceEditor" style="cursor:pointer"><span>Invoices</span></li>
+                        <li data-bind="css: $root.invoiceCodeHeader() != '' &&  $root.itemCodeHeader() == '' ?  'active' :   '' , click:$root.closeItemDetail, visible:$root.invoiceCodeHeader() !== '' " style="display: none; cursor:pointer"><span data-bind="text:$root.invoiceCodeHeader"></span></li>
                         
                         
                     </ol>
@@ -41,12 +41,12 @@
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Invoices</a></li>
-                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Awaiting</a></li>
-                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Posted</a></li>
-                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">Cancelled</a></li>
-                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Archived</a></li>
-                                            <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(8);}">Proforma</a></li>
+                                            <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(0);}">All Invoices</a></li>
+                                            <li><a href="#tab-Awaiting" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(4);}">Awaiting</a></li>
+                                            <li><a href="#tab-Posted" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(5);}">Posted</a></li>
+                                            <li><a href="#tab-Cancelled" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(6);}">Cancelled</a></li>
+                                            <li><a href="#tab-Archived" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(7);}">Archived</a></li>
+                                            <li><a href="#tab-Proforma" data-toggle="tab" data-bind="click: function(){$root.getInvoicesOnTabChange(8);}">Proforma</a></li>
 
                                         </ul>
                                         <div class="tab-content">

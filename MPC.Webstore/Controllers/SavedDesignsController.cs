@@ -184,7 +184,7 @@ namespace MPC.Webstore.Controllers
 
                     Item clonedItem = null;
      
-                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,false,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
+                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,true,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
 
                     // Code to copy item attachments ..
                     Estimate objOrder = _IOrderService.GetOrderByID(UserCookieManager.WEBOrderId);
@@ -193,7 +193,7 @@ namespace MPC.Webstore.Controllers
 
                     _ItemService.CopyAttachments((int)ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 
-                    string URL = "/ProductOptions/0/" + ExistingProduct.ItemID + "/SaveOrder/" + ExistingProduct.TemplateID;
+                    string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;
         
                     Response.Redirect(URL);
                     

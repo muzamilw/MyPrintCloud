@@ -119,6 +119,11 @@ namespace MPC.Repository.Repositories
             };
         }
 
+        public Invoice GetInvoiceById(long Id)
+        {
+            return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
+        }
+
         #endregion
     }
 }
