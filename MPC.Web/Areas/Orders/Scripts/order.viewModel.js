@@ -2309,11 +2309,7 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     var host = window.location.host;
                                     var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");
-                                    var host = window.location.host;
-                                    var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");
-
+                                    window.open(uri, "_blank");                                    
                                 }
                                 isLoadingOrders(false);
                             },
