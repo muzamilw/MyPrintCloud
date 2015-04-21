@@ -1,4 +1,5 @@
 ﻿
+using MPC.Models.DomainModels;
 using MPC.Models.RequestModels;
 using MPC.Models.ResponseModels;
 
@@ -15,5 +16,6 @@ namespace MPC.Interfaces.MISServices
         InvoiceRequestResponseModel SearchInvoices(GetInvoicesRequestModel request);
         InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request);
         InvoiceBaseResponse GetInvoiceBaseResponse();
+        Invoice GetInvoiceById(long Id);
     }
 }
