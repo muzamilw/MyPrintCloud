@@ -109,7 +109,13 @@
                                         class="start_creating_btn_prodDetail_blk rounded_corners5 marginBtm10" onclick="btnStartCreating_Click"
                                          >Design Now</button>*@
                                 }
-
+                                else
+                                {
+                                    <a href="@Url.Action("CloneItem", "Category", new { id = Model.ItemId })" onclick="ShowLoader();">
+                                        <input id="btnEditThisDesign" value="Design Now" type="button"
+                                               class="start_creating_btn_prodDetail_orng  rounded_corners5 padding0imp" />
+                                    </a>
+                                }
 
 
                             </div>
@@ -240,7 +246,7 @@
                     @if (ViewBag.IsTemplateProductWithBanner == true)
                     {
                         <div id="bannnerContainer">
-                            <img id="templBannerImg" src="@ViewBag.TempBannerImgURL" style="width: 670px; height: 420px;" />
+                            <img id="templBannerImg" class="product-detail-banner-slider" src="@ViewBag.TempBannerImgURL" style="" />
                         </div>
                     }
                     else
@@ -409,7 +415,7 @@
                             @if (ViewBag.IsShowPrices == true)
                             {
                                 <div id="PricingTblDiv">
-                                    <table>
+                                    <table width="100%">
                                         <tr>
                                             <td valign="top" class="width45p">
                                                 <div class="mrginBtm" style="text-align:left;">
@@ -1273,7 +1279,7 @@
                 //                tabify("tabs5", "MainContent_btnMatchingSets");
                 $(".width93per").css("width", "98%");
             } else if (type == "FinishedGood") {
-                alert();
+            
                 $(".width93per").css("width", "98%");
             }
 
@@ -1299,7 +1305,7 @@
         }
 
         function UploadDesign(path) {
-            alert(path);
+   
             window.location.href = path;
             return true;
         }

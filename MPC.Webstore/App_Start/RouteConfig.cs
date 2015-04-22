@@ -44,6 +44,19 @@ namespace MPC.Webstore
        "BillingShippingAddressManager/IntellisenceData",
        new { controller = "BillingShippingAddressManager", action = "IntellisenceData", id = UrlParameter.Optional }
        );
+
+            routes.MapRoute(
+   "QuickCAlculatorProducts",
+   "QuickCalculator/GetAllProducts",
+   new { controller = "QuickCalculator", action = "GetAllProducts", id = UrlParameter.Optional }
+    );
+
+            routes.MapRoute(
+    "QuickCAlculatorPrises",
+    "QuickCalculator/GetQuantityPrises",
+    new { controller = "QuickCalculator", action = "GetQuantityPrises", id = UrlParameter.Optional }
+     );
+
             routes.MapRoute(
               "BillingShippingDisplaySearchedData",
               "BillingShippingAddressManager/DisplaySearchedData",
@@ -260,8 +273,8 @@ namespace MPC.Webstore
 
             routes.MapRoute(
              "ProductDetail",
-             "ProductDetail/{CategoryID}/{ItemID}/{TemplateID}/{TemplateName}/{Mode}",
-             new { controller = "Home", action = "Index", CategoryID = UrlParameter.Optional, ItemID = UrlParameter.Optional, TemplateID = UrlParameter.Optional, TemplateName = UrlParameter.Optional, Mode = UrlParameter.Optional}
+             "ProductDetail/{ProductName}/{CategoryID}/{ItemID}/{TemplateID}/{TemplateName}/{Mode}",
+             new { controller = "Home", action = "Index", ProductName = UrlParameter.Optional, CategoryID = UrlParameter.Optional, ItemID = UrlParameter.Optional, TemplateID = UrlParameter.Optional, TemplateName = UrlParameter.Optional, Mode = UrlParameter.Optional }
                );
 
             routes.MapRoute(
@@ -280,6 +293,12 @@ namespace MPC.Webstore
             "CloneItem/{id}",
             new { controller = "Category", action = "CloneItem", id = UrlParameter.Optional }
               );
+
+            routes.MapRoute(
+          "CloneProductDetail",
+          "CloneItem/{id}",
+          new { controller = "ProductDetail", action = "CloneItem", id = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
            "Dashboard/ResetPassword",

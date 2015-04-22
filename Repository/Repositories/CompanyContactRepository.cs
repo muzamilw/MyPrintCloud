@@ -1283,10 +1283,147 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
         }
+         public  bool ValidatEmail(string email)
+         {
+            if (System.Text.RegularExpressions.Regex.IsMatch(email, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+         }
         public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
         {
             return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
         }
+        public CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "")
+        {
+            CompanyContact tblContacts = new CompanyContact();
+            
+            tblContacts.isArchived = false;
+            tblContacts.CompanyId = CCompanyId;
+            tblContacts.FirstName = F;
+            tblContacts.LastName = L;
+            tblContacts.Email = E;
+            if (string.IsNullOrEmpty(Password))
+            {
+                tblContacts.Password = "1234";
+            }
+            else
+            {
+                tblContacts.Password = HashingManager.ComputeHashSHA1(Password);
+            }
+            if (questionID == 0)
+            {
+                tblContacts.QuestionId = 1;
+                tblContacts.SecretAnswer = "abc";
+            }
+            else
+            {
+                tblContacts.QuestionId = Convert.ToInt32(questionID);
+                tblContacts.SecretAnswer = Answer;
+            }
+
+            tblContacts.ClaimIdentifer = "";
+            tblContacts.AuthentifiedBy = "";
+            tblContacts.isWebAccess = true;
+            tblContacts.isPlaceOrder = true;
+            tblContacts.ContactRoleId = 3;
+            //Quick Text Fields
+            tblContacts.quickAddress1 = "";
+            tblContacts.quickAddress2 = "";
+            tblContacts.quickAddress3 = "";
+            tblContacts.quickCompanyName = "";
+            tblContacts.quickCompMessage = "";
+            tblContacts.quickEmail = "";
+            tblContacts.quickFax = "";
+            tblContacts.quickFullName = "";
+            tblContacts.quickPhone = "";
+            tblContacts.quickTitle = "";
+            tblContacts.quickWebsite = "";
+            tblContacts.Notes = AccountNumber;
+         
+
+            // get default territory Id
+
+            CompanyTerritory oTerritory =  db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CCompanyId).FirstOrDefault();
+
+            if (oTerritory != null)
+            {
+                tblContacts.TerritoryId = oTerritory.TerritoryId;
+                Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                if (oAddress != null)
+                {
+                    tblContacts.AddressId = oAddress.AddressId;
+                    tblContacts.ShippingAddressId = oAddress.AddressId;
+                }
+                else 
+                {
+                    Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == CCompanyId).FirstOrDefault();
+                    if (oAddress != null)
+                    {
+                        tblContacts.AddressId = oCompanyAddress.AddressId;
+                        tblContacts.ShippingAddressId = oCompanyAddress.AddressId;
+                    }
+                }
+                
+            }
+
+            db.CompanyContacts.Add(tblContacts);
+            if (db.SaveChanges() > 0)
+            {
+                return tblContacts;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode)
+        {
+                bool isValid = false;
+                CompanyContact ContactRecord = null;
+                Company CompanyRecord = null;
+                ContactRecord = db.CompanyContacts.Where(c => c.Email == email).FirstOrDefault();
+                CompanyRecord = db.Companies.Where(cc => cc.WebAccessCode == Code).FirstOrDefault();
+
+                if (ContactRecord != null) // is contact already exists...
+                {
+                    if (CompanyRecord != null && CompanyRecord.CompanyId != ContactRecord.CompanyId)
+                    {
+                        return null;
+                    }
+                    //CompanyRecord = context.tbl_contactcompanies.Where(c => c.ContactCompanyID == ContactRecord.ContactCompanyID).FirstOrDefault();
+                    if (CompanyRecord != null)
+                    {
+                            return ContactRecord;
+                    }
+                    else
+                    {
+                        return null; // returns null and the retail stores load...
+                    }
+                }
+                else // create new contact....
+                {
+                   // tbl_contacts oContact = new tbl_contacts();
+                    CompanyContact oContact=new CompanyContact();
+                    isValid = ValidatEmail(email);
+                    if (isValid)
+                    {
+                        oContact = createContact(BCCId, email, FName, LNAme, AccountNumber);
+                        return oContact;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
     }
-}
+
 
