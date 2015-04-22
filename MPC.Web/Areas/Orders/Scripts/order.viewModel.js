@@ -987,7 +987,7 @@ define("order/order.viewModel",
                             }
                         });
                     }
-                }
+                },
                 openInkDialog = function () {
                     if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
                         var count = 0;
@@ -2442,7 +2442,7 @@ define("order/order.viewModel",
 
 
                         categoryPager(new pagination.Pagination({ PageSize: 5 }, categories, getInventoriesListItems));
-                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCenters));
+                        costCentrePager(new pagination.Pagination({ PageSize: 5 }, costCentres, getCostCentersForProduct));
 
                         // Get Base Data
                         getBaseData();
