@@ -13,6 +13,7 @@ namespace MPC.Interfaces.WebStoreServices
     public interface ICompanyService
     
     {
+        CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         CompanyContact GetContactByEmailID(string Email);
