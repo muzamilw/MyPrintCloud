@@ -732,6 +732,7 @@
     <Compile Include="Areas\Api\Models\Widget.cs" />
     <Compile Include="Areas\Api\Controllers\PaperSheetBaseController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
+    <Compile Include="Areas\Common\Controllers\ReportController.cs" />
     <Compile Include="Areas\DeliveryNotes\Controllers\HomeController.cs" />
     <Compile Include="Areas\DeliveryNotes\DeliveryNoteAreaRegistration.cs" />
     <Compile Include="Areas\Invoices\Controllers\HomeController.cs" />
@@ -3233,8 +3234,8 @@
     <Folder Include="Areas\Api\Views\Section\" />
     <Folder Include="Areas\Api\Views\StockCategory\" />
     <Folder Include="Areas\Api\Views\SystemUser\" />
-    <Folder Include="Areas\Common\Controllers\" />
     <Folder Include="Areas\Common\Models\" />
+    <Folder Include="Areas\Common\Views\Report\" />
     <Folder Include="Areas\CRM\Models\" />
     <Folder Include="Areas\DeliveryNotes\Models\" />
     <Folder Include="Areas\DeliveryNotes\Scripts\" />
