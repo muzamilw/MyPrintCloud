@@ -17,7 +17,7 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     editorViewModel = new ist.ViewModel(model.DeliveryCarrier),
                     //Selected Paper Sheet
                     selectedCarrier = editorViewModel.itemForEditing,
-                    isErrors = ko.observable(false)
+                   
                   
 
 
@@ -25,6 +25,8 @@ define("deliverycarrier/deliverycarrier.viewModel",
                 {
                     var deliverycarrier = new model.DeliveryCarrier();
                     editorViewModel.selectItem(deliverycarrier);
+                    selectedCarrier().readonly(true);
+
                     openDialog();
                 },
                 openDialog = function ()
@@ -72,8 +74,6 @@ define("deliverycarrier/deliverycarrier.viewModel",
                         saveDeliveryCarrier();
                         view.hideDeliveryCarrierDialog();
                     }
-                    
-                    
                 },
                 saveDeliveryCarrier = function () {
                     dataservice.saveDeliveryCarrier(model.deliverycarrierServermapper(selectedCarrier()),
@@ -142,7 +142,6 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     deliverycarrierlist: deliverycarrierlist,
                     selectedCarrier: selectedCarrier,
                     createNewDeliveryDialog: createNewDeliveryDialog,
-                    isErrors:isErrors,
                     //Dialog Boxes
                     openEditDialog: openEditDialog,
                     onCloseDeliveryCarrier:onCloseDeliveryCarrier,
