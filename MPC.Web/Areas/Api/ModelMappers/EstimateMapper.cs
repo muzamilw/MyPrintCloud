@@ -58,6 +58,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 OrderCode = source.Order_Code,
                 OrderReportSignedBy = source.OrderReportSignedBy,
+                IsEstimate = source.isEstimate,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
@@ -113,6 +114,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Estimate_Name = source.EstimateName,
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
+                CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 isDirectSale = source.IsDirectSale,
@@ -143,6 +145,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OrderReportSignedBy = source.OrderReportSignedBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
+                isEstimate = source.IsEstimate,
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
                 new List<DomainModels.Item>(),

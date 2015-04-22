@@ -1190,6 +1190,9 @@ define("order/order.viewModel",
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
                         selectedOrder().statusId(view.orderstate());
+                        if (isNaN(view.orderstate())) {
+                            selectedOrder().statusId(4); // Pending orders
+                        }
                         var order = selectedOrder().convertToServerData();
                         _.each(selectedOrder().prePayments(), function (item) {
                             order.PrePayments.push(item.convertToServerData());
@@ -2311,7 +2314,7 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     var host = window.location.host;
                                     var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");
+                                    window.open(uri, "_blank");                                    
                                 }
                                 isLoadingOrders(false);
                             },

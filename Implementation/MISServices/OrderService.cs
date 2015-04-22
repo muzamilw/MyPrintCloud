@@ -613,6 +613,7 @@ namespace MPC.Implementation.MISServices
                 Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
 
 
+                
                 Company store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.Company.StoreId ?? 0);
                 if (store != null)
                 {
@@ -712,7 +713,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID,OrganisationId);
+                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -727,7 +728,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID,OrganisationId);
+                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -737,7 +738,7 @@ namespace MPC.Implementation.MISServices
                         // here xml comes
                         if (IncludeOrderXML)
                         {
-                            string sOrderXMLReportPath = ExportOrderReportXML(OrderID, "", "0",OrganisationId);
+                            string sOrderXMLReportPath = ExportOrderReportXML(OrderID, "", "0");
                             if (System.IO.File.Exists(sOrderXMLReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderXMLReportPath, "");
@@ -1186,11 +1187,17 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID,long OrganisationID)
+        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID)
         {
             string sFilePath = string.Empty;
             try
             {
+                 long OrganisationID = 0;
+                Organisation org = organisationRepository.GetOrganizatiobByID();
+                if (org != null)
+                {
+                    OrganisationID = org.OrganisationId;
+                }
                 Report currentReport = ReportRepository.GetReportByReportID(iReportID);
                 if (currentReport.ReportId > 0)
                 {
@@ -1244,7 +1251,7 @@ namespace MPC.Implementation.MISServices
             return sFilePath;
         }
 
-        private string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat,long OrganisationID)
+        public string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat)
         {
             string sFilePath = string.Empty;
             bool isCorporate = false;
@@ -1252,6 +1259,13 @@ namespace MPC.Implementation.MISServices
           
             try
             {
+            
+                long OrganisationID = 0;
+                Organisation org = organisationRepository.GetOrganizatiobByID();
+                if (org != null)
+                {
+                    OrganisationID = org.OrganisationId;
+                }
                 Estimate orderEntity = new Estimate();
                 if (iRecordID > 0)
                     orderEntity = orderRepository.GetOrderByIdforXml(iRecordID);
@@ -2569,6 +2583,70 @@ namespace MPC.Implementation.MISServices
             return sFilePath;
         }
 
+
+        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID)
+        {
+            string sFilePath = string.Empty;
+            try
+            {
+                long OrganisationID = 0;
+                Organisation org = organisationRepository.GetOrganizatiobByID();
+                if (org != null)
+                {
+                    OrganisationID = org.OrganisationId;
+                }
+                Report currentReport = ReportRepository.GetReportByReportID(iReportID);
+                if (currentReport.ReportId > 0)
+                {
+                    byte[] rptBytes = null;
+                    rptBytes = System.Text.Encoding.Unicode.GetBytes(currentReport.ReportTemplate);
+                    // Encoding must be done
+                    System.IO.MemoryStream ms = new System.IO.MemoryStream(rptBytes);
+                    // Load it to memory stream
+                    ms.Position = 0;
+                    SectionReport currReport = new SectionReport();
+                    string sFileName = iRecordID + "OrderReport.xls";
+                    // FileNamesList.Add(sFileName);
+                    currReport.LoadLayout(ms);
+                    if (type == ReportType.JobCard)
+                    {
+                        sFileName = iRecordID + "JobCardReport.xls";
+                        //  FileNamesList.Add(sFileName);
+                        List<usp_JobCardReport_Result> rptSource = ReportRepository.getJobCardReportResult(OrganisationID, OrderID, iRecordID);
+                        currReport.DataSource = rptSource;
+                    }
+                    else if (type == ReportType.Order)
+                    {
+
+                        List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
+                        currReport.DataSource = rptOrderSource;
+                    }
+
+                    if (currReport != null)
+                    {
+                        currReport.Run();
+                        GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
+                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
+                        if (!Directory.Exists(Path))
+                        {
+                            Directory.CreateDirectory(Path);
+                        }
+                        // PdfExport pdf = new PdfExport();
+                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
+
+                        xls.Export(currReport.Document, sFilePath);
+                        ms.Close();
+                        currReport.Document.Dispose();
+                        xls.Dispose();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return sFilePath;
+        }
         #endregion
 
         

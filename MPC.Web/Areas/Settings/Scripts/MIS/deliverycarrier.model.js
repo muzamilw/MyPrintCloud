@@ -10,7 +10,7 @@
             apiPassword = ko.observable().extend({ required: true }),
             isenable = ko.observable(),
             showErrors = ko.observable(false),
-            
+            readonly = ko.observable(false),
             
             
             errors = ko.validation.group({
@@ -53,7 +53,8 @@
                 apiPassword: apiPassword,
                 isenable: isenable,
                 isValid: isValid,
-                showErrors:showErrors,
+                showErrors: showErrors,
+                readonly:readonly,
                 hasChanges: hasChanges,
                 
 
