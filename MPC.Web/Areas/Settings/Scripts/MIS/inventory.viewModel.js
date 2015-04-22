@@ -415,11 +415,6 @@ define("inventory/inventory.viewModel",
 
                             dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
                                 success: function (data) {
-                                    if (data && data.PackCostPrice) {
-                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice);
-                                    } else {
-                                        selectedInventoryCopy().packCostPrice('');
-                                    }
                                     //For Add New
                                     if (selectedInventory().itemId() === 0) {
                                         var inventoryResponse = new model.InventoryListView.Create(data);
@@ -434,6 +429,7 @@ define("inventory/inventory.viewModel",
                                         selectedInventoryCopy().weightUnitName(data.WeightUnitName);
                                         selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
                                         selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
+                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice || '');
                                     }
                                     isInventoryEditorVisible(false);
                                     sharedNavigationVM.reset();
