@@ -176,6 +176,8 @@ define("order/order.viewModel",
                     defaultCompanyContact = ko.observable(model.CompanyContact.Create({})),
                     //Inventory Stock Item To Create
                     inventoryStockItemToCreate = ko.observable(),
+                    // Stock Item To Create For Stock Cost Center
+                    stockItemToCreate = ko.observable(),
                     // Selected Address
                     selectedAddress = ko.computed(function () {
                         if (!selectedOrder() || !selectedOrder().addressId() || companyAddresses().length === 0) {
@@ -230,6 +232,8 @@ define("order/order.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     //Is Inventory Dialog is opening from Order Dialog's add Product From Inventory
                     isAddProductFromInventory = ko.observable(false),
+                    //Is Inventory Dialog is opening for Section Cost Center
+                    isAddProductForSectionCostCenter = ko.observable(false),
                     orderHasChanges = ko.computed(function () {
                         var hasChanges = false, productChanges = false, sectionHasChanges = false;
                         if (selectedOrder()) {
@@ -588,6 +592,7 @@ define("order/order.viewModel",
                     // Open Stock Item Dialog For Adding product
                     openStockItemDialogForAddingProduct = function () {
                         isAddProductFromInventory(true);
+                        isAddProductForSectionCostCenter(false);
                         stockDialog.show(function (stockItem) {
                             createNewInventoryProduct(stockItem);
                         }, stockCategory.paper, false);
@@ -595,6 +600,7 @@ define("order/order.viewModel",
                     // Open Stock Item Dialog For Adding Stock
                     openStockItemDialogForAddingStock = function () {
                         isAddProductFromInventory(false);
+                        isAddProductForSectionCostCenter(true);
                         stockDialog.show(function (stockItem) {
                             onSaveStockItem(stockItem);
                         }, stockCategory.paper, false);
@@ -1597,11 +1603,30 @@ define("order/order.viewModel",
                     },
                 //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
+                        var costCenter = model.costCentre.Create({});
+                        selectedCostCentre(costCenter);
 
+                        stockItemToCreate(stockItem);
+
+                        view.showCostCentersQuantityDialog();
+                        isAddProductFromInventory(false);
+
+                    },
+                    onSaveStockitemForSectionCostCenter = function() {
                         var sectionCostCenter = model.SectionCostCentre.Create({});
-                        sectionCostCenter.name(stockItem.name);
-                        sectionCostCenter.qty1NetTotal(stockItem.price);
+                        sectionCostCenter.name(stockItemToCreate().name);
+                        sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
                         sectionCostCenter.costCentreType('139');
+                        sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                        sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                        sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1Charge(0);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
+                        view.hideCostCentersQuantityDialog();
                         selectedSection().sectionCostCentres.splice(0, 0, sectionCostCenter);
                     },
                     onSaveProductInventory = function () {
@@ -2569,6 +2594,8 @@ define("order/order.viewModel",
                     onSaveRetailStoreProduct: onSaveRetailStoreProduct,
                     onSaveProductCostCenter: onSaveProductCostCenter,
                     isAddProductFromInventory: isAddProductFromInventory,
+                    isAddProductForSectionCostCenter: isAddProductForSectionCostCenter,
+                    onSaveStockitemForSectionCostCenter: onSaveStockitemForSectionCostCenter,
                     //#endregion Utility Methods
                     //#region Estimate Screen
                     initializeEstimate: initializeEstimate,
