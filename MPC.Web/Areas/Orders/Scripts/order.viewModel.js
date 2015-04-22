@@ -1570,6 +1570,12 @@ define("order/order.viewModel",
                         sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
                         sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
                         sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                        sectionCostCenter.qty1EstimatedStockCost(0);
+                        sectionCostCenter.qty2EstimatedStockCost(0);
+                        sectionCostCenter.qty3EstimatedStockCost(0);
+                        sectionCostCenter.qty1Charge(0);
+                        sectionCostCenter.qty2Charge(0);
+                        sectionCostCenter.qty3Charge(0);
                         sectionCostCenter.costCentreType('139');
 
                         itemSection.sectionCostCentres.push(sectionCostCenter);

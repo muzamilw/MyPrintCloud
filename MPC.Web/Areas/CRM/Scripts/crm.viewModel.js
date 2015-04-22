@@ -92,11 +92,12 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             suppliers.removeAll();
                             if (data != null) {
-                                supplierpager().totalCount(data.RowCount);
+                               
                                 _.each(data.Companies, function (item) {
                                     var module = model.CrmSupplierListViewModel.Create(item);
                                     suppliers.push(module);
                                 });
+                                supplierpager().totalCount(data.RowCount);
                             }
                             isLoadingSuppliers(false);
                         },
@@ -160,11 +161,11 @@ define("crm/crm.viewModel",
                     {
                         success: function (data) {
                             if (data != null) {
-                               prospectPager().totalCount(data.RowCount) ;
                                 _.each(data.Customers, function (customer) {
                                     var customerModel = new model.customerViewListModel.Create(customer);
                                     customersForListView.push(customerModel);
                                 });
+                                prospectPager().totalCount(data.RowCount);
                             }
                         },
                         error: function () {
@@ -219,7 +220,6 @@ define("crm/crm.viewModel",
                                 IsAsc: sortIsAsc()
                             }, {
                                 success: function (data) {
-                                    companyTerritoryPager().totalCount(data.RowCount);
                                     var isStoreDirty = selectedStore().hasChanges();
                                     selectedStore().companyTerritories.removeAll();
                                     _.each(data.CompanyTerritories, function (companyTerritoryItem) {
@@ -240,6 +240,7 @@ define("crm/crm.viewModel",
                                             }
                                         });
                                     });
+                                    companyTerritoryPager().totalCount(data.RowCount);
                                     //check on client side, push all if new added work
                                     if (searchCompanyTerritoryFilter() == "" || searchCompanyTerritoryFilter() == undefined) {
                                         _.each(newCompanyTerritories(), function (companyTerritoryItem) {
@@ -660,7 +661,6 @@ define("crm/crm.viewModel",
                             success: function (data) {
                                 var isStoreDirty = selectedStore().hasChanges();
                                 selectedStore().addresses.removeAll();
-                                addressPager().totalCount(data.RowCount);
                                 _.each(data.Addresses, function (addressItem) {
                                     var address = new model.Address.Create(addressItem);
                                     selectedStore().addresses.push(address);
@@ -679,6 +679,7 @@ define("crm/crm.viewModel",
                                         }
                                     });
                                 });
+                                addressPager().totalCount(data.RowCount);
                                 //check on client side, push all if new added work
                                 if (searchAddressFilter() == "" || searchAddressFilter() == undefined) {
                                     if (addressTerritoryFilter() != undefined) {
@@ -1146,7 +1147,6 @@ define("crm/crm.viewModel",
                             success: function (data) {
                                 var isStoreDirty = selectedStore().hasChanges();
                                 selectedStore().users.removeAll();
-                                contactCompanyPager().totalCount(data.RowCount);
                                 _.each(data.CompanyContacts, function (companyContactItem) {
                                     var companyContact = new model.CompanyContact.Create(companyContactItem);
                                     selectedStore().users.push(companyContact);
@@ -1165,6 +1165,7 @@ define("crm/crm.viewModel",
                                         }
                                     });
                                 });
+                                contactCompanyPager().totalCount(data.RowCount);
                                 //check on client side, push all if new added work
                                 if (searchCompanyContactFilter() == "" || searchCompanyContactFilter() == undefined) {
                                     if (contactCompanyTerritoryFilter() != undefined) {
@@ -2096,11 +2097,11 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 ordersList.removeAll();
-                                orderPager().totalCount(data.RowCount);
                                 _.each(data.OrdersList, function (order) {
                                     var newOrder = new model.Estimate.Create(order);
                                     ordersList.push(newOrder);
                                 });
+                                orderPager().totalCount(data.RowCount);
                             }
                         },
                         error: function () {
@@ -2133,12 +2134,12 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 purchasesList.removeAll();
-                                purchaseOrderPager().totalCount(data.RowCount);
                                 _.each(data.PurchasesList, function (purchase) {
                                     var newPurchase = new model.PurchaseListViewModel.Create(purchase);
                                     newPurchase.supplierName(selectedStore().name());
                                     purchasesList.push(newPurchase);
                                 });
+                                purchaseOrderPager().totalCount(data.RowCount);
                             }
                         },
                         error: function () {
@@ -2171,12 +2172,12 @@ define("crm/crm.viewModel",
                         success: function (data) {
                             if (data != null) {
                                 goodRecievedNotesList.removeAll();
-                                goodsReceivedNotePager().totalCount(data.RowCount);
                                 _.each(data.GoodsReceivedNotesList, function (goodRecievedNote) {
                                     var newgoodRecievedNote = new model.GoodsReceivedNoteListViewModel.Create(goodRecievedNote);
                                     newgoodRecievedNote.supplierName(selectedStore().name());
                                     goodRecievedNotesList.push(newgoodRecievedNote);
                                 });
+                                goodsReceivedNotePager().totalCount(data.RowCount);
                             }
                         },
                         error: function () {
@@ -2209,7 +2210,6 @@ define("crm/crm.viewModel",
                           success: function (data) {
                               if (data != null) {
                                   invoicesList.removeAll();
-                                  invoicePager().totalCount(data.RowCount);
                                   _.each(data.Invoices, function (item) {
                                       var invoice = new model.Invoice.Create(item);
                                       _.each(sectionFlagList(), function (flag) {
@@ -2218,6 +2218,7 @@ define("crm/crm.viewModel",
                                       });
                                       invoicesList.push(invoice);
                                   });
+                                  invoicePager().totalCount(data.RowCount);
                               }
                           },
                           error: function () {
@@ -2407,8 +2408,8 @@ define("crm/crm.viewModel",
                    }
 
                    orderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForOrderTab));
-                   purchaseOrderPager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForPurchaseOrderTab));
-                   goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, ordersList, getDataForGoodsReceivedNoteTab));
+                   purchaseOrderPager(new pagination.Pagination({ PageSize: 5 }, purchasesList, getDataForPurchaseOrderTab));
+                   goodsReceivedNotePager(new pagination.Pagination({ PageSize: 5 }, goodRecievedNotesList, getDataForGoodsReceivedNoteTab));
                    invoicePager(new pagination.Pagination({ PageSize: 5 }, invoicesList, getsDataForInvoiceTab));
                    getBaseDataFornewCompany();
                };

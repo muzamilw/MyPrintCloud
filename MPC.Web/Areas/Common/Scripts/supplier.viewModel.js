@@ -68,7 +68,6 @@ define("common/supplier.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                supplierPager().totalCount(data.TotalCount);
                                 suppliers.removeAll();
                                 var supplierList = [];
                                 _.each(data.Suppliers, function (item) {
@@ -77,6 +76,7 @@ define("common/supplier.viewModel",
                                 });
                                 ko.utils.arrayPushAll(suppliers(), supplierList);
                                 suppliers.valueHasMutated();
+                                supplierPager().totalCount(data.TotalCount);
                                 isLoading(false);
                             },
                             error: function () {
@@ -236,7 +236,7 @@ define("common/supplier.viewModel",
 
                 format = function (item) {
                     return $ + item.FlagName;
-                }
+                },
                 //Media Library File Loaded Call back
                 supplierLogoLoadedCallback = function (file, data) {
                     addSupplier().logoSource(data);
@@ -291,3 +291,4 @@ define("common/supplier.viewModel",
         return ist.supplier.viewModel;
     });
 
+http://mpc/mis/../../Api/Controllers/ReportManagerController.cs
