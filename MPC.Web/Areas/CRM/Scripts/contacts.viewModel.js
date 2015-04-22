@@ -56,11 +56,11 @@ define("crm/contacts.viewModel",
                             success: function (data) {
                                 if (data != null) {
                                     companyContactsForListView.removeAll();
-                                    pager().totalCount(data.RowCount);
                                     _.each(data.CompanyContacts, function (customer) {
                                         var contactModel = new model.CompanyContact.Create(customer);
                                         companyContactsForListView.push(contactModel);
                                     });
+                                    pager().totalCount(data.RowCount);
                                 }
                             },
                             error: function () {
@@ -95,7 +95,7 @@ define("crm/contacts.viewModel",
                         {
                             success: function () {
                                 companyContactsForListView.remove(contact);
-                                pager().totalCount(pager().totalCount() - 1);
+                                //pager().totalCount(pager().totalCount() - 1);
                                 toastr.success("Contact successfuly deleted!");
                             },
                             error: function () {
