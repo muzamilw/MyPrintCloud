@@ -3131,11 +3131,11 @@ function k16(TempImgType, ImC, Caller) {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
                               '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">'// + '<span class="info btnRemoveImg"><span class=" moreInfo ">✖</span></span>'
                               + bkContainer + '<span class="info">' + '<span class="moreInfo" title="Show more info" onclick=k26(' + title + "," + index + "," + loaderType + ')>i</span>' +
-		                       '</span></a></li>';
+		                       '</span></a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
                             $("." + strName).append(ahtml);
                         } else {
                             var ahtml = '<li class="DivCarouselImgContainerStyle2"><a href="#">' + '<img  src="' + urlThumbnail +
-                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a></li>';
+                              '" class="svg imgCarouselDiv ' + draggable + '" style="z-index:1000;" id = "' + title + '" alt="' + url + '">' + bkContainer + '</a><p class="bkFileName">' + IT.ImageTitle + '</p></li>';
 
                             $("." + strName).append(ahtml);
 
