@@ -231,7 +231,9 @@ function fu04_01() {
           console.log(smartFormData);
           pcl42_updateTemplate(DT);
           TO = DT;
-          pcl42_UpdateTO();
+          //alert(smartFormData);
+          if(smartFormData != null)
+              pcl42_UpdateTO();
           fu07();
           fu06();
           // if (firstLoad) {
@@ -277,9 +279,14 @@ function fu09() {
 function svcCall1(ca, gtID) {
     $.getJSON("/designerapi/Template/mergeTemplate/" + gtID + "/" + tID + "/" + organisationId,
           function (xdata) {
-              console.log("call returned");
+            //  console.log("call returned");
               SvcLoad2ndTemplate();
+              if (item.SmartFormId != null) {
 
+                  if (item.SmartFormId != 0) {
+                      $("#Quick").click();
+                  }
+              }
           });
 }
 function svcCall2(n, tID, imgtype) {

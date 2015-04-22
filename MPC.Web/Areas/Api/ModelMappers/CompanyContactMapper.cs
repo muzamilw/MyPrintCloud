@@ -134,7 +134,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                        ContactId = source.ContactId,
                        AddressId = source.AddressId,
                        CompanyId = source.CompanyId,
-                       CompanyName = source.Company != null ? source.Company.Name : "",
+                       CompanyName = source.Company != null ? source.Company.Name :string.Empty,
                        FirstName = source.FirstName,
                        MiddleName = source.MiddleName,
                        LastName = source.LastName,
