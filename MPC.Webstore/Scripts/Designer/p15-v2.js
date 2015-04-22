@@ -107,7 +107,7 @@ function fu04_1GetItem(DT)
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
              //update dimestions 
-
+           //  alert(result.ZoomFactor);
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
              h = h / 96 * 72;
@@ -135,13 +135,17 @@ function fu04_1GetItem(DT)
                  if (item.SmartFormId != 0) {
                      $(".QuickTxt").css("visibility", "hidden");
                      $.getJSON("/designerapi/SmartForm/GetSmartFormData/" + ContactID + "/" + item.SmartFormId + "/" + item.ParentTemplateId,
-                       function (DT) {
+                       function (DT2) {
                            $(".QuickTxt").css("visibility", "visible");
-                           pcl41(DT);
-                           smartFormClicked = false; 
+                           pcl41(DT2);
+                           smartFormClicked = false;
+                           fu04_TempCbkGen(DT);
                        });
+                 } else
+                 {
+                     fu04_TempCbkGen(DT);
                  }
-                 fu04_TempCbkGen(DT);
+                 
              } else {
                  $(".QuickTxt").css("visibility", "hidden");
                  $.getJSON("/designerapi/SmartForm/GetUserVariableData/" + ItemId + "/" + ContactID,
@@ -224,9 +228,10 @@ function fu04_01() {
                   }
               }
           });
- 
+          console.log(smartFormData);
           pcl42_updateTemplate(DT);
           TO = DT;
+          pcl42_UpdateTO();
           fu07();
           fu06();
           // if (firstLoad) {
