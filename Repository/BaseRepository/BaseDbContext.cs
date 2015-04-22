@@ -651,6 +651,21 @@ namespace MPC.Repository.BaseRepository
         public DbSet<SectionInkCoverage> SectionInkCoverages { get; set; }
 
         /// <summary>
+        /// Job Card Report View DbSet
+        /// </summary>
+        public DbSet<JobCardReportView> JobCardReportViews { get; set; }
+
+        /// <summary>
+        /// Order Report View DbSet
+        /// </summary>
+        public DbSet<OrderReportView> OrderReportViews { get; set; }
+
+        /// <summary>
+        /// Report Category DbSet
+        /// </summary>
+        public DbSet<ReportCategory> ReportCategories { get; set; }
+
+        /// <summary>
         /// Clone Template Stored Procedure
         /// </summary>
 // ReSharper disable InconsistentNaming
@@ -840,6 +855,40 @@ namespace MPC.Repository.BaseRepository
                 new ObjectParameter("OrderID", typeof(long));
 
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("usp_DeleteOrderByID", orderIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_JobCardReport_Result> usp_JobCardReport(long? organisationId, long? orderId, long? itemId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            var itemIdParameter = itemId.HasValue ?
+                new ObjectParameter("ItemID", itemId) :
+                new ObjectParameter("ItemID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_JobCardReport_Result>("usp_JobCardReport", organisationIdParameter, orderIdParameter, itemIdParameter);
+        }
+
+// ReSharper disable InconsistentNaming
+        public ObjectResult<usp_OrderReport_Result> usp_OrderReport(long? organisationId, long? orderId)
+// ReSharper restore InconsistentNaming
+        {
+            var organisationIdParameter = organisationId.HasValue ?
+                new ObjectParameter("organisationId", organisationId) :
+                new ObjectParameter("organisationId", typeof(long));
+
+            var orderIdParameter = orderId.HasValue ?
+                new ObjectParameter("OrderID", orderId) :
+                new ObjectParameter("OrderID", typeof(long));
+
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<usp_OrderReport_Result>("usp_OrderReport", organisationIdParameter, orderIdParameter);
         }
 
         #endregion

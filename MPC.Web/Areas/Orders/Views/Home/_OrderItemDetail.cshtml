@@ -54,13 +54,13 @@
                                                 <label class="control-label tooltip-float">Components Total</label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge1Total()"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge1Total"></span></label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge2Total()"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge2Total"></span></label>
                                             </div>
                                             <div class="col-xs-2 txtBox-contentAlignRight">
-                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge3Total()"></span></label>
+                                                <label class="control-label"><span data-bind="text:$root.currencySymbol"></span><span data-bind="text:$root.baseCharge3Total"></span></label>
                                             </div>
                                             <div class="col-xs-2">
                                                 &nbsp;
@@ -89,13 +89,13 @@
                                             <label class="control-label tooltip-float" style="font-weight:bolder">Net Total with MarkUp Applied</label>
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotal" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;margin-left:2px;" id="txtQty1" data-bind="value:qty1NetTotalComputed" />
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotal" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;width:99% !important;" id="txtQty2" data-bind="value:qty2NetTotalComputed" />
                                         </div>
                                         <div class="col-xs-2">
-                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotal" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" style="font-weight:bolder;margin-right:2px;" id="txtQty3" data-bind="value:qty3NetTotalComputed" />
                                         </div>
                                         <div class="col-xs-2">
                                             &nbsp;
@@ -108,7 +108,7 @@
                                             <label class="control-label tooltip-float">Tax</label>
                                         </div>
                                         <div class="col-lg-2">
-                                            <input type="text" class="form-control " data-bind="disable:taxRateIsDisabled,value:tax1" />
+                                            <input type="text" class="form-control txtBox-contentAlignRight" data-bind="disable:taxRateIsDisabled,value:tax1" />
                                             @*<select class="form-control Qty-TextBox-width Qty-TextBox-float ">
                                                     <option>VAT Free</option>
                                                     <option>VAT 20%</option>
@@ -422,7 +422,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">2014/06/14</label>
+                                            <label class="control-label" style="margin-left:5px;">14/06/2014</label>
 
                                         </div>
                                     </div>
@@ -441,7 +441,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">2014/06/14</label>
+                                            <label class="control-label" style="margin-left:5px;">15/06/2014</label>
 
                                         </div>
                                     </div>

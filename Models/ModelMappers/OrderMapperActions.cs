@@ -53,7 +53,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Action to delete Item Attachment
         /// </summary>
-        public Func<ItemAttachment> DeleteItemAttachment { get; set; }
+        public Action<ItemAttachment> DeleteItemAttachment { get; set; }
 
         /// <summary>
         /// Action to create an Item
@@ -63,7 +63,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Action to Delete Item
         /// </summary>
-        public Func<Item> DeleteItem { get; set; }
+        public Action<Item> DeleteItem { get; set; }
 
         /// <summary>
         /// Action to create a Pre Payment
@@ -84,6 +84,11 @@ namespace MPC.Models.ModelMappers
         /// Action to delete Delivery Note
         /// </summary>
         public Func<DeliveryNote> DeleteDeliveryNote { get; set; }
+
+        /// <summary>
+        /// Action to create an Order
+        /// </summary>
+        public Func<Estimate> CreateNewOrder { get; set; }
         
         #endregion
     }

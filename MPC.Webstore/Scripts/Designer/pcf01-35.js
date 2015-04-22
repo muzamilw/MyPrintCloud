@@ -1351,6 +1351,11 @@ function g2_1(e) {
             $("#inputObjectHeightTxt").spinner("option", "disabled", false);
             $("#inputPositionXTxt").spinner("option", "disabled", false);
             $("#inputPositionYTxt").spinner("option", "disabled", false);
+            if (D1AO.IsPositionLocked == true && (IsCalledFrom == 3 || IsCalledFrom == 4)) {
+                $(".positioningControls").css("display", "none");
+            } else {
+                $(".positioningControls").css("display", "block");
+            }
         }
         else {
             $("#inputcharSpacing").spinner("option", "disabled", true);
@@ -1396,6 +1401,7 @@ function g2_1(e) {
             $("#inputPositionXTxt").spinner("option", "disabled", true);
             $("#inputPositionYTxt").spinner("option", "disabled", true);
             $(".fontSelector").attr("disabled", "disabled");
+            $(".positioningControls").css("display", "block");
         }
 
     }
@@ -1426,12 +1432,11 @@ function g2_22(mode) {
     $("#textPropertyPanel").css("display", "none");
     $("#objPropertyPanel").css("display", "block");
     $(".inputObjectAlphaSlider").slider("option", "value", (D1AO.getOpacity() * 100));
-    if (!D1AO.IsEditable) {
+    if (D1AO.IsEditable) {
         $("#LockImgProperties").prop('checked', true);
     } else {
         $("#LockImgProperties").prop('checked', false);
     }
-
     if (D1AO.IsHidden) {
         $("#BtnPrintImage").prop('checked', true);
     } else {
@@ -1448,8 +1453,8 @@ function g2_22(mode) {
         $("#LockPositionImg").prop('checked', false);
     }
     if (mode == 1) {
-        if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
-        } else {
+      //  if ((IsEmbedded && D1AO.IsTextEditable && (IsCalledFrom == 4))) {
+      //  } else {
             $("#imgThumbPreview").attr("src", D1AO.getSrc());
             $(".imgthumbPreviewSlider").css("display", "block");
             $("#BtnCropImg2").css("display", "inline-block");
@@ -1466,7 +1471,7 @@ function g2_22(mode) {
                 //pcL36('show', '#ImagePropertyPanel');
                 //DisplayDiv('1');
             }
-        }
+       // }
     } else {
         if ((D1AO.IsTextEditable && (IsCalledFrom == 4))) {
         } else {
@@ -1490,6 +1495,7 @@ function g2_22(mode) {
             }
         }
     }
+    g1_(D1AO);
 }
 function g5(e) {
     IsDesignModified = true;
@@ -1531,17 +1537,18 @@ function g5_new(e) {
         pcL36('show', '#DivAlignObjs');
 
     }
-    else if (D1AO && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)) {
+    else if (D1AO) { // && (D1AO.IsPositionLocked != true || IsCalledFrom == 2)
         $("#textPropertyPanel, #objPropertyPanel").css("display", "none");
         g2_1(e);
-
-    } else {
-        if (D1AO) {
-            pcL13();
-            pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
-            $(".layersPanel").click();
-        }
     }
+    //} else {
+    //    if (D1AO) {
+           
+    //        pcL13();
+    //        pcL36('hide', '#DivAlignObjs , #textPropertPanel , #DivAdvanceColorPanel , #DivColorPallet , #ShapePropertyPanel , #ImagePropertyPanel , #UploadImage , #quickText , #addImage , #addText , #DivToolTip , #DivAlignObjs , #quickTextFormPanel , #DivPersonalizeTemplate ');
+    //        $(".layersPanel").click();
+    //    }
+    //}
 
 }
 function g5_1(e) {
@@ -2962,6 +2969,7 @@ function pcl42_UpdateTO() {
 
 }
 function pcl42_updateTemplate(DT) {
+   // alert();
     if (userVariableData != null) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {

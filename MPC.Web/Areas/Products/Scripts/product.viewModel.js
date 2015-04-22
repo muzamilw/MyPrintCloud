@@ -236,7 +236,7 @@ define("product/product.viewModel",
                             });
 
                             if (productCategoryItem) {
-                                productCategory.isSelected(true);
+                                productCategory.isSelected(productCategoryItem.isSelected());
                             }
                             else {
                                 productCategory.isSelected(false);
@@ -449,7 +449,7 @@ define("product/product.viewModel",
                         if (!productCategory) {
                             return false;
                         }
-
+                        
                         if ($(event.target).is(':checked')) {
                             productCategory.isSelected(true);
                         }
@@ -1246,6 +1246,9 @@ define("product/product.viewModel",
                         }, {
                             success: function (data) {
                                 if (data.ProductCategories != null) {
+                                    // Update Product Category Items
+                                    selectedProduct().updateProductCategoryItems(productCategories());
+
                                     _.each(data.ProductCategories, function (productCategory) {
                                         productCategory.ParentCategoryId = id;
                                         var category = model.ProductCategory.Create(productCategory);
@@ -1255,7 +1258,7 @@ define("product/product.viewModel",
                                             });
 
                                             if (productCategoryItem) {
-                                                category.isSelected(true);
+                                                category.isSelected(productCategoryItem.isSelected());
                                             }
                                         }
                                         productCategories.push(category);

@@ -54,7 +54,9 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
                 companyImage = images[0],
                 ScaleFactor = item.Scalar,
                 ParentTemplateId = parentTemplateID,
-                RefItemId = parentItemID
+                RefItemId = parentItemID,
+                IsUploadImage = item.IsUploadImage,
+                ZoomFactor = item.ZoomFactor
             };
 
             var formatter = new JsonMediaTypeFormatter();

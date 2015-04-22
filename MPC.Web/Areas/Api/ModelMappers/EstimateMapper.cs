@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using MPC.MIS.Areas.Api.Models;
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -31,8 +30,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 IsDirectSale = source.isDirectSale,
-                IsCreditApproved = source.IsCreditApproved,
-                IsOfficialOrder = source.IsOfficialOrder,
+                IsCreditApproved = source.IsCreditApproved == 1,
+                IsOfficialOrder = source.IsOfficialOrder == 1,
                 OrderDate = source.Order_Date,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
@@ -51,7 +50,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditLimitForJob = source.CreditLimitForJob,
                 CreditLimitSetBy = source.CreditLimitSetBy,
                 CreditLimitSetOnDateTime = source.CreditLimitSetOnDateTime,
-                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck,
+                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck == 1,
                 AllowJobWOCreditCheckSetOnDateTime = source.AllowJobWOCreditCheckSetOnDateTime,
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPo = source.CustomerPO,
@@ -59,6 +58,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
                 OrderCode = source.Order_Code,
                 OrderReportSignedBy = source.OrderReportSignedBy,
+                IsEstimate = source.isEstimate,
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
@@ -114,11 +114,12 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Estimate_Name = source.EstimateName,
                 EnquiryId = source.EnquiryId,
                 SectionFlagId = source.SectionFlagId,
+                CompanyId = source.CompanyId,
                 ContactId = source.ContactId,
                 AddressId = source.AddressId,
                 isDirectSale = source.IsDirectSale,
-                IsCreditApproved = source.IsCreditApproved,
-                IsOfficialOrder = source.IsOfficialOrder,
+                IsCreditApproved = source.IsCreditApproved == true ? 1 : 0,
+                IsOfficialOrder = source.IsOfficialOrder == true ? 1 : 0,
                 Order_Date = source.OrderDate,
                 StartDeliveryDate = source.StartDeliveryDate,
                 FinishDeliveryDate = source.FinishDeliveryDate,
@@ -137,15 +138,17 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 CreditLimitForJob = source.CreditLimitForJob,
                 CreditLimitSetBy = source.CreditLimitSetBy,
                 CreditLimitSetOnDateTime = source.CreditLimitSetOnDateTime,
-                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck,
+                IsJobAllowedWOCreditCheck = source.IsJobAllowedWOCreditCheck == true ? 1 : 0,
                 AllowJobWOCreditCheckSetOnDateTime = source.AllowJobWOCreditCheckSetOnDateTime,
                 AllowJobWOCreditCheckSetBy = source.AllowJobWOCreditCheckSetBy,
                 CustomerPO = source.CustomerPo,
                 OfficialOrderSetBy = source.OfficialOrderSetBy,
                 OrderReportSignedBy = source.OrderReportSignedBy,
                 OfficialOrderSetOnDateTime = source.OfficialOrderSetOnDateTime,
-                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : null
-
+                isEstimate = source.IsEstimate,
+                PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
+                Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
+                new List<DomainModels.Item>(),
             };
         }
 

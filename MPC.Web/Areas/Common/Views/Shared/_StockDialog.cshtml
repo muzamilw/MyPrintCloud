@@ -1,4 +1,4 @@
-﻿<div class="modal fade my-modal" id="stockDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+﻿<div class="modal fade my-modal" id="stockDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="overflow: visible">
     <div id="stockDialogMainContainer" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,15 +65,15 @@
 
 @* Stock Item Template *@
 <script id="stockDialogItemTemplate" type="text/html">
-    <tr data-bind="click: $parent.onSelectStockItem">
+    <tr data-bind="click:$parent.onSelectStockItem">
         <td>
-            <span style="font-size: 1.105em; color: black;" data-bind="text: itemName"></span>
+            <span style="font-size: 1.105em; color: black;" data-bind="text: name"></span>
         </td>
         <td>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Pack Qty '+ packageQty()"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Pack Qty '+ packageQty"></span>
             <br />
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Weight '+ itemWeight()"></span>
-            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'$'+ price() + '/' + perQtyQty()"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'Weight '+ itemWeight"></span>
+            <span style="font-size: 0.875em; color: lightgray;" data-bind="text:'$ '+ price + '/' + perQtyQty"></span>
         </td>
     </tr>
 </script>

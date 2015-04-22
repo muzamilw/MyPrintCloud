@@ -16,5 +16,7 @@ namespace MPC.Interfaces.Repository
            string payerEmail, string payerStatus,
            string first_name, string last_name, string street, string city, string state, string zip,
            string country, bool is_success, string reason_fault, CultureInfo culInfo);
+
+        string GetPayPalReference(long iRecordID);
     }
 }

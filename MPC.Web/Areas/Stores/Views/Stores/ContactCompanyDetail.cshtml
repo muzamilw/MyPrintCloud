@@ -1910,6 +1910,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
                                                             <th><a href="#"><span>Magenta</span></a></th>
                                                             <th><a href="#"><span>Yellow</span></a></th>
                                                             <th><a href="#"><span>Black</span></a></th>
+                                                            <th><a href="#"><span>Active</span></a></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -2117,6 +2118,11 @@ Public  - allows users to see other users addresses and orders." data-original-t
                 <td data-bind="text: colorM"></td>
                 <td data-bind="text: colorY"></td>
                 <td data-bind="text: colorK"></td>
+                <td>
+                    <div class="type">
+                        <span class="label" data-bind="text: isActive() ? 'YES' : 'NO', css: { 'label-success': isActive, 'label-danger': !isActive() }"></span></
+                    </div>
+                </td>
                 @*<td id="actionColumn">
                         <!-- ko template: { name: "actionsCompanyCMYKColorTemplate",templateEngine: new ko.nativeTemplateEngine() } -->
                         <!-- /ko -->
@@ -2502,7 +2508,7 @@ Public  - allows users to see other users addresses and orders." data-original-t
     <!-- ko if: campaignType() === 3 -->
     <tr>
         <td><a href="#" class="store-user-link" data-bind="text: campaignName,click : $root.onEditEmail"></a></td>
-        <td data-bind="dateString:startDateTime"></td>
+        <td data-bind="dateString:startDateTime,datePattern: 'DD/MM/YYYY'"></td>
         <!-- ko if: isEnabled -->
         <td class="text-center">
             <span class="label label-success">Active</span>

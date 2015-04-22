@@ -14,7 +14,12 @@
                 <div class="col-lg-6">
                     <div>
                         <label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName"></label>
-                        <button data-bind="click: $root.openCompanyDialog, enable: companyName()===undefined " href="#" class="btn btn-primary pull-right">
+
+                    </div>
+                </div>
+                <div class="col-lg-1">
+                    <div>
+                        <button data-bind="click: $root.openCompanyDialog, enable: ($root.selectedOrder().id() <= 0) || ($root.selectedOrder().id()===undefined) " href="#" class="btn btn-primary pull-right">
                             <i class="fa fa-lg"></i>&nbsp;....
                         </button>
                     </div>
@@ -229,7 +234,8 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
                                 <li><a href="#" data-bind="click: $root.onCostCenterClick">Cost Center</a></li>
-                                <li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>
+                                @*<li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>*@
+                                <li><a href="#" data-bind="click: $root.openStockItemDialogForAddingProduct">Inventory Item</a></li>
                             </ul>
                         </div>
                     </div>
@@ -279,9 +285,9 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
+    </div>
     @*</div>*@
     <div class="col-lg-12 form-horizontal">
         <div class="col-lg-12">

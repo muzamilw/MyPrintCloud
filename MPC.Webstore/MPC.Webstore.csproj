@@ -474,6 +474,7 @@
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
     <Content Include="Content\Images\bg2.png" />
+    <Content Include="Content\Images\delete.png" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
@@ -910,11 +911,6 @@
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
     <Folder Include="Views\ErrorPage\" />
-    <Folder Include="Views\PopularProducts\" />
-    <Folder Include="Views\PromotionalProduct\" />
-    <Folder Include="Views\Promotional\" />
-    <Folder Include="Views\QuickCalculator\" />
-    <Folder Include="Views\RSS\" />
     <Folder Include="Views\Twitter\" />
   </ItemGroup>
   <ItemGroup>

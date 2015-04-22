@@ -45,7 +45,7 @@
             createdBy = ko.observable(),
             lockedBy = ko.observable(),
             lastModifiedBy = ko.observable(),
-            minimumCost = ko.observable(),
+            minimumCost = ko.observable().extend({ required: true }),
             setupCost = ko.observable().extend({ required: true }),
             setupTime = ko.observable(),
             defaultVa = ko.observable(),
@@ -97,7 +97,7 @@
             quantityQuestionDefaultValue = ko.observable(),
             quantityCalculationString = ko.observable(),
             costPerUnitQuantity = ko.observable(),
-            pricePerUnitQuantity = ko.observable(),
+            pricePerUnitQuantity = ko.observable().extend({ required: true }),
             timePerUnitQuantity = ko.observable(),
             timeRunSpeed = ko.observable(),
             timeNoOfPasses = ko.observable(1),
@@ -153,11 +153,20 @@
         errors = ko.validation.group({
             name: name,
             type: type,
-            setupCost: setupCost
+            setupCost: setupCost,
+            pricePerUnitQuantity: pricePerUnitQuantity,
+            minimumCost: minimumCost,
+            perHourPrice: perHourPrice,
+            timeQuestionString: timeQuestionString,
+            quantityQuestionString: quantityQuestionString
         }),
         isValid = ko.computed(function () {
             return errors().length === 0 ? true : false;;
         }),
+         showAllErrors = function () {
+             // Show Item Errors
+             errors.showAllMessages();
+         },
         dirtyFlag = new ko.dirtyFlag({
             name: name,
             description: description,
@@ -169,6 +178,7 @@
             costDefaultValue: costDefaultValue,
             priceQuestionString: priceQuestionString,
             priceDefaultValue: priceDefaultValue,
+            timeQuestionString:timeQuestionString,
             estimatedTimeQuestionString: estimatedTimeQuestionString,
             estimatedTimeDefaultValue: estimatedTimeDefaultValue,
             minimumCost: minimumCost,
@@ -336,6 +346,7 @@
             isTimeVariable: isTimeVariable,
             //isTimePrompt: isTimePrompt,
             isQtyVariable: isQtyVariable,
+            showAllErrors: showAllErrors
             //isQtyPrompt: isQtyPrompt
         };
         return self;
@@ -1223,8 +1234,8 @@
     var StockItemVariable = function (item) {
         var self
             if (item != null && item != undefined) {
-                Id = ko.observable(item.id),
-                StockName = ko.observable(item.name)
+                Id = ko.observable(item.id()),
+                StockName = ko.observable(item.name())
             } else {
                 Id = ko.observable(),
                 StockName = ko.observable()

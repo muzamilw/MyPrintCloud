@@ -301,8 +301,10 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     newItem.IsOrderedItem = false;
-
-                    newItem.RefItemId = (int)itemID;
+                    if (!isSavedDesign)  // in case of save designs ref item 
+                        newItem.RefItemId = (int)itemID;
+                    else
+                        newItem.RefItemId = ActualItem.RefItemId;
                 }
 
 
@@ -353,7 +355,7 @@ namespace MPC.Repository.Repositories
                 if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
                 {
                     clonedTemplate = new Template();
-                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
                     {
                         long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
 
@@ -384,7 +386,7 @@ namespace MPC.Repository.Repositories
 
 
                 db.SaveChanges();
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
                 {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
@@ -1530,13 +1532,13 @@ namespace MPC.Repository.Repositories
                     if (NewItem.TemplateId > 0)
                     {
                         obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            "Side" + sideNumber.ToString(), attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     else
                     {
                         obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            sideNumber.ToString() + "Copy", attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     sideNumber += 1;
@@ -1552,12 +1554,12 @@ namespace MPC.Repository.Repositories
                             HttpContext.Current.Server.MapPath(attachment.FolderPath +
                                                                System.IO.Path.GetFileNameWithoutExtension(
                                                                    attachment.FileName) + "Thumb.png");
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + "Thumb.png");
                     }
                     else
                     {
-                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName + attachment.FileType);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + obj.FileType);
                     }
 
                     if (File.Exists(sourceFileName))
@@ -2563,10 +2565,11 @@ namespace MPC.Repository.Repositories
                                             HttpContext.Current.Server.MapPath("/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/" + newfilenamepng);
                                         System.IO.File.Move(Sourcefilenamepng, destnationfilepng);
                                         attatchment.FileName = System.IO.Path.GetFileNameWithoutExtension(newfilenamepdf);
+                                        attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
                                     }
                                     attatchment.CompanyId = realCustomerID;
                                     attatchment.ContactId = realContactID;
-                                    attatchment.FolderPath = "/mpc_content/Attachments/" + OrganisationId + "/" + realCustomerID + "/";
+                                    
                                     PageNo = PageNo + 1;
                                     
                                 });
@@ -3153,7 +3156,7 @@ namespace MPC.Repository.Repositories
 
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
-                    // if (Item.isMultipagePDF == true)
+                   
                     if (Item.isMultipagePDF == true)
                     {
                         //saving Page1  or Side 1 
@@ -3273,7 +3276,7 @@ namespace MPC.Repository.Repositories
                     if (!System.IO.Directory.Exists(virtualFolderPth))
                         System.IO.Directory.CreateDirectory(virtualFolderPth);
                     int index = 0;
-                    if (false) //Item.isMultipagePDF == true
+                    if (Item.isMultipagePDF == true) //
                     {
                         ArtWorkAttatchment oPage1Attachment = oLstAttachments[index];
                         index = index + 1;
@@ -4400,6 +4403,64 @@ namespace MPC.Repository.Repositories
         }
 
 
+
+        public bool UpdateItem(long itemID, long? templateID)
+        {
+            bool result = false;
+            Item tblItemProduct = null;
+
+            try
+            {
+
+                tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+
+                if (tblItemProduct != null)
+                {
+
+                    tblItemProduct.TemplateId = templateID.HasValue && templateID.Value > 0 ? templateID : tblItemProduct.TemplateId;
+
+                    result = db.SaveChanges() > 0 ? true : false;
+                }
+
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
+
+        }
+
+        public List<Item> GetItemsWithAttachmentsByOrderID(long OrderID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                //filter the items which are of type delivery i.e. itemtype = 2
+                return  db.Items.Include("ItemAttachments").Where(i => i.EstimateId == OrderID && (i.ItemType == null || i.ItemType != 2)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+             
+        }
+
+
+        public Item GetItemWithSections(long itemID)
+        {
+            try
+            {
+                return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

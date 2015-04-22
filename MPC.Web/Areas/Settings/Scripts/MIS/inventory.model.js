@@ -420,7 +420,7 @@
     InventoryListView.Create = function (source) {
         var obj= new InventoryListView(source.StockItemId, source.ItemName, source.ItemWeight, source.PerQtyQty, source.FlagColor, source.CategoryName,
                               source.SubCategoryName, source.WeightUnitName, source.FullCategoryName, source.SupplierCompanyName, source.Region);
-        obj.packCostPrice(source.PackCostPrice === -9999 ? '' : source.PackCostPrice);
+        obj.packCostPrice(source.PackCostPrice || '');
         return obj;
     };
 

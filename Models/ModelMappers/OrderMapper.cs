@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System;
 using MPC.Models.DomainModels;
@@ -34,10 +35,11 @@ namespace MPC.Models.ModelMappers
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
-            target.CreationDate = source.CreationDate;
-            target.CreationTime = source.CreationTime;
+            target.CreationDate = source.CreationDate.HasValue && source.CreationDate.Value <= DateTime.MinValue ? DateTime.Now : source.CreationDate;
+            target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
+            target.isEstimate = source.isEstimate;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);
@@ -174,6 +176,103 @@ namespace MPC.Models.ModelMappers
 
         #endregion Delivery Schedule
 
+        #region Order Product
+        
+        /// <summary>
+        /// True if the Item is new
+        /// </summary>
+        private static bool IsNewItem(Item sourceItem)
+        {
+            return sourceItem.ItemId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target Items
+        /// </summary>
+        private static void InitializeItems(Estimate item)
+        {
+            if (item.Items == null)
+            {
+                item.Items = new List<Item>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Items
+        /// </summary>
+        private static void UpdateOrAddItems(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            foreach (Item sourceLine in source.Items.ToList())
+            {
+                UpdateOrAddItem(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Items 
+        /// </summary>
+        private static void UpdateOrAddItem(Item sourceItem, Estimate target, OrderMapperActions actions)
+        {
+            Item targetLine;
+            if (IsNewItem(sourceItem))
+            {
+                targetLine = actions.CreateItem();
+                target.Items.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.Items.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
+            }
+
+            sourceItem.UpdateToForOrder(targetLine, actions);
+        }
+
+        /// <summary>
+        /// Delete sections no longer needed
+        /// </summary>
+        private static void DeleteItems(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            List<Item> linesToBeRemoved = target.Items.Where(
+                vdp => !IsNewItem(vdp) && source.Items.All(sourceVdp => sourceVdp.ItemId != vdp.ItemId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.Items.Remove(line);
+                actions.DeleteItem(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Item Sections
+        /// </summary>
+        private static void UpdateItems(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            InitializeItems(source);
+            InitializeItems(target);
+
+            UpdateOrAddItems(source, target, actions);
+
+            // Delete
+            DeleteItems(source, target, actions);
+        }
+        
+        /// <summary>
+        /// Update Item 
+        /// </summary>
+        private static void UpdateToForOrder(this Item source, Item target, OrderMapperActions actions)
+        {
+            // Update Header
+            UpdateHeader(source, target);
+
+            // Update Item Sections
+            UpdateItemSections(source, target, actions);
+
+            // Update Item Attachments
+            UpdateItemAttachments(source, target, actions);
+        }
+        
+        #endregion Order Product
+
         #region Product
 
         #region Item Section
@@ -200,7 +299,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update or add Item Sections
         /// </summary>
-        private static void UpdateOrAddItemSections(Item source, Item target, ItemMapperActions actions)
+        private static void UpdateOrAddItemSections(Item source, Item target, OrderMapperActions actions)
         {
             foreach (ItemSection sourceLine in source.ItemSections.ToList())
             {
@@ -211,7 +310,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update target Item Sections 
         /// </summary>
-        private static void UpdateOrAddItemSection(ItemSection sourceItemSection, Item target, ItemMapperActions actions)
+        private static void UpdateOrAddItemSection(ItemSection sourceItemSection, Item target, OrderMapperActions actions)
         {
             ItemSection targetLine;
             if (IsNewItemSection(sourceItemSection))
@@ -224,57 +323,105 @@ namespace MPC.Models.ModelMappers
                 targetLine = target.ItemSections.FirstOrDefault(vdp => vdp.ItemSectionId == sourceItemSection.ItemSectionId);
             }
 
-            sourceItemSection.UpdateTo(targetLine);
+            sourceItemSection.UpdateToForOrder(targetLine);
+
+            // Update Section Cost Centres
+            UpdateSectionCostCentres(sourceItemSection, targetLine, actions);
+        }
+
+        #region Section Cost Centres
+
+        /// <summary>
+        /// True if the Section Cost Centre is new
+        /// </summary>
+        private static bool IsNewSectionCostCentre(SectionCostcentre source)
+        {
+            return source.SectionCostcentreId <= 0;
         }
 
         /// <summary>
-        /// Delete sections no longer needed
+        /// Initialize target Section Cost Centres
         /// </summary>
-        private static void DeleteItemSections(Item source, Item target, ItemMapperActions actions)
+        private static void InitializeSectionCostCentres(ItemSection item)
         {
-            List<ItemSection> linesToBeRemoved = target.ItemSections.Where(
-                vdp => !IsNewItemSection(vdp) && source.ItemSections.All(sourceVdp => sourceVdp.ItemSectionId != vdp.ItemSectionId))
+            if (item.SectionCostcentres == null)
+            {
+                item.SectionCostcentres = new List<SectionCostcentre>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Sections
+        /// </summary>
+        private static void UpdateOrAddSectionCostCentres(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            foreach (SectionCostcentre sourceLine in source.SectionCostcentres.ToList())
+            {
+                UpdateOrAddSectionCostCentre(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddSectionCostCentre(SectionCostcentre sourceSectionCostcentre, ItemSection target, OrderMapperActions actions)
+        {
+            SectionCostcentre targetLine;
+            if (IsNewSectionCostCentre(sourceSectionCostcentre))
+            {
+                targetLine = actions.CreateSectionCostCentre();
+                target.SectionCostcentres.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.SectionCostcentres.FirstOrDefault(vdp => vdp.SectionCostcentreId == sourceSectionCostcentre.SectionCostcentreId);
+            }
+
+            sourceSectionCostcentre.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete section cost centres no longer needed
+        /// </summary>
+        private static void DeleteSectionCostCentres(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            List<SectionCostcentre> linesToBeRemoved = target.SectionCostcentres.Where(
+                vdp => !IsNewSectionCostCentre(vdp) && source.SectionCostcentres.All(sourceVdp => sourceVdp.SectionCostcentreId != vdp.SectionCostcentreId))
                   .ToList();
             linesToBeRemoved.ForEach(line =>
             {
-                target.ItemSections.Remove(line);
-                actions.DeleteItemSection(line);
+                target.SectionCostcentres.Remove(line);
+                actions.DeleteSectionCostCenter(line);
             });
         }
 
         /// <summary>
-        /// Update Videos
+        /// Update Section Cost Centres
         /// </summary>
-        private static void UpdateItemSections(Item source, Item target, ItemMapperActions actions)
+        private static void UpdateSectionCostCentres(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            InitializeSectionCostCentres(source);
+            InitializeSectionCostCentres(target);
+
+            UpdateOrAddSectionCostCentres(source, target, actions);
+
+            // Delete
+            DeleteSectionCostCentres(source, target, actions);
+        }
+        
+        #endregion Section Cost Centres
+        
+
+        /// <summary>
+        /// Update Item Sections
+        /// </summary>
+        private static void UpdateItemSections(Item source, Item target, OrderMapperActions actions)
         {
             InitializeItemSections(source);
             InitializeItemSections(target);
 
-            // Set Defaults to Non-Print Section
-            bool isPrintItem = true;
-            if (target.ItemProductDetails != null && target.ItemProductDetails.Any() && !target.ItemSections.Any())
-            {
-                ItemProductDetail itemProductDetail = target.ItemProductDetails.First();
-                if (itemProductDetail.isPrintItem.HasValue && !itemProductDetail.isPrintItem.Value)
-                {
-                    ItemSection targetItemSection = actions.CreateItemSection();
-                    targetItemSection.ItemId = target.ItemId;
-                    targetItemSection.SectionName = "Section 1";
-                    targetItemSection.SectionNo = 1;
-                    target.ItemSections.Add(targetItemSection);
-                    actions.SetDefaultsForItemSection(targetItemSection);
-                    isPrintItem = false;
-                }
-            }
+            UpdateOrAddItemSections(source, target, actions);
 
-            // Add Item Sections if Print Item
-            if (isPrintItem)
-            {
-                UpdateOrAddItemSections(source, target, actions);
-            }
-
-            // Delete
-            DeleteItemSections(source, target, actions);
         }
 
         #endregion Item Section
@@ -340,7 +487,7 @@ namespace MPC.Models.ModelMappers
             linesToBeRemoved.ForEach(line =>
             {
                 target.ItemAttachments.Remove(line);
-                //actions.DeleteItemAttachment(line);
+                actions.DeleteItemAttachment(line);
             });
         }
 
@@ -373,11 +520,37 @@ namespace MPC.Models.ModelMappers
             target.EstimateId = source.EstimateId;
             target.InvoiceDescription = source.InvoiceDescription;
             target.ItemNotes = source.ItemNotes;
-            
+
+            // Update Charges
+            UpdateCharges(source, target);
+
             // Update Job Description
             UpdateJobDescription(source, target);
         }
-        
+
+        /// <summary>
+        /// Updates Charges
+        /// </summary>
+        private static void UpdateCharges(Item source, Item target)
+        {
+            target.Qty1 = source.Qty1;
+            target.Qty2 = source.Qty2;
+            target.Qty3 = source.Qty3;
+            target.Qty1MarkUpId1 = source.Qty1MarkUpId1;
+            target.Qty2MarkUpId2 = source.Qty2MarkUpId2;
+            target.Qty3MarkUpId3 = source.Qty3MarkUpId3;
+            target.Qty1NetTotal = source.Qty1NetTotal;
+            target.Qty2NetTotal = source.Qty2NetTotal;
+            target.Qty3NetTotal = source.Qty3NetTotal;
+            target.Tax1 = source.Tax1;
+            target.Qty1Tax1Value = source.Qty1Tax1Value;
+            target.Qty2Tax1Value = source.Qty2Tax1Value;
+            target.Qty3Tax1Value = source.Qty3Tax1Value;
+            target.Qty1GrossTotal = source.Qty1GrossTotal;
+            target.Qty2GrossTotal = source.Qty2GrossTotal;
+            target.Qty3GrossTotal = source.Qty3GrossTotal;
+        }
+
         /// <summary>
         /// Update Job Description
         /// </summary>
@@ -403,6 +576,9 @@ namespace MPC.Models.ModelMappers
             target.JobDescription9 = source.JobDescription9;
             target.JobDescriptionTitle10 = source.JobDescriptionTitle10;
             target.JobDescription10 = source.JobDescription10;
+            target.JobStatusId = source.JobStatusId;
+            target.JobManagerId = source.JobManagerId;
+            target.JobProgressedBy = source.JobProgressedBy;
         }
 
         #endregion Product Header
@@ -437,7 +613,7 @@ namespace MPC.Models.ModelMappers
 
             UpdateHeader(source, target);
             UpdatePrePayments(source, target, actions);
-            //UpdateItemSections(source, target, actions);
+            UpdateItems(source, target, actions);
         }
 
         #endregion

@@ -87,10 +87,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PerQtyQty = source.PerQtyQty,
                 PerQtyType = source.PerQtyType,
                 FlagColor = source.FlagColor,
-                SupplierCompanyName = source.SupplierCompanyName,
+                SupplierCompanyName = source.Company!=null ? source.Company.Name : string.Empty,
                 Region = source.Region,
                 PackageQty = source.PackageQty,
-                PackCostPrice = obj != null ? obj.PackCostPrice :-9999
+                PackCostPrice = obj != null ? obj.PackCostPrice :(double?) null
             };
 
         }

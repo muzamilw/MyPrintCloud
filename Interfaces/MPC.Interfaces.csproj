@@ -89,7 +89,9 @@
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
     <Compile Include="MISServices\IPurchaseService.cs" />
+    <Compile Include="MISServices\IReportService.cs" />
     <Compile Include="MISServices\ISectionService.cs" />
+    <Compile Include="MISServices\ISystemUserService.cs" />
     <Compile Include="Repository\ICmsTagReporistory.cs" />
     <Compile Include="Repository\ICompanyCostCenterRepository.cs" />
     <Compile Include="Repository\ICostCentreAnswerRepository.cs" />
@@ -97,6 +99,7 @@
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\ISectionCostCentreRepository.cs" />
     <Compile Include="Repository\ILookupMethodRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />
     <Compile Include="Repository\INABTransactionRepository.cs" />

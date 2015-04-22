@@ -150,14 +150,14 @@ namespace MPC.Implementation.MISServices
                         stockItem.WeightUnitName = weightUnit.UnitName;
                 }
                 //Set Supplier Company Name
-                if (stockItem.SupplierId != null)
-                {
-                    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
-                    if (supplierId != 0)
-                    {
-                        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
-                    }
-                }
+                //if (stockItem.SupplierId != null)
+                //{
+                //    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                //    if (supplierId != 0)
+                //    {
+                //        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                //    }
+                //}
             }
         
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };
@@ -316,7 +316,6 @@ namespace MPC.Implementation.MISServices
                     {
                         item.ItemId = stockItem.StockItemId;
                         stockCostAndPriceRepository.Add(item);
-                        stockCostAndPriceRepository.SaveChanges();
                     }
                     else
                     {
@@ -333,12 +332,13 @@ namespace MPC.Implementation.MISServices
                                 dbStockCostAndPriceItem.CostPrice = item.CostPrice;
                                 dbStockCostAndPriceItem.FromDate = item.FromDate;
                                 dbStockCostAndPriceItem.ToDate = item.ToDate;
+                                dbStockCostAndPriceItem.PackCostPrice = item.PackCostPrice;
                             }
                         }
                     }
                 }
             }
-            stockItemRepository.SaveChanges();
+            
             //find missing items
             List<StockCostAndPrice> missingStockCostAndPriceListItems = new List<StockCostAndPrice>();
             foreach (StockCostAndPrice dbversionStockCostAndPriceItem in stockItemDbVersion.StockCostAndPrices)
@@ -360,9 +360,10 @@ namespace MPC.Implementation.MISServices
                 if (dbVersionMissingItem.CostPriceId > 0)
                 {
                     stockCostAndPriceRepository.Delete(dbVersionMissingItem);
-                    stockCostAndPriceRepository.SaveChanges();
                 }
             }
+
+            stockItemRepository.SaveChanges();
         }
         /// <summary>
         /// After Add/Edit return stock item detail contents for list view

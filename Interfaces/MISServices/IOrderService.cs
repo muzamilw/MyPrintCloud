@@ -54,5 +54,11 @@ namespace MPC.Interfaces.MISServices
 
         string DownloadOrderArtwork(int OrderID, string sZipName);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
+
+        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID);
+
+        string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
+
+        string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID);
     }
 }

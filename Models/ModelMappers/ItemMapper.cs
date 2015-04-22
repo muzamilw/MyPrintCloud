@@ -704,7 +704,8 @@ namespace MPC.Models.ModelMappers
         /// </summary>
         private static bool IsRemovedProductCategoryItem(ProductCategoryItemCustom sourceProductCategoryItem)
         {
-            return sourceProductCategoryItem.ProductCategoryItemId > 0 && !sourceProductCategoryItem.IsSelected.HasValue;
+            return sourceProductCategoryItem.ProductCategoryItemId > 0 &&
+                (!sourceProductCategoryItem.IsSelected.HasValue || !sourceProductCategoryItem.IsSelected.Value);
         }
 
         /// <summary>

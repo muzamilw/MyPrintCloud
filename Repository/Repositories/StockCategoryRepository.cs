@@ -62,9 +62,9 @@ namespace MPC.Repository.Repositories
             bool isCategoryIdSpecified = request.StockCategoryId != 0;
             Expression<Func<StockCategory, bool>> query =
                 s =>
-                    (isStringSpecified && (s.Name.Contains(request.SearchString)) ||
-                                                                     !isStringSpecified) &&
-                                                                     ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified);
+                    (isStringSpecified && (s.Name.Contains(request.SearchString)) || !isStringSpecified) &&
+                    ((isCategoryIdSpecified && s.CategoryId.Equals(request.StockCategoryId)) || !isCategoryIdSpecified) &&
+                    s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
             IEnumerable<StockCategory> stockCategories = request.IsAsc
@@ -78,6 +78,7 @@ namespace MPC.Repository.Repositories
                     .Skip(fromRow)
                     .Take(toRow)
                     .ToList();
+
             return new StockCategoryResponse
                    {
                        RowCount = rowCount,

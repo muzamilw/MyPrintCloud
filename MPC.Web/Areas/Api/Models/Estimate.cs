@@ -56,15 +56,15 @@ namespace MPC.MIS.Areas.Api.Models
         public DateTime? FinishDeliveryDate { get; set; }
         public int? Classification1Id { get; set; }
         public int? Classification2Id { get; set; }
-        public int? IsOfficialOrder { get; set; }
+        public bool? IsOfficialOrder { get; set; }
         public string CustomerPo { get; set; }
         public Guid? OfficialOrderSetBy { get; set; }
         public DateTime? OfficialOrderSetOnDateTime { get; set; }
-        public int? IsCreditApproved { get; set; }
+        public bool? IsCreditApproved { get; set; }
         public double? CreditLimitForJob { get; set; }
         public int? CreditLimitSetBy { get; set; }
         public DateTime? CreditLimitSetOnDateTime { get; set; }
-        public int? IsJobAllowedWOCreditCheck { get; set; }
+        public bool? IsJobAllowedWOCreditCheck { get; set; }
         public int? AllowJobWOCreditCheckSetBy { get; set; }
         public DateTime? AllowJobWOCreditCheckSetOnDateTime { get; set; }
         public DateTime? NotesUpdateDateTime { get; set; }
@@ -84,7 +84,7 @@ namespace MPC.MIS.Areas.Api.Models
         public double? VoucherDiscountRate { get; set; }
         public Guid? ReportSignedBy { get; set; }
         public int? InvoiceId { get; set; }
-        public int? OrderReportSignedBy { get; set; }
+        public Guid? OrderReportSignedBy { get; set; }
         public DateTime? OrderReportLastPrinted { get; set; }
         public DateTime? EstimateReportLastPrinted { get; set; }
         public bool? IsEmailSent { get; set; }
