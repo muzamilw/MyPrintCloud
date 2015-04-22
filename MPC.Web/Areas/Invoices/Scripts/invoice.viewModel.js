@@ -24,7 +24,10 @@ define("invoice/invoice.viewModel",
                      selectedFilterFlag = ko.observable(0),
                     // System Users
                     systemUsers = ko.observableArray([]),
-                    //
+                    invoiceTypes = ko.observableArray([
+                        { Name: "Sale Invoice", Id: "1" },
+                        { Name: "Credit Invoice", Id: "2" }
+                    ]),
                     selectedCompanyTaxRate = ko.observable(),
                     // Errors List
                     errorList = ko.observableArray([]),
@@ -369,7 +372,16 @@ define("invoice/invoice.viewModel",
                             }
                         });
                     },
-                    
+                    mapList = function (observableList, data, factory) {
+                        var list = [];
+                        _.each(data, function (item) {
+                            list.push(factory.Create(item));
+                        });
+
+                        // Push to Original Array
+                        ko.utils.arrayPushAll(observableList(), list);
+                        observableList.valueHasMutated();
+                    },
                     // Get Invoice By Id
                     getInvoiceById = function (id, callback) {
                         isLoading(true);
@@ -473,8 +485,9 @@ define("invoice/invoice.viewModel",
                     orderType: orderType,
                     getBaseData: getBaseData,
                     editInvoice: editInvoice,
-                    onCloseInvoiceEditor: onCloseInvoiceEditor
-
+                    onCloseInvoiceEditor: onCloseInvoiceEditor,
+                    isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
+                    invoiceTypes: invoiceTypes
                 };
             })()
         };

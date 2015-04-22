@@ -543,5 +543,15 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public string GetInkPlatesSidesByInkID(long InkID)
+        {
+          return  db.InkPlateSides.Where(x => x.PlateInkId == InkID).Select(a => a.InkTitle).FirstOrDefault();
+        }
+
+        public string GetMachineByID(int MachineID)
+        {
+            return db.Machines.Where(c => c.MachineId == MachineID).Select(c => c.MachineName).FirstOrDefault();
+        }
+
     }
 }

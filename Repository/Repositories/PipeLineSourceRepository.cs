@@ -44,6 +44,11 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.ToList();
         }
+
+        public string GetSourceNameByID(long ID)
+        {
+            return db.PipeLineSources.Where(s => s.SourceId == ID).Select(x => x.Description).FirstOrDefault();
+        }
         #endregion
     }
 }

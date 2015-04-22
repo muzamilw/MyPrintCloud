@@ -2198,7 +2198,7 @@ namespace MPC.Implementation.WebStoreServices
             {
 
                 string drURL = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/Templates/");
-                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/");
+                string fontsUrl = System.Web.HttpContext.Current.Server.MapPath("~/MPC_Content/Designer/");//"~/MPC_Content/Designer/Organisation" + OrganisationID.ToString() + "/WebFonts/"
                 if(!Directory.Exists(drURL + productID ))
                 {
                     Directory.CreateDirectory(drURL + productID);

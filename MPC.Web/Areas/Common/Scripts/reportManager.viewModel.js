@@ -37,7 +37,7 @@
                     // Hide the dialog
                     hide = function () {
                         // Reset Call Backs
-                        resetDialog();
+                      //  resetDialog();
                         view.hide();
                     },
                    

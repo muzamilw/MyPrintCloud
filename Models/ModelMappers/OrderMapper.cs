@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System;
 using MPC.Models.DomainModels;
@@ -34,10 +35,11 @@ namespace MPC.Models.ModelMappers
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
-            target.CreationDate = source.CreationDate;
-            target.CreationTime = source.CreationTime;
+            target.CreationDate = source.CreationDate.HasValue && source.CreationDate.Value <= DateTime.MinValue ? DateTime.Now : source.CreationDate;
+            target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
+            target.isEstimate = source.isEstimate;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);
