@@ -363,7 +363,6 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
@@ -901,7 +900,6 @@
     <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
     <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
-    <Content Include="Views\Shared\PartialViews\ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
