@@ -12,7 +12,9 @@ namespace MPC.Interfaces.Repository
 {
     public interface ICompanyContactRepository : IBaseRepository<CompanyContact, long>
     {
-
+        bool ValidatEmail(string email);
+        CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
+        CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode);
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email, long OID);

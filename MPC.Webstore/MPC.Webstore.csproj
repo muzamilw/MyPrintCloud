@@ -363,6 +363,7 @@
     <Compile Include="Controllers\CategoryHeaderController.cs" />
     <Compile Include="Controllers\ContactDetailController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ErrorPageController.cs" />
     <Compile Include="Controllers\FeaturedProductCarousalController.cs" />
     <Compile Include="Controllers\HomePageBannerController.cs" />
     <Compile Include="Controllers\HomePageBannerS4Controller.cs" />
@@ -469,8 +470,10 @@
     <Content Include="Content\Designer\assets-v2\vert-line.png" />
     <Content Include="Content\Designer\CategoryPageStyles.css" />
     <Content Include="Content\Designer\jquery.cropbox.css" />
+    <Content Include="Content\ErrorPage.css" />
     <Content Include="Content\FancyBoxStyless.css" />
     <Content Include="Content\HomeBannerS4.js" />
+    <Content Include="Content\Images\bg2.png" />
     <Content Include="Content\Images\download-icon.png" />
     <Content Include="Content\Images\Facebook.png" />
     <Content Include="Content\Designer\assets-v2\bckground.png" />
@@ -897,6 +900,7 @@
     <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
     <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
+    <Content Include="Views\Shared\PartialViews\ErrorPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -905,6 +909,7 @@
     <Folder Include="Areas\Designer\Models\" />
     <Folder Include="Areas\WebstoreApi\Models\" />
     <Folder Include="Areas\WebstoreApi\Views\Shared\" />
+    <Folder Include="Views\ErrorPage\" />
     <Folder Include="Views\PopularProducts\" />
     <Folder Include="Views\PromotionalProduct\" />
     <Folder Include="Views\Promotional\" />
