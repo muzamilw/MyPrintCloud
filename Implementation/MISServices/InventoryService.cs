@@ -150,14 +150,14 @@ namespace MPC.Implementation.MISServices
                         stockItem.WeightUnitName = weightUnit.UnitName;
                 }
                 //Set Supplier Company Name
-                if (stockItem.SupplierId != null)
-                {
-                    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
-                    if (supplierId != 0)
-                    {
-                        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
-                    }
-                }
+                //if (stockItem.SupplierId != null)
+                //{
+                //    long supplierId = Convert.ToInt64(stockItem.SupplierId ?? 0);
+                //    if (supplierId != 0)
+                //    {
+                //        stockItem.SupplierCompanyName = companyRepository.Find(supplierId).Name;
+                //    }
+                //}
             }
         
             return new InventorySearchResponse { StockItems = stockItems, TotalCount = totalCount };

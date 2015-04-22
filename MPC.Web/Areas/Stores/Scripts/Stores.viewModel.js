@@ -960,6 +960,7 @@ define("stores/stores.viewModel",
 
                     if (selectedStore().companyId() > 0) {
                         selectedCompanyTerritory().companyId(selectedStore().companyId());
+                        territory.CompanyId = selectedStore().companyId();
                         dataservice.saveCompanyTerritory(
                             territory,
                             {

@@ -237,6 +237,7 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
+                        view.setOrderState(4); // Pending Order
                         openOrderEditor();
                     },
                     // Edit Order
@@ -1187,6 +1188,9 @@ define("order/order.viewModel",
                     // Save Order
                     saveOrder = function (callback, navigateCallback) {
                         selectedOrder().statusId(view.orderstate());
+                        if (isNaN(view.orderstate())) {
+                            selectedOrder().statusId(4); // Pending orders
+                        }
                         var order = selectedOrder().convertToServerData();
                         _.each(selectedOrder().prePayments(), function (item) {
                             order.PrePayments.push(item.convertToServerData());
@@ -1291,11 +1295,12 @@ define("order/order.viewModel",
                         });
 
                         if (flag) {
-                            var attachment = model.ItemAttachment();
+                            var attachment = model.ItemAttachment.Create({ });
                             attachment.id(undefined);
                             attachment.fileSourcePath(data);
                             attachment.fileName(file.name);
                             attachment.companyId(selectedOrder().companyId());
+                            attachment.itemId(selectedProduct().id());
                             selectedProduct().itemAttachments.push(attachment);
 
                         }
@@ -2307,7 +2312,7 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     var host = window.location.host;
                                     var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");
+                                    window.open(uri, "_blank");                                    
                                 }
                                 isLoadingOrders(false);
                             },
