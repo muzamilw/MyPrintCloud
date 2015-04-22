@@ -254,10 +254,12 @@ define("order/order.viewModel",
                         var total = 0;
                         if (selectedOrder() != undefined) {
                             _.each(selectedOrder().nonDeliveryItems(), function (item) {
-                                total = total + item.qty1NetTotal();
+                                var val = item.qty1NetTotal();
+                                total = total + parseFloat(val);
                             });
                             _.each(selectedOrder().deliveryItems(), function (item) {
-                                total = total + item.qty1NetTotal();
+                                var val = item.qty1NetTotal();
+                                total = total + parseFloat(val);
                             });
                         }
                         return total;
