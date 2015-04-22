@@ -1390,6 +1390,10 @@ namespace MPC.Implementation.WebStoreServices
        {
            return _orderrepository.GetPendingApprovelOrdersList(contactUserID, isApprover);
        }
+       public CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode)
+       {
+           return _CompanyContactRepository.isContactExists(BCCId, email, FName, LNAme, AccountNumber, Code, Mode);
+       }
       public long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "")
        {
            return _orderrepository.ApproveOrRejectOrder(orderID, loggedInContactID, orderStatus, OrdermangerID);

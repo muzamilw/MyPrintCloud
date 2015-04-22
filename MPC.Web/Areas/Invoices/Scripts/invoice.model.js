@@ -11,7 +11,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         // Invoice Entity
     // ReSharper disable InconsistentNaming
-        Invoice = function (specifiedId, specifiedCode, specifiedType, specifiedName, specifiedCompanyId, specifiedContactId, specifiedOrderNo,
+        Invoice = function (specifiedId, specifiedCode, specifiedType, specifiedName, specifiedCompanyId, specifiedCompanyName, specifiedContactId, specifiedOrderNo,
             specifiedStatus, specifiedTotal, specifiedInvoiceDate, specifiedAccountNo, specifiedTerms, specifiedAddressId, specifiedIsArchive,
             specifiedTaxValue, specifiedGrandTotal, specifiedFlagId, specifiedNotes, specifiedEstimateId,
             specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode) {
@@ -22,11 +22,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name = ko.observable(specifiedName || undefined).extend({ required: true }),
                 // Code
                 code = ko.observable(specifiedCode || undefined),
-
+                type = ko.observable(specifiedType),
                 // Company Id
                 companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
                 // Company Name
-                companyName = ko.observable(),
+                companyName = ko.observable(specifiedCompanyName),
                 // Number Of items
                 numberOfItems = ko.observable(),
                 // Number of Items UI
@@ -69,6 +69,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 headNotes = ko.observable(specifiedHeadNotes),
                 footNotes = ko.observable(specifiedFootNotes),
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode),
+                isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
+                // Is Direct Sale Ui
+                isDirectSaleUi = ko.computed(function () {
+                    return isDirectSale() ? "Direct Order" : "Online Order";
+                }),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -105,8 +110,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     taxValue: taxValue,
                     grandTotal: grandTotal,
                     userNotes: userNotes,
-                    invoiceReportSignedBy: invoiceReportSignedBy
-
+                    invoiceReportSignedBy: invoiceReportSignedBy,
+                    type:type
 
                 }),
                 // Has Changes
@@ -145,6 +150,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ReportSignedBy: invoiceReportSignedBy(),
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
+                        InvoiceType : type(),
                         XeroAccessCode: xeroAccessCode(),
                         InvoiceDetails: []
                     };
@@ -177,7 +183,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 invoiceReportSignedBy: invoiceReportSignedBy,
                 headNotes: headNotes,
                 footNotes: footNotes,
+                type:type,
                 xeroAccessCode: xeroAccessCode,
+                isDirectSaleUi: isDirectSaleUi,
+                isDirectSale: isDirectSale,
+                invoiceDetailItems:invoiceDetailItems,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -301,26 +311,53 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         };
         
      
+    // Address Entity
+    Address = function (specifiedId, specifiedName, specifiedAddress1, specifiedAddress2, specifiedTelephone1) {
+        return {
+            id: specifiedId,
+            name: specifiedName,
+            address1: specifiedAddress1 || "",
+            address2: specifiedAddress2 || "",
+            telephone1: specifiedTelephone1 || ""
+        };
+    },
+    // Company Contact Entity
+        CompanyContact = function (specifiedId, specifiedName, specifiedEmail) {
+            // ReSharper restore InconsistentNaming
+            return {
+                id: specifiedId,
+                name: specifiedName,
+                email: specifiedEmail || ""
+            };
+        };
+    // Address Factory
+    Address.Create = function (source) {
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
+    };
 
+    // Company Contact Factory
+    CompanyContact.Create = function (source) {
+        return new CompanyContact(source.ContactId, source.Name, source.Email);
+    };
     // Item Section Factory
     Invoice.Create = function (source) {
-        var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.ContactId, source.OrderNo,
+        var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.CompanyName, source.ContactId, source.OrderNo,
             source.InvoiceStatus, source.InvoiceTotal, source.InvoiceDate, source.AccountNumber,
             source.Terms, source.AddressId, source.IsArchive,
             source.TaxValue, source.GrandTotal, source.FlagID, source.UserNotes, source.EstimateId,
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
             source.InvoicePostingDate, source.XeroAccessCode);
 
-        // Map Section Cost Centres if Any
-        if (source.invoiceDetailItems && source.invoiceDetailItems.length > 0) {
+        // Map invoice items if Any
+        if (source.InvoiceDetails && source.InvoiceDetails.length > 0) {
             var invDetailItems = [];
 
-            _.each(source.invoiceDetailItems, function (invdetail) {
+            _.each(source.InvoiceDetails, function (invdetail) {
                 invDetailItems.push(InvoiecDetail.Create(invdetail));
             });
 
             // Push to Original Item
-            ko.utils.arrayPushAll(invoice.invoiceDetailItems(), invDetailItems);
+            ko.utils.arrayPushAll(invoice.invoiceDetailItems, invDetailItems);
             invoice.invoiceDetailItems.valueHasMutated();
         }
 
@@ -388,7 +425,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     return {
         
         Invoice: Invoice,        
-        InvoicesListView: InvoicesListView
-       
+        InvoicesListView: InvoicesListView,
+        Address: Address,
+        CompanyContact: CompanyContact
     };
 });

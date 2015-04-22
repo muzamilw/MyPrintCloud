@@ -37,9 +37,9 @@ define("order/order.view",
                     }, 1000);
                 },
                 // Show inventory dialog
-                showInventoryItemDialog = function () {
-                    $("#inventoryItem").modal("show");
-                },
+                //showInventoryItemDialog = function () {
+                //    $("#inventoryItem").modal("show");
+                //},
                 // Hide inventory dialog
                 hideInventoryItemDialog = function () {
                     $("#inventoryItem").modal("hide");
@@ -95,8 +95,8 @@ define("order/order.view",
                             .slider({
                                 min: 0,
                                 max: orderStatusArray.length - 1,
-                                //value: orderstate() !== 0 ? orderstate() - 4 : orderstate()
-                                value: orderstate()
+                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 5 : orderstate() - 4) : orderstate()
+                                //value: orderstate()
                             })
 
                             // add pips with the labels set to "months"
@@ -191,7 +191,6 @@ define("order/order.view",
                     if (!bindingRoot) {
                         return;
                     }
-
                 };
             initialize();
 
@@ -218,7 +217,7 @@ define("order/order.view",
                 orderstate: orderstate,
                 showSheetPlanImageDialog: showSheetPlanImageDialog,
                 hideSheetPlanImageDialog: hideSheetPlanImageDialog,
-                showInventoryItemDialog: showInventoryItemDialog,
+                //showInventoryItemDialog: showInventoryItemDialog,
                 hideInventoryItemDialog: hideInventoryItemDialog,
                 showEstimateRunWizard: showEstimateRunWizard,
                 hideEstimateRunWizard: hideEstimateRunWizard,

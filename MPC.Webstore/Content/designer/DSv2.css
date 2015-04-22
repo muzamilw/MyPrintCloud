@@ -6829,3 +6829,10 @@ font-size: 13px;
 {
        background-color: #F5D513;
 }
+.bkFileName
+{
+   width: 72px;
+  overflow: hidden;
+  font-size: 10px;
+    height: 14px;
+}

@@ -10,6 +10,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <input type="hidden" name="CallingMethod" id="CallingMethod" value="@ViewBag.CallingMethod" />
+                    <input type="hidden" name="OrderId" id="OrderId" value="@ViewBag.OrderId" />
                     <ol class="breadcrumb">
                         <li><a href="~/Dashboard/Index" class="my-navigator">HOME</a></li>
                         <li data-bind="css: $root.orderCodeHeader() != '' ?  ''  :   'active' , click:$root.onCloseOrderEditor" style="cursor:pointer"><span>ORDERS</span></li>
@@ -33,12 +34,12 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_CompanySelector.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_phraseLibraryDialog.cshtml")
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
-
+@Html.Partial("~/Areas/Common/Views/Shared/_ReportManager.cshtml")
 
 @section Scripts{
     
     <script>
-        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"]);
+        require(["order/order.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view", "common/reportManager.view"]);
 
         $(function () {
             $('#liorderprocessing').addClass('active');

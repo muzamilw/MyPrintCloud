@@ -25,7 +25,19 @@ define("invoice/invoice.dataservice", function () {
                         type: 'GET'
                     });
 
-                    
+                    // Define request to get Invoice by id
+                    amplify.request.define('getInvoice', 'ajax', {
+                        url: ist.siteUrl + '/Api/Invoice',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'GET'
+                    });
+                    // Define request to get order by id
+                    amplify.request.define('getBaseDataForCompany', 'ajax', {
+                        url: ist.siteUrl + '/Api/OrderBaseForCompany',
+                        dataType: 'json',
+                        type: 'GET'
+                    });
                     isInitialized = true;
                 }
             },
@@ -58,7 +70,15 @@ define("invoice/invoice.dataservice", function () {
                     error: callbacks.error
                 });
             },
-
+            getBaseDataForCompany = function (params, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'getBaseDataForCompany',
+                    data: params,
+                    success: callbacks.success,
+                    error: callbacks.error,
+                });
+            },
 
             // Archive Invoice
             archiveInvoice = function (param, callbacks) {
@@ -75,7 +95,9 @@ define("invoice/invoice.dataservice", function () {
 
         return {
             getInvoices: getInvoices,
-            getBaseData: getBaseData
+            getBaseData: getBaseData,
+            getInvoice: getInvoice,
+            getBaseDataForCompany: getBaseDataForCompany
         };
     })();
 

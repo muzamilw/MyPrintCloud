@@ -77,6 +77,17 @@ namespace MPC.Webstore.Areas.DesignerApi.Controllers
             Dictionary<long, List<ScopeVariable>> AllUserScopeVariables = null;
             List<ScopeVariable> scopeVariable = smartFormService.GetScopeVariables(smartFormObjs,out hasContactVariables,parameter1);
             List<ScopeVariable> allTemplateVariables = smartFormService.GetTemplateScopeVariables(parameter3, parameter1);
+            List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
+            //  variablesList = variables;
+            foreach (var variable in scopeVariable)
+            {
+                if (variable == null)
+                    variablesToRemove.Add(variable);
+            }
+            foreach (var variable in variablesToRemove)
+            {
+                scopeVariable.Remove(variable);
+            }
             foreach(var item in allTemplateVariables)
             {
                 var sVariable = scopeVariable.Where(g => g.VariableId == item.VariableId).SingleOrDefault();

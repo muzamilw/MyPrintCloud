@@ -233,7 +233,7 @@
 
                                         <div class="col-lg-6">
                                             <div class="form-group">
-                                                <div class="col-md-4 text-right">
+                                                <div class="col-md-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Upload new sprite image" data-original-title="" title="">
@@ -245,19 +245,22 @@
                                                     <label class="control-label text-right tooltip-float">Thumbnail</label>
 
                                                 </div>
-                                                <div class="col-md-8">
-                                                    <div class="col-md-5">
-                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
-                                                        <img width="150" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="fileUpload btn btn-primary">
-                                                            <span>....</span>
-                                                            <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                
+                                                <div class="col-md-6">
+                                                    <div class="clearfix">
+                                                        <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()===undefined,attr: { src: '@Url.Content("~/")' + thumbnailImageUrl() }" />
+                                                        <img style="width:200px;" data-bind="visible:costcentreImageFileBinary()!==undefined,attr: { src: costcentreImageFileBinary }" />
+                                                        <div class="pull-right">
+                                                            <div class="fileUpload btn btn-primary">
+                                                                <span>....</span>
+                                                                <input type="file" class="upload" id="image_files" multiple data-bind="files: { onLoaded: $root.costcenterImageFilesLoadedCallback, fileFilter: 'image.*'}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="profile-stars">
+                                                            <span data-bind="value: type"></span>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
 
                                                 @*<div class="col-lg-6">
                                                     <div id="dropzoneM" class="dropzonepl">
@@ -274,7 +277,7 @@
                                             
                                             <div class="form-group">
 
-                                                <div class="col-lg-4 text-right">
+                                                <div class="col-lg-5 text-right">
                                                     <div class="bs-example-tooltips tooltip-float-width">
 
                                                         <a class="input-group-addon" tabindex="-1" style="text-decoration: none; border: 0; cursor: pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Map On Contact" data-original-title="" title="">

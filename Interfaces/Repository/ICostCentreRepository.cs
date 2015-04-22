@@ -68,5 +68,7 @@ namespace MPC.Interfaces.Repository
 
         List<CostCentreType> GetCostCentreTypeByOrganisationID(long OID);
         CostCentreResponse GetAllNonSystemCostCentresForProduct(GetCostCentresRequest request);
+
+        List<CostCentre> GetCostCentresforxml(List<long> CostCenterIDs);
     }
 }

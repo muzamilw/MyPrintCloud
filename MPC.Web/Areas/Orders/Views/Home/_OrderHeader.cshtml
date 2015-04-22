@@ -234,7 +234,8 @@
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Retail Store</a></li>
                                 <li><a href="#" data-bind="click: $root.onCostCenterClick">Cost Center</a></li>
-                                <li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>
+                                @*<li><a href="#" data-bind="click: $root.onAddInventoryItem">Inventory Item</a></li>*@
+                                <li><a href="#" data-bind="click: $root.openStockItemDialogForAddingProduct">Inventory Item</a></li>
                             </ul>
                         </div>
                     </div>
@@ -314,7 +315,7 @@
                 <span data-bind="text: qty1"></span>
             </td>
             <td>
-                <span data-bind="text: $root.currencySymbol() + qty1NetTotal()"></span>
+                <span data-bind="text: $root.currencySymbol() + qty1GrossTotal()"></span>
             </td>
             @*<td class="text-right">
                     <a href="#" class="table-link" data-bind="click: $root.editItem">

@@ -77,5 +77,9 @@ namespace MPC.Interfaces.Repository
         double? GetTaxRateByStoreId(long storeId);
 
         List<Company> GetSupplierByOrganisationid(long OID);
+
+        Company GetCompanyByCompanyIDforArtwork(long CompanyID);
+
+        string GetSupplierNameByID(int CID);
     }
 }

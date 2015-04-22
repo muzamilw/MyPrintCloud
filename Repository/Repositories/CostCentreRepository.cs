@@ -1097,6 +1097,19 @@ namespace MPC.Repository.Repositories
             }
         }
 
+
+        public List<CostCentre> GetCostCentresforxml(List<long> CostCenterIDs)
+        {
+           
+
+            //List<CostCentre> ProductData = from CC in db.CostCentres
+            //                  where CostCenterIDs.Contains(CC.CostCentreId) select CC;
+
+            return db.CostCentres.Where(c => CostCenterIDs.Contains(c.CostCentreId)).ToList();
+
+
+           
+        }
 		
 		#endregion
 	}

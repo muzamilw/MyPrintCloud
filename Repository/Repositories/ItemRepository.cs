@@ -301,8 +301,10 @@ namespace MPC.Repository.Repositories
                 else
                 {
                     newItem.IsOrderedItem = false;
-
-                    newItem.RefItemId = (int)itemID;
+                    if (!isSavedDesign)  // in case of save designs ref item 
+                        newItem.RefItemId = (int)itemID;
+                    else
+                        newItem.RefItemId = ActualItem.RefItemId;
                 }
 
 
@@ -353,7 +355,7 @@ namespace MPC.Repository.Repositories
                 if (newItem.TemplateId.HasValue && newItem.TemplateId.Value > 0)
                 {
                     clonedTemplate = new Template();
-                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2)
+                    if (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct)
                     {
                         long result = db.sp_cloneTemplate((int)newItem.TemplateId.Value, 0, "");
 
@@ -384,7 +386,7 @@ namespace MPC.Repository.Repositories
 
 
                 db.SaveChanges();
-                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2))
+                if (clonedTemplate != null && (newItem.TemplateType == 1 || newItem.TemplateType == 2 || isSavedDesign || isCopyProduct))
                 {
                     newItem.TemplateId = clonedTemplate.ProductId;
                     TemplateID = clonedTemplate.ProductId;
@@ -1530,13 +1532,13 @@ namespace MPC.Repository.Repositories
                     if (NewItem.TemplateId > 0)
                     {
                         obj.FileName = GetTemplateAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            "Side" + sideNumber.ToString(), attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            "Side" + sideNumber.ToString(), attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     else
                     {
                         obj.FileName = GetAttachmentFileName(NewItem.ProductCode, OrderCode, NewItem.ItemCode,
-                            sideNumber.ToString() + "Copy", attachment.FolderPath, attachment.FileType, OrderCreationDate);
+                            sideNumber.ToString() + "Copy", attachment.FolderPath, "", OrderCreationDate);
                         //NewItemID + " Side" + sideNumber + attachment.FileType;
                     }
                     sideNumber += 1;
@@ -1552,12 +1554,12 @@ namespace MPC.Repository.Repositories
                             HttpContext.Current.Server.MapPath(attachment.FolderPath +
                                                                System.IO.Path.GetFileNameWithoutExtension(
                                                                    attachment.FileName) + "Thumb.png");
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + "Thumb.png");
                     }
                     else
                     {
-                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName);
-                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName);
+                        sourceFileName = HttpContext.Current.Server.MapPath(attachment.FolderPath + attachment.FileName + attachment.FileType);
+                        destFileName = HttpContext.Current.Server.MapPath(obj.FolderPath + obj.FileName + obj.FileType);
                     }
 
                     if (File.Exists(sourceFileName))
@@ -4328,6 +4330,137 @@ namespace MPC.Repository.Repositories
             return parentTemplateId;
         }
 
+        public  List<ProductItem> GetAllRetailDisplayProductsQuickCalc(long CompanyID)
+        {
+
+            db.Configuration.LazyLoadingEnabled = false;
+            var itemsList = GetAllRetailActiveProducts(CompanyID);
+            var query = from productsList in itemsList
+                        join tblCmsOffer in db.CmsOffers on productsList.ItemId
+                        equals tblCmsOffer.ItemId??0 into ProdTblCmsOfferGroupJoin
+                        where productsList.IsPublished == true
+                        && (productsList.IsArchived == null || productsList.IsArchived == false)
+                        && Object.Equals(productsList.EstimateId, null)
+                        && productsList.IsEnabled == true
+                        orderby productsList.SortOrder
+                        from JTble in ProdTblCmsOfferGroupJoin.DefaultIfEmpty()
+                        select new ProductItem
+                        {
+                            //OfferID = JTble.OfferID,
+                            //OfferType = JTble.OfferType,
+                            ItemID = productsList.ItemId,
+                            //EstimateID = productsList.EstimateID,
+                            ProductName = productsList.ProductName,
+                            //ProductCategoryName = productsList.ca,
+                            //ProductCategoryID = productsList.productC,
+                            //ParentCategoryID = productsList.ParentCategoryID,
+                             MinPrice = productsList.MinPrice,
+                            //ImagePath = productsList.ImagePath,
+                            //ThumbnailPath = productsList.ThumbnailPath,
+                            //IconPath = productsList.IconPath,
+                            //IsEnabled = productsList.IsEnabled,
+                            //IsSpecialItem = productsList.IsSpecialItem,
+                            //IsPopular = productsList.IsPopular,
+                            //IsFeatured = productsList.IsFeatured,
+                            //IsPromotional = productsList.IsPromotional,
+                            // IsFinishedGoods = (productsList.IsFinishedGoods== 1 || productsList.IsFinishedGoods == 4) ? true : false,
+                            //IsPublished = prod-uctsList.IsPublished,
+                            //ProductSpecification = productsList.ProductSpecification,
+                            //CompleteSpecification = productsList.CompleteSpecification,
+                            //TipsAndHints = productsList.TipsAndHints,
+                            //TopCategoryID = productsList.TopCategoryID,
+                             IsQtyRanged = productsList.IsQtyRanged,
+                        };
+
+            //var query = db.vw_GetAllRetailStoreActiveProducts.ToList();
+            //List<Model.ProductItem> mylist = new List<Model.ProductItem>();
+            //query.ToList().ForEach(a => mylist.Add(new Model.ProductItem { ItemID = a.ItemID, ProductName = a.ProductName, ProductCategoryName = a.ProductCategoryName, ProductCategoryID = a.ProductCategoryID, ParentCategoryID = a.ParentCategoryID ?? 0, MinPrice = a.MinPrice, IsQtyRanged = a.isQtyRanged,  IsFinishedGoods = a.IsFinishedGoods == 1 || a.IsFinishedGoods == 4 ? true : false }));
+
+            return query.ToList<ProductItem>();
+                // return mylist;
+            
+        }
+
+        public List<Item> GetAllRetailActiveProducts(long CompanyID)
+        {
+            return db.Items.Where(i => i.CompanyId == CompanyID&&i.IsPublished==true).ToList();
+        }
+
+        public  List<ItemPriceMatrix> GetRetailProductsPriceMatrix(long CompanyID) // Customer ID , Broker Product List
+        {
+
+
+                db.Configuration.LazyLoadingEnabled = false;
+
+                var qry = from prices in db.ItemPriceMatrices
+                          join i in db.Items on prices.ItemId equals i.ItemId
+
+                          where i.CompanyId == CompanyID && i.IsPublished == true && prices.SupplierId == null && ((i.IsQtyRanged == true && prices.QtyRangeFrom > 0) || (i.IsQtyRanged == false && prices.Quantity > 0))
+
+                          select prices;
+
+                return qry.ToList();
+        }
+
+
+
+        public bool UpdateItem(long itemID, long? templateID)
+        {
+            bool result = false;
+            Item tblItemProduct = null;
+
+            try
+            {
+
+                tblItemProduct = db.Items.Where(item => item.ItemId == itemID).FirstOrDefault();
+
+                if (tblItemProduct != null)
+                {
+
+                    tblItemProduct.TemplateId = templateID.HasValue && templateID.Value > 0 ? templateID : tblItemProduct.TemplateId;
+
+                    result = db.SaveChanges() > 0 ? true : false;
+                }
+
+            }
+            catch (Exception)
+            {
+                result = false;
+                throw;
+            }
+
+            return result;
+
+        }
+
+        public List<Item> GetItemsWithAttachmentsByOrderID(long OrderID)
+        {
+            try
+            {
+                db.Configuration.LazyLoadingEnabled = false;
+                //filter the items which are of type delivery i.e. itemtype = 2
+                return  db.Items.Include("ItemAttachments").Where(i => i.EstimateId == OrderID && (i.ItemType == null || i.ItemType != 2)).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+             
+        }
+
+
+        public Item GetItemWithSections(long itemID)
+        {
+            try
+            {
+                return db.Items.Include("itemSections.sectioncostcentres").Where(i => i.ItemId == itemID).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         #endregion
     }
 }

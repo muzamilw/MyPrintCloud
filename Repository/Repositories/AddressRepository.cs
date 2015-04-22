@@ -553,5 +553,17 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public Address GetAddressByIdforXML(int addressId)
+        {
+            try
+            {
+                return db.Addesses.Where(c => c.AddressId == addressId).FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

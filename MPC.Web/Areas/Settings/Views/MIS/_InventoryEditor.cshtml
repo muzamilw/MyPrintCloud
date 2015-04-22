@@ -572,9 +572,8 @@
 <script id="editCostTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedCostItem() }">
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-4 control-label">
-            <div class="col-md-8" style="padding-right: 2px;padding-left: 2px;">
-                <input class="form-control" style="padding-right: 0px; width:100px;padding-left: 0px;" data-bind="value: costPrice, validationTooltip: costPrice, validationOnElement:costPrice" />
+            <div class="col-md-11" style="padding-right: 0px;padding-left: 2px;">
+                <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: costPrice, validationTooltip: costPrice, validationOnElement:costPrice" />
             </div>
         </td>
         <td style="padding-left:2px;padding-right: 0px;">
@@ -605,8 +604,8 @@
             <span data-bind="text: ' '"></span>
             <span data-bind="text: costPrice"></span>
         </td>
-        <td data-bind="dateString: fromDate"></td>
-        <td data-bind="dateString: toDate"></td>
+        <td data-bind="dateString: fromDate, datePattern: 'DD/MM/YYYY'"></td>
+        <td data-bind="dateString: toDate,datePattern: 'DD/MM/YYYY'"></td>
         <td>
             <span class="control-label" data-bind="text:$root.currencySymbol"></span>
             <span data-bind="text: ' '"></span>
@@ -630,8 +629,7 @@
 <script id="editPriceTemplate" type="text/html">
     <tr data-bind="css: { selectedRow: $data === $root.selectedPriceItem() }">
         <td style="padding-left:2px;padding-right: 0px;">
-            <div class="col-md-4 control-label"></div>
-            <div class="col-md-8" style="padding-right: 2px;padding-left: 2px;">
+            <div class="col-md-11" style="padding-right: 0px;padding-left: 2px;">
                 <input class="form-control" style="padding-right: 0px;padding-left: 0px;" data-bind="value: costPrice, validationTooltip: costPrice, validationOnElement:costPrice" />
             </div>
         </td>
@@ -663,8 +661,8 @@
             <span data-bind="text: ' '"></span>
             <span data-bind="text: costPrice"></span>
         </td>
-        <td data-bind="dateString: fromDate"></td>
-        <td data-bind="dateString: toDate"></td>
+        <td data-bind="dateString: fromDate, datePattern: 'DD/MM/YYYY'"></td>
+        <td data-bind="dateString: toDate, datePattern: 'DD/MM/YYYY'"></td>
         <td>
             <span class="control-label" data-bind="text:$root.currencySymbol"></span>
             <span data-bind="text: ' '"></span>

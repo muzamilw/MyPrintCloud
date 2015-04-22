@@ -2,6 +2,7 @@
 using MPC.MIS.Areas.Api.Models;
 using System.Linq;
 using Invoice = MPC.Models.DomainModels.Invoice;
+using System.Collections.Generic;
 
 namespace MPC.MIS.Areas.Api.ModelMappers
 {
@@ -22,11 +23,13 @@ namespace MPC.MIS.Areas.Api.ModelMappers
         /// <summary>
         /// Domain invoice to web invoice mapper
         /// </summary>
-        private static Models.Invoice CreateFrom(this Invoice source)
+        public static Models.Invoice CreateFrom(this Invoice source)
         {
             return new Models.Invoice
             {
                 InvoiceId = source.InvoiceId,
+                CompanyId = source.CompanyId,
+                ContactId = source.ContactId,
                 CompanyName = source.Company!=null ? source.Company.Name: "",
                 InvoiceCode = source.InvoiceCode,
                 InvoiceName = source.InvoiceName,
@@ -35,7 +38,34 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 InvoiceTotal = Math.Round((double) source.InvoiceTotal,2),
                 ContactName = source.CompanyContact != null ? source.CompanyContact.FirstName + " " + source.CompanyContact.LastName : "",
                 Status =source.Status!=null  ? source.Status.StatusName: "-",
-                FlagId = source.FlagID
+                FlagId = source.FlagID,
+                InvoiceType = source.InvoiceType,
+                GrandTotal = Math.Round((double)source.GrandTotal, 2),
+                OrderNo = source.OrderNo,
+                AccountNumber = source.AccountNumber,
+                ReportSignedBy = source.ReportSignedBy,
+                InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : new List<InvoiceDetail>()
+            };
+        }
+        public static Invoice CreateFrom(this Models.Invoice source)
+        {
+            return new Invoice
+            {
+                InvoiceId = source.InvoiceId,
+                CompanyId = source.CompanyId,
+                ContactId = source.ContactId,
+                InvoiceCode = source.InvoiceCode,
+                InvoiceName = source.InvoiceName,
+                IsArchive = source.IsArchive,
+                InvoiceDate = source.InvoiceDate,
+                InvoiceTotal = Math.Round((double) source.InvoiceTotal,2),
+                FlagID = source.FlagId,
+                InvoiceType = source.InvoiceType,
+                GrandTotal = Math.Round((double)source.GrandTotal, 2),
+                OrderNo = source.OrderNo,
+                AccountNumber = source.AccountNumber,
+                ReportSignedBy = source.ReportSignedBy,
+                InvoiceDetails = source.InvoiceDetails != null ? source.InvoiceDetails.Select(i => i.CreateFrom()).ToList() : null
             };
         }
 

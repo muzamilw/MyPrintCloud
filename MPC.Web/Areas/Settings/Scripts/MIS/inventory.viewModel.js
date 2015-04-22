@@ -173,13 +173,15 @@ define("inventory/inventory.viewModel",
                             IsAsc: sortIsAsc()
                         }, {
                             success: function (data) {
-                                inventories.removeAll();
-                                _.each(data.StockItems, function (item) {
-                                    var inventory = new model.InventoryListView.Create(item);
-                                    inventories.push(inventory);
-                                });
+                                if (data) {
+                                    pager().totalCount(data.TotalCount);
+                                    inventories.removeAll();
+                                    _.each(data.StockItems, function(item) {
+                                        inventories.push( new model.InventoryListView.Create(item));
+                                    });
+                                }
                                 isLoadingInventory(false);
-                                pager().totalCount(data.TotalCount);
+                                    
                             },
                             error: function () {
                                 isLoadingInventory(false);
@@ -413,11 +415,6 @@ define("inventory/inventory.viewModel",
 
                             dataservice.saveInventory(selectedInventory().convertToServerData(orgRegion()), {
                                 success: function (data) {
-                                    if (data && data.PackCostPrice) {
-                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice);
-                                    } else {
-                                        selectedInventoryCopy().packCostPrice('');
-                                    }
                                     //For Add New
                                     if (selectedInventory().itemId() === 0) {
                                         var inventoryResponse = new model.InventoryListView.Create(data);
@@ -432,6 +429,7 @@ define("inventory/inventory.viewModel",
                                         selectedInventoryCopy().weightUnitName(data.WeightUnitName);
                                         selectedInventoryCopy().fullCategoryName(data.FullCategoryName);
                                         selectedInventoryCopy().supplierCompanyName(data.SupplierCompanyName);
+                                        selectedInventoryCopy().packCostPrice(data.PackCostPrice || '');
                                     }
                                     isInventoryEditorVisible(false);
                                     sharedNavigationVM.reset();
@@ -621,7 +619,12 @@ define("inventory/inventory.viewModel",
                         ko.applyBindings(view.viewModel, view.bindingRoot);
                         getBase();
                         pager(pagination.Pagination({ PageSize: 10 }, inventories, getInventoriesListItems));
-
+                        categoryFilter.subscribe(function() {
+                            filterInventories();
+                        });
+                        subCategoryFilter.subscribe(function () {
+                            filterInventories();
+                        });
                     };
                 // #endregion Arrays
 

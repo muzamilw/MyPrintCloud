@@ -64,6 +64,11 @@ namespace MPC.Repository.Repositories
             }
         }
 
+        public string GetMarkupNamebyID(long ID)
+        {
+            return db.Markups.Where(m => m.MarkUpId == ID).Select(e => e.MarkUpName).FirstOrDefault();
+        }
+
         #endregion
     }
 }
