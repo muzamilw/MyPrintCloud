@@ -234,6 +234,18 @@ namespace MPC.Repository.Repositories
             return items;
         }
 
+        public Estimate GetEstimateWithCompanyByOrderID(long OrderID)
+        {
+            try
+            {
+               return db.Estimates.Include("Company").Where(g => g.EstimateId == OrderID).FirstOrDefault();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         #endregion
     }
 }

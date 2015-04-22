@@ -73,5 +73,13 @@ namespace MPC.Repository.Repositories
 
             return payPalResponsePkey;
         }
+
+
+        public string GetPayPalReference(long iRecordID)
+        {
+            return db.PayPalResponses.Where(o => o.OrderId == iRecordID).Select(p => p.TransactionId ?? "0").FirstOrDefault();
+        }
+
+        
     }
 }

@@ -20,7 +20,7 @@ namespace MPC.Repository.Repositories
     /// </summary>
     public class ItemSectionRepository : BaseRepository<ItemSection>, IItemSectionRepository
     {
-        #region privte
+        #region private
         #endregion
 
         #region Constructor

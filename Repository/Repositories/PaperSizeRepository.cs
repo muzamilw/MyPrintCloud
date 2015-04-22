@@ -132,6 +132,18 @@ namespace MPC.Repository.Repositories
                 throw ex;
             }
         }
+
+        public List<PaperSize> GetPaperSizesByID(int PSSID)
+        {
+            try
+            {
+                return db.PaperSizes.Where(c => c.PaperSizeId == PSSID).ToList();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
         #endregion
     }
 }
