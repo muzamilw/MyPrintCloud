@@ -38,7 +38,7 @@ namespace MPC.Interfaces.WebStoreServices
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
 
-        CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
+        CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId);
         Company GetCompanyByCompanyID(Int64 companyID);
 
         CompanyContact GetContactByID(long contactID);

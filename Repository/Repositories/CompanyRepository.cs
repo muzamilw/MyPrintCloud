@@ -1729,6 +1729,7 @@ namespace MPC.Repository.Repositories
                     ContactPerson.quickTitle = contact.quickTitle;
                     ContactPerson.quickWebsite = contact.quickWebsite;
                     ContactPerson.TerritoryId = ContactTerritory.TerritoryId;
+                    ContactPerson.OrganisationId = OrganisationId;
                     if (!string.IsNullOrEmpty(RegWithSocialMedia))
                     {
                         ContactPerson.twitterScreenName = RegWithSocialMedia;

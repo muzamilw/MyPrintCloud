@@ -363,11 +363,11 @@ namespace MPC.Implementation.WebStoreServices
             }
            
         }
-        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
+        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
         {
             try
             {
-                return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName);
+                return _CompanyContactRepository.CreateCorporateContact(CustomerId, regContact, TwitterScreenName, OrganisationId);
             }
             catch (Exception ex)
             {

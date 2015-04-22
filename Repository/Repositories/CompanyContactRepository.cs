@@ -649,7 +649,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
+        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
         {
             try
             {
@@ -677,7 +677,7 @@ namespace MPC.Repository.Repositories
                     Contact.twitterScreenName = TwitterScreenName;
                     Contact.isWebAccess = false;
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
-
+                    Contact.OrganisationId = OrganisationId;
                     Contact.isPlaceOrder = true;
 
                     //Quick Text Fields
