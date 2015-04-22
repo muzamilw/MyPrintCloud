@@ -56,6 +56,7 @@ namespace MPC.Implementation.MISServices
         private readonly IMachineRepository MachineRepository;
         private readonly IPayPalResponseRepository PayPalRepsoitory;
         private readonly ICostCentreRepository CostCentreRepository;
+        private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
@@ -180,6 +181,24 @@ namespace MPC.Implementation.MISServices
             sectionCostCentreRepository.Delete(item);
         }
 
+        /// <summary>
+        /// Creates New Section Ink Coverage
+        /// </summary>
+        private SectionInkCoverage CreateSectionInkCoverage()
+        {
+            SectionInkCoverage itemTarget = sectionInkCoverageRepository.Create();
+            sectionInkCoverageRepository.Add(itemTarget);
+            return itemTarget;
+        }
+
+        /// <summary>
+        /// Delete Section Ink Coverage
+        /// </summary>
+        private void DeleteSectionInkCoverage(SectionInkCoverage item)
+        {
+            sectionInkCoverageRepository.Delete(item);
+        }
+
         #endregion
         #region Constructor
 
@@ -191,7 +210,10 @@ namespace MPC.Implementation.MISServices
             IPaymentMethodRepository paymentMethodRepository, IOrganisationRepository organisationRepository, IStockCategoryRepository stockCategoryRepository, IOrderRepository orderRepository, IItemRepository itemRepository, MPC.Interfaces.WebStoreServices.ITemplateService templateService,
             IChartOfAccountRepository chartOfAccountRepository, IItemSectionRepository itemsectionRepository, IPaperSizeRepository paperSizeRepository, IInkPlateSideRepository inkPlateSideRepository, IStockItemRepository stockItemRepository, IInkCoverageGroupRepository inkCoverageGroupRepository,
             ICompanyRepository companyRepository, IPrefixRepository prefixRepository, IPrePaymentRepository prePaymentRepository,
-            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository)
+            IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
+            IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
+            IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
+            ISectionInkCoverageRepository sectionInkCoverageRepository)
         {
             if (estimateRepository == null)
             {
@@ -257,6 +279,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionCostCentreRepository");
             }
+            if (sectionInkCoverageRepository == null)
+            {
+                throw new ArgumentNullException("sectionInkCoverageRepository");
+            }
 
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
@@ -289,6 +315,7 @@ namespace MPC.Implementation.MISServices
             this.MachineRepository = MachineRepository;
             this.CostCentreRepository = CostCentreRepository;
             this.PayPalRepsoitory = PayPalRepsoitory;
+            this.sectionInkCoverageRepository = sectionInkCoverageRepository;
         }
 
         #endregion
@@ -346,7 +373,9 @@ namespace MPC.Implementation.MISServices
                                          CreateSectionCostCentre = CreateSectionCostCentre,
                                          DeleteSectionCostCenter = DeleteSectionCostCentre,
                                          CreateItemAttachment = CreateItemAttachment,
-                                         DeleteItemAttachment = DeleteItemAttachment
+                                         DeleteItemAttachment = DeleteItemAttachment,
+                                         CreateSectionInkCoverage = CreateSectionInkCoverage,
+                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage
                                      });
             // Save Changes
             estimateRepository.SaveChanges();
