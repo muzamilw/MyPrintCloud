@@ -112,9 +112,16 @@ function ConfirmDeleteItemPopUP(ItemID,OrderID)
     document.getElementById("layer").style.width = bws.width + "px";
     document.getElementById("layer").style.height = bws.height + "px";
 
-    var left = parseInt((bws.width - 500) / 2);
+    var left = 0;
     var top = parseInt((bws.height - 170) / 2);
 
+    if (bws.width < 640) {
+        document.getElementById("innerLayer").style.width = (bws.width) + "px";
+
+    } else {
+        left = parseInt((bws.width - 500) / 2);
+        document.getElementById("innerLayer").style.width = "500px";
+    }
     document.getElementById("innerLayer").innerHTML = container;
 
     document.getElementById("innerLayer").style.top = top + "px";
