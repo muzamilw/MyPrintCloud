@@ -16,6 +16,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 FileTitle = source.FileTitle,
                 CompanyId = source.CompanyId,
                 FileName = source.FileName,
+                ItemId = source.ItemId,
+                ContactId = source.ContactId,
                 FolderPath = !string.IsNullOrEmpty(source.FolderPath) ? source.FolderPath + "?" + DateTime.Now.ToString() : string.Empty,
             };
         }
@@ -30,8 +32,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemAttachmentId = source.ItemAttachmentId,
                 FileTitle = source.FileTitle,
                 CompanyId = source.CompanyId,
+                ItemId = source.ItemId,
                 FileName = source.FileName,
-                FolderPath = source.FolderPath
+                ContactId = source.ContactId,
+                FileSource = source.FolderPath
             };
         }
     }

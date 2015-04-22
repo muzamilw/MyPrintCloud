@@ -230,7 +230,22 @@ define("order/order.viewModel",
                     isCostCenterDialogForShipping = ko.observable(false),
                     //Is Inventory Dialog is opening from Order Dialog's add Product From Inventory
                     isAddProductFromInventory = ko.observable(false),
-
+                    orderHasChanges = ko.computed(function () {
+                        var hasChanges = false, productChanges = false, sectionHasChanges = false;
+                        if (selectedOrder()) {
+                            hasChanges = selectedOrder().hasChanges();
+                        }
+                        
+                        if (selectedProduct()) {
+                            productChanges = selectedProduct().hasChanges();
+                        }
+                        
+                        if (selectedSection()) {
+                            sectionHasChanges = selectedSection().hasChanges();
+                        }
+                        
+                        return hasChanges || productChanges || sectionHasChanges;
+                    }),
                     // #endregion
 
                     // #region Utility Functions
@@ -342,10 +357,11 @@ define("order/order.viewModel",
                         }
 
                         // calculateSectionChargeTotal();
-                        openItemDetail();
+                        
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
-                        setAvailableInkPlateChange();
+                        setAvailableInkPlateChange();  // Why calling this when no change being done, It is setting Ink Coverage data null, its id and sectionid
+                        openItemDetail();
                     },
                     // Open Item Detail
                     openItemDetail = function () {
@@ -1235,6 +1251,7 @@ define("order/order.viewModel",
                             var attArray = [];
                             _.each(item.ItemAttachment, function (att) {
                                 var attchment = att.convertToServerData(); // item converted 
+                                attchment.ContactId = selectedOrder().contactId();
                                 attArray.push(attchment);
                             });
                             item.ItemAttachments = attArray;
@@ -2646,7 +2663,8 @@ define("order/order.viewModel",
                     selectedItemForProgressToJobWizard: selectedItemForProgressToJobWizard,
                     clickOnJobToProgressWizard: clickOnJobToProgressWizard,
                     availableInkPalteChange: availableInkPalteChange,
-                    openReportsOrder: openReportsOrder
+                    openReportsOrder: openReportsOrder,
+                    orderHasChanges: orderHasChanges
                 };
             })()
         };
