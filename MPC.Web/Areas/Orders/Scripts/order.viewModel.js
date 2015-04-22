@@ -237,7 +237,8 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
-                        view.setOrderState(4); // Pending Order
+                        view.setOrderState(0); // Pending Order
+                        selectedOrder().statusId(4);
                         openOrderEditor();
                     },
                     // Edit Order
@@ -282,7 +283,7 @@ define("order/order.viewModel",
                             confirmation.show();
                             return;
                         }
-                        
+
                         closeOrderEditor();
                     },
                     // Close Editor
@@ -564,7 +565,7 @@ define("order/order.viewModel",
                             onSaveStockItem(stockItem);
                         }, stockCategory.paper, false);
                     },
-                    
+
                     // Get Paper Size by id
                     getPaperSizeById = function (id) {
                         return paperSizes.find(function (paperSize) {
@@ -584,6 +585,7 @@ define("order/order.viewModel",
                     // On Order Status Change
                     onOrderStatusChange = function (status) {
 
+                        status = status === 4 ? status + 5 : status + 4;
                         if (selectedOrder().statusId() < status) {
                             statusNavigationForward(status);
                         } else {
@@ -592,12 +594,19 @@ define("order/order.viewModel",
                     },
                     statusNavigationBackward = function (status) {
                         // Only move 1 or 2 step backward at a time, if user try to move more than 1 or 2 step then system set 1 step by default
-                        if ((selectedOrder().statusId() - 1) !== status && (selectedOrder().statusId() - 2) !== status) {
-                            status = selectedOrder().statusId() - 1;
+                        if (selectedOrder().statusId() === 9) {
+                            if ((selectedOrder().statusId() - 2) !== status && (selectedOrder().statusId() - 3) !== status) {
+                                status = selectedOrder().statusId() - 2;
+                            }
+                        } else {
+                            if (selectedOrder().statusId() !== 9 && (selectedOrder().statusId() - 1) !== status && (selectedOrder().statusId() - 2) !== status) {
+                                status = selectedOrder().statusId() - 1;
+                            }
                         }
 
+
                         // Shipped & Invoiced to  In Production (1 Step) or Shipped & Invoiced to confirmed start (2 step)
-                        if (status === 2 || (selectedOrder().statusId() - 2 === 1)) {
+                        if (status === 6 || (selectedOrder().statusId() - 2 === 5)) {
                             showConfirmationMessageForBackwardNavigationOnStatusChange(status);
                         }
 
@@ -617,11 +626,11 @@ define("order/order.viewModel",
                     },
                     statusNavigationForward = function (status) {
                         // Only Move one step at a time, if user try to move more than 1 step then system set 1 step by default
-                        if ((selectedOrder().statusId() + 1) !== status) {
+                        if (selectedOrder().statusId() !== 7 && (selectedOrder().statusId() + 1) !== status) {
                             status = selectedOrder().statusId() + 1;
                         }
                         // Pending Order to Confirm Start ,In Production to Shipped & Invoiced, Shipped & Invoiced to Cancelled,In Production to
-                        if (status !== 2) {
+                        if (status !== 6) {
                             showConfirmationMessageForForwardNavigationOnStatusChange(status);
 
                         }
@@ -635,7 +644,7 @@ define("order/order.viewModel",
                             });
                             confirmation.afterCancel(function () {
                                 view.setOrderState(selectedOrder().statusId(), selectedOrder().isFromEstimate());
-                            });
+                            })
                             confirmation.show();
                             return;
                         }
@@ -688,6 +697,7 @@ define("order/order.viewModel",
               },
 
               onStatusChangeDeliveryNotesCancelled = function () {
+                  selectedDeliverySchedule(undefined);
                   var deliveries = [];
                   ko.utils.arrayPushAll(deliveries, selectedOrder().deliverySchedules());
                   _.each(deliveries, function (item) {
@@ -1295,7 +1305,7 @@ define("order/order.viewModel",
                         });
 
                         if (flag) {
-                            var attachment = model.ItemAttachment.Create({ });
+                            var attachment = model.ItemAttachment.Create({});
                             attachment.id(undefined);
                             attachment.fileSourcePath(data);
                             attachment.fileName(file.name);
@@ -1549,7 +1559,7 @@ define("order/order.viewModel",
                     },
                     //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
-                       
+
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         sectionCostCenter.name(stockItem.name);
                         sectionCostCenter.qty1NetTotal(stockItem.price);
@@ -2312,7 +2322,7 @@ define("order/order.viewModel",
                                 if (data != null) {
                                     var host = window.location.host;
                                     var uri = encodeURI("http://" + host + data);
-                                    window.open(uri, "_blank");                                    
+                                    window.open(uri, "_blank");
                                 }
                                 isLoadingOrders(false);
                             },
@@ -2420,7 +2430,7 @@ define("order/order.viewModel",
                         isEstimateScreen(false);
                         var orderIdFromDashboard = $('#OrderId').val();
                         if (orderIdFromDashboard != 0) {
-                            editOrder({ id: function () { return orderIdFromDashboard; }});
+                            editOrder({ id: function () { return orderIdFromDashboard; } });
                         } else {
                             getOrders();
                         }
