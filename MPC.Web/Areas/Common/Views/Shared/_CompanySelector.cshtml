@@ -53,7 +53,9 @@
     <tr data-bind="click: $root.onSelectCompany">
         <td data-bind="text:name"></td>
         <td data-bind="text:url"></td>
-        <td data-bind="text:creationDate"></td>
+        <td>
+            <span data-bind="dateString:creationDate,datePattern: 'DD/MM/YYYY'"></span>
+        </td>
     </tr>
 </script>
 

@@ -285,7 +285,7 @@
 
 
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/@item.TemplateId/0/UploadDesign" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
 
@@ -293,7 +293,7 @@
                                             else
                                             {
 
-                                                <a id="lnkPRoductdetail" href="/ProductDetail/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button rounded_corners" /></a>
+                                                <a id="lnkPRoductdetail" href="/ProductDetail/@MPC.Webstore.Common.Utils.specialCharactersEncoder(item.ProductName)/@Model.ProductCategoryId/@item.ItemId/0/'0'/'UploadDesign'" onclick="ShowLoader();"><input type="button" value="More info" class="more-info-button background-green rounded_corners" /></a>
 
 
                                             }

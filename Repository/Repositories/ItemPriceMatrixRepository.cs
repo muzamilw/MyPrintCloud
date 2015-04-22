@@ -50,5 +50,23 @@ namespace MPC.Repository.Repositories
         {
             return DbSet.Where(itemPrice => itemPrice.FlagId == sectionFlagId && itemPrice.ItemId == itemId && itemPrice.SupplierId == null);
         }
+
+        //public  List<ItemPriceMatrix> GetRetailProductsPriceMatrix() // Customer ID , Broker Product List
+        //{
+            
+        //    {
+        //       // db.Configuration.LazyLoadingEnabled = false;
+
+        //        var qry = from prices in db.ItemPriceMatrices
+        //                  join i in db.Items on prices.ItemId equals i.ItemId
+        //                  join cat in db.ProductCategories on i.productc equals cat.ProductCategoryId
+        //                  where cat.isArchived == false && i.IsPublished == true && prices.SupplierID == null && prices.ContactCompanyID == null && ((i.isQtyRanged == true && prices.QtyRangeFrom > 0) || (i.isQtyRanged == false && prices.Quantity > 0))
+
+        //                  select prices;
+
+        //        return qry.ToList();
+
+        //    }
+        //}
     }
 }
