@@ -54,5 +54,7 @@ namespace MPC.Interfaces.MISServices
 
         string DownloadOrderArtwork(int OrderID, string sZipName);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
+
+        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, long OrganisationID);
     }
 }

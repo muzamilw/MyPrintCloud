@@ -22,7 +22,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name = ko.observable(specifiedName || undefined).extend({ required: true }),
                 // Code
                 code = ko.observable(specifiedCode || undefined),
-
+                type = ko.observable(specifiedType),
                 // Company Id
                 companyId = ko.observable(specifiedCompanyId || undefined).extend({ required: true }),
                 // Company Name
@@ -69,6 +69,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 headNotes = ko.observable(specifiedHeadNotes),
                 footNotes = ko.observable(specifiedFootNotes),
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode),
+                isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
+                // Is Direct Sale Ui
+                isDirectSaleUi = ko.computed(function () {
+                    return isDirectSale() ? "Direct Order" : "Online Order";
+                }),
                 // Errors
                 errors = ko.validation.group({
                     name: name,
@@ -105,8 +110,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     taxValue: taxValue,
                     grandTotal: grandTotal,
                     userNotes: userNotes,
-                    invoiceReportSignedBy: invoiceReportSignedBy
-
+                    invoiceReportSignedBy: invoiceReportSignedBy,
+                    type:type
 
                 }),
                 // Has Changes
@@ -145,6 +150,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ReportSignedBy: invoiceReportSignedBy(),
                         HeadNotes: headNotes(),
                         FootNotes: footNotes(),
+                        InvoiceType : type(),
                         XeroAccessCode: xeroAccessCode(),
                         InvoiceDetails: []
                     };
@@ -177,7 +183,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 invoiceReportSignedBy: invoiceReportSignedBy,
                 headNotes: headNotes,
                 footNotes: footNotes,
+                type:type,
                 xeroAccessCode: xeroAccessCode,
+                isDirectSaleUi: isDirectSaleUi,
+                isDirectSale: isDirectSale,
+                invoiceDetailItems:invoiceDetailItems,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -319,7 +329,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 name: specifiedName,
                 email: specifiedEmail || ""
             };
-        },
+        };
+    // Address Factory
+    Address.Create = function (source) {
+        return new Address(source.AddressId, source.AddressName, source.Address1, source.Address2, source.Tel1);
+    };
+
+    // Company Contact Factory
+    CompanyContact.Create = function (source) {
+        return new CompanyContact(source.ContactId, source.Name, source.Email);
+    };
     // Item Section Factory
     Invoice.Create = function (source) {
         var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.CompanyName, source.ContactId, source.OrderNo,
@@ -329,16 +348,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
             source.InvoicePostingDate, source.XeroAccessCode);
 
-        // Map Section Cost Centres if Any
-        if (source.invoiceDetailItems && source.invoiceDetailItems.length > 0) {
+        // Map invoice items if Any
+        if (source.InvoiceDetails && source.InvoiceDetails.length > 0) {
             var invDetailItems = [];
 
-            _.each(source.invoiceDetailItems, function (invdetail) {
+            _.each(source.InvoiceDetails, function (invdetail) {
                 invDetailItems.push(InvoiecDetail.Create(invdetail));
             });
 
             // Push to Original Item
-            ko.utils.arrayPushAll(invoice.invoiceDetailItems(), invDetailItems);
+            ko.utils.arrayPushAll(invoice.invoiceDetailItems, invDetailItems);
             invoice.invoiceDetailItems.valueHasMutated();
         }
 

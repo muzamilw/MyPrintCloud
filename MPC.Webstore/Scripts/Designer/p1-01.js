@@ -213,19 +213,52 @@ function VarifyFontNames(font1, font2, font3) {
 function UpdateFontToUI(fontName, fontFileName) {
     var Tc1 = CustomerID;
     var Cty;
-    var path = "/MPC_Content/Designer/Organisation" + organisationId + "/WebFonts/" + CustomerID
+    var path = "/MPC_Content/Designer/Organisation" + organisationId + "/WebFonts/" + CustomerID + "/"
     if (IsCalledFrom == 1) {
         Tc1 = -1;
     }
-
+   // T0FN = [];
+   // T0FU = [];
+   // h8(fontName, path + fontFileName, "");
+ 
+  //  h9_newFont();
     var html = '<style> @font-face { font-family: ' + fontName + '; src: url(' + path + fontFileName + ".eot" + '); src: url(' + path + fontFileName + ".eot?#iefix" + ') format(" embedded-opentype"), url(' + path + fontFileName + ".woff" + ') format("woff"),  url(' + path + fontFileName + ".ttf" + ') format("truetype");  font-weight: normal; font-style: normal;}</style>';
     $('head').append(html);
+
+    if ($.browser.msie) {
+        $("head").append('<link rel="stylesheet" href="' + (path +fontFileName + ".woff") + '">');
+    } else if ($.browser.Chrome) {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".woff") + '">');
+    } else if ($.browser.Safari || $.browser.opera || $.browser.mozilla) {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".ttf") + '">');
+    } else {
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".eot") + '">');
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".woff") + '">');
+        $("head").append('<link rel="stylesheet" href="' + (path  + fontFileName + ".ttf") + '">');
+    }
+   
     var html1 = '<option  id = ' + fontFileName + ' value="' + fontName + '" >' + fontName + '</option>';
     console.log(fontName + " " + fontFileName);
     var fname = "'"+ fontName + "'";
     $('#' + "BtnSelectFonts").append(html1);
     var html2 = '<li style="font-family: ' + fname + '">' + fontName + '</li>';
     $(".fonts").append(html2);
+    var fname = 'BtnSelectFontsRetail';
+    if (panelMode == 1) {
+        fname = 'BtnSelectFonts';
+    }
+    var selName = "#" + fname;
+    $(selName).fontSelector({
+
+        fontChange: function (e, ui) {
+            // Update page title according to the font that's set in the widget options:
+            //pcL04(1);
+        },
+        styleChange: function (e, ui) {
+            // Update page title according to what's set in the widget options:
+            // pcL04(1);
+        }
+    });
 }
 function Arc_1() {
     StartLoader("Updating template please wait...");
