@@ -44,6 +44,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableId = source.VariableId,
                 VariableType = source.FieldVariable != null ? source.FieldVariable.VariableType : 0,
                 Title = source.FieldVariable != null ? source.FieldVariable.VariableTitle : string.Empty,
+                WaterMark = source.FieldVariable != null ? source.FieldVariable.WaterMark : string.Empty,
                 DefaultValue = source.FieldVariable != null ? source.FieldVariable.DefaultValue : string.Empty
             };
         }
