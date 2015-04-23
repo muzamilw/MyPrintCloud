@@ -41,8 +41,8 @@
                                 <div class="main-box-body main-box clearfix">
                                     <div class="tabs-wrapper profile-tabs">
                                         <ul class="nav nav-tabs">
-                                            <li class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
-                                            <li><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Open Estimates</a></li>
+                                            <li id="all-orders" class="active"><a href="#tab-All" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(0);}">All Estimates</a></li>
+                                            <li id="pending-orders"><a href="#tab-PendingOrders" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(4);}">Open Estimates</a></li>
                                             <li><a href="#tab-ConfirmedStarts" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(5);}">Progressed to Orders</a></li>
                                             <li><a href="#tab-InProduction" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(6);}">In Production</a></li>
                                             <li><a href="#tab-ReadyForShipping" data-toggle="tab" data-bind="click: function(){$root.getOrdersOnTabChange(7);}">Invoiced</a></li>
@@ -196,16 +196,29 @@
 @Html.Partial("~/Areas/Common/Views/Shared/_StockDialog.cshtml")
 
 @section Scripts{
+<script src="~/Content/themes/Centaurus/js/CSJSRequestObject.js"></script>
     <script>
         require(["order/estimate.view", "common/confirmation.view", "common/companySelector.view", "common/phraseLibrary.view", "common/stockItem.view"]);
-
-        $(function () {
+        $(function ()
+        {
             $('#liestimating').addClass('active');
             $('.bs-example-tooltips a').popover();
         });
 
+        $(document).ready(function ()
+        {
+            var page = Request.QueryString("to");
+            if (page != null)
+            {
+                if (page == 'est')
+                {
+                    $("#all-orders").removeClass("active");
+                    $("#tab-All").removeClass("active");
 
-
+                    $("#pending-orders").addClass("active");
+                    $("#tab-PendingOrders").addClass("active");
+                }
+            }
+        });
 </script>
-
 }             
