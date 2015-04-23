@@ -341,7 +341,7 @@ namespace MPC.Repository.Repositories
                     filename = oFile.Name;
                     item.ImageName = result.ToString() + "/" + filename;
                 }
-                // copy template variables 
+                // copy template variables    
                 var listVariables = db.TemplateVariables.Where(g => g.TemplateId == ProductID).ToList();
                 if (listVariables.Count > 0)
                 {
