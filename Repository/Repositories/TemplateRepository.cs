@@ -294,7 +294,6 @@ namespace MPC.Repository.Repositories
                 objPages = pages;
                 foreach (TemplatePage oTemplatePage in pages)
                 {
-
                     if (oTemplatePage.BackGroundType == 1 || oTemplatePage.BackGroundType == 3)
                     {
                         string name = oTemplatePage.BackgroundFileName.Substring(oTemplatePage.BackgroundFileName.IndexOf("/"), oTemplatePage.BackgroundFileName.Length - oTemplatePage.BackgroundFileName.IndexOf("/"));
@@ -320,7 +319,6 @@ namespace MPC.Repository.Repositories
                     {
                         item.IsTextEditable = true;
                     }
-
                     if (item.ObjectType == 3)
                     {
                         string[] content = item.ContentString.Split('/');
