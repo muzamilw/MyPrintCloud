@@ -14,14 +14,14 @@ namespace MPC.Interfaces.Repository
     {
         bool ValidatEmail(string email);
         CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "");
-        CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode);
+        //CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         CompanyContact GetContactUser(string email, string password);
         CompanyContact GetContactByFirstName(string Fname);
         CompanyContact GetContactByEmail(string Email, long OID);
         CompanyContact GetContactById(int contactId);
         long CreateContact(CompanyContact Contact, string Name, long OrganizationID, int CustomerType, string TwitterScreanName, long SaleAndOrderManagerID, long StoreID);
 
-        CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName);
+        CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister);
         CompanyContact GetContactByID(Int64 ContactID);
 
         Models.ResponseModels.CompanyContactResponse GetCompanyContacts(
@@ -120,5 +120,14 @@ namespace MPC.Interfaces.Repository
         /// Get Company Contact By search string and Customer Type
         /// </summary>
         CompanyContactResponse GetContactsBySearchNameAndType(CompanyContactForCalendarRequestModel request);
+        /// <summary>
+        /// get corporate user for auto login process
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <param name="organistionId"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
+        
     }
 }

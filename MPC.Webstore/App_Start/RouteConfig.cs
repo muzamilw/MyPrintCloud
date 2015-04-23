@@ -14,11 +14,11 @@ namespace MPC.Webstore
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-           // routes.MapRoute(
-           //   "Error",
-           //   "Error",
-           //   new { controller = "Home", action = "Error", id = UrlParameter.Optional }
-           //);
+            routes.MapRoute(
+              "Error",
+              "Error",
+              new { controller = "Home", action = "Error", Message = UrlParameter.Optional }
+           );
 
             routes.MapRoute("clear"
                  , "clear/{name}"
@@ -108,11 +108,11 @@ namespace MPC.Webstore
       "Dashboard/GetPassWord",
       new { controller = "Dashboard", action = "GetPassWord", id = UrlParameter.Optional }
    );
-     //       routes.MapRoute(
-     //   "Orderr",
-     //   "CostCenter/GetData",
-     //   new { controller = "CostCenter", action = "GetData", id = UrlParameter.Optional }
-     //);
+            //       routes.MapRoute(
+            //   "Orderr",
+            //   "CostCenter/GetData",
+            //   new { controller = "CostCenter", action = "GetData", id = UrlParameter.Optional }
+            //);
             routes.MapRoute(
        "ContryList",
        "BillingShippingAddressManager/LoadCountriesList",
@@ -126,40 +126,40 @@ namespace MPC.Webstore
              );
 
 
-           routes.MapRoute(
-                 "StateList",
-                 "BillingShippingAddressManager/LoadAllStates",
-                 new { controller = "BillingShippingAddressManager", action = "LoadAllStates", id = UrlParameter.Optional }
+            routes.MapRoute(
+                  "StateList",
+                  "BillingShippingAddressManager/LoadAllStates",
+                  new { controller = "BillingShippingAddressManager", action = "LoadAllStates", id = UrlParameter.Optional }
+               );
+
+            routes.MapRoute(
+                 "LoadStatesByCountryID",
+                 "BillingShippingAddressManager/LoadStatesByCountryID",
+                 new { controller = "BillingShippingAddressManager", action = "LoadStatesByCountryID", id = UrlParameter.Optional }
               );
 
-           routes.MapRoute(
-                "LoadStatesByCountryID",
-                "BillingShippingAddressManager/LoadStatesByCountryID",
-                new { controller = "BillingShippingAddressManager", action = "LoadStatesByCountryID", id = UrlParameter.Optional }
-             );
-            
-        routes.MapRoute(
-                "UpdateAddress",
-                "BillingShippingAddressManager/UpdateAddress",
-                new { controller = "BillingShippingAddressManager", action = "UpdateAddress", id = UrlParameter.Optional }
-             );
+            routes.MapRoute(
+                    "UpdateAddress",
+                    "BillingShippingAddressManager/UpdateAddress",
+                    new { controller = "BillingShippingAddressManager", action = "UpdateAddress", id = UrlParameter.Optional }
+                 );
 
-        routes.MapRoute(
-            "AddAddress",
-            "BillingShippingAddressManager/AddNewAddress",
-            new { controller = "BillingShippingAddressManager", action = "AddNewAddress", id = UrlParameter.Optional }
-         );
-        routes.MapRoute(
-   "RebindGrid",
-   "BillingShippingAddressManager/RebindGrid",
-   new { controller = "BillingShippingAddressManager", action = "RebindGrid", id = UrlParameter.Optional }
-);
+            routes.MapRoute(
+                "AddAddress",
+                "BillingShippingAddressManager/AddNewAddress",
+                new { controller = "BillingShippingAddressManager", action = "AddNewAddress", id = UrlParameter.Optional }
+             );
+            routes.MapRoute(
+       "RebindGrid",
+       "BillingShippingAddressManager/RebindGrid",
+       new { controller = "BillingShippingAddressManager", action = "RebindGrid", id = UrlParameter.Optional }
+    );
 
-//        routes.MapRoute(
-//"RebindGrid",
-//"BillingShippingAddressManager/Index",
-//new { controller = "BillingShippingAddressManager", action = "Index", id = UrlParameter.Optional }
-//);
+            //        routes.MapRoute(
+            //"RebindGrid",
+            //"BillingShippingAddressManager/Index",
+            //new { controller = "BillingShippingAddressManager", action = "Index", id = UrlParameter.Optional }
+            //);
 
             routes.MapRoute(
        "orderview",
@@ -200,7 +200,7 @@ namespace MPC.Webstore
              "ContactUs",
              new { controller = "Home", action = "Index", id = UrlParameter.Optional }
           );
-           
+
             routes.MapRoute(
                 "Login",
                 "Login/{controller}/{action}/{FirstName}/{LastName}/{Email}/{IsMarketing}",
@@ -232,7 +232,7 @@ namespace MPC.Webstore
             routes.MapRoute(
               "ProductOptionCostCentre",
               "ProductOptions/GetDateTimeString",
-              new { controller = "ProductOptions", action = "GetDateTimeString"}
+              new { controller = "ProductOptions", action = "GetDateTimeString" }
              );
             routes.MapRoute(
              "MarketingBrief",
@@ -249,21 +249,21 @@ namespace MPC.Webstore
             routes.MapRoute(
                "Receipt",
                "Receipt/{OrderID}",
-               new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional}
-                 );
-         
-                  routes.MapRoute(
-           "ShopCartAddressSelect",
-           "ShopCartAddressSelect/{OrderID}",
-           new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
-             );
-
-                  routes.MapRoute(
-               "OrderConfirmation",
-               "OrderConfirmation/{OrderID}",
                new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
                  );
-         
+
+            routes.MapRoute(
+     "ShopCartAddressSelect",
+     "ShopCartAddressSelect/{OrderID}",
+     new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+       );
+
+            routes.MapRoute(
+         "OrderConfirmation",
+         "OrderConfirmation/{OrderID}",
+         new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+           );
+
 
             routes.MapRoute(
          "pages",
@@ -287,7 +287,7 @@ namespace MPC.Webstore
              "CloneProducts/{id}",
              new { controller = "CategoriesAndProducts", action = "CloneProducts", id = UrlParameter.Optional }
                );
-            
+
             routes.MapRoute(
             "CloneItem",
             "CloneItem/{id}",
@@ -303,56 +303,60 @@ namespace MPC.Webstore
             routes.MapRoute(
            "Dashboard/ResetPassword",
            "Dashboard/ResetPassword/{CurrentPassword}/{NewPassword}",
-           new { controller = "Dashboard", action = "ResetPassword", CurrentPassword = UrlParameter.Optional, NewPassword = UrlParameter.Optional}
+           new { controller = "Dashboard", action = "ResetPassword", CurrentPassword = UrlParameter.Optional, NewPassword = UrlParameter.Optional }
              );
 
             routes.MapRoute(
             "EditDesign",
             "EditDesign/{DesignState}/{EditType}/{ItemID}/{TemplateId}",
-            new { controller = "ProductDetail", action = "EditDesign", DesignState = UrlParameter.Optional, EditType = UrlParameter.Optional,ItemID = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
+            new { controller = "ProductDetail", action = "EditDesign", DesignState = UrlParameter.Optional, EditType = UrlParameter.Optional, ItemID = UrlParameter.Optional, TemplateId = UrlParameter.Optional }
               );
-              routes.MapRoute(
-            "RemoveProduct",
-            "RemoveProduct/{ItemID}/{OrderID}",
-            new { controller = "ShopCart", action = "RemoveProduct",ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
-              );
+            routes.MapRoute(
+          "RemoveProduct",
+          "RemoveProduct/{ItemID}/{OrderID}",
+          new { controller = "ShopCart", action = "RemoveProduct", ItemID = UrlParameter.Optional, OrderID = UrlParameter.Optional }
+            );
 
-              routes.MapRoute(
-            "RemoveSaveDesign",
-            "RemoveSaveDesign/{ItemID}",
-            new { controller = "SavedDesigns", action = "RemoveSaveDesign", ItemID = UrlParameter.Optional }
-              );
+            routes.MapRoute(
+          "RemoveSaveDesign",
+          "RemoveSaveDesign/{ItemID}",
+          new { controller = "SavedDesigns", action = "RemoveSaveDesign", ItemID = UrlParameter.Optional }
+            );
 
-              routes.MapRoute(
-             "SavedDesigns",
-             "SavedDesigns",
-             new { controller = "Home", action = "Index"}
-               );
+            routes.MapRoute(
+           "SavedDesigns",
+           "SavedDesigns",
+           new { controller = "Home", action = "Index" }
+             );
 
-              routes.MapRoute(
-            "ReOrder",
-            "ReOrder/{ItemID}",
-            new { controller = "SavedDesigns", action = "ReOrder", ItemID = UrlParameter.Optional }
-              );
+            routes.MapRoute(
+          "ReOrder",
+          "ReOrder/{ItemID}",
+          new { controller = "SavedDesigns", action = "ReOrder", ItemID = UrlParameter.Optional }
+            );
 
-              routes.MapRoute(
-              "PaypalSubmit",
-              "PaypalSubmit/{controller}/{action}/{id}",
-              new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
-           );
-
-              
-              routes.MapRoute(
-              "NabSubmit",
-              "NabSubmit/{OrderID}",
-              new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
-           );
-              routes.MapRoute(
-            "ReceiptPlain",
-            "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
-            new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+            routes.MapRoute(
+            "PaypalSubmit",
+            "PaypalSubmit/{controller}/{action}/{id}",
+            new { controller = "Payment", action = "PaypalSubmit", id = UrlParameter.Optional }
          );
-       
+
+
+            routes.MapRoute(
+            "NabSubmit",
+            "NabSubmit/{OrderID}",
+            new { controller = "Home", action = "Index", OrderID = UrlParameter.Optional }
+         );
+            routes.MapRoute(
+          "ReceiptPlain",
+          "ReceiptPlain/{OrderId}/{StoreId}/{IsPrintReceipt}",
+          new { controller = "Home", action = "ReceiptPlain", OrderId = UrlParameter.Optional, StoreId = UrlParameter.Optional, IsPrintReceipt = UrlParameter.Optional }
+       );
+            routes.MapRoute(
+         "autologin",
+         "autologin/{C}/{F}/{L}/{E}/{CC}",
+         new { controller = "Domain", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
+      );
             routes.MapRoute(
                "Default", // Route name
                "",        // URL with parameters
