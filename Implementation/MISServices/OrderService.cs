@@ -16,6 +16,7 @@ using Ionic.Zip;
 using System.Text;
 using System.Xml;
 using GrapeCity.ActiveReports;
+using System.Data;
 
 namespace MPC.Implementation.MISServices
 {
@@ -581,7 +582,8 @@ namespace MPC.Implementation.MISServices
         public string DownloadOrderArtwork(int OrderID, string sZipName)
         {
             //return orderRepository.GenerateOrderArtworkArchive(OrderID, sZipName);
-            return GenerateOrderArtworkArchive(OrderID, sZipName);
+           return GenerateOrderArtworkArchive(OrderID, sZipName);
+           // return ExportPDF(1, 0, ReportType.Internal, 0,string.Empty);
         }
 
         public string GenerateOrderArtworkArchive(int OrderID, string sZipName)
@@ -613,26 +615,29 @@ namespace MPC.Implementation.MISServices
                 Estimate oOrder = estimateRepository.GetEstimateWithCompanyByOrderID(OrderID);
 
 
-                
-                Company store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.Company.StoreId ?? 0);
-                if (store != null)
+                if(oOrder.Company != null)
                 {
-                    IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                    IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                    IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                    MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
-                }
-                else
-                {
-                    store = companyRepository.GetCompanyByCompanyIDforArtwork(oOrder.CompanyId);
-                    if (store != null)
+                    if (oOrder.Company.IsCustomer == 3)
                     {
-                        IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
-                        IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
-                        IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
-                        MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
+                        IncludeOrderReport = oOrder.Company.includeEmailArtworkOrderReport ?? false;
+                        IncludeJobCardReport = oOrder.Company.includeEmailArtworkOrderJobCard ?? false;
+                        IncludeOrderXML = oOrder.Company.includeEmailArtworkOrderXML ?? false;
+                        MakeArtWorkProductionReady = oOrder.Company.makeEmailArtworkOrderProductionReady ?? false;
                     }
+                    else
+                    {
+                       Company  store = companyRepository.GetStoreById(oOrder.Company.StoreId ?? 0);
+                       if (store != null)
+                       {
+                           IncludeOrderReport = store.includeEmailArtworkOrderReport ?? false;
+                           IncludeJobCardReport = store.includeEmailArtworkOrderJobCard ?? false;
+                           IncludeOrderXML = store.includeEmailArtworkOrderXML ?? false;
+                           MakeArtWorkProductionReady = store.makeEmailArtworkOrderProductionReady ?? false;
+                       }
+                    }
+
                 }
+              
                 if (!IncludeOrderReport && !IncludeJobCardReport && !IncludeOrderXML && !MakeArtWorkProductionReady)
                 {
                     IncludeOrderReport = true;
@@ -713,7 +718,7 @@ namespace MPC.Implementation.MISServices
                             //job card report
                             if (IncludeJobCardReport)
                             {
-                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID);
+                                string sJCReportPath = ExportPDF(165, item.ItemId, ReportType.JobCard, OrderID,string.Empty);
                                 if (System.IO.File.Exists(sJCReportPath))
                                 {
                                     ZipEntry jcr = zip.AddFile(sJCReportPath, ZipfolderName);
@@ -728,7 +733,7 @@ namespace MPC.Implementation.MISServices
                         //order report
                         if (IncludeOrderReport)
                         {
-                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID);
+                            string sOrderReportPath = ExportPDF(103, Convert.ToInt64(OrderID), ReportType.Order, OrderID,string.Empty);
                             if (System.IO.File.Exists(sOrderReportPath))
                             {
                                 ZipEntry r = zip.AddFile(sOrderReportPath, "");
@@ -1152,7 +1157,7 @@ namespace MPC.Implementation.MISServices
         {
 
 
-            var Rec = companyRepository.GetCompanyByCompanyIDforArtwork(CustomerID);
+            var Rec = companyRepository.GetStoreById(CustomerID);
 
 
             if (Rec != null)
@@ -1187,7 +1192,7 @@ namespace MPC.Implementation.MISServices
             return FileName;
         }
 
-        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID)
+        public string ExportPDF(int iReportID, long iRecordID,ReportType type, long OrderID,string CriteriaParam)
         {
             string sFilePath = string.Empty;
             try
@@ -1208,7 +1213,7 @@ namespace MPC.Implementation.MISServices
                     // Load it to memory stream
                     ms.Position = 0;
                     SectionReport currReport = new SectionReport();
-                    string sFileName = iRecordID + "OrderReport.pdf";
+                    string sFileName = string.Empty;
                     // FileNamesList.Add(sFileName);
                     currReport.LoadLayout(ms);
                     if (type == ReportType.JobCard)
@@ -1220,22 +1225,30 @@ namespace MPC.Implementation.MISServices
                     }
                     else if(type == ReportType.Order)
                     {
-
+                        sFileName = iRecordID + "OrderReport.pdf";
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
+                    else if(type == ReportType.Internal)
+                    {
+                        string ReportDataSource = string.Empty;
+                        string ReportTemplate = string.Empty;
 
+                        sFileName =  "CustomerList.pdf";
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        currReport.DataSource = dataSourceList;
+                    }
                     if (currReport != null)
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport pdf = new GrapeCity.ActiveReports.Export.Pdf.Section.PdfExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
+                        string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
                             Directory.CreateDirectory(Path);
                         }
                         // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
+                        sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
 
                         pdf.Export(currReport.Document, sFilePath);
                         ms.Close();
@@ -2565,7 +2578,7 @@ namespace MPC.Implementation.MISServices
 
                     string sFileName = orderEntity.Order_Code + "_" + "OrderXML.xml";
                     // FileNamesList.Add(sFileName);
-                    string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID);
+                    string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID);
                     if (!Directory.Exists(Path))
                     {
                         Directory.CreateDirectory(Path);
@@ -2584,7 +2597,7 @@ namespace MPC.Implementation.MISServices
         }
 
 
-        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID)
+        public string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam)
         {
             string sFilePath = string.Empty;
             try
@@ -2621,18 +2634,25 @@ namespace MPC.Implementation.MISServices
                         List<usp_OrderReport_Result> rptOrderSource = ReportRepository.getOrderReportResult(OrganisationID, OrderID);
                         currReport.DataSource = rptOrderSource;
                     }
+                    else if (type == ReportType.Internal)
+                    {
+                        string ReportDataSource = string.Empty;
+                        string ReportTemplate = string.Empty;
 
+                        DataTable dataSourceList = ReportRepository.GetReportDataSourceByReportID(iReportID, CriteriaParam);
+                        currReport.DataSource = dataSourceList;
+                    }
                     if (currReport != null)
                     {
                         currReport.Run();
                         GrapeCity.ActiveReports.Export.Excel.Section.XlsExport xls = new GrapeCity.ActiveReports.Export.Excel.Section.XlsExport();
-                        string Path = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/");
+                        string Path = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/");
                         if (!Directory.Exists(Path))
                         {
                             Directory.CreateDirectory(Path);
                         }
                         // PdfExport pdf = new PdfExport();
-                        sFilePath = HttpContext.Current.Server.MapPath("~/MPC_Content/Artworks/" + OrganisationID + "/") + sFileName;
+                        sFilePath = HttpContext.Current.Server.MapPath("~/" + ImagePathConstants.ReportPath + OrganisationID + "/") + sFileName;
 
                         xls.Export(currReport.Document, sFilePath);
                         ms.Close();
@@ -2647,6 +2667,8 @@ namespace MPC.Implementation.MISServices
             }
             return sFilePath;
         }
+
+
         #endregion
 
         
