@@ -82,6 +82,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 VariableTag = source.VariableTag,
                 Type = source.VariableType,
                 DefaultValue = source.DefaultValue,
+                WaterMark = source.WaterMark,
                 VariableTitle = source.VariableTitle,
                 TypeName = source.VariableType == 1 ? "Dropdown" : "Input",
             };

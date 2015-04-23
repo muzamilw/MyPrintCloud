@@ -66,6 +66,10 @@ namespace MPC.MIS.Areas.Api.Models
         /// Ink Coverage Group
         /// </summary>
         public IEnumerable<InkCoverageGroup> InkCoverageGroup { get; set; }
+        /// <summary>
+        /// Cost Centers
+        /// </summary>
+        public IEnumerable<CostCentre> CostCenters { get; set; }
 
     }
 }

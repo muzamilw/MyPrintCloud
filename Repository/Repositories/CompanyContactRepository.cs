@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
             {
                 var qry = from contacts in db.CompanyContacts
                           join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                          where string.Compare(contacts.Email, Email, true) == 0 && contactCompany.OrganisationId == OID
+                          where string.Compare(contacts.Email, Email, true) == 0 && contacts.OrganisationId == OID
                           select contacts;
 
                 return qry.ToList().FirstOrDefault();
@@ -649,7 +649,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public CompanyContact CreateCorporateContact(int CustomerId, CompanyContact regContact, string TwitterScreenName)
+        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister)
         {
             try
             {
@@ -675,9 +675,17 @@ namespace MPC.Repository.Repositories
                     Contact.AuthentifiedBy = regContact.AuthentifiedBy;
                     Contact.isArchived = false;
                     Contact.twitterScreenName = TwitterScreenName;
-                    Contact.isWebAccess = false;
+                    if (isAutoRegister == true)
+                    {
+                        Contact.isWebAccess = true;
+                    }
+                    else 
+                    {
+                        Contact.isWebAccess = false;
+                    }
+                   
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
-
+                    Contact.OrganisationId = OrganisationId;
                     Contact.isPlaceOrder = true;
 
                     //Quick Text Fields
@@ -852,7 +860,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId)
+        public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId, long OrganisationId)
         {
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -860,6 +868,7 @@ namespace MPC.Repository.Repositories
                        join ContactCompany in db.Companies on Contacts.CompanyId equals ContactCompany.CompanyId
                        where string.Compare(Contacts.Email, emailAddress, true) == 0
                              && Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                             && Contacts.OrganisationId == OrganisationId
                        select Contacts;
 
             return qury.ToList().Where(contct => HashingManager.VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
@@ -1057,11 +1066,12 @@ namespace MPC.Repository.Repositories
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
         {
             var qury = from contacts in db.CompanyContacts
                        join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                        where contactCompany.IsCustomer != (int)CustomerTypes.Corporate && string.Compare(contacts.Email, email, true) == 0
+                       && contacts.OrganisationId == OrganisationId
                        select contacts;
             if (qury != null)
             {
@@ -1283,10 +1293,117 @@ namespace MPC.Repository.Repositories
         {
             return db.CompanyContacts.Where(u => u.Email == Email).FirstOrDefault();
         }
+         public  bool ValidatEmail(string email)
+         {
+            if (System.Text.RegularExpressions.Regex.IsMatch(email, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+         }
         public bool CheckDuplicatesOfContactEmailInStore(string email, long companyId, long companyContactId)
         {
             return DbSet.Any(x => x.Email == email && x.CompanyId == companyId && x.ContactId != companyContactId);
         }
+        public CompanyContact createContact(int CCompanyId, string E, string F, string L, string AccountNumber = "", int questionID = 0, string Answer = "", string Password = "")
+        {
+            CompanyContact tblContacts = new CompanyContact();
+            
+            tblContacts.isArchived = false;
+            tblContacts.CompanyId = CCompanyId;
+            tblContacts.FirstName = F;
+            tblContacts.LastName = L;
+            tblContacts.Email = E;
+            if (string.IsNullOrEmpty(Password))
+            {
+                tblContacts.Password = "1234";
+            }
+            else
+            {
+                tblContacts.Password = HashingManager.ComputeHashSHA1(Password);
+            }
+            if (questionID == 0)
+            {
+                tblContacts.QuestionId = 1;
+                tblContacts.SecretAnswer = "abc";
+            }
+            else
+            {
+                tblContacts.QuestionId = Convert.ToInt32(questionID);
+                tblContacts.SecretAnswer = Answer;
+            }
+
+            tblContacts.ClaimIdentifer = "";
+            tblContacts.AuthentifiedBy = "";
+            tblContacts.isWebAccess = true;
+            tblContacts.isPlaceOrder = true;
+            tblContacts.ContactRoleId = 3;
+            //Quick Text Fields
+            tblContacts.quickAddress1 = "";
+            tblContacts.quickAddress2 = "";
+            tblContacts.quickAddress3 = "";
+            tblContacts.quickCompanyName = "";
+            tblContacts.quickCompMessage = "";
+            tblContacts.quickEmail = "";
+            tblContacts.quickFax = "";
+            tblContacts.quickFullName = "";
+            tblContacts.quickPhone = "";
+            tblContacts.quickTitle = "";
+            tblContacts.quickWebsite = "";
+            tblContacts.Notes = AccountNumber;
+         
+
+            // get default territory Id
+
+            CompanyTerritory oTerritory =  db.CompanyTerritories.Where(t => t.isDefault == true && t.CompanyId == CCompanyId).FirstOrDefault();
+
+            if (oTerritory != null)
+            {
+                tblContacts.TerritoryId = oTerritory.TerritoryId;
+                Address oAddress = db.Addesses.Where(t => t.TerritoryId == oTerritory.TerritoryId).FirstOrDefault();
+                if (oAddress != null)
+                {
+                    tblContacts.AddressId = oAddress.AddressId;
+                    tblContacts.ShippingAddressId = oAddress.AddressId;
+                }
+                else 
+                {
+                    Address oCompanyAddress = db.Addesses.Where(t => t.CompanyId == CCompanyId).FirstOrDefault();
+                    if (oAddress != null)
+                    {
+                        tblContacts.AddressId = oCompanyAddress.AddressId;
+                        tblContacts.ShippingAddressId = oCompanyAddress.AddressId;
+                    }
+                }
+                
+            }
+
+            db.CompanyContacts.Add(tblContacts);
+            if (db.SaveChanges() > 0)
+            {
+                return tblContacts;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// get corporate user for auto login process
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <param name="organistionId"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
+        {
+            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
+        }
+        }
+
     }
-}
+
 

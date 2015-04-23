@@ -12,7 +12,7 @@
             <div class="col-lg-12" id="topArea">
                 <ol class="breadcrumb" style="padding-left: 0px;">
                     <li><a href="~/Dashboard/Index">Home</a></li>
-                    <li ><a href="~/Production/Home/Index">Production Board</a></li>
+                    <li><a href="~/Production/Home/Index">Production Board</a></li>
                     <li class="active"><span>Item Job Status</span></li>
                 </ol>
                 <div>
@@ -26,11 +26,11 @@
                     <div class="main-box-body clearfix form-horizontal">
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion1">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#needAssigning">Need Assigning</a>
+                                                <a data-toggle="collapse" data-parent="#accordion1" href="#needAssigning">Need Assigning</a>
                                             </h4>
                                         </div>
                                         <div id="needAssigning" class="panel-collapse collapse in">
@@ -47,17 +47,17 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion2">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#inStudio">In Studio</a>
+                                                <a data-toggle="collapse" data-parent="#accordion2" href="#inStudio">In Studio</a>
                                             </h4>
                                         </div>
                                         <div id="inStudio" class="panel-collapse collapse in">
-                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.dropped">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedInStudio">
                                                 <ol class="dd-list">
-                                                    <!-- ko template: { name: 'itemTemplate', foreach: $root.items }-->
+                                                    <!-- ko template: { name: 'inStudioItemTemplate', foreach: $root.items }-->
                                                     <!-- /ko -->
                                                 </ol>
                                             </div>
@@ -68,17 +68,17 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion3">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#inPrint">In Print</a>
+                                                <a data-toggle="collapse" data-parent="#accordion3" href="#inPrint">In Print</a>
                                             </h4>
                                         </div>
                                         <div id="inPrint" class="panel-collapse collapse in">
-                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.dropped">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedInPrint">
                                                 <ol class="dd-list">
-                                                    <!-- ko template: { name: 'itemTemplate', foreach: $root.items }-->
+                                                    <!-- ko template: { name: 'inPrintOrPressItemTemplate', foreach: $root.items }-->
                                                     <!-- /ko -->
                                                 </ol>
                                             </div>
@@ -89,18 +89,19 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion4">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">In Studio</a>
+                                                <a data-toggle="collapse" data-parent="#accordion4" href="#inPostPress">In Post Press</a>
                                             </h4>
                                         </div>
-                                        <div id="collapse1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <div id="inPostPress" class="panel-collapse collapse in">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedInPostPress">
+                                                <ol class="dd-list">
+                                                    <!-- ko template: { name: 'inPostPressItemTemplate', foreach: $root.items }-->
+                                                    <!-- /ko -->
+                                                </ol>
                                             </div>
                                         </div>
                                     </div>
@@ -109,18 +110,19 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion5">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Need Assigning</a>
+                                                <a data-toggle="collapse" data-parent="#accordion5" href="#readyForShipping">Ready for shipping</a>
                                             </h4>
                                         </div>
-                                        <div id="collapse1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <div id="readyForShipping" class="panel-collapse collapse in">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedInReadyForShipping">
+                                                <ol class="dd-list">
+                                                    <!-- ko template: { name: 'readyForShippingItemTemplate', foreach: $root.items }-->
+                                                    <!-- /ko -->
+                                                </ol>
                                             </div>
                                         </div>
                                     </div>
@@ -129,18 +131,19 @@
                         </div>
                         <div class="col-lg-2">
                             <div class="form-group collapsableView">
-                                <div class="panel-group" id="accordion">
+                                <div class="panel-group" id="accordion6">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">In Studio</a>
+                                                <a data-toggle="collapse" data-parent="#accordion6" href="#invoiceAndShipped">Invoice & Shipped</a>
                                             </h4>
                                         </div>
-                                        <div id="collapse1" class="panel-collapse collapse in">
-                                            <div class="panel-body">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <div id="invoiceAndShipped" class="panel-collapse collapse in">
+                                            <div class="panel-body collapsableHeight" data-bind="drop: $root.droppedInInvoiceAndShipped">
+                                                <ol class="dd-list">
+                                                    <!-- ko template: { name: 'invoiceAndShippedItemTemplate', foreach: $root.items }-->
+                                                    <!-- /ko -->
+                                                </ol>
                                             </div>
                                         </div>
                                     </div>
@@ -166,54 +169,6 @@
     </script>
 }
 
-<script id="itemTemplate" type="text/html">
-    <li data-bind="drag: $root.dragged">
-        <div class="col-lg-12">
-            <div class="form-group">
-                <div data-bind="text:companyName">
-                </div>
-            </div>
-            <div class="form-group">
-                <div data-bind="text:code">
-                </div>
-            </div>
-            <div class="form-group">
-                <div data-bind="text:productName">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-6">
-                    <label class="control-label">Qty:</label>
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label text-right" data-bind="text:qty1"></label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-lg-6">
-                    <label class="control-label">Selling Price:</label>
-                </div>
-                <div class="col-lg-6">
-                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div>
-                    Expected Shipping Date(end)
-                </div>
-            </div>
-            <div class="form-group">
-                <div data-bind="dateString:jobEstimatedCompletionDateTime">
-                </div>
-                <div>
-                    <div class="btn btn-primary">Open</div>
-                </div>
-            </div>
-            <hr />
-        </div>
-    </li>
-
-</script>
 
 
 <script id="needAssigningItemTemplate" type="text/html">
@@ -256,10 +211,268 @@
                 <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
                 </div>
                 <div>
-                    <div class="btn btn-primary" style="padding-left: 3px;padding-right: 3px; padding-top: 3px;padding-bottom: 3px;">Open</div>
+                    <div class="btn btn-primary openBtn">Open</div>
                 </div>
             </div>
-            <hr />
+            <div class="itemFooterHighlight">
+            </div>
+
+        </div>
+    </li>
+
+</script>
+
+<script id="inStudioItemTemplate" type="text/html">
+    <li data-bind="if: (statusId()=== 12), drag: $root.dragged">
+        <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <label class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="float: left;">
+                    <label class="control-label">Selling Price :</label>
+                </div>
+                <div>
+                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div>
+                    <label>Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                </div>
+                <div>
+                    <div class="btn btn-primary openBtn">Open</div>
+                </div>
+            </div>
+            <div class="itemFooterHighlight">
+            </div>
+
+        </div>
+    </li>
+
+</script>
+
+<script id="inPrintOrPressItemTemplate" type="text/html">
+    <li data-bind="if: (statusId()=== 13), drag: $root.dragged">
+        <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <label class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="float: left;">
+                    <label class="control-label">Selling Price :</label>
+                </div>
+                <div>
+                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div>
+                    <label>Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                </div>
+                <div>
+                    <div class="btn btn-primary openBtn">Open</div>
+                </div>
+            </div>
+            <div class="itemFooterHighlight">
+            </div>
+
+        </div>
+    </li>
+
+</script>
+
+<script id="inPostPressItemTemplate" type="text/html">
+    <li data-bind="if: (statusId()=== 14), drag: $root.dragged">
+        <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <label class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="float: left;">
+                    <label class="control-label">Selling Price :</label>
+                </div>
+                <div>
+                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div>
+                    <label>Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                </div>
+                <div>
+                    <div class="btn btn-primary openBtn">Open</div>
+                </div>
+            </div>
+            <div class="itemFooterHighlight">
+            </div>
+
+        </div>
+    </li>
+
+</script>
+
+<script id="readyForShippingItemTemplate" type="text/html">
+    <li data-bind="if: (statusId()=== 15), drag: $root.dragged">
+        <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <label class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="float: left;">
+                    <label class="control-label">Selling Price :</label>
+                </div>
+                <div>
+                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div>
+                    <label>Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                </div>
+                <div>
+                    <div class="btn btn-primary openBtn">Open</div>
+                </div>
+            </div>
+            <div class="itemFooterHighlight">
+            </div>
+
+        </div>
+    </li>
+
+</script>
+
+
+<script id="invoiceAndShippedItemTemplate" type="text/html">
+    <li data-bind="if: (statusId()=== 16), drag: $root.dragged">
+        <div class="col-lg-12">
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div style="color: #1cc7ed;" data-bind="text:companyName">
+                </div>
+            </div>
+            <div class="form-group">
+                <div data-bind="text:code">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div data-bind="text:productName">
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div class="col-lg-6" style="padding-left: 0px;">
+                    <label class="control-label">Qty :</label>
+                </div>
+                <div class="col-lg-6">
+                    <label class="control-label text-right" data-bind="text:qty1"></label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="float: left;">
+                    <label class="control-label">Selling Price :</label>
+                </div>
+                <div>
+                    <label class="control-label text-right" data-bind="text:qty1NetTotal"></label>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 0px;">
+                <div>
+                    <label>Expected Shipping Date(end)</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8" data-bind="dateString:jobEstimatedCompletionDateTime" style="padding-left :0px;">
+                </div>
+                <div>
+                    <div class="btn btn-primary openBtn">Open</div>
+                </div>
+            </div>
+            <div class="itemFooterHighlight">
+            </div>
+
         </div>
     </li>
 

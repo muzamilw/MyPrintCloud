@@ -314,9 +314,9 @@ namespace MPC.Webstore.Controllers
             //}
         }
 
-        public ActionResult Error()
+        public ActionResult Error(string Message)
         {
-
+            ViewBag.ErrorMessage = Message;
             return View();
         }
 
@@ -425,11 +425,26 @@ namespace MPC.Webstore.Controllers
             if (UserCookieManager.isRegisterClaims == 1)
             {
                 // login 
-
-                MPC.Models.DomainModels.CompanyContact loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail,OrganisationID);
+                MPC.Models.DomainModels.CompanyContact loginUser = null;
+                if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
+                {
+                    loginUser = _myCompanyService.GetCorporateContactForAutoLogin(UserCookieManager.WEBEmail, OrganisationID, UserCookieManager.WBStoreId);
+                }
+                else 
+                {
+                    loginUser = _myCompanyService.GetContactByEmail(UserCookieManager.WEBEmail, OrganisationID);
+                }
+                
 
                 if (loginUser != null)
                 {
+
+                    UserCookieManager.WEBContactFirstName = loginUser.FirstName;
+                    UserCookieManager.WEBContactLastName = loginUser.LastName == null ? "" : loginUser.LastName;
+                    UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
+                    UserCookieManager.WEBEmail = loginUser.Email;
+
                     ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
                     ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
