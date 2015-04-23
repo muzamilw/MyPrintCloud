@@ -507,11 +507,11 @@ namespace MPC.Implementation.WebStoreServices
 
         }
 
-        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId)
+        public CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId,long OrganisationId)
         {
             try
             {
-                return _CompanyContactRepository.GetCorporateUser(email, password, companyId);
+                return _CompanyContactRepository.GetCorporateUser(email, password, companyId,OrganisationId);
             }
             catch (Exception ex)
             {
@@ -928,9 +928,9 @@ namespace MPC.Implementation.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
         {
-            return _CompanyContactRepository.GetRetailUser(email, password);
+            return _CompanyContactRepository.GetRetailUser(email, password, OrganisationId);
         }
         public Address GetAddressByID(long AddressID)
         {

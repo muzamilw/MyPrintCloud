@@ -34,7 +34,7 @@ namespace MPC.Interfaces.Repository
 
         void UpdateUserPassword(int userId, string pass);
 
-        CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId);
+        CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId, long OrganisationId);
 
         long GetContactIdByCustomrID(long customerID);
         string GetContactMobile(long CID);
@@ -90,7 +90,7 @@ namespace MPC.Interfaces.Repository
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
 
         long GetContactTerritoryID(long CID);
         bool updateQuikcTextInfo(long contactId, QuickText objQuickText);

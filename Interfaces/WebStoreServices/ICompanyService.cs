@@ -59,7 +59,7 @@ namespace MPC.Interfaces.WebStoreServices
 
         List<ProductCategory> GetStoreParentCategories(long companyId, long OrganisationId);
         List<ProductCategory> GetAllCategories(long companyId);
-        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId);
+        CompanyContact GetCorporateUserByEmailAndPassword(string email, string password, long companyId, long OrganisationId);
 
         ProductCategory GetCategoryById(long categoryId);
 
@@ -175,7 +175,7 @@ namespace MPC.Interfaces.WebStoreServices
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        CompanyContact GetRetailUser(string email, string password);
+        CompanyContact GetRetailUser(string email, string password, long OrganisationId);
 
         long GetContactTerritoryID(long CID);
 

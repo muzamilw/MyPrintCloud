@@ -860,7 +860,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId)
+        public CompanyContact GetCorporateUser(string emailAddress, string contactPassword, long companyId, long OrganisationId)
         {
 
             db.Configuration.LazyLoadingEnabled = false;
@@ -868,6 +868,7 @@ namespace MPC.Repository.Repositories
                        join ContactCompany in db.Companies on Contacts.CompanyId equals ContactCompany.CompanyId
                        where string.Compare(Contacts.Email, emailAddress, true) == 0
                              && Contacts.CompanyId == companyId && (ContactCompany.IsCustomer == (int)CustomerTypes.Corporate)
+                             && Contacts.OrganisationId == OrganisationId
                        select Contacts;
 
             return qury.ToList().Where(contct => HashingManager.VerifyHashSha1(contactPassword, contct.Password) == true).FirstOrDefault();
@@ -1065,11 +1066,12 @@ namespace MPC.Repository.Repositories
         /// <param name="email"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public CompanyContact GetRetailUser(string email, string password)
+        public CompanyContact GetRetailUser(string email, string password, long OrganisationId)
         {
             var qury = from contacts in db.CompanyContacts
                        join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
                        where contactCompany.IsCustomer != (int)CustomerTypes.Corporate && string.Compare(contacts.Email, email, true) == 0
+                       && contacts.OrganisationId == OrganisationId
                        select contacts;
             if (qury != null)
             {

@@ -401,6 +401,7 @@ namespace MPC.Webstore.Controllers
                 SetLastItemTemplateMatchingSets(shopCart, StoreBaseResopnse);
 
             ViewBag.OrderID = OrderID;
+            ViewBag.Currency = StoreBaseResopnse.Currency;
             StoreBaseResopnse = null;
             return shopCart;
           //  return View("PartialViews/ShopCart", shopCart);
@@ -447,6 +448,7 @@ namespace MPC.Webstore.Controllers
 
             //StoreBaseResopnse = null;
             ViewBag.OrderID = OrderID;
+            ViewBag.Currency = StoreBaseResopnse.Currency;
             Response.Redirect("/ShopCart/" + OrderID);
             return null;
            // return View("PartialViews/ShopCart", shopCart);

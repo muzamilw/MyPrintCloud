@@ -438,6 +438,13 @@ namespace MPC.Webstore.Controllers
 
                 if (loginUser != null)
                 {
+
+                    UserCookieManager.WEBContactFirstName = loginUser.FirstName;
+                    UserCookieManager.WEBContactLastName = loginUser.LastName == null ? "" : loginUser.LastName;
+                    UserCookieManager.ContactCanEditProfile = loginUser.CanUserEditProfile ?? false;
+                    UserCookieManager.ShowPriceOnWebstore = loginUser.IsPricingshown ?? true;
+                    UserCookieManager.WEBEmail = loginUser.Email;
+
                     ClaimsIdentity identity = new ClaimsIdentity(DefaultAuthenticationTypes.ApplicationCookie);
 
                     ClaimsSecurityService.AddSignInClaimsToIdentity(loginUser.ContactId, loginUser.CompanyId, loginUser.ContactRoleId ?? 0, loginUser.TerritoryId ?? 0, identity);
