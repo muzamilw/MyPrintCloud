@@ -780,4 +780,17 @@
   max-height: 300px;
   overflow-y: auto;
   list-style: none;
+  min-height: 300px;
+}
+#itemJobStatusBinding .itemFooterHighlight {
+  min-height: 8px;
+  background-color: silver;
+  margin-right: -23px;
+  margin-left: -23px;
+}
+#itemJobStatusBinding .openBtn {
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
