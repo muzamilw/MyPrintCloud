@@ -420,7 +420,7 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-
+   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {
@@ -2977,6 +2977,12 @@ function pcl42_updateTemplate(DT) {
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, vari.Value);
+                });
+            } else {
+                var variableTag = vari.FieldVariable.VariableTag;
+                $.each(DT, function (i, objDT) {
+                    while (objDT.ContentString.indexOf(variableTag) != -1)
+                        updateTOWithStyles(objDT, variableTag, "");
                 });
             }
         });

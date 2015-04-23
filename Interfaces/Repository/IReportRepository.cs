@@ -1,6 +1,7 @@
 ﻿using MPC.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,5 +21,7 @@ namespace MPC.Interfaces.Repository
         List<usp_JobCardReport_Result> getJobCardReportResult(long OrganisationID, long OrderID, long ItemID);
 
         List<usp_OrderReport_Result> getOrderReportResult(long OrganisationID, long OrderID);
+
+        DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam);
     }
 }
