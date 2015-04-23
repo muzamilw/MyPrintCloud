@@ -637,9 +637,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return itemSection.hasChanges();
                     }) != null;
                 }),
+                // Item Attachment Changes
+                itemAttachmentHasChanges = ko.computed(function () {
+                    return itemAttachments.find(function (itemAttachment) {
+                        return itemAttachment.hasChanges();
+                    }) != null;
+                }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
-                    return dirtyFlag.isDirty() || itemSectionHasChanges();
+                    return dirtyFlag.isDirty() || itemSectionHasChanges() || itemAttachmentHasChanges();
                 }),
                 // Reset
                 reset = function () {

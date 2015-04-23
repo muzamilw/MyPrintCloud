@@ -28,6 +28,8 @@ namespace MPC.Models.ModelMappers
             target.ItemId = source.ItemId;
             target.FileName = source.FileName;
             target.FileSource = source.FileSource;
+            target.CompanyId = source.CompanyId;
+            target.ContactId = source.ContactId;
         }
 
         #endregion
