@@ -106,8 +106,17 @@ function fu04_1GetItem(DT)
     
     $.getJSON("/designerapi/item/GetItem/" + ItemId + "/" + ContactID,
          function (result) {
+            
+             if (result.ZoomFactor > 1)
+             {
+                 var zf = parseInt(result.ZoomFactor);
+                 for(var i = 1; i<zf;i++)
+                 {
+                     D1CS = D1CS * D1SF;
+                     dfZ1l = D1CS;
+                 }
+             }
              //update dimestions 
-           //  alert(result.ZoomFactor);
              var w = DT.PDFTemplateWidth;
              var h = DT.PDFTemplateHeight;
              h = h / 96 * 72;
