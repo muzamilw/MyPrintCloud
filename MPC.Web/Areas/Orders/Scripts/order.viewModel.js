@@ -1070,6 +1070,7 @@ define("order/order.viewModel",
                     while (counter < addNewCount) {
                         var item = new model.SectionInkCoverage();
                         item.side = side;
+                        item.sectionId = selectedSection().id();
                         selectedSection().sectionInkCoverageList.splice(0, 0, item);
                         counter++;
                     }
@@ -1826,7 +1827,10 @@ define("order/order.viewModel",
                         //Call Methis to update stock cost center
                         //If there is no selected cost center in retail store then add Cost Centers of Type 29 (Web Order Cost Center) and 139 (Stock Type Cost Center)
                         updateStockCostCenter = function (newItem) {
+
                             //requirement: add in both cases if hasSelectedCostCenter or not hasSelectedCostCenter
+                            
+
                             //var hasSelectedCostCenter = false;
                             //if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
                             //    if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
@@ -1848,7 +1852,6 @@ define("order/order.viewModel",
                             //}
                             ////if Not Selected Any Cost Center
                             //if (!hasSelectedCostCenter) {
-                            //var itemSection = model.ItemSection.Create({});
                             _.each(costCentresBaseData(), function (costCenter) {
                                 if (costCenter.Type == 29 || costCenter.Type == 139) {
 
@@ -1868,8 +1871,7 @@ define("order/order.viewModel",
 
                                 }
                             });
-                            //newItem.itemSections.push(itemSection);
-                            //newItem.itemSections()[0](itemSection);
+                          
                             //}
                         },
                 //On Product From Retail Store update Item price matrix table and Add on Table 
