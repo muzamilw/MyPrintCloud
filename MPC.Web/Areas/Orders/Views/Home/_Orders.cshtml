@@ -182,10 +182,10 @@
 <script>
     $(document).ready(function ()
     {
-        var page = Request.QueryString("to");
+        var page = Request.QueryString("status");
         if (page != null)
         {
-            if (page == 'ord')
+            if (page == 'pending')
             {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");
@@ -199,7 +199,7 @@
                 $("#pending-orders").addClass("active");
                 $("#tab-PendingOrders").addClass("active");
             }
-            else if (page == 'prd')
+            else if (page == 'production')
             {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");
@@ -213,7 +213,7 @@
                 $("#in-production").addClass("active");
                 $("#tab-InProduction").addClass("active");
             }
-            else if(page == 'com')
+            else if(page == 'completed')
             {
                 $("#all-orders").removeClass("active");
                 $("#tab-All").removeClass("active");

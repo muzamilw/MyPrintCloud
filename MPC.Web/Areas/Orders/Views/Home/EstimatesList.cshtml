@@ -207,10 +207,10 @@
 
         $(document).ready(function ()
         {
-            var page = Request.QueryString("to");
+            var page = Request.QueryString("status");
             if (page != null)
             {
-                if (page == 'est')
+                if (page == 'unconfirmed')
                 {
                     $("#all-orders").removeClass("active");
                     $("#tab-All").removeClass("active");
