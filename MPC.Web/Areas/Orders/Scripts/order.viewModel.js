@@ -15,6 +15,8 @@ define("order/order.viewModel",
                     orders = ko.observableArray([]),
                     // Cost Centres
                     costCentres = ko.observableArray([]),
+                    // Cost Centres Base Data
+                    costCentresBaseData = ko.observableArray([]),
                     // flag colors
                     sectionFlags = ko.observableArray([]),
                     // Markups
@@ -239,15 +241,15 @@ define("order/order.viewModel",
                         if (selectedOrder()) {
                             hasChanges = selectedOrder().hasChanges();
                         }
-                        
+
                         if (selectedProduct()) {
                             productChanges = selectedProduct().hasChanges();
                         }
-                        
+
                         if (selectedSection()) {
                             sectionHasChanges = selectedSection().hasChanges();
                         }
-                        
+
                         return hasChanges || productChanges || sectionHasChanges;
                     }),
                     // #endregion
@@ -361,7 +363,7 @@ define("order/order.viewModel",
                         }
 
                         // calculateSectionChargeTotal();
-                        
+
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
                         setAvailableInkPlateChange();  // Why calling this when no change being done, It is setting Ink Coverage data null, its id and sectionid
@@ -1216,6 +1218,11 @@ define("order/order.viewModel",
                                 if (data.InkPlateSides) {
                                     mapList(inkPlateSides, data.InkPlateSides, model.InkPlateSide);
                                 }
+                                costCentresBaseData.removeAll();
+                                if (data.CostCenters) {
+                                    ko.utils.arrayPushAll(costCentresBaseData(), data.CostCenters);
+                                    costCentresBaseData.valueHasMutated();
+                                }
 
                                 currencySymbol(data.CurrencySymbol);
                                 view.initializeLabelPopovers();
@@ -1612,7 +1619,7 @@ define("order/order.viewModel",
                         isAddProductFromInventory(false);
 
                     },
-                    onSaveStockitemForSectionCostCenter = function() {
+                    onSaveStockitemForSectionCostCenter = function () {
                         var sectionCostCenter = model.SectionCostCentre.Create({});
                         sectionCostCenter.name(stockItemToCreate().name);
                         sectionCostCenter.qty1NetTotal(stockItemToCreate().price);
@@ -1803,6 +1810,10 @@ define("order/order.viewModel",
                             //        });
                             //    });
                             //}
+                            //Call Methis to update stock cost center
+                            //If there is no selected cost center in retail store then add Cost Centers of Type 29 (Web Order Cost Center) and 139 (Stock Type Cost Center)
+                            updateStockCostCenter(newItem);
+
                             // set section id 0 && sectioncost center id = 0
                             selectedOrder().items.splice(0, 0, newItem);
                         },
@@ -1812,6 +1823,55 @@ define("order/order.viewModel",
                             onCloseProductFromRetailStore();
                         },
 
+                        //Call Methis to update stock cost center
+                        //If there is no selected cost center in retail store then add Cost Centers of Type 29 (Web Order Cost Center) and 139 (Stock Type Cost Center)
+                        updateStockCostCenter = function (newItem) {
+                            //requirement: add in both cases if hasSelectedCostCenter or not hasSelectedCostCenter
+                            //var hasSelectedCostCenter = false;
+                            //if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
+                            //    if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                            //        _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
+                            //            if (stockOption.isSelected()) {
+                            //                hasSelectedCostCenter = true;
+                            //            }
+                            //        });
+                            //    }
+                            //}
+                            //else if (selecteditem() != undefined && selecteditem().isQtyRanged() == 1) {
+                            //    if (selectedStockOption() != undefined && selectedStockOption().itemAddonCostCentres().length > 0) {
+                            //        _.each(selectedStockOption().itemAddonCostCentres(), function (stockOption) {
+                            //            if (stockOption.isSelected()) {
+                            //                hasSelectedCostCenter = true;
+                            //            }
+                            //        });
+                            //    }
+                            //}
+                            ////if Not Selected Any Cost Center
+                            //if (!hasSelectedCostCenter) {
+                            //var itemSection = model.ItemSection.Create({});
+                            _.each(costCentresBaseData(), function (costCenter) {
+                                if (costCenter.Type == 29 || costCenter.Type == 139) {
+
+                                    var sectionCostCenter = model.SectionCostCentre.Create({});
+                                    sectionCostCenter.id(costCenter.CostCentreId);
+                                    sectionCostCenter.name('Stock');
+                                    sectionCostCenter.qty1EstimatedStockCost(0);
+                                    sectionCostCenter.qty2EstimatedStockCost(0);
+                                    sectionCostCenter.qty3EstimatedStockCost(0);
+                                    sectionCostCenter.qty1Charge(0);
+                                    sectionCostCenter.qty2Charge(0);
+                                    sectionCostCenter.qty3Charge(0);
+
+                                    sectionCostCenter.costCentreType(costCenter.Type);
+
+                                    newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
+
+                                }
+                            });
+                            //newItem.itemSections.push(itemSection);
+                            //newItem.itemSections()[0](itemSection);
+                            //}
+                        },
                 //On Product From Retail Store update Item price matrix table and Add on Table 
                         updateViewOnStockOptionChange = ko.computed(function () {
                             if (selecteditem() == undefined || selecteditem().itemStockOptions == undefined) {
@@ -2616,6 +2676,7 @@ define("order/order.viewModel",
                     onAddCostCenter: onAddCostCenter,
                     onCloseCostCenterDialog: closeCostCenterDialog,
                     costCentres: costCentres,
+                    costCentresBaseData: costCentresBaseData,
                     getCostCenters: getCostCenters,
                     costCentrefilterText: costCentrefilterText,
                     resetCostCentrefilter: resetCostCentrefilter,

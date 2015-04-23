@@ -497,7 +497,8 @@ namespace MPC.Implementation.MISServices
                        PaperSizes = paperSizeRepository.GetAll(),
                        InkPlateSides = inkPlateSideRepository.GetAll(),
                        Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll()
+                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+                       CostCenters = CostCentreRepository.GetAllCompanyCentersByOrganisationId()
                    };
         }
 
