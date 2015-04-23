@@ -364,7 +364,6 @@ define("order/order.viewModel",
                         
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
-                        setAvailableInkPlateChange();  // Why calling this when no change being done, It is setting Ink Coverage data null, its id and sectionid
                         openItemDetail();
                     },
                     // Open Item Detail
