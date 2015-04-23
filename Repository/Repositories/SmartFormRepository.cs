@@ -390,7 +390,42 @@ namespace MPC.Repository.Repositories
                                     break;
                                 case "Address":
                                     //  keyValue = SessionParameters.CustomerContact.AddressID;
-                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
+                                    if (obj.FieldVariable.CriteriaFieldName == "State")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if(address != null)
+                                        {
+                                            if(address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if(state != null)
+                                                {
+                                                    fieldValue = state.StateName;
+                                                }
+                                            }
+                                                
+                                        }
+                                    }
+                                    else if (obj.FieldVariable.CriteriaFieldName == "Country")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if (address != null)
+                                        {
+                                            if (address.CountryId.HasValue)
+                                            {
+                                                var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                if (country != null)
+                                                {
+                                                    fieldValue = country.CountryName;
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
+                                    }
                                     break;
                                 default:
                                     break;
@@ -560,7 +595,42 @@ namespace MPC.Repository.Repositories
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.CompanyId);
                                 break;
                             case "Address":
-                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.AddressId);
+                                 if (obj.CriteriaFieldName == "State")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if(address != null)
+                                        {
+                                            if(address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if(state != null)
+                                                {
+                                                    fieldValue = state.StateName;
+                                                }
+                                            }
+                                                
+                                        }
+                                    }
+                                 else if (obj.CriteriaFieldName == "Country")
+                                 {
+                                     var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                     if (address != null)
+                                     {
+                                         if (address.CountryId.HasValue)
+                                         {
+                                             var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                             if (country != null)
+                                             {
+                                                 fieldValue = country.CountryName;
+                                             }
+                                         }
+
+                                     }
+                                 }
+                                 else
+                                 {
+                                     fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.AddressId);
+                                 }
                                 break;
                             default:
                                 break;
@@ -795,8 +865,45 @@ namespace MPC.Repository.Repositories
                                         fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.CompanyId, scope.Value);
                                         break;
                                     case "Address":
-                                        fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
-                                        break;
+                                        if (variable.CriteriaFieldName == "State")
+                                        {
+                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                            if (address != null)
+                                            {
+                                                if (address.StateId.HasValue)
+                                                {
+                                                    var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                    if (state != null)
+                                                    {
+                                                        state.StateName = scope.Value;
+                                                    }
+                                                }
+                                                db.SaveChanges();
+
+                                            }
+                                        }
+                                        else if (variable.CriteriaFieldName == "Country")
+                                        {
+                                            var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                            if (address != null)
+                                            {
+                                                if (address.CountryId.HasValue)
+                                                {
+                                                    var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                    if (country != null)
+                                                    {
+                                                        country.CountryName = scope.Value;
+                                                    }
+                                                }
+                                                db.SaveChanges();
+                                            }
+                                        }
+                                        else
+                                        {
+                                            fieldValue = DynamicQueryToSetRecord(variable.CriteriaFieldName, variable.RefTableName, variable.KeyField, contact.AddressId, scope.Value);
+
+                                        }
+                                     break;
                                     default:
                                         break;
                                 }
@@ -957,8 +1064,43 @@ namespace MPC.Repository.Repositories
                                             break;
                                         case "Address":
                                             //  keyValue = SessionParameters.CustomerContact.AddressID;
-                                            fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, contact.AddressId);
-                                            break;
+                                            if (FieldVariable.CriteriaFieldName == "State")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.StateId.HasValue)
+                                                    {
+                                                        var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                        if (state != null)
+                                                        {
+                                                            fieldValue = state.StateName;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                            else if (FieldVariable.CriteriaFieldName == "Country")
+                                            {
+                                                var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                                if (address != null)
+                                                {
+                                                    if (address.CountryId.HasValue)
+                                                    {
+                                                        var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                        if (country != null)
+                                                        {
+                                                            fieldValue = country.CountryName;
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+                                            else
+                                            {
+                                                fieldValue = DynamicQueryToGetRecord(FieldVariable.CriteriaFieldName, FieldVariable.RefTableName, FieldVariable.KeyField, contact.AddressId);
+                                            }
+                                          break;
                                         default:
                                             break;
                                     }

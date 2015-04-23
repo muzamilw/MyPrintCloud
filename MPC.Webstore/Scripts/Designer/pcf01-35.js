@@ -420,7 +420,7 @@ function e3() {
     val = val / 2;
     if (val < 0) val = 20;
     $(".page").css("left", val + "px");
-
+   // console.log(dfZ1l + " " + D1CS);
 }
 
 function e5() {

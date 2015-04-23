@@ -137,7 +137,7 @@ namespace MPC.Webstore
         {
             string CacheKeyName = "CompanyBaseResponse";
             ObjectCache cache = MemoryCache.Default;
-
+            Uri sdsd = Request.Url;
             if (UserCookieManager.WBStoreId == 0 || (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) == null)
             {
                 Uri urlReferrer = Request.UrlReferrer;
@@ -185,10 +185,15 @@ namespace MPC.Webstore
                         Thread.CurrentThread.CurrentUICulture = ci;
                         Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
 
-                        if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
+                        // checking autologin if auto login then do not redirect as he redirection will be handle by the auto login action
+                        if(!Request.Url.AbsolutePath.ToLower().Contains("autologin"))
                         {
-                            Response.Redirect("/Login");
+                            if (StoreBaseResopnse.Company.IsCustomer == 3) // corporate customer
+                            {
+                                Response.Redirect("/Login");
+                            }
                         }
+                       
                     }
                     else
                     {

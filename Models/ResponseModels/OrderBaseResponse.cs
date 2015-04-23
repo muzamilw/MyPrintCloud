@@ -65,5 +65,9 @@ namespace MPC.Models.ResponseModels
         /// Ink Coverage Groups
         /// </summary>
         public IEnumerable<InkCoverageGroup> InkCoverageGroups { get; set; }
+        /// <summary>
+        /// Cost Centers
+        /// </summary>
+        public IEnumerable<CostCentre> CostCenters { get; set; }
     }
 }
