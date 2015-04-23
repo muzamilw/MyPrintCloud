@@ -31,6 +31,7 @@ namespace MPC.Interfaces.Repository
         CostcentreInstruction GetCostCentreWorkInstruction(long CostcentreID);
         List<CostCentreType> ReturnCostCentreCategories();
         List<CostCentre> GetCostCentreList();
+        IEnumerable<CostCentre> GetAllCompanyCentersForOrderItem();
         bool CheckCostCentreName(long CostCentreID, string CostCentreName, long OrganisationId);
         long InsertWorkInstruction(CostcentreInstruction oInstruction);
         long UpdateWorkInstruction(CostcentreInstruction oInstruction);
