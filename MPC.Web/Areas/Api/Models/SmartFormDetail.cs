@@ -14,6 +14,7 @@
         public long? VariableId { get; set; }
         public string CaptionValue { get; set; }
         public string DefaultValue { get; set; }
+        public string WaterMark { get; set; }
         public string Title { get; set; }
     }
 }

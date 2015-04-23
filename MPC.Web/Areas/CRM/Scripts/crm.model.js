@@ -490,6 +490,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             contactId = ko.observable(specifiedContactId),
             addressId = ko.observable(specifiedAddressId),
             companyId = ko.observable(specifiedCompanyId),
+            companyName = ko.observable(undefined),
             firstName = ko.observable(specifiedFirstName).extend({ required: true }),
             middleName = ko.observable(specifiedMiddleName),
             lastName = ko.observable(specifiedLastName),
@@ -680,7 +681,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 canPlaceDirectOrder: canPlaceDirectOrder,
                 organisationId: organisationId,
                 bussinessAddressId: bussinessAddressId,
-                fileName: fileName
+                fileName: fileName,
+                companyName: companyName
             }),
             // Has Changes
             hasChanges = ko.computed(function () {
@@ -910,6 +912,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             isNewsLetterSubscription: isNewsLetterSubscription,
             image: image,
             quickFullName: quickFullName,
+            companyName:companyName,
             quickTitle: quickTitle,
             quickCompanyName: quickCompanyName,
             quickAddress1: quickAddress1,
@@ -1158,6 +1161,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             source.RoleName,
             source.FileName
         );
+        companyContact.companyName(source.CompanyName);
         return companyContact;
     };
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using MPC.Interfaces.MISServices;
 using MPC.Interfaces.Repository;
 using MPC.Models.Common;
@@ -199,6 +200,94 @@ namespace MPC.Implementation.MISServices
             sectionInkCoverageRepository.Delete(item);
         }
 
+        /// <summary>
+        /// Saves Image to File System
+        /// </summary>
+        /// <param name="mapPath">File System Path for Item</param>
+        /// <param name="existingImage">Existing File if any</param>
+        /// <param name="caption">Unique file caption e.g. ItemId + ItemProductCode + ItemProductName + "_thumbnail_"</param>
+        /// <param name="fileName">Name of file being saved</param>
+        /// <param name="fileSource">Base64 representation of file being saved</param>
+        /// <param name="fileSourceBytes">Byte[] representation of file being saved</param>
+        /// <returns>Path of File being saved</returns>
+        private string SaveImage(string mapPath, string existingImage, string caption, string fileName,
+            string fileSource, byte[] fileSourceBytes)
+        {
+            if (!string.IsNullOrEmpty(fileSource))
+            {
+                // Look if file already exists then replace it
+                if (!string.IsNullOrEmpty(existingImage))
+                {
+                    if (Path.IsPathRooted(existingImage))
+                    {
+                        if (File.Exists(existingImage))
+                        {
+                            // Remove Existing File
+                            File.Delete(existingImage);
+                        }
+                    }
+                    else
+                    {
+                        string filePath = HttpContext.Current.Server.MapPath("~/" + existingImage);
+                        if (File.Exists(filePath))
+                        {
+                            // Remove Existing File
+                            File.Delete(filePath);
+                        }
+                    }
+
+                }
+
+                // First Time Upload
+                string imageurl = mapPath + "\\" + caption + fileName;
+                File.WriteAllBytes(imageurl, fileSourceBytes);
+
+                int indexOf = imageurl.LastIndexOf("MPC_Content", StringComparison.Ordinal);
+                imageurl = imageurl.Substring(indexOf, imageurl.Length - indexOf);
+                return imageurl;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Save Item Attachments
+        /// </summary>
+        private void SaveItemAttachments(Estimate estimate)
+        {
+            string mpcContentPath = ConfigurationManager.AppSettings["MPC_Content"];
+            HttpServerUtility server = HttpContext.Current.Server;
+            string mapPath = server.MapPath(mpcContentPath + "/Attachments/" + itemRepository.OrganisationId + "/");
+
+            if (estimate.Items == null)
+            {
+                return;
+            }
+
+            foreach (Item item in estimate.Items)
+            {
+                string attachmentMapPath = mapPath + item.ItemId;
+
+                // Create directory if not there
+                if (!Directory.Exists(attachmentMapPath))
+                {
+                    Directory.CreateDirectory(attachmentMapPath);
+                }
+
+                if (item.ItemAttachments == null)
+                {
+                    continue;
+                }
+
+                foreach (ItemAttachment itemAttachment in item.ItemAttachments)
+                {
+                    itemAttachment.FolderPath = SaveImage(attachmentMapPath, itemAttachment.FolderPath, "",
+                        itemAttachment.FileName,
+                        itemAttachment.FileSource, itemAttachment.FileSourceBytes);
+                }
+            }
+        }
+
         #endregion
         #region Constructor
 
@@ -380,10 +469,16 @@ namespace MPC.Implementation.MISServices
             // Save Changes
             estimateRepository.SaveChanges();
 
+            // Save Item Attachments
+            SaveItemAttachments(estimate);
+
+            // Save Changes
+            estimateRepository.SaveChanges();
+
             // Return 
             return order;
         }
-
+        
         /// <summary>
         /// Get base data for order
         /// </summary>
@@ -402,7 +497,8 @@ namespace MPC.Implementation.MISServices
                        PaperSizes = paperSizeRepository.GetAll(),
                        InkPlateSides = inkPlateSideRepository.GetAll(),
                        Inks = stockItemRepository.GetStockItemOfCategoryInk(),
-                       InkCoverageGroups = inkCoverageGroupRepository.GetAll()
+                       InkCoverageGroups = inkCoverageGroupRepository.GetAll(),
+                       CostCenters = CostCentreRepository.GetAllCompanyCentersByOrganisationId()
                    };
         }
 
