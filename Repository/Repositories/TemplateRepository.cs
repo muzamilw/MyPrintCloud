@@ -341,7 +341,18 @@ namespace MPC.Repository.Repositories
                     filename = oFile.Name;
                     item.ImageName = result.ToString() + "/" + filename;
                 }
-
+                // copy template variables 
+                var listVariables = db.TemplateVariables.Where(g => g.TemplateId == ProductID).ToList();
+                if (listVariables.Count > 0)
+                {
+                    foreach (var obj in listVariables)
+                    {
+                        MPC.Models.DomainModels.TemplateVariable objVariable = new Models.DomainModels.TemplateVariable();
+                        objVariable.VariableId = obj.VariableId;
+                        objVariable.TemplateId = result;
+                        db.TemplateVariables.Add(objVariable);
+                    }
+                }
                 db.SaveChanges();
             } else
             {
