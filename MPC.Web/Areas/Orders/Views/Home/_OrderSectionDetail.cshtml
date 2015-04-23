@@ -357,7 +357,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
     <script id="sectionCostCentreItemTemplate" type="text/html">
         <tr>
             <td class="col-lg-4 text-left">
-                <a href="#" data-bind="text: name"></a>
+                <a href="#" data-bind="text: name, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>
             </td>
             <td class="col-xs-2 text-right">
                 <a href="#" data-bind="text: qty1NetTotal, click: function(){$root.openSectionCostCenterDialog($data, 1)}"></a>

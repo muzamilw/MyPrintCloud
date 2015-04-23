@@ -49,41 +49,68 @@ define("itemJobStatus/itemJobStatus.viewModel",
                             item: source.$data
                         };
                     },
-
-        droppedNeedAssigning = function (source, target, event) {
-            if (source !== undefined && source !== null && source.item !== undefined && source.widget !== null && source.item.statusId() !== 11) {
-                source.item.statusId(11);
-                dataservice.saveItem(source.item.convertToServerData(), {
-                    success: function (data) {
-
-                        toastr.success("Saved Successfully.");
-                    },
-                    error: function (exceptionMessage, exceptionType) {
-
-                        if (exceptionType === ist.exceptionType.MPCGeneralException) {
-
-                            toastr.error(exceptionMessage);
-
-                        } else {
-
-                            toastr.error("Failed to save.");
-
+                    droppedNeedAssigning = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 11) {
+                            source.item.statusId(11);
+                            saveIitem(source.item);
                         }
+                    },
 
-                    }
-                });
-            }
-        },
-         dropped = function (source, target, event) {
-             toastr.success("test");
-             //     if (selectedCurrentPageId() !== undefined && source !== undefined && source !== null && source.widget !== undefined && source.widget !== null && source.widget.widgetControlName !== undefined && source.widget.widgetControlName() !== "") {
+                    droppedInStudio = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 12) {
+                            source.item.statusId(12);
+                            saveIitem(source.item);
+                        }
+                    },
 
-             //}
-             //if (selectedCurrentPageId() === undefined) {
-             //    toastr.error("Before add widget please select page !", "", ist.toastrOptions);
-             //}
-         },
+                    droppedInPrint = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 13) {
+                            source.item.statusId(13);
+                            saveIitem(source.item);
+                        }
+                    },
 
+                    droppedInPostPress = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 14) {
+                            source.item.statusId(14);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    droppedInReadyForShipping = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 15) {
+                            source.item.statusId(15);
+                            saveIitem(source.item);
+                        }
+                    },
+                    droppedInInvoiceAndShipped = function (source, target, event) {
+                        if (source !== undefined && source !== null && source.item !== undefined && source.item !== null && source.item.statusId() !== 16) {
+                            source.item.statusId(16);
+                            saveIitem(source.item);
+                        }
+                    },
+
+                    saveIitem = function (item) {
+                        dataservice.saveItem(item.convertToServerData(), {
+                            success: function (data) {
+
+                                toastr.success("Job status successfully updated.");
+                            },
+                            error: function (exceptionMessage, exceptionType) {
+
+                                if (exceptionType === ist.exceptionType.MPCGeneralException) {
+
+                                    toastr.error(exceptionMessage);
+
+                                } else {
+
+                                    toastr.error("Failed to save.");
+
+                                }
+
+                            }
+                        });
+                    },
                     //#region Utility funntions
                      // Get Base
                     getItems = function () {
@@ -114,8 +141,12 @@ define("itemJobStatus/itemJobStatus.viewModel",
                     initialize: initialize,
                     items: items,
                     dragged: dragged,
-                    dropped: dropped,
-                    droppedNeedAssigning:droppedNeedAssigning
+                    droppedInStudio: droppedInStudio,
+                    droppedNeedAssigning: droppedNeedAssigning,
+                    droppedInPrint: droppedInPrint,
+                    droppedInPostPress: droppedInPostPress,
+                    droppedInReadyForShipping: droppedInReadyForShipping,
+                    droppedInInvoiceAndShipped: droppedInInvoiceAndShipped
 
                 };
             })()

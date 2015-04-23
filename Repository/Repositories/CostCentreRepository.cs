@@ -802,6 +802,10 @@ namespace MPC.Repository.Repositories
 		{
 			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true).ToList();
 		}
+		public IEnumerable<CostCentre> GetAllCompanyCentersForOrderItem()
+		{
+			return DbSet.Where(x => x.OrganisationId == OrganisationId && x.isPublished == true && (x.Type == 29 || x.Type == 139)).ToList();
+		}
 
         public IEnumerable<CostCentre> GetAllDeliveryCostCentersForStore()
         {
