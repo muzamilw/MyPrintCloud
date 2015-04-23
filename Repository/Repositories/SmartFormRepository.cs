@@ -390,7 +390,42 @@ namespace MPC.Repository.Repositories
                                     break;
                                 case "Address":
                                     //  keyValue = SessionParameters.CustomerContact.AddressID;
-                                    fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
+                                    if (obj.FieldVariable.CriteriaFieldName == "State")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if(address != null)
+                                        {
+                                            if(address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if(state != null)
+                                                {
+                                                    fieldValue = state.StateName;
+                                                }
+                                            }
+                                                
+                                        }
+                                    }
+                                    else if (obj.FieldVariable.CriteriaFieldName == "Country")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if (address != null)
+                                        {
+                                            if (address.CountryId.HasValue)
+                                            {
+                                                var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                                if (country != null)
+                                                {
+                                                    fieldValue = country.CountryName;
+                                                }
+                                            }
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        fieldValue = DynamicQueryToGetRecord(obj.FieldVariable.CriteriaFieldName, obj.FieldVariable.RefTableName, obj.FieldVariable.KeyField, contact.AddressId);
+                                    }
                                     break;
                                 default:
                                     break;
@@ -400,7 +435,8 @@ namespace MPC.Repository.Repositories
                             objScopeVariable.VariableId = obj.FieldVariable.VariableId;
                             objScopeVariable.Value = fieldValue;
                             objScopeVariable.FieldVariable = obj.FieldVariable;
-                            result.Add(objScopeVariable);
+                            if(obj != null)
+                                result.Add(objScopeVariable);
                         }
                     }
                     else
@@ -413,7 +449,8 @@ namespace MPC.Repository.Repositories
                                 var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.AddressId).SingleOrDefault();
                                 if (scopeObj != null)
                                 {
-                                    result.Add(scopeObj);
+                                    if (scopeObj != null)
+                                        result.Add(scopeObj);
                                 }
                                 else
                                 {
@@ -424,7 +461,8 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Id = contact.AddressId;
                                     objScopeVariable.Scope = scope;
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
-                                    result.Add(objScopeVariable);
+                                    if (objScopeVariable != null)
+                                        result.Add(objScopeVariable);
                                 }
                             }
                             else if (scope == (int)FieldVariableScopeType.Contact)
@@ -432,7 +470,8 @@ namespace MPC.Repository.Repositories
                                 var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contactId).SingleOrDefault();
                                 if (scopeObj != null)
                                 {
-                                    result.Add(scopeObj);
+                                    if (scopeObj != null)
+                                        result.Add(scopeObj);
                                     hasContactVariables = true;
                                 } else
                                 {
@@ -443,7 +482,8 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Id = contactId;
                                     objScopeVariable.Scope = scope;
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
-                                    result.Add(objScopeVariable);
+                                    if (objScopeVariable != null)
+                                        result.Add(objScopeVariable);
                                 }
                             }
                             else if (scope == (int)FieldVariableScopeType.RealEstate)
@@ -470,7 +510,8 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Id = obj.FieldVariable.CompanyId.Value;
                                     objScopeVariable.Scope = scope;
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
-                                    result.Add(objScopeVariable);
+                                    if (objScopeVariable != null)
+                                        result.Add(objScopeVariable);
                                 }
                             }
                             else if (scope == (int)FieldVariableScopeType.Territory)
@@ -481,7 +522,8 @@ namespace MPC.Repository.Repositories
                                     var scopeObj = db.ScopeVariables.Where(g => g.VariableId == obj.FieldVariable.VariableId && g.Id == contact.TerritoryId).SingleOrDefault();
                                     if (scopeObj != null)
                                     {
-                                        result.Add(scopeObj);
+                                        if (scopeObj != null)
+                                            result.Add(scopeObj);
                                     }
                                 } else
                                 {
@@ -492,13 +534,15 @@ namespace MPC.Repository.Repositories
                                     objScopeVariable.Id = contact.TerritoryId.Value;
                                     objScopeVariable.Scope = scope;
                                     objScopeVariable.FieldVariable = obj.FieldVariable;
-                                    result.Add(objScopeVariable);
+                                    if (objScopeVariable != null)
+                                        result.Add(objScopeVariable);
                                 }
                             }
                         }
                     }
                 }
             }
+            
             return result;
         }
         public List<ScopeVariable> GetTemplateScopeVariables(long templateID, long contactId)
@@ -551,7 +595,42 @@ namespace MPC.Repository.Repositories
                                 fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.CompanyId);
                                 break;
                             case "Address":
-                                fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.AddressId);
+                                 if (obj.CriteriaFieldName == "State")
+                                    {
+                                        var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                        if(address != null)
+                                        {
+                                            if(address.StateId.HasValue)
+                                            {
+                                                var state = db.States.Where(g => g.StateId == address.StateId.Value).SingleOrDefault();
+                                                if(state != null)
+                                                {
+                                                    fieldValue = state.StateName;
+                                                }
+                                            }
+                                                
+                                        }
+                                    }
+                                 else if (obj.CriteriaFieldName == "Country")
+                                 {
+                                     var address = db.Addesses.Where(g => g.AddressId == contact.AddressId).SingleOrDefault();
+                                     if (address != null)
+                                     {
+                                         if (address.CountryId.HasValue)
+                                         {
+                                             var country = db.Countries.Where(g => g.CountryId == address.CountryId.Value).SingleOrDefault();
+                                             if (country != null)
+                                             {
+                                                 fieldValue = country.CountryName;
+                                             }
+                                         }
+
+                                     }
+                                 }
+                                 else
+                                 {
+                                     fieldValue = DynamicQueryToGetRecord(obj.CriteriaFieldName, obj.RefTableName, obj.KeyField, contact.AddressId);
+                                 }
                                 break;
                             default:
                                 break;
@@ -719,13 +798,24 @@ namespace MPC.Repository.Repositories
             foreach(var contact in contacts)
             {
                 List<ScopeVariable> variables = GetScopeVariables(smartFormDetails, out hasContactVariables, contact.ContactId);
+                List<ScopeVariable> variablesToRemove = new List<ScopeVariable>();
+              //  variablesList = variables;
+                foreach (var variable in variables)
+                {
+                    if(variable == null)
+                        variablesToRemove.Add(variable);
+                }
+                foreach(var variable in variablesToRemove)
+                {
+                    variables.Remove(variable);
+                }
                 List<ScopeVariable> allTemplateVariables = GetTemplateScopeVariables(templateId, contact.ContactId);
                 foreach (var item in allTemplateVariables)
                 {
-                    var sVariable = variables.Where(g => g.VariableId == item.VariableId).SingleOrDefault();
+                    var sVariable = variables.Where(g => g.FieldVariable.VariableId == item.FieldVariable.VariableId).SingleOrDefault();
                     if (sVariable == null)
                     {
-                        variables.Add(sVariable);
+                        variables.Add(item);
                     }
                 }
                 UserScopeVariables.Add(contact.ContactId, variables);

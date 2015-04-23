@@ -1436,6 +1436,8 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
     padding: 11px 15px;
     font-size: 90%;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 42px;
+}
 }
 
 .multiPage .SampleBtn {
@@ -6828,4 +6830,11 @@ font-size: 13px;
 .btnUploadYourDesign button:hover
 {
        background-color: #F5D513;
+}
+.bkFileName
+{
+   width: 72px;
+  overflow: hidden;
+  font-size: 10px;
+    height: 14px;
 }

@@ -2993,3 +2993,6 @@ update Report set ReportTemplate = '<?xml version="1.0" encoding="utf-8"?>
 </ActiveReportsLayout>' where ReportId = 103
 
 
+/* Execution Date: 22/04/2015 */
+
+update fieldVariable set VariableType = 45 where VariableType = 1 and IsSystem =1 

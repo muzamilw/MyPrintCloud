@@ -50,9 +50,15 @@
                                             <input type="text" class="form-control" data-bind="value: $root.selectedCostCentre()!=undefined  ? $root.selectedCostCentre().quantity3:''">
                                         </div>
                                     </div>
-                                    <div class="pull-right">
+                                    <div class="pull-right">  
                                         <!--ko if: !$root.isAddProductFromInventory() -->
-                                        <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductCostCenter">Ok</button>
+                                        <!--ko if: !$root.isAddProductForSectionCostCenter() --> 
+                                        <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductCostCenter">Ok</button>  
+                                        <!-- /ko -->
+                                        <!--ko if: $root.isAddProductForSectionCostCenter() -->
+                                        <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveStockitemForSectionCostCenter">Ok</button>  
+                                        <!-- /ko -->
+                                        
                                         <!-- /ko -->
                                         <!--ko if: $root.isAddProductFromInventory() -->
                                         <button type="reset" class="btn btn-primary" data-bind="click: $root.onSaveProductInventory">Ok</button>

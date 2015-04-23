@@ -2969,6 +2969,7 @@ function pcl42_UpdateTO() {
 
 }
 function pcl42_updateTemplate(DT) {
+   // alert();
     if (userVariableData != null) {
         $.each(userVariableData, function (i, vari) {
             if (vari.Value != null) {

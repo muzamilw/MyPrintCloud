@@ -4,16 +4,16 @@ namespace MPC.Models.ModelMappers
     using System;
 
     /// <summary>
-    /// Item Attachment mapper
+    /// Section Ink Coverage mapper
     /// </summary>
-    public static class ItemAttachmentMapper
+    public static class SectionInkCoverageMapper
     {
         #region Public
 
         /// <summary>
         ///  Copy from source entity to the target
         /// </summary>
-        public static void UpdateTo(this ItemAttachment source, ItemAttachment target)
+        public static void UpdateTo(this SectionInkCoverage source, SectionInkCoverage target)
         {
             if (source == null)
             {
@@ -24,12 +24,12 @@ namespace MPC.Models.ModelMappers
                 throw new ArgumentNullException("target");
             }
 
-            target.ItemAttachmentId = source.ItemAttachmentId;
-            target.ItemId = source.ItemId;
-            target.FileName = source.FileName;
-            target.FileSource = source.FileSource;
-            target.CompanyId = source.CompanyId;
-            target.ContactId = source.ContactId;
+            target.Id = source.Id;
+            target.InkId = source.InkId;
+            target.InkOrder = source.InkOrder;
+            target.SectionId = source.SectionId;
+            target.Side = source.Side;
+            target.CoverageGroupId = source.CoverageGroupId;
         }
 
         #endregion
