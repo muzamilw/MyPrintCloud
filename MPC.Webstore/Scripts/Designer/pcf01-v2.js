@@ -1013,7 +1013,7 @@ function fu02UI() {
             width: newWidth
         });
     });
-    var height = $(window).height();
+    var height = $(window).height() - 70;
     $('.scrollPane').slimscroll({
         height: height
     });
