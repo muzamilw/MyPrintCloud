@@ -164,7 +164,7 @@ namespace MPC.Repository.Repositories
             {
                 var qry = from contacts in db.CompanyContacts
                           join contactCompany in db.Companies on contacts.CompanyId equals contactCompany.CompanyId
-                          where string.Compare(contacts.Email, Email, true) == 0 && contactCompany.OrganisationId == OID
+                          where string.Compare(contacts.Email, Email, true) == 0 && contacts.OrganisationId == OID
                           select contacts;
 
                 return qry.ToList().FirstOrDefault();
@@ -649,7 +649,7 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId)
+        public CompanyContact CreateCorporateContact(long CustomerId, CompanyContact regContact, string TwitterScreenName, long OrganisationId, bool isAutoRegister)
         {
             try
             {
@@ -675,7 +675,15 @@ namespace MPC.Repository.Repositories
                     Contact.AuthentifiedBy = regContact.AuthentifiedBy;
                     Contact.isArchived = false;
                     Contact.twitterScreenName = TwitterScreenName;
-                    Contact.isWebAccess = false;
+                    if (isAutoRegister == true)
+                    {
+                        Contact.isWebAccess = true;
+                    }
+                    else 
+                    {
+                        Contact.isWebAccess = false;
+                    }
+                   
                     Contact.ContactRoleId = Convert.ToInt32(Roles.User);
                     Contact.OrganisationId = OrganisationId;
                     Contact.isPlaceOrder = true;
@@ -1381,47 +1389,17 @@ namespace MPC.Repository.Repositories
                 return null;
             }
         }
-
-        public CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode)
+        /// <summary>
+        /// get corporate user for auto login process
+        /// </summary>
+        /// <param name="emailAddress"></param>
+        /// <param name="organistionId"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
+        public CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId)
         {
-                bool isValid = false;
-                CompanyContact ContactRecord = null;
-                Company CompanyRecord = null;
-                ContactRecord = db.CompanyContacts.Where(c => c.Email == email).FirstOrDefault();
-                CompanyRecord = db.Companies.Where(cc => cc.WebAccessCode == Code).FirstOrDefault();
-
-                if (ContactRecord != null) // is contact already exists...
-                {
-                    if (CompanyRecord != null && CompanyRecord.CompanyId != ContactRecord.CompanyId)
-                    {
-                        return null;
-                    }
-                    //CompanyRecord = context.tbl_contactcompanies.Where(c => c.ContactCompanyID == ContactRecord.ContactCompanyID).FirstOrDefault();
-                    if (CompanyRecord != null)
-                    {
-                            return ContactRecord;
-                    }
-                    else
-                    {
-                        return null; // returns null and the retail stores load...
-                    }
-                }
-                else // create new contact....
-                {
-                   // tbl_contacts oContact = new tbl_contacts();
-                    CompanyContact oContact=new CompanyContact();
-                    isValid = ValidatEmail(email);
-                    if (isValid)
-                    {
-                        oContact = createContact(BCCId, email, FName, LNAme, AccountNumber);
-                        return oContact;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
+            return db.CompanyContacts.Where(c => c.CompanyId == companyId && c.OrganisationId == organistionId && c.Email == emailAddress && c.isWebAccess == true && (c.isArchived == false || c.isArchived == null)).SingleOrDefault();
+        }
         }
 
     }

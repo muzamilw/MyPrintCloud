@@ -11,9 +11,8 @@ namespace MPC.Interfaces.WebStoreServices
     /// My Organization Service Interface
     /// </summary>
     public interface ICompanyService
-    
     {
-        CompanyContact isContactExists(int BCCId, string email, string FName, string LNAme, string AccountNumber, string Code, StoreMode Mode);
+        CompanyContact GetOrCreateContact(Company company, string ContactEmail, string ContactFirstName, string ContactLastName, string CompanyWebAccessCode);
         long ApproveOrRejectOrder(long orderID, long loggedInContactID, OrderStatus orderStatus, Guid OrdermangerID, string BrokerPO = "");
         List<Order> GetPendingApprovelOrdersList(long contactUserID, bool isApprover);
         CompanyContact GetContactByEmailID(string Email);
@@ -217,6 +216,15 @@ namespace MPC.Interfaces.WebStoreServices
         int AddSubscriber(NewsLetterSubscriber subsriber);
         bool UpdateSubscriber(string subscriptionCode, SubscriberStatus status);
         RaveReview GetRaveReview();
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
 
+        CompanyContact GetCorporateContactForAutoLogin(string emailAddress, long organistionId, long companyId);
+        
     }
 }
