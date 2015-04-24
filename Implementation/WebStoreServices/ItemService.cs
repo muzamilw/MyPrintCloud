@@ -87,16 +87,16 @@ namespace MPC.Implementation.WebStoreServices
             return _ItemRepository.CloneItem(itemID, RefItemID, OrderID, CustomerID, TemplateID, StockID, SelectedAddOnsList, isSavedDesign, isCopyProduct, objContactID,OrganisationID);
         }
 
-        public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId)
+        public List<ItemPriceMatrix> GetPriceMatrix(List<ItemPriceMatrix> tblRefItemsPriceMatrix, bool IsRanged, bool IsUserLoggedIn, long CompanyId, long OrganisationId)
         {
             int flagId = 0;
             if (IsUserLoggedIn)
             {
-                flagId = GetFlagId(CompanyId);
+                flagId = GetFlagId(CompanyId, OrganisationId);
                 if (flagId == 0)
                 {
                     // pass 0  to get the default flag id for price matrix
-                    flagId = GetFlagId(0);
+                    flagId = GetFlagId(0, OrganisationId);
                     if (IsRanged == true)
                     {
                         tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -132,7 +132,7 @@ namespace MPC.Implementation.WebStoreServices
             else
             {
                 // pass 0  to get the default flag id for price matrix
-                flagId = GetFlagId(0);
+                flagId = GetFlagId(0, OrganisationId);
                 if (IsRanged == true)
                 {
                     tblRefItemsPriceMatrix = tblRefItemsPriceMatrix.Where(c => c.QtyRangeFrom > 0 && c.QtyRangeTo > 0 && c.FlagId == flagId && c.SupplierId == null).ToList();
@@ -148,7 +148,7 @@ namespace MPC.Implementation.WebStoreServices
 
         #endregion
 
-        private int GetFlagId(long companyId)
+        private int GetFlagId(long companyId, long OrganisationId)
         {
             if (companyId > 0)
             {
@@ -156,7 +156,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             else
             {
-                return _SectionFlagRepository.GetDefaultSectionFlagId();
+                return _SectionFlagRepository.GetDefaultSectionFlagId(OrganisationId);
             }
         }
 
