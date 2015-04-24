@@ -274,10 +274,11 @@ define("invoice/invoice.viewModel",
                     },
                     // Save Invoice
                     saveInvoice = function (callback, navigateCallback) {
-                        var status = selectedInvoice().invoiceStatus();
-                        if (status == 19)//Awaiting Invoice
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19)//Awaiting Invoice
                         {
-                            confirmation.messageText("Do you want to post the invoice.");
+                            confirmation.messageText("Do you want to post the invoice.");                       
+
                             confirmation.afterProceed(function () {
                                 selectedInvoice().invoiceStatus(20);//Posted Invoice                              
 
@@ -290,9 +291,9 @@ define("invoice/invoice.viewModel",
                         }
                         var invoice = selectedInvoice().convertToServerData();
                         
-                        _.each(selectedOrder().invoiceDetailItems(), function (item) {
-                            invoice.invoiceDetailItems.push(item.convertToServerData());
-                        });
+                        //_.each(selectedInvoice().invoiceDetailItems(), function (item) {
+                        //    invoice.invoiceDetailItems.push(item.convertToServerData());
+                        //});
                         
                         
                         dataservice.saveInvoice(invoice, {
@@ -307,8 +308,8 @@ define("invoice/invoice.viewModel",
                                     // Get Order
                                     var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
                                     if (invoiceUpdated) {
-                                        invoice.code(data.InvoiceCode);
-                                        invoice.name(data.InvoiceName);
+                                        selectedInvoice().code(data.InvoiceCode);
+                                        selectedInvoice().name(data.InvoiceName);
                                     }
                                 }
 
@@ -411,8 +412,9 @@ define("invoice/invoice.viewModel",
                                 }
                                 isLoading(false);
                                 var code = !selectedInvoice().code() ? "INVOICE CODE" : selectedInvoice().code();
-                                invoiceCodeHeader(code);
+                                //invoiceCodeHeader(code);
                                 //view.initializeLabelPopovers();
+                                selectedInvoice().reset();
                             },
                             error: function (response) {
                                 isLoading(false);
@@ -493,7 +495,8 @@ define("invoice/invoice.viewModel",
                     editInvoice: editInvoice,
                     onCloseInvoiceEditor: onCloseInvoiceEditor,
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
-                    invoiceTypes: invoiceTypes
+                    invoiceTypes: invoiceTypes,
+                    onSaveInvoice: onSaveInvoice
                 };
             })()
         };
