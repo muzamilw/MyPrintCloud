@@ -183,6 +183,7 @@
     <Compile Include="MISServices\GoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\InvoicesService.cs" />
     <Compile Include="MISServices\ItemJobStatusService.cs" />
+    <Compile Include="MISServices\ItemSectionService.cs" />
     <Compile Include="MISServices\ItemService.cs" />
     <Compile Include="MISServices\InventoryService.cs" />
     <Compile Include="MISServices\CostCenterService.cs" />

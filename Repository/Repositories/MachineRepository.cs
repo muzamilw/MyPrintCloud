@@ -553,5 +553,7 @@ namespace MPC.Repository.Repositories
             return db.Machines.Where(c => c.MachineId == MachineID).Select(c => c.MachineName).FirstOrDefault();
         }
 
+        
+
     }
 }

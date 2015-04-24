@@ -103,8 +103,8 @@ define("common/stockItem.viewModel",
                             success: function (data) {
                                 stockItems.removeAll();
                                 if (data && data.TotalCount > 0) {
-                                    stockDialogPager().totalCount(data.TotalCount);
                                     mapStockItems(data.StockItems);
+                                    stockDialogPager().totalCount(data.TotalCount);
                                 }
                             },
                             error: function (response) {
