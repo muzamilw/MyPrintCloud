@@ -3929,7 +3929,7 @@ function pcl41(xdata) {
         {
             if(IT.FieldVariable.IsSystem == true)
             {
-                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
+                html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex,IT.FieldVariable.VariableTag);
             } else {
                 if(IT.FieldVariable.VariableType == 1 )
                 {
@@ -3937,7 +3937,7 @@ function pcl41(xdata) {
                     html += pcl40_addDropDown(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.VariableOptions, IT.FieldVariable.DefaultValue, tabIndex);
 
                 } else if (IT.FieldVariable.VariableType == 2) {
-                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex);
+                    html += pcl40_addTxtControl(IT.FieldVariable.VariableName, IT.FieldVariable.VariableId, IT.FieldVariable.WaterMark, IT.FieldVariable.DefaultValue, IT.IsRequired, IT.FieldVariable.InputMask, tabIndex, IT.FieldVariable.VariableTag);
                 }
             }
             tabIndex++;
@@ -4002,11 +4002,15 @@ function pcl40_addDropDown(title, varId,options,def,tabindex) {
     html+=    '</select></div>';
     return html;
 }
-function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex) {
+function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
     var required = "";
+    if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}")
+    {
+        required +='disabled=disabled';
+    }
     if (IsRequired == true)
     {
-        required = "required";
+        required += "required";
     }
    
     if (Value == "undefined" || Value == undefined) {
@@ -4025,14 +4029,14 @@ function pcl40_addLineSeperator() {
 }
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
-            if (IT.Value != null && IT.value != "" && IT.value != undefined) {
-                $("#txtSmart" + IT.VariableId).val(IT.Value);
-            } else {
-                if (IT.DefaultValue != null && IT.DefaultValue != "" && IT.DefaultValue != "undefined" && IT.DefaultValue !=undefined)
-                    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
-                else 
-                    $("#txtSmart" + IT.VariableId).val("");
-            }
+        if (IT.Value != null && IT.Value != "" && IT.Value != undefined) {
+            $("#txtSmart" + IT.VariableId).val(IT.Value);
+        } else {
+            if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)
+                $("#txtSmart" + IT.VariableId).val("");
+            else
+                $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+        }
     });
 }
 function pcl40_applyInputMask(sObjs) {

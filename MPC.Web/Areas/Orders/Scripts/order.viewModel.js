@@ -2275,10 +2275,10 @@ define("order/order.viewModel",
                         if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
                             return;
                         }
-
+                        var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         isPtvCalculationInProgress(true);
                         dataservice.getPTVCalculation({
-                            orientation: 1,
+                            orientation: orient,
                             reversRows: 0,
                             revrseCols: 0,
                             isDoubleSided: selectedSection().isDoubleSided(),
@@ -2422,11 +2422,7 @@ define("order/order.viewModel",
 
                         var currSec = selectedSection().convertToServerData();
                         currSec.PressId = selectedBestPressFromWizard().id;
-                        dataservice.getUpdatedSystemCostCenters({
-                            CurrentSection: currSec,
-                            PressId: currSec.PressId
-                            //  AllSectionInks: currSec.SectionInkCoverages
-                        }, {
+                        dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function (data) {
                                 if (data != null) {
                                     selectedSection(model.ItemSection.Create(data));
