@@ -495,6 +495,7 @@
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
