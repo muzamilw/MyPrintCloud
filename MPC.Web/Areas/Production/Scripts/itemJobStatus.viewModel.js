@@ -9,6 +9,8 @@ define("itemJobStatus/itemJobStatus.viewModel",
             viewModel: (function () {
                 var // the view 
                     view,
+                    //Currency Symbol
+                    currencySymbol = ko.observable(),
                     // #region Arrays
                     //Items
                     items = ko.observableArray([]),
@@ -42,7 +44,7 @@ define("itemJobStatus/itemJobStatus.viewModel",
                     // #endregion
                     // #region Observables
                     selectedItem = ko.observable(),
-                   // #endregion
+                    // #endregion
                     dragged = function (source) {
                         return {
                             row: source.$parent,
@@ -112,28 +114,80 @@ define("itemJobStatus/itemJobStatus.viewModel",
                         });
                     },
                     //#region Utility funntions
-                     // Get Base
-                    getItems = function () {
-                        dataservice.getItems({
-                            success: function (data) {
-                                if (data !== null) {
-                                    _.each(data, function (item) {
-                                        items.push(model.Item.Create(item));
-                                    });
-                                }
-                            },
-                            error: function () {
-                                toastr.error("Failed to Items.");
+                    needAssigningTotal = ko.observable(0),
+                    inStudioTotal = ko.observable(0),
+                    inPrintTotal = ko.observable(0),
+                    inPostPressTotal = ko.observable(0),
+                    inReadyForShippingTotal = ko.observable(0),
+                    inInvoiceAndShippedTotal = ko.observable(0),
+
+                    calculateTotal = ko.computed(function () {
+                        needAssigningTotal(0);
+                        inStudioTotal(0);
+                        inPrintTotal(0);
+                        inPostPressTotal(0);
+                        inReadyForShippingTotal(0);
+                        inInvoiceAndShippedTotal(0);
+                        _.each(items(), function (item) {
+                            if (item.statusId() === 11) {
+                                var total = (parseFloat(needAssigningTotal()) + parseFloat(item.qty1NetTotal()));
+                                total.toFixed(2);
+                                needAssigningTotal(total);
+                            }
+                            else if (item.statusId() === 12) {
+                                var total1 = (parseFloat(inStudioTotal()) + parseFloat(item.qty1NetTotal()));
+                                total1.toFixed(2);
+                                inStudioTotal(total1);
+                            }
+                            else if (item.statusId() === 13) {
+                                var total2 = (parseFloat(inPrintTotal()) + parseFloat(item.qty1NetTotal()));
+                                total2.toFixed(2);
+                                inPrintTotal(total2);
+                            }
+                            else if (item.statusId() === 14) {
+                                var total3 = (parseFloat(inPostPressTotal()) + parseFloat(item.qty1NetTotal()));
+                                total3.toFixed(2);
+                                inPostPressTotal(total3);
+                            }
+                            else if (item.statusId() === 15) {
+                                var total4 = (parseFloat(inReadyForShippingTotal()) + parseFloat(item.qty1NetTotal()));
+                                total4.toFixed(2);
+                                inReadyForShippingTotal(total4);
+                            }
+                            else if (item.statusId() === 16) {
+                                var total5 = (parseFloat(inInvoiceAndShippedTotal()) + parseFloat(item.qty1NetTotal()));
+                                total5.toFixed(2);
+                                inInvoiceAndShippedTotal(total5);
                             }
                         });
-                    },
-                   //Initialize
-                   initialize = function (specifiedView) {
-                       view = specifiedView;
-                       ko.applyBindings(view.viewModel, view.bindingRoot);
-                       getItems();
+                    });
+                // Get Base
+                getItems = function () {
+                    dataservice.getItems({
+                        success: function (data) {
+                            if (data !== null && data !== undefined) {
+                                currencySymbol(data.CurrencySymbol);
+                                var itemList = [];
+                                _.each(data.Items, function (item) {
+                                    itemList.push(model.Item.Create(item));
+                                });
+                                ko.utils.arrayPushAll(items(), itemList);
+                                items.valueHasMutated();
+                            }
 
-                   };
+                        },
+                        error: function () {
+                            toastr.error("Failed to Items.");
+                        }
+                    });
+                },
+                //Initialize
+               initialize = function (specifiedView) {
+                   view = specifiedView;
+                   ko.applyBindings(view.viewModel, view.bindingRoot);
+                   getItems();
+
+               };
                 //#endregion 
 
 
@@ -146,7 +200,14 @@ define("itemJobStatus/itemJobStatus.viewModel",
                     droppedInPrint: droppedInPrint,
                     droppedInPostPress: droppedInPostPress,
                     droppedInReadyForShipping: droppedInReadyForShipping,
-                    droppedInInvoiceAndShipped: droppedInInvoiceAndShipped
+                    droppedInInvoiceAndShipped: droppedInInvoiceAndShipped,
+                    currencySymbol: currencySymbol,
+                    needAssigningTotal: needAssigningTotal,
+                    inStudioTotal: inStudioTotal,
+                    inPrintTotal: inPrintTotal,
+                    inPostPressTotal: inPostPressTotal,
+                    inReadyForShippingTotal: inReadyForShippingTotal,
+                    inInvoiceAndShippedTotal: inInvoiceAndShippedTotal,
 
                 };
             })()

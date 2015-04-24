@@ -114,7 +114,8 @@ define("invoice/invoice.dataservice", function () {
             getInvoices: getInvoices,
             getBaseData: getBaseData,
             getInvoice: getInvoice,
-            getBaseDataForCompany: getBaseDataForCompany
+            getBaseDataForCompany: getBaseDataForCompany,
+            saveInvoice: saveInvoice
         };
     })();
 
