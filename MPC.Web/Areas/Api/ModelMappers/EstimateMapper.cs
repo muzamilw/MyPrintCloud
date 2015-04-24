@@ -95,7 +95,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemsCount = source.Items != null ? source.Items.Count : 0,
                 Status = source.Status.StatusName,
                 EstimateTotal = source.Estimate_Total,
-                IsDirectOrder = source.isDirectSale,
+                IsDirectSale = source.isDirectSale,
                 SectionFlagColor = source.SectionFlag != null ? source.SectionFlag.FlagColor : null
 
             };

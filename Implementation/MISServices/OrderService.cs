@@ -480,7 +480,7 @@ namespace MPC.Implementation.MISServices
             estimateRepository.SaveChanges();
 
             // Save Item Attachments
-            SaveItemAttachments(estimate);
+            SaveItemAttachments(order);
 
             // Save Changes
             estimateRepository.SaveChanges();
