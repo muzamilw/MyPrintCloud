@@ -447,13 +447,15 @@ namespace MPC.Models.Common
 
     public enum ReportType : int
     {
+        Internal = 0,
         JobCard = 1,
         Order = 2,
         Estimate = 3,
         Invoice = 4,
         DeliveryNotes = 5,
         PurchaseOrders = 6,
-        Customer = 7
+        Customer = 7,
+        CriteriaFields = 8
 
     }
 }

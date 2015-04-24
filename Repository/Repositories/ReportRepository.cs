@@ -9,6 +9,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace MPC.Repository.Repositories
 {
@@ -131,6 +133,99 @@ namespace MPC.Repository.Repositories
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public DataTable GetReportDataSourceByReportID(long ReportID, string CriteriaParam)
+        {
+            string connectionString = string.Empty;
+            SqlConnection oConn = new SqlConnection();
+            if (System.Web.HttpContext.Current.Request.Url.Authority == "mpc" || System.Web.HttpContext.Current.Request.Url.Authority == "localhost")
+            {
+                connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=192.168.1.22; user id=sa; password=p@ssw0rd;";
+                oConn = new SqlConnection(connectionString);   
+            }
+            else
+            {
+                oConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["BaseDbContext"].ConnectionString);
+            }
+             
+          
+            oConn.Open();
+            try
+            {
+              
+                
+               // string connectionString = "Persist Security Info=False;Integrated Security=false;Initial Catalog=MPCLive;server=www.myprintcloud.com,9998; user id=mpcmissa; password=p@ssw0rd@mis2o14;";
+                string ReportDataSource = string.Empty;
+                string ReportTemplate = string.Empty;
+                Report report = GetReportByReportID(ReportID);
+                if(report != null)
+                {
+                    if(string.IsNullOrEmpty(CriteriaParam))
+                    {
+
+                      
+                        string queryString = "select " + report.ReportDataSource  + OrganisationId;
+
+                        SqlCommand command = new SqlCommand(queryString, oConn);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        DataTable dtrpt = new DataTable();
+
+                        dtrpt.Load(reader);
+
+                        return dtrpt;
+                     //   System.Data.Entity.Infrastructure.DbRawSqlQuery<Company> result = db.Database.SqlQuery<Company>("select " + report.ReportDataSource);
+
+                      //  var oresult = db.Database.ExecuteSqlCommand("select " + report.ReportDataSource);
+                        //foreach(v i in oresult)
+                        //{
+                              
+                        //}
+                        //return oresult.;
+                       // return oResult;
+                       // return null;
+                    }
+                    else
+                    {
+                        if (report.ReportDataSource.Contains("where") && CriteriaParam.Contains("where"))
+                        {
+                            CriteriaParam = CriteriaParam.Replace("where", " and ");
+                        }
+
+                        string queryString = "select " + report.ReportDataSource + CriteriaParam + "and cOrganisationId = " + OrganisationId;
+
+                        SqlCommand command = new SqlCommand(queryString, oConn);
+                        SqlDataReader reader = command.ExecuteReader();
+
+                        DataTable dtrpt = new DataTable();
+
+                        dtrpt.Load(reader);
+
+                        return dtrpt;
+                      
+
+                    }
+
+                    
+                }
+                else
+                {
+                    return null;
+                }
+               // var oResult = null;
+                //System.Data.Objects.ObjectResult<string> result = db.ExecuteStoreQuery<string>("select top 1 cast(" + feildname + " as varchar(1000)) from " + tblname + " where " + keyName + "= " + keyValue + "", "");
+               
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                oConn.Close();
             }
         }
        // GetReportsByOrganisationID
