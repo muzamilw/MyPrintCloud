@@ -39,14 +39,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public BestPressResponse Get([FromUri] ItemSection section)
+        public BestPressResponse Post([FromUri] ItemSection section)
         {
             if (section == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return itemsectionService.GetBestPressResponse(section.CreateFrom()).CreateFrom();
+            return itemsectionService.GetBestPressResponse(section.CreateFromForOrder()).CreateFrom();
         }
         #endregion
     }

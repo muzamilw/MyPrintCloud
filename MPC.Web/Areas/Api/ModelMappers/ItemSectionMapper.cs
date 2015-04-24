@@ -34,7 +34,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSizeHeight = source.ItemSizeHeight,
                 ItemSizeWidth = source.ItemSizeWidth,
                 IsItemSizeCustom = source.IsItemSizeCustom,
-                IsSectionSizeCustom = source.IsSectionSizeCustom
+                IsSectionSizeCustom = source.IsSectionSizeCustom,
+                Side1Inks = source.Side1Inks,
+                Side2Inks = source.Side2Inks,
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
         }
 
@@ -59,7 +62,10 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 ItemSizeHeight = source.ItemSizeHeight,
                 ItemSizeWidth = source.ItemSizeWidth,
                 IsItemSizeCustom = source.IsItemSizeCustom,
-                IsSectionSizeCustom = source.IsSectionSizeCustom
+                IsSectionSizeCustom = source.IsSectionSizeCustom,
+                Side1Inks = source.Side1Inks,
+                Side2Inks = source.Side2Inks,
+                SectionInkCoverages = source.SectionInkCoverages != null ? source.SectionInkCoverages.Select(sc => sc.CreateFrom()).ToList() : null
             };
         }
 

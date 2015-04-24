@@ -24,7 +24,7 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// </summary>
         public PtvCalculationController(IItemSectionService _itemsectionService)
         {
-            if (itemsectionService == null)
+            if (_itemsectionService == null)
             {
                 throw new ArgumentNullException("orderService");
             }
