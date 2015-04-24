@@ -31,14 +31,14 @@ namespace MPC.MIS.Areas.Api.Controllers
         #region Public
         [ApiAuthorize(AccessRights = new[] { SecurityAccessRight.CanViewOrder })]
         [CompressFilterAttribute]
-        public ItemSection GetUpdatedSection([FromUri] ItemSection request)
+        public ItemSection Post([FromUri] ItemSection request)
         {
             if (request == null || !ModelState.IsValid)
             {
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return itemsectionService.GetUpdatedSectionWithSystemCostCenters(request.CreateFrom()).CreateFrom();
+            return itemsectionService.GetUpdatedSectionWithSystemCostCenters(request.CreateFromForOrder()).CreateFromForOrder();
         }
         #endregion
     }
