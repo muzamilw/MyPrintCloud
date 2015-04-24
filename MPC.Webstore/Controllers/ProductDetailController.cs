@@ -572,11 +572,11 @@ namespace MPC.Webstore.Controllers
         {
             if (_myClaimHelper.isUserLoggedIn())
             {
-                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId);
+                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId, Convert.ToInt64(baseResponse.Company.OrganisationId));
             }
             else
             {
-                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, false, 0);
+                tblItemsPriceMatrix = _IItemService.GetPriceMatrix(tblItemsPriceMatrix, productItem.IsQtyRanged ?? false, false, 0, Convert.ToInt64(baseResponse.Company.OrganisationId));
             }
 
             foreach (var matrixItem in tblItemsPriceMatrix)

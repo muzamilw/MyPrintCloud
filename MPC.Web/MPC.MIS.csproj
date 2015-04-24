@@ -403,6 +403,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
@@ -495,6 +496,7 @@
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />

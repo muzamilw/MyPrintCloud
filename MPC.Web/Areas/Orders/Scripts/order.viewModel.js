@@ -366,7 +366,6 @@ define("order/order.viewModel",
 
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
-                        setAvailableInkPlateChange();  // Why calling this when no change being done, It is setting Ink Coverage data null, its id and sectionid
                         openItemDetail();
                     },
                     // Open Item Detail
@@ -1593,11 +1592,10 @@ define("order/order.viewModel",
                         item.itemSections.push(itemSection);
 
                         if (isCostCenterDialogForShipping()) {
+                            item.itemType(2); // Delivery Item
+                        } 
 
-                        } else {
-                            selectedOrder().items.splice(0, 0, item);
-                        }
-
+                        selectedOrder().items.splice(0, 0, item);
                     },
                     createNewInventoryProduct = function (stockItem) {
                         var costCenter = model.costCentre.Create({});
@@ -1606,8 +1604,6 @@ define("order/order.viewModel",
                         view.showCostCentersQuantityDialog();
 
                         inventoryStockItemToCreate(stockItem);
-                        //item.qty1(selectedCostCentre().quantity1());
-                        //item.qty1NetTotal(selectedCostCentre().setupCost());
                     },
                 //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
@@ -2275,10 +2271,10 @@ define("order/order.viewModel",
                         if (selectedSection().itemSizeHeight() == null || selectedSection().itemSizeWidth() == null || selectedSection().sectionSizeHeight() == null || selectedSection().sectionSizeWidth() == null) {
                             return;
                         }
-
+                        var orient = selectedSection().printViewLayoutPortrait() >= selectedSection().printViewLayoutLandscape() ? 0 : 1;
                         isPtvCalculationInProgress(true);
                         dataservice.getPTVCalculation({
-                            orientation: 1,
+                            orientation: orient,
                             reversRows: 0,
                             revrseCols: 0,
                             isDoubleSided: selectedSection().isDoubleSided(),
@@ -2422,11 +2418,7 @@ define("order/order.viewModel",
 
                         var currSec = selectedSection().convertToServerData();
                         currSec.PressId = selectedBestPressFromWizard().id;
-                        dataservice.getUpdatedSystemCostCenters({
-                            CurrentSection: currSec,
-                            PressId: currSec.PressId
-                            //  AllSectionInks: currSec.SectionInkCoverages
-                        }, {
+                        dataservice.getUpdatedSystemCostCenters(currSec, {
                             success: function (data) {
                                 if (data != null) {
                                     selectedSection(model.ItemSection.Create(data));

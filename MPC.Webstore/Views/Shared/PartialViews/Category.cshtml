@@ -127,17 +127,17 @@
                                                 }
                                                 else
                                                 {
-                                                    if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
-                                                    {
-                                                        isUploadImage = true;
-                                                        RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
-                                                    }
-                                                    else
-                                                    {
+                                                    //if (item.isUploadImage == true && UserCookieManager.WEBStoreMode == (int)StoreMode.Retail)
+                                                    //{
+                                                    //    isUploadImage = true;
+                                                    //    RedirectURL = "/ProductOptions/" + Model.ProductCategoryId + "/" + item.ItemId + "/UploadDesign";
+                                                    //}
+                                                    //else
+                                                    //{
                                                         isUploadImage = false;
 
                                                         RedirectURL = "/Category/CloneItem/" + item.ItemId;
-                                                    }
+                                                    //}
                                                 }
 
 
