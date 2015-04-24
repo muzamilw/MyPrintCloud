@@ -34,10 +34,11 @@ namespace MPC.Models.ModelMappers
             target.IsCreditApproved = source.IsCreditApproved;
             target.Order_Date = source.Order_Date;
             target.FinishDeliveryDate = source.FinishDeliveryDate;
-            target.CreationDate = source.CreationDate;
-            target.CreationTime = source.CreationTime;
+            target.CreationDate = source.CreationDate.HasValue && source.CreationDate.Value <= DateTime.MinValue ? DateTime.Now : source.CreationDate;
+            target.CreationTime = source.CreationTime <= DateTime.MinValue ? DateTime.Now : source.CreationTime;
             target.HeadNotes = source.HeadNotes;
             target.FootNotes = source.FootNotes;
+            target.isEstimate = source.isEstimate;
 
             // Update Order Schedule
             UpdateOrderSchedule(source, target);
@@ -325,6 +326,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Section Cost Centres
             UpdateSectionCostCentres(sourceItemSection, targetLine, actions);
+
+            // Update Section Ink Coverages
+            UpdateSectionInkCoverages(sourceItemSection, targetLine, actions);
         }
 
         #region Section Cost Centres
@@ -408,7 +412,89 @@ namespace MPC.Models.ModelMappers
         }
         
         #endregion Section Cost Centres
-        
+
+        #region Section Ink Coverage
+
+        /// <summary>
+        /// True if the Section Ink COverage is new
+        /// </summary>
+        private static bool IsNewSectionInkCoverage(SectionInkCoverage source)
+        {
+            return source.Id <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target Section Ink Coverage
+        /// </summary>
+        private static void InitializeSectionInkCoverages(ItemSection item)
+        {
+            if (item.SectionInkCoverages == null)
+            {
+                item.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Section Ink Coverages
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            foreach (SectionInkCoverage sourceLine in source.SectionInkCoverages.ToList())
+            {
+                UpdateOrAddSectionInkCoverage(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverage(SectionInkCoverage sourceSectionInkCoverage, ItemSection target, OrderMapperActions actions)
+        {
+            SectionInkCoverage targetLine;
+            if (IsNewSectionInkCoverage(sourceSectionInkCoverage))
+            {
+                targetLine = actions.CreateSectionInkCoverage();
+                target.SectionInkCoverages.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.SectionInkCoverages.FirstOrDefault(vdp => vdp.Id == sourceSectionInkCoverage.Id);
+            }
+
+            sourceSectionInkCoverage.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete section ink coverage no longer needed
+        /// </summary>
+        private static void DeleteSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            List<SectionInkCoverage> linesToBeRemoved = target.SectionInkCoverages.Where(
+                vdp => !IsNewSectionInkCoverage(vdp) && source.SectionInkCoverages.All(sourceVdp => sourceVdp.Id != vdp.Id))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.SectionInkCoverages.Remove(line);
+                actions.DeleteSectionInkCoverage(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Section Cost Centres
+        /// </summary>
+        private static void UpdateSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            InitializeSectionInkCoverages(source);
+            InitializeSectionInkCoverages(target);
+
+            UpdateOrAddSectionInkCoverages(source, target, actions);
+
+            // Delete
+            DeleteSectionInkCoverages(source, target, actions);
+        }
+
+        #endregion Section Ink Coverage
+
 
         /// <summary>
         /// Update Item Sections

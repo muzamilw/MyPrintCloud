@@ -78,8 +78,16 @@ namespace MPC.Interfaces.Repository
 
         List<Company> GetSupplierByOrganisationid(long OID);
 
-        Company GetCompanyByCompanyIDforArtwork(long CompanyID);
+       // Company GetCompanyByCompanyIDforArtwork(long CompanyID);
 
         string GetSupplierNameByID(int CID);
+
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        Company isValidWebAccessCode(string WebAccessCode, long OrganisationId);
     }
 }

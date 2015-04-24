@@ -95,8 +95,8 @@ define("order/order.view",
                             .slider({
                                 min: 0,
                                 max: orderStatusArray.length - 1,
-                                //value: orderstate() !== 0 ? orderstate() - 4 : orderstate()
-                                value: orderstate()
+                                value: orderstate() !== 0 ? (orderstate() === 9 ? orderstate() - 5 : orderstate() - 4) : orderstate()
+                                //value: orderstate()
                             })
 
                             // add pips with the labels set to "months"

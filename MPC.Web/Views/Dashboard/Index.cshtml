@@ -189,39 +189,46 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="social-box-wrapper">
-                                    <div class="social-box col-lg-3 col-sm-6 col-xs-6  estimates">
-                                        <i class="fa fa-cubes"></i>
-                                        <div class="clearfix">
-                                            <span class="social-count" data-bind="text:$root.canceledOrdersCount"></span>
-                                            <span class="social-action">Pending Estimates</span>
+                                    <a href="/mis/Orders/Home/EstimatesList?to=est">
+                                        <div class="social-box col-lg-3 col-sm-6 col-xs-6  estimates" style="cursor:pointer;" title="Pending Estimates">
+                                            <i class="fa fa-cubes"></i>
+                                            <div class="clearfix">
+                                                <span class="social-count" data-bind="text:$root.canceledOrdersCount"></span>
+                                                <span class="social-action">Pending Estimates</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="social-box col-lg-3 col-sm-6 col-xs-6  facebook">
-                                        <i class="fa fa-cubes"></i>
-                                        <div class="clearfix">
-                                            <span class="social-count" data-bind="text:$root.pendingOrdersCount"></span>
-                                            <span class="social-action">Pending Orders</span>
+                                    </a>
+                                    <a href="/mis/Orders/Home?to=ord">
+                                        <div class="social-box col-lg-3 col-sm-6 col-xs-6  facebook" style="cursor:pointer;" title="Pending Orders">
+                                            <i class="fa fa-cubes"></i>
+                                            <div class="clearfix">
+                                                <span class="social-count" data-bind="text:$root.pendingOrdersCount"></span>
+                                                <span class="social-action">Pending Orders</span>
+                                            </div>
+                                            @*<span class="social-name">facebook</span>*@
                                         </div>
-                                        @*<span class="social-name">facebook</span>*@
-                                    </div>
-                                    <div class="social-box col-lg-3 col-sm-6 col-xs-6  twitter">
-                                        <i class="fa fa-cubes"></i>
-                                        <div class="clearfix">
-                                            <span class="social-count" data-bind="text:$root.inProductionOrdersCount"></span>
-                                            <span class="social-action">In Production</span>
+                                    </a>
+                                    <a href="/mis/Orders/Home?to=prd">
+                                        <div class="social-box col-lg-3 col-sm-6 col-xs-6  twitter" style="cursor:pointer;" title="In Production">
+                                            <i class="fa fa-cubes"></i>
+                                            <div class="clearfix">
+                                                <span class="social-count" data-bind="text:$root.inProductionOrdersCount"></span>
+                                                <span class="social-action">In Production</span>
+                                            </div>
+                                            @*<span class="social-name">twitter</span>*@
                                         </div>
-                                        @*<span class="social-name">twitter</span>*@
-                                    </div>
-                                    <div class="social-box col-lg-3 col-sm-6 col-xs-6  google">
-                                        <i class="fa fa-cubes"></i>
-                                        <div class="clearfix">
-                                            <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
-                                            <span class="social-action">Completed</span>
+                                    </a>
+                                    <a href="/mis/Orders/Home?to=com">
+                                        <div class="social-box col-lg-3 col-sm-6 col-xs-6  google" style="cursor:pointer;" title="Completed">
+                                            <i class="fa fa-cubes"></i>
+                                            <div class="clearfix">
+                                                <span class="social-count" data-bind="text:$root.completedOrdersCount"></span>
+                                                <span class="social-action">Completed</span>
+                                            </div>
+                                            @* <span class="social-name">google+</span>*@
                                         </div>
-                                        @* <span class="social-name">google+</span>*@
-                                    </div>
-
-                                </div>
+                                    </a>
+</div>
                             </div>
 
                         </div>
@@ -241,8 +248,19 @@
                                                 <span class="graph-legend-name">
                                                     Earnings
                                                 </span>
-                                                <span class="graph-legend-value" data-bind="text: $root.totalEarning">
-                                                </span>
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <span class="graph-legend-value">
+                                                                $&nbsp;
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="graph-legend-value" data-bind="text: $root.totalEarning">
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </div>
                                         </div>
                                         <div class="graph-legend-row col-md-12 col-sm-4">
@@ -250,7 +268,7 @@
                                                 <span class="graph-legend-name">
                                                     Orders this Month
                                                 </span>
-                                                $<span class="graph-legend-value" data-bind="text: $root.currentMonthOrdersCount">
+                                                <span class="graph-legend-value" data-bind="text:$root.currentMonthOrdersCount">
                                                 </span>
                                             </div>
                                         </div>
@@ -447,7 +465,7 @@
                                     <a href="#" style="text-decoration:none" class="col-lg-12" data-toggle="popover" data-placement="bottom">
                                         <div class="main-box infographic-box inner-box">
                                             <i class="fa fa-drupal emerald-bg" style="margin-right:4px;"></i>
-                                            <span class="span-dashboard-widgets">Carts that havn't checked-Out</span>
+                                            <span class="span-dashboard-widgets">Carts that haven't checked-Out</span>
                                             <span class="value inner-box-margin" style="text-align:left;font-weight:normal;color:gray;margin-top:3px;">Download Report</span>
                                         </div>
                                     </a>

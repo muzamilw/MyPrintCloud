@@ -252,13 +252,13 @@ namespace MPC.Webstore.Controllers
 
         private void FillAttachments(long inquiryID, HttpPostedFileBase Request)
         {
-
+            
             if (Request != null)
             {
                 List<InquiryAttachment> listOfAttachment = new List<InquiryAttachment>();
                 string folderPath = "/mpc_content/Attachments/" + "/" + UserCookieManager.WEBOrganisationID + "/" + UserCookieManager.WBStoreId + "/" + inquiryID + "";
                 string virtualFolderPth = string.Empty;
-
+                
                 virtualFolderPth = @Server.MapPath(folderPath);
                 if (!System.IO.Directory.Exists(virtualFolderPth))
                     System.IO.Directory.CreateDirectory(virtualFolderPth);

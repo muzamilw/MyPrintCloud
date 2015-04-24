@@ -68,7 +68,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Is Credit Approved
                 isCreditApproved = ko.observable(specifiedIsCreditApproved || false),
                 // Order Date
-                orderDate = ko.observable(specifiedOrderDate ? moment(specifiedOrderDate).toDate() : undefined),
+                orderDate = ko.observable(specifiedOrderDate ? moment(specifiedOrderDate).toDate() : moment().toDate()),
                 // Start Delivery Date
                 startDeliveryDate = ko.observable(specifiedStartDeliveryDate ? moment(specifiedStartDeliveryDate).toDate() : undefined),
                 // Finish Delivery Date
@@ -278,6 +278,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         OfficialOrderSetBy: officialOrderSetBy(),
                         OfficialOrderSetOnDateTime: officialOrderSetOnDateTime() ? moment(officialOrderSetOnDateTime()).format(ist.utcFormat) + 'Z' : undefined,
                         OrderReportSignedBy: orderReportSignedBy(),
+                        IsEstimate: isEstimate(),
                         PrePayments: [],
                         ShippingInformations: [],
                         Items: []
@@ -636,9 +637,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         return itemSection.hasChanges();
                     }) != null;
                 }),
+                // Item Attachment Changes
+                itemAttachmentHasChanges = ko.computed(function () {
+                    return itemAttachments.find(function (itemAttachment) {
+                        return itemAttachment.hasChanges();
+                    }) != null;
+                }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
-                    return dirtyFlag.isDirty() || itemSectionHasChanges();
+                    return dirtyFlag.isDirty() || itemSectionHasChanges() || itemAttachmentHasChanges();
                 }),
                 // Reset
                 reset = function () {
