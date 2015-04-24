@@ -237,10 +237,8 @@ function fu04_01() {
                   }
               }
           });
-          console.log(smartFormData);
           pcl42_updateTemplate(DT);
           TO = DT;
-          //alert(smartFormData);
           if(smartFormData != null)
               pcl42_UpdateTO();
           fu07();

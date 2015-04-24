@@ -3340,6 +3340,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         // Map Template
         if (source.Template != null) {
             item.template(Template.Create(source.Template));
+            // If Designer Product then set its Created Manual to undefined
+            if (item.templateTypeUi() === "3") {
+                item.template().isCreatedManualUi(undefined);
+            }
         }
 
         // Map Item Stock Options if any
