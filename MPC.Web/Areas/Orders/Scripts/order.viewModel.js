@@ -1604,8 +1604,6 @@ define("order/order.viewModel",
                         view.showCostCentersQuantityDialog();
 
                         inventoryStockItemToCreate(stockItem);
-                        //item.qty1(selectedCostCentre().quantity1());
-                        //item.qty1NetTotal(selectedCostCentre().setupCost());
                     },
                 //On Save Stock Item From Item Edit Dialog
                     onSaveStockItem = function (stockItem) {
