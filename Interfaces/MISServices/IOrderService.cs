@@ -44,13 +44,7 @@ namespace MPC.Interfaces.MISServices
         /// Get Order Statuses Count For Menu Items
         /// </summary>
         /// <returns></returns>
-        OrderMenuCount GetOrderScreenMenuItemCount();
-
-        PtvDTO GetPTV(PTVRequestModel request);
-        PtvDTO GetPTVCalculation(PTVRequestModel request);
-        BestPressResponse GetBestPresses(ItemSection currentSection);
-
-        ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request);
+        OrderMenuCount GetOrderScreenMenuItemCount();       
 
         string DownloadOrderArtwork(int OrderID, string sZipName);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);

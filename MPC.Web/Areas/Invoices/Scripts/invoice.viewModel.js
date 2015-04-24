@@ -266,43 +266,49 @@ define("invoice/invoice.viewModel",
 
                         return sectionFlg.color;
                     },
-                    // Save Order
-                    saveOrder = function (callback, navigateCallback) {
-                        selectedOrder().statusId(view.orderstate());
-                        var order = selectedOrder().convertToServerData();
-                        _.each(selectedOrder().prePayments(), function (item) {
-                            order.PrePayments.push(item.convertToServerData());
+                    // Get Invoice From list
+                    getInvoiceFromList = function (id) {
+                        return invoices.find(function (invoice) {
+                            return invoice.id() === id;
                         });
-                        _.each(selectedOrder().deliverySchedules(), function (item) {
-                            order.ShippingInformations.push(item.convertToServerData());
-                        });
-                        var itemsArray = [];
-                        _.each(selectedOrder().items(), function (obj) {
-                            var item = obj.convertToServerData(); // item converted 
-                            var attArray = [];
-                            _.each(item.ItemAttachment, function (att) {
-                                var attchment = att.convertToServerData(); // item converted 
-                                attArray.push(attchment);
-                            });
-                            item.ItemAttachments = attArray;
-                            itemsArray.push(item);
+                    },
+                    // Save Invoice
+                    saveInvoice = function (callback, navigateCallback) {
+                        var status = selectedInvoice().invoiceStatus();
+                        if (status == 19)//Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
 
+                            });
+                            confirmation.afterCancel(function () {
+                                //
+                            });
+                            confirmation.show();
+                            return;
+                        }
+                        var invoice = selectedInvoice().convertToServerData();
+                        
+                        _.each(selectedOrder().invoiceDetailItems(), function (item) {
+                            invoice.invoiceDetailItems.push(item.convertToServerData());
                         });
-                        order.Items = itemsArray;
-                        dataservice.saveOrder(order, {
+                        
+                        
+                        dataservice.saveInvoice(invoice, {
                             success: function (data) {
-                                if (!selectedOrder().id()) {
+                                if (!selectedInvoice().id()) {
                                     // Update Id
-                                    selectedOrder().id(data.OrderId);
+                                    selectedInvoice().id(data.InvoiceId);
 
                                     // Add to top of list
-                                    orders.splice(0, 0, selectedOrder());
+                                    invoices.splice(0, 0, selectedInvoice());
                                 } else {
                                     // Get Order
-                                    var orderUpdated = getOrderFromList(selectedOrder().id());
-                                    if (orderUpdated) {
-                                        order.orderCode(data.OrderCode);
-                                        order.orderName(data.OrderName);
+                                    var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
+                                    if (invoiceUpdated) {
+                                        invoice.code(data.InvoiceCode);
+                                        invoice.name(data.InvoiceName);
                                     }
                                 }
 
@@ -315,7 +321,7 @@ define("invoice/invoice.viewModel",
                                 if (navigateCallback && typeof navigateCallback === "function") {
                                     navigateCallback();
                                 }
-                                orderCodeHeader('');
+                                invoiceCodeHeader('');
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);

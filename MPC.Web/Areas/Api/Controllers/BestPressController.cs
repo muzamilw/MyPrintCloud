@@ -17,7 +17,7 @@ namespace MPC.MIS.Areas.Api.Controllers
     {
         #region Private
 
-        private readonly IOrderService orderService;
+        private readonly IItemSectionService itemsectionService;
 
         #endregion
         #region Constructor
@@ -25,13 +25,13 @@ namespace MPC.MIS.Areas.Api.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
-        public BestPressController(IOrderService orderService)
+        public BestPressController(IItemSectionService _itemsectionService)
         {
-            if (orderService == null)
+            if (_itemsectionService == null)
             {
                 throw new ArgumentNullException("orderService");
             }
-            this.orderService = orderService;
+            this.itemsectionService = _itemsectionService;
         }
 
         #endregion
@@ -46,7 +46,7 @@ namespace MPC.MIS.Areas.Api.Controllers
                 throw new HttpException((int)HttpStatusCode.BadRequest, LanguageResources.InvalidRequest);
             }
 
-            return orderService.GetBestPresses(section.CreateFrom()).CreateFrom();
+            return itemsectionService.GetBestPressResponse(section.CreateFrom()).CreateFrom();
         }
         #endregion
     }
