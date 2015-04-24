@@ -2919,8 +2919,12 @@ function pcl42_UpdateTO() {
             //if(obj.ObjectType == 3)  // replace all the content strings containing variable tag
             //{
                 var variableTag = obj.FieldVariable.VariableTag;
-                var variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
-                var variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                var variableTagUpperCase = "_&*)_*!!£$";  // because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagUpperCase= obj.FieldVariable.VariableTag.toUpperCase();
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null)
+                    variableTagLowerCase =obj.FieldVariable.VariableTag.toLowerCase();
                 if (IT.originalContentString != null) {
                     if (IT.originalContentString.indexOf(variableTag) != -1 || IT.originalContentString.indexOf(variableTagUpperCase) != -1 || IT.originalContentString.indexOf(variableTagLowerCase) != -1) {
                         IT.ContentString = IT.originalContentString;
@@ -2943,8 +2947,14 @@ function pcl42_UpdateTO() {
                 }
                 if (obj.Value != null ) {
                     var variableTag = obj.FieldVariable.VariableTag;
-                    var variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
-                    var variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                    var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                    if (obj.FieldVariable.VariableTag != null) {
+                        variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                        variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                    }
+                   
+                    
                     while (IT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(IT, variableTag, obj.Value);
                     while (IT.ContentString.indexOf(variableTagUpperCase) != -1)
@@ -2961,8 +2971,12 @@ function pcl42_UpdateTO() {
         $.each(TO, function (i, IT) {
             $.each(smartFormData.scopeVariables, function (i, obj) {
                 var variableTag = obj.FieldVariable.VariableTag;
-                var variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
-                var variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (obj.FieldVariable.VariableTag != null) {
+                    variableTagUpperCase = obj.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = obj.FieldVariable.VariableTag.toLowerCase();
+                }
                 if (obj.Value == null) {
                     obj.Value = "";
                 }
@@ -3000,9 +3014,13 @@ function pcl42_updateTemplate(DT) {
                 });
             } else {
                 var variableTag = vari.FieldVariable.VariableTag;
-                var variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
-                var variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
-                console.log(variableTagUpperCase + " " + variableTagLowerCase);
+                var variableTagUpperCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                var variableTagLowerCase = "_&*)_*!!£$";// because we cannot set it to empty otherwise it will go to infinite loop
+                if (vari.FieldVariable.VariableTag != null)
+                {
+                    variableTagUpperCase = vari.FieldVariable.VariableTag.toUpperCase();
+                    variableTagLowerCase = vari.FieldVariable.VariableTag.toLowerCase();
+                }
                 $.each(DT, function (i, objDT) {
                     while (objDT.ContentString.indexOf(variableTag) != -1)
                         updateTOWithStyles(objDT, variableTag, "");

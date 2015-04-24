@@ -900,6 +900,7 @@
     <Content Include="Views\Shared\PartialViews\RSS.cshtml" />
     <Content Include="Views\Shared\PartialViews\Twitter.cshtml" />
     <Content Include="Views\Shared\PartialViews\QuickCalculator.cshtml" />
+    <Content Include="Views\Domain\AutoLoginOrRegister.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
