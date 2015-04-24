@@ -4004,9 +4004,10 @@ function pcl40_addDropDown(title, varId,options,def,tabindex) {
 }
 function pcl40_addTxtControl(title, varId, placeHolder, Value, IsRequired, InputMask,tabindex,variableTag) {
     var required = "";
-    if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}")
-    {
-        required +='disabled=disabled';
+    if (variableTag != null) {
+        if (variableTag.toLowerCase() == "{{webaccesscode}}" || variableTag.toLowerCase() == "{{email}}") {
+            required += 'disabled=disabled';
+        }
     }
     if (IsRequired == true)
     {
