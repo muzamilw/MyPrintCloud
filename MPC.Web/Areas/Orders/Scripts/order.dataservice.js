@@ -123,13 +123,13 @@ define("order/order.dataservice", function () {
                     amplify.request.define('getBestPress', 'ajax', {
                         url: ist.siteUrl + '/Api/BestPress',
                         dataType: 'json',
-                        type: 'GET'
+                        type: 'POST'
                     });
                     // Define request to update system cost centers for current section screen with wizard finish button
                     amplify.request.define('getUpdatedSystemCostCenters', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemSection',
                         dataType: 'json',
-                        type: 'GET'
+                        type: 'POST'
                     });
                     // Define request to Download Artwork of the order
                     amplify.request.define('downloadOrderArtwork', 'ajax', {
