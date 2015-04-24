@@ -44,21 +44,15 @@ namespace MPC.Interfaces.MISServices
         /// Get Order Statuses Count For Menu Items
         /// </summary>
         /// <returns></returns>
-        OrderMenuCount GetOrderScreenMenuItemCount();
-
-        PtvDTO GetPTV(PTVRequestModel request);
-        PtvDTO GetPTVCalculation(PTVRequestModel request);
-        BestPressResponse GetBestPresses(ItemSection currentSection);
-
-        ItemSection GetUpdatedSectionCostCenters(UpdateSectionCostCentersRequest request);
+        OrderMenuCount GetOrderScreenMenuItemCount();       
 
         string DownloadOrderArtwork(int OrderID, string sZipName);
         GetOrdersResponse GetOrdersForEstimates(GetOrdersRequest request);
 
-        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID);
+        string ExportPDF(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
 
         string ExportOrderReportXML(long iRecordID, string OrderCode, string XMLFormat);
 
-        string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID);
+        string ExportExcel(int iReportID, long iRecordID, ReportType type, long OrderID, string CriteriaParam);
     }
 }

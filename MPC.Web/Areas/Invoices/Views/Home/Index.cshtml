@@ -135,7 +135,7 @@
                                     <span data-bind="text: code"></span>
                                 </td>
                                 <td>
-                                    <span data-bind="text:invoiceTotal()!==undefined ? invoiceTotal():''"></span>
+                                    <span data-bind="text: invoiceTotal()!==undefined ? '$' + invoiceTotal():''"></span>
                                 </td>
                             </tr>
                         </script>

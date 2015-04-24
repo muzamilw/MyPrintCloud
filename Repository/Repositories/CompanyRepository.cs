@@ -6281,18 +6281,18 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public Company GetCompanyByCompanyIDforArtwork(long CompanyID)
-        {
-            try
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                return db.Companies.Where(c => c.CompanyId == CompanyID).FirstOrDefault();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public Company GetCompanyByCompanyIDforArtwork(long CompanyID)
+        //{
+        //    try
+        //    {
+        //        db.Configuration.LazyLoadingEnabled = false;
+        //        return db.Companies.Where(c => c.CompanyId == CompanyID).FirstOrDefault();
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public string GetSupplierNameByID(int CID)
         {

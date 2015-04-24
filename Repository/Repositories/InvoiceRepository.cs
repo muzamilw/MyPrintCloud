@@ -124,6 +124,7 @@ namespace MPC.Repository.Repositories
             return DbSet.Where(i => i.InvoiceId == Id).ToList().FirstOrDefault();
         }
 
+        
         #endregion
     }
 }

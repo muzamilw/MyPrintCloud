@@ -78,7 +78,7 @@ namespace MPC.Interfaces.Repository
 
         List<Company> GetSupplierByOrganisationid(long OID);
 
-        Company GetCompanyByCompanyIDforArtwork(long CompanyID);
+       // Company GetCompanyByCompanyIDforArtwork(long CompanyID);
 
         string GetSupplierNameByID(int CID);
 

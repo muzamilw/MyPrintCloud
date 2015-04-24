@@ -63,8 +63,8 @@ namespace MPC.Repository.Repositories
 		/// Get All Cost Centres that are not system defined
 		/// </summary>
 		public IEnumerable<CostCentre> GetAllNonSystemCostCentres()
-		{
-			return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != 1 && costcentre.IsDisabled != 1 && costcentre.Type != 11)
+		{			
+            return DbSet.Where(costcentre => costcentre.OrganisationId == OrganisationId && costcentre.Type != (int)CostCenterTypes.SystemCostCentres && costcentre.IsDisabled != 1 && costcentre.Type != (int)CostCenterTypes.Delivery && costcentre.Type != (int)CostCenterTypes.WebOrder)
                 .OrderBy(costcentre => costcentre.Name).ToList();
 		}
 		/// <summary>
