@@ -123,6 +123,7 @@ define("order/order.dataservice", function () {
                     amplify.request.define('getBestPress', 'ajax', {
                         url: ist.siteUrl + '/Api/BestPress',
                         dataType: 'json',
+                        contentType: 'application/json;charset=utf-8',
                         type: 'POST'
                     });
                     // Define request to update system cost centers for current section screen with wizard finish button
