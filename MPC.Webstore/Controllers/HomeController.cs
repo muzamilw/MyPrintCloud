@@ -26,6 +26,7 @@ using MPC.WebBase.UnityConfiguration;
 using System.Runtime.Caching;
 using System.Web.Security;
 using WebSupergoo.ABCpdf8;
+using System.Globalization;
 
 
 
@@ -94,6 +95,17 @@ namespace MPC.Webstore.Controllers
               
          
             SetUserClaim(UserCookieManager.WEBOrganisationID);
+
+            // dirty trick to set cookies after auto login
+            if (UserCookieManager.PerformAutoLogin == true) 
+            {
+                UserCookieManager.WEBContactFirstName = UserCookieManager.WEBContactFirstName;
+                UserCookieManager.WEBContactLastName = UserCookieManager.WEBContactLastName;
+                UserCookieManager.ContactCanEditProfile =  UserCookieManager.ContactCanEditProfile;
+                UserCookieManager.ShowPriceOnWebstore = UserCookieManager.ShowPriceOnWebstore;
+                UserCookieManager.WEBEmail = UserCookieManager.WEBEmail;
+                UserCookieManager.PerformAutoLogin = false;
+            }
             List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
 
          
@@ -581,6 +593,110 @@ namespace MPC.Webstore.Controllers
                 ViewBag.Print = "";
             }
             return View(order);
+        }
+
+        public ActionResult AutoLoginOrRegister(string C, string F, string L, string E, string CC)
+        {
+
+            try
+            {
+                if (System.Text.RegularExpressions.Regex.IsMatch(E, "^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})$"))
+                {
+                    if (!string.IsNullOrEmpty(C))
+                    {
+
+                        MPC.Models.DomainModels.Company oCompany = _myCompanyService.isValidWebAccessCode(C, UserCookieManager.WEBOrganisationID);
+
+                        if (oCompany != null)
+                        {
+                            CompanyContact oContact = _myCompanyService.GetOrCreateContact(oCompany, E, F, L, C);
+                            if (oContact == null && oCompany.isAllowRegistrationFromWeb == true)
+                            {
+                                return RedirectToAction("Error", "Home", new { Message = "You are not allowed to register." });
+                            }
+                            else
+                            {
+                                string CacheKeyName = "CompanyBaseResponse";
+                                ObjectCache cache = MemoryCache.Default;
+                                MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = null;
+                                if ((cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>) != null && (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>).ContainsKey(oCompany.CompanyId))
+                                {
+                                    StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[oCompany.CompanyId];
+                                }
+                                else
+                                {
+                                    StoreBaseResopnse = _myCompanyService.GetStoreFromCache(oCompany.CompanyId);
+                                }
+
+                                if (StoreBaseResopnse.Company != null)
+                                {
+                                    // set company cookie
+                                    UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
+                                    UserCookieManager.WEBStoreMode = StoreBaseResopnse.Company.IsCustomer;
+                                    UserCookieManager.isIncludeTax = StoreBaseResopnse.Company.isIncludeVAT ?? false;
+                                    UserCookieManager.TaxRate = StoreBaseResopnse.Company.TaxRate ?? 0;
+
+                                    // set user cookies
+                                    UserCookieManager.isRegisterClaims = 1;
+                                    UserCookieManager.WEBContactFirstName = oContact.FirstName;
+                                    UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
+                                    UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
+                                    UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
+                                    UserCookieManager.WEBEmail = oContact.Email;
+                                    //Response.Cookies["WEBFirstName"].Value = oContact.FirstName;
+                                    string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
+
+                                    CultureInfo ci = null;
+
+                                    if (string.IsNullOrEmpty(languageName))
+                                    {
+                                        languageName = "en-US";
+                                    }
+
+                                    ci = new CultureInfo(languageName);
+
+                                    Thread.CurrentThread.CurrentUICulture = ci;
+                                    Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
+                                    // ViewBag.ResponseRedirectUrl = "/";
+                                    // var action = new HomeController().Index();
+                                    //return null;// View();
+                                    UserCookieManager.PerformAutoLogin = true;
+                                    ControllerContext.HttpContext.Response.Redirect("/");
+                                    return null;
+                                   //SetUserClaim(UserCookieManager.WEBOrganisationID);
+                                   //List<MPC.Models.DomainModels.CmsSkinPageWidget> model = null;
+                                   //ViewBag.StyleSheet = "/mpc_content/Assets/" + UserCookieManager.WEBOrganisationID + "/" + oCompany.CompanyId + "/Site.css";
+                                   //model = GetWidgetsByPageName(StoreBaseResopnse.SystemPages, "", StoreBaseResopnse.CmsSkinPageWidgets, StoreBaseResopnse.StoreDetaultAddress, StoreBaseResopnse.Company.Name);
+                                   // return View("Index", model);
+                                }
+                                else
+                                {
+                                    return RedirectToAction("Error", "Home", new { Message = "Please try again." });
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return RedirectToAction("Error", "Home", new { Message = "Your Web Access Code is invalid." });
+                        }
+                    }
+                    else
+                    {
+                        return RedirectToAction("Error", "Home", new { Message = "Please enter Web Access Code to proceed." });
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Error", "Home", new { Message = "Please enter valid email address to proceed." });
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
     }
