@@ -196,12 +196,12 @@ namespace MPC.Webstore.Controllers
                                     
                                     // set user cookies
                                     UserCookieManager.isRegisterClaims = 1;
-                                    UserCookieManager.WEBContactFirstName = oContact.FirstName;
+                                    //UserCookieManager.WEBContactFirstName = oContact.FirstName;
                                     UserCookieManager.WEBContactLastName = oContact.LastName == null ? "" : oContact.LastName;
                                     UserCookieManager.ContactCanEditProfile = oContact.CanUserEditProfile ?? false;
                                     UserCookieManager.ShowPriceOnWebstore = oContact.IsPricingshown ?? true;
                                     UserCookieManager.WEBEmail = oContact.Email;
-
+                                    Response.Cookies["WEBFirstName"].Value = oContact.FirstName;
                                     string languageName = _myCompanyService.GetUiCulture(Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
 
                                     CultureInfo ci = null;
@@ -215,8 +215,10 @@ namespace MPC.Webstore.Controllers
 
                                     Thread.CurrentThread.CurrentUICulture = ci;
                                     Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-                                    ControllerContext.HttpContext.Response.Redirect("/");
-                                    return null;
+                                   // ViewBag.ResponseRedirectUrl = "/";
+                                    return View();
+                                    // ControllerContext.HttpContext.Response.Redirect("/");
+                                    //return null;
                                 }
                                 else
                                 {
