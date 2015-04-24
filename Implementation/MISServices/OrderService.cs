@@ -59,6 +59,7 @@ namespace MPC.Implementation.MISServices
         private readonly IPayPalResponseRepository PayPalRepsoitory;
         private readonly ICostCentreRepository CostCentreRepository;
         private readonly ISectionInkCoverageRepository sectionInkCoverageRepository;
+        private readonly IShippingInformationRepository shippingInformationRepository;
 
         /// <summary>
         /// Creates New Order and assigns new generated code
@@ -93,19 +94,21 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
-        /// Creates New Delivery Note
+        /// Creates New Delivery Schedule
         /// </summary>
-        private DeliveryNote CreateNewDeliveryNote()
+        private ShippingInformation CreateNewShippingInformation()
         {
-            throw new NotImplementedException();
+            ShippingInformation itemTarget = shippingInformationRepository.Create();
+            shippingInformationRepository.Add(itemTarget);
+            return itemTarget;
         }
 
         /// <summary>
-        /// Delete Delivery Note
+        /// Delete Delivery Schedule
         /// </summary>
-        private void DeleteDeliveryNote(DeliveryNote deliveryNote)
+        private void DeleteShippingInformation(ShippingInformation shippingInformation)
         {
-            throw new NotImplementedException();
+            shippingInformationRepository.Delete(shippingInformation);
         }
 
         /// <summary>
@@ -303,7 +306,7 @@ namespace MPC.Implementation.MISServices
             IItemAttachmentRepository itemAttachmentRepository, ITemplateRepository templateRepository, ITemplatePageRepository templatePageRepository, 
             IReportRepository ReportRepository, ICurrencyRepository CurrencyRepository, IMachineRepository MachineRepository, ICostCentreRepository CostCentreRepository, 
             IPayPalResponseRepository PayPalRepsoitory, ISectionCostCentreRepository sectionCostCentreRepository, 
-            ISectionInkCoverageRepository sectionInkCoverageRepository)
+            ISectionInkCoverageRepository sectionInkCoverageRepository, IShippingInformationRepository shippingInformationRepository)
         {
             if (estimateRepository == null)
             {
@@ -373,6 +376,10 @@ namespace MPC.Implementation.MISServices
             {
                 throw new ArgumentNullException("sectionInkCoverageRepository");
             }
+            if (shippingInformationRepository == null)
+            {
+                throw new ArgumentNullException("shippingInformationRepository");
+            }
 
             this.estimateRepository = estimateRepository;
             this.companyRepository = companyRepository;
@@ -406,6 +413,7 @@ namespace MPC.Implementation.MISServices
             this.CostCentreRepository = CostCentreRepository;
             this.PayPalRepsoitory = PayPalRepsoitory;
             this.sectionInkCoverageRepository = sectionInkCoverageRepository;
+            this.shippingInformationRepository = shippingInformationRepository;
         }
 
         #endregion
@@ -456,7 +464,6 @@ namespace MPC.Implementation.MISServices
                                          CreateNewOrder = CreateNewOrder,
                                          CreatePrePayment = CreateNewPrePayment,
                                          DeletePrePayment = DeletePrePayment,
-                                         CreateDeliveryNote = CreateNewDeliveryNote,
                                          CreateItem = CreateItem,
                                          DeleteItem = DeleteItem,
                                          CreateItemSection = CreateItemSection,
@@ -465,7 +472,9 @@ namespace MPC.Implementation.MISServices
                                          CreateItemAttachment = CreateItemAttachment,
                                          DeleteItemAttachment = DeleteItemAttachment,
                                          CreateSectionInkCoverage = CreateSectionInkCoverage,
-                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage
+                                         DeleteSectionInkCoverage = DeleteSectionInkCoverage,
+                                         CreateShippingInformation = CreateNewShippingInformation,
+                                         DeleteShippingInformation = DeleteShippingInformation
                                      });
             // Save Changes
             estimateRepository.SaveChanges();

@@ -62,7 +62,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()) :
                 new List<OrderItem>(),
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()) :
-                new List<PrePayment>()
+                new List<PrePayment>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()) :
+                new List<ShippingInformation>()
             };
 
             return estimate;
@@ -149,6 +151,8 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 PrePayments = source.PrePayments != null ? source.PrePayments.Select(sc => sc.CreateFrom()).ToList() : new List<DomainModels.PrePayment>(),
                 Items = source.Items != null ? source.Items.Select(sc => sc.CreateFromForOrder()).ToList() :
                 new List<DomainModels.Item>(),
+                ShippingInformations = source.ShippingInformations != null ? source.ShippingInformations.Select(sc => sc.CreateFrom()).ToList() :
+                new List<DomainModels.ShippingInformation>(),
             };
         }
 

@@ -126,6 +126,7 @@ namespace MPC.Repository
             unityContainer.RegisterType<IInkCoverageGroupRepository, InkCoverageGroupRepository>();
             unityContainer.RegisterType<ISectionCostCentreRepository, SectionCostCentreRepository>();
             unityContainer.RegisterType<ISectionInkCoverageRepository, SectionInkCoverageRepository>();
+            unityContainer.RegisterType<IShippingInformationRepository, ShippingInformationRepository>();
         }
     }
 }

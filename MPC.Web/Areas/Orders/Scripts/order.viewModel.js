@@ -2069,7 +2069,7 @@ define("order/order.viewModel",
                         if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
                             setDeliveryScheduleFields();
                         }
-                        var deliverySchedule = model.ShippingInformation();
+                        var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
                         if (selectedOrder().items().length > 0) {
                             setQuantityOfNewDeliverySchedule(deliverySchedule);
                         }
