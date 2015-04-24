@@ -128,6 +128,13 @@ namespace MPC.Repository.Repositories
           
         }
 
+        /// <summary>
+        /// Get Defualt Section Flag for Price Matrix in webstore by organisation Id
+        /// </summary>
+        public int GetDefaultSectionFlagId(long OrganisationId)
+        {
+            return DbSet.Where(sf => sf.SectionId == 81 && sf.isDefault == true && sf.OrganisationId == OrganisationId).Select(id => id.SectionFlagId).FirstOrDefault();
+        }
 
         #endregion
     }

@@ -79,7 +79,8 @@ namespace MPC.Repository.Repositories
                 s =>
                     (isSearchFilterSpecified && (s.Name.Contains(request.SearchString)) ||
                      (s.HeaderCode.Contains(request.SearchString)) ||
-                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29));
+                     !isSearchFilterSpecified && (s.Type != 1) && (s.Type != 11) && (s.Type != 29)) &&
+                     s.OrganisationId == OrganisationId;
 
             int rowCount = DbSet.Count(query);
             // ReSharper disable once ConditionalTernaryEqualBranch

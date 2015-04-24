@@ -3315,3 +3315,16 @@ END
 GO
 
 
+/* Execution Date : 24/04/2015 */
+
+GO
+
+alter table ShippingInformation
+add EstimateId bigint null
+
+alter table ShippingInformation
+add constraint FK_ShippingInformation_Estimate
+foreign key (EstimateId)
+references Estimate (EstimateId)
+
+GO

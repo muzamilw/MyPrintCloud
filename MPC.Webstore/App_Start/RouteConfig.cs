@@ -355,7 +355,7 @@ namespace MPC.Webstore
             routes.MapRoute(
          "autologin",
          "autologin/{C}/{F}/{L}/{E}/{CC}",
-         new { controller = "Domain", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
+         new { controller = "Home", action = "AutoLoginOrRegister", C = UrlParameter.Optional, F = UrlParameter.Optional, L = UrlParameter.Optional, E = UrlParameter.Optional, CC = UrlParameter.Optional }
       );
             routes.MapRoute(
                "Default", // Route name

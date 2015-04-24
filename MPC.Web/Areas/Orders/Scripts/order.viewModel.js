@@ -366,7 +366,6 @@ define("order/order.viewModel",
 
                         var section = selectedProduct() != undefined ? selectedProduct().itemSections()[0] : undefined;
                         editSection(section);
-                        setAvailableInkPlateChange();  // Why calling this when no change being done, It is setting Ink Coverage data null, its id and sectionid
                         openItemDetail();
                     },
                     // Open Item Detail
@@ -1593,11 +1592,10 @@ define("order/order.viewModel",
                             item.itemSections.push(itemSection);
 
                             if (isCostCenterDialogForShipping()) {
+                            item.itemType(2); // Delivery Item
+                        } 
 
-                            } else {
-                                selectedOrder().items.splice(0, 0, item);
-                            }
-
+                        selectedOrder().items.splice(0, 0, item);
                         },
                         createNewInventoryProduct = function (stockItem) {
                             var costCenter = model.costCentre.Create({});
@@ -1606,8 +1604,6 @@ define("order/order.viewModel",
                             view.showCostCentersQuantityDialog();
 
                             inventoryStockItemToCreate(stockItem);
-                            //item.qty1(selectedCostCentre().quantity1());
-                            //item.qty1NetTotal(selectedCostCentre().setupCost());
                         },
                     //On Save Stock Item From Item Edit Dialog
                         onSaveStockItem = function (stockItem) {

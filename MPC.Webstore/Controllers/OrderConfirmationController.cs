@@ -248,7 +248,7 @@ namespace MPC.Webstore.Controllers
                         }
                         catch (Exception ex)
                         {
-
+                            throw ex;
                         }
 
                         Response.Redirect("/Receipt/" + OrderId);
@@ -273,7 +273,7 @@ namespace MPC.Webstore.Controllers
                         }
                         catch (Exception ex)
                         {
-
+                            throw ex;
                         }
 
                         Response.Redirect("/Receipt/" + OrderId);

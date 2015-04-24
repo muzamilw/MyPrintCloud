@@ -21,6 +21,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private readonly IOrderRepository orderRepository;
         private readonly IItemRepository itemRepository;
+        private readonly IOrganisationRepository organisationRepository;
 
         #endregion
 
@@ -29,10 +30,11 @@ namespace MPC.Implementation.MISServices
         /// <summary>
         ///  Constructor
         /// </summary>
-        public ItemJobStatusService(IOrderRepository orderRepository, IItemRepository itemRepository)
+        public ItemJobStatusService(IOrderRepository orderRepository, IItemRepository itemRepository, IOrganisationRepository organisationRepository)
         {
             this.orderRepository = orderRepository;
             this.itemRepository = itemRepository;
+            this.organisationRepository = organisationRepository;
         }
 
         #endregion
@@ -73,6 +75,19 @@ namespace MPC.Implementation.MISServices
             return itemForItemJobStatuses.OrderBy(i => i.JobEstimatedCompletionDateTime);
         }
 
+
+        /// <summary>
+        /// Get Currency Symbol
+        /// </summary>
+        public string GetCurrencySymbol()
+        {
+            Organisation organisation = organisationRepository.GetOrganizatiobByID();
+            if (organisation != null)
+            {
+                return organisation.Currency != null ? organisation.Currency.CurrencySymbol : string.Empty;
+            }
+            return string.Empty;
+        }
 
         /// <summary>
         /// Update Item Status

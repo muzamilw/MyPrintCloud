@@ -307,6 +307,8 @@
         <EntityTypeShape EntityType="DomainModels.ReportCategory" Width="1.5" PointX="35.125" PointY="45" />
         <AssociationConnector Association="DomainModels.FK_tbl_reports_tbl_reportcategory" />
         <AssociationConnector Association="DomainModels.FK_tbl_report_notes_tbl_reportcategory" />
+        <EntityTypeShape EntityType="DomainModels.ShippingInformation" Width="1.5" PointX="23.625" PointY="56.25" />
+        <AssociationConnector Association="DomainModels.FK_ShippingInformation_Estimate" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

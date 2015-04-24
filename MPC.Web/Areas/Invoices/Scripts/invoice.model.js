@@ -14,7 +14,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         Invoice = function (specifiedId, specifiedCode, specifiedType, specifiedName, specifiedCompanyId, specifiedCompanyName, specifiedContactId, specifiedOrderNo,
             specifiedStatus, specifiedTotal, specifiedInvoiceDate, specifiedAccountNo, specifiedTerms, specifiedAddressId, specifiedIsArchive,
             specifiedTaxValue, specifiedGrandTotal, specifiedFlagId, specifiedNotes, specifiedEstimateId,
-            specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode) {
+            specifiedIsProforma, specifiedIsPrinted, specifiedSignedBy, specifiedHeadNotes, specifiedFootNotes, specifiedPostingDate, specifiedXeroAccessCode,
+            specifiedStatusName) {
             // ReSharper restore InconsistentNaming
             var // Unique key
                 id = ko.observable(specifiedId || 0),
@@ -29,6 +30,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 companyName = ko.observable(specifiedCompanyName),
                 // Number Of items
                 numberOfItems = ko.observable(),
+                statusName = ko.observable(specifiedStatusName),
                 // Number of Items UI
                 noOfItemsUi = ko.computed(function () {
                     return "( " + numberOfItems() + " ) Items";
@@ -45,7 +47,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 contactId = ko.observable(specifiedContactId || undefined),
                 // Address Id
                 addressId = ko.observable(specifiedAddressId || undefined),
-                orderNo = ko.observable(specifiedOrderNo),
+                orderNo = ko.observable(specifiedOrderNo || "N/A"),
                 invoiceStatus = ko.observable(specifiedStatus),
                 accountNo = ko.observable(specifiedAccountNo),
                 terms = ko.observable(specifiedTerms || undefined),
@@ -70,6 +72,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footNotes = ko.observable(specifiedFootNotes),
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode),
                 isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
+                isPostedInvoice = ko.observable(invoiceStatus == 20 ? true : false),
                 // Is Direct Sale Ui
                 isDirectSaleUi = ko.computed(function () {
                     return isDirectSale() ? "Direct Order" : "Online Order";
@@ -111,7 +114,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     grandTotal: grandTotal,
                     userNotes: userNotes,
                     invoiceReportSignedBy: invoiceReportSignedBy,
-                    type:type
+                    type: type,
+                    headNotes: headNotes,
+                    footNotes: footNotes
 
                 }),
                 // Has Changes
@@ -152,7 +157,11 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         FootNotes: footNotes(),
                         InvoiceType : type(),
                         XeroAccessCode: xeroAccessCode(),
-                        InvoiceDetails: []
+                        InvoiceDetails: invoiceDetailItems.map(function (inv) {
+                            var invDetail = inv.convertToServerData();                            
+                            return invDetail;
+                        }),
+            
                     };
                 };
 
@@ -187,7 +196,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 xeroAccessCode: xeroAccessCode,
                 isDirectSaleUi: isDirectSaleUi,
                 isDirectSale: isDirectSale,
-                invoiceDetailItems:invoiceDetailItems,
+                invoiceDetailItems: invoiceDetailItems,
+                statusName:statusName,
                 errors: errors,
                 isValid: isValid,
                 showAllErrors: showAllErrors,
@@ -195,7 +205,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 hasChanges: hasChanges,
                 reset: reset,
                 setValidationSummary: setValidationSummary,
-                convertToServerData: convertToServerData
+                convertToServerData: convertToServerData,
+                isPostedInvoice: isPostedInvoice
 
             };
         },
@@ -344,9 +355,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         var invoice = new Invoice(source.InvoiceId, source.InvoiceCode, source.InvoiceType, source.InvoiceName, source.CompanyId, source.CompanyName, source.ContactId, source.OrderNo,
             source.InvoiceStatus, source.InvoiceTotal, source.InvoiceDate, source.AccountNumber,
             source.Terms, source.AddressId, source.IsArchive,
-            source.TaxValue, source.GrandTotal, source.FlagID, source.UserNotes, source.EstimateId,
+            source.TaxValue, source.GrandTotal, source.FlagId, source.UserNotes, source.EstimateId,
             source.IsProformaInvoice, source.IsPrinted, source.ReportSignedBy, source.HeadNotes, source.FootNotes,
-            source.InvoicePostingDate, source.XeroAccessCode);
+            source.InvoicePostingDate, source.XeroAccessCode, source.Status);
 
         // Map invoice items if Any
         if (source.InvoiceDetails && source.InvoiceDetails.length > 0) {
