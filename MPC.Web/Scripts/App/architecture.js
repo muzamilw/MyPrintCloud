@@ -36,7 +36,7 @@ var ist = {
     // SiteUrl
     siteUrl: "",
     // Toaster Error Options
-    toastrOptions : {
+    toastrOptions: {
         tapToDismiss: true,
         extendedTimeOut: 0,
         timeOut: 0 // Set timeOut to 0 to make it sticky
@@ -48,8 +48,8 @@ var spinnerVisibleCounter = 0;
 
 // Show Busy Indicator
 function showProgress() {
-   ++spinnerVisibleCounter;
-   if (spinnerVisibleCounter > 0 && $("div#spinner")[0].style.display === "none") {
+    ++spinnerVisibleCounter;
+    if (spinnerVisibleCounter > 0 && $("div#spinner")[0].style.display === "none") {
         $.blockUI({ message: "" });
         $("div#spinner").fadeIn("fast");
     }
@@ -64,7 +64,7 @@ function hideProgress() {
         spinner.stop();
         spinner.fadeOut("fast");
         $.unblockUI(spinner);
-        
+
     }
 };
 
@@ -214,7 +214,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
         }
     };
-  
+
     ko.bindingHandlers.fullCalendar = {
         // This method is called to initialize the node, and will also be called again if you change what the grid is bound to
         update: function (element, viewModelAccessor, allBindingsAccessor) {
@@ -230,7 +230,7 @@ require(["ko", "knockout-validation"], function (ko) {
                 default: true,
                 defaultView: ko.utils.unwrapObservable(viewModel.defaultView),
                 eventClick: this.eventClick,
-              // eventDrop: this.eventDropOrResize,
+                // eventDrop: this.eventDropOrResize,
                 eventDrop: viewModel.eventDropOrResize,
                 eventResize: viewModel.eventDropOrResize,
                 select: this.newEventAdd,
@@ -283,7 +283,7 @@ require(["ko", "knockout-validation"], function (ko) {
             }
             if (allBindingsAccessor().openFrom() === "Campaign" || allBindingsAccessor().openFrom() === "SecondaryPage") {
                 CKEDITOR.config.toolbar = [
-                    ['Source','Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
+                    ['Source', 'Bold', 'Italic', 'Underline', 'SpellChecker', 'TextColor', 'BGColor', 'Undo', 'Redo', 'Link', 'Unlink', '-', 'Format'],
                     '/', ['NumberedList', 'BulletedList', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'Font', 'FontSize']
                 ];
             } else {
@@ -360,6 +360,12 @@ require(["ko", "knockout-validation"], function (ko) {
                         h.data('ko.draggable.data', value(context, evt));
                         return h;
                     },
+                    scroll: false,
+                    cursorAt: { left: 5, top: 5 },
+                    start: function (event, ui) {
+                        ui.position.top += $('body').scrollTop();
+                    },
+
                     appendTo: 'body'
                 });
             } else {
@@ -399,7 +405,7 @@ require(["ko", "knockout-validation"], function (ko) {
             $(element).datepicker(options);
             $(element).datepicker("option", "dateFormat", options.dateFormat || ist.customShortDatePattern);
             $(element).datepicker("option", "changeMonth", true);
-            $(element).datepicker("option", "changeYear",  true);
+            $(element).datepicker("option", "changeYear", true);
             //handle the field changing
             ko.utils.registerEventHandler(element, "change", function () {
                 var observable = valueAccessor();

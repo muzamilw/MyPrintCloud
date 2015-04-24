@@ -1592,11 +1592,10 @@ define("order/order.viewModel",
                         item.itemSections.push(itemSection);
 
                         if (isCostCenterDialogForShipping()) {
+                            item.itemType(2); // Delivery Item
+                        } 
 
-                        } else {
-                            selectedOrder().items.splice(0, 0, item);
-                        }
-
+                        selectedOrder().items.splice(0, 0, item);
                     },
                     createNewInventoryProduct = function (stockItem) {
                         var costCenter = model.costCentre.Create({});

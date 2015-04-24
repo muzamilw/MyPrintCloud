@@ -210,7 +210,24 @@ define("invoice/invoice.viewModel",
                             return;
                         }
                        
-                        saveInvoice(closeInvoiceEditor, navigateCallback);
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19)//Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.afterCancel(function () {
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.show();
+                            return;
+                        }
+
+
+                        
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -272,29 +289,10 @@ define("invoice/invoice.viewModel",
                             return invoice.id() === id;
                         });
                     },
+                    
                     // Save Invoice
-                    saveInvoice = function (callback, navigateCallback) {
-                        var status = selectedInvoice().invoiceStatus();
-                        if (status == 19)//Awaiting Invoice
-                        {
-                            confirmation.messageText("Do you want to post the invoice.");
-                            confirmation.afterProceed(function () {
-                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
-
-                            });
-                            confirmation.afterCancel(function () {
-                                //
-                            });
-                            confirmation.show();
-                            return;
-                        }
-                        var invoice = selectedInvoice().convertToServerData();
-                        
-                        _.each(selectedOrder().invoiceDetailItems(), function (item) {
-                            invoice.invoiceDetailItems.push(item.convertToServerData());
-                        });
-                        
-                        
+                    saveInvoice = function (callback, navigateCallback) {                        
+                        var invoice = selectedInvoice().convertToServerData();                        
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
@@ -307,8 +305,8 @@ define("invoice/invoice.viewModel",
                                     // Get Order
                                     var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
                                     if (invoiceUpdated) {
-                                        invoice.code(data.InvoiceCode);
-                                        invoice.name(data.InvoiceName);
+                                        selectedInvoice().code(data.InvoiceCode);
+                                        selectedInvoice().name(data.InvoiceName);
                                     }
                                 }
 
@@ -411,8 +409,9 @@ define("invoice/invoice.viewModel",
                                 }
                                 isLoading(false);
                                 var code = !selectedInvoice().code() ? "INVOICE CODE" : selectedInvoice().code();
-                                invoiceCodeHeader(code);
+                                //invoiceCodeHeader(code);
                                 //view.initializeLabelPopovers();
+                                selectedInvoice().reset();
                             },
                             error: function (response) {
                                 isLoading(false);
@@ -493,7 +492,8 @@ define("invoice/invoice.viewModel",
                     editInvoice: editInvoice,
                     onCloseInvoiceEditor: onCloseInvoiceEditor,
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
-                    invoiceTypes: invoiceTypes
+                    invoiceTypes: invoiceTypes,
+                    onSaveInvoice: onSaveInvoice
                 };
             })()
         };
