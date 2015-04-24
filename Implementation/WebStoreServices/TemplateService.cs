@@ -264,7 +264,7 @@ namespace MPC.Implementation.WebStoreServices
             }
             return null;
         }
-        private void AddTextObject(TemplateObject ooBject, int PageNo, List<TemplateFont> oFonts, ref Doc oPdf, string Font, double OPosX, double OPosY, double OWidth, double OHeight, bool isTemplateSpot)
+        private void AddTextObject(TemplateObject ooBject, int PageNo, List<TemplateFont> oFonts, ref Doc oPdf, string Font, double OPosX, double OPosY, double OWidth, double OHeight, bool isTemplateSpot,long organisationID)
         {
 
             try
@@ -320,7 +320,7 @@ namespace MPC.Implementation.WebStoreServices
                     if (pFont.FontPath == null)
                     {
                         // mpc designers fonts or system fonts 
-                        path = "";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
+                        path = "Organisation" + organisationID + "/WebFonts/";//"PrivateFonts/FontFace/";//+ objFont.FontFile; at the root of MPC_content/Webfont
                     }
                     else
                     {  // customer fonts 
@@ -1366,7 +1366,7 @@ namespace MPC.Implementation.WebStoreServices
                         if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
                             isTemplateSpot = true;
 
-                        AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot);
+                        AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot,OrganisationID);
 
 
 
@@ -1667,7 +1667,7 @@ namespace MPC.Implementation.WebStoreServices
                             if (objProduct.isSpotTemplate.HasValue == true && objProduct.isSpotTemplate.Value == true)
                                 isTemplateSpot = true;
 
-                            AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot);
+                            AddTextObject(objObjects, objProductPage.PageNo.Value, FontsList, ref doc, fontPath, currentX, currentY, objObjects.MaxWidth.Value, objObjects.MaxHeight.Value, isTemplateSpot,OrganisationID);
 
 
 
