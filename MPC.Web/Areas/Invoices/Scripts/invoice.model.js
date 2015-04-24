@@ -72,6 +72,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 footNotes = ko.observable(specifiedFootNotes),
                 xeroAccessCode = ko.observable(specifiedXeroAccessCode),
                 isDirectSale = ko.observable(specifiedOrderNo == null ? true : false),
+                isPostedInvoice = ko.observable(invoiceStatus == 20 ? true : false),
                 // Is Direct Sale Ui
                 isDirectSaleUi = ko.computed(function () {
                     return isDirectSale() ? "Direct Order" : "Online Order";
@@ -204,7 +205,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 hasChanges: hasChanges,
                 reset: reset,
                 setValidationSummary: setValidationSummary,
-                convertToServerData: convertToServerData
+                convertToServerData: convertToServerData,
+                isPostedInvoice: isPostedInvoice
 
             };
         },

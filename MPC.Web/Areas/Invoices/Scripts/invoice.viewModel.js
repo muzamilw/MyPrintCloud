@@ -210,7 +210,24 @@ define("invoice/invoice.viewModel",
                             return;
                         }
                        
-                        saveInvoice(closeInvoiceEditor, navigateCallback);
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19)//Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.afterCancel(function () {
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.show();
+                            return;
+                        }
+
+
+                        
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -272,30 +289,10 @@ define("invoice/invoice.viewModel",
                             return invoice.id() === id;
                         });
                     },
+                    
                     // Save Invoice
-                    saveInvoice = function (callback, navigateCallback) {
-                        var istatus = selectedInvoice().invoiceStatus();
-                        if (istatus == 19)//Awaiting Invoice
-                        {
-                            confirmation.messageText("Do you want to post the invoice.");                       
-
-                            confirmation.afterProceed(function () {
-                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
-
-                            });
-                            confirmation.afterCancel(function () {
-                                //
-                            });
-                            confirmation.show();
-                            return;
-                        }
-                        var invoice = selectedInvoice().convertToServerData();
-                        
-                        //_.each(selectedInvoice().invoiceDetailItems(), function (item) {
-                        //    invoice.invoiceDetailItems.push(item.convertToServerData());
-                        //});
-                        
-                        
+                    saveInvoice = function (callback, navigateCallback) {                        
+                        var invoice = selectedInvoice().convertToServerData();                        
                         dataservice.saveInvoice(invoice, {
                             success: function (data) {
                                 if (!selectedInvoice().id()) {
