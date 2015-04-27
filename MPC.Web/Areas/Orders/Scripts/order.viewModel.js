@@ -695,7 +695,7 @@ define("order/order.viewModel",
                 changeAllItemProgressToJob = function () {
                     if (selectedOrder().items().length > 0) {
                         selectedItemForProgressToJobWizard(selectedOrder().items()[progressToJobItemCounter]);
-                        selectedItemForProgressToJobWizard().statusId(jobStatuses()[0].StatusId);
+                        selectedItemForProgressToJobWizard().jobStatusId(jobStatuses()[0].StatusId);
                         progressToJobItemCounter = progressToJobItemCounter + 1;
                         view.showOrderStatusProgressToJobDialog();
                     }
