@@ -209,7 +209,7 @@ namespace MPC.Implementation.MISServices
         /// </summary>
         private string GetJobCodeForItem()
         {
-            return prefixRepository.GetNextItemCodePrefix(false);
+            return prefixRepository.GetNextJobCodePrefix(false);
         }
 
         /// <summary>

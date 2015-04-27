@@ -47,7 +47,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Estimate Total
                 estimateTotal = ko.observable(undefined),
                 // Flag Id
-                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
+                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined).extend({ required: true }),
                 // Order Code
                 orderCode = ko.observable(specifiedOrderCode || undefined),
                 // Is Estimate
@@ -170,7 +170,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     name: name,
-                    companyId: companyId
+                    companyId: companyId,
+                    sectionFlagId: sectionFlagId
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -194,6 +195,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (companyId.error) {
                         validationSummaryList.push({ name: "Customer", element: companyId.domElement });
                     }
+                    if (sectionFlagId.error) {
+                        validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
+                    }
+                    
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
@@ -678,7 +683,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         JobManagerId: jobManagerId(),
                         JobStatusId: jobStatusId(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() > 0);
+                            var section = itemSection.convertToServerData(id() === 0);
                             section.SectionNo = index + 1;
                             if (!id()) {
                                 section.ItemSectionId = 0;
