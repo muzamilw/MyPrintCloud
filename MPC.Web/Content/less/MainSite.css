@@ -765,6 +765,9 @@
 #SectionDetailButtons {
   float: right;
 }
+#stockItemRight {
+  float: right;
+}
 #companySelectorDialog .modal-dialog {
   width: 838px;
 }

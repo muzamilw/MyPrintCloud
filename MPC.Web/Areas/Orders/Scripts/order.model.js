@@ -1254,6 +1254,88 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 convertToServerData: convertToServerData
             };
         },
+        //Section Cost Center Detail
+        SectionCostCenterDetail = function (
+            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2, 
+            specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
+        ) {   
+            var
+            sectionCostCentreDetailId= ko.observable(specifiedSectionCostCentreDetailId),
+            sectionCostCentreId = ko.observable(specifiedSectionCostCentreId),
+            stockId= ko.observable(specifiedStockId),
+            supplierId= ko.observable(specifiedSupplierId),
+            qty1= ko.observable(specifiedQty1),
+            qty2= ko.observable(specifiedQty2),
+            qty3= ko.observable(specifiedQty3),
+            costPrice= ko.observable(specifiedCostPrice),
+            actualQtyUsed= ko.observable(specifiedActualQtyUsed),
+            stockName= ko.observable(specifiedStockName),
+            supplier= ko.observable(specifiedSupplier),
+           // Errors
+                errors = ko.validation.group({
+                   
+                }),
+                // Is Valid
+                isValid = ko.computed(function () {
+                    return errors().length === 0;
+                }),
+                dirtyFlag = new ko.dirtyFlag({
+                    sectionCostCentreDetailId: sectionCostCentreDetailId,
+                    sectionCostCentreId: sectionCostCentreId,
+                    stockId: stockId,
+                    supplierId: supplierId,
+                    qty1: qty1,
+                    qty2: qty2,
+                    qty3: qty3,
+                    costPrice: costPrice,
+                    stockName: stockName,
+                    supplier: supplier
+                }),
+                // Has Changes
+                hasChanges = ko.computed(function () {
+                    return dirtyFlag.isDirty();
+                }),
+                // Reset
+                reset = function () {
+                    dirtyFlag.reset();
+                },
+                // Convert To Server Data
+                convertToServerData = function () {
+                    return {
+                        //            
+                        SectionCostCentreDetailId: sectionCostCentreDetailId(),
+                        SectionCostCentreId: sectionCostCentreId(),
+                        StockId: stockId(),
+                        SupplierId: supplierId(),
+                        Qty1: qty1() ,
+                        Qty2: qty2(),
+                        Qty3: qty3(),
+                        CostPrice: costPrice(),
+                        ActualQtyUsed: actualQtyUsed(),
+                        StockName: stockName(),
+                        Supplier: supplier(),
+                    };
+                };
+
+            return {
+                sectionCostCentreDetailId: sectionCostCentreDetailId,
+                sectionCostCentreId: sectionCostCentreId,
+                stockId: stockId,
+                supplierId: supplierId,
+                qty1: qty1,
+                qty2: qty2,
+                qty3: qty3,
+                costPrice: costPrice,
+                stockName: stockName,
+                supplier: supplier,
+                errors: errors,
+                isValid: isValid,
+                dirtyFlag: dirtyFlag,
+                hasChanges: hasChanges,
+                reset: reset,
+                convertToServerData: convertToServerData
+            }; 
+        },
         // Pre Payment
         PrePayment = function (specifiedPrePaymentId, specifiedCustomerId, specifiedOrderId, specifiedAmount, specifiedPaymentDate, specifiedPaymentMethodId,
             specifiedPaymentMethodName, specifiedReferenceCode, specifiedPaymentDescription) {
@@ -2156,7 +2238,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         return sectionCostCentre;
     };
+    // Section Cost Centre Factory
+    SectionCostCenterDetail.Create = function (source) {
+        
+        var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
+            source.Qty2, source.Qty3, source.CostPrice, source.StockName, source.Supplier);
 
+        return sectionCostCenterDetail;
+    };
     // Item Section Factory
     ItemSection.Create = function (source) {
         var itemSection = new ItemSection(source.ItemSectionId, source.SectionNo, source.SectionName, source.SectionSizeId, source.ItemSizeId,
@@ -2623,6 +2712,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         ItemSection: ItemSection,
         // Section Cost Centre Constructor
         SectionCostCentre: SectionCostCentre,
+        //Section Cost Center Detail
+        SectionCostCenterDetail: SectionCostCenterDetail,
         // Status Enum
         Status: Status,
         // Cost Center
