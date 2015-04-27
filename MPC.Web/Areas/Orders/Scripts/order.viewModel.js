@@ -1012,16 +1012,16 @@ define("order/order.viewModel",
                     }
                 },
                 openInkDialog = function () {
-                    if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
-                        var count = 0;
-                        _.each(availableInkPlateSides(), function (item) {
-                            if (item.id == selectedSection().plateInkId()) {
-                                updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
-                                selectedSection().side1Inks(item.plateInkSide1);
-                                selectedSection().side2Inks(item.plateInkSide2);
-                            }
-                        });
-                    }
+                    //if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+                    //    var count = 0;
+                    //    _.each(availableInkPlateSides(), function (item) {
+                    //        if (item.id == selectedSection().plateInkId()) {
+                    //            updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                    //            selectedSection().side1Inks(item.plateInkSide1);
+                    //            selectedSection().side2Inks(item.plateInkSide2);
+                    //        }
+                    //    });
+                    //}
                     view.showInksDialog();
                 },
                 updateSectionInkCoverageLists = function (side1Count, side2Count) {

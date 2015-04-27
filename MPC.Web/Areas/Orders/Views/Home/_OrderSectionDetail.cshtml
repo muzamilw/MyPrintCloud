@@ -219,7 +219,7 @@ However, the term “Up” is also sometimes used to designate impressions of di
                                             <select class="form-control" data-bind="options: $root.availableInkPlateSides, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: plateInkId, validationOnElement: plateInkId,event:{change:$root.availableInkPalteChange}" style="width:250%;"></select>
                                         </div>
                                         <div style="float:right;display:inline;">
-                                            <a class="btn btn-primary pull-right">
+                                            <a class="btn btn-primary pull-right" data-bind="click:$root.openInkDialog">
                                                 <i class="fa fa-lg"></i>&nbsp;....
                                             </a>
                                         </div>
