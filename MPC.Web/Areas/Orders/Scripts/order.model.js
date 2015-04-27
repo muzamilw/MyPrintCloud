@@ -560,6 +560,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
+                // Job Estimated Start Date Time
+                jobEstimatedStartDateTime = ko.observable(),
+                // Job Estimated Completion Date Time
+                jobEstimatedCompletionDateTime = ko.observable(),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -616,6 +620,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     jobDescription7: jobDescription7,
                     isQtyRanged: isQtyRanged,
                     defaultItemTax: defaultItemTax,
+                    jobEstimatedStartDateTime: jobEstimatedStartDateTime,
+                    jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
+                    jobManagerId: jobManagerId,
                     itemSections: itemSections
                 }),
                 // Item Section Changes
@@ -667,7 +674,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemNotes: itemNotes(),
                         ItemType: itemType(),
                         EstimateId: estimateId(),
-                        JobCreationDateTime: jobCreationDateTime() ? moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobCreationDateTime: jobCreationDateTime() ?
+                            moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobEstimatedStartDateTime: jobEstimatedStartDateTime() ?
+                            moment(jobEstimatedStartDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime() ?
+                            moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobManagerId: jobManagerId(),
+                        JobStatusId: jobStatusId(),
                         ItemSections: itemSections.map(function (itemSection, index) {
                             var section = itemSection.convertToServerData(id() === 0);
                             section.SectionNo = index + 1;
@@ -718,6 +732,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 jobSignedBy: jobSignedBy,
                 jobActualStartDateTime: jobActualStartDateTime,
                 jobActualCompletionDateTime: jobActualCompletionDateTime,
+                jobEstimatedStartDateTime: jobEstimatedStartDateTime,
+                jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
                 jobStatusId: jobStatusId,
                 nominalCodeId: nominalCodeId,
                 invoiceDescription: invoiceDescription,
