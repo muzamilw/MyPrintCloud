@@ -33,7 +33,8 @@ namespace MPC.Webstore
                     //OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                     //    validateInterval: TimeSpan.FromMinutes(30),
                     //    regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-                }
+                },
+                CookieName = "WebStoreApplicationCookie"
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
