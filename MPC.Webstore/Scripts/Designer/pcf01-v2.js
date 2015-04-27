@@ -3946,6 +3946,7 @@ function pcl41(xdata) {
     });
 
     $("#SmartFormContainer").html(html);
+  //  pcl40_InsertDefaultValues(smartFormData.smartFormObjs);
     pcl40_InsertUserData(smartFormData.scopeVariables);
     pcl40_updateDropdownDefaultValues();
     pcl40_applyInputMask(smartFormData.smartFormObjs);
@@ -4029,15 +4030,23 @@ function pcl40_addCaption(caption) {
 function pcl40_addLineSeperator() {
     return ' <div class="clear"></div><div class="smartFormLineSeperator"></div>';
 }
+function pcl40_InsertDefaultValues(scope) {
+    $.each(scope, function (i, IT) {
+        if (IT.FieldVariable.DefaultValue != null || IT.FieldVariable.DefaultValue != "" || IT.FieldVariable.DefaultValue != "undefined" || IT.FieldVariable.DefaultValue != undefined)
+            $("#txtSmart" + IT.VariableId).val(IT.FieldVariable.DefaultValue);
+            else
+            $("#txtSmart" + IT.VariableId).val("");
+    });
+}
 function pcl40_InsertUserData(scope) {
     $.each(scope, function (i, IT) {
         if (IT.Value != null && IT.Value != "" && IT.Value != undefined) {
             $("#txtSmart" + IT.VariableId).val(IT.Value);
         } else {
-            if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)
-                $("#txtSmart" + IT.VariableId).val("");
-            else
-                $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
+            //if (IT.DefaultValue != null || IT.DefaultValue != "" || IT.DefaultValue != "undefined" || IT.DefaultValue != undefined)
+            //    $("#txtSmart" + IT.VariableId).val("");
+            //else
+            //    $("#txtSmart" + IT.VariableId).val(IT.DefaultValue);
         }
     });
 }
