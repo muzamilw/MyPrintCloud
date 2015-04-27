@@ -39,7 +39,7 @@
                     <div class="tabs-wrapper profile-tabs">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#tab-detail" data-toggle="tab">Components</a></li>
-                            <li><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
+                            <li data-bind="visible: $root.selectedOrder().statusId() === 6" style="display: none"><a href="#tab-jobs" data-toggle="tab">Job Card</a></li>
                             <li><a href="#tab-attachments" data-toggle="tab">Attachments</a></li>
                         </ul>
                         <div class="tab-content">
@@ -404,7 +404,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" data-bind="dateString: jobCreationDateTime" style="margin-left:5px;"></label>
+                                            <label class="control-label" data-bind="dateString: orderDate, datePattern: 'DD/MM/YYYY'" style="margin-left:5px;"></label>
 
                                         </div>
                                     </div>
@@ -423,7 +423,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">14/06/2014</label>
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedStartDateTime, datePattern: 'DD/MM/YYYY'"></label>
 
                                         </div>
                                     </div>
@@ -442,7 +442,7 @@
 
                                         </div>
                                         <div class="col-lg-6">
-                                            <label class="control-label" style="margin-left:5px;">15/06/2014</label>
+                                            <label class="control-label" style="margin-left:5px;" data-bind="dateString: jobEstimatedCompletionDateTime, datePattern: 'DD/MM/YYYY'"></label>
 
                                         </div>
                                     </div>
