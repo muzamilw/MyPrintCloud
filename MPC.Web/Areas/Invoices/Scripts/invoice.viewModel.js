@@ -210,7 +210,24 @@ define("invoice/invoice.viewModel",
                             return;
                         }
                        
-                        saveInvoice(closeInvoiceEditor, navigateCallback);
+                        var istatus = selectedInvoice().invoiceStatus();
+                        if (istatus == 19)//Awaiting Invoice
+                        {
+                            confirmation.messageText("Do you want to post the invoice.");
+
+                            confirmation.afterProceed(function () {
+                                selectedInvoice().invoiceStatus(20);//Posted Invoice                              
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.afterCancel(function () {
+                                saveInvoice(closeInvoiceEditor, navigateCallback);
+                            });
+                            confirmation.show();
+                            return;
+                        }
+
+
+                        
                     },
                     // Do Before Save
                     doBeforeSave = function () {
@@ -266,43 +283,30 @@ define("invoice/invoice.viewModel",
 
                         return sectionFlg.color;
                     },
-                    // Save Order
-                    saveOrder = function (callback, navigateCallback) {
-                        selectedOrder().statusId(view.orderstate());
-                        var order = selectedOrder().convertToServerData();
-                        _.each(selectedOrder().prePayments(), function (item) {
-                            order.PrePayments.push(item.convertToServerData());
+                    // Get Invoice From list
+                    getInvoiceFromList = function (id) {
+                        return invoices.find(function (invoice) {
+                            return invoice.id() === id;
                         });
-                        _.each(selectedOrder().deliverySchedules(), function (item) {
-                            order.ShippingInformations.push(item.convertToServerData());
-                        });
-                        var itemsArray = [];
-                        _.each(selectedOrder().items(), function (obj) {
-                            var item = obj.convertToServerData(); // item converted 
-                            var attArray = [];
-                            _.each(item.ItemAttachment, function (att) {
-                                var attchment = att.convertToServerData(); // item converted 
-                                attArray.push(attchment);
-                            });
-                            item.ItemAttachments = attArray;
-                            itemsArray.push(item);
-
-                        });
-                        order.Items = itemsArray;
-                        dataservice.saveOrder(order, {
+                    },
+                    
+                    // Save Invoice
+                    saveInvoice = function (callback, navigateCallback) {                        
+                        var invoice = selectedInvoice().convertToServerData();                        
+                        dataservice.saveInvoice(invoice, {
                             success: function (data) {
-                                if (!selectedOrder().id()) {
+                                if (!selectedInvoice().id()) {
                                     // Update Id
-                                    selectedOrder().id(data.OrderId);
+                                    selectedInvoice().id(data.InvoiceId);
 
                                     // Add to top of list
-                                    orders.splice(0, 0, selectedOrder());
+                                    invoices.splice(0, 0, selectedInvoice());
                                 } else {
                                     // Get Order
-                                    var orderUpdated = getOrderFromList(selectedOrder().id());
-                                    if (orderUpdated) {
-                                        order.orderCode(data.OrderCode);
-                                        order.orderName(data.OrderName);
+                                    var invoiceUpdated = getInvoiceFromList(selectedInvoice().id());
+                                    if (invoiceUpdated) {
+                                        selectedInvoice().code(data.InvoiceCode);
+                                        selectedInvoice().name(data.InvoiceName);
                                     }
                                 }
 
@@ -315,7 +319,7 @@ define("invoice/invoice.viewModel",
                                 if (navigateCallback && typeof navigateCallback === "function") {
                                     navigateCallback();
                                 }
-                                orderCodeHeader('');
+                                invoiceCodeHeader('');
                             },
                             error: function (response) {
                                 toastr.error("Failed to Save Order. Error: " + response);
@@ -405,8 +409,9 @@ define("invoice/invoice.viewModel",
                                 }
                                 isLoading(false);
                                 var code = !selectedInvoice().code() ? "INVOICE CODE" : selectedInvoice().code();
-                                invoiceCodeHeader(code);
+                                //invoiceCodeHeader(code);
                                 //view.initializeLabelPopovers();
+                                selectedInvoice().reset();
                             },
                             error: function (response) {
                                 isLoading(false);
@@ -487,7 +492,8 @@ define("invoice/invoice.viewModel",
                     editInvoice: editInvoice,
                     onCloseInvoiceEditor: onCloseInvoiceEditor,
                     isCompanyBaseDataLoaded: isCompanyBaseDataLoaded,
-                    invoiceTypes: invoiceTypes
+                    invoiceTypes: invoiceTypes,
+                    onSaveInvoice: onSaveInvoice
                 };
             })()
         };

@@ -1729,6 +1729,7 @@ namespace MPC.Repository.Repositories
                     ContactPerson.quickTitle = contact.quickTitle;
                     ContactPerson.quickWebsite = contact.quickWebsite;
                     ContactPerson.TerritoryId = ContactTerritory.TerritoryId;
+                    ContactPerson.OrganisationId = OrganisationId;
                     if (!string.IsNullOrEmpty(RegWithSocialMedia))
                     {
                         ContactPerson.twitterScreenName = RegWithSocialMedia;
@@ -6280,22 +6281,32 @@ namespace MPC.Repository.Repositories
 
         }
 
-        public Company GetCompanyByCompanyIDforArtwork(long CompanyID)
-        {
-            try
-            {
-                db.Configuration.LazyLoadingEnabled = false;
-                return db.Companies.Where(c => c.CompanyId == CompanyID).FirstOrDefault();
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //public Company GetCompanyByCompanyIDforArtwork(long CompanyID)
+        //{
+        //    try
+        //    {
+        //        db.Configuration.LazyLoadingEnabled = false;
+        //        return db.Companies.Where(c => c.CompanyId == CompanyID).FirstOrDefault();
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public string GetSupplierNameByID(int CID)
         {
           return  db.Companies.Where(c => c.CompanyId == CID).Select(x => x.Name).FirstOrDefault();
+        }
+        /// <summary>
+        /// Check web access code exists
+        /// </summary>
+        /// <param name="subscriptionCode"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public Company isValidWebAccessCode(string WebAccessCode, long OrganisationId)
+        {
+            return db.Companies.Where(c => c.WebAccessCode == WebAccessCode && c.OrganisationId == OrganisationId && c.IsCustomer == (int)CustomerTypes.Corporate).SingleOrDefault();
         }
     }
 }

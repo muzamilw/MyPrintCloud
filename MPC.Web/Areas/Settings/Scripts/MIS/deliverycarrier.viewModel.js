@@ -17,9 +17,6 @@ define("deliverycarrier/deliverycarrier.viewModel",
                     editorViewModel = new ist.ViewModel(model.DeliveryCarrier),
                     //Selected Paper Sheet
                     selectedCarrier = editorViewModel.itemForEditing,
-                   
-                  
-
 
                 createNewDeliveryDialog = function ()
                 {

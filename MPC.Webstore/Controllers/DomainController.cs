@@ -31,12 +31,13 @@ using System.Web.Http;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+
 namespace MPC.Webstore.Controllers
 {
-    
+
     public class DomainController : Controller
     {
-         #region Private
+        #region Private
 
         private readonly ICompanyService _myCompanyService;
         private readonly IWebstoreClaimsHelperService _webauthorizationChecker;
@@ -63,7 +64,7 @@ namespace MPC.Webstore.Controllers
             {
                 throw new ArgumentNullException("myCompanyService");
             }
-          
+
             this._myCompanyService = myCompanyService;
             this._webauthorizationChecker = _webauthorizationChecker;
         }
@@ -84,11 +85,11 @@ namespace MPC.Webstore.Controllers
             if (storeId == 0)
             {
                 Response.Redirect("/Error");
-              
+
             }
             else
             {
-                if(UserCookieManager.WBStoreId == 0)
+                if (UserCookieManager.WBStoreId == 0)
                 {
                     UserCookieManager.WBStoreId = storeId;
                 }
@@ -102,7 +103,7 @@ namespace MPC.Webstore.Controllers
                 {
                     StoreBaseResopnse = _myCompanyService.GetStoreFromCache(storeId);
                 }
-              
+
                 if (StoreBaseResopnse.Company != null)
                 {
                     UserCookieManager.WBStoreId = StoreBaseResopnse.Company.CompanyId;
@@ -126,12 +127,12 @@ namespace MPC.Webstore.Controllers
 
                     Thread.CurrentThread.CurrentUICulture = ci;
                     Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(ci.Name);
-                   
+
                     if (StoreBaseResopnse.Company.IsCustomer == 3)// corporate customer
                     {
                         Response.Redirect("/Login");
                     }
-                    else 
+                    else
                     {
                         Response.Redirect("/");
                     }
@@ -141,9 +142,9 @@ namespace MPC.Webstore.Controllers
                     RedirectToAction("Error", "Home");
                 }
             }
-           
-           // return RedirectToAction("Index", "Home");
-          //  return View();
+
+            // return RedirectToAction("Index", "Home");
+            //  return View();
         }
 
         public void updateCache(string name)
@@ -152,82 +153,6 @@ namespace MPC.Webstore.Controllers
             RedirectToAction("Error", "Home");
         }
 
-        public void GetData()
-        {
-            string CacheKeyName = "CompanyBaseResponse";
-            ObjectCache cache = MemoryCache.Default;
-            MPC.Models.ResponseModels.MyCompanyDomainBaseReponse StoreBaseResopnse = (cache.Get(CacheKeyName) as Dictionary<long, MPC.Models.ResponseModels.MyCompanyDomainBaseReponse>)[UserCookieManager.WBStoreId];
-            try
-            {
-                    string CFName = System.Web.HttpContext.Current.Request.QueryString["F"];
-                    string CLName = System.Web.HttpContext.Current.Request.QueryString["L"];
-                    string CEmail = System.Web.HttpContext.Current.Request.QueryString["E"];
-                    string CCode = System.Web.HttpContext.Current.Request.QueryString["C"];
-                    string AccountNumber=System.Web.HttpContext.Current.Request.QueryString["A"];
-
-                    if (!string.IsNullOrEmpty(CCode))
-                    {
-                        CompanyContact contactRec = null;
-                        //if (SessionParameters.StoreMode == StoreMode.Broker)
-                        //{
-
-                        //    contactRec = CMgr.BrokerContactExists(SessionParameters.BrokerContactCompany.ContactCompanyID, BrokerEmail, BrokerFName, BrokerLName, AccountNumber, BrokerCode, StoreMode.Broker);
-                        //}
-                        if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                        {
-                          //  SessionParameters.CorpLoginPage = System.Web.HttpContext.Current.Request.Url.Scheme + "://" + System.Web.HttpContext.Current.Request.Url.Authority + "/" + CCode + "/login";
-                            contactRec = _myCompanyService.isContactExists((int)StoreBaseResopnse.Company.CompanyId, CEmail, CFName, CLName, AccountNumber, CCode, StoreMode.Corp);
-                        }
-                        else
-                        {
-                            //SessionParameters.CustomerID = 0;
-                            //SessionParameters.ContactID = 0;
-                            //SessionParameters.StoreMode = StoreMode.Retail;
-                            return;
-                        }
-
-                        if (contactRec == null)
-                        {
-                            //SessionParameters.CustomerID = 0;
-                            //SessionParameters.ContactID = 0;
-                            //SessionParameters.StoreMode = StoreMode.Retail;
-                            //Response.Redirect("/InvalidRequest.aspx");
-                             string message= Utils.GetKeyValueFromResourceFile("invalidUrlMesg", UserCookieManager.WBStoreId);
-                            //ShowMessage("Message", (string)GetGlobalResourceObject("MyResource", "invalidUrlMesg"));
-                             Response.Redirect("/ErrorPage/Index?ErrorMessage="+message+"");
-                        }
-                        else
-                        {
-                           
-                            //SessionParameters.ContactCompany = CustomerManager.GetCustomer(contactRec.ContactCompanyID);
-                            //SessionParameters.CustomerContact = contactRec;
-                            //SessionParameters.CustomerID = SessionParameters.CustomerContact.ContactCompanyID;
-                            //SessionParameters.ContactID = SessionParameters.CustomerContact.ContactID;
-                            //SetFormAuthDetails();
-                            //if (SessionParameters.CustomerContact.ContactRoleID == (int)ConstantsValues.ContactCompanyUserRoles.Administrator)
-                            //{
-                              
-                            //    SessionParameters.IsUserAdmin = true;
-                                
-                            //}
-                            //else
-                            //{
-                            //    SessionParameters.IsUserAdmin = false;
-                               
-                            //}
-                        }
-                    }
-
-            }
-            catch (Exception ex)
-            {
-               
-                throw ex;
-            }
-        }
-        
-        
-        
-        
+       
     }
 }

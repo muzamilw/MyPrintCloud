@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.Linq;
 using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ModelMappers
@@ -171,8 +171,83 @@ namespace MPC.Models.ModelMappers
 
         #endregion PrePayment
 
-        // TODO: Make Relationship of Estimate and DeliveryNote, NotImplemented Yet
         #region Delivery Schedule
+
+        /// <summary>
+        /// True if the ShippingInformation is new
+        /// </summary>
+        private static bool IsNewShippingInformation(ShippingInformation sourceShippingInformation)
+        {
+            return sourceShippingInformation.ShippingId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ShippingInformations
+        /// </summary>
+        private static void InitializeShippingInformations(Estimate item)
+        {
+            if (item.ShippingInformations == null)
+            {
+                item.ShippingInformations = new List<ShippingInformation>();
+            }
+        }
+
+        /// <summary>
+        /// Update Pre Payments
+        /// </summary>
+        private static void UpdateShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            InitializeShippingInformations(source);
+            InitializeShippingInformations(target);
+
+            UpdateOrAddShippingInformations(source, target, actions);
+            DeleteShippingInformations(source, target, actions);
+        }
+
+        /// <summary>
+        /// Delete lines no longer needed
+        /// </summary>
+        private static void DeleteShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            List<ShippingInformation> linesToBeRemoved = target.ShippingInformations.Where(
+                pre => !IsNewShippingInformation(pre) && source.ShippingInformations.All(sourcePre => sourcePre.ShippingId != pre.ShippingId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ShippingInformations.Remove(line);
+                actions.DeleteShippingInformation(line);
+            });
+        }
+
+        /// <summary>
+        /// Update or add Pre Payments
+        /// </summary>
+        private static void UpdateOrAddShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            foreach (ShippingInformation sourceLine in source.ShippingInformations.ToList())
+            {
+                UpdateOrAddShippingInformation(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Shipping Information
+        /// </summary>
+        private static void UpdateOrAddShippingInformation(ShippingInformation sourceShippingInformation, Estimate target, OrderMapperActions actions)
+        {
+            ShippingInformation targetLine;
+            if (IsNewShippingInformation(sourceShippingInformation))
+            {
+                targetLine = actions.CreateShippingInformation();
+                target.ShippingInformations.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ShippingInformations.FirstOrDefault(pre => pre.ShippingId == sourceShippingInformation.ShippingId);
+            }
+
+            sourceShippingInformation.UpdateTo(targetLine);
+        }
 
         #endregion Delivery Schedule
 
@@ -224,7 +299,10 @@ namespace MPC.Models.ModelMappers
                 targetLine = target.Items.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
             }
 
-            sourceItem.UpdateToForOrder(targetLine, actions);
+            // If Order is in Production then assign Job Codes to Items
+            bool assignJobCodes = target.StatusId == (short)OrderStatus.InProduction;
+
+            sourceItem.UpdateToForOrder(targetLine, actions, assignJobCodes);
         }
 
         /// <summary>
@@ -259,10 +337,10 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Item 
         /// </summary>
-        private static void UpdateToForOrder(this Item source, Item target, OrderMapperActions actions)
+        private static void UpdateToForOrder(this Item source, Item target, OrderMapperActions actions, bool assignJobCodes)
         {
             // Update Header
-            UpdateHeader(source, target);
+            UpdateHeader(source, target, assignJobCodes, actions);
 
             // Update Item Sections
             UpdateItemSections(source, target, actions);
@@ -327,6 +405,9 @@ namespace MPC.Models.ModelMappers
 
             // Update Section Cost Centres
             UpdateSectionCostCentres(sourceItemSection, targetLine, actions);
+
+            // Update Section Ink Coverages
+            UpdateSectionInkCoverages(sourceItemSection, targetLine, actions);
         }
 
         #region Section Cost Centres
@@ -410,7 +491,89 @@ namespace MPC.Models.ModelMappers
         }
         
         #endregion Section Cost Centres
-        
+
+        #region Section Ink Coverage
+
+        /// <summary>
+        /// True if the Section Ink COverage is new
+        /// </summary>
+        private static bool IsNewSectionInkCoverage(SectionInkCoverage source)
+        {
+            return source.Id <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target Section Ink Coverage
+        /// </summary>
+        private static void InitializeSectionInkCoverages(ItemSection item)
+        {
+            if (item.SectionInkCoverages == null)
+            {
+                item.SectionInkCoverages = new List<SectionInkCoverage>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Section Ink Coverages
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            foreach (SectionInkCoverage sourceLine in source.SectionInkCoverages.ToList())
+            {
+                UpdateOrAddSectionInkCoverage(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddSectionInkCoverage(SectionInkCoverage sourceSectionInkCoverage, ItemSection target, OrderMapperActions actions)
+        {
+            SectionInkCoverage targetLine;
+            if (IsNewSectionInkCoverage(sourceSectionInkCoverage))
+            {
+                targetLine = actions.CreateSectionInkCoverage();
+                target.SectionInkCoverages.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.SectionInkCoverages.FirstOrDefault(vdp => vdp.Id == sourceSectionInkCoverage.Id);
+            }
+
+            sourceSectionInkCoverage.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete section ink coverage no longer needed
+        /// </summary>
+        private static void DeleteSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            List<SectionInkCoverage> linesToBeRemoved = target.SectionInkCoverages.Where(
+                vdp => !IsNewSectionInkCoverage(vdp) && source.SectionInkCoverages.All(sourceVdp => sourceVdp.Id != vdp.Id))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.SectionInkCoverages.Remove(line);
+                actions.DeleteSectionInkCoverage(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Section Cost Centres
+        /// </summary>
+        private static void UpdateSectionInkCoverages(ItemSection source, ItemSection target, OrderMapperActions actions)
+        {
+            InitializeSectionInkCoverages(source);
+            InitializeSectionInkCoverages(target);
+
+            UpdateOrAddSectionInkCoverages(source, target, actions);
+
+            // Delete
+            DeleteSectionInkCoverages(source, target, actions);
+        }
+
+        #endregion Section Ink Coverage
+
 
         /// <summary>
         /// Update Item Sections
@@ -510,7 +673,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update the header
         /// </summary>
-        private static void UpdateHeader(Item source, Item target)
+        private static void UpdateHeader(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
         {
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
@@ -525,7 +688,7 @@ namespace MPC.Models.ModelMappers
             UpdateCharges(source, target);
 
             // Update Job Description
-            UpdateJobDescription(source, target);
+            UpdateJobDescription(source, target, assignJobCodes, actions);
         }
 
         /// <summary>
@@ -554,7 +717,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Job Description
         /// </summary>
-        private static void UpdateJobDescription(Item source, Item target)
+        private static void UpdateJobDescription(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
         {
             target.JobDescriptionTitle1 = source.JobDescriptionTitle1;
             target.JobDescription1 = source.JobDescription1;
@@ -579,6 +742,18 @@ namespace MPC.Models.ModelMappers
             target.JobStatusId = source.JobStatusId;
             target.JobManagerId = source.JobManagerId;
             target.JobProgressedBy = source.JobProgressedBy;
+            target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
+            target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
+            target.JobCode = source.JobCode;
+
+            // If Job Code is Already Assigned then skip
+            if (!assignJobCodes || !string.IsNullOrEmpty(target.JobCode))
+            {
+                return;
+            }
+
+            // Get Next Job Code
+            target.JobCode = actions.GetNextJobCode();
         }
 
         #endregion Product Header
@@ -613,6 +788,7 @@ namespace MPC.Models.ModelMappers
 
             UpdateHeader(source, target);
             UpdatePrePayments(source, target, actions);
+            UpdateShippingInformations(source, target, actions);
             UpdateItems(source, target, actions);
         }
 

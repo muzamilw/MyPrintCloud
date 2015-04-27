@@ -221,6 +221,8 @@
     <Compile Include="Repositories\InkCoverageGroupRepository.cs" />
     <Compile Include="Repositories\ItemImageRepository.cs" />
     <Compile Include="Repositories\InkPlateSideRepository.cs" />
+    <Compile Include="Repositories\ShippingInformationRepository.cs" />
+    <Compile Include="Repositories\SectionInkCoverageRepository.cs" />
     <Compile Include="Repositories\SectionCostCentreRepository.cs" />
     <Compile Include="Repositories\LookupMethodRepository.cs" />
     <Compile Include="Repositories\MediaLibraryRepository.cs" />

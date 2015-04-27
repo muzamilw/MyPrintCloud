@@ -16,5 +16,6 @@ namespace MPC.Interfaces.Repository
        InvoiceRequestResponseModel GetInvoicesList(InvoicesRequestModel request);
        InvoiceBaseResponse GetInvoiceBaseResponse();
        Invoice GetInvoiceById(long Id);
+       
     }
 }

@@ -284,9 +284,7 @@ namespace MPC.Webstore.Controllers
             }
             else
             {
-                int cid = (int)StoreBaseResopnse.Company.CompanyId;
-
-                CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(cid, contact, TwitterScreenName);
+                CompanyContact CorpContact = _myCompanyService.CreateCorporateContact(StoreBaseResopnse.Company.CompanyId, contact, TwitterScreenName, StoreBaseResopnse.Organisation.OrganisationId);
 
                 UserCookieManager.isRegisterClaims = 1;
                 UserCookieManager.WEBContactFirstName = model.FirstName;

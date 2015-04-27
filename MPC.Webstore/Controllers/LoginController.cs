@@ -144,11 +144,11 @@ namespace MPC.Webstore.Controllers
                 
                 if ((StoreBaseResopnse.Company.IsCustomer == (int)CustomerTypes.Corporate))
                 {
-                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.WBStoreId);
+                    user = _myCompanyService.GetCorporateUserByEmailAndPassword(model.Email, model.Password, UserCookieManager.WBStoreId, UserCookieManager.WEBOrganisationID);
                 }
                 else
                 {
-                    user = _myCompanyService.GetRetailUser(model.Email, model.Password);
+                    user = _myCompanyService.GetRetailUser(model.Email, model.Password, UserCookieManager.WEBOrganisationID);
                 }
 
                 if (user != null)

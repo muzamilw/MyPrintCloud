@@ -85,6 +85,7 @@
     <Compile Include="MISServices\IGoodsReceivedNoteService.cs" />
     <Compile Include="MISServices\IInvoiceService.cs" />
     <Compile Include="MISServices\IItemJobStatusService.cs" />
+    <Compile Include="MISServices\IItemSectionService.cs" />
     <Compile Include="MISServices\ILengthConversionService.cs" />
     <Compile Include="MISServices\ILookupMethodService.cs" />
     <Compile Include="MISServices\IOrderForCrmService.cs" />
@@ -99,6 +100,8 @@
     <Compile Include="Repository\IInkCoverageGroupRepository.cs" />
     <Compile Include="Repository\IItemImageRepository.cs" />
     <Compile Include="Repository\IInkPlateSideRepository.cs" />
+    <Compile Include="Repository\IShippingInformationRepository.cs" />
+    <Compile Include="Repository\ISectionInkCoverageRepository.cs" />
     <Compile Include="Repository\ISectionCostCentreRepository.cs" />
     <Compile Include="Repository\ILookupMethodRepository.cs" />
     <Compile Include="Repository\IMediaLibraryRepository.cs" />

@@ -76,19 +76,24 @@ namespace MPC.Models.ModelMappers
         public Action<PrePayment> DeletePrePayment { get; set; }
 
         /// <summary>
-        /// Action to create Delivery Note
+        /// Action to create Delivery Schedule
         /// </summary>
-        public Func<DeliveryNote> CreateDeliveryNote { get; set; }
+        public Func<ShippingInformation> CreateShippingInformation { get; set; }
 
         /// <summary>
-        /// Action to delete Delivery Note
+        /// Action to delete Delivery Schedule
         /// </summary>
-        public Func<DeliveryNote> DeleteDeliveryNote { get; set; }
+        public Action<ShippingInformation> DeleteShippingInformation { get; set; }
 
         /// <summary>
         /// Action to create an Order
         /// </summary>
         public Func<Estimate> CreateNewOrder { get; set; }
+
+        /// <summary>
+        /// Action to Get Next Job Code
+        /// </summary>
+        public Func<string> GetNextJobCode { get; set; }
         
         #endregion
     }

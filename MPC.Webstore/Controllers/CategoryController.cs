@@ -128,11 +128,11 @@ namespace MPC.Webstore.Controllers
                             List<ItemPriceMatrix> matrixlist = _myCompanyService.GetPriceMatrixByItemID((int)product.ItemId);
                             if (_webstoreAuthorizationChecker.isUserLoggedIn())
                             {
-                                matrixlist = _IItemService.GetPriceMatrix(matrixlist, product.isQtyRanged ?? false, true, UserCookieManager.WBStoreId);
+                                matrixlist = _IItemService.GetPriceMatrix(matrixlist, product.isQtyRanged ?? false, true, UserCookieManager.WBStoreId, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
                             }
                             else
                             {
-                                matrixlist = _IItemService.GetPriceMatrix(matrixlist, product.isQtyRanged ?? false, false, 0);
+                                matrixlist = _IItemService.GetPriceMatrix(matrixlist, product.isQtyRanged ?? false, false, 0, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
                             }
                             matrixlist = matrixlist.Take(2).ToList();
                             if (matrixlist.Count > 0 && matrixlist.Count == 1)
@@ -317,7 +317,7 @@ namespace MPC.Webstore.Controllers
             return View("PartialViews/Category", Category);
         }
 
-      
+      // soon to be deleted 
         public ActionResult CloneItem(long id)
         {
             string CacheKeyName = "CompanyBaseResponse";

@@ -403,6 +403,7 @@
     <Compile Include="Areas\Api\ModelMappers\MachinePerHourLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\MachineSpeedWeightLookupMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\InkPlateSideMapper.cs" />
+    <Compile Include="Areas\Api\ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PrePaymentMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PtvDTOMapper.cs" />
     <Compile Include="Areas\Api\ModelMappers\PurchaseMapper.cs" />
@@ -495,6 +496,7 @@
     <Compile Include="Areas\Api\Models\InvoicesListModel.cs" />
     <Compile Include="Areas\Api\Models\ItemAttachment.cs" />
     <Compile Include="Areas\Api\Models\ItemImage.cs" />
+    <Compile Include="Areas\Api\Models\ItemJobStatusResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupDeleteRequestModel.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodListResponse.cs" />
     <Compile Include="Areas\Api\Models\LookupMethodResponse.cs" />
@@ -811,7 +813,11 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\addCostCenter.dataservice.js" />
     <Content Include="Areas\Common\Scripts\companySelector.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.model.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.view.js" />
+    <Content Include="Areas\Common\Scripts\addCostCenter.viewModel.js" />
     <Content Include="Areas\Common\Scripts\reportManager.dataservice.js" />
     <Content Include="Areas\Common\Scripts\reportManager.model.js" />
     <Content Include="Areas\Common\Scripts\reportManager.view.js" />
@@ -1144,6 +1150,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\Centaurus\js\CSJSRequestObject.js" />
     <Content Include="Content\themes\Centaurus\css\bootstrap\bootstrap.css" />
     <Content Include="Content\themes\Centaurus\css\bootstrap\bootstrap.min.css" />
     <Content Include="Content\themes\Centaurus\css\compiled\calendar.css" />
@@ -1996,8 +2003,7 @@
     <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
-    <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
-    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantity.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_CostCenterQuantity.cshtml" />
     <Content Include="Areas\Orders\Views\Home\_AddEditPrePayment.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForContact.cshtml" />
     <Content Include="Areas\Settings\Views\MIS\_AddEditCostCentreQuestion.cshtml" />
@@ -2026,10 +2032,14 @@
     <Content Include="Areas\Production\Views\Home\ItemJobStatus.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_InventoryCategoryDialog.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="config\Web.connectionstrings.default.config" />
+    <None Include="config\Web.connectionstrings.default.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Content\less\Store.css.map">
       <DependentUpon>Store.css</DependentUpon>
     </Content>

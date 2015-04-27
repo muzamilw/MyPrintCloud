@@ -1436,6 +1436,8 @@ body:not(.compactHeader) .documentMenu a, body:not(.compactHeader) .documentMenu
     padding: 11px 15px;
     font-size: 90%;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 42px;
+}
 }
 
 .multiPage .SampleBtn {
@@ -6836,3 +6838,8 @@ font-size: 13px;
   font-size: 10px;
     height: 14px;
 }
+/*#canvas{
+     -webkit-transition: all 200ms ease-out;
+        -o-transition: all 200ms ease-out;
+        -moz-transition: all 200ms ease-out;
+}*/

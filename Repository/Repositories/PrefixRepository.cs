@@ -46,6 +46,41 @@ namespace MPC.Repository.Repositories
         #region public
 
         /// <summary>
+        /// Returns Next Job Code Prefix and increments the NextItem Value by 1
+        /// </summary>
+        public string GetNextJobCodePrefix(bool shouldIncrementNextItem = true)
+        {
+            try
+            {
+                Prefix prefix = DbSet.FirstOrDefault(pfx => pfx.OrganisationId == OrganisationId);
+                if (prefix == null)
+                {
+                    throw new InvalidOperationException(string.Format(CultureInfo.InvariantCulture, LanguageResources.NoPrefixDefined, OrganisationId));
+                }
+
+                string nextPrefix = prefix.JobPrefix + "-001-" + prefix.JobNext;
+
+                // Update Item Next
+                prefix.JobNext += 1;
+
+                // For Order Screen
+                if (!shouldIncrementNextItem)
+                {
+                    return nextPrefix;
+                }
+
+                // Save Changes
+                SaveChanges();
+
+                return nextPrefix;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
         /// Returns Next Order Code Prefix and increments the NextItem Value by 1
         /// </summary>
         public string GetNextOrderCodePrefix()

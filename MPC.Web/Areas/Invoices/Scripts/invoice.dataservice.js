@@ -38,6 +38,13 @@ define("invoice/invoice.dataservice", function () {
                         dataType: 'json',
                         type: 'GET'
                     });
+                    // Define request to save invoice
+                    amplify.request.define('saveInvoice', 'ajax', {
+                        url: ist.siteUrl + '/Api/Invoice',
+                        dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
+                        type: 'POST'
+                    });
                     isInitialized = true;
                 }
             },
@@ -79,6 +86,16 @@ define("invoice/invoice.dataservice", function () {
                     error: callbacks.error,
                 });
             },
+            // Save Invoice
+            saveInvoice = function (param, callbacks) {
+                initialize();
+                return amplify.request({
+                    resourceId: 'saveInvoice',
+                    success: callbacks.success,
+                    error: callbacks.error,
+                    data: param
+                });
+            },
 
             // Archive Invoice
             archiveInvoice = function (param, callbacks) {
@@ -97,7 +114,8 @@ define("invoice/invoice.dataservice", function () {
             getInvoices: getInvoices,
             getBaseData: getBaseData,
             getInvoice: getInvoice,
-            getBaseDataForCompany: getBaseDataForCompany
+            getBaseDataForCompany: getBaseDataForCompany,
+            saveInvoice: saveInvoice
         };
     })();
 
