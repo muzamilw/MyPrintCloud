@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System;
+using MPC.Models.Common;
 using MPC.Models.DomainModels;
 
 namespace MPC.Models.ModelMappers
@@ -298,7 +299,10 @@ namespace MPC.Models.ModelMappers
                 targetLine = target.Items.FirstOrDefault(item => item.ItemId == sourceItem.ItemId);
             }
 
-            sourceItem.UpdateToForOrder(targetLine, actions);
+            // If Order is in Production then assign Job Codes to Items
+            bool assignJobCodes = target.StatusId == (short)OrderStatus.InProduction;
+
+            sourceItem.UpdateToForOrder(targetLine, actions, assignJobCodes);
         }
 
         /// <summary>
@@ -333,10 +337,10 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Item 
         /// </summary>
-        private static void UpdateToForOrder(this Item source, Item target, OrderMapperActions actions)
+        private static void UpdateToForOrder(this Item source, Item target, OrderMapperActions actions, bool assignJobCodes)
         {
             // Update Header
-            UpdateHeader(source, target);
+            UpdateHeader(source, target, assignJobCodes, actions);
 
             // Update Item Sections
             UpdateItemSections(source, target, actions);
@@ -669,7 +673,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update the header
         /// </summary>
-        private static void UpdateHeader(Item source, Item target)
+        private static void UpdateHeader(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
         {
             target.ProductCode = source.ProductCode;
             target.ProductName = source.ProductName;
@@ -684,7 +688,7 @@ namespace MPC.Models.ModelMappers
             UpdateCharges(source, target);
 
             // Update Job Description
-            UpdateJobDescription(source, target);
+            UpdateJobDescription(source, target, assignJobCodes, actions);
         }
 
         /// <summary>
@@ -713,7 +717,7 @@ namespace MPC.Models.ModelMappers
         /// <summary>
         /// Update Job Description
         /// </summary>
-        private static void UpdateJobDescription(Item source, Item target)
+        private static void UpdateJobDescription(Item source, Item target, bool assignJobCodes, OrderMapperActions actions)
         {
             target.JobDescriptionTitle1 = source.JobDescriptionTitle1;
             target.JobDescription1 = source.JobDescription1;
@@ -738,6 +742,18 @@ namespace MPC.Models.ModelMappers
             target.JobStatusId = source.JobStatusId;
             target.JobManagerId = source.JobManagerId;
             target.JobProgressedBy = source.JobProgressedBy;
+            target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
+            target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
+            target.JobCode = source.JobCode;
+            
+            // If Job Code is Already Assigned then skip
+            if (!assignJobCodes || !string.IsNullOrEmpty(target.JobCode))
+            {
+                return;
+            }
+
+            // Get Next Job Code
+            target.JobCode = actions.GetNextJobCode();
         }
 
         #endregion Product Header

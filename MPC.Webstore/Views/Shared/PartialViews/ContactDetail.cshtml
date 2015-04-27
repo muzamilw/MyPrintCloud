@@ -453,13 +453,13 @@
 
             var errorMessage = '';
             var isValid = true;
-            if ($("#txtFirstName").val().trim() == '') {
+            if ($("#txtFirstName").val() == '') {
 
                 errorMessage = errorMessage + "First Name";
 
                 isValid = false;
             }
-            if ($("#txtLastName").val().trim() == '') {
+            if ($("#txtLastName").val() == '') {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + "Last Name";
                 } else {
@@ -467,7 +467,7 @@
                 }
                 isValid = false;
             }
-            if ($("#txtCompanyName").val().trim() == '' && @MPC.Webstore.Common.UserCookieManager.WEBStoreMode == 4) {
+            if ($("#txtCompanyName").val() == '' && @MPC.Webstore.Common.UserCookieManager.WEBStoreMode == 4) {
                 if (errorMessage == '') {
                     errorMessage = errorMessage + "Company Name";
                 } else {

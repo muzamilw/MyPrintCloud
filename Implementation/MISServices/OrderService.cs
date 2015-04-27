@@ -205,6 +205,14 @@ namespace MPC.Implementation.MISServices
         }
 
         /// <summary>
+        /// Returns Next Job Code
+        /// </summary>
+        private string GetJobCodeForItem()
+        {
+            return prefixRepository.GetNextJobCodePrefix(false);
+        }
+
+        /// <summary>
         /// Saves Image to File System
         /// </summary>
         /// <param name="mapPath">File System Path for Item</param>
@@ -474,7 +482,8 @@ namespace MPC.Implementation.MISServices
                                          CreateSectionInkCoverage = CreateSectionInkCoverage,
                                          DeleteSectionInkCoverage = DeleteSectionInkCoverage,
                                          CreateShippingInformation = CreateNewShippingInformation,
-                                         DeleteShippingInformation = DeleteShippingInformation
+                                         DeleteShippingInformation = DeleteShippingInformation,
+                                         GetNextJobCode = GetJobCodeForItem
                                      });
             // Save Changes
             estimateRepository.SaveChanges();

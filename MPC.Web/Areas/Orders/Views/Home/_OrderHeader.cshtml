@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
+                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
 
@@ -360,10 +360,11 @@
         </tr>
     </script>
     @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
-    @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
+    @*@Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")*@
     @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")*@
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
+   
 </div>
 
 <script type="text/javascript">

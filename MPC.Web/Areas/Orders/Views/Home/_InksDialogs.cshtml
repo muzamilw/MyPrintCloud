@@ -51,7 +51,7 @@
     </div>
 </div>
 <script id="side1List" type="text/html">
-    <!-- ko if : side == 1 -->
+    <!-- ko if : side() === 1 -->
     <tr>
         <td class="col-lg-6">
             <select class="form-control" data-bind="options: $root.inks, optionsText: 'ItemName', optionsValue: 'StockItemId', value: inkId"></select>
@@ -63,7 +63,7 @@
     <!-- /ko -->
 </script>
 <script id="side2List" type="text/html">
-    <!-- ko if : side == 2 -->
+    <!-- ko if : side() === 2 -->
     <tr>
         <td class="col-lg-6">
             <select class="form-control" data-bind="options: $root.inks, optionsText: 'ItemName', optionsValue: 'StockItemId', value: inkId"></select>
