@@ -47,7 +47,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Estimate Total
                 estimateTotal = ko.observable(undefined),
                 // Flag Id
-                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined),
+                sectionFlagId = ko.observable(specifiedSectionFlagId || undefined).extend({ required: true }),
                 // Order Code
                 orderCode = ko.observable(specifiedOrderCode || undefined),
                 // Is Estimate
@@ -170,7 +170,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     name: name,
-                    companyId: companyId
+                    companyId: companyId,
+                    sectionFlagId: sectionFlagId
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -194,6 +195,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (companyId.error) {
                         validationSummaryList.push({ name: "Customer", element: companyId.domElement });
                     }
+                    if (sectionFlagId.error) {
+                        validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
+                    }
+                    
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
@@ -555,6 +560,10 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemType = ko.observable(specifiedItemType || undefined),
                 // Estimate Id
                 estimateId = ko.observable(specifiedEstimateId || 0),
+                // Job Estimated Start Date Time
+                jobEstimatedStartDateTime = ko.observable(),
+                // Job Estimated Completion Date Time
+                jobEstimatedCompletionDateTime = ko.observable(),
                 //Item Attachments
                 itemAttachments = ko.observableArray([]),
                 // Errors
@@ -611,6 +620,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     jobDescription7: jobDescription7,
                     isQtyRanged: isQtyRanged,
                     defaultItemTax: defaultItemTax,
+                    jobEstimatedStartDateTime: jobEstimatedStartDateTime,
+                    jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
+                    jobManagerId: jobManagerId,
                     itemSections: itemSections
                 }),
                 // Item Section Changes
@@ -662,9 +674,16 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         ItemNotes: itemNotes(),
                         ItemType: itemType(),
                         EstimateId: estimateId(),
-                        JobCreationDateTime: jobCreationDateTime() ? moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobCreationDateTime: jobCreationDateTime() ?
+                            moment(jobCreationDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobEstimatedStartDateTime: jobEstimatedStartDateTime() ?
+                            moment(jobEstimatedStartDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime() ?
+                            moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
+                        JobManagerId: jobManagerId(),
+                        JobStatusId: jobStatusId(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() > 0);
+                            var section = itemSection.convertToServerData(id() === 0);
                             section.SectionNo = index + 1;
                             if (!id()) {
                                 section.ItemSectionId = 0;
@@ -713,6 +732,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 jobSignedBy: jobSignedBy,
                 jobActualStartDateTime: jobActualStartDateTime,
                 jobActualCompletionDateTime: jobActualCompletionDateTime,
+                jobEstimatedStartDateTime: jobEstimatedStartDateTime,
+                jobEstimatedCompletionDateTime: jobEstimatedCompletionDateTime,
                 jobStatusId: jobStatusId,
                 nominalCodeId: nominalCodeId,
                 invoiceDescription: invoiceDescription,

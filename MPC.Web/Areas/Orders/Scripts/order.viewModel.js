@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager, addCostCenterVM) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -1012,16 +1012,16 @@ define("order/order.viewModel",
                     }
                 },
                 openInkDialog = function () {
-                    if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
-                        var count = 0;
-                        _.each(availableInkPlateSides(), function (item) {
-                            if (item.id == selectedSection().plateInkId()) {
-                                updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
-                                selectedSection().side1Inks(item.plateInkSide1);
-                                selectedSection().side2Inks(item.plateInkSide2);
-                            }
-                        });
-                    }
+                    //if (selectedSection() != undefined && selectedSection().plateInkId() != undefined) {
+                    //    var count = 0;
+                    //    _.each(availableInkPlateSides(), function (item) {
+                    //        if (item.id == selectedSection().plateInkId()) {
+                    //            updateSectionInkCoverageLists(item.plateInkSide1, item.plateInkSide2);
+                    //            selectedSection().side1Inks(item.plateInkSide1);
+                    //            selectedSection().side2Inks(item.plateInkSide2);
+                    //        }
+                    //    });
+                    //}
                     view.showInksDialog();
                 },
                 updateSectionInkCoverageLists = function (side1Count, side2Count) {
@@ -1049,7 +1049,7 @@ define("order/order.viewModel",
                 getSide1Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 1) {
+                        if (item.side() == 1) {
                             count += 1;
                         }
                     });
@@ -1058,7 +1058,7 @@ define("order/order.viewModel",
                 getSide2Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 2) {
+                        if (item.side() == 2) {
                             count += 1;
                         }
                     });
@@ -1068,8 +1068,8 @@ define("order/order.viewModel",
                     var counter = 0;
                     while (counter < addNewCount) {
                         var item = new model.SectionInkCoverage();
-                        item.side = side;
-                        item.sectionId = selectedSection().id();
+                        item.side(side);
+                        item.sectionId(selectedSection().id());
                         selectedSection().sectionInkCoverageList.splice(0, 0, item);
                         counter++;
                     }
@@ -1078,7 +1078,7 @@ define("order/order.viewModel",
                     var counter = removeItemCount;
                     while (counter != 0) {
                         _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                            if (item.side == side && counter != 0) {
+                            if (item.side() == side && counter != 0) {
                                 selectedSection().sectionInkCoverageList.remove(item);
                                 counter--;
                             }
@@ -1276,7 +1276,7 @@ define("order/order.viewModel",
                                 success: function (data) {
                                     if (!selectedOrder().id()) {
                                         // Update Id
-                                        selectedOrder().id(data.OrderId);
+                                        selectedOrder().id(data.EstimateId);
 
                                         // Add to top of list
                                         orders.splice(0, 0, selectedOrder());
@@ -1284,8 +1284,8 @@ define("order/order.viewModel",
                                         // Get Order
                                         var orderUpdated = getOrderFromList(selectedOrder().id());
                                         if (orderUpdated) {
-                                            order.orderCode(data.OrderCode);
-                                            order.orderName(data.OrderName);
+                                            orderUpdated.code(data.OrderCode);
+                                            orderUpdated.name(data.OrderName);
                                         }
                                     }
 
@@ -1532,29 +1532,13 @@ define("order/order.viewModel",
                                 }
                             });
                         },
+
                         getCostCentersForProduct = function () {
-                            dataservice.getCostCentersForProduct({
-                                CompanyId: selectedOrder().companyId(),
-                                SearchString: costCentrefilterText(),
-                                PageSize: costCentrePager().pageSize(),
-                                PageNo: costCentrePager().currentPage(),
-                            }, {
-                                success: function (data) {
-                                    if (data != null) {
-                                        costCentres.removeAll();
-                                        _.each(data.CostCentres, function (item) {
-                                            var costCentre = new model.costCentre.Create(item);
-                                            costCentres.push(costCentre);
-                                        });
-                                        costCentrePager().totalCount(data.RowCount);
-                                    }
-                                },
-                                error: function (response) {
-                                    costCentres.removeAll();
-                                    toastr.error("Failed to Load Cost Centres. Error: " + response);
-                                }
-                            });
+                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId());
                         },
+                    //onAddCostCenterCallback = function () {
+
+                    //},
                         resetCostCentrefilter = function () {
                             costCentrefilterText('');
                             getCostCenters();
@@ -1570,8 +1554,8 @@ define("order/order.viewModel",
                         hideCostCentreDialog = function () {
                             view.hideRCostCentersDialog();
                         },
-                        createNewCostCenterProduct = function () {
-
+                    createNewCostCenterProduct = function (costCenter) {
+                        selectedCostCentre(costCenter);
                             var item = model.Item.Create({});
                             item.productName(selectedCostCentre().name());
                             item.qty1(selectedCostCentre().quantity1());
@@ -1897,7 +1881,7 @@ define("order/order.viewModel",
                             updateStockCostCenter = function (newItem) {
 
                                 //requirement: add in both cases if hasSelectedCostCenter or not hasSelectedCostCenter
-                            
+
 
                                 //var hasSelectedCostCenter = false;
                                 //if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
@@ -1939,7 +1923,7 @@ define("order/order.viewModel",
 
                                     }
                                 });
-                          
+
                                 //}
                             },
 

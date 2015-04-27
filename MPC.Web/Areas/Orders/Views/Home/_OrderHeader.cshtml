@@ -133,7 +133,7 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId"></select>
+                    <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: sectionFlagId, validationOnElement: sectionFlagId"></select>
                     <span class="help-block text-right"></span>
                 </div>
 
@@ -293,7 +293,7 @@
                         <button type="button" class="btn btn-primary" data-bind="click: $root.onShippingChargesClick">Add Shipping Charges</button>
                     </div>
 
-                    <div class="col-lg-4 form-group" style="margin-top:10px">
+                    <div class="col-lg-3 form-group" style="margin-top:10px">
                         <div class="col-lg-8 text-right" style=" margin-left: -5px;">
                             <label class="control-label text-right tooltip-float">Gross Total:</label>
                         </div>
@@ -360,7 +360,7 @@
         </tr>
     </script>
     @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
-    @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
+    @*@Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")*@
     @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")*@
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_OrderStatusProgressToJob.cshtml")
