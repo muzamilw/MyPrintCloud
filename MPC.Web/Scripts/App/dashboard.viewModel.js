@@ -47,11 +47,11 @@ define("dashboard.viewModel",
                                 mapOrders(data.Estimates);
                             }
                             //load the tour
-                            openTourInit();
+                            //openTourInit();
                         },
                         error: function () {
                             toastr.error("Error: Failed To load orders statues!!");
-                            openTourInit();
+                            //openTourInit();
                         }
                     });
                 },
@@ -68,7 +68,7 @@ define("dashboard.viewModel",
                     inProductionOrdersCount(data.InProductionOrdersCount);
                     completedOrdersCount(data.CompletedOrdersCount);
                     canceledOrdersCount(data.UnConfirmedOrdersCount);
-                    totalEarning(data.TotalEarnings !== null ? data.TotalEarnings.toFixed(2) + '$' : 0);
+                    totalEarning(data.TotalEarnings !== null ? data.TotalEarnings.toFixed(2) : 0);
                     liveStoresCount(data.LiveStoresCount);
                     currentMonthOrdersCount(data.CurrentMonthOdersCount);
                 },
