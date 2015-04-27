@@ -1583,10 +1583,18 @@ define("order/order.viewModel",
                             sectionCostCenter.qty1(selectedCostCentre().quantity1());
                             sectionCostCenter.qty2(selectedCostCentre().quantity2());
                             sectionCostCenter.qty3(selectedCostCentre().quantity3());
+                            sectionCostCenter.qty1EstimatedStockCost(0);
+                            sectionCostCenter.qty2EstimatedStockCost(0);
+                            sectionCostCenter.qty3EstimatedStockCost(0);
                             sectionCostCenter.costCentreId(selectedCostCentre().id());
                             sectionCostCenter.costCentreName(selectedCostCentre().name());
                             sectionCostCenter.name(selectedCostCentre().name());
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+
+                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().setupCost());
+                            sectionCostCenter.qty1Charge(selectedCostCentre().setupCost());
+
+                            selectedSectionCostCenter(sectionCostCenter);
+                            selectedQty(1);
 
                             itemSection.sectionCostCentres.push(sectionCostCenter);
                             item.itemSections.push(itemSection);
@@ -1644,9 +1652,9 @@ define("order/order.viewModel",
                             sectionCostCenter.costCentreId(selectedCostCentre().id());
                             sectionCostCenter.costCentreName(selectedCostCentre().name());
                             sectionCostCenter.name('Stock');
-                            sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
-                            sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
+                            //sectionCostCenter.qty1NetTotal(selectedCostCentre().quantity1());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity2());
+                            //sectionCostCenter.qty2NetTotal(selectedCostCentre().quantity3());
                             sectionCostCenter.qty1EstimatedStockCost(0);
                             sectionCostCenter.qty2EstimatedStockCost(0);
                             sectionCostCenter.qty3EstimatedStockCost(0);
@@ -1654,6 +1662,9 @@ define("order/order.viewModel",
                             sectionCostCenter.qty2Charge(0);
                             sectionCostCenter.qty3Charge(0);
                             sectionCostCenter.costCentreType('139');
+
+                            selectedSectionCostCenter(sectionCostCenter);
+                            selectedQty(1);
 
                             itemSection.sectionCostCentres.push(sectionCostCenter);
                             item.itemSections.push(itemSection);
@@ -1874,7 +1885,9 @@ define("order/order.viewModel",
                                             sectionCostCenter.qty3Charge(0);
                                             sectionCostCenter.qty1(1);
                                            
-                                            sectionCostCenter.qty1NetTotal(stockOption.totalPrice());//todo 
+                                            //sectionCostCenter.qty1NetTotal(stockOption.totalPrice());//todo 
+                                            selectedSectionCostCenter(sectionCostCenter);
+                                            selectedQty(1);
                                             newItem.itemSections()[0].sectionCostCentres.push(sectionCostCenter);
                                         }
                                     });

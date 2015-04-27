@@ -17,7 +17,9 @@
                         <label data-bind="text: $root.selectedOrder().companyName()"></label><br />
                         <label data-bind="text: $root.selectedOrder().name()"></label><br />
                         <label data-bind="text: $root.selectedProduct().productName()"></label><br />
+                        <!-- ko if: $root.selectedSection() != undefined  -->
                         <label data-bind="text: $root.selectedSection().name()"></label>
+                        <!-- /ko -->
                     </div>
                 </div>
             </div>
