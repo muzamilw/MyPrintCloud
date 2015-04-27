@@ -745,7 +745,7 @@ namespace MPC.Models.ModelMappers
             target.JobEstimatedStartDateTime = source.JobEstimatedStartDateTime;
             target.JobEstimatedCompletionDateTime = source.JobEstimatedCompletionDateTime;
             target.JobCode = source.JobCode;
-
+            
             // If Job Code is Already Assigned then skip
             if (!assignJobCodes || !string.IsNullOrEmpty(target.JobCode))
             {

@@ -735,6 +735,10 @@ $('#BtnBoldTxtRetail').click(function (event) {
 $('#BtnItalicTxtRetail').click(function (event) {
     pcL06();
 });
+$('#BtnUnderlineTxt').click(function (event) {
+   
+   // pcL06ULine();
+});
 $('#BtnImageArrangeOrdr4Retail').click(function (event) {
     pcL25();
 });

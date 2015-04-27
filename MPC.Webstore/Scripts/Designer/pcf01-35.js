@@ -2320,6 +2320,16 @@ function pcL06() {
         canvas.renderAll();
     }
 }
+function pcL06ULine() {
+    var D1AO = canvas.getActiveObject();
+    if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
+        alert();
+        setActiveStyle('textDecoration', 'underline');
+        pcL22_Sub(D1AO);
+        // c2(D1AO);
+        canvas.renderAll();
+    }
+}
 function pcL07() {
     var D1AO = canvas.getActiveObject();
     if (D1AO && (D1AO.type === 'text' || D1AO.type === 'i-text')) {
@@ -2678,6 +2688,7 @@ function pcL29(fontSize, isBold, ContentString) {
     D1NTO.IsQuickText = false;
     D1NTO.FontSize = fontSize;
     D1NTO.textCase = 0;
+    D1NTO.IsUnderlinedText = false;
     var uiTextObject = c0(canvas, D1NTO);
     var center = canvas.getCenter();
     uiTextObject.left = center.left;
@@ -2768,6 +2779,15 @@ function setActiveStyle(styleName, value, c, m, y, k) {
             }
             else {
                 value = 'italic';
+            }
+            object[styleName] = value;
+        } else if (styleName == "textDecoration") {
+            styleName = "textDecoration";
+            if (object.textDecoration == 'underline') {
+                value = 'initial';
+            }
+            else {
+                value = 'underline';
             }
             object[styleName] = value;
         }
