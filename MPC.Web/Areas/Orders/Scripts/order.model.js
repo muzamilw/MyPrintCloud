@@ -248,8 +248,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                     footNotes: footNotes,
                     sectionFlagId: sectionFlagId,
-                    statusId: statusId,
-                    estimateTotal: estimateTotal
+                    statusId: statusId
+                    //estimateTotal: estimateTotal
                 }),
                 // Has Changes
                 hasChanges = ko.computed(function () {
@@ -269,6 +269,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         CompanyId: companyId(),
                         ContactId: contactId(),
                         AddressId: addressId(),
+                        EstimateTotal:estimateTotal(),
                         SectionFlagId: sectionFlagId(),
                         IsDirectSale: isDirectSale(),
                         IsOfficialOrder: isOfficialOrder(),
