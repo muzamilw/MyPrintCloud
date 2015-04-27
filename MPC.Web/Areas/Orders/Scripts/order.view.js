@@ -71,11 +71,11 @@ define("order/order.view",
                 },
                // Show Cost Centers Quantity the dialog
                 showCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("show");
+                    $("#costCentersQuanityForStockItem").modal("show");
                 },
                // Hide Cost Centers Quantity the dialog
                 hideCostCentersQuantityDialog = function () {
-                    $("#costCentersQuanity").modal("hide");
+                    $("#costCentersQuanityForStockItem").modal("hide");
                 },
                 setOrderState = function (state, isFromEstimate) {
                     orderstate(state);

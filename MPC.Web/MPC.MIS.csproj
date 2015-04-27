@@ -2034,6 +2034,7 @@
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
+    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantityForStockItem.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
