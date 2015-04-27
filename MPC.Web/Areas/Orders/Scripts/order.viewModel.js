@@ -3,8 +3,8 @@
 */
 define("order/order.viewModel",
     ["jquery", "amplify", "ko", "order/order.dataservice", "order/order.model", "common/pagination", "common/confirmation.viewModel",
-        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel"],
-    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager) {
+        "common/sharedNavigation.viewModel", "common/companySelector.viewModel", "common/phraseLibrary.viewModel", "common/stockItem.viewModel", "common/reportManager.viewModel", "common/addCostCenter.viewModel"],
+    function ($, amplify, ko, dataservice, model, pagination, confirmation, shared, companySelector, phraseLibrary, stockDialog, reportManager, addCostCenterVM) {
         var ist = window.ist || {};
         ist.order = {
             viewModel: (function () {
@@ -1532,29 +1532,13 @@ define("order/order.viewModel",
                             }
                         });
                     },
+
                     getCostCentersForProduct = function () {
-                        dataservice.getCostCentersForProduct({
-                            CompanyId: selectedOrder().companyId(),
-                            SearchString: costCentrefilterText(),
-                            PageSize: costCentrePager().pageSize(),
-                            PageNo: costCentrePager().currentPage(),
-                        }, {
-                            success: function (data) {
-                                if (data != null) {
-                                    costCentres.removeAll();
-                                    _.each(data.CostCentres, function (item) {
-                                        var costCentre = new model.costCentre.Create(item);
-                                        costCentres.push(costCentre);
-                                    });
-                                    costCentrePager().totalCount(data.RowCount);
-                                }
-                            },
-                            error: function (response) {
-                                costCentres.removeAll();
-                                toastr.error("Failed to Load Cost Centres. Error: " + response);
-                            }
-                        });
+                        addCostCenterVM.show(createNewCostCenterProduct, selectedOrder().companyId());
                     },
+                    //onAddCostCenterCallback = function () {
+
+                    //},
                     resetCostCentrefilter = function () {
                         costCentrefilterText('');
                         getCostCenters();
@@ -1570,8 +1554,8 @@ define("order/order.viewModel",
                     hideCostCentreDialog = function () {
                         view.hideRCostCentersDialog();
                     },
-                    createNewCostCenterProduct = function () {
-
+                    createNewCostCenterProduct = function (costCenter) {
+                        selectedCostCentre(costCenter);
                         var item = model.Item.Create({});
                         item.productName(selectedCostCentre().name());
                         item.qty1(selectedCostCentre().quantity1());
@@ -1828,7 +1812,7 @@ define("order/order.viewModel",
                         updateStockCostCenter = function (newItem) {
 
                             //requirement: add in both cases if hasSelectedCostCenter or not hasSelectedCostCenter
-                            
+
 
                             //var hasSelectedCostCenter = false;
                             //if (selecteditem() != undefined && selecteditem().isQtyRanged() == 2) {
@@ -1870,7 +1854,7 @@ define("order/order.viewModel",
 
                                 }
                             });
-                          
+
                             //}
                         },
                 //On Product From Retail Store update Item price matrix table and Add on Table 
