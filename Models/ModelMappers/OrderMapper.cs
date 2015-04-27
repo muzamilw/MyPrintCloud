@@ -170,8 +170,83 @@ namespace MPC.Models.ModelMappers
 
         #endregion PrePayment
 
-        // TODO: Make Relationship of Estimate and DeliveryNote, NotImplemented Yet
         #region Delivery Schedule
+
+        /// <summary>
+        /// True if the ShippingInformation is new
+        /// </summary>
+        private static bool IsNewShippingInformation(ShippingInformation sourceShippingInformation)
+        {
+            return sourceShippingInformation.ShippingId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target ShippingInformations
+        /// </summary>
+        private static void InitializeShippingInformations(Estimate item)
+        {
+            if (item.ShippingInformations == null)
+            {
+                item.ShippingInformations = new List<ShippingInformation>();
+            }
+        }
+
+        /// <summary>
+        /// Update Pre Payments
+        /// </summary>
+        private static void UpdateShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            InitializeShippingInformations(source);
+            InitializeShippingInformations(target);
+
+            UpdateOrAddShippingInformations(source, target, actions);
+            DeleteShippingInformations(source, target, actions);
+        }
+
+        /// <summary>
+        /// Delete lines no longer needed
+        /// </summary>
+        private static void DeleteShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            List<ShippingInformation> linesToBeRemoved = target.ShippingInformations.Where(
+                pre => !IsNewShippingInformation(pre) && source.ShippingInformations.All(sourcePre => sourcePre.ShippingId != pre.ShippingId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.ShippingInformations.Remove(line);
+                actions.DeleteShippingInformation(line);
+            });
+        }
+
+        /// <summary>
+        /// Update or add Pre Payments
+        /// </summary>
+        private static void UpdateOrAddShippingInformations(Estimate source, Estimate target, OrderMapperActions actions)
+        {
+            foreach (ShippingInformation sourceLine in source.ShippingInformations.ToList())
+            {
+                UpdateOrAddShippingInformation(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Shipping Information
+        /// </summary>
+        private static void UpdateOrAddShippingInformation(ShippingInformation sourceShippingInformation, Estimate target, OrderMapperActions actions)
+        {
+            ShippingInformation targetLine;
+            if (IsNewShippingInformation(sourceShippingInformation))
+            {
+                targetLine = actions.CreateShippingInformation();
+                target.ShippingInformations.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.ShippingInformations.FirstOrDefault(pre => pre.ShippingId == sourceShippingInformation.ShippingId);
+            }
+
+            sourceShippingInformation.UpdateTo(targetLine);
+        }
 
         #endregion Delivery Schedule
 
@@ -697,6 +772,7 @@ namespace MPC.Models.ModelMappers
 
             UpdateHeader(source, target);
             UpdatePrePayments(source, target, actions);
+            UpdateShippingInformations(source, target, actions);
             UpdateItems(source, target, actions);
         }
 

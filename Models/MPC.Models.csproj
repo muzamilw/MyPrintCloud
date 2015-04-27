@@ -218,6 +218,7 @@
     <Compile Include="DomainModels\PaypalPaymentRequest.cs" />
     <Compile Include="DomainModels\PayPalResponse.cs" />
     <Compile Include="DomainModels\SectionInkCoverage.cs" />
+    <Compile Include="DomainModels\ShippingInformation.cs" />
     <Compile Include="DomainModels\SmartForm.cs" />
     <Compile Include="DomainModels\SmartFormDetail.cs" />
     <Compile Include="DomainModels\usp_JobCardReport_Result.cs" />
@@ -356,6 +357,7 @@
     <Compile Include="LoggerModels\CategoryLog.cs" />
     <Compile Include="LoggerModels\Log.cs" />
     <Compile Include="ModelMappers\ItemAttachmentMapper.cs" />
+    <Compile Include="ModelMappers\ShippingInformationMapper.cs" />
     <Compile Include="ModelMappers\SectionInkCoverageMapper.cs" />
     <Compile Include="ModelMappers\SectionCostCentreMapper.cs" />
     <Compile Include="ModelMappers\PrePaymentMapper.cs" />

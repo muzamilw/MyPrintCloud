@@ -29,9 +29,22 @@
                     <textarea class="form-control" data-bind="text: $root.selectedQty() == 1 ? qty1WorkInstructions() :$root.selectedQty() == 2? qty2WorkInstructions() : qty3WorkInstructions()"></textarea>
                 </div>
             </div>
-            <div class="col-lg-12">
-
-                <div class="col-lg-6"></div>
+            <div class="col-lg-12 outerDiv-Padding form-horizontal">
+                <div class="col-lg-6">
+                    <div class="tabs-wrapper profile-tabs">
+                        <ul class="nav nav-tabs">
+                            <li id="stockDetails" class="active">
+                                <a href="#tab-stockDetails" data-toggle="tab">Stock Details</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="tab-stockDetails">
+                                <!-- ko template: { name: 'stockDetailTabItemsList' } -->
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-6">
                     <div class="col-lg-12 form-group">
                         <div class="checkbox-nice">
@@ -49,7 +62,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     @*<div class="col-lg-6">*@
                     <div class="form-group col-lg-12">
                         <div class="col-lg-4 text-right"><label class="text-right">Quantity</label></div>
@@ -63,7 +76,7 @@
                             <!--ko if:  $root.selectedQty() == 3-->
                             <input type="text" class="text-right form-control" data-bind="value: qty3 " />
                             <!--/ko-->
-                            
+
                         </div>
                         <div class="col-lg-3">
                             <input class="btn btn-default" type="button" value="Reset" style="float: right;" />
@@ -81,7 +94,6 @@
                             <!--ko if:  $root.selectedQty() == 3-->
                             <input type="text" class="text-right form-control" data-bind="value: qty3EstimatedStockCost " />
                             <!--/ko-->
-
                         </div>
                     </div>
                     <div class="form-group col-lg-12">
@@ -114,7 +126,6 @@
                             <!--ko if:  $root.selectedQty() == 3-->
                             <input type="text" class="text-right form-control" data-bind="value: qty3MarkUpValue " readonly="readonly" />
                             <!--/ko-->
-
                         </div>
                     </div>
                     <div class="form-group col-lg-12">
@@ -129,27 +140,42 @@
                             <!--ko if:  $root.selectedQty() == 3-->
                             <input type="text" class="text-right form-control" data-bind="value: qty3NetTotal " />
                             <!--/ko-->
-
                         </div>
                     </div>
-
                     @*</div>*@
                     @*<div class="col-lg-6">
 
 
 
-                            <input type="text"/>
-                            <input type="text"/>
+                    <input type="text"/>
+                    <input type="text"/>
 
-                        </div>*@
-
+                </div>*@
 
                 </div>
             </div>
-
             <div class="modal-footer">
                 <hr />
             </div>
         </div>
     </div>
+    <script id="stockDetailTabItemsList" type="text/html">
+        <div class="main-box-body main-box clearfix">
+            <div class="table-responsive">
+                <table id="OrderListtbl" class="table user-list">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-5"><span>Item</span></th>
+                            <th class="col-lg-4"><span>Unit Price</span></th>
+                            <th class="col-lg-3"><span>Quantity</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*<!-- ko template: { name: 'orderListViewTemplate', foreach: orders } -->
+                           <!-- /ko -->*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </script>
 </div>

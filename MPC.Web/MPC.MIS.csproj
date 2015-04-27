@@ -2032,7 +2032,9 @@
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="config\Web.connectionstrings.default.config" />
+    <None Include="config\Web.connectionstrings.default.config">
+      <SubType>Designer</SubType>
+    </None>
     <Content Include="Content\less\Store.css.map">
       <DependentUpon>Store.css</DependentUpon>
     </Content>
