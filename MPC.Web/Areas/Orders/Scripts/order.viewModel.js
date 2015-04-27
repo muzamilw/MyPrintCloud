@@ -258,7 +258,7 @@ define("order/order.viewModel",
                     // Create New Order
                     createOrder = function () {
                         selectedOrder(model.Estimate.Create({}));
-                        view.setOrderState(0); // Pending Order
+                        view.setOrderState(4); // Pending Order
                         selectedOrder().statusId(4);
                         openOrderEditor();
                     },
@@ -1248,7 +1248,7 @@ define("order/order.viewModel",
                     // Save Order
                         saveOrder = function (callback, navigateCallback) {
                             selectedOrder().statusId(view.orderstate());
-                            if (isNaN(view.orderstate())) {
+                            if (isNaN(view.orderstate()) || view.orderstate() === 0) {
                                 selectedOrder().statusId(4); // Pending orders
                             }
                             var order = selectedOrder().convertToServerData();
@@ -2143,7 +2143,7 @@ define("order/order.viewModel",
                             if (selectedDeliverySchedule() !== undefined && selectedDeliverySchedule().isValid()) {
                                 setDeliveryScheduleFields();
                             }
-                            var deliverySchedule = model.ShippingInformation();
+                        var deliverySchedule = model.ShippingInformation.Create({ EstimateId: selectedOrder().id() });
                             if (selectedOrder().items().length > 0) {
                                 setQuantityOfNewDeliverySchedule(deliverySchedule);
                             }
