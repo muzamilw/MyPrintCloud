@@ -64,7 +64,7 @@ namespace MPC.Webstore.Common
                 HttpCookie contactFirstNameCookie = null;
                 contactFirstNameCookie = new HttpCookie("WEBFirstName", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(contactFirstNameCookie);
-
+                HttpContext.Current.Request.Cookies["WEBFirstName"].Value = value;
             }
         }
 
@@ -380,6 +380,33 @@ namespace MPC.Webstore.Common
                 HttpCookie  RegisterClaimCookie = null;
                 RegisterClaimCookie = new HttpCookie("isRegisterClaims", value.ToString());
                 HttpContext.Current.Response.Cookies.Add(RegisterClaimCookie);
+            }
+        }
+
+        public static bool PerformAutoLogin
+        {
+            get
+            {
+                if (HttpContext.Current.Request.Cookies["isPerformAutoLogin"] != null)
+                {
+                    return Convert.ToBoolean(HttpContext.Current.Request.Cookies["isPerformAutoLogin"].Value);
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            set
+            {
+                if (HttpContext.Current.Response.Cookies["isPerformAutoLogin"] != null)
+                {
+                    HttpContext.Current.Response.Cookies.Remove("isPerformAutoLogin");
+
+                }
+                HttpCookie AutoLoginClaimCookie = null;
+                AutoLoginClaimCookie = new HttpCookie("isPerformAutoLogin", value.ToString());
+                HttpContext.Current.Response.Cookies.Add(AutoLoginClaimCookie);
             }
         }
 

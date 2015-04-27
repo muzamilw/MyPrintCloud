@@ -88,9 +88,9 @@
                                             <div class="col-lg-6">
                                                 <div>
                                                     <label class="control-label" id="txtCompany" style="font-size: 18px;" data-bind="text: companyName"></label>
-                                                    <a data-bind="click: $root.openCompanyDialog" href="#" class="btn btn-primary pull-right">
+                                                    <button data-bind="click: $root.openCompanyDialog, enable: isPostedInvoice" class="btn btn-primary pull-right">
                                                         <i class="fa fa-lg"></i>&nbsp;....
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +101,7 @@
                                             </div>
 
                                             <div class="col-lg-6" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                                <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId"></select>
+                                                <select class="form-control" data-bind="options: $root.companyContacts, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: contactId, enable: isPostedInvoice"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                         </div>
@@ -111,7 +111,7 @@
                                                 <label class="control-label text-right tooltip-float">Address Name</label>
                                             </div>
                                             <div class="col-lg-5" data-bind="if: $root.isCompanyBaseDataLoaded">
-                                                <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId"></select>
+                                                <select class="form-control" data-bind="options: $root.companyAddresses, optionsText: 'name', optionsValue: 'id', optionsCaption: 'Select...', value: addressId, enable: isPostedInvoice"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
                                             <div class="col-lg-1">
@@ -161,7 +161,7 @@
                                             </div>
                                             <div class="col-lg-6">
                                                 <div>
-                                                    <input type="text" style="height: 60px;font-size: 20px; font-weight: bold;" data-bind="value: name, validationTooltip: name, validationOnElement: name" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
+                                                    <input type="text" style="height: 60px;font-size: 20px; font-weight: bold;" data-bind="value: name, validationTooltip: name, validationOnElement: name, enable: isPostedInvoice" placeholder="Enter Order Title" class="form-control" id="EstimateTitle" />
                                                 </div>
                                             </div>
                                         </div>
@@ -194,7 +194,7 @@
                                                     <label class="control-label text-right tooltip-float">Invoice Status</label>
                                                 </div>
                                                 <div class="col-lg-5 text-left">
-                                                    <label class="control-label" style="border:none" id="code" data-bind="text: status"></label>
+                                                    <label class="control-label" style="border:none" id="code" data-bind="text: statusName"></label>
                                                 </div>
                                             </div>
                                             
@@ -205,7 +205,7 @@
                                                     <label class="control-label text-right tooltip-float">Purchase Order No.</label>
                                                 </div>
                                                 <div class="col-lg-5 text-left">
-                                                    <label class="control-label" style="border:none" id="code" data-bind="text: status"></label>
+                                                    <label class="control-label" style="border:none" id="code" data-bind="text: orderNo"></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -215,7 +215,7 @@
                                             </div>
 
                                             <div class="col-lg-6">
-                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select...', value: sectionFlagId"></select>
+                                                <select class="form-control" data-bind="options: $root.sectionFlags, optionsText: 'FlagName', optionsValue: 'SectionFlagId', optionsCaption: 'Select...', value: sectionFlagId, enable: isPostedInvoice"></select>
                                                 <span class="help-block text-right"></span>
                                             </div>
 
@@ -228,7 +228,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <input type="text" class="form-control" id="orderDate" data-bind="datepicker: invoiceDate">
+                                                <input type="text" class="form-control" id="orderDate" data-bind="datepicker: invoiceDate, enable: isPostedInvoice">
                                             </div>
                                         </div>
 
@@ -239,7 +239,7 @@
                                             </div>
                                             <div class="col-lg-6">
 
-                                                <select class="form-control" data-bind="options: $root.invoiceTypes, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select...', value: type"></select>
+                                                <select class="form-control" data-bind="options: $root.invoiceTypes, optionsText: 'Name', optionsValue: 'Id', optionsCaption: 'Select...', value: type, enable: isPostedInvoice"></select>
 
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter Order Header" id="EstimateHeader" rows="3" data-bind="value: headNotes, enable: isPostedInvoice"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -293,7 +293,7 @@
                                                     </div>
                                                     <div class=" btn-group" style="float:left;margin-top:10px">
                                                         <button type="button" class="btn btn-primary">Add Item Line</button>
-                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" data-bind="enable: isPostedInvoice">
                                                             <span class="caret"></span>
                                                             <span class="sr-only">Toggle Dropdown</span>
                                                         </button>
@@ -327,7 +327,7 @@
                                             </div>
                                             <div class="col-lg-9">
                                                 <div>
-                                                    <textarea class="form-control" placeholder="Enter Order Footer" id="EstimateHeader" rows="3" data-bind="value: footNotes"></textarea>
+                                                    <textarea class="form-control" placeholder="Enter Order Footer" id="EstimateHeader" rows="3" data-bind="value: footNotes, enable: isPostedInvoice"></textarea>
                                                 </div>
                                             </div>
                                         </div>

@@ -421,11 +421,11 @@ namespace MPC.Webstore.Controllers
 
             if (_webstoreAuthorizationChecker.isUserLoggedIn())
             {
-                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, true, UserCookieManager.WBStoreId, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
             }
             else
             {
-                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0);
+                referenceItem.ItemPriceMatrices = _myItemService.GetPriceMatrix(referenceItem.ItemPriceMatrices.ToList(), referenceItem.IsQtyRanged ?? false, false, 0, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId));
             }
 
             PriceMatrixObjectList = new List<ProductPriceMatrixViewModel>();

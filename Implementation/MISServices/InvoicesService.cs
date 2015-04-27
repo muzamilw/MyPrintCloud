@@ -70,7 +70,7 @@ namespace MPC.Implementation.MISServices
             oInvoice.InvoiceType = invoice.InvoiceType;
             oInvoice.Status = invoice.Status;
             oInvoice.InvoiceDate = invoice.InvoiceDate;
-
+            oInvoice.InvoiceStatus = invoice.InvoiceStatus;
             oInvoice.FlagID = invoice.FlagID;
             oInvoice.HeadNotes = invoice.HeadNotes;
             oInvoice.FootNotes = invoice.FootNotes;

@@ -110,8 +110,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                                  return creditLimitForJob();
                              }
                          }
-                         else
-                         {
+                         else {
                              return '';
                          }
                      },
@@ -141,12 +140,12 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Items
                 items = ko.observableArray([]),
                 // Delivery Items
-                deliveryItems = ko.computed(function() {
+                deliveryItems = ko.computed(function () {
                     if (items().length === 0) {
                         return [];
                     }
 
-                    return items.filter(function(item) {
+                    return items.filter(function (item) {
                         return item.itemType() === 2;
                     });
                 }),
@@ -188,6 +187,23 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Set Validation Summary
                 setValidationSummary = function (validationSummaryList) {
                     validationSummaryList.removeAll();
+
+                    if (name.error) {
+                        validationSummaryList.push({ name: "Order Title", element: name.domElement });
+                    }
+                    if (companyId.error) {
+                        validationSummaryList.push({ name: "Customer", element: companyId.domElement });
+                    }
+
+                    // Show Item  Errors
+                    var itemInvalid = items.find(function (item) {
+                        return !item.isValid();
+                    });
+
+                    if (itemInvalid) {
+                        var nameElement = items.domElement;
+                        validationSummaryList.push({ name: itemInvalid.productName() + " has invalid data.", element: nameElement });
+                    }
                 },
                 // True if the order has been changed
             // ReSharper disable InconsistentNaming
@@ -216,7 +232,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     salesPersonId: salesPersonId,
                     sourceId: sourceId,
                     creditLimitForJob: creditLimitForJob,
-                    creditLimitComputed:creditLimitComputed,
+                    creditLimitComputed: creditLimitComputed,
                     creditLimitSetBy: creditLimitSetBy,
                     creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                     isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,
@@ -322,7 +338,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 salesPersonId: salesPersonId,
                 sourceId: sourceId,
                 creditLimitForJob: creditLimitForJob,
-                creditLimitComputed:creditLimitComputed,
+                creditLimitComputed: creditLimitComputed,
                 creditLimitSetBy: creditLimitSetBy,
                 creditLimitSetOnDateTime: creditLimitSetOnDateTime,
                 isJobAllowedWoCreditCheck: isJobAllowedWoCreditCheck,
@@ -511,7 +527,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                          if (qty3NetTotal()) {
                              var val = parseFloat(qty3NetTotal());
                              if (!isNaN(val)) {
-                                 var calc =( val.toFixed(2));
+                                 var calc = (val.toFixed(2));
                                  qty3NetTotal(calc);
                                  return calc;
                              } else {
@@ -568,42 +584,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     }
                 },
                 // Set Validation Summary
-                setValidationSummary = function (validationSummaryList) {
-                    validationSummaryList.removeAll();
-                    if (productName.error) {
-                        validationSummaryList.push({ name: productName.domElement.name, element: productName.domElement });
-                    }
-                    if (productCode.error) {
-                        validationSummaryList.push({ name: productCode.domElement.name, element: productCode.domElement });
-                    }
-                    // Show Item Stock Option Errors
-                    var itemStockOptionInvalid = itemStockOptions.find(function (itemStockOption) {
-                        return !itemStockOption.isValid();
-                    });
-                    if (itemStockOptionInvalid) {
-                        if (itemStockOptionInvalid.label.error) {
-                            var labelElement = itemStockOptionInvalid.label.domElement;
-                            validationSummaryList.push({ name: labelElement.name, element: labelElement });
-                        }
-                    }
-                    // Show Item Section Errors
-                    var itemSectionInvalid = itemSections.find(function (itemSection) {
-                        return !itemSection.isValid();
-                    });
-                    if (itemSectionInvalid) {
-                        if (itemSectionInvalid.name.error || itemSectionInvalid.pressId.error || itemSectionInvalid.stockItemId.error) {
-                            var nameElement = itemSectionInvalid.name.domElement;
-                            var errorName = "";
-                            if (itemSectionInvalid.name.error) {
-                                errorName = "Section Name";
-                            } else if (itemSectionInvalid.pressId.error) {
-                                errorName = "Section Press";
-                            } else if (itemSectionInvalid.stockItemId.error) {
-                                errorName = "Section Stock Item";
-                            }
-                            validationSummaryList.push({ name: errorName, element: nameElement });
-                        }
-                    }
+                setValidationSummary = function () {
+
                 },
                 // True if the product has been changed
             // ReSharper disable InconsistentNaming
@@ -720,7 +702,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 statusId: statusId,
                 statusName: statusName,
                 qty1NetTotal: qty1NetTotal,
-                qty1NetTotalComputed:qty1NetTotalComputed,
+                qty1NetTotalComputed: qty1NetTotalComputed,
                 qty1: qty1,
                 productCategoriesUi: productCategoriesUi,
                 jobCode: jobCode,
@@ -740,7 +722,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 qty3MarkUpId3: qty3MarkUpId3,
                 qty2NetTotal: qty2NetTotal,
                 qty2NetTotalComputed: qty2NetTotalComputed,
-                qty3NetTotalComputed:qty3NetTotalComputed,
+                qty3NetTotalComputed: qty3NetTotalComputed,
                 qty3NetTotal: qty3NetTotal,
                 qty1Tax1Value: qty1Tax1Value,
                 qty2Tax1Value: qty2Tax1Value,
@@ -818,7 +800,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Qty3Profit Width
                 qty3Profit = ko.observable(specifiedQty3Profit || 0),
                 // Base Charge1
-                baseCharge1 = ko.observable(specifiedBaseCharge1 != null ? specifiedBaseCharge1.toFixed(2): 0),
+                baseCharge1 = ko.observable(specifiedBaseCharge1 != null ? specifiedBaseCharge1.toFixed(2) : 0),
                 // Base Charge2
                 baseCharge2 = ko.observable(specifiedBaseCharge2 || 0),
                 // Base Charge3
@@ -930,11 +912,9 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 // Errors
                 errors = ko.validation.group({
                     name: name,
-                    pressId: pressId,
                     stockItemId: stockItemId,
                     plateInkId: plateInkId,
-                    numberUp: numberUp,
-                    stockItemName: stockItemName
+                    numberUp: numberUp
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1065,7 +1045,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 sectionInkCoverageList: sectionInkCoverageList,
                 isWorknTurn: isWorknTurn,
                 doubleWorknTurn: doubleWorknTurn,
-                printViewLayout:printViewLayout,
+                printViewLayout: printViewLayout,
                 printViewLayoutPortrait: printViewLayoutPortrait,
                 printViewLayoutLandscape: printViewLayoutLandscape,
                 numberUp: numberUp,
@@ -1350,7 +1330,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 customerId: customerId,
                 orderId: orderId,
                 amount: amount,
-                amountComputed:amountComputed,
+                amountComputed: amountComputed,
                 paymentDate: paymentDate,
                 paymentMethodId: paymentMethodId,
                 paymentMethodName: paymentMethodName,
@@ -1367,7 +1347,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         // Shipping Information
         ShippingInformation = function (specifiedShippingId, specifiedItemId, specifiedAddressId, specifiedQuantity, specifiedPrice, specifiedDeliveryNoteRaised,
-            specifiedDeliveryDate) {
+            specifiedDeliveryDate, specifiedEstimateId) {
             var // Unique key
                 shippingId = ko.observable(specifiedShippingId),
                 // Item ID
@@ -1394,6 +1374,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 addressName = ko.observable(),
                 //
                 isSelected = ko.observable(false),
+                // Estimate ID
+                estimateId = ko.observable(specifiedEstimateId || 0),
                 // Errors
                 errors = ko.validation.group({
                     quantity: quantity,
@@ -1430,6 +1412,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         DeliveryDate: deliveryDate() ? moment(deliveryDate()).format(ist.utcFormat) : null,
                         Price: price(),
                         DeliveryNoteRaised: deliveryNoteRaised(),
+                        EstimateId: estimateId()
                     };
                 };
 
@@ -2173,17 +2156,17 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             ko.utils.arrayPushAll(itemSection.sectionCostCentres(), sectionCostcentres);
             itemSection.sectionCostCentres.valueHasMutated();
         }
-            // Map Section Ink Coverage if Any
-            if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
-                var sectioninkcoverages = [];
+        // Map Section Ink Coverage if Any
+        if (source.SectionInkCoverages && source.SectionInkCoverages.length > 0) {
+            var sectioninkcoverages = [];
 
-                _.each(source.SectionInkCoverages, function (sectionink) {
-                    sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
-                });
+            _.each(source.SectionInkCoverages, function (sectionink) {
+                sectioninkcoverages.push(SectionInkCoverage.Create(sectionink));
+            });
 
-                // Push to Original Item
-                ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
-                itemSection.sectionInkCoverageList.valueHasMutated();
+            // Push to Original Item
+            ko.utils.arrayPushAll(itemSection.sectionInkCoverageList(), sectioninkcoverages);
+            itemSection.sectionInkCoverageList.valueHasMutated();
         }
 
         return itemSection;
@@ -2255,6 +2238,32 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
             // Push to Original Item
             ko.utils.arrayPushAll(estimate.items(), items);
             estimate.items.valueHasMutated();
+        }
+
+        // Map Pre Payments if any
+        if (source.PrePayments && source.PrePayments.length > 0) {
+            var prePayments = [];
+
+            _.each(source.PrePayments, function (item) {
+                prePayments.push(PrePayment.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(estimate.prePayments(), prePayments);
+            estimate.prePayments.valueHasMutated();
+        }
+
+        // Map Delivery Schedules if any
+        if (source.ShippingInformations && source.ShippingInformations.length > 0) {
+            var deliverySchedules = [];
+
+            _.each(source.ShippingInformations, function (item) {
+                deliverySchedules.push(ShippingInformation.Create(item));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(estimate.deliverySchedules(), deliverySchedules);
+            estimate.deliverySchedules.valueHasMutated();
         }
 
         // Return item with dirty state if New

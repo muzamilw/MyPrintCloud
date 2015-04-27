@@ -125,6 +125,7 @@ define("order/order.dataservice", function () {
                     amplify.request.define('getUpdatedSystemCostCenters', 'ajax', {
                         url: ist.siteUrl + '/Api/ItemSection',
                         dataType: 'json',
+                        decoder: amplify.request.decoders.istStatusDecoder,
                         type: 'POST'
                     });
                     // Define request to Download Artwork of the order
@@ -281,7 +282,8 @@ define("order/order.dataservice", function () {
                     resourceId: 'getBestPress',
                     success: callbacks.success,
                     error: callbacks.error,
-                    data: params
+                    data: JSON.stringify(params)
+                    
                 });
             },
             getUpdatedSystemCostCenters = function(params, callbacks) {
