@@ -233,6 +233,7 @@ function c0(cCanvas, TOC) {
     TOL.AutoShrinkText = TOC.AutoShrinkText;
     TOL.setAngle(TOC.RotationAngle);
     TOL.textCase = TOC.textCase;
+    TOL.IsUnderlinedText = TOC.IsUnderlinedText;
     if (TOC.IsPositionLocked) {
         TOL.lockMovementX = true;
         TOL.lockMovementY = true;
