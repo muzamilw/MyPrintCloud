@@ -236,15 +236,6 @@
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px;">
                             <button type="button" class="btn btn-primary" data-bind="click : $root.onCreateNewProductFromRetailStore">Add Product from Store</button>
-                            @*<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="#" data-bind="click : $root.onCreateNewProductFromRetailStore">From Store</a></li>
-                                <li><a href="#" data-bind="click: $root.onCostCenterClick">Cost Center</a></li>
-                                <li><a href="#" data-bind="click: $root.openStockItemDialogForAddingProduct">Inventory Item</a></li>
-                            </ul>*@
                         </div>
                         <div class="btn-group" style="float: left; margin-top: 10px; margin-left: 5px;">
                             <button type="button" class="btn btn-primary">Add Blank Print Product</button>                            
@@ -359,7 +350,7 @@
                 </td>*@
         </tr>
     </script>
-    @Html.Partial("~/Areas/Orders/Views/Home/_ProductFromRetailStore.cshtml")
+    @Html.Partial("~/Areas/Common/Views/Shared/_ProductFromRetailStore.cshtml")
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddCostCenters.cshtml")
     @*@Html.Partial("~/Areas/Orders/Views/Shared/_CostCenterQuantity.cshtml")*@
     @Html.Partial("~/Areas/Orders/Views/Shared/_AddInventoryItem.cshtml")

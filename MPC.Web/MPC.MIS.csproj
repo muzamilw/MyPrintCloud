@@ -1996,7 +1996,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
-    <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ProductFromRetailStore.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddCostCenters.cshtml" />
