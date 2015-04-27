@@ -291,4 +291,4 @@ define("common/supplier.viewModel",
         return ist.supplier.viewModel;
     });
 
-http://mpc/mis/../../Api/Controllers/ReportManagerController.cs
+//http://mpc/mis/../../Api/Controllers/ReportManagerController.cs
