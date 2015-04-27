@@ -1049,7 +1049,7 @@ define("order/order.viewModel",
                 getSide1Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 1) {
+                        if (item.side() == 1) {
                             count += 1;
                         }
                     });
@@ -1058,7 +1058,7 @@ define("order/order.viewModel",
                 getSide2Count = function () {
                     var count = 0;
                     _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                        if (item.side == 2) {
+                        if (item.side() == 2) {
                             count += 1;
                         }
                     });
@@ -1068,8 +1068,8 @@ define("order/order.viewModel",
                     var counter = 0;
                     while (counter < addNewCount) {
                         var item = new model.SectionInkCoverage();
-                        item.side = side;
-                        item.sectionId = selectedSection().id();
+                        item.side(side);
+                        item.sectionId(selectedSection().id());
                         selectedSection().sectionInkCoverageList.splice(0, 0, item);
                         counter++;
                     }
@@ -1078,7 +1078,7 @@ define("order/order.viewModel",
                     var counter = removeItemCount;
                     while (counter != 0) {
                         _.each(selectedSection().sectionInkCoverageList(), function (item) {
-                            if (item.side == side && counter != 0) {
+                            if (item.side() == side && counter != 0) {
                                 selectedSection().sectionInkCoverageList.remove(item);
                                 counter--;
                             }
@@ -1276,7 +1276,7 @@ define("order/order.viewModel",
                                 success: function (data) {
                                     if (!selectedOrder().id()) {
                                         // Update Id
-                                        selectedOrder().id(data.OrderId);
+                                        selectedOrder().id(data.EstimateId);
 
                                         // Add to top of list
                                         orders.splice(0, 0, selectedOrder());
@@ -1284,8 +1284,8 @@ define("order/order.viewModel",
                                         // Get Order
                                         var orderUpdated = getOrderFromList(selectedOrder().id());
                                         if (orderUpdated) {
-                                            order.orderCode(data.OrderCode);
-                                            order.orderName(data.OrderName);
+                                            orderUpdated.code(data.OrderCode);
+                                            orderUpdated.name(data.OrderName);
                                         }
                                     }
 
