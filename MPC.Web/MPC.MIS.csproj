@@ -813,7 +813,11 @@
     <Compile Include="ViewModels\RightsManagement\RightsManagementViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Common\Scripts\addProduct.dataservice.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.dataservice.js" />
+    <Content Include="Areas\Common\Scripts\addProduct.model.js" />
+    <Content Include="Areas\Common\Scripts\addProduct.view.js" />
+    <Content Include="Areas\Common\Scripts\addProduct.viewModel.js" />
     <Content Include="Areas\Common\Scripts\companySelector.dataservice.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.model.js" />
     <Content Include="Areas\Common\Scripts\addCostCenter.view.js" />
@@ -2000,7 +2004,7 @@
     <Content Include="Areas\Stores\Views\Stores\_AddEditVariableDefination.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_UserProfileDetailsForCrm.cshtml" />
     <Content Include="Areas\CRM\Views\Home\_AddEditTerritoryForCrm.cshtml" />
-    <Content Include="Areas\Orders\Views\Home\_ProductFromRetailStore.cshtml" />
+    <Content Include="Areas\Common\Views\Shared\_ProductFromRetailStore.cshtml" />
     <Content Include="Areas\Stores\Views\Stores\_AddEditSmartFormDialog.cshtml" />
     <Content Include="Areas\Stores\Views\Shared\_Default.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_CostCenterQuantity.cshtml" />
@@ -2034,7 +2038,6 @@
     <Content Include="Areas\Orders\Views\Shared\_OrderStatusProgressToJob.cshtml" />
     <Content Include="Areas\Orders\Views\Shared\_AddInventoryItem.cshtml" />
     <Content Include="Areas\Common\Views\Shared\_AddCostCenters.cshtml" />
-    <Content Include="Areas\Orders\Views\Shared\_CostCenterQuantityForStockItem.cshtml" />
     <None Include="config\Web.connectionstrings.config">
       <SubType>Designer</SubType>
     </None>
