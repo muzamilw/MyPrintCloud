@@ -3138,7 +3138,7 @@ namespace MPC.Repository.Repositories
                     //special working for attaching the PDF
                     List<ArtWorkAttatchment> uplodedArtWorkList = new List<ArtWorkAttatchment>();
                     ArtWorkAttatchment attatcment = null;
-                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
+                    string folderPath = "mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
                     //Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = "";
                     if (caller == "webstore")
@@ -3269,7 +3269,7 @@ namespace MPC.Repository.Repositories
                 }
                 else // attachment alredy exists hence we need to updat the existing artwork.
                 {
-                    string folderPath = "/mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
+                    string folderPath = "mpc_content/Attachments/" + organisationId + "/" + HttpContext.Current.Request.Cookies["WBStoreId"].Value + "/Products/" + itemID;
                     // Web2Print.UI.Components.ImagePathConstants.ProductImagesPath + "Attachments/";
                     string virtualFolderPth = System.Web.HttpContext.Current.Server.MapPath("/" + folderPath + "/");
                     if (!System.IO.Directory.Exists(virtualFolderPth))
@@ -3343,7 +3343,7 @@ namespace MPC.Repository.Repositories
                             if (oPage1Attachment != null)
                             {
                                 string fileName = oPage1Attachment.FileName;
-                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
                                 string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo +
                                                     ".pdf";
                                 if (fileName.Contains("overlay"))
@@ -3369,7 +3369,7 @@ namespace MPC.Repository.Repositories
                                 if (oPage1Attachment != null)
                                 {
                                     string fileName = oPage1Attachment.FileName;
-                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName);
+                                    string fileCompleteAddress = System.IO.Path.Combine(virtualFolderPth, fileName + ".pdf");
                                     string sourcePath = DesignerPath + oPage.ProductId.ToString() + "/p" + oPage.PageNo +
                                                         ".pdf";
                                     if (fileName.Contains("overlay"))
