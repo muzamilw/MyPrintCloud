@@ -1286,8 +1286,7 @@ define("order/order.viewModel",
                                         // Update Id
                                         selectedOrder().id(data.EstimateId);
                                         selectedOrder().orderCode(data.OrderCode);
-                                        var total1 = data.EstimateTotal === null ? 0 : data.EstimateTotal;
-                                        total1.toFixed(2);
+                                        var total1 = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                         selectedOrder().estimateTotal(total1);
                                         selectedOrder().creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
                                         if (orderFlag !== undefined) {
@@ -1301,8 +1300,7 @@ define("order/order.viewModel",
                                         if (orderUpdated) {
                                             orderUpdated.code(data.OrderCode);
                                             orderUpdated.creationDate(data.CreationDate !== null ? moment(data.CreationDate).toDate() : undefined);
-                                            var total = data.EstimateTotal === null ? 0 : data.EstimateTotal;
-                                            total.toFixed(2);
+                                            var total = (parseFloat((data.EstimateTotal === undefined || data.EstimateTotal === null) ? 0 : data.EstimateTotal)).toFixed(2);
                                             orderUpdated.estimateTotal(total);
                                             orderUpdated.name(data.OrderName);
                                             if (orderFlag !== undefined) {
