@@ -5925,7 +5925,7 @@ define("stores/stores.viewModel",
                             smartForms.splice(0, 0, selectedSmartForm());
                         }
                         view.hideSmartFormDialog();
-                        toastr.success("Successfully save.");
+                        toastr.success("Successfully saved.");
                     },
                     error: function (exceptionMessage, exceptionType) {
 

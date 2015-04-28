@@ -460,6 +460,9 @@ namespace MPC.Models.ModelMappers
             }
 
             sourceSectionCostcentre.UpdateTo(targetLine);
+
+            // Update Section Cost Centres
+            UpdateSectionCostCentreDetails(sourceSectionCostcentre, targetLine, actions);
         }
 
         /// <summary>
@@ -492,6 +495,92 @@ namespace MPC.Models.ModelMappers
         }
         
         #endregion Section Cost Centres
+
+        #region Section Cost Centre Detail
+
+        /// <summary>
+        /// True if the Section Cost Centre is new
+        /// </summary>
+        private static bool IsNewSectionCostCentreDetail(SectionCostCentreDetail source)
+        {
+            return source.SectionCostCentreDetailId <= 0;
+        }
+
+        /// <summary>
+        /// Initialize target Section Cost Centres
+        /// </summary>
+        private static void InitializeSectionCostCentreDetails(SectionCostcentre item)
+        {
+            if (item.SectionCostCentreDetails == null)
+            {
+                item.SectionCostCentreDetails = new List<SectionCostCentreDetail>();
+            }
+        }
+
+        /// <summary>
+        /// Update or add Item Sections
+        /// </summary>
+        private static void UpdateOrAddSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, OrderMapperActions actions)
+        {
+            foreach (SectionCostCentreDetail sourceLine in source.SectionCostCentreDetails.ToList())
+            {
+                UpdateOrAddSectionCostCentreDetail(sourceLine, target, actions);
+            }
+        }
+
+        /// <summary>
+        /// Update target Item Sections 
+        /// </summary>
+        private static void UpdateOrAddSectionCostCentreDetail(SectionCostCentreDetail sourceSectionCostCentreDetail, SectionCostcentre target, 
+            OrderMapperActions actions)
+        {
+            SectionCostCentreDetail targetLine;
+            if (IsNewSectionCostCentreDetail(sourceSectionCostCentreDetail))
+            {
+                targetLine = actions.CreateSectionCostCenterDetail();
+                target.SectionCostCentreDetails.Add(targetLine);
+            }
+            else
+            {
+                targetLine = target.SectionCostCentreDetails.FirstOrDefault(vdp => vdp.SectionCostCentreDetailId == 
+                    sourceSectionCostCentreDetail.SectionCostCentreDetailId);
+            }
+
+            sourceSectionCostCentreDetail.UpdateTo(targetLine);
+        }
+
+        /// <summary>
+        /// Delete section cost centres no longer needed
+        /// </summary>
+        private static void DeleteSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, OrderMapperActions actions)
+        {
+            List<SectionCostCentreDetail> linesToBeRemoved = target.SectionCostCentreDetails.Where(
+                vdp => !IsNewSectionCostCentreDetail(vdp) && source.SectionCostCentreDetails.All(sourceVdp => 
+                    sourceVdp.SectionCostCentreDetailId != vdp.SectionCostCentreDetailId))
+                  .ToList();
+            linesToBeRemoved.ForEach(line =>
+            {
+                target.SectionCostCentreDetails.Remove(line);
+                actions.DeleteSectionCostCenterDetail(line);
+            });
+        }
+
+        /// <summary>
+        /// Update Section Cost Centres
+        /// </summary>
+        private static void UpdateSectionCostCentreDetails(SectionCostcentre source, SectionCostcentre target, OrderMapperActions actions)
+        {
+            InitializeSectionCostCentreDetails(source);
+            InitializeSectionCostCentreDetails(target);
+
+            UpdateOrAddSectionCostCentreDetails(source, target, actions);
+
+            // Delete
+            DeleteSectionCostCentreDetails(source, target, actions);
+        }
+
+        #endregion Section Cost Centre Detail
+
 
         #region Section Ink Coverage
 

@@ -198,7 +198,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     if (sectionFlagId.error) {
                         validationSummaryList.push({ name: "Order Flag ", element: sectionFlagId.domElement });
                     }
-                    
+
 
                     // Show Item  Errors
                     var itemInvalid = items.find(function (item) {
@@ -269,7 +269,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         CompanyId: companyId(),
                         ContactId: contactId(),
                         AddressId: addressId(),
-                        EstimateTotal:estimateTotal(),
+                        EstimateTotal: estimateTotal(),
                         SectionFlagId: sectionFlagId(),
                         IsDirectSale: isDirectSale(),
                         IsOfficialOrder: isOfficialOrder(),
@@ -354,6 +354,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 officialOrderSetBy: officialOrderSetBy,
                 officialOrderSetOnDateTime: officialOrderSetOnDateTime,
                 items: items,
+                numberOfItems: numberOfItems,
                 deliveryItems: deliveryItems,
                 nonDeliveryItems: nonDeliveryItems,
                 prePayments: prePayments,
@@ -569,7 +570,6 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 itemAttachments = ko.observableArray([]),
                 // Errors
                 errors = ko.validation.group({
-                    productCode: productCode,
                     productName: productName
                 }),
                 // Is Valid
@@ -651,6 +651,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 },
                 // Convert To Server Data
                 convertToServerData = function () {
+                   // id() < 0 ? id(0) : id();
                     return {
                         ItemId: id(),
                         ItemCode: code(),
@@ -683,10 +684,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                             moment(jobEstimatedCompletionDateTime()).format(ist.utcFormat) + "Z" : undefined,
                         JobManagerId: jobManagerId(),
                         JobStatusId: jobStatusId(),
+                        Qty1Tax1Value: qty1Tax1Value(),
+                        Qty1GrossTotal: qty1GrossTotal(),
+                        Qty1NetTotal: qty1NetTotal(),
+                        Tax1: tax1(),
                         ItemSections: itemSections.map(function (itemSection, index) {
-                            var section = itemSection.convertToServerData(id() === 0);
+                            var section = itemSection.convertToServerData(id() <= 0);
                             section.SectionNo = index + 1;
-                            if (!id()) {
+                            if (id() <= 0) {
                                 section.ItemSectionId = 0;
                                 section.ItemId = 0;
                             }
@@ -1014,7 +1019,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Side1Inks: side1Inks(),
                         Side2Inks: side2Inks(),
                         SectionCostcentres: sectionCostCentres.map(function (scc) {
-                            var sectionCc = scc.convertToServerData();
+                            var sectionCc = scc.convertToServerData(scc.id() === 0);
                             if (isNewSection) {
                                 sectionCc.ItemSectionId = 0;
                             }
@@ -1187,7 +1192,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                     dirtyFlag.reset();
                 },
                 // Convert To Server Data
-                convertToServerData = function () {
+                convertToServerData = function (isNewSectionCostCenter) {
                     return {
                         ItemSectionId: itemSectionId(),
                         SectionCostcentreId: id(),
@@ -1207,7 +1212,14 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         Qty3MarkUpId: qty3MarkUpId(),
                         Qty1MarkUpValue: qty1MarkUpValue(),
                         Qty2MarkUpValue: qty2MarkUpValue(),
-                        Qty3MarkUpValue: qty3MarkUpValue()
+                        Qty3MarkUpValue: qty3MarkUpValue(),
+                        SectionCostCentreDetails: sectionCostCentreDetails.map(function (scc) {
+                            var sectionCc = scc.convertToServerData();
+                            if (isNewSectionCostCenter) {
+                                sectionCc.SectionCostCentreId = 0;
+                            }
+                            return sectionCc;
+                        }),
                     };
                 };
 
@@ -1256,24 +1268,24 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         },
         //Section Cost Center Detail
         SectionCostCenterDetail = function (
-            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2, 
+            specifiedSectionCostCentreDetailId, specifiedSectionCostCentreId, specifiedStockId, specifiedSupplierId, specifiedQty1, specifiedQty2,
             specifiedQty3, specifiedCostPrice, specifiedActualQtyUsed, specifiedStockName, specifiedSupplier
-        ) {   
+        ) {
             var
-            sectionCostCentreDetailId= ko.observable(specifiedSectionCostCentreDetailId),
+            sectionCostCentreDetailId = ko.observable(specifiedSectionCostCentreDetailId),
             sectionCostCentreId = ko.observable(specifiedSectionCostCentreId),
-            stockId= ko.observable(specifiedStockId),
-            supplierId= ko.observable(specifiedSupplierId),
-            qty1= ko.observable(specifiedQty1),
-            qty2= ko.observable(specifiedQty2),
-            qty3= ko.observable(specifiedQty3),
-            costPrice= ko.observable(specifiedCostPrice),
-            actualQtyUsed= ko.observable(specifiedActualQtyUsed),
-            stockName= ko.observable(specifiedStockName),
-            supplier= ko.observable(specifiedSupplier),
+            stockId = ko.observable(specifiedStockId),
+            supplierId = ko.observable(specifiedSupplierId),
+            qty1 = ko.observable(specifiedQty1),
+            qty2 = ko.observable(specifiedQty2),
+            qty3 = ko.observable(specifiedQty3),
+            costPrice = ko.observable(specifiedCostPrice),
+            actualQtyUsed = ko.observable(specifiedActualQtyUsed),
+            stockName = ko.observable(specifiedStockName),
+            supplier = ko.observable(specifiedSupplier),
            // Errors
                 errors = ko.validation.group({
-                   
+
                 }),
                 // Is Valid
                 isValid = ko.computed(function () {
@@ -1307,7 +1319,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                         SectionCostCentreId: sectionCostCentreId(),
                         StockId: stockId(),
                         SupplierId: supplierId(),
-                        Qty1: qty1() ,
+                        Qty1: qty1(),
                         Qty2: qty2(),
                         Qty3: qty3(),
                         CostPrice: costPrice(),
@@ -1334,7 +1346,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
                 hasChanges: hasChanges,
                 reset: reset,
                 convertToServerData: convertToServerData
-            }; 
+            };
         },
         // Pre Payment
         PrePayment = function (specifiedPrePaymentId, specifiedCustomerId, specifiedOrderId, specifiedAmount, specifiedPaymentDate, specifiedPaymentMethodId,
@@ -2228,7 +2240,15 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
 
         // Map Section Cost Centre Details if Any
         if (source.SectionCostCentreDetails && source.SectionCostCentreDetails.length > 0) {
+            var sectionCostcentresDetails = [];
 
+            _.each(source.SectionCostcentres, function (sectionCostCentreDetail) {
+                sectionCostcentresDetails.push(SectionCostCenterDetail.Create(sectionCostCentreDetail));
+            });
+
+            // Push to Original Item
+            ko.utils.arrayPushAll(sectionCostCentre.sectionCostCentreDetails(), sectionCostcentresDetails);
+            sectionCostCentre.sectionCostCentreDetails.valueHasMutated();
         }
 
         // Map Section Cost Resources if Any
@@ -2240,7 +2260,7 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
     };
     // Section Cost Centre Factory
     SectionCostCenterDetail.Create = function (source) {
-        
+
         var sectionCostCenterDetail = new SectionCostCenterDetail(source.SectionCostCentreDetailId, source.SectionCostCentreId, source.StockId, source.SupplierId, source.Qty1,
             source.Qty2, source.Qty3, source.CostPrice, source.StockName, source.Supplier);
 
@@ -2337,7 +2357,8 @@ define(["ko", "underscore", "underscore-ko"], function (ko) {
         source.CreditLimitSetOnDateTime, source.IsJobAllowedWOCreditCheck, source.AllowJobWOCreditCheckSetOnDateTime, source.AllowJobWOCreditCheckSetBy,
         source.CustomerPo, source.OfficialOrderSetBy, source.OfficialOrderSetOnDateTime);
         estimate.statusId(source.StatusId);
-        estimate.estimateTotal(source.EstimateTotal || undefined);
+        var total = (parseFloat((source.EstimateTotal === undefined || source.EstimateTotal === null) ? 0 : source.EstimateTotal)).toFixed(2);
+        estimate.estimateTotal(total);
         // Map Items if any
         if (source.Items && source.Items.length > 0) {
             var items = [];

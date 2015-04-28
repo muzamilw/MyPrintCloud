@@ -62,6 +62,7 @@ namespace MPC.MIS.Areas.Api.ModelMappers
             return new DomainModels.SectionCostcentre
             {
                 SectionCostcentreId = source.SectionCostcentreId,
+                Name = source.Name,
                 CostCentreId = source.CostCentreId,
                 Qty1 = source.Qty1,
                 Qty1Charge = source.Qty1Charge,
@@ -84,7 +85,9 @@ namespace MPC.MIS.Areas.Api.ModelMappers
                 Qty3WorkInstructions = source.Qty3WorkInstructions,
                 Qty1EstimatedStockCost = source.Qty1EstimatedStockCost,
                 Qty2EstimatedStockCost = source.Qty2EstimatedStockCost,
-                Qty3EstimatedStockCost = source.Qty3EstimatedStockCost
+                Qty3EstimatedStockCost = source.Qty3EstimatedStockCost,
+                SectionCostCentreDetails = source.SectionCostCentreDetails != null ? source.SectionCostCentreDetails.Select(s => s.CreateFrom()).ToList() :
+                new List<DomainModels.SectionCostCentreDetail>(),
             };
         }
 

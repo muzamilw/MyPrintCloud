@@ -150,7 +150,7 @@ namespace MPC.Webstore.Controllers
 
                     //(Go Landing Page and Add it to Cart)
 
-                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/" + ExistingProduct.TemplateID;
+                    string URL =  "/ProductOptions/0/" + ExistingProduct.ItemID + "/Template/" + ExistingProduct.TemplateID;
 
                    
                        
@@ -166,32 +166,31 @@ namespace MPC.Webstore.Controllers
 
                     long OrderID = 0;
 
-                    //new added
-                    
-                    if (UserCookieManager.WEBStoreMode == (int)StoreMode.Corp)
-                    {
-                        OrderID = _IOrderService.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), string.Empty, OrganisationID);
-                    }
-                    
-
-
                     if (UserCookieManager.WEBOrderId == null || UserCookieManager.WEBOrderId == 0)
                     {
-                       UserCookieManager.WEBOrderId = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(),OrganisationID,string.Empty);
-                       
+                        OrderID = _IOrderService.GetOrderID(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), string.Empty, OrganisationID);
+                        if (OrderID == 0)
+                        {
+                            OrderID = _IOrderService.CreateNewOrder(_myClaimHelper.loginContactCompanyID(), _myClaimHelper.loginContactID(), OrganisationID, string.Empty);
+                        }
+
+                        UserCookieManager.WEBOrderId = OrderID;
+                    }
+                    else
+                    {
+                        OrderID = UserCookieManager.WEBOrderId;
                     }
 
-
                     Item clonedItem = null;
-     
-                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID,ExistingProduct.RefItemID ?? 0,UserCookieManager.WEBOrderId,_myClaimHelper.loginContactCompanyID(),ExistingProduct.TemplateID ?? 0,0,null,true,false,_myClaimHelper.loginContactID(),StoreBaseResopnse.Organisation.OrganisationId);
+
+                    clonedItem = _ItemService.CloneItem(ExistingProduct.ItemID, ExistingProduct.RefItemID ?? 0, OrderID, _myClaimHelper.loginContactCompanyID(), ExistingProduct.TemplateID ?? 0, 0, null, true, false, _myClaimHelper.loginContactID(), StoreBaseResopnse.Organisation.OrganisationId);
 
                     // Code to copy item attachments ..
-                    Estimate objOrder = _IOrderService.GetOrderByID(UserCookieManager.WEBOrderId);
+                    Estimate objOrder = _IOrderService.GetOrderByID(OrderID);
              
                    // _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
 
-                    _ItemService.CopyAttachments((int)ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now);
+                    _ItemService.CopyAttachments(ExistingProduct.ItemID, clonedItem, objOrder.Order_Code, false, objOrder.CreationDate ?? DateTime.Now, Convert.ToInt64(StoreBaseResopnse.Company.OrganisationId), StoreBaseResopnse.Company.CompanyId);
 
                     string URL = "/ProductOptions/0/" + clonedItem.ItemId + "/SaveOrder/" + clonedItem.TemplateId;
         
